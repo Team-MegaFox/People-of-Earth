@@ -3,4 +3,14 @@
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CoreEngine.h" />
+    <ClInclude Include="Time.h" />
+    <ClInclude Include="Viewport.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CoreEngine.cpp" />
+    <ClCompile Include="Time.cpp" />
+    <ClCompile Include="Viewport.cpp" />
+  </ItemGroup>
 </Project>
