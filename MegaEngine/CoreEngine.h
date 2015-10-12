@@ -24,7 +24,7 @@ public:
 
 private:
 	bool m_running = false;
-	float m_frameTime = 60.0f;
+	double m_frameTime = 60.0;
 
 	Viewport* m_viewport = nullptr;
 	SceneManager* m_sceneManager = nullptr;

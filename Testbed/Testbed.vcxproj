@@ -40,11 +40,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LibraryPath>$(SolutionDir)Deps/lib/Debug;$(SolutionDir)Debug;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)MegaEngine;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)MegaEngine;$(SolutionDir)Deps/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>$(SolutionDir)Deps/lib/Release;$(SolutionDir)Release;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)MegaEngine;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)MegaEngine;$(SolutionDir)Deps/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

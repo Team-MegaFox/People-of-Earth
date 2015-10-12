@@ -1,8 +1,14 @@
 #include <iostream>
+#include <CoreEngine.h>
+#include <Viewport.h>
 
-int main()
+int main(int argc, char** argv)
 {
-	std::cout << "Hello World!" << std::endl;
+	Viewport window("Testbed", 512, 512, 0);
+	CoreEngine core(60.0, &window, nullptr, nullptr, nullptr, nullptr, nullptr);
 
-	system("Pause");
+	core.start();
+
+	return 0;
+
 }

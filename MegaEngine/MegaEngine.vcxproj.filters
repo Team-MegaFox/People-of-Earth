@@ -7,10 +7,12 @@
     <ClInclude Include="CoreEngine.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Viewport.h" />
+    <ClInclude Include="InputManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CoreEngine.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Viewport.cpp" />
+    <ClCompile Include="InputManager.cpp" />
   </ItemGroup>
 </Project>

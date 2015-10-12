@@ -3,6 +3,7 @@
 
 
 Viewport::Viewport(const std::string& name, const int& screenWidth, const int& screenHeight, unsigned int windowFlags) : 
+m_input(this),
 m_screenWidth(screenWidth),
 m_screenHeight(screenHeight),
 m_screenName(name)
@@ -20,7 +21,22 @@ m_screenName(name)
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-	m_window = SDL_CreateWindow(m_screenName.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_screenWidth, m_screenHeight, windowFlags);
+	Uint32 flags = SDL_WINDOW_OPENGL;
+
+	if (windowFlags & INVISIBLE)
+	{
+		flags |= SDL_WINDOW_HIDDEN;
+	}
+	else if (windowFlags & FULLSCREEN)
+	{
+		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+	}
+	else if (windowFlags & BORDERLESS)
+	{
+		flags |= SDL_WINDOW_BORDERLESS;
+	}
+
+	m_window = SDL_CreateWindow(m_screenName.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_screenWidth, m_screenHeight, flags);
 	if (m_window == nullptr)
 	{
 		//Error handle
@@ -47,7 +63,10 @@ Viewport::~Viewport()
 void Viewport::update(GUIEngine* guiEngine)
 {
 	SDL_Event e;
-	//if around input's update
+	if (m_input.Update(e))
+	{
+		m_isClosed = true;
+	}
 }
 
 void Viewport::swapBuffers()
