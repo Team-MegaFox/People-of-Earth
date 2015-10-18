@@ -59,11 +59,8 @@ void CoreEngine::start()
 				stop();
 			}
 
-			if (m_sceneManager)
-			{
-				m_sceneManager->processInput(m_viewport->getInput(), (float)m_frameTime);
-				m_sceneManager->update((float)m_frameTime);
-			}
+			m_sceneManager->processInput(m_viewport->getInput(), (float)m_frameTime);
+			m_sceneManager->update((float)m_frameTime);
 
 			render = true;
 
@@ -72,10 +69,7 @@ void CoreEngine::start()
 
 		if (render)
 		{
-			if (m_sceneManager)
-			{
-				m_sceneManager->render(m_renderingEngine);
-			}
+			m_sceneManager->render(m_renderingEngine);
 
 			m_viewport->swapBuffers();
 
