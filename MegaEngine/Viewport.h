@@ -24,6 +24,7 @@ public:
 	inline SDL_Window* getWindow() { return m_window; }
 
 	SDL_Window* getSDLWindow() { return m_window; }
+	InputManager getInput() { return m_input; }
 
 	void setScreenWidth(int screenWidth);
 	void setScreenHeight(int screenHeight);

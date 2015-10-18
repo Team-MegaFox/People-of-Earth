@@ -17,6 +17,7 @@ public:
 	void start();
 	void stop();
 
+	inline SceneManager* getSceneManager() { return m_sceneManager; }
 	inline RenderingEngine* getRenderingEngine() { return m_renderingEngine; }
 	inline PhysicsEngine* getPhysicsEngine() { return m_physicsEngine; }
 	inline AudioEngine* getAudioEngine() { return m_audioEngine; }

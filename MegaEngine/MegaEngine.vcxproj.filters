@@ -8,11 +8,21 @@
     <ClInclude Include="Time.h" />
     <ClInclude Include="Viewport.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Camera3D.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameComponents.h" />
+    <ClInclude Include="SceneManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CoreEngine.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Viewport.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Camera3D.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
   </ItemGroup>
 </Project>

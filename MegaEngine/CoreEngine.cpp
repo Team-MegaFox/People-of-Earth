@@ -3,6 +3,8 @@
 
 #include "Time.h"
 #include "Viewport.h"
+#include "SceneManager.h"
+#include "Scene.h"
 
 CoreEngine::CoreEngine(double frameRate, Viewport* viewport, 
 	RenderingEngine* renderingEngine, PhysicsEngine* physicsEngine, AudioEngine* audioEngine, GUIEngine* guiEngine, 
@@ -16,8 +18,12 @@ m_audioEngine(audioEngine),
 m_guiEngine(guiEngine),
 m_sceneManager(sceneManager)
 {
-	//Set Engine for game
-	//Call game's init function
+	if (m_sceneManager)
+	{
+		m_sceneManager->setEngine(this);
+
+		m_sceneManager->getCurrentScene()->init();
+	}
 }
 
 void CoreEngine::start()
@@ -53,8 +59,11 @@ void CoreEngine::start()
 				stop();
 			}
 
-			//Call game's processInput
-			//Call game's update
+			if (m_sceneManager)
+			{
+				m_sceneManager->processInput(m_viewport->getInput(), (float)m_frameTime);
+				m_sceneManager->update((float)m_frameTime);
+			}
 
 			render = true;
 
@@ -63,7 +72,10 @@ void CoreEngine::start()
 
 		if (render)
 		{
-			//Call game's render
+			if (m_sceneManager)
+			{
+				m_sceneManager->render(m_renderingEngine);
+			}
 
 			m_viewport->swapBuffers();
 
