@@ -24,5 +24,6 @@
     <ClCompile Include="Camera3D.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Transform.cpp" />
   </ItemGroup>
 </Project>

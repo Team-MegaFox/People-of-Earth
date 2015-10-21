@@ -4,6 +4,7 @@
 
 GameObject::GameObject()
 {
+	m_transform.setAttachedGameObject(this);
 }
 
 GameObject::~GameObject()
@@ -45,7 +46,7 @@ void GameObject::processAll(const InputManager& input, float delta)
 GameObject* GameObject::addChild(GameObject* child)
 {
 	m_children.push_back(child);
-	child->getTransform()->setParent(child);
+	child->getTransform()->setParent(&m_transform);
 	child->setEngine(m_coreEngine);
 	return this;
 }
@@ -119,6 +120,24 @@ std::vector<GameObject*> GameObject::getAllAttached()
 std::vector<GameObject*> GameObject::getAllChildren()
 {
 	return m_children;
+}
+
+void GameObject::setEngine(CoreEngine* engine)
+{
+	if (engine != m_coreEngine)
+	{
+		m_coreEngine = engine;
+
+		for (size_t i = 0; i < m_gameComponents.size(); i++)
+		{
+			m_gameComponents[i]->addToEngine(engine);
+		}
+
+		for (size_t i = 0; i < m_children.size(); i++)
+		{
+			m_children[i]->setEngine(engine);
+		}
+	}
 }
 
 void GameObject::updateGameComponents(float delta)

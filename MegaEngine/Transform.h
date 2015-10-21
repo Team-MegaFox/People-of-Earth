@@ -11,47 +11,38 @@ public:
 
 	Transform(const glm::vec3 & position = glm::vec3(0.0f),
 		const glm::vec3 & rotation = glm::vec3(0.0f),
-		const glm::vec3 & scale = glm::vec3(1.0f)) :
-		m_position(position),
-		m_rotation(rotation),
-		m_scale(scale)
-	{ /* Empty */
-	}
+		const glm::vec3 & scale = glm::vec3(1.0f));
 
-	glm::mat4 getModel() const
-	{
-		glm::mat4 posMatrix = glm::translate(m_position);
-		glm::mat4 scaleMatrix = glm::scale(m_scale);
-
-		return posMatrix * glm::mat4_cast(m_rotation) * scaleMatrix;
-	}
-
-	const glm::mat4 getParentMatrix()
-	{
-		return glm::mat4(0);
-	}
-
-	glm::quat getTransformedRot()
-	{
-		return glm::quat();
-	}
+	bool hasChanged();
+	glm::mat4 getModel();
+	const glm::mat4 getParentMatrix();
+	glm::quat getTransformedRot();
 
 	// Getters
-	glm::vec3 & getPosition() { return m_position; }
-	glm::quat & getRotation() { return m_rotation; }
+	GameObject* getAttachedGameObject() { return m_attached; }
+	Transform* getParent() { return m_parent; }
+	glm::vec3 & getPosition() { return m_pos; }
+	glm::quat & getRotation() { return m_rot; }
 	inline glm::vec3 & getScale() { return m_scale; }
-	GameObject* getParent() { return m_parent; }
 
 	// Setters
-	void setPosition(const glm::vec3 & pos) { m_position = pos; }
-	void setRotation(const glm::quat & rot) { m_rotation = rot; }
+	void setAttachedGameObject(GameObject* attach) { m_attached = attach; }
+	void setParent(Transform* parent) { m_parent = parent; }
+	void setPosition(const glm::vec3 & pos) { m_pos = pos; }
+	void setRotation(const glm::quat & rot) { m_rot = rot; }
 	void setScale(const glm::vec3 & scale) { m_scale = scale; }
-	void setParent(GameObject* parent) { m_parent = parent; }
 
 private:
-	glm::vec3 m_position, m_scale;
-	glm::quat m_rotation;
+	glm::vec3 m_pos, m_scale;
+	glm::quat m_rot;
 
-	GameObject* m_parent;
+	GameObject* m_attached;
+	Transform* m_parent;
+	mutable glm::mat4 m_parentMatrix;
+
+	mutable glm::vec3 m_oldPos;
+	mutable glm::quat m_oldRot;
+	mutable float m_oldScale;
+	mutable bool m_initializedOldStuff;
 
 };

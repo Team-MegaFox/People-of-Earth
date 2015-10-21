@@ -34,7 +34,7 @@ public:
 
 	Transform* getTransform() { return &m_transform; }
 	std::string getName() { return name; }
-	void setEngine(CoreEngine* engine) { m_coreEngine = engine; }
+	void setEngine(CoreEngine* engine);
 
 private:
 	void updateGameComponents(float delta);

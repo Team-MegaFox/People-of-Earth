@@ -34,10 +34,10 @@ bool Scene::removeGameObject(GameObject* gameobject)
 	{
 		if (attached[i] == gameobject)
 		{
-			GameObject* parent = gameobject->getTransform()->getParent();
+			GameObject* parent = gameobject->getTransform()->getParent()->getAttachedGameObject();
 			for (size_t j = 0; j < gameobject->getAllChildren().size(); j++)
 			{
-				gameobject->getAllChildren()[j]->getTransform()->setParent(parent);
+				gameobject->getAllChildren()[j]->getTransform()->setParent(parent->getTransform());
 			}
 			gameobject->setEngine(nullptr);
 			attached.erase(std::remove(attached.begin(), attached.end(), gameobject), attached.end());
@@ -58,10 +58,11 @@ bool Scene::removeGameObjectByName(const std::string& name)
 	{
 		if (attached[i]->getName() == name)
 		{
-			GameObject* parent = attached[i]->getTransform()->getParent();
+			GameObject* parent = attached[i]->getTransform()->getParent()->getAttachedGameObject();
 			for (size_t j = 0; j < attached[i]->getAllChildren().size(); j++)
 			{
-				attached[i]->getAllChildren()[j]->getTransform()->setParent(parent);
+				attached[i]->getAllChildren()[j]->getTransform()->setParent(parent->getTransform());
+				attached[i]->getAllChildren()[j]->getTransform()->setAttachedGameObject(parent);
 			}
 			attached[i]->setEngine(nullptr);
 			attached.erase(std::remove(attached.begin(), attached.end(), attached[i]), attached.end());
