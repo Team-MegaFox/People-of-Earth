@@ -1,8 +1,8 @@
 #pragma once
+#include "AudioEngine.h"
 
 class PhysicsEngine;
 class RenderingEngine;
-class AudioEngine;
 class GUIEngine;
 class SceneManager;
 class Viewport;

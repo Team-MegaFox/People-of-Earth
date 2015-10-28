@@ -6,6 +6,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
+
 CoreEngine::CoreEngine(double frameRate, Viewport* viewport, 
 	RenderingEngine* renderingEngine, PhysicsEngine* physicsEngine, AudioEngine* audioEngine, GUIEngine* guiEngine, 
 	SceneManager* sceneManager) :

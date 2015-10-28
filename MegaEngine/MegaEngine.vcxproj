@@ -79,6 +79,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioEngine.h" />
     <ClInclude Include="Camera3D.h" />
     <ClInclude Include="CoreEngine.h" />
     <ClInclude Include="GameComponents.h" />
@@ -91,6 +92,7 @@
     <ClInclude Include="Viewport.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AudioEngine.cpp" />
     <ClCompile Include="Camera3D.cpp" />
     <ClCompile Include="CoreEngine.cpp" />
     <ClCompile Include="GameObject.cpp" />

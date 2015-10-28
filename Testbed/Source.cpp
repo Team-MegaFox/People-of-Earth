@@ -11,10 +11,13 @@ int main(int argc, char** argv)
 
 	SceneManager sceneManager;
 	TestScene testscene;
+
+	AudioEngine * audioEngine = AudioEngine::getInstance();
+
 	sceneManager.addScene(&testscene);
 	sceneManager.switchScene(testscene.getName());
 
-	CoreEngine core(60.0, &window, nullptr, nullptr, nullptr, nullptr, &sceneManager);
+	CoreEngine core(60.0, &window, nullptr, nullptr, audioEngine, nullptr, &sceneManager);
 
 	core.start();
 
