@@ -17,6 +17,7 @@ void Scene::update(float delta)
 
 void Scene::render(RenderingEngine* renderingEngine)
 {
+	//Hello world
 	//renderingEngine->render(m_root);
 }
 
