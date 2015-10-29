@@ -14,7 +14,7 @@ int main(int argc, char** argv)
 	sceneManager.addScene(&testscene);
 	sceneManager.switchScene(testscene.getName());
 
-	CoreEngine core(60.0, &window, nullptr, nullptr, nullptr, nullptr, &sceneManager);
+	CoreEngine core(10.0, &window, nullptr, nullptr, nullptr, nullptr, &sceneManager);
 
 	core.start();
 
