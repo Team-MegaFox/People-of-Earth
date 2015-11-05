@@ -55,7 +55,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>MegaEngine.lib;assimp.lib;CEGUIBase-0_d.lib;CEGUIOpenGLRenderer-0_d.lib;fmod_vc.lib;fmodL_vc.lib;glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MegaEngine.lib;assimp.lib;CEGUIBase-0_d.lib;CEGUIOpenGLRenderer-0_d.lib;fmodex_vc.lib;fmodexL_vc.lib;glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -71,7 +71,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>MegaEngine.lib;assimp.lib;CEGUIBase-0.lib;CEGUIOpenGLRenderer-0.lib;fmod_vc.lib;fmodL_vc.lib;fmodstudio_vc.lib;fmodstudioL_vc.lib;glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MegaEngine.lib;assimp.lib;CEGUIBase-0.lib;CEGUIOpenGLRenderer-0.lib;fmodex_vc.lib;fmodexL_vc.lib;glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
