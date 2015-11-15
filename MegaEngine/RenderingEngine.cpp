@@ -131,7 +131,10 @@ void RenderingEngine::applyFilter(const Shader & filter, const TextureImage & sr
 
 	glClear(GL_DEPTH_BUFFER_BIT);
 	filter.bind();
-	filter.updateUniforms();
+
+	//  TODO : What can I possibly pass through here?
+
+	filter.updateUniforms(nullptr, nullptr, *this, m_altCamera);
 
 	setTexture("filterTexture", 0);
 

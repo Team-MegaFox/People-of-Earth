@@ -1,5 +1,7 @@
 #include "Utility.h"
 #include <SDL2/SDL.h>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/transform.hpp>
 
 void Utility::sleep(int milliseconds)
 {
@@ -54,34 +56,39 @@ inline float max(const glm::vec4 & vec)
 	return Max;
 }
 
-// TODO : Quaterenion in GLM has no rotate that returns a vec3, also needs an angle. Also our Camera class doesn't use quaternions.
 
 inline glm::vec3 getForward(const glm::quat & quat)
 {
-	//return quat.rotate(PxVec3(0, 0, 1));
+	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(0.0f, 0.0f, 1.0f));
+	return glm::vec3(temp.x, temp.y, temp.z);
 }
 
 inline glm::vec3 getBack(const glm::quat & quat)
 {
-	//return quat.rotate(PxVec3(0, 0, -1));
+	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(0.0f, 0.0f, -1.0f));
+	return glm::vec3(temp.x, temp.y, temp.z);
 }
 
 inline glm::vec3 getUp(const glm::quat & quat)
 {
-	//return quat.rotate(PxVec3(0, 1, 0));
+	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(0.0f, 1.0f, 0.0f));
+	return glm::vec3(temp.x, temp.y, temp.z);
 }
 
 inline glm::vec3 getDown(const glm::quat & quat)
 {
-	//return quat.rotate(PxVec3(0, -1, 0));
+	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(0.0f, -1.0f, 0.0f));
+	return glm::vec3(temp.x, temp.y, temp.z);
 }
 
 inline glm::vec3 getRight(const glm::quat & quat)
 {
-	//return quat.rotate(PxVec3(1, 0, 0));
+	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(1.0f, 0.0f, 0.0f));
+	return glm::vec3(temp.x, temp.y, temp.z);
 }
 
 inline glm::vec3 getLeft(const glm::quat & quat)
 {
-	//return quat.rotate(PxVec3(-1, 0, 0));
+	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(-1.0f, 0.0f, 0.0f));
+	return glm::vec3(temp.x, temp.y, temp.z);
 }

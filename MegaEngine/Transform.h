@@ -19,7 +19,7 @@ public:
 
 	bool hasChanged();
 	glm::mat4 getModel() const;
-	const glm::mat4 getParentMatrix();
+	const glm::mat4 getParentMatrix() const;
 	glm::quat getTransformedRot() const;
 	glm::vec3 getTransformedPos() const;
 

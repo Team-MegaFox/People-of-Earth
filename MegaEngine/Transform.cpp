@@ -41,7 +41,7 @@ glm::mat4 Transform::getModel() const
 	return getParentMatrix() * result;
 }
 
-const glm::mat4 Transform::getParentMatrix()
+const glm::mat4 Transform::getParentMatrix() const
 {
 	if (m_parent && m_parent->hasChanged())
 	{

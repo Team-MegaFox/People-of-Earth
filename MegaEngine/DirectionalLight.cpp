@@ -16,6 +16,25 @@ DirectionalLight::DirectionalLight(const glm::vec3 & color, float intensity, int
 
 ShadowCameraTransform DirectionalLight::calcShadowCameraTransform(const glm::vec3 & mainCameraPos, const glm::quat & mainCameraRot) const
 {
+	//glm::vec3 resultPos = mainCameraPos + getForward(mainCameraRot) * getHalfShadowArea();
+	//glm::quat resultRot = getTransform().getTransformedRot();
+
+	//float worldTexelSize = (getHalfShadowArea() * 2) / ((float)(1 << getShadowInfo().getShadowMapSizeAsPowerOf2()));
+
+
+	//// TODO : GLM quaternions work differently than PhysX quaternions, we need to fix this code.
+
+	//glm::vec3 lightSpaceCameraPos = resultRot.getConjugate().rotate(resultPos);
+
+	//lightSpaceCameraPos.x = (worldTexelSize * floor(lightSpaceCameraPos.x / worldTexelSize));
+	//lightSpaceCameraPos.y = (worldTexelSize * floor(lightSpaceCameraPos.y / worldTexelSize));
+
+	//resultPos = resultRot.rotate(lightSpaceCameraPos);
+
+	//return ShadowCameraTransform(resultPos, resultRot);
+
+	// Maybe this fixes it???
+
 	glm::vec3 resultPos = mainCameraPos + getForward(mainCameraRot) * getHalfShadowArea();
 	glm::quat resultRot = getTransform().getTransformedRot();
 
@@ -23,13 +42,17 @@ ShadowCameraTransform DirectionalLight::calcShadowCameraTransform(const glm::vec
 
 
 	// TODO : GLM quaternions work differently than PhysX quaternions, we need to fix this code.
+	glm::quat temp = glm::conjugate(resultRot);
+	glm::quat temp2 = glm::rotate(temp, temp.w, resultPos);
 
-	glm::vec3 lightSpaceCameraPos = resultRot.getConjugate().rotate(resultPos);
+	glm::vec3 lightSpaceCameraPos = glm::vec3(temp2.x, temp2.y, temp2.z);
 
 	lightSpaceCameraPos.x = (worldTexelSize * floor(lightSpaceCameraPos.x / worldTexelSize));
 	lightSpaceCameraPos.y = (worldTexelSize * floor(lightSpaceCameraPos.y / worldTexelSize));
 
-	resultPos = resultRot.rotate(lightSpaceCameraPos);
+	glm::quat temp3 = glm::rotate(resultRot, resultRot.w, lightSpaceCameraPos);
+	resultPos = glm::vec3(temp3.x, temp3.y, temp3.z);
 
 	return ShadowCameraTransform(resultPos, resultRot);
+
 }

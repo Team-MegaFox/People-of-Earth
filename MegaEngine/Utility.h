@@ -13,8 +13,7 @@
 #include <vector>
 #include <string>
 #include <glm/glm.hpp>
-#include <glm/gtc/quaternion.hpp>
-#include <glm/gtx/transform.hpp>
+
 
 namespace Utility
 {
