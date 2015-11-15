@@ -73,3 +73,10 @@ void Viewport::swapBuffers()
 {
 	SDL_GL_SwapWindow(m_window);
 }
+
+void Viewport::bindRenderTarget() const
+{
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glViewport(0, 0, (GLsizei)m_screenWidth, (GLsizei)m_screenHeight);
+}

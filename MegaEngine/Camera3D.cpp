@@ -10,17 +10,47 @@ Camera3D::Camera3D() :
 _position(0.0f, 0.0f, 1.0f),
 _horizontalAngle(0.0f),
 _verticalAngle(0.0f),
-_fieldOfView(50.0f),
-_nearPlane(0.01f),
+_fieldOfView(70.0f),
+_nearPlane(1.0f),
 _farPlane(100.0f),
 _viewportAspectRatio(4.0f / 3.0f)
 {
+	*_projection = glm::perspective(glm::radians(_fieldOfView), _viewportAspectRatio, _nearPlane, _farPlane);
+}
+
+Camera3D::Camera3D(float horizontalAngle, float verticalangle, float fov, float nearPlane, float farPlane, float aspectRatio) :
+_position(0.0f, 0.0f, 1.0f),
+_horizontalAngle(horizontalAngle),
+_verticalAngle(verticalangle),
+_fieldOfView(fov),
+_nearPlane(nearPlane),
+_farPlane(farPlane),
+_viewportAspectRatio(aspectRatio)
+{
+	*_projection = glm::perspective(glm::radians(_fieldOfView), _viewportAspectRatio, _nearPlane, _farPlane);
 }
 
 Camera3D::~Camera3D()
 {
 
 }
+
+void Camera3D::setToMainCamera(CoreEngine engine)
+{
+	// TODO : What?
+
+}
+
+glm::mat4 Camera3D::getViewProjection()
+{
+	return *_projection;
+}
+
+void Camera3D::setParent(GameObject gameObject)
+{
+	gameObject.addGameComponent(this);
+}
+
 
 const glm::vec3& Camera3D::position() const {
 	return _position;
@@ -108,11 +138,27 @@ glm::mat4 Camera3D::matrix() const {
 }
 
 glm::mat4 Camera3D::projection() const {
-	return glm::perspective(glm::radians(_fieldOfView), _viewportAspectRatio, _nearPlane, _farPlane);
+	return *_projection;
 }
 
 glm::mat4 Camera3D::view() const {
 	return orientation() * glm::translate(glm::mat4(), -_position);
+}
+
+void Camera3D::setCameraProjection()
+{
+	_position = glm::vec3(0.0f, 0.0f, 1.0f);
+	_horizontalAngle = 0.0f;
+	_verticalAngle = 0.0f;
+	_fieldOfView = 70.0f;
+	_nearPlane = 1.0f;
+	_farPlane = 100.0f;
+	_viewportAspectRatio = (4.0f / 3.0f);
+}
+
+void Camera3D::setCameraProjection(glm::mat4 projection)
+{
+	*_projection = projection;
 }
 
 void Camera3D::normalizeAngles() {

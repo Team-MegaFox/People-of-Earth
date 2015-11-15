@@ -28,6 +28,7 @@ public:
 
 	void setScreenWidth(int screenWidth);
 	void setScreenHeight(int screenHeight);
+	void bindRenderTarget() const;
 
 private:
 	SDL_Window* m_window = nullptr;

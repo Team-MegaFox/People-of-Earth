@@ -2,6 +2,10 @@
 #include <glm\glm.hpp>
 #include <glm\gtx\transform.hpp>
 #include <glm\gtc\quaternion.hpp>
+#include "Utility.h"
+
+#define ToRadians(x) (float)(((x) * 3.1415926536f / 180.0f))
+#define ToDegree(x) (float)(((x) * 180.0f / 3.1415926536f))
 
 class GameObject;
 
@@ -14,9 +18,10 @@ public:
 		const glm::vec3 & scale = glm::vec3(1.0f));
 
 	bool hasChanged();
-	glm::mat4 getModel();
+	glm::mat4 getModel() const;
 	const glm::mat4 getParentMatrix();
-	glm::quat getTransformedRot();
+	glm::quat getTransformedRot() const;
+	glm::vec3 getTransformedPos() const;
 
 	// Getters
 	GameObject* getAttachedGameObject() { return m_attached; }

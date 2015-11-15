@@ -1,11 +1,19 @@
 #pragma once
 #include <GLM/glm.hpp>
+#include "CameraComponent.h"
 
-class Camera3D
+class Camera3D 
+	: public CameraComponent
 {
 public:
 	Camera3D();
+	Camera3D(float horizontalAngle, float verticalangle, float fov, float nearPlane, float farPlane, float aspectRatio);
 	~Camera3D();
+
+	virtual void setToMainCamera(CoreEngine engine) override;
+	virtual glm::mat4 getViewProjection() override;
+	virtual void setParent(GameObject gameObject) override;
+
 
 	/**
 	The position of the camera.
@@ -116,8 +124,19 @@ public:
 	*/
 	glm::mat4 view() const;
 
+	/*
+	Set the camera to the default settings
+	*/
+	void setCameraProjection();
+
+	/*
+	Set camera projection to specific projection
+	*/
+	void Camera3D::setCameraProjection(glm::mat4 projection);
+
 
 private:
+	glm::mat4 * _projection;
 	glm::vec3 _position;
 	float _horizontalAngle;
 	float _verticalAngle;

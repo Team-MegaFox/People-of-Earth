@@ -1,4 +1,5 @@
 #pragma once
+#include "ReferenceCounter.h"
 #include <glew\glew.h>
 #include <string>
 #include <map>
@@ -32,27 +33,27 @@ private:
 
 };
 
-class Texture
+class TextureImage
 {
 public:
-	Texture(const std::string& fileName, GLenum textureTarget = GL_TEXTURE_2D, 
+	TextureImage(const std::string& fileName, GLenum textureTarget = GL_TEXTURE_2D,
 		GLfloat filter = GL_LINEAR_MIPMAP_LINEAR, GLenum internalFormat = GL_RGBA, 
 		GLenum format = GL_RGBA, bool clamp = false, GLenum attachment = GL_NONE);
-	Texture(int width = 0, int height = 0, unsigned char* data = 0, 
+	TextureImage(int width = 0, int height = 0, unsigned char* data = 0,
 		GLenum textureTarget = GL_TEXTURE_2D, GLfloat filter = GL_LINEAR_MIPMAP_LINEAR, 
 		GLenum internalFormat = GL_RGBA, GLenum format = GL_RGBA, bool clamp = false, 
 		GLenum attachment = GL_NONE);
-	Texture(const Texture& texture);
-	virtual ~Texture();
+	TextureImage(const TextureImage& texture);
+	virtual ~TextureImage();
 
 	void bind(unsigned int unit = 0) const;
 	void bindRenderTarget() const;
 
-	inline int getWidth() { return m_textureData->getWidth(); }
-	inline int getHeight() { return m_textureData->getHeight(); }
+	inline int getWidth() const { return m_textureData->getWidth(); }
+	inline int getHeight() const { return m_textureData->getHeight(); }
 
-	bool operator==(const Texture& texture) const { return m_textureData == texture.m_textureData; }
-	bool operator!=(const Texture& texture) const { return !operator==(texture); }
+	bool operator==(const TextureImage& texture) const { return m_textureData == texture.m_textureData; }
+	bool operator!=(const TextureImage& texture) const { return !operator==(texture); }
 
 private:
 	static std::map<std::string, TextureData*> s_resourceMap;

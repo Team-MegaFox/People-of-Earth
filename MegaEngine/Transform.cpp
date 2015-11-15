@@ -32,7 +32,7 @@ bool Transform::hasChanged()
 	}
 }
 
-glm::mat4 Transform::getModel()
+glm::mat4 Transform::getModel() const
 {
 	glm::mat4 posMatrix = glm::translate(m_pos);
 	glm::mat4 scaleMatrix = glm::scale(m_scale);
@@ -50,7 +50,7 @@ const glm::mat4 Transform::getParentMatrix()
 	return m_parentMatrix;
 }
 
-glm::quat Transform::getTransformedRot()
+glm::quat Transform::getTransformedRot() const
 {
 	glm::quat parentRot(1.0f, 0.0f, 0.0f, 0.0f);
 
@@ -60,4 +60,9 @@ glm::quat Transform::getTransformedRot()
 	}
 
 	return parentRot;
+}
+
+glm::vec3 Transform::getTransformedPos() const
+{
+	return glm::vec3(m_parent->getPosition());
 }

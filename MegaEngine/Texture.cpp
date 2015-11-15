@@ -150,7 +150,7 @@ void TextureData::initRenderTarget(GLenum* attachments)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-Texture::Texture(const std::string& fileName, GLenum textureTarget = GL_TEXTURE_2D,
+TextureImage::TextureImage(const std::string& fileName, GLenum textureTarget = GL_TEXTURE_2D,
 	GLfloat filter = GL_LINEAR_MIPMAP_LINEAR, GLenum internalFormat = GL_RGBA,
 	GLenum format = GL_RGBA, bool clamp = false, GLenum attachment = GL_NONE) :
 m_fileName(fileName)
@@ -178,7 +178,7 @@ m_fileName(fileName)
 	}
 }
 
-Texture::Texture(int width = 0, int height = 0, unsigned char* data = 0,
+TextureImage::TextureImage(int width = 0, int height = 0, unsigned char* data = 0,
 	GLenum textureTarget = GL_TEXTURE_2D, GLfloat filter = GL_LINEAR_MIPMAP_LINEAR,
 	GLenum internalFormat = GL_RGBA, GLenum format = GL_RGBA, bool clamp = false,
 	GLenum attachment = GL_NONE) :
@@ -187,14 +187,14 @@ m_fileName("")
 	m_textureData = new TextureData(textureTarget, width, height, 1, &data, &filter, &internalFormat, &format, clamp, &attachment);
 }
 
-Texture::Texture(const Texture& texture) :
+TextureImage::TextureImage(const TextureImage& texture) :
 m_textureData(texture.m_textureData),
 m_fileName(texture.m_fileName)
 {
 	//add reference
 }
 
-Texture::~Texture()
+TextureImage::~TextureImage()
 {
 	if (m_textureData /*&& m_textureData->RemoveReference()*/)
 	{
@@ -205,14 +205,14 @@ Texture::~Texture()
 	}
 }
 
-void Texture::bind(unsigned int unit = 0) const
+void TextureImage::bind(unsigned int unit = 0) const
 {
 	assert(unit >= 0 && unit <= 31);
 	glActiveTexture(GL_TEXTURE0 + unit);
 	m_textureData->bind(0);
 }
 
-void Texture::bindRenderTarget() const
+void TextureImage::bindRenderTarget() const
 {
 	m_textureData->bindToRenderTarget();
 }

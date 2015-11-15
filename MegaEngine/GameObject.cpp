@@ -22,7 +22,7 @@ void GameObject::updateAll(float delta)
 	}
 }
 
-void GameObject::renderAll(const Shader& shader, const GUIEngine& guiEngine, const RenderingEngine& renderingEngine, const Camera& camera)
+void GameObject::renderAll(const Shader& shader, const GUIEngine& guiEngine, const RenderingEngine& renderingEngine, const Camera3D& camera)
 {
 	renderGameComponents(shader, renderingEngine, camera);
 	renderGUIComponents(guiEngine, camera);
@@ -148,7 +148,7 @@ void GameObject::updateGameComponents(float delta)
 	}
 }
 
-void GameObject::renderGameComponents(const Shader& shader, const RenderingEngine& renderingEngine, const Camera& camera)
+void GameObject::renderGameComponents(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D& camera)
 {
 	for (size_t gc = 0; gc < m_gameComponents.size(); gc++)
 	{
@@ -169,7 +169,7 @@ void GameObject::updateGUIComponents(float delta)
 
 }
 
-void GameObject::renderGUIComponents(const GUIEngine& guiEngine, const Camera& camera)
+void GameObject::renderGUIComponents(const GUIEngine& guiEngine, const Camera3D& camera)
 {
 
 }
