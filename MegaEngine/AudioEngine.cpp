@@ -1,7 +1,5 @@
 #include "AudioEngine.h"
 
-AudioEngine * AudioEngine::instance = nullptr;
-
 FMOD_VECTOR AudioEngine::glmToFMOD(glm::vec3 vector)
 {
 	FMOD_VECTOR Temp;
@@ -173,8 +171,6 @@ void AudioEngine::dispose(const std::vector<std::string> & soundList, const std:
 		m_system->release();
 	}
 
-	// Clean up the AudioHandler instance
-	delete AudioEngine::instance;
 }
 
 void AudioEngine::setSound(int index)

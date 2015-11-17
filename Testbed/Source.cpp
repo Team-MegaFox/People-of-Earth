@@ -2,7 +2,7 @@
 #include <CoreEngine.h>
 #include <Viewport.h>
 #include <SceneManager.h>
-
+#include <AudioEngine.h>
 #include "TestScene.h"
 
 int main(int argc, char** argv)
@@ -11,14 +11,12 @@ int main(int argc, char** argv)
 
 	SceneManager sceneManager;
 	TestScene testscene;
-
-	AudioEngine * audioEngine = AudioEngine::getInstance();
+	AudioEngine audioEngine;
 
 	sceneManager.addScene(&testscene);
 	sceneManager.switchScene(testscene.getName());
 
-
-	CoreEngine core(60.0, &window, nullptr, nullptr, audioEngine, nullptr, &sceneManager);
+	CoreEngine core(60.0, &window, nullptr, nullptr, &audioEngine, nullptr, &sceneManager);
 
 
 	core.start();

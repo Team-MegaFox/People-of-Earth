@@ -1,11 +1,11 @@
 #pragma once
-#include "AudioEngine.h"
 
 class PhysicsEngine;
 class RenderingEngine;
 class GUIEngine;
 class SceneManager;
 class Viewport;
+class AudioEngine;
 
 class CoreEngine
 {

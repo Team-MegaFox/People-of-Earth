@@ -15,6 +15,7 @@ static const int NUM_STREAM_CHANNELS = 50;
 class AudioEngine
 {
 public:
+	AudioEngine();
 	~AudioEngine();
 
 	/*
@@ -243,20 +244,7 @@ public:
 	*/
 	void update();
 
-	/*
-	Returns the singular instance of the AudioEngine
-	*/
-	static AudioEngine * getInstance()
-	{
-		if (!instance)
-		{
-			instance = new AudioEngine;
-		}
-		return instance;
-	}
-
 private:
-	AudioEngine();
 	
 	/*
 	Initializes FMOD
@@ -283,8 +271,6 @@ private:
 	and sound/stream positioning
 	*/
 	FMOD_VECTOR glmToFMOD(glm::vec3 vector);
-
-	static AudioEngine * instance;
 
 	// Volume Controls
 	float m_soundVolume;
