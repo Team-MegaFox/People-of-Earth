@@ -42,10 +42,27 @@ ShadowCameraTransform DirectionalLight::calcShadowCameraTransform(const glm::vec
 
 
 	// TODO : GLM quaternions work differently than PhysX quaternions, we need to fix this code.
-	glm::quat temp = glm::conjugate(resultRot);
-	glm::quat temp2 = glm::rotate(temp, temp.w, resultPos);
+	//glm::quat temp = glm::conjugate(resultRot);
+	//glm::quat temp2 = glm::rotate(temp, temp.w, resultPos);
 
-	glm::vec3 lightSpaceCameraPos = glm::vec3(temp2.x, temp2.y, temp2.z);
+	//::vec3 lightSpaceCameraPos = glm::vec3(temp2.x, temp2.y, temp2.z);
+
+	//lightSpaceCameraPos.x = (worldTexelSize * floor(lightSpaceCameraPos.x / worldTexelSize));
+	//lightSpaceCameraPos.y = (worldTexelSize * floor(lightSpaceCameraPos.y / worldTexelSize));
+
+	//glm::quat temp3 = glm::rotate(resultRot, resultRot.w, lightSpaceCameraPos);
+	//resultPos = glm::vec3(temp3.x, temp3.y, temp3.z);
+	
+	
+	
+	//This will develop a quaternion that is the rotation of the resultRot and on the axis of resultPos
+	glm::quat rotation = glm::quat();
+	rotation.w = cos(0.5f * resultRot.w);
+	rotation.x = resultPos.x * sin(0.5f * resultRot.w);
+	rotation.y = resultPos.y * sin(0.5f * resultRot.w);
+	rotation.z = resultPos.z * sin(0.5f * resultRot.w);
+	
+	glm::vec3 lightSpaceCameraPos = glm::vec3(rotation.x, rotation.y, rotation.z);
 
 	lightSpaceCameraPos.x = (worldTexelSize * floor(lightSpaceCameraPos.x / worldTexelSize));
 	lightSpaceCameraPos.y = (worldTexelSize * floor(lightSpaceCameraPos.y / worldTexelSize));

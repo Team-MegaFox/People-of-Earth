@@ -59,36 +59,52 @@ inline float max(const glm::vec4 & vec)
 
 inline glm::vec3 getForward(const glm::quat & quat)
 {
-	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(0.0f, 0.0f, 1.0f));
-	return glm::vec3(temp.x, temp.y, temp.z);
+	//glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(0.0f, 0.0f, 1.0f));
+	//return glm::vec3(temp.x, temp.y, temp.z);
+	
+	return glm::vec3( 2 * (quat.x * quat.z - quat.w * quat.y), 
+                    2 * (quat.y * quat.z + quat.w * quat.x),
+                    1 - 2 * (quat.x * quat.x + quat.y * quat.y));
 }
 
 inline glm::vec3 getBack(const glm::quat & quat)
 {
-	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(0.0f, 0.0f, -1.0f));
-	return glm::vec3(temp.x, temp.y, temp.z);
+	//glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(0.0f, 0.0f, -1.0f));
+	//return glm::vec3(temp.x, temp.y, temp.z);
+	return -getForward(quat);
+	
 }
 
 inline glm::vec3 getUp(const glm::quat & quat)
 {
-	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(0.0f, 1.0f, 0.0f));
-	return glm::vec3(temp.x, temp.y, temp.z);
+	//glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(0.0f, 1.0f, 0.0f));
+	//return glm::vec3(temp.x, temp.y, temp.z);
+	return glm::vec3( 2 * (quat.x * quat.y + quat.w * quat.z), 
+                    1 - 2 * (quat.x * quat.x + quat.z * quat.z),
+                    2 * (quat.y * quat.z - quat.w * quat.x));
 }
 
 inline glm::vec3 getDown(const glm::quat & quat)
 {
-	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(0.0f, -1.0f, 0.0f));
-	return glm::vec3(temp.x, temp.y, temp.z);
+	//glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(0.0f, -1.0f, 0.0f));
+	//return glm::vec3(temp.x, temp.y, temp.z);
+	return -getUp(quat);
+	
 }
 
 inline glm::vec3 getRight(const glm::quat & quat)
 {
-	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(1.0f, 0.0f, 0.0f));
-	return glm::vec3(temp.x, temp.y, temp.z);
+	//glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(1.0f, 0.0f, 0.0f));
+	//return glm::vec3(temp.x, temp.y, temp.z);
+	return glm::vec3( 1 - 2 * (quat.y * quat.y - quat.z * quat.z),
+				2 * (quat.x * quat.y - quat.w * quat.z),
+				2 * (quat.x * quat.z + quat.w * quat.y));
 }
 
 inline glm::vec3 getLeft(const glm::quat & quat)
 {
-	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(-1.0f, 0.0f, 0.0f));
-	return glm::vec3(temp.x, temp.y, temp.z);
+	//glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(-1.0f, 0.0f, 0.0f));
+	//return glm::vec3(temp.x, temp.y, temp.z);
+	
+	return -getRight(quat);
 }
