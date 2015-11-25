@@ -22,9 +22,9 @@ float MappedValues::getFloat(const std::string& name) const
 	return 0;
 }
 
-const TextureImage& MappedValues::getTexture(const std::string& name) const
+const Texture& MappedValues::getTexture(const std::string& name) const
 {
-	std::map<std::string, TextureImage>::const_iterator it = m_textureMap.find(name);
+	std::map<std::string, Texture>::const_iterator it = m_textureMap.find(name);
 	if (it != m_textureMap.end())
 	{
 		return it->second;

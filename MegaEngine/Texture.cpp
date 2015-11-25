@@ -5,6 +5,8 @@
 
 #include "Utils.h"
 
+std::map<std::string, TextureData*> Texture::s_resourceMap;
+
 TextureData::TextureData(GLenum textureTarget, int width, int height, int numTextures,
 	unsigned char** data, GLfloat* filters, GLenum* internalFormat,
 	GLenum* format, bool clamp, GLenum* attachments) :
@@ -150,9 +152,9 @@ void TextureData::initRenderTarget(GLenum* attachments)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-TextureImage::TextureImage(const std::string& fileName, GLenum textureTarget = GL_TEXTURE_2D,
-	GLfloat filter = GL_LINEAR_MIPMAP_LINEAR, GLenum internalFormat = GL_RGBA,
-	GLenum format = GL_RGBA, bool clamp = false, GLenum attachment = GL_NONE) :
+Texture::Texture(const std::string& fileName, GLenum textureTarget /*= GL_TEXTURE_2D*/,
+	GLfloat filter /*= GL_LINEAR_MIPMAP_LINEAR*/, GLenum internalFormat /*= GL_RGBA*/,
+	GLenum format /*= GL_RGBA*/, bool clamp /*= false*/, GLenum attachment /*= GL_NONE*/) :
 m_fileName(fileName)
 {
 	auto it = s_resourceMap.find(fileName);
@@ -178,23 +180,23 @@ m_fileName(fileName)
 	}
 }
 
-TextureImage::TextureImage(int width = 0, int height = 0, unsigned char* data = 0,
-	GLenum textureTarget = GL_TEXTURE_2D, GLfloat filter = GL_LINEAR_MIPMAP_LINEAR,
-	GLenum internalFormat = GL_RGBA, GLenum format = GL_RGBA, bool clamp = false,
-	GLenum attachment = GL_NONE) :
+Texture::Texture(int width /*= 0*/, int height /*= 0*/, unsigned char* data /*= 0*/,
+	GLenum textureTarget /*= GL_TEXTURE_2D*/, GLfloat filter /*= GL_LINEAR_MIPMAP_LINEAR*/,
+	GLenum internalFormat /*= GL_RGBA*/, GLenum format /*= GL_RGBA*/, bool clamp /*= false*/,
+	GLenum attachment /*= GL_NONE*/) :
 m_fileName("")
 {
 	m_textureData = new TextureData(textureTarget, width, height, 1, &data, &filter, &internalFormat, &format, clamp, &attachment);
 }
 
-TextureImage::TextureImage(const TextureImage& texture) :
+Texture::Texture(const Texture& texture) :
 m_textureData(texture.m_textureData),
 m_fileName(texture.m_fileName)
 {
 	//add reference
 }
 
-TextureImage::~TextureImage()
+Texture::~Texture()
 {
 	if (m_textureData /*&& m_textureData->RemoveReference()*/)
 	{
@@ -205,14 +207,14 @@ TextureImage::~TextureImage()
 	}
 }
 
-void TextureImage::bind(unsigned int unit = 0) const
+void Texture::bind(unsigned int unit /*= 0*/) const
 {
 	assert(unit >= 0 && unit <= 31);
 	glActiveTexture(GL_TEXTURE0 + unit);
 	m_textureData->bind(0);
 }
 
-void TextureImage::bindRenderTarget() const
+void Texture::bindRenderTarget() const
 {
 	m_textureData->bindToRenderTarget();
 }

@@ -81,20 +81,16 @@
   <ItemGroup>
     <ClInclude Include="BaseLight.h" />
     <ClInclude Include="Camera3D.h" />
-    <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CoreEngine.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="GameComponents.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GUIButtonComponent.h" />
-    <ClInclude Include="GUIComponent.h" />
     <ClInclude Include="GUIEngine.h" />
-    <ClInclude Include="GUITextComponent.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="MappedValues.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MeshRenderer.h" />
-    <ClInclude Include="ModelMesh.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="ReferenceCounter.h" />
     <ClInclude Include="RenderingEngine.h" />
@@ -112,18 +108,14 @@
   <ItemGroup>
     <ClCompile Include="BaseLight.cpp" />
     <ClCompile Include="Camera3D.cpp" />
-    <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CoreEngine.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GUIButtonComponent.cpp" />
-    <ClCompile Include="GUIComponent.cpp" />
     <ClCompile Include="GUIEngine.cpp" />
-    <ClCompile Include="GUITextComponent.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="MappedValues.cpp" />
     <ClCompile Include="Material.cpp" />
-    <ClCompile Include="ModelMesh.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="Scene.cpp" />

@@ -41,9 +41,9 @@ Material::~Material()
 	}
 }
 
-Material::Material(const std::string & materialName, const TextureImage & diffuse, float specularIntensity, float specularPower,
-	const TextureImage & normalMap,
-	const TextureImage & dispMap, float dispMapScale, float dispMapOffset) :
+Material::Material(const std::string & materialName, const Texture & diffuse, float specularIntensity, float specularPower,
+	const Texture & normalMap,
+	const Texture & dispMap, float dispMapScale, float dispMapOffset) :
 	m_materialName(materialName)
 {
 	m_materialData = new MaterialData();

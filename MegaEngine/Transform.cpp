@@ -1,7 +1,7 @@
 #include "Transform.h"
 
 Transform::Transform(const glm::vec3 & position,
-	const glm::vec3 & rotation,
+	const glm::quat & rotation,
 	const glm::vec3 & scale) :
 	m_pos(position),
 	m_rot(rotation),
@@ -30,9 +30,11 @@ bool Transform::hasChanged()
 	{
 		return true;
 	}
+
+	return false;
 }
 
-glm::mat4 Transform::getModel() const
+glm::mat4 Transform::getTransformation() const
 {
 	glm::mat4 posMatrix = glm::translate(m_pos);
 	glm::mat4 scaleMatrix = glm::scale(m_scale);
@@ -45,7 +47,7 @@ const glm::mat4 Transform::getParentMatrix() const
 {
 	if (m_parent && m_parent->hasChanged())
 	{
-		m_parentMatrix = m_parent->getModel();
+		m_parentMatrix = m_parent->getTransformation();
 	}
 	return m_parentMatrix;
 }
@@ -65,4 +67,9 @@ glm::quat Transform::getTransformedRot() const
 glm::vec3 Transform::getTransformedPos() const
 {
 	return glm::vec3(m_parent->getPosition());
+}
+
+void Transform::rotate(const glm::quat& rotation)
+{
+	m_rot = glm::quat(glm::normalize(rotation * m_rot));
 }

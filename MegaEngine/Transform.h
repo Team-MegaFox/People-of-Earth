@@ -14,14 +14,15 @@ class Transform
 public:
 
 	Transform(const glm::vec3 & position = glm::vec3(0.0f),
-		const glm::vec3 & rotation = glm::vec3(0.0f),
+		const glm::quat & rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
 		const glm::vec3 & scale = glm::vec3(1.0f));
 
 	bool hasChanged();
-	glm::mat4 getModel() const;
+	glm::mat4 getTransformation() const;
 	const glm::mat4 getParentMatrix() const;
 	glm::quat getTransformedRot() const;
 	glm::vec3 getTransformedPos() const;
+	void rotate(const glm::quat& rotation);
 
 	// Getters
 	GameObject* getAttachedGameObject() { return m_attached; }
