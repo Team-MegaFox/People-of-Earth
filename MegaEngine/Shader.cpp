@@ -479,7 +479,8 @@ static std::string loadShader(const std::string& fileName)
 				std::string includeFileName = Utility::split(line, ' ')[1];
 				includeFileName = includeFileName.substr(1, includeFileName.length() - 2);
 
-				std::string toAppend = loadShader(includeFileName);
+				std::string path = fileName.substr(0, fileName.find("/", 0)) + "/" + includeFileName;
+				std::string toAppend = loadShader(path);
 				output.append(toAppend + "\n");
 			}
 		}

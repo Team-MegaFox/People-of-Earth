@@ -22,8 +22,8 @@ public:
 	virtual ~Material();
 
 	Material(const std::string & materialName, const Texture& diffuse, float specularIntensity, float specularPower,
-		const Texture & normalMap = Texture("default_normal.jpg"),
-		const Texture & dispMap = Texture("default_disp.png"), float dispMapScale = 0.0f, float dispMapOffset = 0.0f);
+		const Texture & normalMap = Texture("Textures/default_normal.jpg"),
+		const Texture & dispMap = Texture("Textures/default_disp.png"), float dispMapScale = 0.0f, float dispMapOffset = 0.0f);
 
 	inline void setVector3f(const std::string & name, const glm::vec3 & value) { m_materialData->setVec3(name, value); }
 	inline void setFloat(const std::string & name, float value)              { m_materialData->setFloat(name, value); }

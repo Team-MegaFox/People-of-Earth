@@ -55,7 +55,6 @@ bool InputManager::Update(SDL_Event& _inputEvent)
 		{
 		case SDL_QUIT:
 			return true;
-			break;
 		case SDL_KEYDOWN:
 			currKeyStates[_inputEvent.key.keysym.sym] = true;
 			break;

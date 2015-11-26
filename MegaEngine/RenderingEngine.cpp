@@ -11,29 +11,16 @@
 
 const glm::mat4 RenderingEngine::BIAS_MATRIX = glm::scale(glm::vec3(0.5f)) * glm::translate(glm::vec3(1.0f));
 
-//Viewport * m_viewport;
-//Mesh m_filterPlane;
-//Material m_filterPlaneMaterial;
-//Texture m_tempTarget;
-//Shader m_defaultShader;
-//Shader m_shadowMapShader;
-//Shader m_nullFilter;
-//Shader m_guassFilter;
-//Shader m_fxaaFilter;
-//Shader m_gausBlurFilter;
-//Camera3D m_altCamera;
-//Camera3D m_mainCamera;
-
 RenderingEngine::RenderingEngine(Viewport viewport, GUIEngine guiEngine) :
 m_viewport(&viewport),
 m_guiEngine(&guiEngine),
-m_filterPlane(Mesh("plane.obj")),
+m_filterPlane(Mesh("Models/plane.obj")),
 m_filterPlaneMaterial("renderingEngine_filterPlane", m_tempTarget, 1, 8),
-m_defaultShader("forward-ambient"),
-m_shadowMapShader("shadowMapGenerator"),
-m_nullFilter("filter-null"),
-m_gausBlurFilter("filter-gausBlur7x1"),
-m_fxaaFilter("filter-fxaa"),
+m_defaultShader("Shaders/forward-ambient"),
+m_shadowMapShader("Shaders/shadowMapGenerator"),
+m_nullFilter("Shaders/filter-null"),
+m_gausBlurFilter("Shaders/filter-gausBlur7x1"),
+m_fxaaFilter("Shaders/filter-fxaa"),
 m_altCameraTransform(glm::vec3(0.0f), glm::quat(ToRadians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f))),
 m_altCamera(glm::mat4(1.0f), &m_altCameraTransform)
 {
