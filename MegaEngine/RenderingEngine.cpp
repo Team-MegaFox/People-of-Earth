@@ -11,10 +11,11 @@
 
 const glm::mat4 RenderingEngine::BIAS_MATRIX = glm::scale(glm::vec3(0.5f)) * glm::translate(glm::vec3(1.0f));
 
-RenderingEngine::RenderingEngine(Viewport viewport, GUIEngine guiEngine) :
+RenderingEngine::RenderingEngine(Viewport& viewport, GUIEngine& guiEngine) :
 m_viewport(&viewport),
 m_guiEngine(&guiEngine),
-m_filterPlane(Mesh("Models/plane.obj")),
+m_tempTarget(viewport.getScreenWidth(), viewport.getScreenHeight(), 0, GL_TEXTURE_2D, GL_NEAREST, GL_RGBA, GL_RGBA, false, GL_COLOR_ATTACHMENT0),
+m_filterPlane("Models/plane.obj"),
 m_filterPlaneMaterial("renderingEngine_filterPlane", m_tempTarget, 1, 8),
 m_defaultShader("Shaders/forward-ambient"),
 m_shadowMapShader("Shaders/shadowMapGenerator"),

@@ -85,15 +85,16 @@ private:
 class Mesh
 {
 public:
-	Mesh(const std::string& fileName = "cube.obj");
+	Mesh(const std::string& fileName = "Models/cube.obj");
 	Mesh(const std::string& meshName, const IndexedModel& model);
 	Mesh(const Mesh& mesh);
 	virtual ~Mesh();
+	void operator=(const Mesh other) { m_fileName = other.m_fileName; m_meshData = other.m_meshData; }
 
 	void render() const;
 
 private:
-	static std::map<std::string, MeshData*> s_resoruceMap;
+	static std::map<std::string, MeshData*> s_resourceMap;
 
 	std::string m_fileName;
 	MeshData* m_meshData;

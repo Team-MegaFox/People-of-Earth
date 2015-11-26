@@ -4,7 +4,7 @@
 #include <string>
 #include <map>
 
-class TextureData
+class TextureData : public ReferenceCounter
 {
 public:
 	TextureData(GLenum textureTarget, int width, int height, int numTextures, 
@@ -45,6 +45,7 @@ public:
 		GLenum attachment = GL_NONE);
 	Texture(const Texture& texture);
 	virtual ~Texture();
+	void operator=(const Texture other) { m_fileName = other.m_fileName; m_textureData = other.m_textureData; }
 
 	void bind(unsigned int unit = 0) const;
 	void bindRenderTarget() const;

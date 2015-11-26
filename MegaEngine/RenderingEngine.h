@@ -20,7 +20,8 @@ class RenderingEngine
 	: public MappedValues
 {
 public:
-	RenderingEngine(Viewport viewport, GUIEngine guiEngine);
+	RenderingEngine(Viewport& viewport, GUIEngine& guiEngine);
+	~RenderingEngine() { }
 
 	void render(GameObject & gameObject);
 
@@ -48,10 +49,10 @@ private:
 	Texture m_shadowMaps[NUM_SHADOW_MAPS];
 	Texture m_shadowMapTempTargets[NUM_SHADOW_MAPS];
 
+	Texture m_tempTarget;
 	Transform m_filterPlaneTransform;
 	Mesh m_filterPlane;
 	Material m_filterPlaneMaterial;
-	Texture m_tempTarget;
 
 	Shader m_defaultShader;
 	Shader m_shadowMapShader;

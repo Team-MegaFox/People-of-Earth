@@ -11,6 +11,8 @@ class MaterialData
 		public MappedValues
 {
 public:
+	MaterialData() { }
+	~MaterialData() { }
 private:
 };
 
@@ -20,6 +22,7 @@ public:
 	Material(const std::string & materialName = "");
 	Material(const Material & other);
 	virtual ~Material();
+	void operator=(const Material other) { m_materialName = other.m_materialName; m_materialData = other.m_materialData; }
 
 	Material(const std::string & materialName, const Texture& diffuse, float specularIntensity, float specularPower,
 		const Texture & normalMap = Texture("Textures/default_normal.jpg"),
@@ -38,6 +41,4 @@ private:
 	MaterialData* m_materialData;
 	std::string   m_materialName;
 
-
-	void operator=(const Material & other) {}
 };

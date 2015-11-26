@@ -161,16 +161,18 @@ m_fileName(fileName)
 	if (it != s_resourceMap.end())
 	{
 		m_textureData = it->second;
-		//add reference
+		m_textureData->addReference();
 	}
 	else
 	{
+		std::string filePath = "Assets/" + fileName;
 		int x, y, bytesPerPixel;
-		unsigned char* data = stbi_load(fileName.c_str(), &x, &y, &bytesPerPixel, 4);
+		unsigned char* data = stbi_load(filePath.c_str(), &x, &y, &bytesPerPixel, 4);
 
 		if (data == nullptr)
 		{
 			//error check
+			assert(false);
 		}
 
 		m_textureData = new TextureData(textureTarget, x, y, 1, &data, &filter, &internalFormat, &format, clamp, &attachment);
@@ -193,15 +195,23 @@ Texture::Texture(const Texture& texture) :
 m_textureData(texture.m_textureData),
 m_fileName(texture.m_fileName)
 {
-	//add reference
+	m_textureData->addReference();
 }
 
 Texture::~Texture()
 {
-	if (m_textureData /*&& m_textureData->RemoveReference()*/)
+	if (m_textureData && m_textureData->removeReference())
 	{
 		if (m_fileName.length() > 0)
-			s_resourceMap.erase(m_fileName);
+		{
+			auto it = s_resourceMap.find(m_fileName);
+			if (it == s_resourceMap.end())
+			{
+				assert(0 != 0);
+			}
+
+			s_resourceMap.erase(it);
+		}
 
 		delete m_textureData;
 	}

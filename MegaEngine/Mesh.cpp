@@ -3,8 +3,9 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include <iostream>
 
-std::map<std::string, MeshData*> Mesh::s_resoruceMap;
+std::map<std::string, MeshData*> Mesh::s_resourceMap;
 
 bool IndexedModel::isValid() const
 {
@@ -175,8 +176,8 @@ Mesh::Mesh(const std::string& fileName /*= "cube.obj"*/) :
 m_fileName(fileName),
 m_meshData(nullptr)
 {
-	auto it = s_resoruceMap.find(fileName);
-	if (it != s_resoruceMap.end())
+	auto it = s_resourceMap.find(fileName);
+	if (it != s_resourceMap.end())
 	{
 		//Error
 		//Adding mesh, could not add mesh
@@ -231,15 +232,19 @@ m_meshData(nullptr)
 		}
 
 		m_meshData = new MeshData(IndexedModel(indices, vertices, texCoords, normals, tangents));
-		s_resoruceMap.insert(std::make_pair(m_fileName, m_meshData));
+		if (m_meshData == nullptr)
+		{
+			assert(0 != 0);
+		}
+		s_resourceMap.insert(std::make_pair(m_fileName, m_meshData));
 	}
 }
 
 Mesh::Mesh(const std::string& meshName, const IndexedModel& model) : 
 m_fileName(meshName)
 {
-	auto it = s_resoruceMap.find(meshName);
-	if (it != s_resoruceMap.end())
+	auto it = s_resourceMap.find(meshName);
+	if (it != s_resourceMap.end())
 	{
 		//Error
 		//Adding mesh, could not add mesh
@@ -248,7 +253,7 @@ m_fileName(meshName)
 	else
 	{
 		m_meshData = new MeshData(model);
-		s_resoruceMap.insert(std::make_pair(meshName, m_meshData));
+		s_resourceMap.insert(std::make_pair(meshName, m_meshData));
 	}
 }
 
@@ -261,12 +266,19 @@ m_meshData(mesh.m_meshData)
 
 Mesh::~Mesh()
 {
-	if (m_meshData &&  m_meshData->removeReference())
+	if (m_meshData && m_meshData->removeReference())
 	{
 		if (m_fileName.length() > 0)
 		{
-			s_resoruceMap.erase(m_fileName);
+			auto it = s_resourceMap.find(m_fileName);
+			if (it == s_resourceMap.end())
+			{
+				assert(0 != 0);
+			}
+
+			s_resourceMap.erase(it);
 		}
+
 		delete m_meshData;
 	}
 }
