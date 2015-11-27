@@ -4,7 +4,7 @@
 #include <string>
 #include <map>
 
-class TextureData
+class TextureData : public ReferenceCounter
 {
 public:
 	TextureData(GLenum textureTarget, int width, int height, int numTextures, 
@@ -33,18 +33,19 @@ private:
 
 };
 
-class TextureImage
+class Texture
 {
 public:
-	TextureImage(const std::string& fileName, GLenum textureTarget = GL_TEXTURE_2D,
+	Texture(const std::string& fileName, GLenum textureTarget = GL_TEXTURE_2D,
 		GLfloat filter = GL_LINEAR_MIPMAP_LINEAR, GLenum internalFormat = GL_RGBA, 
 		GLenum format = GL_RGBA, bool clamp = false, GLenum attachment = GL_NONE);
-	TextureImage(int width = 0, int height = 0, unsigned char* data = 0,
+	Texture(int width = 0, int height = 0, unsigned char* data = 0,
 		GLenum textureTarget = GL_TEXTURE_2D, GLfloat filter = GL_LINEAR_MIPMAP_LINEAR, 
 		GLenum internalFormat = GL_RGBA, GLenum format = GL_RGBA, bool clamp = false, 
 		GLenum attachment = GL_NONE);
-	TextureImage(const TextureImage& texture);
-	virtual ~TextureImage();
+	Texture(const Texture& texture);
+	virtual ~Texture();
+	void operator=(const Texture other) { m_fileName = other.m_fileName; m_textureData = other.m_textureData; }
 
 	void bind(unsigned int unit = 0) const;
 	void bindRenderTarget() const;
@@ -52,8 +53,8 @@ public:
 	inline int getWidth() const { return m_textureData->getWidth(); }
 	inline int getHeight() const { return m_textureData->getHeight(); }
 
-	bool operator==(const TextureImage& texture) const { return m_textureData == texture.m_textureData; }
-	bool operator!=(const TextureImage& texture) const { return !operator==(texture); }
+	bool operator==(const Texture& texture) const { return m_textureData == texture.m_textureData; }
+	bool operator!=(const Texture& texture) const { return !operator==(texture); }
 
 private:
 	static std::map<std::string, TextureData*> s_resourceMap;

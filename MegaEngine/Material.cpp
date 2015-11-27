@@ -9,7 +9,7 @@ m_materialName(materialName)
 {
 	if (materialName.length() > 0)
 	{
-		std::map<std::string, MaterialData *>::const_iterator it = s_resourceMap.find(materialName);
+		auto it = s_resourceMap.find(materialName);
 		if (it == s_resourceMap.end())
 		{
 			std::cerr << "Error: Material " << materialName << " has not been initialized!" << std::endl;
@@ -34,20 +34,27 @@ Material::~Material()
 	{
 		if (m_materialName.length() > 0)
 		{
-			s_resourceMap.erase(m_materialName);
+			auto it = s_resourceMap.find(m_materialName);
+			if (it == s_resourceMap.end())
+			{
+				assert(0 != 0);
+			}
+
+			s_resourceMap.erase(it);
 		}
 
 		delete m_materialData;
 	}
 }
 
-Material::Material(const std::string & materialName, const TextureImage & diffuse, float specularIntensity, float specularPower,
-	const TextureImage & normalMap,
-	const TextureImage & dispMap, float dispMapScale, float dispMapOffset) :
-	m_materialName(materialName)
+Material::Material(const std::string & materialName, 
+	const Texture & diffuse, float specularIntensity, float specularPower,
+	const Texture & normalMap,
+	const Texture & dispMap, float dispMapScale, float dispMapOffset) :
+m_materialName(materialName)
 {
 	m_materialData = new MaterialData();
-	s_resourceMap[m_materialName] = m_materialData;
+	s_resourceMap.insert(std::make_pair(m_materialName, m_materialData));
 
 	m_materialData->setTexture("diffuse", diffuse);
 	m_materialData->setFloat("specularIntensity", specularIntensity);

@@ -1,14 +1,16 @@
 #pragma once
-#include "Viewport.h"
-#include "Texture.h"
-#include "Shader.h"
 #include <glm\glm.hpp>
-#include "Camera3D.h"
 #include <vector>
 #include <map>
 #include <string>
+
 #include "MappedValues.h"
+#include "Viewport.h"
+#include "Texture.h"
+#include "Shader.h"
 #include "Material.h"
+#include "Camera3D.h"
+#include "Mesh.h"
 #include "GUIEngine.h"
 
 class GameObject;
@@ -18,14 +20,16 @@ class RenderingEngine
 	: public MappedValues
 {
 public:
-	RenderingEngine(Viewport viewport, GUIEngine & guiEngine);
+	RenderingEngine(Viewport& viewport, GUIEngine& guiEngine);
+	~RenderingEngine() { }
 
 	void render(GameObject & gameObject);
-	inline void setMainCamera(Camera3D & camera);
-	inline void addLight(const BaseLight & light);
+
+	inline void addLight(const BaseLight & light) { m_lights.push_back(&light); }
+	inline void setMainCamera(const Camera3D & camera) { m_mainCamera = &camera; }
 	
 	// Getters
-	BaseLight & getActiveLight() const { return *m_activeLight; }
+	const BaseLight & getActiveLight() const { return *m_activeLight; }
 	inline unsigned int getSamplerSlot(const std::string & samplerName) const { return m_samplerMap.find(samplerName)->second; }
 	glm::mat4 getLightMatrix() const { return m_lightMatrix; }
 
@@ -36,26 +40,38 @@ public:
 	}
 
 private:
-	void applyFilter(const Shader & filter, const TextureImage & src, const TextureImage * dst);
-	void blurShadowMap(int shadowMapIndex, float blurAmount);
-
 	static const int NUM_SHADOW_MAPS = 10;
 	static const glm::mat4 BIAS_MATRIX;
+
 	Viewport * m_viewport;
-	TextureImage m_shadowMaps[NUM_SHADOW_MAPS];
-	TextureImage m_shadowMapTempTargets[NUM_SHADOW_MAPS];
+	GUIEngine * m_guiEngine;
+
+	Texture m_shadowMaps[NUM_SHADOW_MAPS];
+	Texture m_shadowMapTempTargets[NUM_SHADOW_MAPS];
+
+	Texture m_tempTarget;
+	Transform m_filterPlaneTransform;
+	Mesh m_filterPlane;
+	Material m_filterPlaneMaterial;
+
 	Shader m_defaultShader;
 	Shader m_shadowMapShader;
+	Shader m_nullFilter;
 	Shader m_guassFilter;
 	Shader m_fxaaFilter;
 	Shader m_gausBlurFilter;
 	glm::mat4 m_lightMatrix;
+	
 	Camera3D m_altCamera;
-	Camera3D m_mainCamera;
-	BaseLight * m_activeLight;
-	std::vector<BaseLight*> m_lights;
+	Transform m_altCameraTransform;
+	const Camera3D * m_mainCamera;
+	
+	const BaseLight * m_activeLight;
+	std::vector<const BaseLight*> m_lights;
 	std::map<std::string, unsigned int> m_samplerMap;
-	GUIEngine * m_guiEngine;
+
+	void applyFilter(const Shader & filter, const Texture & src, const Texture * dst);
+	void blurShadowMap(int shadowMapIndex, float blurAmount);
 
 protected:
 	void setSamplerSlot(std::string name, GLuint value);

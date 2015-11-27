@@ -132,8 +132,8 @@ void Shader::bind() const
 
 void Shader::updateUniforms(const Transform& transform, const Material& material, const RenderingEngine& renderingEngine, const Camera3D& camera) const
 {
-	glm::mat4 worldMatrix = transform.getModel();
-	glm::mat4 projectedMatrix = camera.matrix() * worldMatrix;
+	glm::mat4 worldMatrix = transform.getTransformation();
+	glm::mat4 projectedMatrix = camera.getViewProjection() * worldMatrix;
 
 	for (unsigned int i = 0; i < m_shaderData->getUniformNames().size(); i++)
 	{
@@ -461,7 +461,7 @@ static void checkShaderError(int shader, int flag, bool isProgram, const std::st
 static std::string loadShader(const std::string& fileName)
 {
 	std::ifstream file;
-	file.open(("./res/shaders/" + fileName).c_str());
+	file.open(("Assets/" + fileName).c_str());
 
 	std::string output;
 	std::string line;
@@ -479,7 +479,8 @@ static std::string loadShader(const std::string& fileName)
 				std::string includeFileName = Utility::split(line, ' ')[1];
 				includeFileName = includeFileName.substr(1, includeFileName.length() - 2);
 
-				std::string toAppend = loadShader(includeFileName);
+				std::string path = fileName.substr(0, fileName.find("/", 0)) + "/" + includeFileName;
+				std::string toAppend = loadShader(path);
 				output.append(toAppend + "\n");
 			}
 		}
@@ -542,7 +543,7 @@ static std::vector<TypedData> findUniformStructComponents(const std::string& ope
 	return result;
 }
 
-static std::string FindUniformStructName(const std::string& structStartToOpeningBrace)
+static std::string findUniformStructName(const std::string& structStartToOpeningBrace)
 {
 	return Utility::split(Utility::split(structStartToOpeningBrace, ' ')[0], '\n')[0];
 }

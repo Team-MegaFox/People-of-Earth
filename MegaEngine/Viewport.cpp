@@ -8,9 +8,10 @@ m_screenWidth(screenWidth),
 m_screenHeight(screenHeight),
 m_screenName(name)
 {
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC) != 0)
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
 		//Error handle
+		assert(0 != 0);
 	}
 
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
