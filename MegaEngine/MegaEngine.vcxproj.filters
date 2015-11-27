@@ -20,6 +20,7 @@
     <ClInclude Include="PolygonCollider.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="World.h" />
+    <ClInclude Include="PhysicsEngine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CoreEngine.cpp" />
@@ -37,5 +38,6 @@
     <ClCompile Include="PolygonCollider.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="World.cpp" />
+    <ClCompile Include="PhysicsEngine.cpp" />
   </ItemGroup>
 </Project>

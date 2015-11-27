@@ -87,6 +87,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="MultiCollider.h" />
+    <ClInclude Include="PhysicsEngine.h" />
     <ClInclude Include="PolygonCollider.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
@@ -104,6 +105,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="MultiCollider.cpp" />
+    <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="PolygonCollider.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
