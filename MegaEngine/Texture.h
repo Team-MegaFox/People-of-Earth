@@ -39,13 +39,13 @@ public:
 	Texture(const std::string& fileName, GLenum textureTarget = GL_TEXTURE_2D,
 		GLfloat filter = GL_LINEAR_MIPMAP_LINEAR, GLenum internalFormat = GL_RGBA, 
 		GLenum format = GL_RGBA, bool clamp = false, GLenum attachment = GL_NONE);
-	Texture(int width = 0, int height = 0, unsigned char* data = 0,
+	Texture(int width = 0, int height = 0, unsigned char* data = nullptr,
 		GLenum textureTarget = GL_TEXTURE_2D, GLfloat filter = GL_LINEAR_MIPMAP_LINEAR, 
 		GLenum internalFormat = GL_RGBA, GLenum format = GL_RGBA, bool clamp = false, 
 		GLenum attachment = GL_NONE);
 	Texture(const Texture& texture);
 	virtual ~Texture();
-	void operator=(const Texture other) { m_fileName = other.m_fileName; m_textureData = other.m_textureData; }
+	void operator=(Texture other);
 
 	void bind(unsigned int unit = 0) const;
 	void bindRenderTarget() const;

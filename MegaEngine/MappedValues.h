@@ -10,7 +10,7 @@ class MappedValues
 {
 public:
 	MappedValues() :
-		m_defaultTexture("Textures/defaultTexture.png"),
+		m_defaultTexture(Texture("defaultTexture.png")),
 		m_defaultVector3f(glm::vec3(0.0f)) { }
 	~MappedValues() {
 		std::cout << "Hello world" << std::endl;

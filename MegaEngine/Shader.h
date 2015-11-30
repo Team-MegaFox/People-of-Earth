@@ -79,7 +79,7 @@ private:
 class Shader
 {
 public:
-	Shader(const std::string & fileName = "Shaders/basicShader");
+	Shader(const std::string & fileName = "basicShader");
 	Shader(const Shader & other);
 	virtual ~Shader();
 

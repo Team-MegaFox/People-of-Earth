@@ -51,5 +51,6 @@
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="GUIEngine.cpp" />
+    <ClCompile Include="Utility.cpp" />
   </ItemGroup>
 </Project>

@@ -461,7 +461,7 @@ static void checkShaderError(int shader, int flag, bool isProgram, const std::st
 static std::string loadShader(const std::string& fileName)
 {
 	std::ifstream file;
-	file.open(("Assets/" + fileName).c_str());
+	file.open(("Assets/Shaders/" + fileName).c_str());
 
 	std::string output;
 	std::string line;
@@ -479,8 +479,7 @@ static std::string loadShader(const std::string& fileName)
 				std::string includeFileName = Utility::split(line, ' ')[1];
 				includeFileName = includeFileName.substr(1, includeFileName.length() - 2);
 
-				std::string path = fileName.substr(0, fileName.find("/", 0)) + "/" + includeFileName;
-				std::string toAppend = loadShader(path);
+				std::string toAppend = loadShader(includeFileName);
 				output.append(toAppend + "\n");
 			}
 		}

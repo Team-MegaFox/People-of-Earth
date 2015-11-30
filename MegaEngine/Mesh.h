@@ -11,7 +11,7 @@ class IndexedModel
 {
 public:
 	IndexedModel() { }
-	IndexedModel(const std::vector<unsigned int>& indices, const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& texCoords,
+	IndexedModel(const std::vector<unsigned int> indices, const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& texCoords,
 		const std::vector<glm::vec3>& normals = std::vector<glm::vec3>(), const std::vector<glm::vec3>& tangents = std::vector<glm::vec3>()) :
 		m_indices(indices),
 		m_vertices(vertices),
@@ -85,11 +85,11 @@ private:
 class Mesh
 {
 public:
-	Mesh(const std::string& fileName = "Models/cube.obj");
+	Mesh(const std::string& fileName = "cube.obj");
 	Mesh(const std::string& meshName, const IndexedModel& model);
 	Mesh(const Mesh& mesh);
 	virtual ~Mesh();
-	void operator=(const Mesh other) { m_fileName = other.m_fileName; m_meshData = other.m_meshData; }
+	//void operator=(const Mesh other) { m_fileName = other.m_fileName; m_meshData = other.m_meshData; }
 
 	void render() const;
 

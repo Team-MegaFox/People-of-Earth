@@ -179,15 +179,14 @@ m_meshData(nullptr)
 	auto it = s_resourceMap.find(fileName);
 	if (it != s_resourceMap.end())
 	{
-		//Error
-		//Adding mesh, could not add mesh
-		assert(0 != 0);
+		m_meshData = it->second;
+		m_meshData->addReference();
 	}
 	else
 	{
 		Assimp::Importer importer;
 
-		const aiScene* scene = importer.ReadFile(("Assets/" + fileName).c_str(),
+		const aiScene* scene = importer.ReadFile(("Assets/Models/" + fileName).c_str(),
 			aiProcess_Triangulate |
 			aiProcess_GenSmoothNormals |
 			aiProcess_FlipUVs |
@@ -270,13 +269,7 @@ Mesh::~Mesh()
 	{
 		if (m_fileName.length() > 0)
 		{
-			auto it = s_resourceMap.find(m_fileName);
-			if (it == s_resourceMap.end())
-			{
-				assert(0 != 0);
-			}
-
-			s_resourceMap.erase(it);
+			s_resourceMap.erase(m_fileName);
 		}
 
 		delete m_meshData;

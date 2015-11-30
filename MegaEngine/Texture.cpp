@@ -165,7 +165,7 @@ m_fileName(fileName)
 	}
 	else
 	{
-		std::string filePath = "Assets/" + fileName;
+		std::string filePath = "Assets/Textures/" + fileName;
 		int x, y, bytesPerPixel;
 		unsigned char* data = stbi_load(filePath.c_str(), &x, &y, &bytesPerPixel, 4);
 
@@ -204,17 +204,19 @@ Texture::~Texture()
 	{
 		if (m_fileName.length() > 0)
 		{
-			auto it = s_resourceMap.find(m_fileName);
-			if (it == s_resourceMap.end())
-			{
-				assert(0 != 0);
-			}
-
-			s_resourceMap.erase(it);
+			s_resourceMap.erase(m_fileName);
 		}
 
 		delete m_textureData;
 	}
+}
+
+void Texture::operator=(Texture other)
+{
+	char* temp[sizeof(Texture) / sizeof(char)];
+	memcpy(temp, this, sizeof(Texture));
+	memcpy(this, &other, sizeof(Texture));
+	memcpy(&other, temp, sizeof(Texture));
 }
 
 void Texture::bind(unsigned int unit /*= 0*/) const

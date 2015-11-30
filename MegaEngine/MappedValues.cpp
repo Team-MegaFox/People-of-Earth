@@ -2,7 +2,7 @@
 
 const glm::vec3& MappedValues::getVec3(const std::string& name) const
 {
-	std::map<std::string, glm::vec3>::const_iterator it = m_vector3fMap.find(name);
+	auto it = m_vector3fMap.find(name);
 	if (it != m_vector3fMap.end())
 	{
 		return it->second;
@@ -13,7 +13,7 @@ const glm::vec3& MappedValues::getVec3(const std::string& name) const
 
 float MappedValues::getFloat(const std::string& name) const
 {
-	std::map<std::string, float>::const_iterator it = m_floatMap.find(name);
+	auto it = m_floatMap.find(name);
 	if (it != m_floatMap.end())
 	{
 		return it->second;
@@ -24,7 +24,7 @@ float MappedValues::getFloat(const std::string& name) const
 
 const Texture& MappedValues::getTexture(const std::string& name) const
 {
-	std::map<std::string, Texture>::const_iterator it = m_textureMap.find(name);
+	auto it = m_textureMap.find(name);
 	if (it != m_textureMap.end())
 	{
 		return it->second;

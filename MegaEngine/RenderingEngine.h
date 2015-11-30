@@ -43,15 +43,15 @@ private:
 	static const int NUM_SHADOW_MAPS = 10;
 	static const glm::mat4 BIAS_MATRIX;
 
-	Viewport * m_viewport;
-	GUIEngine * m_guiEngine;
+	const Viewport * m_viewport;
+	const GUIEngine * m_guiEngine;
 
 	Texture m_shadowMaps[NUM_SHADOW_MAPS];
 	Texture m_shadowMapTempTargets[NUM_SHADOW_MAPS];
 
-	Texture m_tempTarget;
 	Transform m_filterPlaneTransform;
 	Mesh m_filterPlane;
+	Texture m_tempTarget;
 	Material m_filterPlaneMaterial;
 
 	Shader m_defaultShader;
@@ -62,8 +62,8 @@ private:
 	Shader m_gausBlurFilter;
 	glm::mat4 m_lightMatrix;
 	
-	Camera3D m_altCamera;
 	Transform m_altCameraTransform;
+	Camera3D m_altCamera;
 	const Camera3D * m_mainCamera;
 	
 	const BaseLight * m_activeLight;

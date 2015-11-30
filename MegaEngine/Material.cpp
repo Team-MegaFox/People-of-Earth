@@ -34,13 +34,7 @@ Material::~Material()
 	{
 		if (m_materialName.length() > 0)
 		{
-			auto it = s_resourceMap.find(m_materialName);
-			if (it == s_resourceMap.end())
-			{
-				assert(0 != 0);
-			}
-
-			s_resourceMap.erase(it);
+			s_resourceMap.erase(m_materialName);
 		}
 
 		delete m_materialData;
@@ -54,7 +48,7 @@ Material::Material(const std::string & materialName,
 m_materialName(materialName)
 {
 	m_materialData = new MaterialData();
-	s_resourceMap.insert(std::make_pair(m_materialName, m_materialData));
+	s_resourceMap[m_materialName] = m_materialData;
 
 	m_materialData->setTexture("diffuse", diffuse);
 	m_materialData->setFloat("specularIntensity", specularIntensity);
