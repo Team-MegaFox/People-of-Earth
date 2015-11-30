@@ -128,7 +128,7 @@ void TextureData::initRenderTarget(GLenum* attachments)
 		glFramebufferTexture2D(GL_FRAMEBUFFER, attachments[i], m_textureTarget, m_textureID[i], 0);
 	}
 
-	if (m_frameBuffer = 0)
+	if (m_frameBuffer == 0)
 	{
 		return;
 	}

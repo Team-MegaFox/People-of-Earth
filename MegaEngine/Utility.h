@@ -47,13 +47,13 @@ inline float max(const glm::vec4 & vec)
 
 inline glm::vec3 getForward(const glm::quat & quat)
 {
-	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(0.0f, 0.0f, 1.0f));
+	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(0.0f, 0.0f, -1.0f));
 	return glm::vec3(temp.x, temp.y, temp.z);
 }
 
 inline glm::vec3 getBack(const glm::quat & quat)
 {
-	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(0.0f, 0.0f, -1.0f));
+	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(0.0f, 0.0f, 1.0f));
 	return glm::vec3(temp.x, temp.y, temp.z);
 }
 
@@ -80,6 +80,7 @@ inline glm::vec3 getLeft(const glm::quat & quat)
 	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(-1.0f, 0.0f, 0.0f));
 	return glm::vec3(temp.x, temp.y, temp.z);
 }
+
 
 inline const glm::vec3 rotateQuatByVec(const glm::quat& quat, const glm::vec3& v)
 {

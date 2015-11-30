@@ -16,8 +16,12 @@ public:
 		m_windowCenter(windowCenter) {}
 
 	virtual void processInput(const InputManager& input, float delta) override;
+
+	void Rotate(glm::vec3 & axis, float angle);
+
 protected:
 private:
+	InputManager * m_inputManager;
 	float    m_sensitivity;
 	int      m_unlockMouseKey;
 	bool     m_mouseLocked;
