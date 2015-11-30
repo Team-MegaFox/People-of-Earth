@@ -9,7 +9,7 @@
 
 int main(int argc, char** argv)
 {
-	Viewport window("Testbed2", 512, 512, 0);
+	Viewport window("Testbed", 512, 512, 0);
 	GUIEngine guiEngine;
 	RenderingEngine renderingEngine(window, guiEngine);
 	SceneManager sceneManager;

@@ -2,15 +2,6 @@
 #include "GameComponents.h"
 #include <algorithm>
 
-GameObject::GameObject()
-{
-	m_transform.setAttachedGameObject(this);
-}
-
-GameObject::~GameObject()
-{
-}
-
 void GameObject::updateAll(float delta)
 {
 	updateGameComponents(delta);

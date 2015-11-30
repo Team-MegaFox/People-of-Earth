@@ -95,3 +95,23 @@ inline const glm::vec3 rotateQuatByVec(const glm::quat& quat, const glm::vec3& v
 		(vz*w2 + (quat.x * vy - quat.y * vx)*quat.w + quat.z*dot2)
 		);
 }
+
+inline glm::mat4 initTranslation(glm::vec3 translation)
+{
+	return glm::mat4(
+		glm::vec4(1.0f, 0.0f, 0.0f, 0.0f),
+		glm::vec4(0.0f, 1.0f, 0.0f, 0.0f),
+		glm::vec4(0.0f, 0.0f, 1.0f, 0.0f),
+		glm::vec4(translation, 1.0f)
+		);
+}
+
+inline glm::mat4 initScale(glm::vec3 scale)
+{
+	return glm::mat4(
+		glm::vec4(scale.x, 0.0f, 0.0f, 0.0f),
+		glm::vec4(0.0f, scale.y, 0.0f, 0.0f),
+		glm::vec4(0.0f, 0.0f, scale.z, 0.0f),
+		glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)
+		);
+}

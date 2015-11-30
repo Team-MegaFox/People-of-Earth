@@ -1,6 +1,7 @@
 #include "Scene.h"
-#include <algorithm>
+#include "RenderingEngine.h"
 
+#include <algorithm>
 
 Scene::Scene(const std::string& name) : m_name(name)
 {
@@ -17,7 +18,7 @@ void Scene::update(float delta)
 
 void Scene::render(RenderingEngine* renderingEngine)
 {
-	//renderingEngine->render(m_root);
+	renderingEngine->render(m_root);
 }
 
 void Scene::processInput(const InputManager& input, float delta)

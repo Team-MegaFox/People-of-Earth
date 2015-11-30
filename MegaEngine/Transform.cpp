@@ -36,8 +36,8 @@ bool Transform::hasChanged()
 
 glm::mat4 Transform::getTransformation() const
 {
-	glm::mat4 posMatrix = glm::translate(m_pos);
-	glm::mat4 scaleMatrix = glm::scale(m_scale);
+	glm::mat4 posMatrix = initTranslation(m_pos);
+	glm::mat4 scaleMatrix = initScale(m_scale);
 	glm::mat4 result = posMatrix * glm::mat4_cast(m_rot) * scaleMatrix;
 
 	return getParentMatrix() * result;
@@ -60,13 +60,18 @@ glm::quat Transform::getTransformedRot() const
 	{
 		parentRot = m_parent->getTransformedRot();
 	}
-
+	
 	return parentRot;
 }
 
 glm::vec3 Transform::getTransformedPos() const
 {
-	return glm::vec3(m_parent->getPosition());
+	return glm::vec3(getParentMatrix() * glm::vec4(m_pos, 1.0f));
+}
+
+void Transform::rotate(const glm::vec3& axis, float angle)
+{
+	rotate(glm::quat(angle, axis));
 }
 
 void Transform::rotate(const glm::quat& rotation)

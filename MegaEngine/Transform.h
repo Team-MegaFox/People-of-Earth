@@ -4,9 +4,6 @@
 #include <glm\gtc\quaternion.hpp>
 #include "Utility.h"
 
-#define ToRadians(x) (float)(((x) * 3.1415926536f / 180.0f))
-#define ToDegree(x) (float)(((x) * 180.0f / 3.1415926536f))
-
 class GameObject;
 
 class Transform
@@ -22,6 +19,7 @@ public:
 	const glm::mat4 getParentMatrix() const;
 	glm::quat getTransformedRot() const;
 	glm::vec3 getTransformedPos() const;
+	void rotate(const glm::vec3& axis, float angle);
 	void rotate(const glm::quat& rotation);
 
 	// Getters

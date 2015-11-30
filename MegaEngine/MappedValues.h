@@ -12,10 +12,7 @@ public:
 	MappedValues() :
 		m_defaultTexture(Texture("defaultTexture.png")),
 		m_defaultVector3f(glm::vec3(0.0f)) { }
-	~MappedValues() {
-		std::cout << "Hello world" << std::endl;
-		//delete m_defaultTexture;
-	}
+	~MappedValues() { }
 
 	inline void setVec3(const std::string& name, const glm::vec3& value) { m_vector3fMap[name] = value; }
 	inline void setFloat(const std::string& name, float value)           { m_floatMap[name] = value; }

@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <glm\glm.hpp>
 #include "Transform.h"
 #include "InputManager.h"
 class Camera3D;
@@ -14,8 +15,9 @@ class GUIEngine;
 class GameObject
 {
 public:
-	GameObject();
-	~GameObject();
+	GameObject(const glm::vec3& pos = glm::vec3(0.0f), const glm::quat& rot = glm::quat(1.0f, 0.0f, 0.0f, 0.0f), const glm::vec3& scale = glm::vec3(1.0f))
+		: m_transform(pos, rot, scale), m_coreEngine(nullptr) { }
+	~GameObject() { }
 
 	void updateAll(float delta);
 	void renderAll(const Shader& shader, const GUIEngine& guiEngine, const RenderingEngine& renderingEngine, const Camera3D& camera);

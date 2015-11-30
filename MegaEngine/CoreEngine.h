@@ -17,11 +17,12 @@ public:
 	void start();
 	void stop();
 
-	inline SceneManager* getSceneManager() { return m_sceneManager; }
-	inline RenderingEngine* getRenderingEngine() { return m_renderingEngine; }
-	inline PhysicsEngine* getPhysicsEngine() { return m_physicsEngine; }
-	inline AudioEngine* getAudioEngine() { return m_audioEngine; }
-	inline GUIEngine* getGUIEngine() { return m_guiEngine; }
+	inline SceneManager* getSceneManager() const { return m_sceneManager; }
+	inline RenderingEngine* getRenderingEngine() const { return m_renderingEngine; }
+	inline PhysicsEngine* getPhysicsEngine() const { return m_physicsEngine; }
+	inline AudioEngine* getAudioEngine() const { return m_audioEngine; }
+	inline GUIEngine* getGUIEngine() const { return m_guiEngine; }
+	inline Viewport* getViewport() const { return m_viewport; }
 
 private:
 	bool m_running = false;
