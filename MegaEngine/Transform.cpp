@@ -34,23 +34,6 @@ bool Transform::hasChanged()
 	return false;
 }
 
-void Transform::update()
-{
-	if (m_initializedOldStuff)
-	{
-		m_oldPos = m_pos;
-		m_oldRot = m_rot;
-		m_oldScale = m_scale;
-	}
-	else
-	{
-		m_oldPos = m_pos + glm::vec3(1, 1, 1);
-		m_oldRot = m_rot * 0.5f;
-		m_oldScale = glm::vec3(m_scale.x + 1, m_scale.y + 1, m_scale.z + 1);
-		m_initializedOldStuff = true;
-	}
-}
-
 glm::mat4 Transform::getTransformation() const
 {
 	glm::mat4 translationMatrix = initTranslation(m_pos);

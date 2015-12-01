@@ -24,7 +24,7 @@ void FreeLook::processInput(const InputManager& input, float delta)
 		}
 		if (rotX)
 		{
-			//glm::quat * rot = &(getTransform()->getRotation());
+
 			getTransform()->rotate(getRight(getTransform()->getRotation()), ToRadians(deltaPos.y * m_sensitivity));
 		}
 

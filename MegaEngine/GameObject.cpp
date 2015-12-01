@@ -149,6 +149,7 @@ void GameObject::renderGameComponents(const Shader& shader, const RenderingEngin
 
 void GameObject::processInputGameComponents(const InputManager& input, float delta)
 {
+
 	for (size_t gc = 0; gc < m_gameComponents.size(); gc++)
 	{
 		m_gameComponents[gc]->processInput(input, delta);

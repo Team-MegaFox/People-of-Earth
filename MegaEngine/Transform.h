@@ -35,7 +35,6 @@ public:
 	void setPosition(const glm::vec3 & pos) { m_pos = pos; }
 	void setRotation(const glm::quat & rot) { m_rot = rot; }
 	void setScale(const glm::vec3 & scale) { m_scale = scale; }
-	void update();
 
 private:
 	glm::vec3 m_pos, m_scale;

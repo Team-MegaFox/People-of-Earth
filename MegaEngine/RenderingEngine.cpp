@@ -131,7 +131,8 @@ void RenderingEngine::render(GameObject & gameObject)
 			setFloat("shadowLightBleedingReduction", 0.0f);
 		}
 
-		getTexture("displayTexture").bindRenderTarget();
+		//getTexture("displayTexture").bindRenderTarget();
+		m_viewport->bindRenderTarget();
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
