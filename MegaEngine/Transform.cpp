@@ -11,7 +11,7 @@ Transform::Transform(const glm::vec3 & position,
 
 bool Transform::hasChanged()
 {
-	if (m_parent && m_parent->hasChanged())
+	if (m_parent !=0 && m_parent->hasChanged())
 	{
 		return true;
 	}
@@ -26,7 +26,7 @@ bool Transform::hasChanged()
 		return true;
 	}
 
-	if (m_scale != m_scale)
+	if (m_scale != m_oldScale)
 	{
 		return true;
 	}
@@ -34,18 +34,35 @@ bool Transform::hasChanged()
 	return false;
 }
 
+void Transform::update()
+{
+	if (m_initializedOldStuff)
+	{
+		m_oldPos = m_pos;
+		m_oldRot = m_rot;
+		m_oldScale = m_scale;
+	}
+	else
+	{
+		m_oldPos = m_pos + glm::vec3(1, 1, 1);
+		m_oldRot = m_rot * 0.5f;
+		m_oldScale = glm::vec3(m_scale.x + 1, m_scale.y + 1, m_scale.z + 1);
+		m_initializedOldStuff = true;
+	}
+}
+
 glm::mat4 Transform::getTransformation() const
 {
-	glm::mat4 posMatrix = initTranslation(m_pos);
+	glm::mat4 translationMatrix = initTranslation(m_pos);
 	glm::mat4 scaleMatrix = initScale(m_scale);
-	glm::mat4 result = posMatrix * glm::mat4_cast(m_rot) * scaleMatrix;
+	glm::mat4 result = translationMatrix * glm::mat4_cast(m_rot) * scaleMatrix;
 
 	return getParentMatrix() * result;
 }
 
 const glm::mat4 Transform::getParentMatrix() const
 {
-	if (m_parent && m_parent->hasChanged())
+	if (m_parent != 0 && m_parent->hasChanged())
 	{
 		m_parentMatrix = m_parent->getTransformation();
 	}
@@ -61,7 +78,7 @@ glm::quat Transform::getTransformedRot() const
 		parentRot = m_parent->getTransformedRot();
 	}
 	
-	return parentRot;
+	return parentRot * m_rot;
 }
 
 glm::vec3 Transform::getTransformedPos() const

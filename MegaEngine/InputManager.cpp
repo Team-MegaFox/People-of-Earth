@@ -191,10 +191,8 @@ void InputManager::SetCursor(bool visible) const
 {
 	if (visible)
 		SDL_ShowCursor(1);
-		//SDL_SetRelativeMouseMode(SDL_FALSE);
 	else
 		SDL_ShowCursor(0);
-		//SDL_SetRelativeMouseMode(SDL_TRUE);
 	
 
 }

@@ -17,7 +17,7 @@ public:
 
 	virtual void processInput(const InputManager& input, float delta) override;
 
-	void Rotate(glm::vec3 & axis, float angle);
+	void Rotate(glm::quat & axis);
 
 protected:
 private:
@@ -27,3 +27,4 @@ private:
 	bool     m_mouseLocked;
 	glm::vec2 m_windowCenter;
 };
+

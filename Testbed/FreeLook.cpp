@@ -20,12 +20,12 @@ void FreeLook::processInput(const InputManager& input, float delta)
 
 		if (rotY)
 		{
-			Rotate(getUp(getTransform()->getRotation()), deltaPos.x);// ToRadians(deltaPos.x * m_sensitivity));
+			getTransform()->rotate(glm::vec3(0, 1, 0), ToRadians(deltaPos.x * m_sensitivity));
 		}
-
 		if (rotX)
 		{
-			Rotate(getRight(getTransform()->getRotation()), deltaPos.y);// ToRadians(deltaPos.y * m_sensitivity));
+			//glm::quat * rot = &(getTransform()->getRotation());
+			getTransform()->rotate(getRight(getTransform()->getRotation()), ToRadians(deltaPos.y * m_sensitivity));
 		}
 
 		if (rotY || rotX)
@@ -42,7 +42,7 @@ void FreeLook::processInput(const InputManager& input, float delta)
 	}
 }
 
-void FreeLook::Rotate(glm::vec3 & axis, float angle)
+void FreeLook::Rotate(glm::quat & axis)
 {
-	getTransform()->rotate(axis, angle);
+	getTransform()->rotate(axis);
 }

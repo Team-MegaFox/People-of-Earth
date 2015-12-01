@@ -35,6 +35,7 @@ public:
 	void setPosition(const glm::vec3 & pos) { m_pos = pos; }
 	void setRotation(const glm::quat & rot) { m_rot = rot; }
 	void setScale(const glm::vec3 & scale) { m_scale = scale; }
+	void update();
 
 private:
 	glm::vec3 m_pos, m_scale;
@@ -46,7 +47,7 @@ private:
 
 	mutable glm::vec3 m_oldPos;
 	mutable glm::quat m_oldRot;
-	mutable float m_oldScale;
+	mutable glm::vec3 m_oldScale;
 	mutable bool m_initializedOldStuff;
 
 };
