@@ -11,7 +11,7 @@ Transform::Transform(const glm::vec3 & position,
 
 bool Transform::hasChanged()
 {
-	if (m_parent !=0 && m_parent->hasChanged())
+	if (m_parent != 0 && m_parent->hasChanged())
 	{
 		return true;
 	}
@@ -32,6 +32,23 @@ bool Transform::hasChanged()
 	}
 
 	return false;
+}
+
+void Transform::update()
+{
+	if (m_initializedOldStuff)
+	{
+		m_oldPos = m_pos;
+		m_oldRot = m_rot;
+		m_oldScale = m_scale;
+	}
+	else
+	{
+		m_oldPos = m_pos + glm::vec3(1.0f, 1.0f, 1.0f);
+		m_oldRot = m_rot * 0.5f;
+		m_oldScale = m_scale + glm::vec3(1.0f);
+		m_initializedOldStuff = true;
+	}
 }
 
 glm::mat4 Transform::getTransformation() const

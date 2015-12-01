@@ -21,6 +21,7 @@ public:
 	glm::vec3 getTransformedPos() const;
 	void rotate(const glm::vec3& axis, float angle);
 	void rotate(const glm::quat& rotation);
+	void update();
 
 	// Getters
 	GameObject* getAttachedGameObject() { return m_attached; }
