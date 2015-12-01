@@ -149,7 +149,7 @@ void RenderingEngine::render(GameObject & gameObject)
 
 	setVec3("inverseFilterTextureSize", glm::vec3(1.0f / getTexture("displayTexture").getWidth(), 1.0f / getTexture("displayTexture").getHeight(), 0.0f));
 
-	applyFilter(m_fxaaFilter, getTexture("displayTexture"), 0);
+	//applyFilter(m_fxaaFilter, getTexture("displayTexture"), 0);
 
 }
 

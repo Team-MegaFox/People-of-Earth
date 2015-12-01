@@ -17,8 +17,6 @@ public:
 
 	virtual void processInput(const InputManager& input, float delta) override;
 
-	void Rotate(glm::quat & axis);
-
 protected:
 private:
 	InputManager * m_inputManager;

@@ -1,6 +1,7 @@
 #include "freeLook.h"
 #include <Viewport.h>
 #include <Utility.h>
+#include <iostream>
 
 void FreeLook::processInput(const InputManager& input, float delta)
 {
@@ -20,12 +21,11 @@ void FreeLook::processInput(const InputManager& input, float delta)
 
 		if (rotY)
 		{
-			getTransform()->rotate(glm::vec3(0, 1, 0), ToRadians(deltaPos.x * m_sensitivity));
+			getTransform()->rotate(getUp(getTransform()->getRotation()), ToDegree(deltaPos.x * m_sensitivity));
 		}
 		if (rotX)
 		{
-
-			getTransform()->rotate(getRight(getTransform()->getRotation()), ToRadians(deltaPos.y * m_sensitivity));
+			getTransform()->rotate(getRight(getTransform()->getRotation()), ToDegree(deltaPos.y * m_sensitivity));
 		}
 
 		if (rotY || rotX)
@@ -40,9 +40,4 @@ void FreeLook::processInput(const InputManager& input, float delta)
 		input.SetMousePosition(m_windowCenter);
 		m_mouseLocked = true;
 	}
-}
-
-void FreeLook::Rotate(glm::quat & axis)
-{
-	getTransform()->rotate(axis);
 }
