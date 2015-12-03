@@ -23,6 +23,21 @@ namespace Utility
 	std::vector<std::string> split(const std::string &s, char delim);
 };
 
+inline const glm::vec3 rotateQuatByVec(const glm::quat& quat, const glm::vec3& v)
+{
+	const glm::f32 vx = 2.0f*v.x;
+	const glm::f32 vy = 2.0f*v.y;
+	const glm::f32 vz = 2.0f*v.z;
+	const glm::f32 w2 = quat.w*quat.w - 0.5f;
+	const glm::f32 dot2 = (quat.x*vx + quat.y*vy + quat.z*vz);
+	return glm::vec3
+		(
+		(vx*w2 + (quat.y * vz - quat.z * vy)*quat.w + quat.x*dot2),
+		(vy*w2 + (quat.z * vx - quat.x * vz)*quat.w + quat.y*dot2),
+		(vz*w2 + (quat.x * vy - quat.y * vx)*quat.w + quat.z*dot2)
+		);
+}
+
 inline float max(const glm::vec3 & vec)
 {
 	float Max = vec[0];
@@ -45,56 +60,34 @@ inline float max(const glm::vec4 & vec)
 	return Max;
 }
 
-inline glm::vec3 getForward(const glm::quat & quat)
+inline glm::vec3 getForward(const glm::quat quat)
 {
-	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(0.0f, 0.0f, -1.0f));
-	return glm::vec3(temp.x, temp.y, temp.z);
+	return rotateQuatByVec(quat, glm::vec3(0.0f, 0.0f, -1.0f));
 }
 
-inline glm::vec3 getBack(const glm::quat & quat)
+inline glm::vec3 getBack(const glm::quat quat)
 {
-	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(0.0f, 0.0f, 1.0f));
-	return glm::vec3(temp.x, temp.y, temp.z);
+	return rotateQuatByVec(quat, glm::vec3(0.0f, 0.0f, 1.0f));
 }
 
-inline glm::vec3 getUp(const glm::quat & quat)
+inline glm::vec3 getUp(const glm::quat quat)
 {
-	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(0.0f, 1.0f, 0.0f));
-	return glm::vec3(temp.x, temp.y, temp.z);
+	return rotateQuatByVec(quat, glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
-inline glm::vec3 getDown(const glm::quat & quat)
+inline glm::vec3 getDown(const glm::quat quat)
 {
-	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(0.0f, -1.0f, 0.0f));
-	return glm::vec3(temp.x, temp.y, temp.z);
+	return rotateQuatByVec(quat, glm::vec3(0.0f, -1.0f, 0.0f));
 }
 
-inline glm::vec3 getRight(const glm::quat & quat)
+inline glm::vec3 getRight(const glm::quat quat)
 {
-	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(1.0f, 0.0f, 0.0f));
-	return glm::vec3(temp.x, temp.y, temp.z);
+	return rotateQuatByVec(quat, glm::vec3(1.0f, 0.0f, 0.0f));
 }
 
-inline glm::vec3 getLeft(const glm::quat & quat)
+inline glm::vec3 getLeft(const glm::quat quat)
 {
-	glm::quat temp = glm::rotate(quat, (float)quat.w, glm::vec3(-1.0f, 0.0f, 0.0f));
-	return glm::vec3(temp.x, temp.y, temp.z);
-}
-
-
-inline const glm::vec3 rotateQuatByVec(const glm::quat& quat, const glm::vec3& v)
-{
-	const glm::f32 vx = 2.0f*v.x;
-	const glm::f32 vy = 2.0f*v.y;
-	const glm::f32 vz = 2.0f*v.z;
-	const glm::f32 w2 = quat.w*quat.w - 0.5f;
-	const glm::f32 dot2 = (quat.x*vx + quat.y*vy + quat.z*vz);
-	return glm::vec3
-		(
-		(vx*w2 + (quat.y * vz - quat.z * vy)*quat.w + quat.x*dot2),
-		(vy*w2 + (quat.z * vx - quat.x * vz)*quat.w + quat.y*dot2),
-		(vz*w2 + (quat.x * vy - quat.y * vx)*quat.w + quat.z*dot2)
-		);
+	return rotateQuatByVec(quat, glm::vec3(-1.0f, 0.0f, 0.0f));
 }
 
 inline glm::mat4 initTranslation(glm::vec3 translation)

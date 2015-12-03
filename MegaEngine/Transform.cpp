@@ -93,5 +93,5 @@ void Transform::rotate(const glm::vec3& axis, float angle)
 
 void Transform::rotate(const glm::quat& rotation)
 {
-	m_rot = glm::quat(glm::normalize(rotation * m_rot));
+	m_rot = glm::normalize(m_rot * rotation);
 }

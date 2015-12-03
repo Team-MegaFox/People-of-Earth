@@ -23,12 +23,12 @@ public:
 			->addGameComponent(new MeshRenderer(Mesh("plane4.obj"), Material("bricks"))));
 
 		addToRoot((new GameObject)
-			->addGameComponent(new CameraComponent(glm::perspective(ToRadians(70.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
+			->addGameComponent(new CameraComponent(glm::perspective(ToRadians(75.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
 			->addGameComponent(new FreeLook(window.getCenter()))
 			->addGameComponent(new FreeMove()));
 
 		addToRoot((new GameObject(glm::vec3(0.0f), glm::quat(ToRadians(-45.0f), glm::vec3(1, 0, 0))))
-			->addGameComponent(new DirectionalLight(glm::vec3(1, 0, 0), 0.8f, 10, 80.0f, 1.0f)));
+			->addGameComponent(new DirectionalLight(glm::vec3(1, 1, 1), 0.4f, 10, 80.0f, 1.0f)));
 
 	}
 };

@@ -19,7 +19,6 @@ public:
 
 protected:
 private:
-	InputManager * m_inputManager;
 	float    m_sensitivity;
 	int      m_unlockMouseKey;
 	bool     m_mouseLocked;
