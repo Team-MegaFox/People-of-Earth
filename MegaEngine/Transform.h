@@ -24,11 +24,14 @@ public:
 	void update();
 
 	// Getters
-	GameObject* getAttachedGameObject() { return m_attached; }
-	Transform* getParent() { return m_parent; }
-	glm::vec3 & getPosition() { return m_pos; }
-	glm::quat & getRotation() { return m_rot; }
-	inline glm::vec3 & getScale() { return m_scale; }
+	GameObject * getAttachedGameObject() { return m_attached; }
+	Transform * getParent() { return m_parent; }
+	glm::vec3 * getPosition() { return &m_pos; }
+	const glm::vec3 & getPosition() const { return m_pos; }
+	glm::quat * getRotation() { return &m_rot; }
+	const glm::quat & getRotation() const { return m_rot; }
+	glm::vec3 * getScale() { return &m_scale; }
+	const glm::vec3 & getScale() const { return m_scale; }
 
 	// Setters
 	void setAttachedGameObject(GameObject* attach) { m_attached = attach; }
