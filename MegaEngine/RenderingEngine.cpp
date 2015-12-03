@@ -169,7 +169,7 @@ void RenderingEngine::applyFilter(const Shader & filter, const Texture & src, co
 
 	m_altCamera.setProjection(glm::mat4(1.0f));
 	m_altCamera.getTransform()->setPosition(glm::vec3(0.0f));
-	m_altCamera.getTransform()->setRotation(glm::quat(180.0f, glm::vec3(0.0f, 1.0f, 0.0f)));
+	m_altCamera.getTransform()->setRotation(glm::quat(ToRadians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
 
 	glClear(GL_DEPTH_BUFFER_BIT);
 	filter.bind();

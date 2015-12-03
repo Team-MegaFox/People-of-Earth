@@ -49,7 +49,7 @@ m_screenName(name)
 	GLenum err = glewInit();
 	if (err != GLEW_OK)
 	{
-		//Error handle
+		fprintf(stderr, "Error: '%s'\n", glewGetErrorString(err));
 	}
 
 }

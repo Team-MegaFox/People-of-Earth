@@ -8,7 +8,7 @@
 #define SAFE_DELETE(p) if(p) {delete p; p = NULL;}
 #define INVALID_VALUE 0xFFFFFFFF
 #define ToRadians(x) (float)(((x) * 3.1415926536f / 180.0f))
-#define ToDegree(x) (float)(((x) * 180.0f / 3.1415926536f))
+#define ToDegrees(x) (float)(((x) * 180.0f / 3.1415926536f))
 
 
 #include <vector>
@@ -115,4 +115,23 @@ inline glm::mat4 initScale(glm::vec3 scale)
 		glm::vec4(0.0f, 0.0f, scale.z, 0.0f),
 		glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)
 		);
+}
+
+inline glm::mat4 initRotationFromDirection(const glm::vec3 & target, const glm::vec3 & up)
+{
+	glm::vec3 n = target;
+	glm::normalize(n);
+
+	glm::vec3 u = up;
+	glm::normalize(u);
+	glm::cross(u, n);
+
+	glm::vec3 v = glm::cross(n, u);
+
+	glm::mat4 m;
+	m[0][0] = u.x;   m[1][0] = u.y;   m[2][0] = u.z;   m[3][0] = 0.0f;
+	m[0][1] = v.x;   m[1][1] = v.y;   m[2][1] = v.z;   m[3][1] = 0.0f;
+	m[0][2] = n.x;   m[1][2] = n.y;   m[2][2] = n.z;   m[3][2] = 0.0f;
+	m[0][3] = 0.0f;  m[1][3] = 0.0f;  m[2][3] = 0.0f;  m[3][3] = 1.0f;
+	return m;
 }
