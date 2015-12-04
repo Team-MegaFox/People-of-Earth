@@ -113,7 +113,7 @@ void RenderingEngine::render(GameObject & gameObject)
 
 			gameObject.renderAll(m_shadowMapShader, *m_guiEngine, *this, m_altCamera);
 
-			if (flipFaces)
+			if (!flipFaces)
 			{
 				glCullFace(GL_BACK);
 			}
