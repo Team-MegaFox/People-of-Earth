@@ -27,7 +27,7 @@ public:
 		//axis of rotation(x, y, z) = sin(0.5f * angle / 2.0f * 3.14159265f / 180.0f)
 		//w = cos(0.5f * angle / 2.0f * 3.14159625f / 180.0f)
 
-		Material Mega("Mega", Texture("MegaFox.png"), 0.5f, 4, Texture("bricks_normal.jpg"), Texture("bricks_disp.png"), 0.03f, -0.5f);
+		/*Material Mega("Mega", Texture("MegaFox.png"), 0.5f, 4, Texture("bricks_normal.jpg"), Texture("bricks_disp.png"), 0.03f, -0.5f);
 
 		addToRoot((new GameObject(
 			glm::vec3(30.0f, -1.0f, 5.0f), 
@@ -44,21 +44,21 @@ public:
 		Material testSphere("testSphere", Texture("defaultTexture1.png"), 1.5f, 200, Texture("default_normal.jpg"), Texture("default_disp.png"), 0.03f, -0.5f);
 		addToRoot((new GameObject(glm::vec3(0.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("sphere.obj"), Material("testSphere")))
-			->addGameComponent(new FreeLook(window.getCenter()))
+			->addGameComponent(new FreeLook(window.getCenter()))*/
 
 			// can't parent gameobjects, children inherit every aspect of their parent (position, scale, rotation) 
 			//and the children's values can not change from that.
 
 			//->addChild(new GameObject(glm::vec3(110.0f), glm::quat(ToRadians(30.0f), glm::vec3(0, 1, 0)), glm::vec3(0.25f)))
 			//->addGameComponent(new MeshRenderer(Mesh("cube.obj"), Material("bricks")))
-			);
+			//);
 
 
-		addToRoot((new GameObject(glm::vec3(7, 0, 7)))
+		/*addToRoot((new GameObject(glm::vec3(7, 0, 7)))
 			->addGameComponent(new PointLight(glm::vec3(0, 1, 0), 1.0f, Attenuation(0, 0, 1))));
 
 		addToRoot((new GameObject(glm::vec3(-7, 0, -7)))
-			->addGameComponent(new PointLight(glm::vec3(1, 0, 0.5), 20.0f, Attenuation(0, 0, 1))));
+			->addGameComponent(new PointLight(glm::vec3(1, 0, 0.5), 20.0f, Attenuation(0, 0, 1))));*/
 
 		//Spotlights don't work 
 		//addToRoot((new GameObject(glm::vec3(10, 1.0f, 5), glm::quat(ToRadians(60.0f), glm::vec3(1, 0, 0)) * glm::quat(ToRadians(90.0f), glm::vec3(0, 1, 0))))
@@ -66,6 +66,7 @@ public:
 
 		addToRoot((new GameObject)
 			->addGameComponent(new CameraComponent(glm::perspective(ToRadians(75.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
+			->addGameComponent(new FreeLook(window.getCenter()))
 			->addGameComponent(new FreeMove()));
 
 		addToRoot((new GameObject(glm::vec3(0.0f), glm::quat(ToRadians(45.0f), glm::vec3(1, 0, 0))))

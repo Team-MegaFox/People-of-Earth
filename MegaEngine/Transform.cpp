@@ -88,7 +88,13 @@ glm::vec3 Transform::getTransformedPos() const
 
 void Transform::rotate(const glm::vec3& axis, float angle)
 {
-	rotate(glm::quat(angle, axis));
+	//rotate(glm::quat(angle, axis));
+	rotate(glm::quat(
+		glm::quat(cos(ToRadians(-angle / 2.0f)), //w
+		axis.x * sin(ToRadians(-angle / 2.0f)), //x
+		axis.y * sin(ToRadians(-angle / 2.0f)), //y
+		axis.z * sin(ToRadians(-angle / 2.0f))))); //z
+
 }
 
 void Transform::rotate(const glm::quat& rotation)
