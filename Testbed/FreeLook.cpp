@@ -1,7 +1,6 @@
 #include "freeLook.h"
 #include <Viewport.h>
 #include <Utility.h>
-#include <iostream>
 
 void FreeLook::processInput(const InputManager& input, float delta)
 {
@@ -36,6 +35,7 @@ void FreeLook::processInput(const InputManager& input, float delta)
 		{
 			input.SetMousePosition(m_windowCenter);
 		}
+
 	}
 
 	if (input.MouseButtonDown(SDL_BUTTON_LEFT))

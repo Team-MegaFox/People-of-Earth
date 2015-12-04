@@ -93,5 +93,15 @@ void Transform::rotate(const glm::vec3& axis, float angle)
 
 void Transform::rotate(const glm::quat& rotation)
 {
+	printf("------------Before the rotation-------\nrot.w = %f\nrot.x = %f\nrot.y = %f\nrot.z = %f\n-------------------------------\n", 
+		m_rot.w,
+		m_rot.x,
+		m_rot.y,
+		m_rot.z);
 	m_rot = glm::normalize(m_rot * rotation);
+	printf("------------After the rotation---------\nrot.w = %f\nrot.x = %f\nrot.y = %f\nrot.z = %f\n-------------------------------\n",
+		m_rot.w,
+		m_rot.x,
+		m_rot.y,
+		m_rot.z);
 }
