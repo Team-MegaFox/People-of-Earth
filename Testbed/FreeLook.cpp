@@ -18,17 +18,18 @@ void FreeLook::processInput(const InputManager& input, float delta)
 
 		bool rotY = deltaPos.x != 0;
 		bool rotX = deltaPos.y != 0;
-
-		/*if (rotY)
+		
+		if (rotY)
 		{
-			getTransform()->rotate(glm::normalize(glm::vec3(0, 1, 0)), ToRadians(deltaPos.x * m_sensitivity));
-		}*/
+			//getTransform()->rotate(glm::normalize(glm::vec3(0, 1, 0)), ToRadians(deltaPos.x * m_sensitivity));
+			getTransform()->rotate(glm::quat(cos(ToRadians(0.5f * deltaPos.x / 2.0f)), 0.0f, sin(ToRadians(0.5f * deltaPos.x / 2.0f)), 0.0f));
+		}
 		if (rotX)
 		{
-			Transform* trans = getTransform();
-			glm::vec3 rightVec = getRight(*trans->getRotation());
-			getTransform()->rotate(rightVec, ToRadians(deltaPos.y * m_sensitivity));
-			std::cout << deltaPos.y << std::endl;
+			//Transform* trans = getTransform();
+			//glm::vec3 rightVec = getRight(*trans->getRotation());
+			//getTransform()->rotate(rightVec, ToRadians(deltaPos.y * m_sensitivity));
+			getTransform()->rotate(glm::quat(cos(ToRadians(0.5f * deltaPos.y / 2.0f)), sin(ToRadians(0.5f * deltaPos.y / 2.0f)), 0.0f, 0.0f));
 		}
 
 		if (rotY || rotX)
