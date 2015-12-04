@@ -20,14 +20,13 @@ public:
 		Material bricks("bricks", Texture("bricks.jpg"), 0.5f, 4, Texture("bricks_normal.jpg"), Texture("bricks_disp.png"), 0.03f, -0.5f);
 
 		addToRoot((new GameObject(glm::vec3(0.0f, -1.0f, 5.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("plane4.obj"), Material("bricks"))));
+			->addGameComponent(new MeshRenderer(Mesh("plane4.obj"), Material("bricks")))
+			->addGameComponent(new FreeLook(window.getCenter())));
 
-		// Added only to prove we are rotating around the origin of the world /////////////////////////////////////////
-		Material uhm("uhm", Texture("defaultTexture.png"), 0.5f, 4, Texture("default_normal.jpg"), Texture("default_disp.png"), 0.03f, -0.5f);
+		Material uhm("uhm", Texture("defaultTexture1.png"), 0.5f, 4, Texture("default_normal.jpg"), Texture("default_disp.png"), 0.03f, -0.5f);
 		addToRoot((new GameObject(glm::vec3(5.0f, -1.0f, 0.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("sphere.obj"), Material("uhm")))
 			->addGameComponent(new FreeLook(window.getCenter())));
-		/////////////////////////////////////////////////////////////////////////////////////////////
 
 		addToRoot((new GameObject)
 			->addGameComponent(new CameraComponent(glm::perspective(ToRadians(75.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
