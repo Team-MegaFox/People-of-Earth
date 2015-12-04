@@ -8,7 +8,7 @@ SpotLight::SpotLight(const glm::vec3 & color, float intensity, const Attenuation
 {
 	if (shadowMapSizeAsPowerOf2 != 0)
 	{
-		
+
 		setShadowInfo(ShadowInfo(glm::perspective(viewAngle, 1.0f, 0.1f, getRange()), false, shadowMapSizeAsPowerOf2,
 			shadowSoftness, lightBleedReductionAmount, minVariance));
 		
