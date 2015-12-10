@@ -1,5 +1,7 @@
 #include "Transform.h"
 
+#define GLM_FORCE_RADIANS
+
 Transform::Transform(const glm::vec3 & position,
 	const glm::quat & rotation,
 	const glm::vec3 & scale) :
@@ -88,26 +90,14 @@ glm::vec3 Transform::getTransformedPos() const
 
 void Transform::rotate(const glm::vec3& axis, float angle)
 {
-	//rotate(glm::quat(angle, axis));
 	rotate(glm::quat(
-		glm::quat(cos(ToRadians(-angle / 2.0f)), //w
-		axis.x * sin(ToRadians(-angle / 2.0f)), //x
-		axis.y * sin(ToRadians(-angle / 2.0f)), //y
-		axis.z * sin(ToRadians(-angle / 2.0f))))); //z
-
+		glm::cos(-angle / 2.0f),			//w
+		axis.x * glm::sin(-angle / 2.0f),   //x
+		axis.y * glm::sin(-angle / 2.0f),   //y
+		axis.z * glm::sin(-angle / 2.0f))); //z
 }
 
 void Transform::rotate(const glm::quat& rotation)
 {
-	printf("------------Before the rotation-------\nrot.w = %f\nrot.x = %f\nrot.y = %f\nrot.z = %f\n-------------------------------\n", 
-		m_rot.w,
-		m_rot.x,
-		m_rot.y,
-		m_rot.z);
-	m_rot = glm::normalize(m_rot * rotation);
-	printf("------------After the rotation---------\nrot.w = %f\nrot.x = %f\nrot.y = %f\nrot.z = %f\n-------------------------------\n",
-		m_rot.w,
-		m_rot.x,
-		m_rot.y,
-		m_rot.z);
+	m_rot = glm::quat(glm::normalize(rotation * m_rot));
 }
