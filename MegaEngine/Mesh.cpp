@@ -172,7 +172,7 @@ void MeshData::render() const
 	glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0);
 }
 
-Mesh::Mesh(const std::string& fileName /*= "cube.obj"*/) : 
+Mesh::Mesh(const std::string& fileName /*= "cube.obj"*/, float scale /*= 1.0f*/) : 
 m_fileName(fileName),
 m_meshData(nullptr)
 {
@@ -210,7 +210,7 @@ m_meshData(nullptr)
 		const aiVector3D aiZero(0.0f, 0.0f, 0.0f);
 		for (size_t i = 0; i < mesh->mNumVertices; i++)
 		{
-			const aiVector3D vert = mesh->mVertices[i];
+			const aiVector3D vert = mesh->mVertices[i] * scale;
 			const aiVector3D texCoord = mesh->HasTextureCoords(0) ? mesh->mTextureCoords[0][i] : aiZero;
 			const aiVector3D normal = mesh->mNormals[i];
 			const aiVector3D tangent = mesh->mTangents[i];

@@ -25,7 +25,7 @@ public:
 	//void operator=(const Material other) { m_materialName = other.m_materialName; m_materialData = other.m_materialData; }
 
 	Material(const std::string & materialName, 
-		const Texture& diffuse, float specularIntensity, float specularPower,
+		float specularIntensity, float specularPower, const Texture & diffuse = Texture("defaultTexture.png"),
 		const Texture & normalMap = Texture("default_normal.jpg"),
 		const Texture & dispMap = Texture("default_disp.png"), float dispMapScale = 0.0f, float dispMapOffset = 0.0f);
 

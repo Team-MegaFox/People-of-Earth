@@ -85,7 +85,7 @@ private:
 class Mesh
 {
 public:
-	Mesh(const std::string& fileName = "cube.obj");
+	Mesh(const std::string& fileName = "cube.obj", float scale = 1.0f);
 	Mesh(const std::string& meshName, const IndexedModel& model);
 	Mesh(const Mesh& mesh);
 	virtual ~Mesh();
