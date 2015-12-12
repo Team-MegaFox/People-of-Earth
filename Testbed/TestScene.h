@@ -20,10 +20,10 @@ public:
 	virtual void init(const Viewport& window) override
 	{
 		Material bricks("bricks", 0.5f, 4, Texture("bricks.jpg"), Texture("bricks_normal.jpg"), Texture("bricks_disp.png"), 0.03f, -0.5f);
-		Material defualt("defualt", 0.5f, 4);
+		Material humanShip("human ship", 0.5f, 4, Texture("Human Ship UVWs.psd"));
 
 		addToRoot((new GameObject(glm::vec3(0.0f, -1.0f, 5.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("defualt"))));
+			->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human ship"))));
 		
 		//axis of rotation(x, y, z) = sin(0.5f * angle / 2.0f * 3.14159265f / 180.0f)
 		//w = cos(0.5f * angle / 2.0f * 3.14159625f / 180.0f)
