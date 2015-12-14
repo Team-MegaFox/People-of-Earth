@@ -90,11 +90,7 @@ glm::vec3 Transform::getTransformedPos() const
 
 void Transform::rotate(const glm::vec3& axis, float angle)
 {
-	rotate(glm::quat(
-		glm::cos(-angle / 2.0f),			//w
-		axis.x * glm::sin(-angle / 2.0f),   //x
-		axis.y * glm::sin(-angle / 2.0f),   //y
-		axis.z * glm::sin(-angle / 2.0f))); //z
+	rotate(glm::angleAxis(-angle, axis));
 }
 
 void Transform::rotate(const glm::quat& rotation)

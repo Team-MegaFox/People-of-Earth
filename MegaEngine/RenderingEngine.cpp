@@ -9,7 +9,7 @@
 #include "Camera3D.h"
 #include "Utility.h"
 
-const glm::mat4 RenderingEngine::BIAS_MATRIX = glm::scale(glm::vec3(0.5f)) * glm::translate(glm::vec3(1.0f));
+const glm::mat4 RenderingEngine::BIAS_MATRIX = initScale(glm::vec3(0.5f)) * initTranslation(glm::vec3(1.0f));
 
 RenderingEngine::RenderingEngine(Viewport& viewport, GUIEngine& guiEngine) :
 m_filterPlane(Mesh("plane.obj")),
@@ -22,7 +22,7 @@ m_shadowMapShader("shadowMapGenerator"),
 m_nullFilter("filter-null"),
 m_gausBlurFilter("filter-gausBlur7x1"),
 m_fxaaFilter("filter-fxaa"),
-m_altCameraTransform(glm::vec3(0.0f), glm::quat(ToRadians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f))),
+m_altCameraTransform(glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)))),
 m_altCamera(glm::mat4(1.0f), &m_altCameraTransform)
 {
 	setSamplerSlot("diffuse", 0);
@@ -49,8 +49,8 @@ m_altCamera(glm::mat4(1.0f), &m_altCameraTransform)
 	glEnable(GL_DEPTH_CLAMP);
 
 	m_filterPlaneTransform.setScale(glm::vec3(1.0f));
-	m_filterPlaneTransform.rotate(glm::quat(ToRadians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
-	m_filterPlaneTransform.rotate(glm::quat(ToRadians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f)));
+	m_filterPlaneTransform.rotate(glm::quat(glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f))));
+	m_filterPlaneTransform.rotate(glm::quat(glm::angleAxis(glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f))));
 
 	for (int i = 0; i < NUM_SHADOW_MAPS; i++)
 	{
@@ -126,7 +126,7 @@ void RenderingEngine::render(GameObject & gameObject)
 		}
 		else
 		{
-			m_lightMatrix = glm::scale(glm::vec3(0.0f));
+			m_lightMatrix = initScale(glm::vec3(0.0f));
 			setFloat("shadowVarianceMin", 0.00002f);
 			setFloat("shadowLightBleedingReduction", 0.0f);
 		}
@@ -169,7 +169,7 @@ void RenderingEngine::applyFilter(const Shader & filter, const Texture & src, co
 
 	m_altCamera.setProjection(glm::mat4(1.0f));
 	m_altCamera.getTransform()->setPosition(glm::vec3(0.0f));
-	m_altCamera.getTransform()->setRotation(glm::quat(ToRadians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
+	m_altCamera.getTransform()->setRotation(glm::quat(glm::angleAxis(glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f))));
 
 	glClear(GL_DEPTH_BUFFER_BIT);
 	filter.bind();
