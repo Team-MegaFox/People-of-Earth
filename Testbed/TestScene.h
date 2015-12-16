@@ -34,7 +34,7 @@ public:
 			->addGameComponent(new FreeLook(window.getCenter()))
 			->addGameComponent(new FreeMove(50.0f));
 		GameObject* fighterShip = 
-			(new GameObject(glm::vec3(0.0f, -4.0f, -30.0f), glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)))))
+			(new GameObject(glm::vec3(-2.0f, -4.0f, -10.0f), glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)))))
 			->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship")));
 		camera->addChild(fighterShip);
 		addToRoot(camera);
