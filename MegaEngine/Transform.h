@@ -2,6 +2,7 @@
 #include <glm\glm.hpp>
 #include <glm\gtx\transform.hpp>
 #include <glm\gtc\quaternion.hpp>
+#include "Utility.h"
 
 class GameObject;
 
@@ -10,20 +11,27 @@ class Transform
 public:
 
 	Transform(const glm::vec3 & position = glm::vec3(0.0f),
-		const glm::vec3 & rotation = glm::vec3(0.0f),
+		const glm::quat & rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
 		const glm::vec3 & scale = glm::vec3(1.0f));
 
 	bool hasChanged();
-	glm::mat4 getModel();
-	const glm::mat4 getParentMatrix();
-	glm::quat getTransformedRot();
+	glm::mat4 getTransformation() const;
+	const glm::mat4 getParentMatrix() const;
+	glm::quat getTransformedRot() const;
+	glm::vec3 getTransformedPos() const;
+	void rotate(const glm::vec3& axis, float angle);
+	void rotate(const glm::quat& rotation);
+	void update();
 
 	// Getters
-	GameObject* getAttachedGameObject() { return m_attached; }
-	Transform* getParent() { return m_parent; }
-	glm::vec3 & getPosition() { return m_pos; }
-	glm::quat & getRotation() { return m_rot; }
-	inline glm::vec3 & getScale() { return m_scale; }
+	GameObject * getAttachedGameObject() { return m_attached; }
+	Transform * getParent() { return m_parent; }
+	glm::vec3 * getPosition() { return &m_pos; }
+	const glm::vec3 & getPosition() const { return m_pos; }
+	glm::quat * getRotation() { return &m_rot; }
+	const glm::quat & getRotation() const { return m_rot; }
+	glm::vec3 * getScale() { return &m_scale; }
+	const glm::vec3 & getScale() const { return m_scale; }
 
 	// Setters
 	void setAttachedGameObject(GameObject* attach) { m_attached = attach; }
@@ -42,7 +50,7 @@ private:
 
 	mutable glm::vec3 m_oldPos;
 	mutable glm::quat m_oldRot;
-	mutable float m_oldScale;
+	mutable glm::vec3 m_oldScale;
 	mutable bool m_initializedOldStuff;
 
 };
