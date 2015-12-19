@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseLight.h" />
+    <ClInclude Include="AudioEngine.h" />
     <ClInclude Include="Camera3D.h" />
     <ClInclude Include="CoreEngine.h" />
     <ClInclude Include="DirectionalLight.h" />
@@ -107,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseLight.cpp" />
+    <ClCompile Include="AudioEngine.cpp" />
     <ClCompile Include="Camera3D.cpp" />
     <ClCompile Include="CoreEngine.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />

@@ -4,7 +4,7 @@
 #include <SceneManager.h>
 #include <RenderingEngine.h>
 #include <GUIEngine.h>
-
+#include <AudioEngine.h>
 #include "TestScene.h"
 
 int main(int argc, char** argv)
@@ -14,6 +14,8 @@ int main(int argc, char** argv)
 	RenderingEngine renderingEngine(window, guiEngine);
 	SceneManager sceneManager;
 	TestScene testscene;
+	AudioEngine audioEngine;
+
 	sceneManager.addScene(&testscene);
 	sceneManager.switchScene(testscene.getName());
 
