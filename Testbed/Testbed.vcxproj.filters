@@ -9,5 +9,6 @@
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="FreeLook.h" />
     <ClInclude Include="FreeMove.h" />
+    <ClInclude Include="PlanetSpin.h" />
   </ItemGroup>
 </Project>

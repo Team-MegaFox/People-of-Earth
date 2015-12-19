@@ -12,6 +12,14 @@ void FreeMove::processInput(const InputManager& input, float delta)
 		Move(getLeft(*getTransform()->getRotation()), movAmt);
 	if (input.KeyDown(m_rightKey))
 		Move(getRight(*getTransform()->getRotation()), movAmt);
+	if (input.KeyDown(SDLK_r))
+	{
+		Move(getUp(*getTransform()->getRotation()), movAmt);
+	}
+	if (input.KeyDown(SDLK_f))
+	{
+		Move(getDown(*getTransform()->getRotation()), movAmt);
+	}
 }
 
 void FreeMove::Move(const glm::vec3& direction, float amt)

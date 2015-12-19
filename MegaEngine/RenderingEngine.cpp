@@ -32,7 +32,7 @@ m_altCamera(glm::mat4(1.0f), &m_altCameraTransform)
 
 	setSamplerSlot("filterTexture", 0);
 
-	setVec3("ambient", glm::vec3(0.2f, 0.2f, 0.2f));
+	setVec3("ambient", glm::vec3(0.4f, 0.4f, 0.4f));
 
 	setFloat("fxaaSpanMax", 8.0f);
 	setFloat("fxaaReduceMin", 1.0f / 128.0f);

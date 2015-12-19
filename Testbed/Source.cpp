@@ -9,7 +9,7 @@
 
 int main(int argc, char** argv)
 {
-	Viewport window("Testbed", 800, 600, 0);
+	Viewport window("Project Management Demo", 1440, 900, FULLSCREEN);
 	GUIEngine guiEngine;
 	RenderingEngine renderingEngine(window, guiEngine);
 	SceneManager sceneManager;
