@@ -123,9 +123,12 @@ void AudioEngine::init()
 void AudioEngine::dispose(const std::vector<std::string> & soundList, const std::vector<std::string> & streamList)
 {
 	//Clean up the SoundEffects and Stream Effects
-	for (int i = 0; i < soundList.size(); i++)
+	if (!soundList.empty())
 	{
-		m_soundEffects[i]->release();
+		for (int i = 0; i < soundList.size(); i++)
+		{
+			m_soundEffects[i]->release();
+		}
 	}
 
 	if (m_soundEffects != nullptr)
@@ -133,9 +136,12 @@ void AudioEngine::dispose(const std::vector<std::string> & soundList, const std:
 		delete [] m_soundEffects;
 	}
 
-	for (int i = 0; i < streamList.size(); i++)
+	if (!streamList.empty())
 	{
-		m_streams[i]->release();
+		for (int i = 0; i < streamList.size(); i++)
+		{
+			m_streams[i]->release();
+		}
 	}
 
 	if (m_streams != nullptr)

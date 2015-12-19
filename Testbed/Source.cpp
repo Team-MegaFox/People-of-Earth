@@ -9,12 +9,12 @@
 
 int main(int argc, char** argv)
 {
-	Viewport window("Project Management Demo", 1440, 900, FULLSCREEN);
+	Viewport window("Project Management Demo", 800, 600, 0);
 	GUIEngine guiEngine;
 	RenderingEngine renderingEngine(window, guiEngine);
 	SceneManager sceneManager;
 	TestScene testscene;
-	AudioEngine audioEngine;
+	//AudioEngine audioEngine;
 
 	sceneManager.addScene(&testscene);
 	sceneManager.switchScene(testscene.getName());
