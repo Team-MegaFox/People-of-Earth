@@ -40,11 +40,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LibraryPath>$(SolutionDir)Deps/lib/Debug;$(SolutionDir)Debug;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)MegaEngine;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)MegaEngine;$(SolutionDir)Deps/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>$(SolutionDir)Deps/lib/Release;$(SolutionDir)Release;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)MegaEngine;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)MegaEngine;$(SolutionDir)Deps/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -55,7 +55,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>MegaEngine.lib;assimp.lib;CEGUIBase-0_d.lib;CEGUIOpenGLRenderer-0_d.lib;fmod_vc.lib;fmodL_vc.lib;glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MegaEngine.lib;assimp.lib;fmodex_vc.lib;fmodexL_vc.lib;glew32.lib;glew32s.lib;opengl32.lib;SDL2.lib;SDL2main.lib;CEGUIBase-0_d.lib;CEGUIOpenGLRenderer-0_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -70,12 +70,20 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>MegaEngine.lib;assimp.lib;CEGUIBase-0.lib;CEGUIOpenGLRenderer-0.lib;fmod_vc.lib;fmodL_vc.lib;fmodstudio_vc.lib;fmodstudioL_vc.lib;glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>MegaEngine.lib;assimp.lib;fmodex_vc.lib;fmodexL_vc.lib;glew32.lib;glew32s.lib;opengl32.lib;SDL2.lib;SDL2main.lib;CEGUIBase-0.lib;CEGUIOpenGLRenderer-0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FreeLook.cpp" />
+    <ClCompile Include="FreeMove.cpp" />
     <ClCompile Include="Source.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FreeLook.h" />
+    <ClInclude Include="FreeMove.h" />
+    <ClInclude Include="PlanetSpin.h" />
+    <ClInclude Include="TestScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
