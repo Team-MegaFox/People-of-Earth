@@ -15,12 +15,12 @@ public:
 
 	virtual void processInput(const InputManager& input, float delta) {}
 	virtual void update(float delta) {}
-	virtual void render(const Shader& shader, const RenderingEngine& renderingEngine, const Camera& camera) const {}
+	virtual void render(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D & camera) const {}
 
 	virtual void addToEngine(CoreEngine* engine) const { }
 
-	inline Transform* getTransform()             { return m_parent->getTransform(); }
-	inline const Transform& getTransform() const { return *m_parent->getTransform(); }
+	inline Transform * getTransform()             { return m_parent->getTransform(); }
+	inline const Transform & getTransform() const { return *m_parent->getTransform(); }
 	virtual void setParent(GameObject* parent) { m_parent = parent; }
 private:
 	GameObject* m_parent;

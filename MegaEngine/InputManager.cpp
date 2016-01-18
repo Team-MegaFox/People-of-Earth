@@ -55,7 +55,6 @@ bool InputManager::Update(SDL_Event& _inputEvent)
 		{
 		case SDL_QUIT:
 			return true;
-			break;
 		case SDL_KEYDOWN:
 			currKeyStates[_inputEvent.key.keysym.sym] = true;
 			break;
@@ -194,6 +193,8 @@ void InputManager::SetCursor(bool visible) const
 		SDL_ShowCursor(1);
 	else
 		SDL_ShowCursor(0);
+	
+
 }
 
 void InputManager::SetMousePosition(const glm::vec2& pos) const

@@ -8,9 +8,10 @@ m_screenWidth(screenWidth),
 m_screenHeight(screenHeight),
 m_screenName(name)
 {
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC) != 0)
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
 		//Error handle
+		assert(0 != 0);
 	}
 
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
@@ -48,7 +49,7 @@ m_screenName(name)
 	GLenum err = glewInit();
 	if (err != GLEW_OK)
 	{
-		//Error handle
+		fprintf(stderr, "Error: '%s'\n", glewGetErrorString(err));
 	}
 
 }
@@ -72,4 +73,11 @@ void Viewport::update(GUIEngine* guiEngine)
 void Viewport::swapBuffers()
 {
 	SDL_GL_SwapWindow(m_window);
+}
+
+void Viewport::bindRenderTarget() const
+{
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glViewport(0, 0, (GLsizei)m_screenWidth, (GLsizei)m_screenHeight);
 }

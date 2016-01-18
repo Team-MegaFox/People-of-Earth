@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "GameObject.h"
+#include "CoreEngine.h"
 
 SceneManager::SceneManager() : m_currentScene("")
 {
@@ -46,6 +47,7 @@ void SceneManager::switchScene(std::string name)
 	if (it != m_scenes.end())
 	{
 		m_currentScene = name;
+		//m_scenes[m_currentScene]->init(*m_coreEngine->getViewport());
 	}
 }
 
@@ -66,6 +68,8 @@ void SceneManager::processInput(const InputManager& input, float delta)
 
 void SceneManager::setEngine(CoreEngine* engine)
 {
+	m_coreEngine = engine;
+
 	for (auto it = m_scenes.begin(); it != m_scenes.end(); it++)
 	{
 		it->second->setEngine(engine);

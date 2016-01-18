@@ -24,7 +24,7 @@ m_sceneManager(sceneManager)
 	{
 		m_sceneManager->setEngine(this);
 
-		m_sceneManager->getCurrentScene()->init();
+		m_sceneManager->getCurrentScene()->init(*m_viewport);
 	}
 }
 

@@ -30,5 +30,7 @@ private:
 	std::string m_currentScene;
 	std::unordered_map<std::string, Scene*> m_scenes;
 
+	CoreEngine* m_coreEngine;
+
 };
 

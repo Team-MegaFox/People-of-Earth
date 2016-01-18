@@ -17,17 +17,20 @@ public:
 	void swapBuffers();
 	void update(GUIEngine* guiEngine);
 	
-	inline bool isClosed() { return m_isClosed; }
-	inline const int getScreenWidth() { return m_screenWidth; }
-	inline const int getScreenHeight() { return m_screenHeight; }
-	inline const std::string getScreenName() { return m_screenName; }
-	inline SDL_Window* getWindow() { return m_window; }
+	inline bool isClosed() const { return m_isClosed; }
+	inline const int getScreenWidth() const { return m_screenWidth; }
+	inline const int getScreenHeight() const { return m_screenHeight; }
+	inline const float getAspectRatio() const { return (float)m_screenWidth / (float)m_screenHeight; }
+	inline const glm::vec2 getCenter() const { return glm::vec2((float)m_screenWidth / 2.0f, (float)m_screenHeight / 2.0f); }
+	inline const std::string getScreenName() const { return m_screenName; }
+	inline SDL_Window* getWindow() const { return m_window; }
 
 	SDL_Window* getSDLWindow() { return m_window; }
 	InputManager getInput() { return m_input; }
 
 	void setScreenWidth(int screenWidth);
 	void setScreenHeight(int screenHeight);
+	void bindRenderTarget() const;
 
 private:
 	SDL_Window* m_window = nullptr;
