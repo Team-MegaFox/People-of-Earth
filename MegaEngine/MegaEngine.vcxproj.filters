@@ -15,6 +15,12 @@
     <ClInclude Include="GameComponents.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="AudioEngine.h" />
+    <ClInclude Include="Collider.h" />
+    <ClInclude Include="MultiCollider.h" />
+    <ClInclude Include="PolygonCollider.h" />
+    <ClInclude Include="SphereCollider.h" />
+    <ClInclude Include="World.h" />
+    <ClInclude Include="PhysicsEngine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CoreEngine.cpp" />
@@ -27,5 +33,11 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="AudioEngine.cpp" />
+    <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="MultiCollider.cpp" />
+    <ClCompile Include="PolygonCollider.cpp" />
+    <ClCompile Include="SphereCollider.cpp" />
+    <ClCompile Include="World.cpp" />
+    <ClCompile Include="PhysicsEngine.cpp" />
   </ItemGroup>
 </Project>

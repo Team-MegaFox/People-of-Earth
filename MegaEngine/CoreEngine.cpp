@@ -6,6 +6,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
+#include "PhysicsEngine.h"
 
 CoreEngine::CoreEngine(double frameRate, Viewport* viewport, 
 	RenderingEngine* renderingEngine, PhysicsEngine* physicsEngine, AudioEngine* audioEngine, GUIEngine* guiEngine, 
@@ -62,6 +63,9 @@ void CoreEngine::start()
 
 			m_sceneManager->processInput(m_viewport->getInput(), (float)m_frameTime);
 			m_sceneManager->update((float)m_frameTime);
+
+			//Call the physics engine update
+			m_physicsEngine->updatePhysicsEngine((float)m_frameTime);
 
 			render = true;
 
