@@ -5,6 +5,7 @@
 #include <RenderingEngine.h>
 #include <GUIEngine.h>
 #include <AudioEngine.h>
+#include <PhysicsEngine.h>
 #include "TestScene.h"
 
 int main(int argc, char** argv)
@@ -14,12 +15,13 @@ int main(int argc, char** argv)
 	RenderingEngine renderingEngine(window, guiEngine);
 	SceneManager sceneManager;
 	TestScene testscene;
+	PhysicsEngine physicsEngine;
 	//AudioEngine audioEngine;
 
 	sceneManager.addScene(&testscene);
 	sceneManager.switchScene(testscene.getName());
 
-	CoreEngine core(60.0, &window, &renderingEngine, nullptr, nullptr, &guiEngine, &sceneManager);
+	CoreEngine core(60.0, &window, &renderingEngine, &physicsEngine, nullptr, &guiEngine, &sceneManager);
 
 	core.start();
 
