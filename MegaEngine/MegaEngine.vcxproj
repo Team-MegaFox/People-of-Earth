@@ -92,7 +92,6 @@
     <ClInclude Include="MultiCollider.h" />
     <ClInclude Include="PhysicsEngine.h" />
     <ClInclude Include="PolygonCollider.h" />
-    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="MappedValues.h" />
     <ClInclude Include="Material.h" />
@@ -126,7 +125,6 @@
     <ClCompile Include="MultiCollider.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="PolygonCollider.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="MappedValues.cpp" />
     <ClCompile Include="Material.cpp" />
