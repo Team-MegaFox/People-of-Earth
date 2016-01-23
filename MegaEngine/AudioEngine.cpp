@@ -27,6 +27,14 @@ m_streamEffectChannels(nullptr)
 AudioEngine::~AudioEngine()
 {
 	dispose(*m_soundList, *m_streamList);
+	if (m_soundList)
+	{
+		delete m_soundList;
+	}
+	if (m_streamList)
+	{
+		delete m_streamList;
+	}
 }
 
 void AudioEngine::init()
@@ -133,7 +141,7 @@ void AudioEngine::dispose(const std::vector<std::string> & soundList, const std:
 
 	if (m_soundEffects != nullptr)
 	{
-		delete [] m_soundEffects;
+		//delete [] m_soundEffects;
 	}
 
 	if (!streamList.empty())
@@ -146,18 +154,18 @@ void AudioEngine::dispose(const std::vector<std::string> & soundList, const std:
 
 	if (m_streams != nullptr)
 	{
-		delete [] m_streams;
+		//delete [] m_streams;
 	}
 
 	//Clean up the Channel Lists
 	if (m_soundChannels != nullptr)
 	{
-		delete [] m_soundChannels;
+		//delete [] m_soundChannels;
 	}
 
 	if (m_streamChannels != nullptr)
 	{
-		delete [] m_streamChannels;
+		//delete [] m_streamChannels;
 	}
 
 	//Clean up the Channel Groups

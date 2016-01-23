@@ -16,12 +16,12 @@ int main(int argc, char** argv)
 	SceneManager sceneManager;
 	TestScene testscene;
 	PhysicsEngine physicsEngine;
-	//AudioEngine audioEngine;
+	AudioEngine audioEngine;
 
 	sceneManager.addScene(&testscene);
 	sceneManager.switchScene(testscene.getName());
 
-	CoreEngine core(60.0, &window, &renderingEngine, &physicsEngine, nullptr, &guiEngine, &sceneManager);
+	CoreEngine core(60.0, &window, &renderingEngine, &physicsEngine, &audioEngine, &guiEngine, &sceneManager);
 
 	core.start();
 

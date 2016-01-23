@@ -284,12 +284,12 @@ private:
 	FMOD::Sound * m_soundEffects[NUM_SOUND_CHANNELS];
 	FMOD::Channel * m_soundChannels[NUM_SOUND_CHANNELS];
 	FMOD::ChannelGroup * m_soundEffectChannels;
-	const std::vector<std::string> * m_soundList;
+	const std::vector<std::string> * m_soundList = new std::vector<std::string>();
 
 	// Stream Effects (Music)
 	FMOD::Sound * m_streams[NUM_STREAM_CHANNELS];
 	FMOD::Channel * m_streamChannels[NUM_STREAM_CHANNELS];
 	FMOD::ChannelGroup * m_streamEffectChannels;
-	const std::vector<std::string> * m_streamList;
+	const std::vector<std::string> * m_streamList = new std::vector<std::string>();
 };
 
