@@ -4,67 +4,187 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CoreEngine.h" />
-    <ClInclude Include="Time.h" />
-    <ClInclude Include="Viewport.h" />
-    <ClInclude Include="InputManager.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="Camera3D.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GameComponents.h" />
-    <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="RenderingEngine.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="BaseLight.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="ReferenceCounter.h" />
-    <ClInclude Include="MappedValues.h" />
-    <ClInclude Include="Utility.h" />
-    <ClInclude Include="DirectionalLight.h" />
-    <ClInclude Include="PointLight.h" />
-    <ClInclude Include="SpotLight.h" />
-    <ClInclude Include="MeshRenderer.h" />
-    <ClInclude Include="Vertex.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="GUIEngine.h" />
-    <ClInclude Include="AudioEngine.h" />
-    <ClInclude Include="Collider.h" />
-    <ClInclude Include="MultiCollider.h" />
-    <ClInclude Include="PolygonCollider.h" />
-    <ClInclude Include="SphereCollider.h" />
-    <ClInclude Include="World.h" />
-    <ClInclude Include="PhysicsEngine.h" />
+    <Filter Include="Core">
+      <UniqueIdentifier>{6f3e8fe0-4614-4355-a886-74f892cd2ba5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{b16bdcaf-e860-43d1-9563-5644251d9c76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{f8b3fd9d-cb86-4b7d-8370-116016db6099}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{5d110be3-58be-4dd5-b11e-12d67a8f00c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{ca988ba0-ab57-4901-b9cc-4f1b1002a170}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{eb0cef64-39c0-4890-ba6c-c343969a1809}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CoreEngine.cpp" />
-    <ClCompile Include="Time.cpp" />
-    <ClCompile Include="Viewport.cpp" />
-    <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Camera3D.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="RenderingEngine.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="BaseLight.cpp" />
-    <ClCompile Include="Material.cpp" />
-    <ClCompile Include="MappedValues.cpp" />
-    <ClCompile Include="DirectionalLight.cpp" />
-    <ClCompile Include="PointLight.cpp" />
-    <ClCompile Include="SpotLight.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="GUIEngine.cpp" />
-    <ClCompile Include="Utility.cpp" />
-    <ClCompile Include="AudioEngine.cpp" />
-    <ClCompile Include="Collider.cpp" />
-    <ClCompile Include="MultiCollider.cpp" />
-    <ClCompile Include="PolygonCollider.cpp" />
-    <ClCompile Include="SphereCollider.cpp" />
-    <ClCompile Include="World.cpp" />
-    <ClCompile Include="PhysicsEngine.cpp" />
+    <ClCompile Include="Core\CoreEngine.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\GameObject.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\InputManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\MappedValues.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Scene.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\SceneManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Time.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Transform.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Utility.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\AudioEngine.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\GUIEngine.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\Collider.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\MultiCollider.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\PhysicsEngine.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\PolygonCollider.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\SphereCollider.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\World.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Camera3D.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Material.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Mesh.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\RenderingEngine.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Shader.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Texture.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Viewport.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Lighting.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Core\CoreEngine.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GameObject.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\InputManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\MappedValues.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ReferenceCounter.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Scene.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\SceneManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Time.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Transform.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Utility.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\AudioEngine.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GameComponents.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\MeshRenderer.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\GUIEngine.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Collider.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\MultiCollider.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\PhysicsEngine.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\PolygonCollider.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\SphereCollider.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\World.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Camera3D.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Material.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Mesh.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\RenderingEngine.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Shader.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Texture.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Viewport.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="MegaEngine.h" />
+    <ClInclude Include="Rendering\Lighting.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

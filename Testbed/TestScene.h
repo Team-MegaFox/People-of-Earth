@@ -1,11 +1,5 @@
 #pragma once
-#include <Scene.h>
-#include <GameObject.h>
-#include <MeshRenderer.h>
-#include <DirectionalLight.h>
-#include <PointLight.h>
-#include <SpotLight.h>
-#include <Camera3D.h>
+#include <MegaEngine.h>
 #include <glm\glm.hpp>
 
 #include "FreeLook.h"

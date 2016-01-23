@@ -1,12 +1,12 @@
-#include "Core\CoreEngine.h"
+#include "CoreEngine.h"
 #include <SDL2\SDL.h>
 
-#include "Core\Time.h"
-#include "Rendering\Viewport.h"
-#include "Core\SceneManager.h"
-#include "Core\Scene.h"
+#include "Time.h"
+#include "..\Rendering\Viewport.h"
+#include "SceneManager.h"
+#include "Scene.h"
 
-#include "Physics\PhysicsEngine.h"
+#include "..\Physics\PhysicsEngine.h"
 
 CoreEngine::CoreEngine(double frameRate, Viewport* viewport, 
 	RenderingEngine* renderingEngine, PhysicsEngine* physicsEngine, AudioEngine* audioEngine, GUIEngine* guiEngine, 

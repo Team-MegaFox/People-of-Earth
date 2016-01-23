@@ -1,11 +1,9 @@
 #include <iostream>
-#include <CoreEngine.h>
-#include <Viewport.h>
-#include <SceneManager.h>
-#include <RenderingEngine.h>
-#include <GUIEngine.h>
-#include <AudioEngine.h>
-#include <PhysicsEngine.h>
+#include <MegaEngine.h>
+#include <Rendering\RenderingEngine.h>
+#include <Core\SceneManager.h>
+#include <Physics\PhysicsEngine.h>
+#include <Audio\AudioEngine.h>
 #include "TestScene.h"
 
 int main(int argc, char** argv)

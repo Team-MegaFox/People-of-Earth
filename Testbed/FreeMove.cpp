@@ -1,5 +1,5 @@
 #include "freeMove.h"
-#include <Utility.h>
+#include <Core\Utility.h>
 void FreeMove::processInput(const InputManager& input, float delta)
 {
 	float movAmt = m_speed * delta;
