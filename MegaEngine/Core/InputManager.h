@@ -4,154 +4,121 @@
 #include <glm\glm.hpp>
 
 class Viewport;
+///<summary>Stores all inputs into a manager for ease of access.</summary>
 class InputManager
 {
 public:
-	/*
-	*\brief Creates an InputManager and sets the gamepad controller.
-	*/
-	InputManager(Viewport* window);
-	/*
-	brief Closes the controller, destroys it.
-	*/
+	/// <summary>Creates an InputManager and sets the gamepad controller.</summary>
+	/// <param name='window'>The viewport window pointer</param>
+	InputManager(Viewport* window);	
+	/// <summary>Closes the controller, destroys it.</summary>
 	~InputManager();
-	/*
-	* \brief Updates everything for inputs.
-	* \param Reference to the input events.
-	*/
+	/// <summary>Updates everything for inputs.</summmary>
+	/// <param name='_inputEvent'>Reference to the input events.</param>
 	bool Update(SDL_Event& _inputEvent);
-	/*
-	* \brief Checks if the key is held down.
-	* \param A keyboard key.
-	* \returns If that key was dwon.
-	*/
+	/// <summary>Checks if the key is held down.</summary>
+	/// <param name'_key'>A keyboard key.</param>
+	/// <returns>If that key is dwon.</returns>
 	const bool KeyDown(Uint8 _key) const;
-	/*
-	* \brief Checks if the key is up.
-	* \param A keyboard key.
-	* \returns If that key was up.
-	*/
+	/// <summary>Checks if the key is up.</summary>
+	/// <param name='_key'>A keyboard key.</param>
+	/// <returns>If that key was up.</returns>
 	const bool KeyUp(Uint8 _key) const;
-	/*
-	* \brief Checks if the key was pressed.
-	* \param A keyboard key.
-	* \returns If that key was pressed.
-	*/
+	/// <summary>Checks if the key was pressed.</summary>
+	/// <param name='_key'>A keyboard key.</param>
+	/// <returns>If that key was pressed.</returns>
 	const bool KeyPress(Uint8 _key) const;
 
-	/*
-	* \brief Checks if the mouse was held down.
-	* \param A mouse button.
-	* \returns If that mouse button was down.
-	*/
+	/// <summary>Checks if the mouse was held down.</summary>
+	/// <param name='_button'>A mouse button.</param>
+	/// <returns>If that mouse button was down.</returns>
 	const bool MouseButtonDown(Uint8 _button) const;
-	/*
-	* \brief Checks if the mouse was held up.
-	* \param A mouse button.
-	* \returns If that mouse button was up.
-	*/
+	/// <summary>Checks if the mouse was held up.</summary>
+	/// <param name='button'>A mouse button.</param>
+	/// <returns>If that mouse button was up.</returns>
 	const bool MouseButtonUp(Uint8 _button) const;
-	/*
-	* \brief Checks if the mouse was pressed.
-	* \param A mouse button.
-	* \returns If that mouse button was pressed.
-	*/
+	/// <summary>Checks if the mouse was pressed.</summary>
+	/// <param name='_button'>A mouse button.</param>
+	/// <returns>If that mouse button was pressed.</returns>
 	const bool MouseButtonPress(Uint8 _button) const;
-	/*
-	*\brief Checks if the mouse has moved.
-	*\returns If the moved mouse.
-	*/
+	/// <summary>Checks if the mouse has moved.</summary>
+	/// <returns>If the moved mouse.</returns>
 	const bool MouseMoved() const;
-	/*
-	* \brief Gets the mouse position on screen.
-	* \returns The mouse position.
-	*/
+	/// <summary>Gets the mouse position on screen.</summary>
+	/// <returns>The mouse position.</returns>
 	const glm::vec2 GetMousePosition() const;
+	/// <summary>Sets the mouse position manually</summary>
+	/// <param name='pos'>The position where the mouse cursor should be.</param>
 	void SetMousePosition(const glm::vec2& pos) const;
+	/// <summary>Sets the mouse cursor to be visible.</summary>
+	/// <param name='visible'>If the mouse cursor is visible or not.</param>
 	void SetCursor(bool visible) const;
 
-	/*
-	* \brief Checks if the gamepad button was held down.
-	* \param A game pad button.
-	* \returns If the button was held down.
-	*/
+	/// <summary>Checks if the gamepad button was held down.</summary>
+	/// <param name='_button'>A game pad button.</param>
+	/// <returns>If the button was held down.</returns>
 	const bool PadButtonDown(Uint8 _button) const;
-	/*
-	* \brief Checks if the gamepad button was up.
-	* \param A game pad button.
-	* \returns If the button was up.
-	*/
+	/// <summary>Checks if the gamepad button was up.</summary>
+	/// <param name='_button'>A game pad button.</param>
+	/// <returns>If the button was up.</returns>
 	const bool PadButtonUp(Uint8 _button) const;
-	/*
-	* \brief Checks if the gamepad button was pressed.
-	* \param A game pad button.
-	* \returns If the button was pressed.
-	*/
+	/// <summary>Checks if the gamepad button was pressed.</summary>
+	/// <param name='_button'>A game pad button.</param>
+	/// <returns>If the button was pressed.</returns>
 	const bool PadButtonPress(Uint8 _button) const;
-	/*
-	* \brief Checks if the left gamepad thumbstick moved.
-	* \returns If the left gamepad thumbstick moved.
-	*/
+	/// <summary>Checks if the left gamepad thumbstick moved.</summary>
+	/// <returns>If the left gamepad thumbstick moved.</returns>
 	const bool ThumbLMoved() const;
-	/*
-	* \brief Gets the left thumbstick position.
-	* \returns The left thumbstick position.
-	*/
+	/// <summary>Gets the left thumbstick position.</summary>
+	/// <returns>The left thumbstick position.</returns>
 	const glm::vec2 GetThumbLPosition() const;
-	/*
-	* \brief Checks if the right gamepad thumbstick moved.
-	* \returns If the right gamepad thumbstick moved.
-	*/
+	/// <summary>Checks if the right gamepad thumbstick moved.</summary>
+	/// <returns>If the right gamepad thumbstick moved.</returns>
 	const bool ThumbRMoved() const;
-	/*
-	* \brief Gets the right thumbstick position.
-	* \returns The right thumbstick position.
-	*/
+	/// <summary>Gets the right thumbstick position.</summary>
+	/// <returns>The right thumbstick position.</returns>
 	const glm::vec2 GetThumbRPosition() const;
-	/*
-	* \brief Gets the left trigger depth.
-	* \returns The left trigger value.
-	*/
+	/// <summary>Gets the left trigger depth.</summary>
+	/// <returns>The left trigger value.</returns>
 	const float GetLeftTrigger() const;
-	/*
-	* \brief Gets the right trigger depth.
-	* \returns The right trigger depth.
-	*/
+	/// <summary>Gets the right trigger depth.</summary>
+	/// <returns>he right trigger depth.</returns>
 	const float GetRightTrigger() const;
 
 private:
-	//Map of the previous key states.
+	/// <summary>Map of the previous key states.</summary>
 	std::unordered_map<Uint32, bool> prevKeyStates;
-	//Map of the current key states.
+	/// <summary>Map of the current key states.</summary>
 	std::unordered_map<Uint32, bool> currKeyStates;
-	//The previous mouse button states.
+	/// <summary>The previous mouse button states.</summary>
 	bool prevMouseButtonStates[5];
-	//The current mouse button states.
+	/// <summary>The current mouse button states.</summary>
 	bool currMouseButtonStates[5];
-	//The mouse position.
+	/// <summary>The mouse position.</summary>
 	glm::vec2 mousePos;
-	//Returns true if the mouse has moved.
+	/// <summary>Returns true if the mouse has moved.</summary>
 	bool mouseMoved;
 
-	//The controller.
+	/// <summary>The controller.</summary>
 	SDL_GameController* controller;
-	//Map of the previous gamepad button states.
+	/// <summary>Map of the previous gamepad button states.</summary>
 	std::unordered_map<Uint32, bool> prevPadButtonStates;
-	//Map of the current gamepad button states.
+	/// <summary>Map of the current gamepad button states.</summary>
 	std::unordered_map<Uint32, bool> currPadButtonStates;
-	//Returns true if the left thumbstick was moved.
+	/// <summary>Returns true if the left thumbstick was moved.</summary>
 	bool thumbLMoved;
-	//Rets the left thumbstick position.
+	/// <summary>Rets the left thumbstick position.</summary>
 	glm::vec2 thumbLPos;
-	//Returns true if the right thumbstick has moved.
+	/// <summary>Returns true if the right thumbstick has moved.</summary>
 	bool thumbRMoved;
-	//Gets the right thumbstick position.
+	/// <summary>Gets the right thumbstick position.</summary>
 	glm::vec2 thumbRPos;
-	//Gets the left trigger.
+	/// <summary>Gets the left trigger.</summary>
 	float leftTrigger;
-	//Gets the right trigger.
+	/// <summary>Gets the right trigger.</summary>
 	float rightTrigger;
 
+	/// <summary>The pointer to a viewport window object</summary>
 	Viewport* m_window;
 
 };

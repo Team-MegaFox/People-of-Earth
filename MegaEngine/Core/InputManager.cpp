@@ -1,9 +1,7 @@
 #include "InputManager.h"
 #include "..\Rendering\Viewport.h"
 #include <string>
-/*
-* \brief Creates an InputManager and sets the gamepad controller.
-*/
+
 InputManager::InputManager(Viewport* window)
 	: m_window(window)
 {
@@ -14,19 +12,12 @@ InputManager::InputManager(Viewport* window)
 	}
 }
 
-/*
-* \brief Closes the controller, destroys it.
-*/
 InputManager::~InputManager()
 {
 	SDL_GameControllerClose(controller);
 	controller = nullptr;
 }
 
-/*
-* \brief Updates everything for inputs.
-* \param Reference to the input events.
-*/
 bool InputManager::Update(SDL_Event& _inputEvent)
 {
 	// takes care of setting the previouskey, button, and gamepad states.
@@ -97,11 +88,6 @@ bool InputManager::Update(SDL_Event& _inputEvent)
 	return false;
 }
 
-/*
-* \brief Checks if the key is held down.
-* \param A keyboard key.
-* \returns If that key was dwon.
-*/
 const bool InputManager::KeyDown(Uint8 _key) const
 {
 	if (!currKeyStates.empty())
@@ -111,11 +97,6 @@ const bool InputManager::KeyDown(Uint8 _key) const
 	else return false;
 }
 
-/*
-* \brief Checks if the key is up.
-* \param A keyboard key.
-* \returns If that key was up.
-*/
 const bool InputManager::KeyUp(Uint8 _key) const
 {
 	if (!currKeyStates.empty())
@@ -125,11 +106,6 @@ const bool InputManager::KeyUp(Uint8 _key) const
 	else return false;
 }
 
-/*
-* \brief Checks if the key was pressed.
-* \param A keyboard key.
-* \returns If that key was pressed.
-*/
 const bool InputManager::KeyPress(Uint8 _key) const
 {
 	if (!currKeyStates.empty() && !prevKeyStates.empty())
@@ -139,49 +115,26 @@ const bool InputManager::KeyPress(Uint8 _key) const
 	else return false;
 }
 
-/*
-* \brief Checks if the mouse was held down.
-* \param A mouse button.
-* \returns If that mouse button was down.
-*/
 const bool InputManager::MouseButtonDown(Uint8 _button) const
 {
 	return currMouseButtonStates[_button - 1];
 }
 
-/*
-* \brief Checks if the mouse was held up.
-* \param A mouse button.
-* \returns If that mouse button was up.
-*/
 const bool InputManager::MouseButtonUp(Uint8 _button) const
 {
 	return !currMouseButtonStates[_button - 1];
 }
 
-/*
-* \brief Checks if the mouse was pressed.
-* \param A mouse button.
-* \returns If that mouse button was pressed.
-*/
 const bool InputManager::MouseButtonPress(Uint8 _button) const
 {
 	return prevMouseButtonStates[_button - 1] && !currMouseButtonStates[_button - 1];
 }
 
-/*
-*\brief Checks if the mouse has moved.
-*\returns If the moved mouse.
-*/
 const bool InputManager::MouseMoved() const
 {
 	return mouseMoved;
 }
 
-/*
-* \brief Gets the mouse position on screen.
-* \returns The mouse position.
-*/
 const glm::vec2 InputManager::GetMousePosition() const
 {
 	return mousePos;
@@ -202,11 +155,6 @@ void InputManager::SetMousePosition(const glm::vec2& pos) const
 	SDL_WarpMouseInWindow(m_window->getSDLWindow(), (int)pos.x, (int)pos.y);
 }
 
-/*
-* \brief Checks if the gamepad button was held down.
-* \param A game pad button.
-* \returns If the button was held down.
-*/
 const bool InputManager::PadButtonDown(Uint8 _button) const
 {
 	if (!currPadButtonStates.empty())
@@ -214,11 +162,6 @@ const bool InputManager::PadButtonDown(Uint8 _button) const
 	else return false;
 }
 
-/*
-* \brief Checks if the gamepad button was up.
-* \param A game pad button.
-* \returns If the button was up.
-*/
 const bool InputManager::PadButtonUp(Uint8 _button) const
 {
 	if (!currPadButtonStates.empty())
@@ -226,11 +169,6 @@ const bool InputManager::PadButtonUp(Uint8 _button) const
 	else return false;
 }
 
-/*
-* \brief Checks if the gamepad button was pressed.
-* \param A game pad button.
-* \returns If the button was pressed.
-*/
 const bool InputManager::PadButtonPress(Uint8 _button) const
 {
 	if (!currPadButtonStates.empty() && !prevPadButtonStates.empty())
@@ -238,55 +176,31 @@ const bool InputManager::PadButtonPress(Uint8 _button) const
 	else return false;
 }
 
-/*
-* \brief Checks if the left gamepad thumbstick moved.
-* \returns If the left gamepad thumbstick moved.
-*/
 const bool InputManager::ThumbLMoved() const
 {
 	return thumbLMoved;
 }
 
-/*
-* \brief Gets the left thumbstick position.
-* \returns The left thumbstick position.
-*/
 const glm::vec2 InputManager::GetThumbLPosition() const
 {
 	return thumbLPos;
 }
 
-/*
-* \brief Checks if the right gamepad thumbstick moved.
-* \returns If the right gamepad thumbstick moved.
-*/
 const bool InputManager::ThumbRMoved() const
 {
 	return thumbRMoved;
 }
 
-/*
-* \brief Gets the right thumbstick position.
-* \returns The right thumbstick position.
-*/
 const glm::vec2 InputManager::GetThumbRPosition() const
 {
 	return thumbRPos;
 }
 
-/*
-* \brief Gets the left trigger depth.
-* \returns The left trigger value.
-*/
 const float InputManager::GetLeftTrigger() const
 {
 	return leftTrigger;
 }
 
-/*
-* \brief Gets the right trigger depth.
-* \returns The right trigger depth.
-*/
 const float InputManager::GetRightTrigger() const
 {
 	return rightTrigger;

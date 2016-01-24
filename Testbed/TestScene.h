@@ -1,6 +1,7 @@
 #pragma once
 #include <MegaEngine.h>
 #include <glm\glm.hpp>
+#include <iostream>
 
 #include "FreeLook.h"
 #include "FreeMove.h"
@@ -63,7 +64,6 @@ public:
 
 		addToRoot((new GameObject(glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
 			->addGameComponent(new DirectionalLight(glm::vec3(1.0f), 0.02f, 7, 8.0f, 1.0f)));
-		
 
 	}
 };

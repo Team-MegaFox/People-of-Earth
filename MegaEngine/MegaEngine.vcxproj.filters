@@ -24,9 +24,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Core\CoreEngine.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Core\GameObject.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -98,6 +95,9 @@
     </ClCompile>
     <ClCompile Include="Rendering\Lighting.cpp">
       <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\CoreEngine.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
