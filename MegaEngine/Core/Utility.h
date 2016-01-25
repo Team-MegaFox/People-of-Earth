@@ -28,6 +28,7 @@
 #include <string>
 #include <glm/glm.hpp>
 #include <glm\gtc\quaternion.hpp>
+#include <SDL2\SDL.h>
 
 
 /// <summary>
@@ -39,7 +40,7 @@ namespace Utility
 	/// Sleeps the specified milliseconds.
 	/// </summary>
 	/// <param name="milliseconds">The milliseconds.</param>
-	void sleep(int milliseconds)
+	inline void sleep(int milliseconds)
 	{
 		SDL_Delay(milliseconds);
 	}
@@ -50,7 +51,7 @@ namespace Utility
 	/// <param name="s">The string.</param>
 	/// <param name="delim">The delimiter.</param>
 	/// <returns>The sperated string in a vector.</returns>
-	std::vector<std::string> split(const std::string& s, char delim)
+	inline std::vector<std::string> split(const std::string& s, char delim)
 	{
 		std::vector<std::string> elems;
 

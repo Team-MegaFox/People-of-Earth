@@ -8,7 +8,7 @@
 
 int main(int argc, char** argv)
 {
-	Viewport window("Project Management Demo", 800, 600, 0);
+	Viewport window("Some demo", 800, 600, 0);
 	GUIEngine guiEngine;
 	RenderingEngine renderingEngine(window, guiEngine);
 	SceneManager sceneManager;
