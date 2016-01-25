@@ -11,10 +11,11 @@
 #include "Lighting.h"
 #include "RenderingEngine.h"
 
-//--------------------------------------------------------------------------------
-// Variable Initializations
-//--------------------------------------------------------------------------------
 std::map<std::string, ShaderData*> Shader::s_resourceMap;
+/// <summary>
+/// The s_supported open gl level{CC2D43FA-BBC4-448A-9D0B-7B57ADF2655C}
+/// </summary>
+/// / Gets the uniform names.
 int ShaderData::s_supportedOpenGLLevel = 0;
 
 //--------------------------------------------------------------------------------

@@ -90,7 +90,6 @@
     <ClCompile Include="Core\SceneManager.cpp" />
     <ClCompile Include="Core\Time.cpp" />
     <ClCompile Include="Core\Transform.cpp" />
-    <ClCompile Include="Core\Utility.cpp" />
     <ClCompile Include="GUI\GUIEngine.cpp" />
     <ClCompile Include="Physics\Collider.cpp" />
     <ClCompile Include="Physics\MultiCollider.cpp" />

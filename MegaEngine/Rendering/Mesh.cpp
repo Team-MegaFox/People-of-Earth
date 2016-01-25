@@ -5,6 +5,9 @@
 #include <assimp/postprocess.h>
 #include <iostream>
 
+/// <summary>
+/// The s_resource map{CC2D43FA-BBC4-448A-9D0B-7B57ADF2655C}
+/// </summary>
 std::map<std::string, MeshData*> Mesh::s_resourceMap;
 
 bool IndexedModel::isValid() const

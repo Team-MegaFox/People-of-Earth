@@ -45,9 +45,6 @@
     <ClCompile Include="Core\Transform.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Utility.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Audio\AudioEngine.cpp">
       <Filter>Audio</Filter>
     </ClCompile>

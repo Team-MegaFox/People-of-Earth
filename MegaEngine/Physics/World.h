@@ -1,77 +1,96 @@
-/*
-A basic physics world that updates all the Collider collision and physics.
-It has a position and radius for culling out any collider to update by using distance check.
-
-Author: Christopher Maeda
-Last Edit: November 18 2015
-*/
-
-
+// ***********************************************************************
+// Assembly         : 
+// Author           : Pavan
+// Created          : 01-24-2016
+//
+// Last Modified By : Pavan
+// Last Modified On : 01-24-2016
+// ***********************************************************************
+// <copyright file="World.h" company="">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary>
+// A basic physics world that updates all the Collider collision and physics.
+// It has a position and radius for culling out any collider to update by using distance check.
+// </summary>
+// ***********************************************************************
 #pragma once
 
 #include "MultiCollider.h"
 
+/// <summary>
+/// A basic physics world that updates all the Collider collision and physics.
+/// It has a position and radius for culling out any collider to update by using distance check.
+/// </summary>
 class World
 {
 public:
+	/// <summary>
+	/// Initializes a new instance of the <see cref="World"/> class.
+	/// </summary>
 	World();
+	/// <summary>
+	/// Finalizes an instance of the <see cref="World"/> class.
+	/// </summary>
 	~World();
-	
-    /*
-		Description: Initialize the member variable value of the World
-		Parameter: 
-		@param position - Position of the World
-		@param radius - Radius of the World (Sphere World)
-		Return: None
-	*/
+
+	/// <summary>
+	/// Initialize the member variable value of the World.
+	/// </summary>
+	/// <param name="position">Position of the World.</param>
+	/// <param name="radius">Radius of the World (Sphere World).</param>
 	void init(glm::vec3 position, float radius);
 
-    /*
-		Description: Update all the Colliders in the World
-		Parameter: 
-		@param timeStep - Time step from last time update to current update time (displacement of the time)
-		Return: None
-	*/
+	/// <summary>
+	/// Update all the Colliders in the World.
+	/// </summary>
+	/// <param name="timeStep">Time step from last time update to current update time (displacement of the time).</param>
 	void update(float timeStep);
 	
-    /*
-        Description: Check to see if the Collider is inside the World space 
-		Parameter: 
-		@param collidableObject - Specific Collider to check if its inside the World
-		Return: Boolean telling if the Specific Collider is inside the World
-    */
+	/// <summary>
+	/// Check to see if the Collider is inside the World space.
+	/// </summary>
+	/// <param name="collidableObject">Specific Collider to check if its inside the World.</param>
+	/// <returns>Boolean telling if the Specific Collider is inside the World.</returns>
 	bool checkInsideWorld(Collider* collidableObject);
 
-    /*
-        Description: Add the specific collider to the World 
-        Parameter: 
-        @param collider - The collider that will be added to the World
-        Return: None
-    */
+	/// <summary>
+	/// Add the specific collider to the World.
+	/// </summary>
+	/// <param name="collidableObject">The collider that will be added to the World.</param>
 	void addCollidableObject(Collider* collidableObject);
 
-    /*
-        Description: Apply a rebound acceleration to the first Collider object from the 2 Colliders colliding
-        Parameter: 
-        @param obj1 - The first collider object of the 2 Colliders colliding
-        @param obj2 - The second collider object of the 2 Colliders colliding
-        @param timeStep - Time step from last time update to current update time (displacement of the time)
-        Return: None
-    */
+	/// <summary>
+	/// Apply a rebound acceleration to the first Collider object from the 2 Colliders colliding.
+	/// </summary>
+	/// <param name="obj1">The first collider object of the 2 Colliders colliding.</param>
+	/// <param name="obj2">The second collider object of the 2 Colliders colliding.</param>
+	/// <param name="timeStep">Time step from last time update to current update time (displacement of the time).</param>
 	void calculateCollision(Collider* obj1, Collider* obj2, float timeStep);
 	
     //Properties Getters
-
-    glm::vec3 getPosition()
+	/// <summary>
+	/// Gets the position vector.
+	/// </summary>
+	/// <returns>The position vector.</returns>
+	glm::vec3 getPosition()
 	{
 		return m_position;
 	}
 
+	/// <summary>
+	/// Gets the radius.
+	/// </summary>
+	/// <returns>The radius.</returns>
 	float getRadius()
 	{
 		return m_radius;
 	}
 
+	/// <summary>
+	/// Gets the colliders.
+	/// </summary>
+	/// <returns>The colliders.</returns>
 	std::vector<Collider*> getColliders()
 	{
 		return colliders;
@@ -79,21 +98,38 @@ public:
 
     //Properties Setters
 
+	/// <summary>
+	/// Sets the position vector.
+	/// </summary>
+	/// <param name="newPosition">The new position.</param>
 	void setPosition(glm::vec3& newPosition)
 	{
 		m_position = newPosition;
 	}
 
+	/// <summary>
+	/// Sets the radius.
+	/// </summary>
+	/// <param name="newRadius">The new radius.</param>
 	void setRadius(float newRadius)
 	{
 		m_radius = newRadius;
 	}
 
 private:
+	/// <summary>
+	/// The vector of colliders.
+	/// </summary>
 	std::vector<Collider*> colliders;
 
+	/// <summary>
+	/// The position vector.
+	/// </summary>
 	glm::vec3 m_position;
 
+	/// <summary>
+	/// The radius.
+	/// </summary>
 	float m_radius;
 };
 

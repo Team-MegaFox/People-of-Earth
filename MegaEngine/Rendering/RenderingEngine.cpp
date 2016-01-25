@@ -9,6 +9,10 @@
 #include "Lighting.h"
 #include "Camera3D.h"
 
+/// <summary>
+/// Adds the light.
+/// </summary>
+/// <param name="light">The light.</param>
 const glm::mat4 RenderingEngine::BIAS_MATRIX = initScale(glm::vec3(0.5f)) * initTranslation(glm::vec3(1.0f));
 
 RenderingEngine::RenderingEngine(Viewport& viewport, GUIEngine& guiEngine) :

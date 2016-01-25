@@ -2,6 +2,10 @@
 #include <iostream>
 #include <cassert>
 
+/// <summary>
+/// The s_resource map{CC2D43FA-BBC4-448A-9D0B-7B57ADF2655C}
+/// </summary>
+/// / <param name="materialName">Name of the material.</param>
 std::map<std::string, MaterialData *> Material::s_resourceMap;
 
 Material::Material(const std::string & materialName) :
