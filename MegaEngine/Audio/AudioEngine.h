@@ -27,9 +27,6 @@ public:
 	/// </summary>
 	~AudioEngine();
 
-	/*
-	
-	*/
 	/// <summary>
 	/// Used to set a sound to a channel initially, 
 	/// also if a sound has been played once,
