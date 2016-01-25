@@ -9,6 +9,8 @@
 #include <vector>
 #include <string>
 
+#include "..\Components\AudioSource.h"
+
 static const int NUM_SOUND_CHANNELS = 100;
 static const int NUM_STREAM_CHANNELS = 50;
 
@@ -137,6 +139,12 @@ public:
 	/// </summary>
 	/// <returns>The stream's volume level.</returns>
 	float & getStreamVolume();
+	
+	/// <summary>
+	/// Adds an audio source.
+	/// </summary>
+	/// <param name="source">The audio source.</param>
+	void addAudioSource(const AudioSource& source);
 
 	/// <summary>
 	/// This method sets the position of the listener in the world
@@ -391,5 +399,10 @@ private:
 	/// The stream list.
 	/// </summary>
 	const std::vector<std::string> * m_streamList = new std::vector<std::string>();
+	
+	/// <summary>
+	/// The audio sources.
+	/// </summary>
+	std::vector<AudioSource*> m_audioSources;
 };
 

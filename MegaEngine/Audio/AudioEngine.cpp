@@ -187,12 +187,22 @@ void AudioEngine::dispose(const std::vector<std::string> & soundList, const std:
 
 }
 
+/// <summary>
+/// Sets the sound.
+/// </summary>
+/// <param name="index">The index.</param>
 void AudioEngine::setSound(int index)
 {
-	m_soundEffects[index]->release();
-	m_system->createSound((*m_soundList)[index].c_str(), FMOD_3D | FMOD_DEFAULT, 0, &m_soundEffects[index]);
-	m_system->playSound(FMOD_CHANNELINDEX(index), m_soundEffects[index], true, &m_soundChannels[index]);
-	m_soundChannels[index]->setChannelGroup(m_soundEffectChannels);
+	// TODO: stream needs to work like below
+	// make m_sounds a member variable	
+	// fix load sounds and streams to work with this.
+	std::string filepath;
+	std::unordered_map<std::string, std::pair<FMOD::Sound*, int>> m_sounds;
+	
+	m_soundEffects[m_sounds[filepath].second]->release();
+	m_system->createSound(filepath.c_str(), FMOD_3D | FMOD_DEFAULT, 0, &m_sounds[filepath].first);
+	m_system->playSound(FMOD_CHANNELINDEX(m_sounds[filepath].second), m_sounds[filepath].first, true, &m_soundChannels[m_sounds[filepath].second]);
+	m_soundChannels[m_sounds[filepath].second]->setChannelGroup(m_soundEffectChannels);
 }
 
 void AudioEngine::setStream(int index)
@@ -298,6 +308,11 @@ float & AudioEngine::getStreamVolume()
 {
 	m_streamEffectChannels->getVolume(&m_streamVolume);
 	return m_streamVolume;
+}
+
+void AudioEngine::addAudioSource(const AudioSource& source)
+{
+	m_audioSources.push_back(&source);
 }
 
 void AudioEngine::setListener(glm::vec3 pos, glm::vec3 vel, glm::vec3 forward, glm::vec3 up)
