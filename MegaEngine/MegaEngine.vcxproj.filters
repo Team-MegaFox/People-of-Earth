@@ -183,5 +183,8 @@
     <ClInclude Include="Rendering\Lighting.h">
       <Filter>Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="Components\AudioSource.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
