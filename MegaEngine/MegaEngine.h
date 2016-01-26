@@ -1,3 +1,15 @@
+// ***********************************************************************
+// Author           : Pavan Jakhu
+// Created          : 01-23-2016
+//
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 01-24-2016
+// ***********************************************************************
+// <copyright file="MegaEngine.h" company="Team MegaFox">
+//     Copyright (c) Team MegaFox. All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
 #pragma once
 
 #include "Core\Transform.h"

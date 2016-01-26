@@ -1,3 +1,18 @@
+// ***********************************************************************
+// Author           : Christopher Maeda
+// Created          : 09-15-2015
+//
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 01-24-2016
+// ***********************************************************************
+// <copyright file="SphereCollider.h" company="">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary>7
+// A derived class of Collider.
+// This class will handle sphere to sphere collision only.
+// </summary>
+// ***********************************************************************
 #include "SphereCollider.h"
 #include "MultiCollider.h"
 #include <iostream>

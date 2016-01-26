@@ -1,14 +1,21 @@
-/*
-Base abstract class that has all the functionality to handle collision.
-This class will know what type of collider it is.
-It will have basic physics representation in the world such as position.
-It has it's own ID number to know if it is not check itself for collision or part of another collider
-It also has a bool flag to know if this class collided or not
-
-Author: Christopher Maeda
-Last Edit: November 18 2015
-*/
-
+// ***********************************************************************
+// Author           : Christopher Maeda
+// Created          : 09-15-2015
+//
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 01-24-2016
+// ***********************************************************************
+// <copyright file="Collider.h" company="Team MegaFox">
+//     Copyright (c) Team MegaFox. All rights reserved.
+// </copyright>
+// <summary>
+// Base abstract class that has all the functionality to handle collision.
+// This class will know what type of collider it is.
+// It will have basic physics representation in the world such as position.
+// It has it's own ID number to know if it is not check itself for collision or part of another collider
+// It also has a bool flag to know if this class collided or not
+// </summary>
+// ***********************************************************************
 #pragma once
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
