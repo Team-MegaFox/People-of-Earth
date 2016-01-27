@@ -21,7 +21,7 @@
 #include <vector>
 #include <string>
 
-#include "..\Components\AudioSource.h"
+class AudioSource;
 
 static const int NUM_SOUND_CHANNELS = 100;
 static const int NUM_STREAM_CHANNELS = 50;
@@ -156,7 +156,7 @@ public:
 	/// Adds an audio source.
 	/// </summary>
 	/// <param name="source">The audio source.</param>
-	void addAudioSource(const AudioSource& source);
+	void addAudioSource(AudioSource* source);
 
 	/// <summary>
 	/// This method sets the position of the listener in the world

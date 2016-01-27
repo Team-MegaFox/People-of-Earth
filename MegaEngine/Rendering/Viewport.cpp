@@ -73,7 +73,7 @@ Viewport::~Viewport()
 	SDL_Quit();
 }
 
-void Viewport::update(GUIEngine* guiEngine)
+void Viewport::update()
 {
 	SDL_Event e;
 	if (m_input.Update(e))

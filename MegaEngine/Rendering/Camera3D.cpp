@@ -17,7 +17,7 @@
 glm::mat4 Camera3D::getViewProjection() const
 {
 	glm::mat4 cameraRot(glm::conjugate(getTransform().getTransformedRot()));
-	glm::mat4 cameraTrans = initTranslation(-getTransform().getTransformedPos());
+	glm::mat4 cameraTrans = Utility::initTranslation(-getTransform().getTransformedPos());
 
 	return m_projection * cameraRot * cameraTrans;
 }

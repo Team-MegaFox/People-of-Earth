@@ -96,6 +96,9 @@
     <ClCompile Include="Core\CoreEngine.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Utility.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\CoreEngine.h">

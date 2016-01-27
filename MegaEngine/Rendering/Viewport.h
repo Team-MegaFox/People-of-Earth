@@ -50,7 +50,7 @@ public:
 	/// Updates input from the window.
 	/// </summary>
 	/// <param name="guiEngine">The GUI engine.</param>
-	void update(GUIEngine* guiEngine);
+	void update();
 	
 	/// <summary>
 	/// Determines whether this window is closed.
@@ -92,7 +92,7 @@ public:
 	/// Gets the input manager.
 	/// </summary>
 	/// <returns>A copy of the Inout Manager object.</returns>
-	InputManager getInput() { return m_input; }
+	InputManager* getInput() { return &m_input; }
 
 	/// <summary>
 	/// Sets the width of the screen.

@@ -364,7 +364,7 @@ public:
 	/// <param name="shadowSoftness">The shadow softness. Defualts to 1.</param>
 	/// <param name="lightBleedReductionAmount">The light bleed reduction amount. Defaults to 0.2.</param>
 	/// <param name="minVariance">The amount of minimum variance. Defaults to 0.00002.</param>
-	SpotLight(const glm::vec3 & color = glm::vec3(0.0f), float intensity = 0, const Attenuation& atten = Attenuation(), float viewAngle = ToRadians(170.0f),
+	SpotLight(const glm::vec3 & color = glm::vec3(0.0f), float intensity = 0, const Attenuation& atten = Attenuation(), float viewAngle = glm::radians(170.0f),
 		int shadowMapSizeAsPowerOf2 = 0, float shadowSoftness = 1.0f, float lightBleedReductionAmount = 0.2f, float minVariance = 0.00002f);
 
 	/// <summary>

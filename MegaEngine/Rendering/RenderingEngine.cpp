@@ -25,7 +25,7 @@
 /// Adds the light.
 /// </summary>
 /// <param name="light">The light.</param>
-const glm::mat4 RenderingEngine::BIAS_MATRIX = initScale(glm::vec3(0.5f)) * initTranslation(glm::vec3(1.0f));
+const glm::mat4 RenderingEngine::BIAS_MATRIX = Utility::initScale(glm::vec3(0.5f)) * Utility::initTranslation(glm::vec3(1.0f));
 
 RenderingEngine::RenderingEngine(Viewport& viewport, GUIEngine& guiEngine) :
 m_filterPlane(Mesh("plane.obj")),
@@ -142,7 +142,7 @@ void RenderingEngine::render(GameObject & gameObject)
 		}
 		else
 		{
-			m_lightMatrix = initScale(glm::vec3(0.0f));
+			m_lightMatrix = Utility::initScale(glm::vec3(0.0f));
 			setFloat("shadowVarianceMin", 0.00002f);
 			setFloat("shadowLightBleedingReduction", 0.0f);
 		}

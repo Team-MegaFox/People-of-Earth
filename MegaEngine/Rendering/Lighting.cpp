@@ -41,16 +41,16 @@ DirectionalLight::DirectionalLight(const glm::vec3 & color, float intensity, int
 
 ShadowCameraTransform DirectionalLight::calcShadowCameraTransform(const glm::vec3 & mainCameraPos, const glm::quat & mainCameraRot) const
 {
-	glm::vec3 resultPos = mainCameraPos + getForward(mainCameraRot) * getHalfShadowArea();
+	glm::vec3 resultPos = mainCameraPos + Utility::getForward(mainCameraRot) * getHalfShadowArea();
 	glm::quat resultRot = getTransform().getTransformedRot();
 
 	float worldTexelSize = (getHalfShadowArea() * 2) / ((float)(1 << getShadowInfo().getShadowMapSizeAsPowerOf2()));
 
-	glm::vec3 lightSpaceCameraPos = rotateQuatByVec(glm::conjugate(resultRot), resultPos);
+	glm::vec3 lightSpaceCameraPos = Utility::rotateQuatByVec(glm::conjugate(resultRot), resultPos);
 	lightSpaceCameraPos.x = (worldTexelSize * glm::floor(lightSpaceCameraPos.x / worldTexelSize));
 	lightSpaceCameraPos.y = (worldTexelSize * glm::floor(lightSpaceCameraPos.y / worldTexelSize));
 
-	resultPos = rotateQuatByVec(resultRot, resultPos);
+	resultPos = Utility::rotateQuatByVec(resultRot, resultPos);
 
 	return ShadowCameraTransform(resultPos, resultRot);
 }
@@ -61,7 +61,7 @@ m_attenuation(attenuation)
 {
 	float a = m_attenuation.getExponent();
 	float b = m_attenuation.getLinear();
-	float c = m_attenuation.getConstant() - COLOR_DEPTH * intensity * max(color);
+	float c = m_attenuation.getConstant() - COLOR_DEPTH * intensity * Utility::maxVec3(color);
 
 	m_range = (-b + sqrtf(b*b - 4 * a*c)) / (2 * a);
 }

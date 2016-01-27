@@ -11,10 +11,40 @@
 // <summary></summary>
 // ***********************************************************************
 #pragma once
+#include <SDL2\SDL_events.h>
+#include <glm\glm.hpp>
+#include <CEGUI\CEGUI.h>
+#include <CEGUI\RendererModules\OpenGL\GL3Renderer.h>
+#include <string>
+
+#include "..\Core\InputManager.h"
+
 class GUIEngine
 {
 public:
-	GUIEngine();
+	GUIEngine(const std::string& resDir);
 	~GUIEngine();
+
+	void processInput(InputManager* input);
+	void update();
+	void render();
+
+	void setMouseCursor(const std::string& imageFile);
+	void showMouseCursor(bool value);
+
+	void loadScheme(const std::string& schemeFile);
+	void setFont(const std::string& fontFile);
+
+	CEGUI::Window* addWidget(const std::string& type, const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& name = "");
+	static void setWidgetDestRect(CEGUI::Window* widget, const glm::vec4& destRectPerc, const glm::vec4& destRectPix);
+
+	static CEGUI::OpenGL3Renderer* getRenderer() { return m_renderer; }
+	const CEGUI::GUIContext* getContext() const { return m_context; }
+
+private:
+	static CEGUI::OpenGL3Renderer* m_renderer;
+	CEGUI::GUIContext* m_context = nullptr;
+	CEGUI::Window* m_root = nullptr;
+	double m_lastTime = 0;
 };
 

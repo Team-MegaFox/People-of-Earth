@@ -231,7 +231,7 @@ void Shader::setUniformMat4(const std::string& uniformName, const glm::mat4 & va
 
 void Shader::setUniformDirectionalLight(const std::string& uniformName, const DirectionalLight& directionalLight) const
 {
-	setUniformVec3(uniformName + ".direction", getForward(directionalLight.getTransform().getTransformedRot()));
+	setUniformVec3(uniformName + ".direction", Utility::getForward(directionalLight.getTransform().getTransformedRot()));
 	setUniformVec3(uniformName + ".base.color", directionalLight.getColor());
 	setUniformf(uniformName + ".base.intensity", directionalLight.getIntensity());
 }
@@ -256,7 +256,7 @@ void Shader::setUniformSpotLight(const std::string& uniformName, const SpotLight
 	setUniformf(uniformName + ".pointLight.atten.exponent", spotLight.getAttenuation().getExponent());
 	setUniformVec3(uniformName + ".pointLight.position", spotLight.getTransform().getTransformedPos());
 	setUniformf(uniformName + ".pointLight.range", spotLight.getRange());
-	setUniformVec3(uniformName + ".direction", getForward(spotLight.getTransform().getTransformedRot()));
+	setUniformVec3(uniformName + ".direction", Utility::getForward(spotLight.getTransform().getTransformedRot()));
 	setUniformf(uniformName + ".cutoff", spotLight.getCutoff());
 }
 

@@ -127,6 +127,7 @@ public:
 	/// <returns>All immediate children stored in a vector.</returns>
 	std::vector<GameObject*> getAllChildren();
 
+	CoreEngine* getCoreEngine() { return m_coreEngine; }
 	/// <summary>
 	/// Gets the Transform object of this GameObject.
 	/// </summary>
@@ -137,6 +138,7 @@ public:
 	/// </summary>
 	/// <returns>The string value of the GameObject name.</returns>
 	std::string getName() { return m_name; }
+	
 	/// <summary>
 	/// Sets the Core Engine so the GameObject can access the different systems.
 	/// </summary>

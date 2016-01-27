@@ -35,7 +35,22 @@ public:
 	/// Updates everything for inputs.
 	/// </summmary>
 	/// <param name='_inputEvent'>Reference to the input events.</param>
-	bool Update(SDL_Event& _inputEvent);
+	bool Update(SDL_Event& _inputEvent);	
+	/// <summary>
+	/// If the key is down this frame.
+	/// </summary>
+	/// <returns>True if the key is down this frame.</returns>
+	const bool getKeyDownState();
+	/// <summary>
+	/// If the key is up this frame.
+	/// </summary>
+	/// <returns>True if the key is up this frame.</returns>
+	const bool getKeyUpState();
+	/// <summary>
+	/// Gets the key code.
+	/// </summary>
+	/// <returns>The SDL keycode that was pressed this frame.</returns>
+	SDL_Keycode getKeyCode();
 	/// <summary>
 	/// Checks if the key is held down.
 	/// </summary>
@@ -54,7 +69,22 @@ public:
 	/// <param name='_key'>A keyboard key.</param>
 	/// <returns>If that key was pressed.</returns>
 	const bool KeyPress(Uint8 _key) const;
-
+	
+	/// <summary>
+	/// If the mouse button is up this frame.
+	/// </summary>
+	/// <returns>True if the mouse button is up this frame.</returns>
+	const bool getMouseUpState();
+	/// <summary>
+	/// If the mouse button is down this frame.
+	/// </summary>
+	/// <returns>True if the mouse button is down this frame.</returns>
+	const bool getMouseDownState();	
+	/// <summary>
+	/// Gets the mouse button up or down this frame..
+	/// </summary>
+	/// <returns>The mouse button up or down this frame.</returns>
+	Uint8 getMouseButton();
 	/// <summary>
 	/// Checks if the mouse was held down.
 	/// </summary>
@@ -142,8 +172,27 @@ public:
 	/// </summary>
 	/// <returns>he right trigger depth.</returns>
 	const float GetRightTrigger() const;
+	
+	char* getTextInput();
+	/// <summary>
+	/// Determines whether there is text input.
+	/// </summary>
+	/// <returns>If there is text input.</returns>
+	const bool getTextInputState();
 
-private:
+private:	
+	/// <summary>
+	/// If a key is down this frame.
+	/// </summary>
+	bool keyDownState;	
+	/// <summary>
+	/// If a key is up this frame.
+	/// </summary>
+	bool keyUpState;	
+	/// <summary>
+	/// The key that is up or down this frame.
+	/// </summary>
+	SDL_Keycode keyCode;
 	/// <summary>
 	/// Map of the previous key states.
 	/// </summary>
@@ -151,7 +200,20 @@ private:
 	/// <summary>
 	/// Map of the current key states.
 	/// </summary>
-	std::unordered_map<Uint32, bool> currKeyStates;
+	std::unordered_map<Uint32, bool> currKeyStates;	
+	
+	/// <summary>
+	/// If the mouse button is up this frame.
+	/// </summary>
+	bool mouseUpState;	
+	/// <summary>
+	/// If the mouse button is down this frame.
+	/// </summary>
+	bool mouseDownState;	
+	/// <summary>
+	/// The mouse button up or down this frame.
+	/// </summary>
+	Uint8 mouseButton;
 	/// <summary>
 	/// The previous mouse button states.
 	/// </summary>
@@ -205,6 +267,15 @@ private:
 	/// Gets the right trigger.
 	/// </summary>
 	float rightTrigger;
+		
+	/// <summary>
+	/// The text inputted this frame.
+	/// </summary>
+	char* text;
+	/// <summary>
+	/// Is there text input this frame?
+	/// </summary>
+	bool textInputState;
 
 	/// <summary>
 	/// The pointer to a viewport window object.

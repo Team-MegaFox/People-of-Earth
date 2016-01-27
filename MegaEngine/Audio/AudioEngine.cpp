@@ -11,6 +11,7 @@
 // <summary></summary>
 // ***********************************************************************
 #include "AudioEngine.h"
+#include "..\Components\AudioSource.h"
 
 FMOD_VECTOR AudioEngine::glmToFMOD(glm::vec3 vector)
 {
@@ -322,9 +323,9 @@ float & AudioEngine::getStreamVolume()
 	return m_streamVolume;
 }
 
-void AudioEngine::addAudioSource(const AudioSource& source)
+void AudioEngine::addAudioSource(AudioSource* source)
 {
-	m_audioSources.push_back(&source);
+	m_audioSources.push_back(source);
 }
 
 void AudioEngine::setListener(glm::vec3 pos, glm::vec3 vel, glm::vec3 forward, glm::vec3 up)

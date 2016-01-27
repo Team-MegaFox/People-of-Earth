@@ -27,7 +27,7 @@ public:
 		// The human fighter ship and camera
 		GameObject* camera = 
 			(new GameObject)
-			->addGameComponent(new CameraComponent(glm::perspective(ToRadians(75.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
+			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(75.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
 			->addGameComponent(new FreeLook(window.getCenter()))
 			->addGameComponent(new FreeMove(50.0f));
 		GameObject* fighterShip = 

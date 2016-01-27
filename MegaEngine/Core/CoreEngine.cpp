@@ -18,6 +18,7 @@
 #include "Time.h"
 #include "SceneManager.h"
 #include "Scene.h"
+#include "..\GUI\GUIEngine.h"
 
 CoreEngine::CoreEngine(double frameRate, Viewport* viewport, 
 	RenderingEngine* renderingEngine, PhysicsEngine* physicsEngine, AudioEngine* audioEngine, GUIEngine* guiEngine, 
@@ -66,13 +67,15 @@ void CoreEngine::start()
 
 		while (unprocessedTime > m_frameTime)
 		{
-			m_viewport->update(m_guiEngine);
+			m_guiEngine->update();
+			m_viewport->update();
 			if (m_viewport->isClosed())
 			{
 				stop();
 			}
 
-			m_sceneManager->processInput(m_viewport->getInput(), (float)m_frameTime);
+			m_guiEngine->processInput(m_viewport->getInput());
+			m_sceneManager->processInput(*m_viewport->getInput(), (float)m_frameTime);
 			m_sceneManager->update((float)m_frameTime);
 
 			//Call the physics engine update
@@ -86,6 +89,8 @@ void CoreEngine::start()
 		if (render)
 		{
 			m_sceneManager->render(m_renderingEngine);
+
+			m_guiEngine->render();
 
 			m_viewport->swapBuffers();
 

@@ -34,6 +34,8 @@ bool InputManager::Update(SDL_Event& _inputEvent)
 {
 	// takes care of setting the previouskey, button, and gamepad states.
 	//stes the mouse and thumbstick movement to false
+	keyDownState = keyUpState = false;
+	keyCode = -1;
 	for (auto& it : currKeyStates)
 	{
 		prevKeyStates[it.first] = it.second;
@@ -42,6 +44,7 @@ bool InputManager::Update(SDL_Event& _inputEvent)
 	{
 		prevMouseButtonStates[i] = currMouseButtonStates[i];
 	}
+	mouseDownState = mouseUpState = false;
 	mouseMoved = false;
 	for (auto& it : currPadButtonStates)
 	{
@@ -49,6 +52,8 @@ bool InputManager::Update(SDL_Event& _inputEvent)
 	}
 	thumbLMoved = false;
 	thumbRMoved = false;
+	text = nullptr;
+	textInputState = false;
 
 	//checks to see if an input event has occurred and then checks the type of key or button pressed
 	//also checks in case the mouse has moved and sets it to true
@@ -59,15 +64,23 @@ bool InputManager::Update(SDL_Event& _inputEvent)
 		case SDL_QUIT:
 			return true;
 		case SDL_KEYDOWN:
+			keyDownState = true;
+			keyCode = _inputEvent.key.keysym.sym;
 			currKeyStates[_inputEvent.key.keysym.sym] = true;
 			break;
 		case SDL_KEYUP:
+			keyUpState = true;
+			keyCode = _inputEvent.key.keysym.sym;
 			currKeyStates[_inputEvent.key.keysym.sym] = false;
 			break;
 		case SDL_MOUSEBUTTONDOWN:
+			mouseButton = _inputEvent.button.button;
+			mouseDownState = true;
 			currMouseButtonStates[_inputEvent.button.button - 1] = true;
 			break;
 		case SDL_MOUSEBUTTONUP:
+			mouseButton = _inputEvent.button.button;
+			mouseUpState = true;
 			currMouseButtonStates[_inputEvent.button.button - 1] = false;
 			break;
 		case SDL_MOUSEMOTION:
@@ -93,11 +106,30 @@ bool InputManager::Update(SDL_Event& _inputEvent)
 			rightTrigger = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) / 32767.0f;
 			leftTrigger = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_TRIGGERLEFT) / 32767.0f;
 			break;
+		case SDL_TEXTINPUT:
+			text = _inputEvent.text.text;
+			textInputState = true;
+			break;
 		default:
 			break;
 		}
 	}
 	return false;
+}
+
+const bool InputManager::getKeyDownState()
+{
+	return keyDownState;
+}
+
+const bool InputManager::getKeyUpState()
+{
+	return keyUpState;
+}
+
+SDL_Keycode InputManager::getKeyCode()
+{
+	return keyCode;
 }
 
 const bool InputManager::KeyDown(Uint8 _key) const
@@ -125,6 +157,21 @@ const bool InputManager::KeyPress(Uint8 _key) const
 			return prevKeyStates.at(_key) && !currKeyStates.at(_key);
 		else return false;
 	else return false;
+}
+
+const bool InputManager::getMouseUpState()
+{
+	return mouseUpState;
+}
+
+const bool InputManager::getMouseDownState()
+{
+	return mouseDownState;
+}
+
+Uint8 InputManager::getMouseButton()
+{
+	return mouseButton;
 }
 
 const bool InputManager::MouseButtonDown(Uint8 _button) const
@@ -216,4 +263,14 @@ const float InputManager::GetLeftTrigger() const
 const float InputManager::GetRightTrigger() const
 {
 	return rightTrigger;
+}
+
+char* InputManager::getTextInput()
+{
+	return text;
+}
+
+const bool InputManager::getTextInputState()
+{
+	return textInputState;
 }

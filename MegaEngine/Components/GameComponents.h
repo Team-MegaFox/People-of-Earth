@@ -74,11 +74,16 @@ public:
 	/// </summary>
 	/// <returns>A const refernce to the attached GameObject's Transform objet.</returns>
 	inline const Transform & getTransform() const { return *m_parent->getTransform(); }
+	
 	/// <summary>
 	/// Sets the parent GameObject..
 	/// </summary>
 	/// <param name="parent">The GameObject to be attached to.</param>
 	virtual void setParent(GameObject* parent) { m_parent = parent; }
+
+protected:
+	CoreEngine* getCoreEngine() { return m_parent->getCoreEngine(); }
+
 private:
 	/// <summary>
 	/// The parent GameObject.

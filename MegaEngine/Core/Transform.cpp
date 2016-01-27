@@ -67,8 +67,8 @@ void Transform::update()
 
 glm::mat4 Transform::getTransformation() const
 {
-	glm::mat4 translationMatrix = initTranslation(m_pos);
-	glm::mat4 scaleMatrix = initScale(m_scale);
+	glm::mat4 translationMatrix = Utility::initTranslation(m_pos);
+	glm::mat4 scaleMatrix = Utility::initScale(m_scale);
 	glm::mat4 result = translationMatrix * glm::mat4_cast(m_rot) * scaleMatrix;
 
 	return getParentMatrix() * result;

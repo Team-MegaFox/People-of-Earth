@@ -4,12 +4,13 @@
 #include <Core\SceneManager.h>
 #include <Physics\PhysicsEngine.h>
 #include <Audio\AudioEngine.h>
+#include <GUI\GUIEngine.h>
 #include "TestScene.h"
 
 int main(int argc, char** argv)
 {
 	Viewport window("Some demo", 800, 600, 0);
-	GUIEngine guiEngine;
+	GUIEngine guiEngine("GUI");
 	RenderingEngine renderingEngine(window, guiEngine);
 	SceneManager sceneManager;
 	TestScene testscene;
