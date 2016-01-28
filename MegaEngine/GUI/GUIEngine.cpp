@@ -13,6 +13,7 @@
 #include <glew\glew.h>
 #include "GUIEngine.h"
 #include "..\Core\Time.h"
+#include "..\Core\Utility.h"
 
 CEGUI::OpenGL3Renderer* GUIEngine::m_renderer = nullptr;
 
@@ -215,7 +216,7 @@ void GUIEngine::render()
 	m_renderer->beginRendering();
 	m_context->draw();
 	m_renderer->endRendering();
-	
+
 	glBindVertexArray(0);
 	glDisable(GL_SCISSOR_TEST);
 	glEnable(GL_BLEND);
@@ -247,6 +248,8 @@ void GUIEngine::showMouseCursor(bool value)
 void GUIEngine::loadScheme(const std::string& schemeFile)
 {
 	CEGUI::SchemeManager::getSingleton().createFromFile(schemeFile);
+	auto sp = Utility::split(schemeFile, '.');
+	m_schemeStyle = sp[0];
 }
 
 void GUIEngine::setFont(const std::string& fontFile)

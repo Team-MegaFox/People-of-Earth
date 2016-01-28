@@ -176,6 +176,12 @@ private:
 	/// <param name='guiEngine'>The GUI Engine object.</param>
 	/// <param name='camera'>The main active camera.</param>
 	void renderGUIComponents(const GUIEngine& guiEngine, const Camera3D& camera);
+	/// <summary>
+	/// Processes all inputs for the GUI Components.
+	/// </summary>
+	/// <param name='input'>The manager to get inputs from the viewport.</param>
+	/// <param name='delta'>The delta time between frames.</param>
+	void processInputGUIComponents(const InputManager& input, float delta);
 
 	/// <summary>
 	/// The name of the GameObject.

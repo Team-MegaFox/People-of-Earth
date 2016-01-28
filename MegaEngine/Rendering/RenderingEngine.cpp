@@ -167,6 +167,10 @@ void RenderingEngine::render(GameObject & gameObject)
 
 	//applyFilter(m_fxaaFilter, getTexture("displayTexture"), 0);
 
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glUseProgram(0);
+	glActiveTexture(GL_TEXTURE0);
+
 }
 
 void RenderingEngine::applyFilter(const Shader & filter, const Texture & src, const Texture * dst)

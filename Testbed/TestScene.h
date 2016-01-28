@@ -64,6 +64,9 @@ public:
 
 		addToRoot((new GameObject(glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
 			->addGameComponent(new DirectionalLight(glm::vec3(1.0f), 0.02f, 7, 8.0f, 1.0f)));
+
+		addToRoot((new GameObject)
+			->addGUIComponent(new GUILabel("[colour='FFFF0000']Hello!", glm::vec4(0.f, 0.5f, 0.2f, 0.05f), glm::vec4(0.0f))));
 	}
 };
 

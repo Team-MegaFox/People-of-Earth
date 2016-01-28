@@ -34,6 +34,9 @@ m_sceneManager(sceneManager)
 {
 	if (m_sceneManager)
 	{
+		m_guiEngine->loadScheme("TaharezLook.scheme");
+		m_guiEngine->setFont("DejaVuSans-10");
+
 		m_sceneManager->setEngine(this);
 
 		m_sceneManager->getCurrentScene()->init(*m_viewport);
@@ -53,12 +56,6 @@ void CoreEngine::start()
 	double frameCounter = 0;
 	double unprocessedTime = 0;
 	int frames = 0;
-
-	m_guiEngine->loadScheme("TaharezLook.scheme");
-	m_guiEngine->setFont("DejaVuSans-10");
-	auto w = m_guiEngine->addWidget("TaharezLook/Button", glm::vec4(0.45f, 0.5f, 0.1f, 0.05f),
-		glm::vec4(0.0f), "NewGameButton");
-	w->setText("Hello world");
 
 	while (m_running)
 	{

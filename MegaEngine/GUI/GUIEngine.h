@@ -15,7 +15,6 @@
 #include <glm\glm.hpp>
 #include <CEGUI\CEGUI.h>
 #include <CEGUI\RendererModules\OpenGL\GL3Renderer.h>
-#include <string>
 
 #include "..\Core\InputManager.h"
 
@@ -40,11 +39,13 @@ public:
 
 	static CEGUI::OpenGL3Renderer* getRenderer() { return m_renderer; }
 	const CEGUI::GUIContext* getContext() const { return m_context; }
+	const std::string& getSchemeStyle() { return m_schemeStyle; }
 
 private:
 	static CEGUI::OpenGL3Renderer* m_renderer;
 	CEGUI::GUIContext* m_context = nullptr;
 	CEGUI::Window* m_root = nullptr;
+	std::string m_schemeStyle = "TaharezLook";
 	double m_lastTime = 0;
 };
 

@@ -189,5 +189,11 @@
     <ClInclude Include="Components\AudioSource.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Components\GUILabel.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUIComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
