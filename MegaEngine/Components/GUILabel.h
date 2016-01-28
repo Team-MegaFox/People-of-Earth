@@ -9,7 +9,7 @@ public:
 		GUIComponent(destRectPerc, destRectPix), m_text(text) { }
 	~GUILabel() { }
 
-	virtual void addToEngine(CoreEngine* engine) const
+	virtual void addToEngine(CoreEngine* engine)
 	{
 		auto wi = createWidget(engine->getGUIEngine()->getSchemeStyle() + "/Label");
 		wi->setText(m_text);

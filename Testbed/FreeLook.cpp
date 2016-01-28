@@ -8,7 +8,7 @@ void FreeLook::processInput(const InputManager& input, float delta)
 	if (input.KeyDown(m_unlockMouseKey))
 	{
 		//input.SetCursor(true);
-		m_mouseLocked = false;
+		//m_mouseLocked = false;
 	}
 
 	if (m_mouseLocked)
@@ -38,6 +38,6 @@ void FreeLook::processInput(const InputManager& input, float delta)
 	{
 		//input.SetCursor(false);
 		//input.SetMousePosition(m_windowCenter);
-		m_mouseLocked = true;
+		//m_mouseLocked = true;
 	}
 }

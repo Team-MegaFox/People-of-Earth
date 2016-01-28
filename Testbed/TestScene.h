@@ -69,7 +69,12 @@ public:
 			->addGUIComponent(new GUILabel("[colour='FFFF0000']Hello!", glm::vec4(0.2f, 0.5f, 0.1f, 0.05f), glm::vec4(0.0f))));
 
 		addToRoot((new GameObject)
-			->addGUIComponent(new GUIButton("This is a button", glm::vec4(0.5f, 0.2f, 0.2f, 0.05f), glm::vec4(0.0f))));
+			->addGUIComponent(new GUIButton("This is a button", glm::vec4(0.5f, 0.2f, 0.2f, 0.05f), glm::vec4(0.0f), &thisButtonClicked)));
+	}
+
+	bool thisButtonClicked(MegaEvents)
+	{
+		std::cout << "THis button was clicked." << std::endl;
 	}
 };
 

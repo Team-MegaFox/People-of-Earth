@@ -41,7 +41,7 @@ public:
 	/// Adds to Core Engine.
 	/// </summary>
 	/// <param name="engine">The Core Engine.</param>
-	virtual void addToEngine(CoreEngine* engine) const { }
+	virtual void addToEngine(CoreEngine* engine) { }
 
 	/// <summary>
 	/// Sets the parent GameObject..
@@ -54,9 +54,10 @@ protected:
 	void setWidget(CEGUI::Window* widget) { m_widget = widget; }
 	CEGUI::Window* getWidget() { return m_widget; }
 
-	CEGUI::Window* createWidget(const std::string& widgetType) const
+	CEGUI::Window* createWidget(const std::string& widgetType)
 	{
-		return m_parent->getCoreEngine()->getGUIEngine()->addWidget(widgetType, m_destRectPerc, m_destRectPix, m_parent->getName());
+		m_widget = m_parent->getCoreEngine()->getGUIEngine()->addWidget(widgetType, m_destRectPerc, m_destRectPix, m_parent->getName());
+		return m_widget;
 	}
 
 private:
