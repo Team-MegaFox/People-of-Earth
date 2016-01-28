@@ -54,6 +54,12 @@ void CoreEngine::start()
 	double unprocessedTime = 0;
 	int frames = 0;
 
+	m_guiEngine->loadScheme("TaharezLook.scheme");
+	m_guiEngine->setFont("DejaVuSans-10");
+	auto w = m_guiEngine->addWidget("TaharezLook/Button", glm::vec4(0.45f, 0.5f, 0.1f, 0.05f),
+		glm::vec4(0.0f), "NewGameButton");
+	w->setText("Hello world");
+
 	while (m_running)
 	{
 		bool render = false;

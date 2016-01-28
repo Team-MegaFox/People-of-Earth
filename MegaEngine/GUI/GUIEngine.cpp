@@ -10,6 +10,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+#include <glew\glew.h>
 #include "GUIEngine.h"
 #include "..\Core\Time.h"
 
@@ -209,10 +210,21 @@ void GUIEngine::update()
 
 void GUIEngine::render()
 {
+	glDisable(GL_DEPTH_TEST);
+
 	m_renderer->beginRendering();
 	m_context->draw();
 	m_renderer->endRendering();
+	
+	glBindVertexArray(0);
 	glDisable(GL_SCISSOR_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glEnable(GL_DEPTH_TEST);
 }
 
 void GUIEngine::setMouseCursor(const std::string& imageFile)
@@ -239,7 +251,7 @@ void GUIEngine::loadScheme(const std::string& schemeFile)
 
 void GUIEngine::setFont(const std::string& fontFile)
 {
-	CEGUI::FontManager::getSingleton().createFromFile(fontFile);
+	CEGUI::FontManager::getSingleton().createFromFile(fontFile + ".font");
 	m_context->setDefaultFont(fontFile);
 }
 
