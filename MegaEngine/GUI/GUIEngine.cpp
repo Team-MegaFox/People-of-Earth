@@ -1,5 +1,5 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Deroiche
+// Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
 // Last Modified By : Pavan Jakhu
@@ -15,6 +15,9 @@
 #include "..\Core\Time.h"
 #include "..\Core\Utility.h"
 
+/// <summary>
+/// The m_renderer{CC2D43FA-BBC4-448A-9D0B-7B57ADF2655C}
+/// </summary>
 CEGUI::OpenGL3Renderer* GUIEngine::m_renderer = nullptr;
 
 GUIEngine::GUIEngine(const std::string& resDir)

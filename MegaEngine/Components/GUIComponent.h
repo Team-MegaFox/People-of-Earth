@@ -50,10 +50,29 @@ public:
 	virtual void setParent(GameObject* parent) { m_parent = parent; }
 
 protected:
+	/// <summary>
+	/// Gets the core engine.
+	/// </summary>
+	/// <returns></returns>
 	CoreEngine* getCoreEngine() { return m_parent->getCoreEngine(); }
+
+	/// <summary>
+	/// Sets the widget.
+	/// </summary>
+	/// <param name="widget">The widget.</param>
 	void setWidget(CEGUI::Window* widget) { m_widget = widget; }
+
+	/// <summary>
+	/// Gets the widget.
+	/// </summary>
+	/// <returns></returns>
 	CEGUI::Window* getWidget() { return m_widget; }
 
+	/// <summary>
+	/// Creates the widget.
+	/// </summary>
+	/// <param name="widgetType">Type of the widget.</param>
+	/// <returns></returns>
 	CEGUI::Window* createWidget(const std::string& widgetType)
 	{
 		m_widget = m_parent->getCoreEngine()->getGUIEngine()->addWidget(widgetType, m_destRectPerc, m_destRectPix, m_parent->getName());
@@ -71,7 +90,14 @@ private:
 	/// </summary>
 	CEGUI::Window* m_widget;
 
+	/// <summary>
+	/// The m_dest rect perc
+	/// </summary>
 	glm::vec4 m_destRectPerc;
+
+	/// <summary>
+	/// The m_dest rect pix
+	/// </summary>
 	glm::vec4 m_destRectPix;
 
 	/// <summary>

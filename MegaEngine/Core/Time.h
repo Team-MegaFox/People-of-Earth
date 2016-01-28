@@ -1,5 +1,5 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Deroiche
+// Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
 // Last Modified By : Pavan Jakhu

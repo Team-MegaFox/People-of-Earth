@@ -415,9 +415,16 @@ private:
 	/// <summary>
 	/// The audio sources.
 	/// </summary>
-	std::vector<AudioSource*> m_audioSources;
+	std::vector<AudioSource*> m_audioSources; //<-- Do we really need this, I can't see why
 
+	/// <summary>
+	/// The m_sound map
+	/// </summary>
 	std::unordered_map<std::string, std::pair<FMOD::Sound*, int>> m_soundMap;
+
+	/// <summary>
+	/// The m_stream map
+	/// </summary>
 	std::unordered_map<std::string, std::pair<FMOD::Sound*, int>> m_streamMap;
 };
 
