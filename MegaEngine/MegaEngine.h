@@ -23,5 +23,6 @@
 #include "Rendering\Viewport.h"
 #include "Components\MeshRenderer.h"
 #include "Components\GUILabel.h"
+#include "Components\GUIButton.h"
 
 //#undef main;

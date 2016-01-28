@@ -111,6 +111,7 @@
     <ClInclude Include="Audio\AudioEngine.h" />
     <ClInclude Include="Components\AudioSource.h" />
     <ClInclude Include="Components\GameComponents.h" />
+    <ClInclude Include="Components\GUIButton.h" />
     <ClInclude Include="Components\GUIComponent.h" />
     <ClInclude Include="Components\GUILabel.h" />
     <ClInclude Include="Components\MeshRenderer.h" />

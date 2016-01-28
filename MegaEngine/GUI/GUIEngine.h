@@ -35,6 +35,7 @@ public:
 	void setFont(const std::string& fontFile);
 
 	CEGUI::Window* addWidget(const std::string& type, const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& name = "");
+	CEGUI::Window* addWidget(CEGUI::Window* parent, const std::string& type, const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& name = "");
 	static void setWidgetDestRect(CEGUI::Window* widget, const glm::vec4& destRectPerc, const glm::vec4& destRectPix);
 
 	static CEGUI::OpenGL3Renderer* getRenderer() { return m_renderer; }

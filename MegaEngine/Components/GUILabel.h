@@ -15,6 +15,6 @@ public:
 		wi->setText(m_text);
 	}
 
-private:
+protected:
 	std::string m_text;
 };
