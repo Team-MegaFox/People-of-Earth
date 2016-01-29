@@ -1,5 +1,5 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Deroiche
+// Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
 // Last Modified By : Pavan Jakhu
@@ -10,9 +10,14 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+#include <glew\glew.h>
 #include "GUIEngine.h"
 #include "..\Core\Time.h"
+#include "..\Core\Utility.h"
 
+/// <summary>
+/// The m_renderer{CC2D43FA-BBC4-448A-9D0B-7B57ADF2655C}
+/// </summary>
 CEGUI::OpenGL3Renderer* GUIEngine::m_renderer = nullptr;
 
 GUIEngine::GUIEngine(const std::string& resDir)
@@ -209,10 +214,21 @@ void GUIEngine::update()
 
 void GUIEngine::render()
 {
+	glDisable(GL_DEPTH_TEST);
+
 	m_renderer->beginRendering();
 	m_context->draw();
 	m_renderer->endRendering();
+
+	glBindVertexArray(0);
 	glDisable(GL_SCISSOR_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glEnable(GL_DEPTH_TEST);
 }
 
 void GUIEngine::setMouseCursor(const std::string& imageFile)
@@ -235,11 +251,13 @@ void GUIEngine::showMouseCursor(bool value)
 void GUIEngine::loadScheme(const std::string& schemeFile)
 {
 	CEGUI::SchemeManager::getSingleton().createFromFile(schemeFile);
+	auto sp = Utility::split(schemeFile, '.');
+	m_schemeStyle = sp[0];
 }
 
 void GUIEngine::setFont(const std::string& fontFile)
 {
-	CEGUI::FontManager::getSingleton().createFromFile(fontFile);
+	CEGUI::FontManager::getSingleton().createFromFile(fontFile + ".font");
 	m_context->setDefaultFont(fontFile);
 }
 
@@ -247,6 +265,14 @@ CEGUI::Window* GUIEngine::addWidget(const std::string& type, const glm::vec4& de
 {
 	CEGUI::Window* newWindow = CEGUI::WindowManager::getSingleton().createWindow(type, name);
 	m_root->addChild(newWindow);
+	setWidgetDestRect(newWindow, destRectPerc, destRectPix);
+	return newWindow;
+}
+
+CEGUI::Window* GUIEngine::addWidget(CEGUI::Window* parent, const std::string& type, const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& name/* = ""*/)
+{
+	CEGUI::Window* newWindow = CEGUI::WindowManager::getSingleton().createWindow(type, name);
+	parent->addChild(newWindow);
 	setWidgetDestRect(newWindow, destRectPerc, destRectPix);
 	return newWindow;
 }

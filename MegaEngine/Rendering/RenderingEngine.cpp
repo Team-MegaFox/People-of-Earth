@@ -1,5 +1,5 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Deroiche
+// Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
 // Last Modified By : Pavan Jakhu
@@ -166,6 +166,10 @@ void RenderingEngine::render(GameObject & gameObject)
 	setVec3("inverseFilterTextureSize", glm::vec3(1.0f / getTexture("displayTexture").getWidth(), 1.0f / getTexture("displayTexture").getHeight(), 0.0f));
 
 	//applyFilter(m_fxaaFilter, getTexture("displayTexture"), 0);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glUseProgram(0);
+	glActiveTexture(GL_TEXTURE0);
 
 }
 

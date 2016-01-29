@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Jesse Deroiche
+// Author           : Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 01-28-2016
 // ***********************************************************************
 // <copyright file="AudioEngine.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -204,51 +204,49 @@ void AudioEngine::dispose(const std::vector<std::string> & soundList, const std:
 /// Sets the sound.
 /// </summary>
 /// <param name="index">The index.</param>
-void AudioEngine::setSound(int index)
+void AudioEngine::setSound(std::string filepath)
 {
 	// TODO: stream needs to work like below
 	// make m_sounds a member variable	
 	// fix load sounds and streams to work with this.
-	std::string filepath;
-	std::unordered_map<std::string, std::pair<FMOD::Sound*, int>> m_sounds;
-	
-	m_soundEffects[m_sounds[filepath].second]->release();
-	m_system->createSound(filepath.c_str(), FMOD_3D | FMOD_DEFAULT, 0, &m_sounds[filepath].first);
-	m_system->playSound(FMOD_CHANNELINDEX(m_sounds[filepath].second), m_sounds[filepath].first, true, &m_soundChannels[m_sounds[filepath].second]);
-	m_soundChannels[m_sounds[filepath].second]->setChannelGroup(m_soundEffectChannels);
+
+	m_soundEffects[m_soundMap[filepath].second]->release();
+	m_system->createSound(filepath.c_str(), FMOD_3D | FMOD_DEFAULT, 0, &m_soundMap[filepath].first);
+	m_system->playSound(FMOD_CHANNELINDEX(m_soundMap[filepath].second), m_soundMap[filepath].first, true, &m_soundChannels[m_soundMap[filepath].second]);
+	m_soundChannels[m_soundMap[filepath].second]->setChannelGroup(m_soundEffectChannels);
 }
 
-void AudioEngine::setStream(int index)
+void AudioEngine::setStream(std::string filepath)
 {
-	m_streams[index]->release();
-	m_system->createSound((*m_streamList)[index].c_str(), FMOD_3D | FMOD_DEFAULT, 0, &m_streams[index]);
-	m_system->playSound(FMOD_CHANNELINDEX(index), m_streams[index], true, &m_streamChannels[index]);
-	m_streamChannels[index]->setChannelGroup(m_streamEffectChannels);
+	m_streams[m_streamMap[filepath].second]->release();
+	m_system->createSound(filepath.c_str(), FMOD_3D | FMOD_DEFAULT, 0, &m_streamMap[filepath].first);
+	m_system->playSound(FMOD_CHANNELINDEX(m_streamMap[filepath].second), m_streamMap[filepath].first, true, &m_streamChannels[m_streamMap[filepath].second]);
+	m_streamChannels[m_streamMap[filepath].second]->setChannelGroup(m_streamEffectChannels);
 }
 
-void AudioEngine::playSound(int index)
+void AudioEngine::playSound(std::string filepath)
 {
-	m_soundChannels[index]->setPaused(false);
+	m_soundChannels[m_soundMap[filepath].second]->setPaused(false);
 }
 
-void AudioEngine::playStream(int index, bool looping)
+void AudioEngine::playStream(std::string filepath, bool looping)
 {
 	if (looping)
 	{
-		m_streamChannels[index]->setMode(FMOD_LOOP_NORMAL);
-		m_streamChannels[index]->setLoopCount(-1);
+		m_streamChannels[m_streamMap[filepath].second]->setMode(FMOD_LOOP_NORMAL);
+		m_streamChannels[m_streamMap[filepath].second]->setLoopCount(-1);
 	}
-	m_streamChannels[index]->setPaused(false);
+	m_streamChannels[m_streamMap[filepath].second]->setPaused(false);
 }
 
-void AudioEngine::pauseSound(bool pause, int index)
+void AudioEngine::pauseSound(bool pause, std::string filepath)
 {
-	m_soundChannels[index]->setPaused(pause);
+	m_soundChannels[m_soundMap[filepath].second]->setPaused(pause);
 }
 
-void AudioEngine::pauseStream(bool pause, int index)
+void AudioEngine::pauseStream(bool pause, std::string filepath)
 {
-	m_streamChannels[index]->setPaused(pause);
+	m_streamChannels[m_streamMap[filepath].second]->setPaused(pause);
 }
 
 void AudioEngine::stopAllSoundEffects()
@@ -273,20 +271,20 @@ void AudioEngine::stopAllStreams()
 	}
 }
 
-bool AudioEngine::isSoundPlaying(int index)
+bool AudioEngine::isSoundPlaying(std::string filepath)
 {
 	bool result;
 
-	m_soundChannels[index]->isPlaying(&result);
+	m_soundChannels[m_soundMap[filepath].second]->isPlaying(&result);
 
 	return result;
 }
 
-bool AudioEngine::isStreamPlaying(int index)
+bool AudioEngine::isStreamPlaying(std::string filepath)
 {
 	bool result;
 
-	m_streamChannels[index]->isPlaying(&result);
+	m_streamChannels[m_streamMap[filepath].second]->isPlaying(&result);
 
 	return result;
 }
@@ -296,14 +294,14 @@ void AudioEngine::setSoundEffectVolume(float volumeLevel)
 	m_soundEffectChannels->setVolume(volumeLevel);
 }
 
-void AudioEngine::setSoundEffectVolume(int index, float volumeLevel)
+void AudioEngine::setSoundEffectVolume(std::string filepath, float volumeLevel)
 {
-	m_soundChannels[index]->setVolume(volumeLevel);
+	m_soundChannels[m_soundMap[filepath].second]->setVolume(volumeLevel);
 }
 
-void AudioEngine::setStreamEffectVolume(int index, float volumeLevel)
+void AudioEngine::setStreamEffectVolume(std::string filepath, float volumeLevel)
 {
-	m_streamChannels[index]->setVolume(volumeLevel);
+	m_streamChannels[m_streamMap[filepath].second]->setVolume(volumeLevel);
 }
 
 void AudioEngine::setStreamEffectVolume(float volumeLevel)
@@ -333,69 +331,69 @@ void AudioEngine::setListener(glm::vec3 pos, glm::vec3 vel, glm::vec3 forward, g
 	m_system->set3DListenerAttributes(0, &glmToFMOD(pos), &glmToFMOD(vel), &glmToFMOD(forward), &glmToFMOD(up));
 }
 
-void AudioEngine::setSoundPosVel(int index, glm::vec3 pos, glm::vec3 vel)
+void AudioEngine::setSoundPosVel(std::string filepath, glm::vec3 pos, glm::vec3 vel)
 {
-	m_soundChannels[index]->set3DAttributes(&glmToFMOD(pos), &glmToFMOD(vel));
+	m_soundChannels[m_soundMap[filepath].second]->set3DAttributes(&glmToFMOD(pos), &glmToFMOD(vel));
 }
 
-void AudioEngine::setStreamPosVel(int index, glm::vec3 pos, glm::vec3 vel)
+void AudioEngine::setStreamPosVel(std::string filepath, glm::vec3 pos, glm::vec3 vel)
 {
-	m_streamChannels[index]->set3DAttributes(&glmToFMOD(pos), &glmToFMOD(vel));
+	m_streamChannels[m_streamMap[filepath].second]->set3DAttributes(&glmToFMOD(pos), &glmToFMOD(vel));
 }
 
-void AudioEngine::setSoundPan(int index, float pan)
+void AudioEngine::setSoundPan(std::string filepath, float pan)
 {
-	m_soundChannels[index]->setPan(pan);
+	m_soundChannels[m_soundMap[filepath].second]->setPan(pan);
 }
 
-void AudioEngine::setStreamPan(int index, float pan)
+void AudioEngine::setStreamPan(std::string filepath, float pan)
 {
-	m_streamChannels[index]->setPan(pan);
+	m_streamChannels[m_streamMap[filepath].second]->setPan(pan);
 }
 
-void AudioEngine::setSoundDopplerLevel(int index, float dopplerLevel)
+void AudioEngine::setSoundDopplerLevel(std::string filepath, float dopplerLevel)
 {
-	m_soundChannels[index]->set3DDopplerLevel(dopplerLevel);
+	m_soundChannels[m_soundMap[filepath].second]->set3DDopplerLevel(dopplerLevel);
 }
 
-void AudioEngine::setStreamDopplerLevel(int index, float dopplerLevel)
+void AudioEngine::setStreamDopplerLevel(std::string filepath, float dopplerLevel)
 {
-	m_streamChannels[index]->set3DDopplerLevel(dopplerLevel);
+	m_streamChannels[m_streamMap[filepath].second]->set3DDopplerLevel(dopplerLevel);
 }
 
-void AudioEngine::setSoundConeOrientation(int index, glm::vec3 orientation)
+void AudioEngine::setSoundConeOrientation(std::string filepath, glm::vec3 orientation)
 {
-	m_soundChannels[index]->set3DConeOrientation(&glmToFMOD(orientation));
+	m_soundChannels[m_soundMap[filepath].second]->set3DConeOrientation(&glmToFMOD(orientation));
 }
 
-void AudioEngine::setSoundConeSettings(int index, float insideConeAngle, float outsideConeAngle, float outsideVolume)
+void AudioEngine::setSoundConeSettings(std::string filepath, float insideConeAngle, float outsideConeAngle, float outsideVolume)
 {
-	m_soundChannels[index]->set3DConeSettings(insideConeAngle, outsideConeAngle, outsideVolume);
+	m_soundChannels[m_soundMap[filepath].second]->set3DConeSettings(insideConeAngle, outsideConeAngle, outsideVolume);
 }
 
-void AudioEngine::setSoundDistanceFilter(int index, bool custom, bool customLevel, float centreFreq)
+void AudioEngine::setSoundDistanceFilter(std::string filepath, bool custom, bool customLevel, float centreFreq)
 {
-	m_soundChannels[index]->set3DDistanceFilter(custom, customLevel, centreFreq);
+	m_soundChannels[m_soundMap[filepath].second]->set3DDistanceFilter(custom, customLevel, centreFreq);
 }
 
-void AudioEngine::setSound3DMinMaxDistance(int index, float min, float max)
+void AudioEngine::setSound3DMinMaxDistance(std::string filepath, float min, float max)
 {
-	m_soundChannels[index]->set3DMinMaxDistance(min, max);
+	m_soundChannels[m_soundMap[filepath].second]->set3DMinMaxDistance(min, max);
 }
 
-void AudioEngine::setStream3DMinMaxDistance(int index, float min, float max)
+void AudioEngine::setStream3DMinMaxDistance(std::string filepath, float min, float max)
 {
-	m_streamChannels[index]->set3DMinMaxDistance(min, max);
+	m_streamChannels[m_streamMap[filepath].second]->set3DMinMaxDistance(min, max);
 }
 
-void AudioEngine::setSoundOcclusion(int index, float attenuation, float reverberation)
+void AudioEngine::setSoundOcclusion(std::string filepath, float attenuation, float reverberation)
 {
-	m_streamChannels[index]->set3DOcclusion(attenuation, reverberation);
+	m_streamChannels[m_streamMap[filepath].second]->set3DOcclusion(attenuation, reverberation);
 }
 
-void AudioEngine::setStreamOcclusion(int index, float attenuation, float reverberation)
+void AudioEngine::setStreamOcclusion(std::string filepath, float attenuation, float reverberation)
 {
-	m_streamEffectChannels[index].set3DOcclusion(attenuation, reverberation);
+	m_streamEffectChannels[m_streamMap[filepath].second].set3DOcclusion(attenuation, reverberation);
 }
 
 bool AudioEngine::loadSounds(std::vector<std::string> soundList)
@@ -406,7 +404,7 @@ bool AudioEngine::loadSounds(std::vector<std::string> soundList)
 
 	for (size_t i = 0; i < soundList.size(); i++)
 	{
-		setSound(i);
+		setSound(soundList[i]);
 	}
 
 	m_soundEffectChannels->getNumChannels(&numChannels);
@@ -431,7 +429,7 @@ bool AudioEngine::loadStreams(std::vector<std::string> streamList)
 
 	for (size_t i = 0; i < streamList.size(); i++)
 	{
-		setStream(i);
+		setStream(streamList[i]);
 	}
 
 	m_streamEffectChannels->getNumChannels(&numChannels);
