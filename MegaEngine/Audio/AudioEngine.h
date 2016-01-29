@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Jesse Derochie
+// Author           : Jesse Deroiche
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 01-28-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 01-24-2016
 // ***********************************************************************
 // <copyright file="AudioEngine.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -47,7 +47,7 @@ public:
 	/// it must be re - set to the channel it was last on using this method.
 	/// </summary>
 	/// <param name="index">The index.</param>
-	void setSound(std::string filepath);
+	void setSound(int index);
 
 	/// <summary>
 	/// Used to set a stream to a channel initially, 
@@ -55,20 +55,20 @@ public:
 	/// it must be re - set to the channel it was last on using this method.
 	/// </summary>
 	/// <param name="index">The index.</param>
-	void setStream(std::string filepath);
+	void setStream(int index);
 
 	/// <summary>
 	/// Plays the sound in question.
 	/// </summary>
 	/// <param name="index">The index.</param>
-	void playSound(std::string filepath);
+	void playSound(int index);
 
 	/// <summary>
 	/// Plays the stream in question.
 	/// </summary>
 	/// <param name="index">The index.</param>
 	/// <param name="looping">If it is looping.</param>
-	void playStream(std::string filepath, bool looping = false);
+	void playStream(int index, bool looping = false);
 
 	/// <summary>
 	/// Either pauses or unpauses the sound
@@ -76,7 +76,7 @@ public:
 	/// </summary>
 	/// <param name="pause">If it is paused.</param>
 	/// <param name="index">The index.</param>
-	void pauseSound(bool pause, std::string filepath);
+	void pauseSound(bool pause, int index);
 
 	/// <summary>
 	/// Either pauses or unpauses the stream 
@@ -84,7 +84,7 @@ public:
 	/// </summary>
 	/// <param name="pause">The pause.</param>
 	/// <param name="index">The index.</param>
-	void pauseStream(bool pause, std::string filepath);
+	void pauseStream(bool pause, int index);
 
 	/// <summary>
 	/// Stops all sounds whether they are playing or not.
@@ -102,7 +102,7 @@ public:
 	/// </summary>
 	/// <param name="index">The index.</param>
 	/// <returns>If the sound is playing.</returns>
-	bool isSoundPlaying(std::string filepath);
+	bool isSoundPlaying(int index);
 
 	/// <summary>
 	/// Returns true if the stream in question
@@ -110,7 +110,7 @@ public:
 	/// </summary>
 	/// <param name="index">The index.</param>
 	/// <returns>If the stream is playing.</returns>
-	bool isStreamPlaying(std::string filepath);
+	bool isStreamPlaying(int index);
 
 	/// <summary>
 	/// Sets the volume level of all sounds
@@ -123,14 +123,14 @@ public:
 	/// </summary>
 	/// <param name="index">The index.</param>
 	/// <param name="volumeLevel">The volume level.</param>
-	void setSoundEffectVolume(std::string filepath, float volumeLevel);
+	void setSoundEffectVolume(int index, float volumeLevel);
 
 	/// <summary>
 	/// Affect an individual stream channels volume level.
 	/// </summary>
 	/// <param name="index">The index.</param>
 	/// <param name="volumeLevel">The volume level.</param>
-	void setStreamEffectVolume(std::string filepath, float volumeLevel);
+	void setStreamEffectVolume(int index, float volumeLevel);
 
 	/// <summary>
 	/// Sets the volume level of all streams
@@ -176,7 +176,7 @@ public:
 	/// <param name="index">The index.</param>
 	/// <param name="pos">The position.</param>
 	/// <param name="vel">The velocity.</param>
-	void setSoundPosVel(std::string filepath, glm::vec3 pos, glm::vec3 vel);
+	void setSoundPosVel(int index, glm::vec3 pos, glm::vec3 vel);
 
 	/// <summary>
 	/// This method sets the position of the stream in the world
@@ -186,7 +186,7 @@ public:
 	/// <param name="index">The index.</param>
 	/// <param name="pos">The position.</param>
 	/// <param name="vel">The velocity.</param>
-	void setStreamPosVel(std::string filepath, glm::vec3 pos, glm::vec3 vel);
+	void setStreamPosVel(int index, glm::vec3 pos, glm::vec3 vel);
 
 	/// <summary>
 	/// Panning is used to set a sound effect to be either to the
@@ -194,7 +194,7 @@ public:
 	/// </summary>
 	/// <param name="index">The index.</param>
 	/// <param name="pan">The pan.</param>
-	void setSoundPan(std::string filepath, float pan);
+	void setSoundPan(int index, float pan);
 
 	/// <summary>
 	/// Panning is used to set a stream effect to be either to the
@@ -202,7 +202,7 @@ public:
 	/// </summary>
 	/// <param name="index">The index.</param>
 	/// <param name="pan">The pan.</param>
-	void setStreamPan(std::string filepath, float pan);
+	void setStreamPan(int index, float pan);
 
 	/// <summary>
 	/// Doppler is the change in frequency of a sound as it moves relative to the position of
@@ -212,7 +212,7 @@ public:
 	/// </summary>
 	/// <param name="index">The index.</param>
 	/// <param name="dopplerLevel">The doppler level.</param>
-	void setSoundDopplerLevel(std::string filepath, float dopplerLevel);
+	void setSoundDopplerLevel(int index, float dopplerLevel);
 
 	/// <summary>
 	/// Doppler is the change in frequency of a stream as it moves relative to the position of
@@ -222,14 +222,14 @@ public:
 	/// </summary>
 	/// <param name="index">The index.</param>
 	/// <param name="dopplerLevel">The doppler level.</param>
-	void setStreamDopplerLevel(std::string filepath, float dopplerLevel);
+	void setStreamDopplerLevel(int index, float dopplerLevel);
 
 	/// <summary>
 	/// Sets the orientation of the sound projection cone.
 	/// </summary>
 	/// <param name="index">The index.</param>
 	/// <param name="orientation">The orientation of the cone.</param>
-	void setSoundConeOrientation(std::string filepath, glm::vec3 orientation);
+	void setSoundConeOrientation(int index, glm::vec3 orientation);
 
 	/// <summary>
 	/// Sets the size and shape of the sound projection cone
@@ -241,7 +241,7 @@ public:
 	/// <param name="insideConeAngle">The inside cone angle.</param>
 	/// <param name="outsideConeAngle">The outside cone angle.</param>
 	/// <param name="outsideVolume">The outside volume.</param>
-	void setSoundConeSettings(std::string filepath, float insideConeAngle, float outsideConeAngle, float outsideVolume);
+	void setSoundConeSettings(int index, float insideConeAngle, float outsideConeAngle, float outsideVolume);
 
 	/// <summary>
 	/// Control the behaviour of a 3D distance filter, whether to enable or disable it, and frequency characteristics.
@@ -250,7 +250,7 @@ public:
 	/// <param name="custom">If true, disable FMOD distance rolloff.</param>
 	/// <param name="customLevel">Set attenuation factor here, 1.0 is no attenuation, 0.0 complete attenuation.</param>
 	/// <param name="centreFreq">Specify a center frequency for the high-pass filter used to simulate distance attenuation.</param>
-	void setSoundDistanceFilter(std::string filepath, bool custom, bool customLevel, float centreFreq);
+	void setSoundDistanceFilter(int index, bool custom, bool customLevel, float centreFreq);
 
 	/// <summary>
 	/// 3D Min distance refers to the minimum distance a sound travels before it starts to
@@ -260,7 +260,7 @@ public:
 	/// <param name="index">The index.</param>
 	/// <param name="min">The minimum.</param>
 	/// <param name="max">The maximum.</param>
-	void setSound3DMinMaxDistance(std::string filepath, float min, float max = NULL);
+	void setSound3DMinMaxDistance(int index, float min, float max = NULL);
 
 	/// <summary>
 	/// 3D Min distance refers to the minimum distance a stream travels before it starts to
@@ -270,7 +270,7 @@ public:
 	/// <param name="index">The index.</param>
 	/// <param name="min">The minimum.</param>
 	/// <param name="max">The maximum.</param>
-	void setStream3DMinMaxDistance(std::string filepath, float min, float max = NULL);
+	void setStream3DMinMaxDistance(int index, float min, float max = NULL);
 
 	/// <summary>
 	/// This is used when there are obstacles in the way of a sound
@@ -280,7 +280,7 @@ public:
 	/// at 0.0 there is no attenuation, at 1.0 there is complete attenuation</param>
 	/// <param name="reverberation">must be a value between 0.0 and 1.0
 	/// at 0.0 there is no reverberation, at 1.0 there is complete reverberation.</param>
-	void setSoundOcclusion(std::string filepath, float attenuation, float reverberation = 0.0f);
+	void setSoundOcclusion(int index, float attenuation, float reverberation = 0.0f);
 
 	/// <summary>
 	/// This is used when there are obstacles in the way of a stream
@@ -290,7 +290,7 @@ public:
 	/// at 0.0 there is no attenuation, at 1.0 there is complete attenuation</param>
 	/// <param name="reverberation">must be a value between 0.0 and 1.0
 	/// at 0.0 there is no reverberation, at 1.0 there is complete reverberation</param>
-	void setStreamOcclusion(std::string filepath, float attenuation, float reverberation = 0.0f);
+	void setStreamOcclusion(int index, float attenuation, float reverberation = 0.0f);
 
 	/// <summary>
 	/// Load all sounds the Engine will have to know about for
@@ -412,19 +412,6 @@ private:
 	/// </summary>
 	const std::vector<std::string> * m_streamList = new std::vector<std::string>();
 	
-	/// <summary>
-	/// The audio sources.
-	/// </summary>
-	std::vector<AudioSource*> m_audioSources; //<-- Do we really need this, I can't see why
-
-	/// <summary>
-	/// The m_sound map
-	/// </summary>
-	std::unordered_map<std::string, std::pair<FMOD::Sound*, int>> m_soundMap;
-
-	/// <summary>
-	/// The m_stream map
-	/// </summary>
-	std::unordered_map<std::string, std::pair<FMOD::Sound*, int>> m_streamMap;
+	std::vector<AudioSource*> m_audioSources;
 };
 
