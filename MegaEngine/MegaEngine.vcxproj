@@ -91,6 +91,7 @@
     <ClCompile Include="Core\Time.cpp" />
     <ClCompile Include="Core\Transform.cpp" />
     <ClCompile Include="Core\Utility.cpp" />
+    <ClCompile Include="ErrorLog.cpp" />
     <ClCompile Include="GUI\GUIEngine.cpp" />
     <ClCompile Include="Physics\Collider.cpp" />
     <ClCompile Include="Physics\MultiCollider.cpp" />
@@ -122,6 +123,7 @@
     <ClInclude Include="Core\Time.h" />
     <ClInclude Include="Core\Transform.h" />
     <ClInclude Include="Core\Utility.h" />
+    <ClInclude Include="ErrorLog.h" />
     <ClInclude Include="GUI\GUIEngine.h" />
     <ClInclude Include="MegaEngine.h" />
     <ClInclude Include="Physics\Collider.h" />
