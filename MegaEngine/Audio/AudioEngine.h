@@ -3,12 +3,23 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 01-28-2016
+// Last Modified On : 01-30-2016
 // ***********************************************************************
 // <copyright file="AudioEngine.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
 // </copyright>
-// <summary></summary>
+// <summary>
+/*	
+	This AudioEngine class is a wrapper around some of FMOD's methods and abilities, 
+	The goal of this engine was simply to allow for 3D sound and music to
+	be used in any game built with MegaEngine. On behalf of TeamMegaFox I 
+	would like to thank the developers of FMOD for their engine, and for 
+	making it available to students like us. 
+	You can learn more about FMOD by going to there website here : http://www.fmod.org/
+	or if the link is for some reason dead feel free to look them up 
+	using "The Great and Powerful God" Google.
+*/
+// </summary>
 // ***********************************************************************
 #pragma once
 #include <iostream>
@@ -20,11 +31,12 @@
 
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 class AudioSource;
 
-static const int NUM_SOUND_CHANNELS = 100;
-static const int NUM_STREAM_CHANNELS = 50;
+static const int NUM_SOUND_CHANNELS = 45;
+static const int NUM_STREAM_CHANNELS = 15;
 
 /// <summary>
 /// Class AudioEngine.
@@ -40,6 +52,12 @@ public:
 	/// Finalizes an instance of the <see cref="AudioEngine"/> class.
 	/// </summary>
 	~AudioEngine();
+
+	/// <summary>
+	/// Sets the file path.
+	/// </summary>
+	/// <param name="filepath">The filepath.</param>
+	void setFilePath(std::string filepath);
 
 	/// <summary>
 	/// Used to set a sound to a channel initially, 
@@ -176,7 +194,7 @@ public:
 	/// <param name="index">The index.</param>
 	/// <param name="pos">The position.</param>
 	/// <param name="vel">The velocity.</param>
-	void setSoundPosVel(std::string filepath, glm::vec3 pos, glm::vec3 vel);
+	void setSoundPosVel(std::string filepath, glm::vec3 pos, glm::vec3 vel = glm::vec3(0.0f));
 
 	/// <summary>
 	/// This method sets the position of the stream in the world
@@ -186,7 +204,7 @@ public:
 	/// <param name="index">The index.</param>
 	/// <param name="pos">The position.</param>
 	/// <param name="vel">The velocity.</param>
-	void setStreamPosVel(std::string filepath, glm::vec3 pos, glm::vec3 vel);
+	void setStreamPosVel(std::string filepath, glm::vec3 pos, glm::vec3 vel = glm::vec3(0.0f));
 
 	/// <summary>
 	/// Panning is used to set a sound effect to be either to the
@@ -250,7 +268,7 @@ public:
 	/// <param name="custom">If true, disable FMOD distance rolloff.</param>
 	/// <param name="customLevel">Set attenuation factor here, 1.0 is no attenuation, 0.0 complete attenuation.</param>
 	/// <param name="centreFreq">Specify a center frequency for the high-pass filter used to simulate distance attenuation.</param>
-	void setSoundDistanceFilter(std::string filepath, bool custom, bool customLevel, float centreFreq);
+	void setSoundDistanceFilter(std::string filepath, bool custom, bool customLevel, float centerFreq);
 
 	/// <summary>
 	/// 3D Min distance refers to the minimum distance a sound travels before it starts to

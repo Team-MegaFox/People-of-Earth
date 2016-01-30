@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 01-30-2016
 // ***********************************************************************
 // <copyright file="CoreEngine.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -19,6 +19,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "..\GUI\GUIEngine.h"
+#include "..\Audio\AudioEngine.h"
 
 CoreEngine::CoreEngine(double frameRate, Viewport* viewport, 
 	RenderingEngine* renderingEngine, PhysicsEngine* physicsEngine, AudioEngine* audioEngine, GUIEngine* guiEngine, 
@@ -86,6 +87,9 @@ void CoreEngine::start()
 
 			//Call the physics engine update
 			m_physicsEngine->updatePhysicsEngine((float)m_frameTime);
+
+			//THE AUDIO ENGINE MUST BE UPDATED EVERY FRAME IN ORDER FOR 3D SOUND TO WORK
+			m_audioEngine->update();
 
 			render = true;
 

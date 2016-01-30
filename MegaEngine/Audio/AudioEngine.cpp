@@ -8,7 +8,18 @@
 // <copyright file="AudioEngine.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
 // </copyright>
-// <summary></summary>
+// <summary>
+/*
+	This AudioEngine class is a wrapper around some of FMOD's methods and abilities,
+	The goal of this engine was simply to allow for 3D sound and music to
+	be used in any game built with MegaEngine. On behalf of TeamMegaFox I
+	would like to thank the developers of FMOD for their engine, and for
+	making it available to students like us.
+	You can learn more about FMOD by going to there website here : http://www.fmod.org/
+	or if the link is for some reason dead feel free to look them up
+	using "The Great and Powerful God" Google.
+*/
+// </summary>
 // ***********************************************************************
 #include "AudioEngine.h"
 #include "..\Components\AudioSource.h"
@@ -371,9 +382,9 @@ void AudioEngine::setSoundConeSettings(std::string filepath, float insideConeAng
 	m_soundChannels[m_soundMap[filepath].second]->set3DConeSettings(insideConeAngle, outsideConeAngle, outsideVolume);
 }
 
-void AudioEngine::setSoundDistanceFilter(std::string filepath, bool custom, bool customLevel, float centreFreq)
+void AudioEngine::setSoundDistanceFilter(std::string filepath, bool custom, bool customLevel, float centerFreq)
 {
-	m_soundChannels[m_soundMap[filepath].second]->set3DDistanceFilter(custom, customLevel, centreFreq);
+	m_soundChannels[m_soundMap[filepath].second]->set3DDistanceFilter(custom, customLevel, centerFreq);
 }
 
 void AudioEngine::setSound3DMinMaxDistance(std::string filepath, float min, float max)
