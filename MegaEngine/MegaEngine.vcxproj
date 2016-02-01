@@ -82,7 +82,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Audio\AudioEngine.cpp" />
+    <ClCompile Include="Audio\SoundSource.cpp" />
+    <ClCompile Include="Audio\StreamSource.cpp" />
     <ClCompile Include="Core\CoreEngine.cpp" />
+    <ClCompile Include="Core\ErrorLog.cpp" />
     <ClCompile Include="Core\GameObject.cpp" />
     <ClCompile Include="Core\InputManager.cpp" />
     <ClCompile Include="Core\MappedValues.cpp" />
@@ -91,7 +94,6 @@
     <ClCompile Include="Core\Time.cpp" />
     <ClCompile Include="Core\Transform.cpp" />
     <ClCompile Include="Core\Utility.cpp" />
-    <ClCompile Include="ErrorLog.cpp" />
     <ClCompile Include="GUI\GUIEngine.cpp" />
     <ClCompile Include="Physics\Collider.cpp" />
     <ClCompile Include="Physics\MultiCollider.cpp" />
@@ -110,10 +112,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio\AudioEngine.h" />
+    <ClInclude Include="Audio\SoundSource.h" />
+    <ClInclude Include="Audio\StreamSource.h" />
     <ClInclude Include="Components\AudioSource.h" />
     <ClInclude Include="Components\GameComponents.h" />
     <ClInclude Include="Components\MeshRenderer.h" />
     <ClInclude Include="Core\CoreEngine.h" />
+    <ClInclude Include="Core\ErrorLog.h" />
     <ClInclude Include="Core\GameObject.h" />
     <ClInclude Include="Core\InputManager.h" />
     <ClInclude Include="Core\MappedValues.h" />
@@ -123,7 +128,6 @@
     <ClInclude Include="Core\Time.h" />
     <ClInclude Include="Core\Transform.h" />
     <ClInclude Include="Core\Utility.h" />
-    <ClInclude Include="ErrorLog.h" />
     <ClInclude Include="GUI\GUIEngine.h" />
     <ClInclude Include="MegaEngine.h" />
     <ClInclude Include="Physics\Collider.h" />
