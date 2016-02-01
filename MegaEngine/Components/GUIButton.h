@@ -7,6 +7,8 @@ struct MegaEvents
 
 };
 
+typedef bool(*clickedButtonFcn)(MegaEvents);
+
 class GUIButton : public GUILabel
 {
 public:
@@ -17,10 +19,11 @@ public:
 	/// <param name="destRectPerc">The dest rect perc.</param>
 	/// <param name="destRectPix">The dest rect pix.</param>
 	/// <param name="clickedButton">The clicked button.</param>
-	GUIButton(const std::string& text, const glm::vec4& destRectPerc, const glm::vec4& destRectPix, bool(*clickedButton)(MegaEvents)) :
+	GUIButton(const std::string& text, const glm::vec4& destRectPerc, 
+		const glm::vec4& destRectPix, clickedButtonFcn pfcn) :
 		GUILabel(text, destRectPerc, destRectPix) 
 	{
-		m_clickedButton = clickedButton;
+		f_clicked = pfcn;
 	}
 	/// <summary>
 	/// Finalizes an instance of the <see cref="GUIButton"/> class.
@@ -46,7 +49,7 @@ private:
 	/// <returns></returns>
 	bool pushButton(const CEGUI::EventArgs& e)
 	{
-		return m_clickedButton(megaEvents);
+		return this->f_clicked(megaEvents);
 	}
 
 	/// <summary>
@@ -54,7 +57,8 @@ private:
 	/// </summary>
 	/// <param name="">The .</param>
 	/// <returns></returns>
-	bool(*m_clickedButton)(MegaEvents);
+	clickedButtonFcn f_clicked;
+
 	/// <summary>
 	/// The mega events
 	/// </summary>
