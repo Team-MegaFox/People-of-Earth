@@ -3,7 +3,7 @@
 // Created          : 01-30-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 01-30-2016
+// Last Modified On : 02-01-2016
 // ***********************************************************************
 // <copyright file="ErrorLog.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -20,7 +20,7 @@
 #include <fstream>
 #include <string>
 #include <ctime>
-#include "Core\Time.h"
+#include "..\Core\Time.h"
 
 class ErrorLog
 {

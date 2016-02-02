@@ -82,8 +82,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Audio\AudioEngine.cpp" />
-    <ClCompile Include="Audio\SoundSource.cpp" />
-    <ClCompile Include="Audio\StreamSource.cpp" />
     <ClCompile Include="Core\CoreEngine.cpp" />
     <ClCompile Include="Core\ErrorLog.cpp" />
     <ClCompile Include="Core\GameObject.cpp" />
@@ -112,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio\AudioEngine.h" />
+    <ClInclude Include="Audio\AudioListener.h" />
     <ClInclude Include="Audio\SoundSource.h" />
     <ClInclude Include="Audio\StreamSource.h" />
     <ClInclude Include="Components\AudioSource.h" />

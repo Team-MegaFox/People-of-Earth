@@ -332,11 +332,6 @@ float & AudioEngine::getStreamVolume()
 	return m_streamVolume;
 }
 
-void AudioEngine::addAudioSource(AudioSource* source)
-{
-	m_audioSources.push_back(source);
-}
-
 void AudioEngine::setListener(glm::vec3 pos, glm::vec3 vel, glm::vec3 forward, glm::vec3 up)
 {
 	m_system->set3DListenerAttributes(0, &glmToFMOD(pos), &glmToFMOD(vel), &glmToFMOD(forward), &glmToFMOD(up));

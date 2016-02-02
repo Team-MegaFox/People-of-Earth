@@ -33,8 +33,6 @@
 #include <string>
 #include <unordered_map>
 
-class AudioSource;
-
 static const int NUM_SOUND_CHANNELS = 45;
 static const int NUM_STREAM_CHANNELS = 15;
 
@@ -170,12 +168,6 @@ public:
 	/// <returns>The stream's volume level.</returns>
 	float & getStreamVolume();
 	
-	/// <summary>
-	/// Adds an audio source.
-	/// </summary>
-	/// <param name="source">The audio source.</param>
-	void addAudioSource(AudioSource* source);
-
 	/// <summary>
 	/// This method sets the position of the listener in the world
 	/// This in most game would be the player character
@@ -430,11 +422,6 @@ private:
 	/// </summary>
 	const std::vector<std::string> * m_streamList = new std::vector<std::string>();
 	
-	/// <summary>
-	/// The audio sources.
-	/// </summary>
-	std::vector<AudioSource*> m_audioSources; //<-- Do we really need this, I can't see why
-
 	/// <summary>
 	/// The m_sound map
 	/// </summary>
