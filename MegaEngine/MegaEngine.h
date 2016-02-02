@@ -24,5 +24,6 @@
 #include "Components\MeshRenderer.h"
 #include "Components\GUILabel.h"
 #include "Components\GUIButton.h"
+#include "Components\GUIProgressBar.h"
 
 //#undef main;

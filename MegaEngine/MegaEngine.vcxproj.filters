@@ -198,5 +198,8 @@
     <ClInclude Include="Components\GUIButton.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Components\GUIProgressBar.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

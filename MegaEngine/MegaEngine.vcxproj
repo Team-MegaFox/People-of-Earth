@@ -114,6 +114,7 @@
     <ClInclude Include="Components\GUIButton.h" />
     <ClInclude Include="Components\GUIComponent.h" />
     <ClInclude Include="Components\GUILabel.h" />
+    <ClInclude Include="Components\GUIProgressBar.h" />
     <ClInclude Include="Components\MeshRenderer.h" />
     <ClInclude Include="Core\CoreEngine.h" />
     <ClInclude Include="Core\GameObject.h" />
