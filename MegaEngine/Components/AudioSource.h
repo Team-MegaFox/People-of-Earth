@@ -272,22 +272,22 @@ public:
 protected:
 	 
 	/// <summary>
-	/// The m_sound source
+	/// The sound source handle
 	/// </summary>
 	SoundSource m_soundSource;
 	/// <summary>
-	/// The m_stream source
+	/// The stream source handle
 	/// </summary>
 	StreamSource m_streamSource;
 
 	/// <summary>
-	/// The m_audio listener
+	/// The audio listener handle
 	/// </summary>
 	AudioListener m_audioListener;
 
 private:
 	/// <summary>
-	/// The m_parent Game Object
+	/// The parent Game Object
 	/// </summary>
 	GameObject * m_parent;
 

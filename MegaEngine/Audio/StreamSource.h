@@ -5,15 +5,10 @@
 // Last Modified By : Jesse Derochie
 // Last Modified On : 02-01-2016
 // ***********************************************************************
-// <copyright file="AudioSource.h" company="Team MegaFox">
+// <copyright file="StreamSource.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
 // </copyright>
 // <summary>
-/*
-This StreamSource.h file was created to allow users to interface with
-the AudioEngine in MegaEngine, the methods available within this class
-make it so that anything we could foresee being useful was obtainable.
-*/
 // </summary>
 // ***********************************************************************
 
@@ -147,6 +142,9 @@ public:
 	}
 
 protected:
+	/// <summary>
+	/// The audio engine handle
+	/// </summary>
 	AudioEngine * m_audioEngine = m_parent->getCoreEngine()->getAudioEngine();
 
 private:
@@ -157,12 +155,12 @@ private:
 	std::string m_fileName;
 
 	/// <summary>
-	/// The m_parent Game Object
+	/// The parent Game Object
 	/// </summary>
 	GameObject * m_parent;
 
 	/// <summary>
-	/// The file path of this audiosource file
+	/// The file path of this StreamSource file
 	/// </summary>
 	std::string m_filePath = "";
 };

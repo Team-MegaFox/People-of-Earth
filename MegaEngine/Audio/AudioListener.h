@@ -44,12 +44,15 @@ public:
 	}
 
 protected:
+	/// <summary>
+	/// The audio engine handle
+	/// </summary>
 	AudioEngine * m_audioEngine = m_parent->getCoreEngine()->getAudioEngine();
 
 private:
 
 	/// <summary>
-	/// The m_parent Game Object
+	/// The parent Game Object
 	/// </summary>
 	GameObject * m_parent;
 };

@@ -9,11 +9,6 @@
 //     Copyright (c) Team MegaFox. All rights reserved.
 // </copyright>
 // <summary>
-/*
-This SoundSource.h file was created to allow users to interface with
-the AudioEngine in MegaEngine, the methods available within this class
-make it so that anything we could foresee being useful was obtainable.
-*/
 // </summary>
 // ***********************************************************************
 
@@ -171,6 +166,9 @@ public:
 	}
 
 protected:
+	/// <summary>
+	/// The audio engine handle
+	/// </summary>
 	AudioEngine * m_audioEngine = m_parent->getCoreEngine()->getAudioEngine();
 
 private:
@@ -181,12 +179,12 @@ private:
 	std::string m_fileName;
 
 	/// <summary>
-	/// The m_parent Game Object
+	/// The parent Game Object
 	/// </summary>
 	GameObject * m_parent;
 
 	/// <summary>
-	/// The file path of this audiosource file
+	/// The file path of this SoundSource file
 	/// </summary>
 	std::string m_filePath = "";
 };
