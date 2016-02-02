@@ -70,12 +70,14 @@ public:
 
 		addToRoot((new GameObject)
 			->addGUIComponent(new GUIButton("This is a button", 
-			glm::vec4(0.5f, 0.2f, 0.2f, 0.05f), glm::vec4(0.0f), thisButtonClicked)));
+			glm::vec4(0.5f, 0.2f, 0.2f, 0.05f), glm::vec4(0.0f),
+			std::bind(&TestScene::thisButtonClicked, this, std::placeholders::_1))));
 	}
 
 	bool thisButtonClicked(MegaEvents evt)
 	{
 		std::cout << "THis button was clicked." << std::endl;
+		return true;
 	}
 };
 

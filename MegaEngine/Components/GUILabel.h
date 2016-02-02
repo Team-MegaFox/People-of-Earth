@@ -29,7 +29,16 @@ public:
 		wi->setText(m_text);
 	}
 
+	void setText(const std::string& text)
+	{
+		m_text = text;
+		getWidget()->setText(m_text);
+	}
+
 protected:
+	std::string getText() { return m_text; }
+
+private:
 	/// <summary>
 	/// The m_text
 	/// </summary>
