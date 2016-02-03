@@ -117,6 +117,15 @@ public:
 				return check;
 			}
 		}
+
+		for (size_t i = 0; i < m_guiComponents.size(); i++)
+		{
+			T* check = dynamic_cast<T*>(m_guiComponents[i]);
+			if (check != nullptr)
+			{
+				return check;
+			}
+		}
 		return nullptr;
 	}
 
