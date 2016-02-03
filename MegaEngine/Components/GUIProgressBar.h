@@ -44,17 +44,23 @@ public:
 		m_progressBar->setProgress(m_percent);
 		m_progressBar->setStepSize(m_stepPerc);
 	}
+	
+	/// <summary>
+	/// Steps the progress bar by the step amount set.
+	/// Default is 0.01f (1%).
+	/// </summary>
+	void step() const { m_progressBar->step(); }
 
 	/// <summary>
 	/// Gets the current percentage of the bar.
 	/// </summary>
 	/// <returns>The percentage of the bar according to the step value.</returns>
-	float getPercent() { return m_percent; }
+	float getPercent() const { return m_percent; }
 	/// <summary>
 	/// Gets the step percentage.
 	/// </summary>
 	/// <returns>The step value.</returns>
-	float getStepPercent() { return m_stepPerc; }
+	float getStepPercent() const { return m_stepPerc; }
 
 	/// <summary>
 	/// Sets the current percentage of the bar.
@@ -79,7 +85,7 @@ private:
 	float m_percent;
 
 	/// <summary>
-	/// The step percentage of the bar.
+	/// The amount to step the progress bar.
 	/// </summary>
 	float m_stepPerc;
 

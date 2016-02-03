@@ -55,18 +55,12 @@ public:
 	/// Gets the text inputed in the text box.
 	/// </summary>
 	/// <returns>The text inputted.</returns>
-	std::string getText()
-	{
-		return std::string(m_editbox->getText().c_str());
-	}
+	std::string getText() const { return std::string(m_editbox->getText().c_str()); }
 	/// <summary>
 	/// Gets the maximum text length for the text box.
 	/// </summary>
 	/// <returns>The maximum character length.</returns>
-	int getMaxLength()
-	{
-		return m_maxLength;
-	}
+	int getMaxLength() const { return m_maxLength; }
 
 	/// <summary>
 	/// Sets the text in the text box.

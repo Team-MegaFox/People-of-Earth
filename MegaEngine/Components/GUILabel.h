@@ -28,19 +28,26 @@ public:
 		auto wi = createWidget(engine->getGUIEngine()->getSchemeStyle() + "/Label");
 		wi->setText(m_text);
 	}
-
+	
+	/// <summary>
+	/// Gets the widget's text.
+	/// </summary>
+	/// <returns>The text string of the widget.</returns>
+	std::string getText() const { return m_text; }
+	
+	/// <summary>
+	/// Sets the widget's text.
+	/// </summary>
+	/// <param name="text">The text string of the widget.</param>
 	void setText(const std::string& text)
 	{
 		m_text = text;
 		getWidget()->setText(m_text);
 	}
 
-protected:
-	std::string getText() { return m_text; }
-
 private:
 	/// <summary>
-	/// The m_text
+	/// The widget's text.
 	/// </summary>
 	std::string m_text;
 };

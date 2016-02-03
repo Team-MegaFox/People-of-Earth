@@ -19,9 +19,9 @@
 #include "..\Core\Utility.h"
 
 GUIEngine::GUIEngine(const std::string& resDir, 
-	const std::string& schemeFile /*= "TaharezLook.scheme"*/, 
-	const std::string& fontFile /*= "DejaVuSans-10"*/,
-	const std::string& mouseImageFile /*= "TaharezLook/MouseArrow"*/)
+	const std::string& schemeFile /*= "TaharezLook.scheme"*/,
+	const std::string& mouseImageFile /*= "TaharezLook/MouseArrow"*/,
+	const std::string& fontFile /*= "DejaVuSans-10"*/)
 {
 	if (m_renderer == nullptr)
 	{
@@ -48,9 +48,12 @@ GUIEngine::GUIEngine(const std::string& resDir,
 
 	loadScheme(schemeFile);
 	setFont(fontFile);
-	setMouseCursor(mouseImageFile);
-	showMouseCursor(true);
-	SDL_ShowCursor(0);
+	if (mouseImageFile != "")
+	{
+		setMouseCursor(mouseImageFile);
+		showMouseCursor(true);
+		SDL_ShowCursor(0);
+	}
 }
 
 GUIEngine::~GUIEngine()

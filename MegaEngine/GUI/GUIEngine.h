@@ -26,9 +26,9 @@ public:
 	/// </summary>
 	/// <param name="resDir">The resource dir.</param>
 	GUIEngine(const std::string& resDir, 
-		const std::string& schemeFile = "TaharezLook.scheme", 
-		const std::string& fontFile = "DejaVuSans-10",
-		const std::string& mouseImageFile = "TaharezLook/MouseArrow");
+		const std::string& schemeFile = "TaharezLook.scheme",
+		const std::string& mouseImageFile = "",
+		const std::string& fontFile = "DejaVuSans-10");
 	/// <summary>
 	/// Finalizes an instance of the <see cref="GUIEngine"/> class.
 	/// </summary>

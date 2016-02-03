@@ -69,7 +69,7 @@ public:
 			->addGUIComponent(new GUILabel(glm::vec4(0.2f, 0.5f, 0.1f, 0.05f), glm::vec4(0.0f), "[colour='FFFF0000']Hello!")));
 
 		addToRoot((new GameObject)
-			->addGUIComponent(new GUITextBox(glm::vec4(0.5f, 0.1f, 0.2f, 0.05f), glm::vec4(0.0f), "Hello!", -1)));
+			->addGUIComponent(new GUISlider(glm::vec4(0.5f, 0.1f, 0.2f, 0.05f), glm::vec4(0.0f))));
 	}
 };
 
