@@ -86,7 +86,7 @@ $tf/
 *.gpState
 
 # GhostDoc
-*.GhostDoc.xml
+PeopleOfEarth.sln.GhostDoc.xml
 
 # ReSharper is a .NET coding add-in
 _ReSharper*/
