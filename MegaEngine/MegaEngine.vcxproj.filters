@@ -192,16 +192,16 @@
     <ClInclude Include="Components\AudioSource.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="Audio\SoundSource.h">
-      <Filter>Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="Audio\StreamSource.h">
-      <Filter>Audio</Filter>
-    </ClInclude>
     <ClInclude Include="Core\ErrorLog.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Audio\AudioListener.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\Stream.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\Sound.h">
       <Filter>Audio</Filter>
     </ClInclude>
   </ItemGroup>

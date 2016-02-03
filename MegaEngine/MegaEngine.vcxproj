@@ -111,8 +111,8 @@
   <ItemGroup>
     <ClInclude Include="Audio\AudioEngine.h" />
     <ClInclude Include="Audio\AudioListener.h" />
-    <ClInclude Include="Audio\SoundSource.h" />
-    <ClInclude Include="Audio\StreamSource.h" />
+    <ClInclude Include="Audio\Sound.h" />
+    <ClInclude Include="Audio\Stream.h" />
     <ClInclude Include="Components\AudioSource.h" />
     <ClInclude Include="Components\GameComponents.h" />
     <ClInclude Include="Components\MeshRenderer.h" />
