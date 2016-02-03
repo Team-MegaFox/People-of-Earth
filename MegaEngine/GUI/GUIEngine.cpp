@@ -199,37 +199,6 @@ void GUIEngine::processInput(SDL_Event& e)
 	default:
 		break;
 	}
-
-	/*CEGUI::utf32 codePoint;
-	if (input->getTextInputState())
-	{
-		codePoint = 0;
-		const char* text = input->getTextInput();
-		for (int i = 0; input->getTextInput()[i] != '\0'; i++) {
-			codePoint |= (((CEGUI::utf32)input->getTextInput()[i]) << (i * 8));
-		}
-		m_context->injectChar(codePoint);
-	}
-	else if (input->MouseMoved())
-	{
-		m_context->injectMousePosition(input->GetMousePosition().x, input->GetMousePosition().y);
-	}
-	else if (input->getKeyDownState())
-	{
-		m_context->injectKeyDown(SDLKeyToCEGUIKey(input->getKeyCode()));
-	}
-	else if (input->getKeyUpState())
-	{
-		m_context->injectKeyUp(SDLKeyToCEGUIKey(input->getKeyCode()));
-	}
-	else if (input->getMouseDownState())
-	{
-		m_context->injectMouseButtonDown(SDLButtonToCEGUIButton(input->getMouseButton()));
-	}
-	else if (input->getMouseUpState())
-	{
-		m_context->injectMouseButtonUp(SDLButtonToCEGUIButton(input->getMouseButton()));
-	}*/
 }
 
 void GUIEngine::update()

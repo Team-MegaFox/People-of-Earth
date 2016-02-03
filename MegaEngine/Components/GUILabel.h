@@ -8,10 +8,10 @@ public:
 	/// <summary>
 	/// Initializes a new instance of the <see cref="GUILabel"/> class.
 	/// </summary>
-	/// <param name="text">The text.</param>
 	/// <param name="destRectPerc">The dest rect perc.</param>
 	/// <param name="destRectPix">The dest rect pix.</param>
-	GUILabel(const std::string& text, const glm::vec4& destRectPerc, const glm::vec4& destRectPix) :
+	/// <param name="text">The text.</param>
+	GUILabel(const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& text) :
 		GUIComponent(destRectPerc, destRectPix), m_text(text) { }
 
 	/// <summary>

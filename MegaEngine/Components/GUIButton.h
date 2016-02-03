@@ -21,13 +21,14 @@ public:
 	/// <summary>
 	/// Initializes a new instance of the <see cref="GUIButton"/> class.
 	/// </summary>
-	/// <param name="text">The text in the button.</param>
 	/// <param name="destRectPerc">The size of the widget relative the parent widget.</param>
 	/// <param name="destRectPix">The size of the widget in pixels.</param>
+	/// <param name="text">The text in the button.</param>
 	/// <param name="pfcn">The function to call when the button is clicked.</param>
-	GUIButton(const std::string& text, const glm::vec4& destRectPerc,
-		const glm::vec4& destRectPix, std::function<bool(MegaEvents)> pfcn = nullptr) :
-		GUILabel(text, destRectPerc, destRectPix), f_clicked(pfcn) { }
+	GUIButton(const glm::vec4& destRectPerc,
+		const glm::vec4& destRectPix, const std::string& text,
+		std::function<bool(MegaEvents)> pfcn = nullptr) :
+		GUILabel(destRectPerc, destRectPix, text), f_clicked(pfcn) { }
 	/// <summary>
 	/// Finalizes an instance of the <see cref="GUIButton"/> class.
 	/// </summary>
