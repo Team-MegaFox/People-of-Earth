@@ -12,6 +12,8 @@
 // ***********************************************************************
 #include <glew\glew.h>
 #include <SDL2\SDL.h>
+#include <iostream>
+#include <utf8\utf8.h>
 #include "GUIEngine.h"
 #include "..\Core\Time.h"
 #include "..\Core\Utility.h"
@@ -167,10 +169,48 @@ CEGUI::MouseButton SDLButtonToCEGUIButton(Uint8 sdlButton) {
 	return CEGUI::MouseButton::NoButton;
 }
 
-void GUIEngine::processInput(InputManager* input)
+void GUIEngine::processInput(SDL_Event& e)
 {
 	CEGUI::utf32 codePoint;
-	if (input->MouseMoved())
+	std::string evntText = std::string(e.text.text);
+	std::vector<int> utf32result;
+	switch (e.type)
+	{
+	case SDL_KEYDOWN:
+		m_context->injectKeyDown(SDLKeyToCEGUIKey(e.key.keysym.sym));
+		break;
+	case SDL_KEYUP:
+		m_context->injectKeyUp(SDLKeyToCEGUIKey(e.key.keysym.sym));
+		break;
+	case SDL_MOUSEBUTTONDOWN:
+		m_context->injectMouseButtonDown(SDLButtonToCEGUIButton(e.button.button));
+		break;
+	case SDL_MOUSEBUTTONUP:
+		m_context->injectMouseButtonUp(SDLButtonToCEGUIButton(e.button.button));
+		break;
+	case SDL_MOUSEMOTION:
+		m_context->injectMousePosition(e.motion.x, e.motion.y);
+		break;
+	case SDL_TEXTINPUT:
+		utf8::utf8to32(e.text.text, e.text.text + evntText.size(), std::back_inserter(utf32result));
+		codePoint = (CEGUI::utf32)utf32result[0];
+		m_context->injectChar(codePoint);
+		break;
+	default:
+		break;
+	}
+
+	/*CEGUI::utf32 codePoint;
+	if (input->getTextInputState())
+	{
+		codePoint = 0;
+		const char* text = input->getTextInput();
+		for (int i = 0; input->getTextInput()[i] != '\0'; i++) {
+			codePoint |= (((CEGUI::utf32)input->getTextInput()[i]) << (i * 8));
+		}
+		m_context->injectChar(codePoint);
+	}
+	else if (input->MouseMoved())
 	{
 		m_context->injectMousePosition(input->GetMousePosition().x, input->GetMousePosition().y);
 	}
@@ -182,14 +222,6 @@ void GUIEngine::processInput(InputManager* input)
 	{
 		m_context->injectKeyUp(SDLKeyToCEGUIKey(input->getKeyCode()));
 	}
-	else if (input->getTextInputState())
-	{
-		codePoint = 0;
-		for (int i = 0; input->getTextInput()[i] != '\0'; i++) {
-			codePoint |= (((CEGUI::utf32)input->getTextInput()[i]) << (i * 8));
-		}
-		m_context->injectChar(codePoint);
-	}
 	else if (input->getMouseDownState())
 	{
 		m_context->injectMouseButtonDown(SDLButtonToCEGUIButton(input->getMouseButton()));
@@ -197,7 +229,7 @@ void GUIEngine::processInput(InputManager* input)
 	else if (input->getMouseUpState())
 	{
 		m_context->injectMouseButtonUp(SDLButtonToCEGUIButton(input->getMouseButton()));
-	}
+	}*/
 }
 
 void GUIEngine::update()

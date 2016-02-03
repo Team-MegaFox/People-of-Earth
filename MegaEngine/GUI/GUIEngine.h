@@ -38,7 +38,7 @@ public:
 	/// Processes the input.
 	/// </summary>
 	/// <param name="input">The input.</param>
-	void processInput(InputManager* input);
+	void processInput(SDL_Event& e);
 	/// <summary>
 	/// Updates this instance.
 	/// </summary>
@@ -117,7 +117,7 @@ private:
 	/// <summary>
 	/// The m_renderer
 	/// </summary>
-	CEGUI::OpenGL3Renderer* m_renderer;
+	CEGUI::OpenGL3Renderer* m_renderer = nullptr;
 	/// <summary>
 	/// The m_context
 	/// </summary>

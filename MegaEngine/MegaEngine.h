@@ -25,5 +25,6 @@
 #include "Components\GUILabel.h"
 #include "Components\GUIButton.h"
 #include "Components\GUIProgressBar.h"
+#include "Components\GUITextBox.h"
 
 //#undef main;

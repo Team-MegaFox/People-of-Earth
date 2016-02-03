@@ -201,5 +201,8 @@
     <ClInclude Include="Components\GUIProgressBar.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Components\GUITextBox.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

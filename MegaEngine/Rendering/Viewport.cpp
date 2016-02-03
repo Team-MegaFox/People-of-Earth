@@ -12,7 +12,7 @@
 // ***********************************************************************
 #include "Viewport.h"
 #include <glew\glew.h>
-
+#include "..\GUI\GUIEngine.h"
 
 Viewport::Viewport(const std::string& name, const int& screenWidth, const int& screenHeight, unsigned int windowFlags) : 
 m_input(this),
@@ -73,13 +73,14 @@ Viewport::~Viewport()
 	SDL_Quit();
 }
 
-void Viewport::update()
+void Viewport::update(GUIEngine* guiEngine)
 {
 	SDL_Event e;
 	if (m_input.Update(e))
 	{
 		m_isClosed = true;
 	}
+	guiEngine->processInput(e);
 }
 
 void Viewport::swapBuffers()
