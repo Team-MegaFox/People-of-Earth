@@ -3,6 +3,9 @@
 #include <iostream>
 #include <functional>
 
+/// <summary>
+/// Some sort of event thing for the engine. Haven't decided what to do with it yet.
+/// </summary>
 struct MegaEvents
 {
 

@@ -11,6 +11,7 @@
 // <summary></summary>
 // ***********************************************************************
 #include <glew\glew.h>
+#include <SDL2\SDL.h>
 #include "GUIEngine.h"
 #include "..\Core\Time.h"
 #include "..\Core\Utility.h"
@@ -20,7 +21,10 @@
 /// </summary>
 CEGUI::OpenGL3Renderer* GUIEngine::m_renderer = nullptr;
 
-GUIEngine::GUIEngine(const std::string& resDir)
+GUIEngine::GUIEngine(const std::string& resDir, 
+	const std::string& schemeFile /*= "TaharezLook.scheme"*/, 
+	const std::string& fontFile /*= "DejaVuSans-10"*/,
+	const std::string& mouseImageFile /*= "TaharezLook/MouseArrow"*/)
 {
 	if (m_renderer == nullptr)
 	{
@@ -44,6 +48,12 @@ GUIEngine::GUIEngine(const std::string& resDir)
 	m_context = &CEGUI::System::getSingleton().createGUIContext(m_renderer->getDefaultRenderTarget());
 	m_root = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow", "root");
 	m_context->setRootWindow(m_root);
+
+	loadScheme(schemeFile);
+	setFont(fontFile);
+	setMouseCursor(mouseImageFile);
+	showMouseCursor(true);
+	SDL_ShowCursor(0);
 }
 
 GUIEngine::~GUIEngine()

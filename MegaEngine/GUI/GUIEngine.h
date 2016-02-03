@@ -25,7 +25,10 @@ public:
 	/// Initializes a new instance of the <see cref="GUIEngine"/> class.
 	/// </summary>
 	/// <param name="resDir">The resource dir.</param>
-	GUIEngine(const std::string& resDir);
+	GUIEngine(const std::string& resDir, 
+		const std::string& schemeFile = "TaharezLook.scheme", 
+		const std::string& fontFile = "DejaVuSans-10",
+		const std::string& mouseImageFile = "TaharezLook/MouseArrow");
 	/// <summary>
 	/// Finalizes an instance of the <see cref="GUIEngine"/> class.
 	/// </summary>

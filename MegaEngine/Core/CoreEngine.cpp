@@ -34,12 +34,6 @@ m_sceneManager(sceneManager)
 {
 	if (m_sceneManager)
 	{
-		m_guiEngine->loadScheme("TaharezLook.scheme");
-		m_guiEngine->setFont("DejaVuSans-10");
-		m_guiEngine->setMouseCursor("TaharezLook/MouseArrow");
-		m_guiEngine->showMouseCursor(true);
-		SDL_ShowCursor(0);
-
 		m_sceneManager->setEngine(this);
 
 		m_sceneManager->getCurrentScene()->init(*m_viewport);
