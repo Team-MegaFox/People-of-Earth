@@ -23,11 +23,9 @@
 #include "../Core/CoreEngine.h"
 #include "../Core/GameObject.h"
 
-#include "../Audio/SoundSource.h"
-#include "../Audio/StreamSource.h"
+#include "../Audio/Sound.h"
+#include "../Audio/Stream.h"
 #include "../Audio/AudioListener.h"
-
-#include "../Core/Utility.h"
 
 class AudioSource : public GameComponent
 {
@@ -36,14 +34,14 @@ public:
 	/// Initializes a new instance of the <see cref="AudioSource"/> class.
 	/// </summary>
 	/// <param name="sound">The sound.</param>
-	AudioSource(const SoundSource & sound) :
+	AudioSource(const Sound & sound) :
 		m_soundSource(sound)
 	{}
 	/// <summary>
 	/// Initializes a new instance of the <see cref="AudioSource"/> class.
 	/// </summary>
 	/// <param name="stream">The stream.</param>
-	AudioSource(const StreamSource & stream) :
+	AudioSource(const Stream & stream) :
 		m_streamSource(stream)
 	{}
 	/// <summary>
@@ -72,12 +70,12 @@ public:
 	/// <summary>
 	/// Plays the stream.
 	/// </summary>
-	void playStream() { m_streamSource.playStream(); }
+	void playStream(bool looping) { m_streamSource.playStream(looping); }
 
 	/// <summary>
 	/// Stops all sounds.
 	/// </summary>
-	void stopAllSounds() { m_soundSource.stopAllSounds(); }
+	void stopAllSounds() { m_soundSource.stopAllSoundEffects(); }
 
 	/// <summary>
 	/// Stops all streams.
@@ -146,37 +144,37 @@ public:
 	/// Sets the sound volume for all sounds.
 	/// </summary>
 	/// <param name="volume">The volume level.</param>
-	void setSoundVolumeAll(float volume) { m_soundSource.setSoundVolumeAll(volume); }
+	void setSoundVolumeAll(float volume) { m_soundSource.setSoundEffectVolumeAll(volume); }
 
 	/// <summary>
 	/// Sets this sounds volume.
 	/// </summary>
 	/// <param name="volume">The volume level.</param>
-	void setSoundVolume(float volume) { m_soundSource.setSoundVolume(volume); }
+	void setSoundVolume(float volume) { m_soundSource.setSoundEffectVolume(volume); }
 
 	/// <summary>
 	/// Sets the stream volume for all streams.
 	/// </summary>
 	/// <param name="volume">The volume level.</param>
-	void setStreamVolumeAll(float volume) { m_streamSource.setStreamVolumeAll(volume); }
+	void setStreamVolumeAll(float volume) { m_streamSource.setStreamEffectVolumeAll(volume); }
 
 	/// <summary>
 	/// Sets this streams volume.
 	/// </summary>
 	/// <param name="volume">The volume level.</param>
-	void setStreamVolume(float volume) { m_streamSource.setStreamVolume(volume); }
+	void setStreamVolume(float volume) { m_streamSource.setStreamEffectVolume(volume); }
 
 	/// <summary>
 	/// Sets the sound position and vel.
 	/// </summary>
 	/// <param name="pos">The position of this sound.</param>
-	void setSoundPosition(glm::vec3 pos) { m_soundSource.setSoundPosition(pos); }
+	void setSoundPosition(glm::vec3 pos) { m_soundSource.setSoundPosVel(pos); }
 
 	/// <summary>
 	/// Sets the stream position and vel.
 	/// </summary>
 	/// <param name="pos">The position of this stream.</param>
-	void setStreamPosition(glm::vec3 pos) { m_streamSource.setStreamPosition(pos); }
+	void setStreamPosition(glm::vec3 pos) { m_streamSource.setStreamPosVel(pos); }
 
 	/// <summary>
 	/// Sets the panning of this sound.
@@ -194,13 +192,13 @@ public:
 	/// Sets this sounds doppler level.
 	/// </summary>
 	/// <param name="dop">The dop.</param>
-	void setSoundDoppler(float dop) { m_soundSource.setSoundDoppler(dop); }
+	void setSoundDoppler(float dop) { m_soundSource.setSoundDopplerLevel(dop); }
 
 	/// <summary>
 	/// Sets this streams doppler level.
 	/// </summary>
 	/// <param name="dop">The dop.</param>
-	void setStreamDoppler(float dop) { m_streamSource.setStreamDoppler(dop); }
+	void setStreamDoppler(float dop) { m_streamSource.setStreamDopplerLevel(dop); }
 
 	/// <summary>
 	/// Sets up the sound cone.
@@ -211,7 +209,8 @@ public:
 	/// <param name="oVol">The outside volume (the level of volume outside the cone).</param>
 	void setupSoundCone(glm::vec3 orient, float iCA, float oCA, float oVol)
 	{
-		m_soundSource.setupSoundCone(orient, iCA, oCA, oVol);
+		m_soundSource.setSoundConeOrientation(orient);
+		m_soundSource.setSoundConeSettings(iCA, oCA, oVol);
 	}
 
 	/// <summary>
@@ -229,13 +228,13 @@ public:
 	/// Sets the sound 3D minimum distance for attenuation.
 	/// </summary>
 	/// <param name="min">The minimum.</param>
-	void setSound3DMinDist(float min) { m_soundSource.setSound3DMinDist(min); }
+	void setSound3DMinDist(float min) { m_soundSource.setSound3DMinMaxDistance(min); }
 
 	/// <summary>
 	/// Sets the stream 3D minimum distance for attenuation.
 	/// </summary>
 	/// <param name="min">The minimum.</param>
-	void setStream3DMinDist(float min) { m_streamSource.setStream3DMinDist(min); }
+	void setStream3DMinDist(float min) { m_streamSource.setStream3DMinMaxDistance(min); }
 
 	/// <summary>
 	/// Sets the occlusion (if something is in the way of the sound).
@@ -253,13 +252,13 @@ public:
 	/// Loads the sounds list.
 	/// </summary>
 	/// <param name="fileNames">The sounds' file names.</param>
-	void loadSoundList(std::vector<std::string> fileNames) { m_soundSource.loadSoundList(fileNames); }
+	void loadSoundList(std::vector<std::string> fileNames) { m_soundSource.loadSounds(fileNames); }
 
 	/// <summary>
 	/// Loads the streams list.
 	/// </summary>
 	/// <param name="fileNames">The streams' file names.</param>
-	void loadStreamList(std::vector<std::string> fileNames) { m_streamSource.loadStreamList(fileNames); }
+	void loadStreamList(std::vector<std::string> fileNames) { m_streamSource.loadStreams(fileNames); }
 
 	/// <summary>
 	/// Sets as listener.
@@ -274,11 +273,11 @@ protected:
 	/// <summary>
 	/// The sound source handle
 	/// </summary>
-	SoundSource m_soundSource;
+	Sound m_soundSource;
 	/// <summary>
 	/// The stream source handle
 	/// </summary>
-	StreamSource m_streamSource;
+	Stream m_streamSource;
 
 	/// <summary>
 	/// The audio listener handle

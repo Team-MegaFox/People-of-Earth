@@ -24,30 +24,17 @@
 #include "AudioEngine.h"
 #include "..\Components\AudioSource.h"
 
-AudioEngine::AudioEngine() :
-m_system(nullptr),
-m_soundEffectChannels(nullptr),
-m_streamEffectChannels(nullptr)
+FMOD::System * AudioEngine::m_system = nullptr;
+FMOD::ChannelGroup * AudioEngine::m_soundEffectChannels = nullptr;
+FMOD::ChannelGroup * AudioEngine::m_streamEffectChannels = nullptr;
+
+AudioEngine::AudioEngine()
 {
 	// Create FMOD system object
 	m_result = FMOD::System_Create(&m_system);
 	FMODVerifyResult(m_result);
 
 	init();
-
-}
-
-AudioEngine::~AudioEngine()
-{
-	dispose(*m_soundList, *m_streamList);
-	if (m_soundList)
-	{
-		delete m_soundList;
-	}
-	if (m_streamList)
-	{
-		delete m_streamList;
-	}
 }
 
 void AudioEngine::init()
@@ -135,10 +122,8 @@ void AudioEngine::init()
 
 	FMODVerifyResult(m_result);
 
-	// Setup ChannelGroups
 	FMODVerifyResult(m_system->createChannelGroup(NULL, &m_streamEffectChannels));
 	FMODVerifyResult(m_system->createChannelGroup(NULL, &m_soundEffectChannels));
-
 }
 
 void AudioEngine::dispose()

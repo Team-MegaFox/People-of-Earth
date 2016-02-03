@@ -46,7 +46,7 @@ public:
 	/// <summary>
 	/// Finalizes an instance of the <see cref="AudioEngine"/> class.
 	/// </summary>
-	~AudioEngine();
+	~AudioEngine() {}
 	/// <summary>
 	/// Initializes a new instance of the <see cref="AudioEngine"/> class.
 	/// Nullify the copy constructor
@@ -64,6 +64,18 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	static FMOD::System * getSystem() { return m_system; }
+
+	/// <summary>
+	/// Gets the sound channel group.
+	/// </summary>
+	/// <returns></returns>
+	static FMOD::ChannelGroup * getSoundChannelGroup() { return m_soundEffectChannels; }
+
+	/// <summary>
+	/// Gets the stream channel group.
+	/// </summary>
+	/// <returns></returns>
+	static FMOD::ChannelGroup * getStreamChannelGroup() { return m_streamEffectChannels; }
 
 	/// <summary>
 	/// Updates the system object
@@ -98,6 +110,21 @@ private:
 	/// The FMOD system.
 	/// </summary>
 	static FMOD::System * m_system;
+
+	/// <summary>
+	/// The stream effect channels.
+	/// </summary>
+	static FMOD::ChannelGroup * m_streamEffectChannels;
+
+	/// <summary>
+	/// The sound effect channels.
+	/// </summary>
+	static FMOD::ChannelGroup * m_soundEffectChannels;
+
+	/// <summary>
+	/// The FMOD result.
+	/// </summary>
+	FMOD_RESULT m_result;
 
 };
 

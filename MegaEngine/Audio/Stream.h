@@ -36,13 +36,6 @@ public:
 	/// </summary>
 	~Stream() {}
 
-	/// <summary>
-	/// Initializes a new instance of the <see cref="Stream"/> class.
-	/// Nullify the copy constructor
-	/// </summary>
-	/// <param name="">The .</param>
-	Stream(const Stream&) = delete;
-
 	void dispose()
 	{
 		if (!m_streamList->empty())
@@ -63,11 +56,19 @@ public:
 			//delete [] m_streamChannels;
 		}
 
-		if (m_streamEffectChannels != nullptr)
+		if (AudioEngine::getStreamChannelGroup() != nullptr)
 		{
-			m_streamEffectChannels->release();
+			AudioEngine::getStreamChannelGroup()->release();
 		}
 
+	}
+
+	void setStream()
+	{
+		m_streams[m_streamMap[m_fileName].second]->release();
+		AudioEngine::getSystem()->createSound(m_fileName.c_str(), FMOD_3D | FMOD_DEFAULT, 0, &m_streamMap[m_fileName].first);
+		AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX(m_streamMap[m_fileName].second), m_streamMap[m_fileName].first, true, &m_streamChannels[m_streamMap[m_fileName].second]);
+		m_streamChannels[m_streamMap[m_fileName].second]->setChannelGroup(AudioEngine::getStreamChannelGroup());
 	}
 
 	void setStream(std::string filepath)
@@ -75,22 +76,22 @@ public:
 		m_streams[m_streamMap[filepath].second]->release();
 		AudioEngine::getSystem()->createSound(filepath.c_str(), FMOD_3D | FMOD_DEFAULT, 0, &m_streamMap[filepath].first);
 		AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX(m_streamMap[filepath].second), m_streamMap[filepath].first, true, &m_streamChannels[m_streamMap[filepath].second]);
-		m_streamChannels[m_streamMap[filepath].second]->setChannelGroup(m_streamEffectChannels);
+		m_streamChannels[m_streamMap[filepath].second]->setChannelGroup(AudioEngine::getStreamChannelGroup());
 	}
 
-	void playStream(std::string filepath, bool looping)
+	void playStream(bool looping)
 	{
 		if (looping)
 		{
-			m_streamChannels[m_streamMap[filepath].second]->setMode(FMOD_LOOP_NORMAL);
-			m_streamChannels[m_streamMap[filepath].second]->setLoopCount(-1);
+			m_streamChannels[m_streamMap[m_fileName].second]->setMode(FMOD_LOOP_NORMAL);
+			m_streamChannels[m_streamMap[m_fileName].second]->setLoopCount(-1);
 		}
-		m_streamChannels[m_streamMap[filepath].second]->setPaused(false);
+		m_streamChannels[m_streamMap[m_fileName].second]->setPaused(false);
 	}
 
-	void pauseStream(bool pause, std::string filepath)
+	void pauseStream(bool pause)
 	{
-		m_streamChannels[m_streamMap[filepath].second]->setPaused(pause);
+		m_streamChannels[m_streamMap[m_fileName].second]->setPaused(pause);
 	}
 
 	void stopAllStreams()
@@ -104,59 +105,59 @@ public:
 		}
 	}
 
-	bool isStreamPlaying(std::string filepath)
+	bool isStreamPlaying()
 	{
 		bool result;
 
-		m_streamChannels[m_streamMap[filepath].second]->isPlaying(&result);
+		m_streamChannels[m_streamMap[m_fileName].second]->isPlaying(&result);
 
 		return result;
 	}
 
-	void setStreamEffectVolume(std::string filepath, float volumeLevel)
-	{
-		m_streamChannels[m_streamMap[filepath].second]->setVolume(volumeLevel);
-	}
-
 	void setStreamEffectVolume(float volumeLevel)
 	{
-		m_streamEffectChannels->setVolume(volumeLevel);
+		m_streamChannels[m_streamMap[m_fileName].second]->setVolume(volumeLevel);
+	}
+
+	void setStreamEffectVolumeAll(float volumeLevel)
+	{
+		AudioEngine::getStreamChannelGroup()->setVolume(volumeLevel);
 	}
 
 	float & getStreamVolume()
 	{
-		m_streamEffectChannels->getVolume(&m_streamVolume);
+		AudioEngine::getStreamChannelGroup()->getVolume(&m_streamVolume);
 		return m_streamVolume;
 	}
 
-	void setStreamPosVel(std::string filepath, glm::vec3 pos, glm::vec3 vel)
+	void setStreamPosVel(glm::vec3 pos, glm::vec3 vel = glm::vec3(0.0f))
 	{
-		m_streamChannels[m_streamMap[filepath].second]->set3DAttributes(&glmToFMOD(pos), &glmToFMOD(vel));
+		m_streamChannels[m_streamMap[m_fileName].second]->set3DAttributes(&glmToFMOD(pos), &glmToFMOD(vel));
 	}
 
-	void setStreamPan(std::string filepath, float pan)
+	void setStreamPan(float pan)
 	{
-		m_streamChannels[m_streamMap[filepath].second]->setPan(pan);
+		m_streamChannels[m_streamMap[m_fileName].second]->setPan(pan);
 	}
 
-	void setStreamDopplerLevel(std::string filepath, float dopplerLevel)
+	void setStreamDopplerLevel(float dopplerLevel)
 	{
-		m_streamChannels[m_streamMap[filepath].second]->set3DDopplerLevel(dopplerLevel);
+		m_streamChannels[m_streamMap[m_fileName].second]->set3DDopplerLevel(dopplerLevel);
 	}
 
-	void setSoundDistanceFilter(std::string filepath, bool custom, bool customLevel, float centerFreq)
+	void setSoundDistanceFilter(bool custom, bool customLevel, float centerFreq)
 	{
-		m_streamChannels[m_streamMap[filepath].second]->set3DDistanceFilter(custom, customLevel, centerFreq);
+		m_streamChannels[m_streamMap[m_fileName].second]->set3DDistanceFilter(custom, customLevel, centerFreq);
 	}
 
-	void setStream3DMinMaxDistance(std::string filepath, float min, float max)
+	void setStream3DMinMaxDistance(float min, float max = NULL)
 	{
-		m_streamChannels[m_streamMap[filepath].second]->set3DMinMaxDistance(min, max);
+		m_streamChannels[m_streamMap[m_fileName].second]->set3DMinMaxDistance(min, max);
 	}
 
-	void setStreamOcclusion(std::string filepath, float attenuation, float reverberation)
+	void setStreamOcclusion(float attenuation, float reverberation = NULL)
 	{
-		m_streamEffectChannels[m_streamMap[filepath].second].set3DOcclusion(attenuation, reverberation);
+		AudioEngine::getStreamChannelGroup()[m_streamMap[m_fileName].second].set3DOcclusion(attenuation, reverberation);
 	}
 
 
@@ -171,7 +172,7 @@ public:
 			setStream(streamList[i]);
 		}
 
-		m_streamEffectChannels->getNumChannels(&numChannels);
+		AudioEngine::getStreamChannelGroup()->getNumChannels(&numChannels);
 
 		if (numChannels != streamList.size())
 		{
@@ -230,11 +231,6 @@ private:
 	std::string m_filePath = "";
 
 	/// <summary>
-	/// The FMOD result.
-	/// </summary>
-	FMOD_RESULT m_result;
-
-	/// <summary>
 	/// The stream's volume.
 	/// </summary>
 	float m_streamVolume;
@@ -248,10 +244,7 @@ private:
 	/// The stream channels.
 	/// </summary>
 	FMOD::Channel * m_streamChannels[NUM_STREAM_CHANNELS];
-	/// <summary>
-	/// The stream effect channels.
-	/// </summary>
-	FMOD::ChannelGroup * m_streamEffectChannels;
+
 	/// <summary>
 	/// The stream list.
 	/// </summary>
@@ -261,6 +254,7 @@ private:
 	/// The m_stream map
 	/// </summary>
 	std::unordered_map<std::string, std::pair<FMOD::Sound*, int>> m_streamMap;
+
 };
 
 /*

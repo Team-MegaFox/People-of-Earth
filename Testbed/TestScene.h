@@ -62,17 +62,12 @@ public:
 		addToRoot((new GameObject(glm::vec3(0.0f, -5.0f, -55000.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(1000.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("sphere.obj", 0.1f), Material("sunTexture"))));
 
-		StreamSource bob("./Assets/Music/music.mp3");
+		Stream bob("./Assets/Music/music.mp3");
 		AudioSource * ambientSounds = new AudioSource(bob);
 
 		addToRoot((new GameObject(glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
 			->addGameComponent(new DirectionalLight(glm::vec3(1.0f), 0.02f, 7, 8.0f, 1.0f))
 			->addGameComponent(ambientSounds));
-
-		if (ambientSounds->isStreamPlaying())
-		{
-			std::cout << "The Sound is playing!!" << std::endl;
-		}
 
 		CameraComponent* cc = camera->getComponent<CameraComponent>();
 		if (cc != nullptr)

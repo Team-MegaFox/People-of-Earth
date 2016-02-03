@@ -36,13 +36,6 @@ public:
 	/// </summary>
 	~Sound() {}
 
-	/// <summary>
-	/// Initializes a new instance of the <see cref="Sound"/> class.
-	/// Nullify the copy constructor
-	/// </summary>
-	/// <param name="">The .</param>
-	Sound(const Sound&) = delete;
-
 	void dispose()
 	{
 		//Clean up the SoundEffects and Stream Effects
@@ -66,32 +59,43 @@ public:
 		}
 
 		//Clean up the Channel Groups
-		if (m_soundEffectChannels != nullptr)
+		if (AudioEngine::getSoundChannelGroup() != nullptr)
 		{
-			m_soundEffectChannels->release();
+			AudioEngine::getSoundChannelGroup()->release();
 		}
 	}
 
-	void setSound(std::string filepath)
+	void setSound()
 	{
 		// TODO: stream needs to work like below
 		// make m_sounds a member variable
 		// fix load sounds and streams to work with this.
 
-		m_soundEffects[m_soundMap[filepath].second]->release();
-		AudioEngine::getSystem()->createSound(filepath.c_str(), FMOD_3D | FMOD_DEFAULT, 0, &m_soundMap[filepath].first);
-		AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX(m_soundMap[filepath].second), m_soundMap[filepath].first, true, &m_soundChannels[m_soundMap[filepath].second]);
-		m_soundChannels[m_soundMap[filepath].second]->setChannelGroup(m_soundEffectChannels);
+		m_soundEffects[m_soundMap[m_fileName].second]->release();
+		AudioEngine::getSystem()->createSound(m_fileName.c_str(), FMOD_3D | FMOD_DEFAULT, 0, &m_soundMap[m_fileName].first);
+		AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX(m_soundMap[m_fileName].second), m_soundMap[m_fileName].first, true, &m_soundChannels[m_soundMap[m_fileName].second]);
+		m_soundChannels[m_soundMap[m_fileName].second]->setChannelGroup(AudioEngine::getSoundChannelGroup());
 	}
 
-	void playSound(std::string filepath)
+	void setSound(std::string fileName)
 	{
-		m_soundChannels[m_soundMap[filepath].second]->setPaused(false);
+		// TODO: stream needs to work like below
+		// make m_sounds a member variable
+		// fix load sounds and streams to work with this.
+		m_soundEffects[m_soundMap[fileName].second]->release();
+		AudioEngine::getSystem()->createSound(fileName.c_str(), FMOD_3D | FMOD_DEFAULT, 0, &m_soundMap[fileName].first);
+		AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX(m_soundMap[fileName].second), m_soundMap[fileName].first, true, &m_soundChannels[m_soundMap[fileName].second]);
+		m_soundChannels[m_soundMap[fileName].second]->setChannelGroup(AudioEngine::getSoundChannelGroup());
 	}
 
-	void pauseSound(bool pause, std::string filepath)
+	void playSound()
 	{
-		m_soundChannels[m_soundMap[filepath].second]->setPaused(pause);
+		m_soundChannels[m_soundMap[m_fileName].second]->setPaused(false);
+	}
+
+	void pauseSound(bool pause)
+	{
+		m_soundChannels[m_soundMap[m_fileName].second]->setPaused(pause);
 	}
 
 	void stopAllSoundEffects()
@@ -105,69 +109,69 @@ public:
 		}
 	}
 
-	bool isSoundPlaying(std::string filepath)
+	bool isSoundPlaying()
 	{
 		bool result;
 
-		m_soundChannels[m_soundMap[filepath].second]->isPlaying(&result);
+		m_soundChannels[m_soundMap[m_fileName].second]->isPlaying(&result);
 
 		return result;
 	}
 
 	void setSoundEffectVolume(float volumeLevel)
 	{
-		m_soundEffectChannels->setVolume(volumeLevel);
+		AudioEngine::getSoundChannelGroup()->setVolume(volumeLevel);
 	}
 
-	void setSoundEffectVolume(std::string filepath, float volumeLevel)
+	void setSoundEffectVolumeAll(float volumeLevel)
 	{
-		m_soundChannels[m_soundMap[filepath].second]->setVolume(volumeLevel);
+		m_soundChannels[m_soundMap[m_fileName].second]->setVolume(volumeLevel);
 	}
 
 	float & getSoundVolume()
 	{
-		m_soundEffectChannels->getVolume(&m_soundVolume);
+		AudioEngine::getSoundChannelGroup()->getVolume(&m_soundVolume);
 		return m_soundVolume;
 	}
 
-	void setSoundPosVel(std::string filepath, glm::vec3 pos, glm::vec3 vel)
+	void setSoundPosVel(glm::vec3 pos, glm::vec3 vel = glm::vec3(0.0f))
 	{
-		m_soundChannels[m_soundMap[filepath].second]->set3DAttributes(&glmToFMOD(pos), &glmToFMOD(vel));
+		m_soundChannels[m_soundMap[m_fileName].second]->set3DAttributes(&glmToFMOD(pos), &glmToFMOD(vel));
 	}
 
-	void setSoundPan(std::string filepath, float pan)
+	void setSoundPan(float pan)
 	{
-		m_soundChannels[m_soundMap[filepath].second]->setPan(pan);
+		m_soundChannels[m_soundMap[m_fileName].second]->setPan(pan);
 	}
 
-	void setSoundDopplerLevel(std::string filepath, float dopplerLevel)
+	void setSoundDopplerLevel(float dopplerLevel)
 	{
-		m_soundChannels[m_soundMap[filepath].second]->set3DDopplerLevel(dopplerLevel);
+		m_soundChannels[m_soundMap[m_fileName].second]->set3DDopplerLevel(dopplerLevel);
 	}
 
-	void setSoundConeOrientation(std::string filepath, glm::vec3 orientation)
+	void setSoundConeOrientation(glm::vec3 orientation)
 	{
-		m_soundChannels[m_soundMap[filepath].second]->set3DConeOrientation(&glmToFMOD(orientation));
+		m_soundChannels[m_soundMap[m_fileName].second]->set3DConeOrientation(&glmToFMOD(orientation));
 	}
 
-	void setSoundConeSettings(std::string filepath, float insideConeAngle, float outsideConeAngle, float outsideVolume)
+	void setSoundConeSettings(float insideConeAngle, float outsideConeAngle, float outsideVolume)
 	{
-		m_soundChannels[m_soundMap[filepath].second]->set3DConeSettings(insideConeAngle, outsideConeAngle, outsideVolume);
+		m_soundChannels[m_soundMap[m_fileName].second]->set3DConeSettings(insideConeAngle, outsideConeAngle, outsideVolume);
 	}
 
-	void setSoundDistanceFilter(std::string filepath, bool custom, bool customLevel, float centerFreq)
+	void setSoundDistanceFilter(bool custom, bool customLevel, float centerFreq)
 	{
-		m_soundChannels[m_soundMap[filepath].second]->set3DDistanceFilter(custom, customLevel, centerFreq);
+		m_soundChannels[m_soundMap[m_fileName].second]->set3DDistanceFilter(custom, customLevel, centerFreq);
 	}
 
-	void setSound3DMinMaxDistance(std::string filepath, float min, float max)
+	void setSound3DMinMaxDistance(float min, float max = NULL)
 	{
-		m_soundChannels[m_soundMap[filepath].second]->set3DMinMaxDistance(min, max);
+		m_soundChannels[m_soundMap[m_fileName].second]->set3DMinMaxDistance(min, max);
 	}
 
-	void setSoundOcclusion(std::string filepath, float attenuation, float reverberation)
+	void setSoundOcclusion(float attenuation, float reverberation = NULL)
 	{
-		m_soundChannels[m_soundMap[filepath].second]->set3DOcclusion(attenuation, reverberation);
+		m_soundChannels[m_soundMap[m_fileName].second]->set3DOcclusion(attenuation, reverberation);
 	}
 
 	bool loadSounds(std::vector<std::string> soundList)
@@ -181,7 +185,7 @@ public:
 			setSound(soundList[i]);
 		}
 
-		m_soundEffectChannels->getNumChannels(&numChannels);
+		AudioEngine::getSoundChannelGroup()->getNumChannels(&numChannels);
 
 		if (numChannels != soundList.size())
 		{
@@ -193,14 +197,6 @@ public:
 		}
 
 		return result;
-	}
-	/// <summary>
-	/// Sets the file path.
-	/// </summary>
-	/// <param name="filePath">The file path.</param>
-	void setFilePath(std::string filePath)
-	{
-		m_filePath = filePath;
 	}
 
 private:
@@ -239,11 +235,6 @@ private:
 	GameObject * m_parent;
 
 	/// <summary>
-	/// The file path of this SoundSource file
-	/// </summary>
-	std::string m_filePath = "";
-
-	/// <summary>
 	/// The sound's volume.
 	/// </summary>
 	float m_soundVolume;
@@ -256,10 +247,7 @@ private:
 	/// The sound channels.
 	/// </summary>
 	FMOD::Channel * m_soundChannels[NUM_SOUND_CHANNELS];
-	/// <summary>
-	/// The sound effect channels.
-	/// </summary>
-	FMOD::ChannelGroup * m_soundEffectChannels;
+
 	/// <summary>
 	/// The sound list.
 	/// </summary>
