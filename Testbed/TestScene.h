@@ -49,11 +49,16 @@ public:
 			->addGameComponent(new MeshRenderer(Mesh("sphere2.obj", 0.1f), Material("skySphereTexture")))
 			->addGameComponent(new FreeMove()));
 
+		// AudioListener
+		AudioListener bill;
+		AudioSource * theListener = new AudioSource(bill);
 
 		// The Earth
 		addToRoot((new GameObject(glm::vec3(0.0f, -5.0f, 550.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("sphere.obj", 0.1f), Material("earthTexture")))
-			->addGameComponent(new PlanetSpin));
+			->addGameComponent(new PlanetSpin)
+			->addGameComponent(theListener));
+		theListener->setAsListener();
 
 		addToRoot((new GameObject(glm::vec3(0.0f, -5.0f, 4550.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(150.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("sphere.obj", 0.1f), Material("moonTexture"))));
@@ -62,12 +67,15 @@ public:
 		addToRoot((new GameObject(glm::vec3(0.0f, -5.0f, -55000.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(1000.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("sphere.obj", 0.1f), Material("sunTexture"))));
 
+		// Stream of Music Passed through a AudioSource and into the AudioEngine
 		Stream bob("./Assets/Music/music.mp3");
 		AudioSource * ambientSounds = new AudioSource(bob);
 
 		addToRoot((new GameObject(glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
 			->addGameComponent(new DirectionalLight(glm::vec3(1.0f), 0.02f, 7, 8.0f, 1.0f))
 			->addGameComponent(ambientSounds));
+
+		ambientSounds->playSound();
 
 		CameraComponent* cc = camera->getComponent<CameraComponent>();
 		if (cc != nullptr)

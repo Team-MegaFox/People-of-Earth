@@ -33,6 +33,10 @@ public:
 	/// <summary>
 	/// Initializes a new instance of the <see cref="AudioSource"/> class.
 	/// </summary>
+	AudioSource() {}
+	/// <summary>
+	/// Initializes a new instance of the <see cref="AudioSource"/> class.
+	/// </summary>
 	/// <param name="sound">The sound.</param>
 	AudioSource(const Sound & sound) :
 		m_soundSource(sound)
@@ -55,12 +59,17 @@ public:
 	/// Initializes a new instance of the <see cref="AudioSource"/> class.
 	/// </summary>
 	/// <param name="fileName">Name of the file.</param>
-	AudioSource(const std::string& fileName) :
-		m_parent(nullptr) { }
+	AudioSource(const std::string& fileName) { }
 	/// <summary>
 	/// Finalizes an instance of the <see cref="AudioSource"/> class.
 	/// </summary>
 	~AudioSource() { }
+
+	/// <summary>
+	/// Sets the parent.
+	/// </summary>
+	/// <param name="parent">The parent.</param>
+	virtual void setParent(GameObject * parent) { m_parent = parent; }
 
 	/// <summary>
 	/// Plays the sound.
@@ -265,7 +274,7 @@ public:
 	/// </summary>
 	void setAsListener()
 	{
-		m_audioListener.setAsListener();
+		m_audioListener.setAsListener(m_parent);
 	}
 
 protected:

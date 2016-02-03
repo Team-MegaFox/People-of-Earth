@@ -29,7 +29,6 @@ public:
 	/// </summary>
 	/// <param name="fileName">Name of the file.</param>
 	Sound(const std::string& fileName) :
-		m_parent(nullptr),
 		m_fileName(fileName) { }
 	/// <summary>
 	/// Finalizes an instance of the <see cref="SoundSource"/> class.
@@ -228,11 +227,6 @@ private:
 	/// The file name of this audiosource file
 	/// </summary>
 	std::string m_fileName;
-
-	/// <summary>
-	/// The parent Game Object
-	/// </summary>
-	GameObject * m_parent;
 
 	/// <summary>
 	/// The sound's volume.

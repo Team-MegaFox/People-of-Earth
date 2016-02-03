@@ -22,7 +22,7 @@ public:
 	/// <summary>
 	/// Initializes a new instance of the <see cref="AudioListener"/> class.
 	/// </summary>
-	AudioListener() : m_parent(nullptr) {}
+	AudioListener() { }
 	/// <summary>
 	/// Finalizes an instance of the <see cref="AudioListener"/> class.
 	/// </summary>
@@ -31,14 +31,17 @@ public:
 	/// <summary>
 	/// Sets as the scene audio listener.
 	/// </summary>
-	void setAsListener()
+	void setAsListener(GameObject * parent)
 	{
-		glm::vec3 forward = Utility::getForward(*m_parent->getTransform()->getRotation());
-		glm::vec3 up = Utility::getUp(*m_parent->getTransform()->getRotation());
+		glm::vec3 forward = Utility::getForward(*parent->getTransform()->getRotation());
+		glm::vec3 up = Utility::getUp(*parent->getTransform()->getRotation());
+
+		//glm::vec3 forward = Utility::getForward(*m_parent->getTransform()->getRotation());
+		//glm::vec3 up = Utility::getUp(*m_parent->getTransform()->getRotation());
 
 		AudioEngine::getSystem()->set3DListenerAttributes(
 			0, 
-			&glmToFMOD(*m_parent->getTransform()->getPosition()), 
+			&glmToFMOD(*parent->getTransform()->getPosition()),
 			&glmToFMOD(glm::vec3(0.0f)), 
 			&glmToFMOD(forward), 
 			&glmToFMOD(up));
@@ -63,10 +66,5 @@ private:
 
 		return Temp;
 	}
-
-	/// <summary>
-	/// The parent game object
-	/// </summary>
-	GameObject * m_parent;
 };
 
