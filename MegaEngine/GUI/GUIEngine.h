@@ -101,7 +101,7 @@ public:
 	/// Gets the renderer.
 	/// </summary>
 	/// <returns></returns>
-	static CEGUI::OpenGL3Renderer* getRenderer() { return m_renderer; }
+	CEGUI::OpenGL3Renderer* getRenderer() { return m_renderer; }
 	/// <summary>
 	/// Gets the context.
 	/// </summary>
@@ -117,7 +117,7 @@ private:
 	/// <summary>
 	/// The m_renderer
 	/// </summary>
-	static CEGUI::OpenGL3Renderer* m_renderer;
+	CEGUI::OpenGL3Renderer* m_renderer;
 	/// <summary>
 	/// The m_context
 	/// </summary>

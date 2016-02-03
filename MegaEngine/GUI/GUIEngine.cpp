@@ -16,11 +16,6 @@
 #include "..\Core\Time.h"
 #include "..\Core\Utility.h"
 
-/// <summary>
-/// The m_renderer{CC2D43FA-BBC4-448A-9D0B-7B57ADF2655C}
-/// </summary>
-CEGUI::OpenGL3Renderer* GUIEngine::m_renderer = nullptr;
-
 GUIEngine::GUIEngine(const std::string& resDir, 
 	const std::string& schemeFile /*= "TaharezLook.scheme"*/, 
 	const std::string& fontFile /*= "DejaVuSans-10"*/,
