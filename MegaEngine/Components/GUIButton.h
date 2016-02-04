@@ -40,6 +40,7 @@ public:
 	/// <param name="engine">The engine.</param>
 	virtual void addToEngine(CoreEngine* engine)
 	{
+		GUIComponent::addToEngine(engine);
 		auto wi = createWidget(engine->getGUIEngine()->getSchemeStyle() + "/Button");
 		wi->setText(getText());
 		wi->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&GUIButton::pushButton, this));

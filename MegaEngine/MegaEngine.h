@@ -27,5 +27,6 @@
 #include "Components\GUIProgressBar.h"
 #include "Components\GUITextBox.h"
 #include "Components\GUISlider.h"
+#include "Components\GUIContainer.h"
 
 //#undef main;

@@ -15,6 +15,7 @@
 #include "..\Components\GUIComponent.h"
 #include <algorithm>
 
+
 void GameObject::updateAll(float delta)
 {
 	updateGameComponents(delta);
@@ -25,6 +26,7 @@ void GameObject::updateAll(float delta)
 		m_children[go]->updateAll(delta);
 	}
 }
+
 
 void GameObject::renderAll(const Shader& shader, const GUIEngine& guiEngine, const RenderingEngine& renderingEngine, const Camera3D& camera)
 {
@@ -37,6 +39,7 @@ void GameObject::renderAll(const Shader& shader, const GUIEngine& guiEngine, con
 	}
 }
 
+
 void GameObject::processAll(const InputManager& input, float delta)
 {
 	processInputGameComponents(input, delta);
@@ -48,6 +51,7 @@ void GameObject::processAll(const InputManager& input, float delta)
 	}
 }
 
+
 GameObject* GameObject::addChild(GameObject* child)
 {
 	m_children.push_back(child);
@@ -56,6 +60,7 @@ GameObject* GameObject::addChild(GameObject* child)
 	return this;
 }
 
+
 GameObject* GameObject::addGameComponent(GameComponent* component)
 {
 	m_gameComponents.push_back(component);
@@ -63,12 +68,14 @@ GameObject* GameObject::addGameComponent(GameComponent* component)
 	return this;
 }
 
+
 GameObject* GameObject::addGUIComponent(GUIComponent* component)
 {
 	m_guiComponents.push_back(component);
 	component->setParent(this);
 	return this;
 }
+
 
 bool GameObject::removeChild(GameObject* child)
 {
@@ -88,6 +95,7 @@ bool GameObject::removeChild(GameObject* child)
 	return removed;
 }
 
+
 bool GameObject::removeGameComponent(GameComponent* component)
 {
 	bool removed = false;
@@ -105,10 +113,12 @@ bool GameObject::removeGameComponent(GameComponent* component)
 	return removed;
 }
 
+
 bool GameObject::removeGUIComponent(GUIComponent* component)
 {
 	return false;
 }
+
 
 std::vector<GameObject*> GameObject::getAllAttached()
 {
@@ -124,10 +134,12 @@ std::vector<GameObject*> GameObject::getAllAttached()
 	return result;
 }
 
+
 std::vector<GameObject*> GameObject::getAllChildren()
 {
 	return m_children;
 }
+
 
 void GameObject::setEngine(CoreEngine* engine)
 {
@@ -152,6 +164,7 @@ void GameObject::setEngine(CoreEngine* engine)
 	}
 }
 
+
 void GameObject::updateGameComponents(float delta)
 {
 	for (size_t gc = 0; gc < m_gameComponents.size(); gc++)
@@ -160,6 +173,7 @@ void GameObject::updateGameComponents(float delta)
 	}
 }
 
+
 void GameObject::renderGameComponents(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D& camera)
 {
 	for (size_t gc = 0; gc < m_gameComponents.size(); gc++)
@@ -167,6 +181,7 @@ void GameObject::renderGameComponents(const Shader& shader, const RenderingEngin
 		m_gameComponents[gc]->render(shader, renderingEngine, camera);
 	}
 }
+
 
 void GameObject::processInputGameComponents(const InputManager& input, float delta)
 {
@@ -178,6 +193,7 @@ void GameObject::processInputGameComponents(const InputManager& input, float del
 	}
 }
 
+
 void GameObject::updateGUIComponents(float delta)
 {
 	for (size_t i = 0; i < m_guiComponents.size(); i++)
@@ -186,9 +202,11 @@ void GameObject::updateGUIComponents(float delta)
 	}
 }
 
+
 void GameObject::renderGUIComponents(const GUIEngine& guiEngine, const Camera3D& camera)
 {
 }
+
 
 void GameObject::processInputGUIComponents(const InputManager& input, float delta)
 {

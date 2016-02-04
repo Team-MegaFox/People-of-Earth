@@ -192,7 +192,7 @@ void GUIEngine::processInput(SDL_Event& e)
 		m_context->injectMouseButtonUp(SDLButtonToCEGUIButton(e.button.button));
 		break;
 	case SDL_MOUSEMOTION:
-		m_context->injectMousePosition(e.motion.x, e.motion.y);
+		m_context->injectMousePosition((float)e.motion.x, (float)e.motion.y);
 		break;
 	case SDL_TEXTINPUT:
 		utf8::utf8to32(e.text.text, e.text.text + evntText.size(), std::back_inserter(utf32result));

@@ -40,6 +40,7 @@ public:
 	/// <param name="engine">A pointer to the Core Engine.</param>
 	virtual void addToEngine(CoreEngine* engine)
 	{
+		GUIComponent::addToEngine(engine);
 		m_progressBar = static_cast<CEGUI::ProgressBar*>(createWidget(engine->getGUIEngine()->getSchemeStyle() + "/ProgressBar"));
 		m_progressBar->setProgress(m_percent);
 		m_progressBar->setStepSize(m_stepPerc);

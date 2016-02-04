@@ -43,6 +43,7 @@ public:
 	/// <param name="engine">The Core Engine.</param>
 	virtual void addToEngine(CoreEngine* engine)
 	{
+		GUIComponent::addToEngine(engine);
 		m_slider = static_cast<CEGUI::Slider*>(createWidget(engine->getGUIEngine()->getSchemeStyle() + "/Slider"));
 		m_slider->setCurrentValue(m_position);
 		m_slider->setMaxValue(m_maxValue);

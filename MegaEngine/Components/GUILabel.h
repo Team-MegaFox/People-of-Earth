@@ -25,6 +25,7 @@ public:
 	/// <param name="engine">The engine.</param>
 	virtual void addToEngine(CoreEngine* engine)
 	{
+		GUIComponent::addToEngine(engine);
 		auto wi = createWidget(engine->getGUIEngine()->getSchemeStyle() + "/Label");
 		wi->setText(m_text);
 	}

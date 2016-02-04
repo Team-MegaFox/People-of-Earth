@@ -43,6 +43,7 @@ public:
 	/// <param name="engine">The Core Engine.</param>
 	virtual void addToEngine(CoreEngine* engine)
 	{ 
+		GUIComponent::addToEngine(engine);
 		m_editbox = static_cast<CEGUI::Editbox*>(createWidget(engine->getGUIEngine()->getSchemeStyle() + "/Editbox"));
 		m_editbox->setText(m_text);
 		if (m_maxLength > 0)

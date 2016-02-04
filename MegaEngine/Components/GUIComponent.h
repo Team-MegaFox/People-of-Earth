@@ -54,23 +54,28 @@ public:
 	/// <param name="delta">The frame time delta.</param>
 	virtual void update(float delta) { }
 
-
 	/// <summary>
 	/// Adds to Core Engine.
 	/// </summary>
 	/// <param name="engine">The Core Engine.</param>
-	virtual void addToEngine(CoreEngine* engine) { }
-
+	virtual void addToEngine(CoreEngine* engine) 
+	{
+		GameObject* parentGO = m_parent->getTransform()->getParent()->getAttachedGameObject();
+		if (parentGO != nullptr)
+		{
+			m_parentWidget = parentGO->getGUIComponent<GUIComponent>();
+		}
+		else
+		{
+			m_parentWidget = nullptr;
+		}
+	}
 
 	/// <summary>
 	/// Sets the parent GameObject.
 	/// </summary>
 	/// <param name="parent">The GameObject to be attached to.</param>
-	virtual void setParent(GameObject* parent) 
-	{ 
-		m_parent = parent;
-
-	}
+	virtual void setParent(GameObject* parent) { m_parent = parent; }
 
 protected:
 
@@ -102,15 +107,30 @@ protected:
 	/// <returns>CEGUI.Window *.</returns>
 	CEGUI::Window* createWidget(const std::string& widgetType)
 	{
-		m_widget = m_parent->getCoreEngine()->getGUIEngine()->addWidget(widgetType, m_destRectPerc, m_destRectPix, m_parent->getName());
+		if (m_parentWidget == nullptr)
+		{
+			m_widget = m_parent->getCoreEngine()->getGUIEngine()->addWidget(widgetType, m_destRectPerc, m_destRectPix, m_parent->getName() + std::to_string(s_numWidgets));
+		}
+		else
+		{
+			m_widget = m_parent->getCoreEngine()->getGUIEngine()->addWidget(m_parentWidget->getWidget(), widgetType, m_destRectPerc, m_destRectPix, m_parent->getName() + std::to_string(s_numWidgets));
+		}
+		s_numWidgets++;
 		return m_widget;
 	}
 
 private:
+	static int s_numWidgets;
+
 	/// <summary>
 	/// The parent GameObject.
 	/// </summary>
 	GameObject* m_parent;
+	
+	/// <summary>
+	/// The parent widget.
+	/// </summary>
+	GUIComponent* m_parentWidget;
 	
 	/// <summary>
 	/// The CEGUI widget.
