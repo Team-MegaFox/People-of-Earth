@@ -200,7 +200,6 @@ public:
 	}
 
 private:
-
 	/// <summary>
 	/// Converts glm::vec3's to FMOD_VECTOR *'s
 	/// for use in FMOD's positioning of the listener

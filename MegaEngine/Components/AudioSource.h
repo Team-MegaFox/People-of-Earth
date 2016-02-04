@@ -249,13 +249,13 @@ public:
 	/// Sets the occlusion (if something is in the way of the sound).
 	/// </summary>
 	/// <param name="attenuation">The attenuation.</param>
-	void setSoundOcclusion(float attenuation) { m_soundSource.setSoundOcclusion(attenuation); }
+	void setSoundOcclusion(float attenuation, float reverberation = NULL) { m_soundSource.setSoundOcclusion(attenuation); }
 
 	/// <summary>
 	/// Sets the occlusion (if something is in the way of the stream).
 	/// </summary>
 	/// <param name="attenuation">The attenuation.</param>
-	void setStreamOcclusion(float attenuation) { m_streamSource.setStreamOcclusion(attenuation); }
+	void setStreamOcclusion(float attenuation, float reverberation = NULL) { m_streamSource.setStreamOcclusion(attenuation); }
 
 	/// <summary>
 	/// Loads the sounds list.

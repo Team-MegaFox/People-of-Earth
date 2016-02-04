@@ -75,28 +75,8 @@ public:
 
 		addToRoot((new GameObject(glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
 			->addGameComponent(new DirectionalLight(glm::vec3(1.0f), 0.02f, 7, 8.0f, 1.0f)));
-		
-		
-		//ambientSounds->setStream("./Assets/Music/music.mp3");
-		//ambientSounds->setStream3DMinDist(1.0f);
-		//ambientSounds->setStreamDoppler(0.5f);
-		//ambientSounds->setStreamPosition(glm::vec3(0.0f, -5.0f, 80.0f));
-		//ambientSounds->playStream(true);
 
-		/*
-		
-		The Listener in the scene must be updated every frame, this allows for its information to be updated.
-		But how can i do that...?
-		Create a Script that is the listener and set its position in the update method overriden from game component
-		then attach that script to the listener in the scene.
-		
-		*/
-
-		//if (ambientSounds->isStreamPlaying())
-		//{
-		//	printf("yup\n");
-		//}
-
+		stream->setPosition(*earth->getTransform()->getPosition());
 		stream->play(true);
 
 		CameraComponent* cc = camera->getComponent<CameraComponent>();
