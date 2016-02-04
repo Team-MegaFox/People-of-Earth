@@ -1,5 +1,5 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Deroiche
+// Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
 // Last Modified By : Pavan Jakhu
@@ -50,7 +50,7 @@ public:
 	/// Updates input from the window.
 	/// </summary>
 	/// <param name="guiEngine">The GUI engine.</param>
-	void update();
+	void update(GUIEngine* guiEngine);
 	
 	/// <summary>
 	/// Determines whether this window is closed.

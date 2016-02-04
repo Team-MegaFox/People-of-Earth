@@ -12,13 +12,14 @@ public:
 		getCoreEngine()->getAudioEngine()->addAudioSource(this);
 	}
 	~AudioSource() { }
-
 	void play()
 	{
 		
 	}
-
 private:
+	/// <summary>
+	/// The m_file name of this audiosource file
+	/// </summary>
 	std::string m_fileName;
 
 };

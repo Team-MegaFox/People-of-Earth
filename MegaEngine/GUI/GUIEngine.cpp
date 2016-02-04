@@ -1,5 +1,5 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Deroiche
+// Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
 // Last Modified By : Pavan Jakhu
@@ -10,12 +10,18 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+#include <glew\glew.h>
+#include <SDL2\SDL.h>
+#include <iostream>
+#include <utf8\utf8.h>
 #include "GUIEngine.h"
 #include "..\Core\Time.h"
+#include "..\Core\Utility.h"
 
-CEGUI::OpenGL3Renderer* GUIEngine::m_renderer = nullptr;
-
-GUIEngine::GUIEngine(const std::string& resDir)
+GUIEngine::GUIEngine(const std::string& resDir, 
+	const std::string& schemeFile /*= "TaharezLook.scheme"*/,
+	const std::string& mouseImageFile /*= "TaharezLook/MouseArrow"*/,
+	const std::string& fontFile /*= "DejaVuSans-10"*/)
 {
 	if (m_renderer == nullptr)
 	{
@@ -39,6 +45,15 @@ GUIEngine::GUIEngine(const std::string& resDir)
 	m_context = &CEGUI::System::getSingleton().createGUIContext(m_renderer->getDefaultRenderTarget());
 	m_root = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow", "root");
 	m_context->setRootWindow(m_root);
+
+	loadScheme(schemeFile);
+	setFont(fontFile);
+	if (mouseImageFile != "")
+	{
+		setMouseCursor(mouseImageFile);
+		showMouseCursor(true);
+		SDL_ShowCursor(0);
+	}
 }
 
 GUIEngine::~GUIEngine()
@@ -157,36 +172,35 @@ CEGUI::MouseButton SDLButtonToCEGUIButton(Uint8 sdlButton) {
 	return CEGUI::MouseButton::NoButton;
 }
 
-void GUIEngine::processInput(InputManager* input)
+void GUIEngine::processInput(SDL_Event& e)
 {
 	CEGUI::utf32 codePoint;
-	if (input->MouseMoved())
+	std::string evntText = std::string(e.text.text);
+	std::vector<int> utf32result;
+	switch (e.type)
 	{
-		m_context->injectMousePosition(input->GetMousePosition().x, input->GetMousePosition().y);
-	}
-	else if (input->getKeyDownState())
-	{
-		m_context->injectKeyDown(SDLKeyToCEGUIKey(input->getKeyCode()));
-	}
-	else if (input->getKeyUpState())
-	{
-		m_context->injectKeyUp(SDLKeyToCEGUIKey(input->getKeyCode()));
-	}
-	else if (input->getTextInputState())
-	{
-		codePoint = 0;
-		for (int i = 0; input->getTextInput()[i] != '\0'; i++) {
-			codePoint |= (((CEGUI::utf32)input->getTextInput()[i]) << (i * 8));
-		}
+	case SDL_KEYDOWN:
+		m_context->injectKeyDown(SDLKeyToCEGUIKey(e.key.keysym.sym));
+		break;
+	case SDL_KEYUP:
+		m_context->injectKeyUp(SDLKeyToCEGUIKey(e.key.keysym.sym));
+		break;
+	case SDL_MOUSEBUTTONDOWN:
+		m_context->injectMouseButtonDown(SDLButtonToCEGUIButton(e.button.button));
+		break;
+	case SDL_MOUSEBUTTONUP:
+		m_context->injectMouseButtonUp(SDLButtonToCEGUIButton(e.button.button));
+		break;
+	case SDL_MOUSEMOTION:
+		m_context->injectMousePosition((float)e.motion.x, (float)e.motion.y);
+		break;
+	case SDL_TEXTINPUT:
+		utf8::utf8to32(e.text.text, e.text.text + evntText.size(), std::back_inserter(utf32result));
+		codePoint = (CEGUI::utf32)utf32result[0];
 		m_context->injectChar(codePoint);
-	}
-	else if (input->getMouseDownState())
-	{
-		m_context->injectMouseButtonDown(SDLButtonToCEGUIButton(input->getMouseButton()));
-	}
-	else if (input->getMouseUpState())
-	{
-		m_context->injectMouseButtonUp(SDLButtonToCEGUIButton(input->getMouseButton()));
+		break;
+	default:
+		break;
 	}
 }
 
@@ -209,10 +223,21 @@ void GUIEngine::update()
 
 void GUIEngine::render()
 {
+	glDisable(GL_DEPTH_TEST);
+
 	m_renderer->beginRendering();
 	m_context->draw();
 	m_renderer->endRendering();
+
+	glBindVertexArray(0);
 	glDisable(GL_SCISSOR_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glEnable(GL_DEPTH_TEST);
 }
 
 void GUIEngine::setMouseCursor(const std::string& imageFile)
@@ -235,11 +260,13 @@ void GUIEngine::showMouseCursor(bool value)
 void GUIEngine::loadScheme(const std::string& schemeFile)
 {
 	CEGUI::SchemeManager::getSingleton().createFromFile(schemeFile);
+	auto sp = Utility::split(schemeFile, '.');
+	m_schemeStyle = sp[0];
 }
 
 void GUIEngine::setFont(const std::string& fontFile)
 {
-	CEGUI::FontManager::getSingleton().createFromFile(fontFile);
+	CEGUI::FontManager::getSingleton().createFromFile(fontFile + ".font");
 	m_context->setDefaultFont(fontFile);
 }
 
@@ -247,6 +274,14 @@ CEGUI::Window* GUIEngine::addWidget(const std::string& type, const glm::vec4& de
 {
 	CEGUI::Window* newWindow = CEGUI::WindowManager::getSingleton().createWindow(type, name);
 	m_root->addChild(newWindow);
+	setWidgetDestRect(newWindow, destRectPerc, destRectPix);
+	return newWindow;
+}
+
+CEGUI::Window* GUIEngine::addWidget(CEGUI::Window* parent, const std::string& type, const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& name/* = ""*/)
+{
+	CEGUI::Window*	 newWindow = CEGUI::WindowManager::getSingleton().createWindow(type, name);
+	parent->addChild(newWindow);
 	setWidgetDestRect(newWindow, destRectPerc, destRectPix);
 	return newWindow;
 }

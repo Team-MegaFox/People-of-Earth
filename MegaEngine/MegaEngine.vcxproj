@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Audio\AudioEngine.cpp" />
+    <ClCompile Include="Components\GUIComponent.cpp" />
     <ClCompile Include="Core\CoreEngine.cpp" />
     <ClCompile Include="Core\GameObject.cpp" />
     <ClCompile Include="Core\InputManager.cpp" />
@@ -111,6 +112,13 @@
     <ClInclude Include="Audio\AudioEngine.h" />
     <ClInclude Include="Components\AudioSource.h" />
     <ClInclude Include="Components\GameComponents.h" />
+    <ClInclude Include="Components\GUIButton.h" />
+    <ClInclude Include="Components\GUIComponent.h" />
+    <ClInclude Include="Components\GUIContainer.h" />
+    <ClInclude Include="Components\GUILabel.h" />
+    <ClInclude Include="Components\GUIProgressBar.h" />
+    <ClInclude Include="Components\GUISlider.h" />
+    <ClInclude Include="Components\GUITextBox.h" />
     <ClInclude Include="Components\MeshRenderer.h" />
     <ClInclude Include="Core\CoreEngine.h" />
     <ClInclude Include="Core\GameObject.h" />

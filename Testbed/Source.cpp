@@ -10,7 +10,7 @@
 int main(int argc, char** argv)
 {
 	Viewport window("Some demo", 800, 600, 0);
-	GUIEngine guiEngine("GUI");
+	GUIEngine guiEngine("Assets/GUI");
 	RenderingEngine renderingEngine(window, guiEngine);
 	SceneManager sceneManager;
 	TestScene testscene;

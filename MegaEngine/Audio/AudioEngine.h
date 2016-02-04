@@ -412,9 +412,6 @@ private:
 	/// </summary>
 	const std::vector<std::string> * m_streamList = new std::vector<std::string>();
 	
-	/// <summary>
-	/// The audio sources.
-	/// </summary>
 	std::vector<AudioSource*> m_audioSources;
 };
 

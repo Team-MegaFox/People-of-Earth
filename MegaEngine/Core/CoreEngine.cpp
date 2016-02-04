@@ -1,5 +1,5 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Deroiche
+// Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
 // Last Modified By : Pavan Jakhu
@@ -68,13 +68,12 @@ void CoreEngine::start()
 		while (unprocessedTime > m_frameTime)
 		{
 			m_guiEngine->update();
-			m_viewport->update();
+			m_viewport->update(m_guiEngine);
 			if (m_viewport->isClosed())
 			{
 				stop();
 			}
 
-			m_guiEngine->processInput(m_viewport->getInput());
 			m_sceneManager->processInput(*m_viewport->getInput(), (float)m_frameTime);
 			m_sceneManager->update((float)m_frameTime);
 
