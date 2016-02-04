@@ -44,6 +44,19 @@ public:
 			&glmToFMOD(up));
 	}
 
+	/// <summary>
+	/// Sets as the scene audio listener.
+	/// </summary>
+	void setAsListener(glm::vec3 pos, glm::vec3 vel, glm::vec3 forward, glm::vec3 up)
+	{
+		AudioEngine::getSystem()->set3DListenerAttributes(
+			0,
+			&glmToFMOD(pos),
+			&glmToFMOD(vel),
+			&glmToFMOD(forward),
+			&glmToFMOD(up));
+	}
+
 private:
 
 	/// <summary>

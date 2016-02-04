@@ -6,7 +6,7 @@
 #include "FreeLook.h"
 #include "FreeMove.h"
 #include "PlanetSpin.h"
-//#include "Klingon.h"
+#include "TheEars.h"
 
 class TestScene : public Scene
 {
@@ -38,10 +38,10 @@ public:
 			(new GameObject)
 			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(75.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
 			->addGameComponent(new FreeLook(window.getCenter()))
-			->addGameComponent(new FreeMove(50.0f));
+			->addGameComponent(new FreeMove(50.0f))
+			->addGameComponent(new Ears());
 		GameObject* fighterShip = 
 			(new GameObject(glm::vec3(-2.0f, -4.0f, -10.0f), glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)))))
-			->addGameComponent(theListener)
 			->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship")));
 
 		//theListener->setAsListener();
@@ -50,7 +50,8 @@ public:
 
 		// the alien fighter ship
 		addToRoot((new GameObject(glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("AlienFighter_FINAL.obj", 0.1f), Material("alien_ship"))));
+			->addGameComponent(new MeshRenderer(Mesh("AlienFighter_FINAL.obj", 0.1f), Material("alien_ship")))
+			->addGameComponent(ambientSounds));
 
 		// the second human fighter ship
 		addToRoot((new GameObject(glm::vec3(0.0f, 15.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
@@ -73,8 +74,7 @@ public:
 
 		// The Sun
 		addToRoot((new GameObject(glm::vec3(0.0f, -5.0f, -55000.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(1000.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("sphere.obj", 0.1f), Material("sunTexture")))
-			->addGameComponent(ambientSounds));
+			->addGameComponent(new MeshRenderer(Mesh("sphere.obj", 0.1f), Material("sunTexture"))));
 
 
 
@@ -85,7 +85,7 @@ public:
 		ambientSounds->setStream("./Assets/Music/music.mp3");
 		ambientSounds->setStream3DMinDist(1.0f);
 		ambientSounds->setStreamDoppler(0.5f);
-		ambientSounds->setStreamPosition(glm::vec3(0.0f, -5.0f, 550.0f));
+		ambientSounds->setStreamPosition(glm::vec3(0.0f, -5.0f, 80.0f));
 		ambientSounds->playStream(true);
 
 		/*

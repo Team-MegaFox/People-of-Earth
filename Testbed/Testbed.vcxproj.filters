@@ -10,5 +10,6 @@
     <ClInclude Include="FreeLook.h" />
     <ClInclude Include="FreeMove.h" />
     <ClInclude Include="PlanetSpin.h" />
+    <ClInclude Include="TheEars.h" />
   </ItemGroup>
 </Project>
