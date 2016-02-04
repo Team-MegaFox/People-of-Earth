@@ -25,7 +25,10 @@ public:
 	/// Initializes a new instance of the <see cref="GUIEngine"/> class.
 	/// </summary>
 	/// <param name="resDir">The resource dir.</param>
-	GUIEngine(const std::string& resDir);
+	GUIEngine(const std::string& resDir, 
+		const std::string& schemeFile = "TaharezLook.scheme",
+		const std::string& mouseImageFile = "",
+		const std::string& fontFile = "DejaVuSans-10");
 	/// <summary>
 	/// Finalizes an instance of the <see cref="GUIEngine"/> class.
 	/// </summary>
@@ -35,7 +38,7 @@ public:
 	/// Processes the input.
 	/// </summary>
 	/// <param name="input">The input.</param>
-	void processInput(InputManager* input);
+	void processInput(SDL_Event& e);
 	/// <summary>
 	/// Updates this instance.
 	/// </summary>
@@ -98,7 +101,7 @@ public:
 	/// Gets the renderer.
 	/// </summary>
 	/// <returns></returns>
-	static CEGUI::OpenGL3Renderer* getRenderer() { return m_renderer; }
+	CEGUI::OpenGL3Renderer* getRenderer() { return m_renderer; }
 	/// <summary>
 	/// Gets the context.
 	/// </summary>
@@ -114,7 +117,7 @@ private:
 	/// <summary>
 	/// The m_renderer
 	/// </summary>
-	static CEGUI::OpenGL3Renderer* m_renderer;
+	CEGUI::OpenGL3Renderer* m_renderer = nullptr;
 	/// <summary>
 	/// The m_context
 	/// </summary>

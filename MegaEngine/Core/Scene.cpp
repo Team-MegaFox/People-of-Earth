@@ -15,7 +15,8 @@
 
 #include <algorithm>
 
-Scene::Scene(const std::string& name) : m_name(name)
+Scene::Scene(const std::string& name) : 
+m_name(name), m_root("Root")
 {
 }
 

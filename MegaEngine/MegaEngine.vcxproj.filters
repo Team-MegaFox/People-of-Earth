@@ -101,6 +101,8 @@
     </ClCompile>
     <ClCompile Include="Core\ErrorLog.cpp">
       <Filter>Core</Filter>
+    <ClCompile Include="Components\GUIComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -203,6 +205,26 @@
     </ClInclude>
     <ClInclude Include="Audio\Sound.h">
       <Filter>Audio</Filter>
+    <ClInclude Include="Components\GUILabel.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUIComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUIButton.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUIProgressBar.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUITextBox.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUISlider.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUIContainer.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

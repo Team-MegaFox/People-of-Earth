@@ -23,5 +23,11 @@
 #include "Rendering\Viewport.h"
 #include "Components\MeshRenderer.h"
 #include "Components\AudioSource.h"
+#include "Components\GUILabel.h"
+#include "Components\GUIButton.h"
+#include "Components\GUIProgressBar.h"
+#include "Components\GUITextBox.h"
+#include "Components\GUISlider.h"
+#include "Components\GUIContainer.h"
 
 //#undef main;

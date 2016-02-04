@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <Falagard version="7">
-    <!--
+	<!--
     ***************************************************
         TaharezLook/Label
     ***************************************************
@@ -1191,7 +1191,7 @@
     ***************************************************
     -->
     <WidgetLook name="TaharezLook/SliderThumb">
-        <Property name="VertFree" value="true" />
+        <Property name="HorzFree" value="true" />
         <Property name="MouseInputPropagationEnabled" value="true" />
         <ImagerySection name="normal">
             <ImageryComponent>
@@ -1237,14 +1237,14 @@
     ***************************************************
     -->
     <WidgetLook name="TaharezLook/Slider">
-        <Property name="VerticalSlider" value="true" />
+        <Property name="VerticalSlider" value="false" />
         <Property name="MouseAutoRepeatEnabled" value="true" />
         <Property name="WantsMultiClickEvents" value="false" />
         <Property name="Size" value="{{0, 16}, {0, 256}}" />
         <NamedArea name="ThumbTrackArea" />
         <Child  type="TaharezLook/SliderThumb" nameSuffix="__auto_thumb__">
             <Area>
-                <Dim type="Height" ><ImageDim name="TaharezLook/VertSliderThumbNormal" dimension="Height" /></Dim>
+				<Dim type="Width" ><ImageDim name="TaharezLook/VertSliderThumbNormal" dimension="Width" /></Dim>
             </Area>
         </Child>
         <ImagerySection name="main">
