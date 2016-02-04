@@ -24,5 +24,6 @@ void FreeMove::processInput(const InputManager& input, float delta)
 
 void FreeMove::Move(const glm::vec3& direction, float amt)
 {
+	glm::vec3 result = *getTransform()->getPosition() + (direction * amt);
 	getTransform()->setPosition(*getTransform()->getPosition() + (direction * amt));
 }

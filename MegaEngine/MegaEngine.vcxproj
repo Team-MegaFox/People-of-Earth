@@ -83,6 +83,7 @@
   <ItemGroup>
     <ClCompile Include="Audio\AudioEngine.cpp" />
     <ClCompile Include="Core\CoreEngine.cpp" />
+    <ClCompile Include="Core\ErrorLog.cpp" />
     <ClCompile Include="Core\GameObject.cpp" />
     <ClCompile Include="Core\InputManager.cpp" />
     <ClCompile Include="Core\MappedValues.cpp" />
@@ -109,10 +110,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio\AudioEngine.h" />
+    <ClInclude Include="Audio\AudioListener.h" />
+    <ClInclude Include="Audio\Sound.h" />
+    <ClInclude Include="Audio\Stream.h" />
     <ClInclude Include="Components\AudioSource.h" />
     <ClInclude Include="Components\GameComponents.h" />
     <ClInclude Include="Components\MeshRenderer.h" />
     <ClInclude Include="Core\CoreEngine.h" />
+    <ClInclude Include="Core\ErrorLog.h" />
     <ClInclude Include="Core\GameObject.h" />
     <ClInclude Include="Core\InputManager.h" />
     <ClInclude Include="Core\MappedValues.h" />

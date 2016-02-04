@@ -1,5 +1,5 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Deroiche
+// Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
 // Last Modified By : Pavan Jakhu
@@ -12,6 +12,7 @@
 // ***********************************************************************
 #include "GameObject.h"
 #include "..\Components\GameComponents.h"
+#include "..\Components\GUIComponent.h"
 #include <algorithm>
 
 void GameObject::updateAll(float delta)
@@ -39,6 +40,7 @@ void GameObject::renderAll(const Shader& shader, const GUIEngine& guiEngine, con
 void GameObject::processAll(const InputManager& input, float delta)
 {
 	processInputGameComponents(input, delta);
+	processInputGUIComponents(input, delta);
 
 	for (size_t go = 0; go < m_children.size(); go++)
 	{
@@ -63,6 +65,8 @@ GameObject* GameObject::addGameComponent(GameComponent* component)
 
 GameObject* GameObject::addGUIComponent(GUIComponent* component)
 {
+	m_guiComponents.push_back(component);
+	component->setParent(this);
 	return this;
 }
 
@@ -136,6 +140,11 @@ void GameObject::setEngine(CoreEngine* engine)
 			m_gameComponents[i]->addToEngine(engine);
 		}
 
+		for (size_t i = 0; i < m_guiComponents.size(); i++)
+		{
+			m_guiComponents[i]->addToEngine(engine);
+		}
+
 		for (size_t i = 0; i < m_children.size(); i++)
 		{
 			m_children[i]->setEngine(engine);
@@ -171,10 +180,20 @@ void GameObject::processInputGameComponents(const InputManager& input, float del
 
 void GameObject::updateGUIComponents(float delta)
 {
-
+	for (size_t i = 0; i < m_guiComponents.size(); i++)
+	{
+		m_guiComponents[i]->update(delta);
+	}
 }
 
 void GameObject::renderGUIComponents(const GUIEngine& guiEngine, const Camera3D& camera)
 {
+}
 
+void GameObject::processInputGUIComponents(const InputManager& input, float delta)
+{
+	for (size_t i = 0; i < m_guiComponents.size(); i++)
+	{
+		m_guiComponents[i]->processInput(input, delta);
+	}
 }

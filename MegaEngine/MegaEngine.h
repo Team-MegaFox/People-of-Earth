@@ -22,5 +22,6 @@
 #include "Rendering\Lighting.h"
 #include "Rendering\Viewport.h"
 #include "Components\MeshRenderer.h"
+#include "Components\AudioSource.h"
 
 //#undef main;

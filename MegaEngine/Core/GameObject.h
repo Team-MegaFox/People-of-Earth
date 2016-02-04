@@ -1,5 +1,5 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Deroiche
+// Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
 // Last Modified By : Pavan Jakhu
@@ -39,6 +39,10 @@ public:
 	/// <param name='scale'>The scale of the GameObject.</param>
 	GameObject(const glm::vec3& pos = glm::vec3(0.0f), const glm::quat& rot = glm::quat(1.0f, 0.0f, 0.0f, 0.0f), const glm::vec3& scale = glm::vec3(1.0f))
 		: m_transform(pos, rot, scale), m_coreEngine(nullptr) { }
+
+	/// <summary>
+	/// Finalizes an instance of the <see cref="GameObject"/> class.
+	/// </summary>
 	~GameObject() { }
 
 	/// <summary>
@@ -127,6 +131,10 @@ public:
 	/// <returns>All immediate children stored in a vector.</returns>
 	std::vector<GameObject*> getAllChildren();
 
+	/// <summary>
+	/// Gets the core engine.
+	/// </summary>
+	/// <returns></returns>
 	CoreEngine* getCoreEngine() { return m_coreEngine; }
 	/// <summary>
 	/// Gets the Transform object of this GameObject.
@@ -176,6 +184,12 @@ private:
 	/// <param name='guiEngine'>The GUI Engine object.</param>
 	/// <param name='camera'>The main active camera.</param>
 	void renderGUIComponents(const GUIEngine& guiEngine, const Camera3D& camera);
+	/// <summary>
+	/// Processes all inputs for the GUI Components.
+	/// </summary>
+	/// <param name='input'>The manager to get inputs from the viewport.</param>
+	/// <param name='delta'>The delta time between frames.</param>
+	void processInputGUIComponents(const InputManager& input, float delta);
 
 	/// <summary>
 	/// The name of the GameObject.
