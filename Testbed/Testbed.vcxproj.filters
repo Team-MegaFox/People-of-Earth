@@ -10,7 +10,5 @@
     <ClInclude Include="FreeLook.h" />
     <ClInclude Include="FreeMove.h" />
     <ClInclude Include="PlanetSpin.h" />
-    <ClInclude Include="Listener.h" />
-    <ClInclude Include="Audio.h" />
   </ItemGroup>
 </Project>
