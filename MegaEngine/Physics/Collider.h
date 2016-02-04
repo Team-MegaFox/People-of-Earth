@@ -27,7 +27,6 @@
 enum ShapeCollider{
 	QUAD,
 	SPHERE,
-	CYLINDER,
 	OTHER
 };	
 
