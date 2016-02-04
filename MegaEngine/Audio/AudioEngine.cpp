@@ -27,6 +27,10 @@
 FMOD::System * AudioEngine::m_system = nullptr;
 FMOD::ChannelGroup * AudioEngine::m_soundEffectChannels = nullptr;
 FMOD::ChannelGroup * AudioEngine::m_streamEffectChannels = nullptr;
+FMOD::Sound * AudioEngine::m_streams[NUM_STREAM_CHANNELS] = { nullptr };
+FMOD::Channel * AudioEngine::m_streamChannels[NUM_STREAM_CHANNELS] = { nullptr };
+FMOD::Sound * AudioEngine::m_sounds[NUM_SOUND_CHANNELS] = { nullptr };
+FMOD::Channel * AudioEngine::m_soundChannels[NUM_SOUND_CHANNELS] = { nullptr };
 
 AudioEngine::AudioEngine()
 {
@@ -137,5 +141,5 @@ void AudioEngine::dispose()
 
 void AudioEngine::update()
 {
-	m_system->update();
+	FMODVerifyResult(m_system->update());
 }

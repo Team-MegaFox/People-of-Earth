@@ -33,6 +33,9 @@
 #include <string>
 #include <unordered_map>
 
+static const int NUM_STREAM_CHANNELS = 15;
+static const int NUM_SOUND_CHANNELS = 45;
+
 /// <summary>
 /// Class AudioEngine.
 /// </summary>
@@ -78,6 +81,24 @@ public:
 	static FMOD::ChannelGroup * getStreamChannelGroup() { return m_streamEffectChannels; }
 
 	/// <summary>
+	/// Gets the streams.
+	/// </summary>
+	/// <returns></returns>
+	static FMOD::Sound ** getStreams() { return m_streams; }
+
+	/// <summary>
+	/// Gets the stream channels.
+	/// </summary>
+	/// <returns></returns>
+	static FMOD::Channel ** getStreamChannels() { return m_streamChannels; }
+
+
+	static FMOD::Sound ** getSounds() { return m_sounds; }
+
+
+	static FMOD::Channel ** getSoundChannels() { return m_soundChannels; }
+
+	/// <summary>
 	/// Updates the system object
 	/// (should be called every frame)
 	/// </summary>
@@ -120,6 +141,24 @@ private:
 	/// The sound effect channels.
 	/// </summary>
 	static FMOD::ChannelGroup * m_soundEffectChannels;
+
+		/// <summary>
+	/// The streams.
+	/// </summary>
+	static FMOD::Sound * m_streams[NUM_STREAM_CHANNELS];
+	/// <summary>
+	/// The stream channels.
+	/// </summary>
+	static FMOD::Channel * m_streamChannels[NUM_STREAM_CHANNELS];
+
+	/// <summary>
+	/// The sound effects list.
+	/// </summary>
+	static FMOD::Sound * m_sounds[NUM_SOUND_CHANNELS];
+	/// <summary>
+	/// The sound channels.
+	/// </summary>
+	static FMOD::Channel * m_soundChannels[NUM_SOUND_CHANNELS];
 
 	/// <summary>
 	/// The FMOD result.

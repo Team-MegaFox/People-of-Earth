@@ -36,13 +36,10 @@ public:
 		glm::vec3 forward = Utility::getForward(*parent->getTransform()->getRotation());
 		glm::vec3 up = Utility::getUp(*parent->getTransform()->getRotation());
 
-		//glm::vec3 forward = Utility::getForward(*m_parent->getTransform()->getRotation());
-		//glm::vec3 up = Utility::getUp(*m_parent->getTransform()->getRotation());
-
 		AudioEngine::getSystem()->set3DListenerAttributes(
 			0, 
 			&glmToFMOD(*parent->getTransform()->getPosition()),
-			&glmToFMOD(glm::vec3(0.0f)), 
+			&glmToFMOD(glm::vec3(0.5f)), 
 			&glmToFMOD(forward), 
 			&glmToFMOD(up));
 	}

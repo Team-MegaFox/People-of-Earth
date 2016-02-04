@@ -130,12 +130,12 @@ public:
 	/// <summary>
 	/// Originally sets the sound later used to reset the sound.
 	/// </summary>
-	void setSound() { m_soundSource.setSound(); }
+	void setSound(std::string filename) { m_soundSource.setSound(filename); }
 
 	/// <summary>
 	/// Originally sets the stream later used to reset the stream.
 	/// </summary>
-	void setStream() { m_streamSource.setStream(); }
+	void setStream(std::string filename) { m_streamSource.setStream(filename); }
 
 	/// <summary>
 	/// Gets global sound volume.
@@ -237,13 +237,13 @@ public:
 	/// Sets the sound 3D minimum distance for attenuation.
 	/// </summary>
 	/// <param name="min">The minimum.</param>
-	void setSound3DMinDist(float min) { m_soundSource.setSound3DMinMaxDistance(min); }
+	void setSound3DMinDist(float min, float max = NULL) { m_soundSource.setSound3DMinMaxDistance(min, max); }
 
 	/// <summary>
 	/// Sets the stream 3D minimum distance for attenuation.
 	/// </summary>
 	/// <param name="min">The minimum.</param>
-	void setStream3DMinDist(float min) { m_streamSource.setStream3DMinMaxDistance(min); }
+	void setStream3DMinDist(float min, float max = NULL) { m_streamSource.setStream3DMinMaxDistance(min, max); }
 
 	/// <summary>
 	/// Sets the occlusion (if something is in the way of the sound).

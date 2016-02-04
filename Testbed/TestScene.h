@@ -6,6 +6,7 @@
 #include "FreeLook.h"
 #include "FreeMove.h"
 #include "PlanetSpin.h"
+//#include "Klingon.h"
 
 class TestScene : public Scene
 {
@@ -33,24 +34,23 @@ public:
 		AudioSource * ambientSounds = new AudioSource(bob);
 
 		// The human fighter ship and camera
-		GameObject* camera = 
+		GameObject* camera =
 			(new GameObject)
 			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(75.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
 			->addGameComponent(new FreeLook(window.getCenter()))
-			->addGameComponent(new FreeMove(50.0f))
-			->addGameComponent(theListener);
+			->addGameComponent(new FreeMove(50.0f));
 		GameObject* fighterShip = 
 			(new GameObject(glm::vec3(-2.0f, -4.0f, -10.0f), glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)))))
+			->addGameComponent(theListener)
 			->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship")));
 
-		theListener->setAsListener();
+		//theListener->setAsListener();
 		camera->addChild(fighterShip);
 		addToRoot(camera);
 
 		// the alien fighter ship
 		addToRoot((new GameObject(glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("AlienFighter_FINAL.obj", 0.1f), Material("alien_ship")))
-			->addGameComponent(ambientSounds));
+			->addGameComponent(new MeshRenderer(Mesh("AlienFighter_FINAL.obj", 0.1f), Material("alien_ship"))));
 
 		// the second human fighter ship
 		addToRoot((new GameObject(glm::vec3(0.0f, 15.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
@@ -62,31 +62,44 @@ public:
 			->addGameComponent(new FreeMove()));
 
 		// The Earth
-		addToRoot((new GameObject(glm::vec3(0.0f, -5.0f, 550.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
+		GameObject * earth = 
+		(new GameObject(glm::vec3(0.0f, -5.0f, 550.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("sphere.obj", 0.1f), Material("earthTexture")))
-			->addGameComponent(new PlanetSpin));
+			->addGameComponent(new PlanetSpin);
+		addToRoot(earth);
 
 		addToRoot((new GameObject(glm::vec3(0.0f, -5.0f, 4550.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(150.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("sphere.obj", 0.1f), Material("moonTexture"))));
 
 		// The Sun
 		addToRoot((new GameObject(glm::vec3(0.0f, -5.0f, -55000.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(1000.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("sphere.obj", 0.1f), Material("sunTexture"))));
+			->addGameComponent(new MeshRenderer(Mesh("sphere.obj", 0.1f), Material("sunTexture")))
+			->addGameComponent(ambientSounds));
 
 
 
 		addToRoot((new GameObject(glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
 			->addGameComponent(new DirectionalLight(glm::vec3(1.0f), 0.02f, 7, 8.0f, 1.0f)));
 		
-		bob.setStream("./Assets/Music/music.mp3");
-		bob.setStream3DMinMaxDistance(1.0f);
-		bob.setStreamPosVel(glm::vec3(0.0f, -5.0f, 80.0f));
-		bob.playStream(true);
+		
+		ambientSounds->setStream("./Assets/Music/music.mp3");
+		ambientSounds->setStream3DMinDist(1.0f);
+		ambientSounds->setStreamDoppler(0.5f);
+		ambientSounds->setStreamPosition(glm::vec3(0.0f, -5.0f, 550.0f));
+		ambientSounds->playStream(true);
 
+		/*
+		
+		The Listener in the scene must be updated every frame, this allows for its information to be updated.
+		But how can i do that...?
+		Create a Script that is the listener and set its position in the update method overriden from game component
+		then attach that script to the listener in the scene.
+		
+		*/
 
-		if (bob.isStreamPlaying())
+		if (ambientSounds->isStreamPlaying())
 		{
-			printf("yup");
+			printf("yup\n");
 		}
 
 		CameraComponent* cc = camera->getComponent<CameraComponent>();
@@ -94,6 +107,7 @@ public:
 		{
 			std::cout << "There is a camera component!" << std::endl;
 		}
+
 	}
 };
 
