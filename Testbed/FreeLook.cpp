@@ -1,6 +1,6 @@
 #include "freeLook.h"
-#include <Rendering\Viewport.h>
-#include <Core\Utility.h>
+#include <Viewport.h>
+#include <Utility.h>
 
 void FreeLook::processInput(const InputManager& input, float delta)
 {
@@ -24,7 +24,7 @@ void FreeLook::processInput(const InputManager& input, float delta)
 		}
 		if (rotX)
 		{
-			getTransform()->rotate(Utility::getRight(*getTransform()->getRotation()), glm::radians(deltaPos.y * m_sensitivity));
+			getTransform()->rotate(getRight(*getTransform()->getRotation()), glm::radians(deltaPos.y * m_sensitivity));
 		}
 
 		if (rotY || rotX)

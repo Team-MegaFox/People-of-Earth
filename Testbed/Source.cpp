@@ -1,26 +1,25 @@
 #include <iostream>
-#include <MegaEngine.h>
-#include <Rendering\RenderingEngine.h>
-#include <Core\SceneManager.h>
-#include <Physics\PhysicsEngine.h>
-#include <Audio\AudioEngine.h>
-#include <GUI\GUIEngine.h>
+#include <CoreEngine.h>
+#include <Viewport.h>
+#include <SceneManager.h>
+#include <RenderingEngine.h>
+#include <GUIEngine.h>
+#include <AudioEngine.h>
 #include "TestScene.h"
 
 int main(int argc, char** argv)
 {
-	Viewport window("Some demo", 800, 600, 0);
-	GUIEngine guiEngine("GUI");
+	Viewport window("Project Management Demo", 800, 600, 0);
+	GUIEngine guiEngine;
 	RenderingEngine renderingEngine(window, guiEngine);
 	SceneManager sceneManager;
 	TestScene testscene;
-	PhysicsEngine physicsEngine;
-	AudioEngine audioEngine;
+	//AudioEngine audioEngine;
 
 	sceneManager.addScene(&testscene);
 	sceneManager.switchScene(testscene.getName());
 
-	CoreEngine core(60.0, &window, &renderingEngine, &physicsEngine, &audioEngine, &guiEngine, &sceneManager);
+	CoreEngine core(60.0, &window, &renderingEngine, nullptr, nullptr, &guiEngine, &sceneManager);
 
 	core.start();
 

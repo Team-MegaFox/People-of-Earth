@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Components\GameComponents.h>
-#include <Core\InputManager.h>
+#include <GameComponents.h>
+#include <InputManager.h>
 
 #include <glm\glm.hpp>
 #include <SDL2\SDL.h>

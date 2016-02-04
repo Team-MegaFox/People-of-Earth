@@ -1,5 +1,5 @@
 #pragma once
-#include <Components\GameComponents.h>
+#include <GameComponents.h>
 
 class PlanetSpin : public GameComponent
 {
@@ -16,4 +16,5 @@ public:
 
 private:
 	float m_angle;
+
 };
