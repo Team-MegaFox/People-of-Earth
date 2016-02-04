@@ -27,7 +27,10 @@ public:
 	/// </summary>
 	/// <param name="fileName">Name of the file.</param>
 	Sound(const std::string& fileName) :
-		m_fileName(fileName) { }
+		m_fileName(fileName) 
+	{ 
+		setSound(fileName);
+	}
 	/// <summary>
 	/// Finalizes an instance of the <see cref="SoundSource"/> class.
 	/// </summary>

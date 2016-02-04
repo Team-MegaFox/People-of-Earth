@@ -6,7 +6,8 @@
 #include "FreeLook.h"
 #include "FreeMove.h"
 #include "PlanetSpin.h"
-#include "TheEars.h"
+#include "Listener.h"
+#include "Audio.h"
 
 class TestScene : public Scene
 {
@@ -25,21 +26,13 @@ public:
 		Material sunTex("sunTexture", 0.5f, 4, Texture("sun.jpg"));
 		Material moonTex("moonTexture", 0.5f, 4, Texture("moon.jpg"));
 
-		// AudioListener
-		AudioListener bill;
-		AudioSource * theListener = new AudioSource(bill);
-
-		// Stream of Music Passed through a AudioSource and into the AudioEngine
-		Stream bob("./Assets/Music/music.mp3");
-		AudioSource * ambientSounds = new AudioSource(bob);
-
 		// The human fighter ship and camera
 		GameObject* camera =
 			(new GameObject)
 			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(75.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
 			->addGameComponent(new FreeLook(window.getCenter()))
 			->addGameComponent(new FreeMove(50.0f))
-			->addGameComponent(new Ears());
+			->addGameComponent(new Listener());
 		GameObject* fighterShip = 
 			(new GameObject(glm::vec3(-2.0f, -4.0f, -10.0f), glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)))))
 			->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship")));
@@ -48,10 +41,12 @@ public:
 		camera->addChild(fighterShip);
 		addToRoot(camera);
 
+		Audio * stream = new Audio("./Assets/Music/music.mp3", AudioType::STREAM);
+
 		// the alien fighter ship
 		addToRoot((new GameObject(glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("AlienFighter_FINAL.obj", 0.1f), Material("alien_ship")))
-			->addGameComponent(ambientSounds));
+			->addGameComponent(stream));
 
 		// the second human fighter ship
 		addToRoot((new GameObject(glm::vec3(0.0f, 15.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
@@ -82,11 +77,11 @@ public:
 			->addGameComponent(new DirectionalLight(glm::vec3(1.0f), 0.02f, 7, 8.0f, 1.0f)));
 		
 		
-		ambientSounds->setStream("./Assets/Music/music.mp3");
-		ambientSounds->setStream3DMinDist(1.0f);
-		ambientSounds->setStreamDoppler(0.5f);
-		ambientSounds->setStreamPosition(glm::vec3(0.0f, -5.0f, 80.0f));
-		ambientSounds->playStream(true);
+		//ambientSounds->setStream("./Assets/Music/music.mp3");
+		//ambientSounds->setStream3DMinDist(1.0f);
+		//ambientSounds->setStreamDoppler(0.5f);
+		//ambientSounds->setStreamPosition(glm::vec3(0.0f, -5.0f, 80.0f));
+		//ambientSounds->playStream(true);
 
 		/*
 		
@@ -97,10 +92,12 @@ public:
 		
 		*/
 
-		if (ambientSounds->isStreamPlaying())
-		{
-			printf("yup\n");
-		}
+		//if (ambientSounds->isStreamPlaying())
+		//{
+		//	printf("yup\n");
+		//}
+
+		stream->play(true);
 
 		CameraComponent* cc = camera->getComponent<CameraComponent>();
 		if (cc != nullptr)

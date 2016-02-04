@@ -3,16 +3,16 @@
 #include <Audio/AudioListener.h>
 #include <Core/Utility.h>
 
-class Ears : public GameComponent
+class Listener : public GameComponent
 {
 public:
-	Ears() 
+	Listener()
 	{
-		m_theEars = new AudioListener();
+		m_theListener = new AudioListener();
 	}
-	~Ears() 
+	~Listener()
 	{
-		delete m_theEars;
+		delete m_theListener;
 	}
 
 	virtual void update(float deltaTime) override
@@ -22,11 +22,11 @@ public:
 		m_forward = Utility::getForward(*getTransform()->getRotation());
 		m_up = Utility::getUp(*getTransform()->getRotation());
 
-		m_theEars->setAsListener(m_pos, m_vel, m_forward, m_up);
+		m_theListener->setAsListener(m_pos, m_vel, m_forward, m_up);
 	}
 
 protected:
-	AudioListener * m_theEars;
+	AudioListener * m_theListener;
 
 private:
 	GameObject * m_parent;

@@ -33,8 +33,8 @@
 #include <string>
 #include <unordered_map>
 
-static const int NUM_STREAM_CHANNELS = 15;
-static const int NUM_SOUND_CHANNELS = 45;
+static const int NUM_STREAM_CHANNELS = 100;
+static const int NUM_SOUND_CHANNELS = 100;
 
 /// <summary>
 /// Class AudioEngine.
