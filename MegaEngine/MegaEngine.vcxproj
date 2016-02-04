@@ -52,6 +52,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -67,6 +68,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -79,56 +81,71 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseLight.h" />
-    <ClInclude Include="AudioEngine.h" />
-    <ClInclude Include="Camera3D.h" />
-    <ClInclude Include="CoreEngine.h" />
-    <ClInclude Include="DirectionalLight.h" />
-    <ClInclude Include="GameComponents.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GUIEngine.h" />
-    <ClInclude Include="InputManager.h" />
-    <ClInclude Include="MappedValues.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="MeshRenderer.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="PointLight.h" />
-    <ClInclude Include="ReferenceCounter.h" />
-    <ClInclude Include="RenderingEngine.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="SpotLight.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="Time.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="Utility.h" />
-    <ClInclude Include="Vertex.h" />
-    <ClInclude Include="Viewport.h" />
+    <ClCompile Include="Audio\AudioEngine.cpp" />
+    <ClCompile Include="Components\GUIComponent.cpp" />
+    <ClCompile Include="Core\CoreEngine.cpp" />
+    <ClCompile Include="Core\GameObject.cpp" />
+    <ClCompile Include="Core\InputManager.cpp" />
+    <ClCompile Include="Core\MappedValues.cpp" />
+    <ClCompile Include="Core\Scene.cpp" />
+    <ClCompile Include="Core\SceneManager.cpp" />
+    <ClCompile Include="Core\Time.cpp" />
+    <ClCompile Include="Core\Transform.cpp" />
+    <ClCompile Include="Core\Utility.cpp" />
+    <ClCompile Include="GUI\GUIEngine.cpp" />
+    <ClCompile Include="Physics\Collider.cpp" />
+    <ClCompile Include="Physics\MultiCollider.cpp" />
+    <ClCompile Include="Physics\PhysicsEngine.cpp" />
+    <ClCompile Include="Physics\PolygonCollider.cpp" />
+    <ClCompile Include="Physics\SphereCollider.cpp" />
+    <ClCompile Include="Physics\World.cpp" />
+    <ClCompile Include="Rendering\Lighting.cpp" />
+    <ClCompile Include="Rendering\Camera3D.cpp" />
+    <ClCompile Include="Rendering\Material.cpp" />
+    <ClCompile Include="Rendering\Mesh.cpp" />
+    <ClCompile Include="Rendering\RenderingEngine.cpp" />
+    <ClCompile Include="Rendering\Shader.cpp" />
+    <ClCompile Include="Rendering\Texture.cpp" />
+    <ClCompile Include="Rendering\Viewport.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BaseLight.cpp" />
-    <ClCompile Include="AudioEngine.cpp" />
-    <ClCompile Include="Camera3D.cpp" />
-    <ClCompile Include="CoreEngine.cpp" />
-    <ClCompile Include="DirectionalLight.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GUIEngine.cpp" />
-    <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="MappedValues.cpp" />
-    <ClCompile Include="Material.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="PointLight.cpp" />
-    <ClCompile Include="RenderingEngine.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="SpotLight.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="Time.cpp" />
-    <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="Utility.cpp" />
-    <ClCompile Include="Viewport.cpp" />
+    <ClInclude Include="Audio\AudioEngine.h" />
+    <ClInclude Include="Components\AudioSource.h" />
+    <ClInclude Include="Components\GameComponents.h" />
+    <ClInclude Include="Components\GUIButton.h" />
+    <ClInclude Include="Components\GUIComponent.h" />
+    <ClInclude Include="Components\GUIContainer.h" />
+    <ClInclude Include="Components\GUILabel.h" />
+    <ClInclude Include="Components\GUIProgressBar.h" />
+    <ClInclude Include="Components\GUISlider.h" />
+    <ClInclude Include="Components\GUITextBox.h" />
+    <ClInclude Include="Components\MeshRenderer.h" />
+    <ClInclude Include="Core\CoreEngine.h" />
+    <ClInclude Include="Core\GameObject.h" />
+    <ClInclude Include="Core\InputManager.h" />
+    <ClInclude Include="Core\MappedValues.h" />
+    <ClInclude Include="Core\ReferenceCounter.h" />
+    <ClInclude Include="Core\Scene.h" />
+    <ClInclude Include="Core\SceneManager.h" />
+    <ClInclude Include="Core\Time.h" />
+    <ClInclude Include="Core\Transform.h" />
+    <ClInclude Include="Core\Utility.h" />
+    <ClInclude Include="GUI\GUIEngine.h" />
+    <ClInclude Include="MegaEngine.h" />
+    <ClInclude Include="Physics\Collider.h" />
+    <ClInclude Include="Physics\MultiCollider.h" />
+    <ClInclude Include="Physics\PhysicsEngine.h" />
+    <ClInclude Include="Physics\PolygonCollider.h" />
+    <ClInclude Include="Physics\SphereCollider.h" />
+    <ClInclude Include="Physics\World.h" />
+    <ClInclude Include="Rendering\Lighting.h" />
+    <ClInclude Include="Rendering\Camera3D.h" />
+    <ClInclude Include="Rendering\Material.h" />
+    <ClInclude Include="Rendering\Mesh.h" />
+    <ClInclude Include="Rendering\RenderingEngine.h" />
+    <ClInclude Include="Rendering\Shader.h" />
+    <ClInclude Include="Rendering\Texture.h" />
+    <ClInclude Include="Rendering\Viewport.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

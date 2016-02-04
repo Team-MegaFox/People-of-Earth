@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GameComponents.h>
+#include <Components\GameComponents.h>
 #include <glm\glm.hpp>
 #include <SDL2\SDL.h>
 

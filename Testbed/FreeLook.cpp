@@ -1,14 +1,14 @@
 #include "freeLook.h"
-#include <Viewport.h>
-#include <Utility.h>
+#include <Rendering\Viewport.h>
+#include <Core\Utility.h>
 
 void FreeLook::processInput(const InputManager& input, float delta)
 {
 
 	if (input.KeyDown(m_unlockMouseKey))
 	{
-		input.SetCursor(true);
-		m_mouseLocked = false;
+		//input.SetCursor(true);
+		//m_mouseLocked = false;
 	}
 
 	if (m_mouseLocked)
@@ -24,7 +24,7 @@ void FreeLook::processInput(const InputManager& input, float delta)
 		}
 		if (rotX)
 		{
-			getTransform()->rotate(getRight(*getTransform()->getRotation()), glm::radians(deltaPos.y * m_sensitivity));
+			getTransform()->rotate(Utility::getRight(*getTransform()->getRotation()), glm::radians(deltaPos.y * m_sensitivity));
 		}
 
 		if (rotY || rotX)
@@ -36,8 +36,8 @@ void FreeLook::processInput(const InputManager& input, float delta)
 
 	if (input.MouseButtonDown(SDL_BUTTON_LEFT))
 	{
-		input.SetCursor(false);
-		input.SetMousePosition(m_windowCenter);
-		m_mouseLocked = true;
+		//input.SetCursor(false);
+		//input.SetMousePosition(m_windowCenter);
+		//m_mouseLocked = true;
 	}
 }

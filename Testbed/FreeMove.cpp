@@ -1,24 +1,24 @@
 #include "freeMove.h"
-#include <Utility.h>
+#include <Core\Utility.h>
 void FreeMove::processInput(const InputManager& input, float delta)
 {
 	float movAmt = m_speed * delta;
 
 	if (input.KeyDown(m_forwardKey))
-		Move(getForward(*getTransform()->getRotation()), movAmt);
+		Move(Utility::getForward(*getTransform()->getRotation()), movAmt);
 	if (input.KeyDown(m_backKey))
-		Move(getBack(*getTransform()->getRotation()), movAmt);
+		Move(Utility::getBack(*getTransform()->getRotation()), movAmt);
 	if (input.KeyDown(m_leftKey))
-		Move(getLeft(*getTransform()->getRotation()), movAmt);
+		Move(Utility::getLeft(*getTransform()->getRotation()), movAmt);
 	if (input.KeyDown(m_rightKey))
-		Move(getRight(*getTransform()->getRotation()), movAmt);
+		Move(Utility::getRight(*getTransform()->getRotation()), movAmt);
 	if (input.KeyDown(SDLK_r))
 	{
-		Move(getUp(*getTransform()->getRotation()), movAmt);
+		Move(Utility::getUp(*getTransform()->getRotation()), movAmt);
 	}
 	if (input.KeyDown(SDLK_f))
 	{
-		Move(getDown(*getTransform()->getRotation()), movAmt);
+		Move(Utility::getDown(*getTransform()->getRotation()), movAmt);
 	}
 }
 
