@@ -228,7 +228,7 @@ public:
 	/// <param name="custom">if set to <c>true</c> [custom].</param>
 	/// <param name="customLevel">if set to <c>true</c> [custom level].</param>
 	/// <param name="centreFreq">The centre freq.</param>
-	void setSoundDistanceFilter(bool custom, bool customLevel, float centerFreq
+	void setSoundDistanceFilter(bool custom, bool customLevel, float centerFreq)
 	{
 		m_soundSource.setSoundDistanceFilter(custom, customLevel, centerFreq);
 	}

@@ -44,7 +44,7 @@ public:
 		Audio * stream = new Audio("./Assets/Music/music.mp3", AudioType::STREAM);
 
 		// the alien fighter ship
-		addToRoot((new GameObject(glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
+		addToRoot((new GameObject("Arrdvark",glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("AlienFighter_FINAL.obj", 0.1f), Material("alien_ship")))
 			->addGameComponent(stream));
 
@@ -60,8 +60,7 @@ public:
 		// The Earth
 		addToRoot((new GameObject("Earth", glm::vec3(0.0f, -5.0f, 550.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("sphere.obj", 0.1f), Material("earthTexture")))
-			->addGameComponent(new PlanetSpin);
-		addToRoot(earth);
+			->addGameComponent(new PlanetSpin));
 
 		//addToRoot((new GameObject(glm::vec3(0.0f, -5.0f, 4550.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(150.0f)))
 		//	->addGameComponent(new MeshRenderer(Mesh("sphere.obj", 0.1f), Material("moonTexture"))));
@@ -70,24 +69,25 @@ public:
 		//addToRoot((new GameObject(glm::vec3(0.0f, -5.0f, -55000.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(1000.0f)))
 		//	->addGameComponent(new MeshRenderer(Mesh("sphere.obj", 0.1f), Material("sunTexture"))));
 
-		addToRoot((new GameObject(glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
+		addToRoot((new GameObject("DrLight", glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
 			->addGameComponent(new DirectionalLight(glm::vec3(1.0f), 0.02f, 7, 8.0f, 1.0f)));
 
-		stream->setPosition(*earth->getTransform()->getPosition());
+		stream->setPosition(glm::vec3(0.0f, -5.0f, 550.0f));
 		stream->play(true);
 
-		CameraComponent* cc = camera->getComponent<CameraComponent>();
+		CameraComponent* cc = camera->getGameComponent<CameraComponent>();
 		if (cc != nullptr)
 		{
 			std::cout << "There is a camera component!" << std::endl;
 		}
 
-		addToRoot((new GameObject("Container"))
-			->addGUIComponent(new GUIContainer(glm::vec4(0.5f, 0.1f, 0.3f, 0.5f), glm::vec4(0.0f)))
-			->addChild((new GameObject("Label in Container"))
-			->addGUIComponent(new GUILabel(glm::vec4(0.1f, 0.1f, 0.5f, 0.05f), glm::vec4(0.0f), "In container"))
-			->addGUIComponent(new GUIButton(glm::vec4(0.1f, 0.4f, 0.5f, 0.1f), glm::vec4(0.0f), "Button"))));
+		//addToRoot((new GameObject("Container"))
+		//	->addGUIComponent(new GUIContainer(glm::vec4(0.5f, 0.1f, 0.3f, 0.5f), glm::vec4(0.0f)))
+		//	->addChild((new GameObject("Label in Container"))
+		//	->addGUIComponent(new GUILabel(glm::vec4(0.1f, 0.1f, 0.5f, 0.05f), glm::vec4(0.0f), "In container"))
+		//	->addGUIComponent(new GUIButton(glm::vec4(0.1f, 0.4f, 0.5f, 0.1f), glm::vec4(0.0f), "Button"))));
 	}
+
 
 };
 

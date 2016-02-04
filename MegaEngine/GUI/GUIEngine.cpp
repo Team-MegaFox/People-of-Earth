@@ -16,7 +16,7 @@
 #include <utf8\utf8.h>
 #include "GUIEngine.h"
 #include "..\Core\Time.h"
-#include "..\Core\Utility.h
+#include "..\Core\Utility.h"
 
 GUIEngine::GUIEngine(const std::string& resDir, 
 	const std::string& schemeFile /*= "TaharezLook.scheme"*/,
