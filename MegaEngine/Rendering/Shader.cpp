@@ -143,7 +143,7 @@ void Shader::bind() const
 void Shader::updateUniforms(const Transform& transform, const Material& material, const RenderingEngine& renderingEngine, const Camera3D& camera) const
 {
 	glm::mat4 worldMatrix = transform.getTransformation();
-	glm::mat4 projectedMatrix = camera.getViewProjection() * worldMatrix;
+	glm::mat4 projectedMatrix = camera.getViewProjection();
 
 	for (unsigned int i = 0; i < m_shaderData->getUniformNames().size(); i++)
 	{
@@ -181,10 +181,18 @@ void Shader::updateUniforms(const Transform& transform, const Material& material
 			material.getTexture(uniformName).bind(samplerSlot);
 			setUniformi(uniformName, samplerSlot);
 		}
+		else if (uniformType == "samplerCube")
+		{
+			int samplerSlot = renderingEngine.getSamplerSlot(uniformName);
+			material.getTexture(uniformName).bind();
+			setUniformi(uniformName, samplerSlot);
+		}
 		else if (uniformName.substr(0, 2) == "T_")
 		{
 			if (uniformName == "T_MVP")
-				setUniformMat4(uniformName, projectedMatrix);
+				setUniformMat4(uniformName, projectedMatrix * worldMatrix);
+			else if (uniformName == "T_VP")
+				setUniformMat4(uniformName, glm::mat4(glm::mat3(projectedMatrix)));
 			else if (uniformName == "T_model")
 				setUniformMat4(uniformName, worldMatrix);
 			else
@@ -465,6 +473,7 @@ static void checkShaderError(int shader, int flag, bool isProgram, const std::st
 			glGetShaderInfoLog(shader, sizeof(error), NULL, error);
 
 		fprintf(stderr, "%s: '%s'\n", errorMessage.c_str(), error);
+		assert(0 != 0);
 	}
 }
 
@@ -497,6 +506,7 @@ static std::string loadShader(const std::string& fileName)
 	else
 	{
 		std::cerr << "Unable to load shader: " << fileName << std::endl;
+		assert(0 != 0);
 	}
 
 	return output;

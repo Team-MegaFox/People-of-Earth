@@ -24,6 +24,9 @@ public:
 		Material sunTex("sunTexture", 0.5f, 4, Texture("sun.jpg"));
 		Material moonTex("moonTexture", 0.5f, 4, Texture("moon.jpg"));
 
+		addToRoot((new GameObject("skybox"))
+			->addGameComponent(new SkyboxRenderer("Skybox/sky.jpg")));
+
 		// The human fighter ship and camera
 		GameObject* camera = 
 			(new GameObject("camera"))
@@ -64,15 +67,6 @@ public:
 
 		addToRoot((new GameObject("Directional Light", glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
 			->addGameComponent(new DirectionalLight(glm::vec3(1.0f), 0.02f, 7, 8.0f, 1.0f)));
-
-		addToRoot((new GameObject("Label"))
-			->addGUIComponent(new GUILabel(glm::vec4(0.2f, 0.5f, 0.1f, 0.05f), glm::vec4(0.0f), "[colour='FFFF0000']Hello!")));
-
-		addToRoot((new GameObject("Container"))
-			->addGUIComponent(new GUIContainer(glm::vec4(0.5f, 0.1f, 0.3f, 0.5f), glm::vec4(0.0f)))
-			->addChild((new GameObject("Label in Container"))
-			->addGUIComponent(new GUILabel(glm::vec4(0.1f, 0.1f, 0.5f, 0.05f), glm::vec4(0.0f), "In container"))
-			->addGUIComponent(new GUIButton(glm::vec4(0.1f, 0.4f, 0.5f, 0.1f), glm::vec4(0.0f), "Button"))));
 	}
 };
 

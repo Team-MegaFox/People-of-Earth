@@ -76,3 +76,12 @@ m_materialName(materialName)
 	m_materialData->setFloat("dispMapScale", dispMapScale);
 	m_materialData->setFloat("dispMapBias", -baseBias + baseBias * dispMapOffset);
 }
+
+Material::Material(const std::string & materialName, const Texture & skyboxTex) :
+m_materialName(materialName)
+{
+	m_materialData = new MaterialData();
+	s_resourceMap[m_materialName] = m_materialData;
+
+	m_materialData->setTexture("S_skybox", skyboxTex);
+}

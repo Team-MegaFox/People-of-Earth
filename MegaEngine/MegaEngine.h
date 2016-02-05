@@ -19,6 +19,7 @@
 #include "Rendering\Mesh.h"
 #include "Rendering\Shader.h"
 #include "Rendering\Camera3D.h"
+#include "Rendering\Skybox.h"
 #include "Rendering\Lighting.h"
 #include "Rendering\Viewport.h"
 #include "Components\MeshRenderer.h"

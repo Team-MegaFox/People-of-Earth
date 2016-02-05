@@ -102,6 +102,9 @@
     <ClCompile Include="Components\GUIComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="Rendering\Skybox.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\CoreEngine.h">
@@ -212,6 +215,9 @@
     </ClInclude>
     <ClInclude Include="Components\GUIContainer.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Skybox.h">
+      <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
