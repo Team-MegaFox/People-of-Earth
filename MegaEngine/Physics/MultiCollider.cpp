@@ -57,6 +57,14 @@ void MultiCollider::addColliderToObject(Collider* collider)
     collider->setID(m_id);
     m_multipleCollider.push_back(collider);
 
+	//Set the Center of the gravity
+	m_position = glm::vec3(0);
+	for (int i = 0; i < m_multipleCollider.size(); i++)
+	{
+		m_position += m_multipleCollider[i]->getPosition();
+	}
+	m_position /= m_multipleCollider.size();
+
     //Calculate the highest radius of the multiple collider object
     m_radiusSphere = 0.0f;
     for (size_t i = 0; i < m_multipleCollider.size(); i++)
@@ -69,6 +77,11 @@ void MultiCollider::addColliderToObject(Collider* collider)
         }
     }
 
+	//Set the distance for each collider from the center of gravity of the colliders
+	for (int i = 0; i < m_multipleCollider.size(); i++)
+	{
+		m_distanceColliderFromCenterOfGravity[i] = m_multipleCollider[i]->getPosition() - m_position;
+	}
     
 }
 
