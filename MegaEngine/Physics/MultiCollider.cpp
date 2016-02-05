@@ -59,7 +59,7 @@ void MultiCollider::addColliderToObject(Collider* collider)
 
 	//Set the Center of the gravity
 	m_position = glm::vec3(0);
-	for (int i = 0; i < m_multipleCollider.size(); i++)
+	for (size_t i = 0; i < m_multipleCollider.size(); i++)
 	{
 		m_position += m_multipleCollider[i]->getPosition();
 	}
@@ -78,7 +78,7 @@ void MultiCollider::addColliderToObject(Collider* collider)
     }
 
 	//Set the distance for each collider from the center of gravity of the colliders
-	for (int i = 0; i < m_multipleCollider.size(); i++)
+	for (size_t i = 0; i < m_multipleCollider.size(); i++)
 	{
 		m_distanceColliderFromCenterOfGravity[i] = m_multipleCollider[i]->getPosition() - m_position;
 	}
