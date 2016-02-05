@@ -1,5 +1,5 @@
 #version 120
-in vec3 texCoord;
+varying vec3 texCoord;
 
 uniform samplerCube S_skybox;
 

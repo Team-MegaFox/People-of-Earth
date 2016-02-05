@@ -33,10 +33,10 @@ public:
 			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(75.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
 			->addGameComponent(new FreeLook(window.getCenter()))
 			->addGameComponent(new FreeMove(50.0f));
-		GameObject* fighterShip = 
-			(new GameObject("Fighter Ship", glm::vec3(-2.0f, -4.0f, -10.0f), glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)))))
-			->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship")));
-		camera->addChild(fighterShip);
+		//GameObject* fighterShip = 
+		//	(new GameObject("Fighter Ship", glm::vec3(-2.0f, -4.0f, -10.0f), glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)))))
+		//	->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship")));
+		//camera->addChild(fighterShip);
 		addToRoot(camera);
 
 		// the alien fighter ship
@@ -48,10 +48,9 @@ public:
 		//	->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship"))));
 
 		// The skysphere
-		addToRoot((new GameObject("Skysphere", glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4000.0f)))
+		/*addToRoot((new GameObject("Skysphere", glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4000.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("sphere2.obj", 0.1f), Material("skySphereTexture")))
-			->addGameComponent(new FreeMove()));
-
+			->addGameComponent(new FreeMove()));*/
 
 		// The Earth
 		addToRoot((new GameObject("Earth", glm::vec3(0.0f, -5.0f, 550.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))

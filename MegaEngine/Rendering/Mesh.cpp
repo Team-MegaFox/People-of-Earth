@@ -71,7 +71,7 @@ void IndexedModel::calcTangents()
 		m_tangents.push_back(glm::vec3(0.0f));
 	}
 
-	for (size_t i = 0; i < m_indices.size(); i++)
+	for (size_t i = 0; i < m_indices.size(); i += 3)
 	{
 		int i0 = m_indices[i];
 		int i1 = m_indices[i + 1];

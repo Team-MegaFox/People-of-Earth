@@ -1,7 +1,7 @@
 #version 120
 attribute vec3 position;
 
-out vec3 texCoord;
+varying vec3 texCoord;
 
 uniform mat4 T_VP;
 
