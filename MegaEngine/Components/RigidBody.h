@@ -17,10 +17,7 @@ MegaEngine.
 // ***********************************************************************
 #pragma once
 #include "GameComponents.h"
-#include "..\Physics\Collider.h"
 #include "..\Physics\MultiCollider.h"
-#include "..\Physics\PolygonCollider.h"
-#include "..\Physics\SphereCollider.h"
 #include "..\Physics\World.h"
 
 class RigidBody : public GameComponent
