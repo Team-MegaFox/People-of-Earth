@@ -39,7 +39,7 @@ public:
 	/// Gets the physics world.
 	/// </summary>
 	/// <returns>World *.</returns>
-	World* getPhysicsWorld()
+	static World* getPhysicsWorld()
 	{
 		return m_physicsWorld;
 	}
@@ -48,6 +48,6 @@ private:
 	/// <summary>
 	/// The physics world.
 	/// </summary>
-	World *m_physicsWorld;
+	static World *m_physicsWorld;
 };
 

@@ -3,7 +3,7 @@
 // Created          : 02-04-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-04-2016
+// Last Modified On : 02-05-2016
 // ***********************************************************************
 // <copyright file="RigidBody.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -18,7 +18,7 @@ MegaEngine.
 #pragma once
 #include "GameComponents.h"
 #include "..\Physics\MultiCollider.h"
-#include "..\Physics\World.h"
+#include "..\Physics\PhysicsEngine.h"
 
 class RigidBody : public GameComponent
 {
@@ -31,7 +31,7 @@ public:
 	/// <param name="mass">The mass.</param>
 	/// <param name="radius">The radius.</param>
 	/// <param name="id">The identifier.</param>
-	RigidBody(World * world, glm::vec3 position, glm::quat rotation, float mass, float radius, int id = 0)
+	RigidBody(glm::vec3 position, glm::quat rotation, float mass, float radius, int id = 0)
 	{
 		m_sphereCollider = new SphereCollider();
 
@@ -45,7 +45,7 @@ public:
 			radius,
 			id);
 
-		world->addCollidableObject(m_sphereCollider);
+		PhysicsEngine::getPhysicsWorld()->addCollidableObject(m_sphereCollider);
 	}
 
 	/// <summary>
@@ -56,7 +56,7 @@ public:
 	/// <param name="halfHeight">Height of the half.</param>
 	/// <param name="halfDepth">The half depth.</param>
 	/// <param name="id">The identifier.</param>
-	RigidBody(World * world, float mass, float halfWidth, float halfHeight, float halfDepth, int id = 0)
+	RigidBody(float mass, float halfWidth, float halfHeight, float halfDepth, int id = 0)
 	{
 		m_polyCollider = new PolygonCollider();
 
@@ -72,7 +72,7 @@ public:
 			halfDepth,
 			id);
 
-		world->addCollidableObject(m_polyCollider);
+		PhysicsEngine::getPhysicsWorld()->addCollidableObject(m_polyCollider);
 	}
 
 	/// <summary>
@@ -81,7 +81,7 @@ public:
 	/// </summary>
 	/// <param name="mass">The mass.</param>
 	/// <param name="id">The identifier.</param>
-	RigidBody(World * world, float mass, int id = 0)
+	RigidBody(float mass, int id = 0)
 	{
 		m_multiCollider = new MultiCollider();
 
@@ -94,7 +94,7 @@ public:
 			glm::vec3(0.0f),						// TODO: Currently there is no place in the engine that can give you acceleration
 			id);
 
-		world->addCollidableObject(m_multiCollider);
+		PhysicsEngine::getPhysicsWorld()->addCollidableObject(m_multiCollider);
 	}
 
 	/// <summary>
