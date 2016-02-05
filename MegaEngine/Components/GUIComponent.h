@@ -75,7 +75,13 @@ public:
 	/// <param name="parent">The GameObject to be attached to.</param>
 	virtual void setParent(GameObject* parent) { m_parent = parent; }
 
-protected:
+protected:	
+	/// <summary>
+	/// Gets the parented gameobject.
+	/// </summary>
+	/// <returns>A pointer to the parented gameobject.</returns>
+	GameObject* getParent() { return m_parent; }
+
 	/// <summary>
 	/// Gets the core engine.
 	/// </summary>
@@ -93,7 +99,6 @@ protected:
 	/// </summary>
 	/// <returns>CEGUI.Window *.</returns>
 	CEGUI::Window* getWidget() { return m_widget; }
-
 
 	/// <summary>
 	/// Creates a widget.
