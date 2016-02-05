@@ -26,13 +26,17 @@ public:
 		Material sunTex("sunTexture", 0.5f, 4, Texture("sun.jpg"));
 		Material moonTex("moonTexture", 0.5f, 4, Texture("moon.jpg"));
 
+		World * world = new World();
+		RigidBody * body = new RigidBody(world, glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), 500.0f, 500.0f);
+
 		// The human fighter ship and camera
 		GameObject* camera = 
 			(new GameObject("camera"))
 			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(75.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
 			->addGameComponent(new FreeLook(window.getCenter()))
 			->addGameComponent(new FreeMove(50.0f))
-			->addGameComponent(new Listener());
+			->addGameComponent(new Listener())
+			->addGameComponent(body);
 		GameObject* fighterShip = 
 			(new GameObject("Fighter Ship", glm::vec3(-2.0f, -4.0f, -10.0f), glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)))))
 			->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship")));

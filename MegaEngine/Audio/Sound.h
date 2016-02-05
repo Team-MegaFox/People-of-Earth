@@ -3,7 +3,7 @@
 // Created          : 02-01-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-03-2016
+// Last Modified On : 02-04-2016
 // ***********************************************************************
 // <copyright file="Sound.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -36,6 +36,9 @@ public:
 	/// </summary>
 	~Sound() {}
 
+	/// <summary>
+	/// Disposes this instance.
+	/// </summary>
 	void dispose()
 	{
 		//Clean up the SoundEffects and Stream Effects
@@ -47,17 +50,6 @@ public:
 			}
 		}
 
-		if (AudioEngine::getSounds() != nullptr)
-		{
-			//delete [] m_soundEffects;
-		}
-
-		//Clean up the Channel Lists
-		if (AudioEngine::getSoundChannels() != nullptr)
-		{
-			//delete [] m_soundChannels;
-		}
-
 		//Clean up the Channel Groups
 		if (AudioEngine::getSoundChannelGroup() != nullptr)
 		{
@@ -65,18 +57,21 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Sets the sound.
+	/// </summary>
 	void setSound()
 	{
-		// TODO: stream needs to work like below
-		// make m_sounds a member variable
-		// fix load sounds and streams to work with this.
-
 		AudioEngine::getSounds()[m_soundMap[m_fileName].second]->release();
 		AudioEngine::getSystem()->createSound(m_fileName.c_str(), FMOD_3D | FMOD_DEFAULT, 0, &m_soundMap[m_fileName].first);
 		AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX(m_soundMap[m_fileName].second), m_soundMap[m_fileName].first, true, &AudioEngine::getSoundChannels()[m_soundMap[m_fileName].second]);
 		AudioEngine::getSoundChannels()[m_soundMap[m_fileName].second]->setChannelGroup(AudioEngine::getSoundChannelGroup());
 	}
 
+	/// <summary>
+	/// Sets the sound.
+	/// </summary>
+	/// <param name="fileName">Name of the file.</param>
 	void setSound(std::string fileName)
 	{
 		// TODO: stream needs to work like below
@@ -88,16 +83,26 @@ public:
 		AudioEngine::getSoundChannels()[m_soundMap[fileName].second]->setChannelGroup(AudioEngine::getSoundChannelGroup());
 	}
 
+	/// <summary>
+	/// Plays the sound.
+	/// </summary>
 	void playSound()
 	{
 		AudioEngine::getSoundChannels()[m_soundMap[m_fileName].second]->setPaused(false);
 	}
 
+	/// <summary>
+	/// Pauses the sound.
+	/// </summary>
+	/// <param name="pause">if set to <c>true</c> [pause].</param>
 	void pauseSound(bool pause)
 	{
 		AudioEngine::getSoundChannels()[m_soundMap[m_fileName].second]->setPaused(pause);
 	}
 
+	/// <summary>
+	/// Stops all sound effects.
+	/// </summary>
 	void stopAllSoundEffects()
 	{
 		for (int i = 0; i < NUM_SOUND_CHANNELS; i++)
@@ -109,6 +114,10 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Determines whether [is sound playing].
+	/// </summary>
+	/// <returns></returns>
 	bool isSoundPlaying()
 	{
 		bool result;
@@ -118,62 +127,125 @@ public:
 		return result;
 	}
 
+	/// <summary>
+	/// Sets the sound effect volume.
+	/// </summary>
+	/// <param name="volumeLevel">The volume level.</param>
 	void setSoundEffectVolume(float volumeLevel)
 	{
 		AudioEngine::getSoundChannelGroup()->setVolume(volumeLevel);
 	}
 
+	/// <summary>
+	/// Sets the sound effect volume all.
+	/// </summary>
+	/// <param name="volumeLevel">The volume level.</param>
 	void setSoundEffectVolumeAll(float volumeLevel)
 	{
 		AudioEngine::getSoundChannels()[m_soundMap[m_fileName].second]->setVolume(volumeLevel);
 	}
 
+	/// <summary>
+	/// Gets the sound volume.
+	/// </summary>
+	/// <returns></returns>
 	float & getSoundVolume()
 	{
 		AudioEngine::getSoundChannelGroup()->getVolume(&m_soundVolume);
 		return m_soundVolume;
 	}
 
+	/// <summary>
+	/// Sets the sound position vel.
+	/// </summary>
+	/// <param name="pos">The position.</param>
+	/// <param name="vel">The vel.</param>
 	void setSoundPosVel(glm::vec3 pos, glm::vec3 vel = glm::vec3(0.0f))
 	{
 		AudioEngine::getSoundChannels()[m_soundMap[m_fileName].second]->set3DAttributes(&glmToFMOD(pos), &glmToFMOD(vel));
 	}
 
+	/// <summary>
+	/// Pan level, from -1.0 (left) to 1.0 (right), default = 0 (center).
+	/// </summary>
+	/// <param name="pan">The pan.</param>
 	void setSoundPan(float pan)
 	{
 		AudioEngine::getSoundChannels()[m_soundMap[m_fileName].second]->setPan(pan);
 	}
 
+	/// <summary>
+	/// Sets the sound doppler level.
+	/// Use with (but before) setSoundDistanceFilter for proper effect
+	/// </summary>
+	/// <param name="dopplerLevel">The doppler level.</param>
 	void setSoundDopplerLevel(float dopplerLevel)
 	{
 		AudioEngine::getSoundChannels()[m_soundMap[m_fileName].second]->set3DDopplerLevel(dopplerLevel);
 	}
 
+	/// <summary>
+	/// Sets the sound cone orientation.
+	/// </summary>
+	/// <param name="orientation">The orientation.</param>
 	void setSoundConeOrientation(glm::vec3 orientation)
 	{
 		AudioEngine::getSoundChannels()[m_soundMap[m_fileName].second]->set3DConeOrientation(&glmToFMOD(orientation));
 	}
 
+	/// <summary>
+	/// Sets the sound cone settings.
+	/// </summary>
+	/// <param name="insideConeAngle">The inside cone angle.</param>
+	/// <param name="outsideConeAngle">The outside cone angle.</param>
+	/// <param name="outsideVolume">The outside volume.</param>
 	void setSoundConeSettings(float insideConeAngle, float outsideConeAngle, float outsideVolume)
 	{
 		AudioEngine::getSoundChannels()[m_soundMap[m_fileName].second]->set3DConeSettings(insideConeAngle, outsideConeAngle, outsideVolume);
 	}
 
+	/// <summary>
+	/// Sets the sound distance filter.
+	/// Use with but after setSoundDopplerLevel
+	/// </summary>
+	/// <param name="custom">if set to <c>true</c> [custom].</param>
+	/// <param name="customLevel">if set to <c>true</c> [custom level].</param>
+	/// <param name="centerFreq">The center freq.</param>
 	void setSoundDistanceFilter(bool custom, bool customLevel, float centerFreq)
 	{
 		AudioEngine::getSoundChannels()[m_soundMap[m_fileName].second]->set3DDistanceFilter(custom, customLevel, centerFreq);
 	}
 
+	/// <summary>
+	/// In summary, increase the mindistance of a sound to make it 'louder' in a 3D world, 
+	/// and decrease it to make it 'quieter' in a 3D world.
+	/// Maxdistance is effectively obsolete unless you need the sound to stop fading out at 
+	/// a certain point.Do not adjust this from the default if you dont need to.
+	///	Some people have the confusion that maxdistance is the point the sound will fade out to, 
+	/// this is not the case.
+	/// </summary>
+	/// <param name="min">The minimum.</param>
+	/// <param name="max">The maximum.</param>
 	void setSound3DMinMaxDistance(float min, float max = NULL)
 	{
 		AudioEngine::getSoundChannels()[m_soundMap[m_fileName].second]->set3DMinMaxDistance(min, max);
 	}
 
+	/// <summary>
+	/// Sets the sound occlusion.
+	/// </summary>
+	/// <param name="attenuation">The attenuation.</param>
+	/// <param name="reverberation">The reverberation.</param>
 	void setSoundOcclusion(float attenuation, float reverberation = NULL)
 	{
 		AudioEngine::getSoundChannels()[m_soundMap[m_fileName].second]->set3DOcclusion(attenuation, reverberation);
 	}
 
+	/// <summary>
+	/// Loads the sounds.
+	/// </summary>
+	/// <param name="soundList">The sound list.</param>
+	/// <returns></returns>
 	bool loadSounds(std::vector<std::string> soundList)
 	{
 		bool result;

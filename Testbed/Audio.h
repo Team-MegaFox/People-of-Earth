@@ -28,7 +28,7 @@ public:
 			m_source = new AudioSource(Sound(fileName));
 		}
 
-		set3DMinMaxDistance(1.0f);
+		set3DMinMaxDistance(0.1f);
 		setDoppler(0.5f);
 		setVolume(100.0f);
 		
@@ -125,7 +125,7 @@ public:
 	}
 
 	/// <summary>
-	/// Sets the pan.
+	/// Pan level, from -1.0 (left) to 1.0 (right), default = 0 (center).
 	/// </summary>
 	/// <param name="value">The pan value to use for this audio source.</param>
 	void setPan(float value)
@@ -142,6 +142,7 @@ public:
 
 	/// <summary>
 	/// Sets the doppler.
+	/// Use with (but before) setDistanceFilter for proper effect
 	/// </summary>
 	/// <param name="value">The doppler value to use for this audio source.</param>
 	void setDoppler(float value)
@@ -173,18 +174,32 @@ public:
 	}
 
 	/// <summary>
-	/// Sets the sound distance filter.
+	/// Sets the distance filter.
+	/// Use with (but after) setDoppler for proper effect
 	/// </summary>
 	/// <param name="custom">if set to <c>true</c> [custom].</param>
 	/// <param name="customLevel">if set to <c>true</c> [custom level].</param>
 	/// <param name="centerFreq">The center freq.</param>
-	void setSoundDistanceFilter(bool custom, bool customLevel, float centerFreq)
+	void setDistanceFilter(bool custom, bool customLevel, float centerFreq)
 	{
-		m_source->setSoundDistanceFilter(custom, customLevel, centerFreq);
+		if (m_type == STREAM)
+		{
+			m_source->setStreamDistanceFilter(custom, customLevel, centerFreq);
+		}
+		else if (m_type == SOUND)
+		{
+			m_source->setSoundDistanceFilter(custom, customLevel, centerFreq);
+		}
+
 	}
 
 	/// <summary>
-	/// Sets the 3D minimum and maximum distance for sound attenuation.
+	/// In summary, increase the mindistance of a sound to make it 'louder' in a 3D world, 
+	/// and decrease it to make it 'quieter' in a 3D world.
+	/// Maxdistance is effectively obsolete unless you need the sound to stop fading out at 
+	/// a certain point.Do not adjust this from the default if you dont need to.
+	///	Some people have the confusion that maxdistance is the point the sound will fade out to, 
+	/// this is not the case.
 	/// </summary>
 	/// <param name="min">The minimum.</param>
 	/// <param name="max">The maximum defaulted to NULL.</param>
