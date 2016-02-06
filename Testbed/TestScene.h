@@ -28,8 +28,23 @@ public:
 			(new GameObject("PlayerFighterShip", glm::vec3(-2.0f, -4.0f, -10.0f), glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)))))
 			->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship")));
 
-		RigidBody * rB1 = new RigidBody(*fighterShip->getTransform()->getPosition(), glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f))), 200.0f, 100.0f, 100.0f, 100.0f);
-		RigidBody * rB2 = new RigidBody(glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), 400.0f, 100.0f, 100.0f, 100.0f);
+		//Rigidbody Polygon Collider rB1
+		RigidBody * rB1 = new RigidBody(
+			*fighterShip->getTransform()->getPosition(), 
+			glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f))), 
+			200.0f, 
+			100.0f, 
+			100.0f, 
+			100.0f);
+
+		//Rigidbody Polygon Collider rb2
+		RigidBody * rB2 = new RigidBody(
+			glm::vec3(0.0f, -5.0f, 80.0f), 
+			glm::quat(1.0f, 0.0f, 0.0f, 0.0f), 
+			400.0f, 
+			100.0f, 
+			100.0f, 
+			100.0f);
 
 		// The human fighter ship and camera
 		GameObject* camera =
@@ -40,7 +55,6 @@ public:
 			->addGameComponent(new Listener())
 			->addGameComponent(rB1);
 
-		//theListener->setAsListener();
 		camera->addChild(fighterShip);
 		addToRoot(camera);
 
