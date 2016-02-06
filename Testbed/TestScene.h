@@ -36,11 +36,17 @@ public:
 			100.0f, 
 			100.0f, 
 			100.0f);
+		rB1->init(
+			*fighterShip->getTransform()->getPosition(),
+			glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f))),
+			glm::vec3(0),
+			glm::vec3(100.0f, 100.0f, 100.0f)
+			);
 
 		//Rigidbody Polygon Collider rb2
 		RigidBody * rB2 = new RigidBody(
 			glm::vec3(0.0f, -5.0f, 80.0f), 
-			glm::quat(1.0f, 0.0f, 0.0f, 0.0f), 
+			glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
 			400.0f, 
 			100.0f, 
 			100.0f, 
