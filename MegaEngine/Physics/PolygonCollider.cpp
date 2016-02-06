@@ -129,6 +129,7 @@ std::vector<Collider*> PolygonCollider::checkCollision( std::vector<Collider*> c
 	else
 	{
 		m_collided = false;
+		std::cout << "No Collisions\n";
 	}
 
 	//Return the collided objects

@@ -31,17 +31,19 @@ public:
 	/// <param name="mass">The mass.</param>
 	/// <param name="radius">The radius.</param>
 	/// <param name="id">The identifier.</param>
-	RigidBody(glm::vec3 position, glm::quat rotation, float mass, float radius, int id = 0)
+	RigidBody(glm::vec3 position, glm::quat rotation, float mass, float radius, int id = 0) :
+		m_position(position),
+		m_rotation(rotation)
 	{
 		m_sphereCollider = new SphereCollider();
 
 		m_sphereCollider->init(
-			position,
-			rotation,
+			m_position,
+			m_rotation,
 			0.0f,// *getTransform()->getScale(),		// TODO: This needs to be a vec3 in the sphere collider class
 			mass,
-			glm::vec3(0.0f),						// TODO: Currently there is no place in the engine that can give you the velocity
-			glm::vec3(0.0f),						// TODO: Currently there is no place in the engine that can give you acceleration
+			m_zero,						// TODO: Currently there is no place in the engine that can give you the velocity
+			m_zero,						// TODO: Currently there is no place in the engine that can give you acceleration
 			radius,
 			id);
 
@@ -56,17 +58,19 @@ public:
 	/// <param name="halfHeight">Height of the half.</param>
 	/// <param name="halfDepth">The half depth.</param>
 	/// <param name="id">The identifier.</param>
-	RigidBody(glm::vec3 position, glm::quat rotation, float mass, float halfWidth, float halfHeight, float halfDepth, int id = 0)
+	RigidBody(glm::vec3 position, glm::quat rotation, float mass, float halfWidth, float halfHeight, float halfDepth, int id = 0) :
+		m_position(position),
+		m_rotation(rotation)
 	{
 		m_polyCollider = new PolygonCollider();
 
 		m_polyCollider->init(
-			position,
-			rotation,
+			m_position,
+			m_rotation,
 			0,// *getTransform()->getScale(),		// TODO: This needs to be a vec3 in the polygon collider class
 			mass,
-			glm::vec3(0.0f),						// TODO: Currently there is no place in the engine that can give you the velocity
-			glm::vec3(0.0f),						// TODO: Currently there is no place in the engine that can give you acceleration
+			m_zero,						// TODO: Currently there is no place in the engine that can give you the velocity
+			m_zero,						// TODO: Currently there is no place in the engine that can give you acceleration
 			halfWidth,
 			halfHeight,
 			halfDepth,
@@ -81,17 +85,19 @@ public:
 	/// </summary>
 	/// <param name="mass">The mass.</param>
 	/// <param name="id">The identifier.</param>
-	RigidBody(glm::vec3 position, glm::quat rotation, float mass, int id = 0)
+	RigidBody(glm::vec3 position, glm::quat rotation, float mass, int id = 0) :
+		m_position(position),
+		m_rotation(rotation)
 	{
 		m_multiCollider = new MultiCollider();
 
 		m_multiCollider->init(
-			position,
-			rotation,
+			m_position,
+			m_rotation,
 			0,// *getTransform()->getScale(),		// TODO: This needs to be a vec3 in the multi Collider class
 			mass,
-			glm::vec3(0.0f),						// TODO: Currently there is no place in the engine that can give you the velocity
-			glm::vec3(0.0f),						// TODO: Currently there is no place in the engine that can give you acceleration
+			m_zero,						// TODO: Currently there is no place in the engine that can give you the velocity
+			m_zero,						// TODO: Currently there is no place in the engine that can give you acceleration
 			id);
 
 		PhysicsEngine::getPhysicsWorld()->addCollidableObject(m_multiCollider);
@@ -108,23 +114,29 @@ public:
 	}
 
 	/// <summary>
-	/// Gets this RigidBody's collider.
+	/// Updates the collider every frame
+	/// - updates the position and the rotation of the collider every frame
 	/// </summary>
-	/// <returns></returns>
-	Collider * getCollider()
+	/// <param name="deltaTime">The delta time.</param>
+	virtual void update(float deltaTime) override
 	{
 		if (m_sphereCollider != nullptr)
 		{
-			return m_sphereCollider;
+			m_sphereCollider->setPosition(m_position);
+			m_sphereCollider->setRotation(m_rotation);
 		}
 		else if (m_polyCollider != nullptr)
 		{
-			return m_polyCollider;
+			m_polyCollider->setPosition(m_position);
+			m_polyCollider->setRotation(m_rotation);
 		}
 		else if (m_multiCollider != nullptr)
 		{
-			return m_multiCollider;
+			m_multiCollider->setPosition(m_position);
+			m_multiCollider->setRotation(m_rotation);
 		}
+		m_position = *getTransform()->getPosition();
+		m_rotation = *getTransform()->getRotation();
 	}
 
 private:
@@ -141,6 +153,20 @@ private:
 	/// The multi collider
 	/// </summary>
 	MultiCollider * m_multiCollider;
+
+	/// <summary>
+	/// The position of this collider
+	/// </summary>
+	glm::vec3 m_position;
+	/// <summary>
+	/// The rotation of this collider
+	/// </summary>
+	glm::quat m_rotation;
+
+	/// <summary>
+	/// The zero variable
+	/// </summary>
+	glm::vec3 m_zero = glm::vec3(0.0f);
 
 };
 
