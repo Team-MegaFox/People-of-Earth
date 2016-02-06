@@ -56,6 +56,7 @@ void MultiCollider::addColliderToObject(Collider* collider)
     //Set the collider id so it is part of the Multi Collider 
     collider->setID(m_id);
     m_multipleCollider.push_back(collider);
+	m_distanceColliderFromCenterOfGravity.push_back(glm::vec3(0));
 
 	//Set the Center of the gravity
 	m_position = glm::vec3(0);

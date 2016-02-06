@@ -33,9 +33,15 @@ public:
 			->addGameComponent(new FreeLook(window.getCenter()))
 			->addGameComponent(new FreeMove(50.0f))
 			->addGameComponent(new Listener());
-		GameObject* fighterShip = 
+		GameObject* fighterShip =
 			(new GameObject("Fighter Ship", glm::vec3(-2.0f, -4.0f, -10.0f), glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)))))
-			->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship")));
+			->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship")))
+			->addGameComponent(new RigidBody(glm::vec3(-2.0f, -4.0f, 10.0f), glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f))), 1.0f));
+
+		PolygonCollider* shipRect = new PolygonCollider();
+		shipRect->init(glm::vec3(-2.0f, -4.0f, 10.0f), glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f))), 1.0f, 1.0f, glm::vec3(0), glm::vec3(0), 5.0f, 5.0f, 5.0f);
+
+		dynamic_cast<MultiCollider*>(fighterShip->getGameComponent<RigidBody>()->getCollider())->addColliderToObject(shipRect);
 
 		//theListener->setAsListener();
 		camera->addChild(fighterShip);

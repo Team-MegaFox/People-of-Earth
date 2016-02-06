@@ -56,13 +56,13 @@ public:
 	/// <param name="halfHeight">Height of the half.</param>
 	/// <param name="halfDepth">The half depth.</param>
 	/// <param name="id">The identifier.</param>
-	RigidBody(float mass, float halfWidth, float halfHeight, float halfDepth, int id = 0)
+	RigidBody(glm::vec3 position, glm::quat rotation, float mass, float halfWidth, float halfHeight, float halfDepth, int id = 0)
 	{
 		m_polyCollider = new PolygonCollider();
 
 		m_polyCollider->init(
-			*getTransform()->getPosition(),
-			*getTransform()->getRotation(),
+			position,
+			rotation,
 			0,// *getTransform()->getScale(),		// TODO: This needs to be a vec3 in the polygon collider class
 			mass,
 			glm::vec3(0.0f),						// TODO: Currently there is no place in the engine that can give you the velocity
@@ -81,13 +81,13 @@ public:
 	/// </summary>
 	/// <param name="mass">The mass.</param>
 	/// <param name="id">The identifier.</param>
-	RigidBody(float mass, int id = 0)
+	RigidBody(glm::vec3 position, glm::quat rotation, float mass, int id = 0)
 	{
 		m_multiCollider = new MultiCollider();
 
 		m_multiCollider->init(
-			*getTransform()->getPosition(),
-			*getTransform()->getRotation(),
+			position,
+			rotation,
 			0,// *getTransform()->getScale(),		// TODO: This needs to be a vec3 in the multi Collider class
 			mass,
 			glm::vec3(0.0f),						// TODO: Currently there is no place in the engine that can give you the velocity
@@ -106,8 +106,6 @@ public:
 		delete m_polyCollider;
 		delete m_multiCollider;
 	}
-
-private:
 
 	/// <summary>
 	/// Gets this RigidBody's collider.
@@ -128,6 +126,8 @@ private:
 			return m_multiCollider;
 		}
 	}
+
+private:
 
 	/// <summary>
 	/// The sphere collider
