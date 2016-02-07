@@ -1,5 +1,7 @@
 #include "freeMove.h"
 #include <Core\Utility.h>
+#include <Components\RigidBody.h>
+
 void FreeMove::processInput(const InputManager& input, float delta)
 {
 	float movAmt = m_speed * delta;
@@ -27,4 +29,9 @@ void FreeMove::Move(const glm::vec3& direction, float amt)
 	//glm::vec3 result = *getTransform()->getPosition() + (direction * amt);
 	//getTransform()->setPosition(*getTransform()->getPosition() + (direction * amt));
 	
+	//Need to find a way to get another game component (specifically rigidbody) in a game component
+	//Plan is Have the game component know the gameobject they are connected
+	//Get the game object it is connected to and call the getGameComponent function to get the rigid body
+	//Finally set the velocity and acceleration value properly
+
 }
