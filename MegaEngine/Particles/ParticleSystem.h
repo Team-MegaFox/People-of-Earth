@@ -30,6 +30,27 @@ enum EmitterType
 	NONE
 };
 
+/*
+Add these lines to TestScene
+if they are not alredy there.
+
+std::vector<GameObject *> particlesGO;
+for (size_t i = 0; i < 20; i++)
+{
+particlesGO.push_back(new GameObject("particle " + i));
+}
+
+Particle * theParticle = new Particle(particlesGO, &bricks, 0.1f);
+
+ParticleSystem * particleSystem = new ParticleSystem(
+*theParticle, 10.0f,
+glm::vec3(0.0f, -5.0f, 80.0f),
+glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
+this,
+SPHERICAL);
+
+*/
+
 const int MAX_DENSITY = 100;
 
 /// <summary>
@@ -146,13 +167,14 @@ private:
 
 		void update(float deltaTime)
 		{
+			m_counter += 0.001f;
 			int counter = 0;
 
 			// Create random values for the velocity and orientation for the particles
 			std::mt19937 random((unsigned int)time(nullptr));
 			std::mt19937 random2((unsigned int)time(nullptr));
 			std::mt19937 random3((unsigned int)time(nullptr));
-			std::uniform_real_distribution<float> randDirection(-100.0f, 100.0f);
+			std::uniform_real_distribution<float> randDirection(-10.0f, 10.0f);
 
 			// Set each particles orientation and velocity
 			for (size_t i = 0; i < m_particle.getGameObjects().size(); i++)
@@ -213,7 +235,7 @@ private:
 
 						glm::vec3 acceleration = glm::vec3(randDirection(random), randDirection(random2), randDirection(random3));
 						// do it this way
-						m_particle.setVelocity(i, glm::vec3(randDirection(random), randDirection(random2), randDirection(random3)), acceleration, deltaTime);
+						m_particle.setVelocity(i, glm::vec3(randDirection(random), sinf(m_counter), randDirection(random3)), acceleration, deltaTime);
 					}
 				}
 			}
@@ -257,6 +279,8 @@ private:
 		/// The orientation of the particle emitter
 		/// </summary>
 		glm::quat m_orientation;
+
+		float m_counter = 0.0f;
 	};
 };
 

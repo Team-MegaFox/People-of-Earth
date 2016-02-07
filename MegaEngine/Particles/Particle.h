@@ -73,12 +73,13 @@ public:
 	{ 
 		m_velocity = velocity; 
 		glm::vec3 pos;
+		glm::vec3 currentPosition = *m_gameObjects[index]->getTransform()->getPosition();
 		pos.x = velocity.x * deltaTime + 0.5f * acceleration.x * deltaTime * deltaTime;
 		pos.y = velocity.y * deltaTime + 0.5f * acceleration.y * deltaTime * deltaTime;
 		pos.z = velocity.z * deltaTime + 0.5f * acceleration.z * deltaTime * deltaTime;
-		m_gameObjects[index]->getTransform()->setPosition(pos);
+		currentPosition += pos;
+		m_gameObjects[index]->getTransform()->setPosition(currentPosition);
 	}
-
 
 	/// <summary>
 	/// Gets the is alive boolean.
