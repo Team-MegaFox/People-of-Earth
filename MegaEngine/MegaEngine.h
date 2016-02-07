@@ -29,5 +29,5 @@
 #include "Components\GUITextBox.h"
 #include "Components\GUISlider.h"
 #include "Components\GUIContainer.h"
-
+#include "Particles\ParticleSystem.h"
 //#undef main;

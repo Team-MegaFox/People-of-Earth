@@ -26,6 +26,21 @@ public:
 		Material sunTex("sunTexture", 0.5f, 4, Texture("sun.jpg"));
 		Material moonTex("moonTexture", 0.5f, 4, Texture("moon.jpg"));
 
+		std::vector<GameObject *> particlesGO;
+		for (size_t i = 0; i < 20; i++)
+		{
+			particlesGO.push_back(new GameObject("particle " + i));
+		}
+
+		Particle * theParticle = new Particle(particlesGO, &bricks, 0.1f);
+
+		ParticleSystem * particleSystem = new ParticleSystem(
+			*theParticle, 10.0f,
+			glm::vec3(0.0f, -5.0f, 80.0f),
+			glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
+			this,
+			SPHERICAL);
+
 		// The human fighter ship and camera
 		GameObject* camera = 
 			(new GameObject("camera"))
@@ -45,6 +60,7 @@ public:
 
 		// the alien fighter ship
 		addToRoot((new GameObject("Arrdvark",glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
+			->addGameComponent(particleSystem)
 			->addGameComponent(new MeshRenderer(Mesh("AlienFighter_FINAL.obj", 0.1f), Material("alien_ship")))
 			->addGameComponent(stream));
 
@@ -81,19 +97,19 @@ public:
 			std::cout << "There is a camera component!" << std::endl;
 		}
 
-		addToRoot((new GameObject("Container"))
-			->addGUIComponent(new GUIContainer(glm::vec4(0.5f, 0.1f, 0.3f, 0.5f), glm::vec4(0.0f)))
-			->addChild((new GameObject("Label in Container"))
-			->addGUIComponent(new GUILabel(glm::vec4(0.1f, 0.1f, 0.5f, 0.05f), glm::vec4(0.0f), "In container"))
-			->addGUIComponent(new GUIButton(glm::vec4(0.1f, 0.4f, 0.5f, 0.1f), glm::vec4(0.0f), "Button",
-			std::bind(&TestScene::onButtonClick, this, std::placeholders::_1)))));
+	//	addToRoot((new GameObject("Container"))
+	//		->addGUIComponent(new GUIContainer(glm::vec4(0.5f, 0.1f, 0.3f, 0.5f), glm::vec4(0.0f)))
+	//		->addChild((new GameObject("Label in Container"))
+	//		->addGUIComponent(new GUILabel(glm::vec4(0.1f, 0.1f, 0.5f, 0.05f), glm::vec4(0.0f), "In container"))
+	//		->addGUIComponent(new GUIButton(glm::vec4(0.1f, 0.4f, 0.5f, 0.1f), glm::vec4(0.0f), "Button",
+	//		std::bind(&TestScene::onButtonClick, this, std::placeholders::_1)))));
 	}
 
-	bool onButtonClick(const GameObject& obj)
-	{
-		obj.getGUIComponent<GUILabel>()->setText("[colour='FF00FF00']I clicked");
-		return true;
-	}
+	//bool onButtonClick(const GameObject& obj)
+	//{
+	//	obj.getGUIComponent<GUILabel>()->setText("[colour='FF00FF00']I clicked");
+	//	return true;
+	//}
 
 
 };
