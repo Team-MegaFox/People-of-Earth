@@ -32,7 +32,7 @@ public:
 			particlesGO.push_back(new GameObject("particle " + i));
 		}
 
-		Particle * theParticle = new Particle(particlesGO, &bricks, 0.1f);
+		Particle * theParticle = new Particle(particlesGO, &moonTex, 0.1f);
 
 		ParticleSystem * particleSystem = new ParticleSystem(
 			*theParticle, 10.0f,
