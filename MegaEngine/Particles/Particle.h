@@ -79,10 +79,10 @@ public:
 
 		if (m_totalTime >= m_lifeTime)
 		{
-			for (size_t i = 0; i < m_isAlive.size(); i++)
-			{
-				m_isAlive[i] = false;
-			}
+			//for (size_t i = 0; i < m_isAlive.size(); i++)
+			//{
+			//	m_isAlive[i] = false;
+			//}
 		}
 		else
 		{
@@ -107,6 +107,10 @@ public:
 		m_lastUpdate = m_timeThisUpdate;
 	}
 
+	/// <summary>
+	/// Removes the game objects.
+	/// </summary>
+	/// <param name="scene">The scene.</param>
 	void removeGameObjects(Scene * scene)
 	{
 		for (size_t i = 0; i < m_gameObjects.size(); i++)

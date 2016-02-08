@@ -89,6 +89,17 @@ public:
 		m_particleEmitter->update(deltaTime);
 	}
 
+	/// <summary>
+	/// Renders the specified shader.
+	/// </summary>
+	/// <param name="shader">The shader.</param>
+	/// <param name="renderingEngine">The rendering engine.</param>
+	/// <param name="camera">The camera.</param>
+	virtual void render(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D & camera) const override
+	{
+		m_particleEmitter->render();
+	}
+
 private:
 	/// <summary>
 	/// The particle emitter
@@ -220,9 +231,18 @@ private:
 				}
 				else
 				{
-					m_particle.removeGameObjects(m_scene);
+					//m_particle.removeGameObjects(m_scene);
 				}
 			}
+		}
+
+		/// <summary>
+		/// Renders this instance.
+		/// </summary>
+		void render()
+		{
+			// do stuff
+		
 		}
 
 	protected:
@@ -254,6 +274,9 @@ private:
 		/// The m_velocities
 		/// </summary>
 		std::vector<glm::vec3> m_velocities;
+		/// <summary>
+		/// The m_scene
+		/// </summary>
 		Scene * m_scene;
 	};
 };
