@@ -25,14 +25,15 @@ public:
 		Material earthTex("earthTexture", 0.5f, 4, Texture("earth.png"));
 		Material sunTex("sunTexture", 0.5f, 4, Texture("sun.jpg"));
 		Material moonTex("moonTexture", 0.5f, 4, Texture("moon.jpg"));
+		Material fireTex("fireTexture", 0.5f, 4, Texture("fireTexture1.png"));
 
 		std::vector<GameObject *> particlesGO;
-		for (size_t i = 0; i < 20; i++)
+		for (size_t i = 0; i < 80; i++)
 		{
-			particlesGO.push_back(new GameObject("particle " + i));
+			particlesGO.push_back(new GameObject("particle " + i, glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(0.1f)));
 		}
 
-		Particle * theParticle = new Particle(particlesGO, &moonTex, 0.1f);
+		Particle * theParticle = new Particle(particlesGO, glm::vec3(0.0f, -5.0f, 80.0f), &fireTex, 0.1f);
 
 		ParticleSystem * particleSystem = new ParticleSystem(
 			*theParticle, 10.0f,
@@ -56,7 +57,7 @@ public:
 		camera->addChild(fighterShip);
 		addToRoot(camera);
 
-		Audio * stream = new Audio("./Assets/Music/music.mp3", AudioType::STREAM);
+		Audio * stream = new Audio("./Assets/Music/music.ogg", AudioType::STREAM);
 
 		// the alien fighter ship
 		addToRoot((new GameObject("Arrdvark",glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))

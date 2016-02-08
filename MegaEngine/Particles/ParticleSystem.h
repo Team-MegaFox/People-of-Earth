@@ -3,7 +3,7 @@
 // Created          : 02-07-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-07-2016
+// Last Modified On : 02-08-2016
 // ***********************************************************************
 // <copyright file="ParticleSystem.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -30,27 +30,9 @@ enum EmitterType
 	NONE
 };
 
-/*
-Add these lines to TestScene
-if they are not alredy there.
-
-std::vector<GameObject *> particlesGO;
-for (size_t i = 0; i < 20; i++)
-{
-particlesGO.push_back(new GameObject("particle " + i));
-}
-
-Particle * theParticle = new Particle(particlesGO, &bricks, 0.1f);
-
-ParticleSystem * particleSystem = new ParticleSystem(
-*theParticle, 10.0f,
-glm::vec3(0.0f, -5.0f, 80.0f),
-glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
-this,
-SPHERICAL);
-
-*/
-
+/// <summary>
+/// The Maximum Supported Density
+/// </summary>
 const int MAX_DENSITY = 100;
 
 /// <summary>
@@ -93,7 +75,10 @@ public:
 	/// <summary>
 	/// Finalizes an instance of the <see cref="ParticleSystem"/> class.
 	/// </summary>
-	~ParticleSystem() {}
+	~ParticleSystem() 
+	{
+		delete m_particleEmitter;
+	}
 
 	/// <summary>
 	/// Virtual function for custom update functionality.
@@ -125,25 +110,33 @@ private:
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ParticleEmitter"/> class.
 		/// </summary>
-		ParticleEmitter() {}
+		ParticleEmitter() {	}
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ParticleEmitter"/> class.
 		/// </summary>
 		/// <param name="type">The type.</param>
 		ParticleEmitter(EmitterType type) :
-			m_emitterType(type)	{}
+			m_emitterType(type)	{	}
 
 		/// <summary>
 		/// Finalizes an instance of the <see cref="ParticleEmitter"/> class.
 		/// </summary>
-		~ParticleEmitter() {}
+		~ParticleEmitter() {	}
 
+		/// <summary>
+		/// Initializes the specified emitter.
+		/// </summary>
+		/// <param name="scene">The scene.</param>
+		/// <param name="particle">The particle.</param>
+		/// <param name="emissionRate">The emission rate.</param>
+		/// <param name="initialOrientation">The initial orientation.</param>
 		void init(
 			Scene * scene,
 			Particle particle,
 			float emissionRate,
 			glm::quat initialOrientation)
 		{
+			m_scene = scene;
 			m_particle = particle;
 			m_emissionRate = emissionRate;
 			m_orientation = initialOrientation;
@@ -162,21 +155,32 @@ private:
 			for (size_t i = 0; i < m_particleDensity; i++)
 			{
 				scene->addToRoot(m_particle.getGameObjects()[i]);
+				m_velocities.push_back(glm::vec3(getRandomValue(), getRandomValue(), getRandomValue()));
+				m_accelerations.push_back(glm::vec3(getRandomValue(), getRandomValue(), getRandomValue()));
 			}
 		}
 
+		/// <summary>
+		/// Gets the random value.
+		/// </summary>
+		/// <returns>float.</returns>
+		float getRandomValue()
+		{
+			float returnValue;
+			static std::mt19937 random((unsigned int)time(nullptr));
+			std::uniform_real_distribution<float> randDirection(-1.0f, 1.0f);
+
+			returnValue = randDirection(random);
+
+			return returnValue;
+		}
+
+		/// <summary>
+		/// Updates the specified delta time.
+		/// </summary>
+		/// <param name="deltaTime">The delta time.</param>
 		void update(float deltaTime)
 		{
-			m_counter += 0.001f;
-			int counter = 0;
-
-			// Create random values for the velocity and orientation for the particles
-			std::mt19937 random((unsigned int)time(nullptr));
-			std::mt19937 random2((unsigned int)time(nullptr));
-			std::mt19937 random3((unsigned int)time(nullptr));
-			std::uniform_real_distribution<float> randDirection(-10.0f, 10.0f);
-
-			// Set each particles orientation and velocity
 			for (size_t i = 0; i < m_particle.getGameObjects().size(); i++)
 			{
 				if (m_particle.getIsAlive()[i])
@@ -203,59 +207,22 @@ private:
 						       \/
 							    * Starting point of the particles
 
-					FOR SPHERICAL SHAPED ENMISSIONS
-
-					The particles simply need to pick any position in any direction 
-					and move towards that point.
-
-
-							ooooo
-						 ooo     ooo
-						ooo		  ooo
-					   oo			oo
-					  o				  o
-					 o        *	       o	End Points 
-					 o	Starting Point o
-					  o				  o
-					   oo			oo
-						 ooo	 ooo
-						  ooo   ooo  
-						    ooooo
-
 					*/
 
 					if (m_emitterType == CONICAL)
 					{
-						//// do it this way
-						//m_particles[i].setVelocity(glm::vec3(0.0f));
+						//// do something here
 					}
 					else if (m_emitterType == SPHERICAL)
 					{
-						// BASICALLY JUST FOR TESTING PURPOSES
-
-						glm::vec3 acceleration = glm::vec3(randDirection(random), randDirection(random2), randDirection(random3));
-						// do it this way
-						m_particle.setVelocity(i, glm::vec3(randDirection(random), sinf(m_counter), randDirection(random3)), acceleration, deltaTime);
+						m_particle.setVelocity(i, m_velocities[i], m_accelerations[i], deltaTime);
 					}
 				}
+				else
+				{
+					m_particle.removeGameObjects(m_scene);
+				}
 			}
-
-			//// Determine if the particles are still alive
-			//for (auto i = m_particle.getIsAlive().begin(); i != m_particle.getIsAlive().end(); i++)
-			//{
-			//	if (!i->getIsAlive())
-			//	{
-			//		counter++;
-			//		// if it isn't alive it has to be removed
-			//		m_particle.getIsAlive().erase(i);
-			//	}
-			//}
-			//// replace particles that are no longer alive
-			//for (counter; counter > 0; counter--)
-			//{
-			//	m_particles.emplace_back(m_particle);
-			//}
-			//counter = 0;
 		}
 
 	protected:
@@ -279,8 +246,15 @@ private:
 		/// The orientation of the particle emitter
 		/// </summary>
 		glm::quat m_orientation;
-
-		float m_counter = 0.0f;
+		/// <summary>
+		/// The m_accelerations
+		/// </summary>
+		std::vector<glm::vec3> m_accelerations;
+		/// <summary>
+		/// The m_velocities
+		/// </summary>
+		std::vector<glm::vec3> m_velocities;
+		Scene * m_scene;
 	};
 };
 
