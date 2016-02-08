@@ -1,33 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Audio\AudioEngine.cpp" />
-    <ClCompile Include="Components\GUIComponent.cpp" />
-    <ClCompile Include="Core\CoreEngine.cpp" />
-    <ClCompile Include="Core\ErrorLog.cpp" />
-    <ClCompile Include="Core\GameObject.cpp" />
-    <ClCompile Include="Core\InputManager.cpp" />
-    <ClCompile Include="Core\MappedValues.cpp" />
-    <ClCompile Include="Core\Scene.cpp" />
-    <ClCompile Include="Core\SceneManager.cpp" />
-    <ClCompile Include="Core\Time.cpp" />
-    <ClCompile Include="Core\Transform.cpp" />
-    <ClCompile Include="Core\Utility.cpp" />
-    <ClCompile Include="GUI\GUIEngine.cpp" />
-    <ClCompile Include="Physics\Collider.cpp" />
-    <ClCompile Include="Physics\MultiCollider.cpp" />
-    <ClCompile Include="Physics\PhysicsEngine.cpp" />
-    <ClCompile Include="Physics\PolygonCollider.cpp" />
-    <ClCompile Include="Physics\SphereCollider.cpp" />
-    <ClCompile Include="Physics\World.cpp" />
-    <ClCompile Include="Rendering\Lighting.cpp" />
-    <ClCompile Include="Rendering\Camera3D.cpp" />
-    <ClCompile Include="Rendering\Material.cpp" />
-    <ClCompile Include="Rendering\Mesh.cpp" />
-    <ClCompile Include="Rendering\RenderingEngine.cpp" />
-    <ClCompile Include="Rendering\Shader.cpp" />
-    <ClCompile Include="Rendering\Texture.cpp" />
-    <ClCompile Include="Rendering\Viewport.cpp" />
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{6f3e8fe0-4614-4355-a886-74f892cd2ba5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{b16bdcaf-e860-43d1-9563-5644251d9c76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{f8b3fd9d-cb86-4b7d-8370-116016db6099}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{5d110be3-58be-4dd5-b11e-12d67a8f00c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{ca988ba0-ab57-4901-b9cc-4f1b1002a170}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{eb0cef64-39c0-4890-ba6c-c343969a1809}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\GameObject.cpp">
