@@ -122,7 +122,7 @@ std::vector<Collider*> MultiCollider::checkCollision( std::vector<Collider*> col
             //If there were any collision then
             if (collidedPartObject.size() > 0)
             {
-                std::cout << "Multi Collided" << std::endl;
+                //std::cout << "Multi Collided" << std::endl;
                 //Push back all the collided object
                 for (size_t i = 0; i < collidedPartObject.size(); i++)
                 {

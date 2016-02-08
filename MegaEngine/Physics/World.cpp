@@ -44,7 +44,7 @@ void World::update(float timeStep)
 			//Loop to calculate all the forces needed to be added with the current collider with the collided objects
 			for (size_t j = 0; j < collidedObjects.size(); j++)
 			{
-				printf("Collision occured\n");
+				//printf("Collision occured\n");
 				calculateCollision(colliders[i], collidedObjects[j], timeStep);
 			}
 		}

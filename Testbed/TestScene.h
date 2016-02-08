@@ -26,22 +26,33 @@ public:
 
 		GameObject* fighterShip =
 			(new GameObject("PlayerFighterShip", glm::vec3(-2.0f, -4.0f, -10.0f), glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)))))
-			->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship")));
-
-		//Rigidbody Polygon Collider rB1
-		RigidBody * rB1 = new RigidBody(
-			*fighterShip->getTransform()->getPosition(), 
-			glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f))), 
-			200.0f, 
-			100.0f, 
-			100.0f, 
-			100.0f);
-		rB1->init(
-			*fighterShip->getTransform()->getPosition(),
+			->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship")))
+			->addGameComponent(new RigidBody(glm::vec3(-2.0f, -4.0f, -10.0f),
+			glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f))),
+			200.0f,
+			100.0f,
+			100.0f,
+			100.0f));
+		fighterShip->getGameComponent<RigidBody>()->init(*fighterShip->getTransform()->getPosition(),
 			glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f))),
 			glm::vec3(0),
-			glm::vec3(100.0f, 100.0f, 100.0f)
-			);
+			glm::vec3(0.0f, 0.0f, 0.0f));
+		fighterShip->getGameComponent<RigidBody>()->setKeyInput(119, 115, 97, 100);
+
+		////Rigidbody Polygon Collider rB1
+		//RigidBody * rB1 = new RigidBody(
+		//	*fighterShip->getTransform()->getPosition(), 
+		//	glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f))), 
+		//	200.0f, 
+		//	100.0f, 
+		//	100.0f, 
+		//	100.0f);
+		//rB1->init(
+		//	*fighterShip->getTransform()->getPosition(),
+		//	glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f))),
+		//	glm::vec3(0),
+		//	glm::vec3(100.0f, 100.0f, 100.0f)
+		//	);
 
 		//Rigidbody Polygon Collider rb2
 		RigidBody * rB2 = new RigidBody(
@@ -54,15 +65,18 @@ public:
 
 		// The human fighter ship and camera
 		GameObject* camera =
-			(new GameObject("Camera"))
+			(new GameObject("Camera", *fighterShip->getTransform()->getPosition(), *fighterShip->getTransform()->getRotation(), glm::vec3(1.0f)))
 			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(75.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
 			->addGameComponent(new FreeLook(window.getCenter()))
-			->addGameComponent(new FreeMove(50.0f))
-			->addGameComponent(new Listener())
-			->addGameComponent(rB1);
-
+			//->addGameComponent(new FreeMove(50.0f))
+			->addGameComponent(new Listener());
+			//->addGameComponent(rB1);
+		camera->getTransform()->setRotation(glm::quat(glm::angleAxis(glm::radians(-180.0f), glm::vec3(0.0f, 1.0f, 0.0f))));
+		
+		
 		camera->addChild(fighterShip);
 		addToRoot(camera);
+
 
 		Audio * stream = new Audio("./Assets/Music/music.mp3", AudioType::STREAM);
 

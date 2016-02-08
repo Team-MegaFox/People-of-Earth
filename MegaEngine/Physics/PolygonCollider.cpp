@@ -97,7 +97,7 @@ std::vector<Collider*> PolygonCollider::checkCollision( std::vector<Collider*> c
 			{
                 //Push back the collided object to the return collided object
 				trueCollidedObject.push_back(collidedObject[i]);
-                std::cout << "Polygon Collided\n";
+                //std::cout << "Polygon Collided\n";
 			}
 		}
         //if the collider is a multi-collider then
@@ -108,7 +108,7 @@ std::vector<Collider*> PolygonCollider::checkCollision( std::vector<Collider*> c
             {
                 //Push back the collided object to the return collided object
                 trueCollidedObject.push_back(collidedObject[i]);
-                std::cout << "Multi Collided\n";
+                //std::cout << "Multi Collided\n";
             }
         }
         //if the collider is a sphere
@@ -116,7 +116,7 @@ std::vector<Collider*> PolygonCollider::checkCollision( std::vector<Collider*> c
         {
             //Push back the collided object to the return collided object
             trueCollidedObject.push_back(collidedObject[i]);
-            std::cout << "Sphere Collided\n";
+            //std::cout << "Sphere Collided\n";
         }
 	}
 
@@ -129,7 +129,7 @@ std::vector<Collider*> PolygonCollider::checkCollision( std::vector<Collider*> c
 	else
 	{
 		m_collided = false;
-		std::cout << "No Collisions\n";
+		//std::cout << "No Collisions\n";
 	}
 
 	//Return the collided objects

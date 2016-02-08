@@ -48,6 +48,7 @@ public:
 			id);
 
 		PhysicsEngine::getPhysicsWorld()->addCollidableObject(m_sphereCollider);
+		m_checkInput = false;
 	}
 
 	/// <summary>
@@ -77,6 +78,7 @@ public:
 			id);
 
 		PhysicsEngine::getPhysicsWorld()->addCollidableObject(m_polyCollider);
+		m_checkInput = false;
 	}
 
 	/// <summary>
@@ -101,6 +103,7 @@ public:
 			id);
 
 		PhysicsEngine::getPhysicsWorld()->addCollidableObject(m_multiCollider);
+		m_checkInput = false;
 	}
 
 	/// <summary>
@@ -145,6 +148,15 @@ public:
 		}
 	}
 
+	void setKeyInput(int forwardKey = SDLK_w, int backKey = SDLK_s, int leftKey = SDLK_a, int rightKey = SDLK_d)
+	{
+		m_forwardKey = forwardKey;
+		m_backKey = backKey;
+		m_leftKey = leftKey;
+		m_rightKey = rightKey;
+		m_checkInput = true;
+	}
+
 	/// <summary>
 	/// Updates the collider every frame
 	/// - updates the position and the rotation of the collider every frame
@@ -171,6 +183,38 @@ public:
 		//m_rotation = *getTransform()->getRotation();
 	}
 
+	virtual void processInput(const InputManager& input, float delta) override
+	{
+		if (m_checkInput)
+		{
+			if (input.KeyDown(m_forwardKey))
+			{
+				//m_polyCollider->applyRotation(glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f))));
+				updateAcceleration(Utility::getForward(*getTransform()->getRotation()) * delta * 100.0f);
+			}
+			if (input.KeyDown(m_backKey))
+			{
+				updateAcceleration(Utility::getBack(*getTransform()->getRotation()) * delta * 100.0f);
+			}
+			if (input.KeyDown(m_leftKey))
+			{
+				updateAcceleration(Utility::getLeft(*getTransform()->getRotation()) * delta * 100.0f);
+			}
+			if (input.KeyDown(m_rightKey))
+			{
+				updateAcceleration(Utility::getRight(*getTransform()->getRotation()) * delta * 100.0f);
+			}	
+			if (input.KeyDown(SDLK_r))
+			{
+				updateAcceleration(Utility::getUp(*getTransform()->getRotation()) * delta * 100.0f);
+			}
+			if (input.KeyDown(SDLK_f))
+			{
+				updateAcceleration(Utility::getDown(*getTransform()->getRotation()) * delta * 100.0f);
+			}
+		}
+	}
+
 	void updateVelocity(glm::vec3 velocity)
 	{
 		if (m_sphereCollider != nullptr)
@@ -191,15 +235,16 @@ public:
 	{
 		if (m_sphereCollider != nullptr)
 		{
-			m_sphereCollider->setAcceleration(acceleration);
+			m_sphereCollider->applyAcceleration(acceleration);
 		}
 		else if (m_polyCollider != nullptr)
 		{
-			m_polyCollider->setAcceleration(acceleration);
+			m_polyCollider->applyAcceleration(acceleration);
+			printf("%f\t%f\t%f\n", acceleration.x, acceleration.y, acceleration.z);
 		}
 		else if (m_multiCollider != nullptr)
 		{
-			m_multiCollider->setAcceleration(acceleration);
+			m_multiCollider->applyAcceleration(acceleration);
 		}
 	}
 
@@ -232,5 +277,10 @@ private:
 	/// </summary>
 	glm::vec3 m_zero = glm::vec3(0.0f);
 
+	int m_forwardKey;
+	int m_backKey;
+	int m_leftKey;
+	int m_rightKey;
+	bool m_checkInput;
 };
 
