@@ -15,6 +15,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb\stb_image.h>
 #include <glm\glm.hpp>
+#include <iostream>
+#include "..\Core\Utility.h"
 
 std::map<std::string, TextureData*> Texture::s_resourceMap;
 
@@ -81,9 +83,24 @@ void TextureData::initTextures(unsigned char** data, GLfloat* filters, GLenum* i
 		{
 			glTexParameterf(m_textureTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 			glTexParameterf(m_textureTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+			if (m_textureTarget == GL_TEXTURE_CUBE_MAP)
+			{
+				glTexParameterf(m_textureTarget, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+			}
 		}
 
-		glTexImage2D(m_textureTarget, 0, internalFormat[i], m_width, m_height, 0, format[i], GL_UNSIGNED_BYTE, data[i]);
+		if (m_textureTarget == GL_TEXTURE_CUBE_MAP)
+		{
+			for (size_t cu = 0; cu < 6; cu++)
+			{
+				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + cu, 0, internalFormat[i], m_width, m_height, 0, format[i], GL_UNSIGNED_BYTE, data[cu]);
+			}
+		}
+		else
+		{
+			glTexImage2D(m_textureTarget, 0, internalFormat[i], m_width, m_height, 0, format[i], GL_UNSIGNED_BYTE, data[i]);
+		}
 
 		if (filters[i] == GL_NEAREST_MIPMAP_NEAREST ||
 			filters[i] == GL_NEAREST_MIPMAP_LINEAR ||
@@ -95,7 +112,7 @@ void TextureData::initTextures(unsigned char** data, GLfloat* filters, GLenum* i
 			glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAnisotropy);
 			glTexParameterf(m_textureTarget, GL_TEXTURE_MAX_ANISOTROPY_EXT, glm::clamp(0.0f, 0.8f, maxAnisotropy));
 		}
-		else
+		else if (m_textureTarget != GL_TEXTURE_CUBE_MAP)
 		{
 			glTexParameterf(m_textureTarget, GL_TEXTURE_BASE_LEVEL, 0);
 			glTexParameterf(m_textureTarget, GL_TEXTURE_MAX_LEVEL, 0);
@@ -178,16 +195,40 @@ m_fileName(fileName)
 	{
 		std::string filePath = "Assets/Textures/" + fileName;
 		int x, y, bytesPerPixel;
-		unsigned char* data = stbi_load(filePath.c_str(), &x, &y, &bytesPerPixel, 4);
-
-		if (data == nullptr)
+		if (textureTarget != GL_TEXTURE_CUBE_MAP)
 		{
-			//error check
-			assert(false);
-		}
+			unsigned char* data = stbi_load(filePath.c_str(), &x, &y, &bytesPerPixel, 4);
+			if (data == nullptr)
+			{
+				//error check
+				assert(false);
+			}
 
-		m_textureData = new TextureData(textureTarget, x, y, 1, &data, &filter, &internalFormat, &format, clamp, &attachment);
-		stbi_image_free(data);
+			m_textureData = new TextureData(textureTarget, x, y, 1, &data, &filter, &internalFormat, &format, clamp, &attachment);
+			stbi_image_free(data);
+		}
+		else
+		{
+			unsigned char** dataArr = new unsigned char*[6];
+			for (size_t i = 0; i < 6; i++)
+			{
+				std::string file = Utility::split(filePath, '.')[0] + std::to_string(i) + "." + Utility::split(filePath, '.')[1];
+				unsigned char* data = stbi_load(file.c_str(), &x, &y, &bytesPerPixel, 4);
+				dataArr[i] = data;	
+
+				if (dataArr[i] == nullptr)
+				{
+					//error check
+					assert(false);
+				}
+			}
+
+			m_textureData = new TextureData(textureTarget, x, y, 1, dataArr, &filter, &internalFormat, &format, clamp, &attachment);
+			for (size_t i = 0; i < 6; i++)
+			{
+				stbi_image_free(dataArr[i]);
+			}
+		}
 
 		s_resourceMap.insert(std::make_pair(fileName, m_textureData));
 	}

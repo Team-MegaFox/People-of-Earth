@@ -30,51 +30,215 @@
     <ClCompile Include="Rendering\Viewport.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Audio\AudioEngine.h" />
-    <ClInclude Include="Audio\AudioListener.h" />
-    <ClInclude Include="Audio\Sound.h" />
-    <ClInclude Include="Audio\Stream.h" />
-    <ClInclude Include="Components\AudioSource.h" />
-    <ClInclude Include="Components\GameComponents.h" />
-    <ClInclude Include="Components\GUIButton.h" />
-    <ClInclude Include="Components\GUIComponent.h" />
-    <ClInclude Include="Components\GUIContainer.h" />
-    <ClInclude Include="Components\GUILabel.h" />
-    <ClInclude Include="Components\GUIProgressBar.h" />
-    <ClInclude Include="Components\GUISlider.h" />
-    <ClInclude Include="Components\GUITextBox.h" />
-    <ClInclude Include="Components\MeshRenderer.h" />
-    <ClInclude Include="Core\CoreEngine.h" />
-    <ClInclude Include="Core\ErrorLog.h" />
-    <ClInclude Include="Core\GameObject.h" />
-    <ClInclude Include="Core\InputManager.h" />
-    <ClInclude Include="Core\MappedValues.h" />
-    <ClInclude Include="Core\ReferenceCounter.h" />
-    <ClInclude Include="Core\Scene.h" />
-    <ClInclude Include="Core\SceneManager.h" />
-    <ClInclude Include="Core\Time.h" />
-    <ClInclude Include="Core\Transform.h" />
-    <ClInclude Include="Core\Utility.h" />
-    <ClInclude Include="GUI\GUIEngine.h" />
-    <ClInclude Include="MegaEngine.h" />
-    <ClInclude Include="Physics\Collider.h" />
-    <ClInclude Include="Physics\MultiCollider.h" />
-    <ClInclude Include="Physics\PhysicsEngine.h" />
-    <ClInclude Include="Physics\PolygonCollider.h" />
-    <ClInclude Include="Physics\SphereCollider.h" />
-    <ClInclude Include="Physics\World.h" />
-    <ClInclude Include="Rendering\Lighting.h" />
-    <ClInclude Include="Rendering\Camera3D.h" />
-    <ClInclude Include="Rendering\Material.h" />
-    <ClInclude Include="Rendering\Mesh.h" />
-    <ClInclude Include="Rendering\RenderingEngine.h" />
-    <ClInclude Include="Rendering\Shader.h" />
-    <ClInclude Include="Rendering\Texture.h" />
-    <ClInclude Include="Rendering\Viewport.h" />
-    <ClInclude Include="Particles\Particle.h" />
-    <ClInclude Include="Particles\ParticleSystem.h" />
+    <ClCompile Include="Core\GameObject.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\InputManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\MappedValues.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Scene.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\SceneManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Time.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Transform.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\AudioEngine.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\GUIEngine.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\Collider.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\MultiCollider.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\PhysicsEngine.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\PolygonCollider.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\SphereCollider.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\World.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Camera3D.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Material.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Mesh.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\RenderingEngine.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Shader.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Texture.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Viewport.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Lighting.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\CoreEngine.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Utility.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ErrorLog.cpp">
+      <Filter>Core</Filter>
+	</ClCompile>
+    <ClCompile Include="Components\GUIComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Skybox.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
+    <ClInclude Include="Core\CoreEngine.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GameObject.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\InputManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\MappedValues.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ReferenceCounter.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Scene.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\SceneManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Time.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Transform.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Utility.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\AudioEngine.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GameComponents.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\MeshRenderer.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\GUIEngine.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Collider.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\MultiCollider.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\PhysicsEngine.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\PolygonCollider.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\SphereCollider.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\World.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Camera3D.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Material.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Mesh.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\RenderingEngine.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Shader.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Texture.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Viewport.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="MegaEngine.h" />
+    <ClInclude Include="Rendering\Lighting.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\AudioSource.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ErrorLog.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\AudioListener.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\Stream.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\Sound.h">
+      <Filter>Audio</Filter>
+	</ClInclude>
+    <ClInclude Include="Components\GUILabel.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUIComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUIButton.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUIProgressBar.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUITextBox.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUISlider.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUIContainer.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Skybox.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

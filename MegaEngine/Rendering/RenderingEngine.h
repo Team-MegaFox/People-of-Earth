@@ -24,6 +24,7 @@
 #include "Material.h"
 #include "Camera3D.h"
 #include "Mesh.h"
+#include "Skybox.h"
 
 class GameObject;
 class BaseLight;
@@ -66,8 +67,13 @@ public:
 	/// Sets the main camera.
 	/// </summary>
 	/// <param name="camera">The camera.</param>
-	inline void setMainCamera(const Camera3D & camera) { m_mainCamera = &camera; }
-	
+	inline void setMainCamera(const Camera3D & camera) { m_mainCamera = &camera; }	
+	/// <summary>
+	/// Sets the skybox for the render.
+	/// </summary>
+	/// <param name="skybox">The skybox.</param>
+	inline void setSkybox(const Skybox & skybox) { m_skybox = &skybox; }
+
 	// Getters
 	/// <summary>
 	/// Gets the active light.
@@ -198,6 +204,11 @@ private:
 	/// The sampler map.
 	/// </summary>
 	std::map<std::string, unsigned int> m_samplerMap;
+	
+	/// <summary>
+	/// A pointer to the Skybox in the current scene.
+	/// </summary>
+	const Skybox* m_skybox;
 
 	/// <summary>
 	/// Applies the filter.
