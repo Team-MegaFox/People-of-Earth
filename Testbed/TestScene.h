@@ -27,7 +27,7 @@ public:
 		Material moonTex("moonTexture", 0.5f, 4, Texture("moon.jpg"));
 
 		addToRoot((new GameObject("skybox"))
-			->addGameComponent(new SkyboxRenderer("Skybox/sky.jpg")));
+			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
 
 		// The human fighter ship and camera
 		GameObject* camera = 
@@ -84,18 +84,18 @@ public:
 			std::cout << "There is a camera component!" << std::endl;
 		}
 
-		addToRoot((new GameObject("Container"))
-			->addGUIComponent(new GUIContainer(glm::vec4(0.5f, 0.1f, 0.3f, 0.5f), glm::vec4(0.0f)))
-			->addChild((new GameObject("Label in Container"))
-			->addGUIComponent(new GUILabel(glm::vec4(0.1f, 0.1f, 0.5f, 0.05f), glm::vec4(0.0f), "In container"))
-			->addGUIComponent(new GUIButton(glm::vec4(0.1f, 0.4f, 0.5f, 0.1f), glm::vec4(0.0f), "Button",
-			std::bind(&TestScene::onButtonClick, this, std::placeholders::_1)))));
-	}
+	//	addToRoot((new GameObject("Container"))
+	//		->addGUIComponent(new GUIContainer(glm::vec4(0.5f, 0.1f, 0.3f, 0.5f), glm::vec4(0.0f)))
+	//		->addChild((new GameObject("Label in Container"))
+	//		->addGUIComponent(new GUILabel(glm::vec4(0.1f, 0.1f, 0.5f, 0.05f), glm::vec4(0.0f), "In container"))
+	//		->addGUIComponent(new GUIButton(glm::vec4(0.1f, 0.4f, 0.5f, 0.1f), glm::vec4(0.0f), "Button",
+	//		std::bind(&TestScene::onButtonClick, this, std::placeholders::_1)))));
+	//}
 
-	bool onButtonClick(const GameObject& obj)
-	{
-		obj.getGUIComponent<GUILabel>()->setText("[colour='FF00FF00']I clicked");
-		return true;
+	//bool onButtonClick(const GameObject& obj)
+	//{
+	//	obj.getGUIComponent<GUILabel>()->setText("[colour='FF00FF00']I clicked");
+	//	return true;
 	}
 };
 
