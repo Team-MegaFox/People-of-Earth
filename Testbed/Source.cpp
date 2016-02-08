@@ -15,6 +15,7 @@ int main(int argc, char** argv)
 	SceneManager sceneManager;
 	TestScene testscene;
 	PhysicsEngine physicsEngine;
+	physicsEngine.getPhysicsWorld()->init(glm::vec3(0), 1000.0f);
 	AudioEngine audioEngine;
 
 	sceneManager.addScene(&testscene);

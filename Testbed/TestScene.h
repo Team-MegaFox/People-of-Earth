@@ -29,12 +29,12 @@ public:
 			->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship")))
 			->addGameComponent(new RigidBody(glm::vec3(-2.0f, -4.0f, -10.0f),
 			glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f))),
-			200.0f,
-			100.0f,
-			100.0f,
-			100.0f));
+			1.0f,
+			1.0f,
+			1.0f,
+			1.0f));
 		fighterShip->getGameComponent<RigidBody>()->init(*fighterShip->getTransform()->getPosition(),
-			glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f))),
+			glm::quat(glm::angleAxis(glm::radians(-00.0f), glm::vec3(0.0f, 1.0f, 0.0f))),
 			glm::vec3(0),
 			glm::vec3(0.0f, 0.0f, 0.0f));
 		fighterShip->getGameComponent<RigidBody>()->setKeyInput(119, 115, 97, 100);
@@ -58,24 +58,27 @@ public:
 		RigidBody * rB2 = new RigidBody(
 			glm::vec3(0.0f, -5.0f, 80.0f), 
 			glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
-			400.0f, 
-			100.0f, 
-			100.0f, 
-			100.0f);
+			1.0f, 
+			20.0f, 
+			10.0f, 
+			50.0f);
 
 		// The human fighter ship and camera
 		GameObject* camera =
-			(new GameObject("Camera", *fighterShip->getTransform()->getPosition(), *fighterShip->getTransform()->getRotation(), glm::vec3(1.0f)))
+			(new GameObject("Camera", glm::vec3(15.0f, 4.0f, 0.5f), glm::quat(), glm::vec3(1.0f)))
 			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(75.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
 			->addGameComponent(new FreeLook(window.getCenter()))
 			//->addGameComponent(new FreeMove(50.0f))
 			->addGameComponent(new Listener());
 			//->addGameComponent(rB1);
-		camera->getTransform()->setRotation(glm::quat(glm::angleAxis(glm::radians(-180.0f), glm::vec3(0.0f, 1.0f, 0.0f))));
+		camera->getTransform()->setRotation(glm::quat(glm::angleAxis(glm::radians(-270.0f), glm::vec3(0.0f, 1.0f, 0.0f))));
 		
 		
-		camera->addChild(fighterShip);
-		addToRoot(camera);
+		//camera->addChild(fighterShip);
+		//addToRoot(camera);
+
+		fighterShip->addChild(camera);
+		addToRoot(fighterShip);
 
 
 		Audio * stream = new Audio("./Assets/Music/music.mp3", AudioType::STREAM);
