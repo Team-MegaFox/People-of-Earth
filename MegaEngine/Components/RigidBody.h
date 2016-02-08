@@ -171,8 +171,10 @@ public:
 		}
 		else if (m_polyCollider != nullptr)
 		{
+			glm::vec3 pos = m_polyCollider->getPosition();
 			getTransform()->setPosition(m_polyCollider->getPosition());
 			getTransform()->setRotation(m_polyCollider->getRotation());
+			//printf("%f\t%f\t%f\n", getTransform()->getPosition()->x, getTransform()->getPosition()->y, getTransform()->getPosition()->z);
 		}
 		else if (m_multiCollider != nullptr)
 		{
@@ -190,23 +192,23 @@ public:
 			if (input.KeyDown(m_forwardKey))
 			{
 				//m_polyCollider->applyRotation(glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f))));
-				updateVelocity(Utility::getForward(*getTransform()->getRotation()) * delta * 1000.0f);
+				updateVelocity(Utility::getForward(*getTransform()->getRotation()) * delta * 10000.0f);
 			}
 			if (input.KeyDown(m_backKey))
 			{
-				updateVelocity(Utility::getBack(*getTransform()->getRotation()) * delta * 1000.0f);
+				updateVelocity(Utility::getBack(*getTransform()->getRotation()) * delta * 10000.0f);
 			}
 			if (input.KeyDown(m_leftKey))
 			{
-				updateVelocity(Utility::getLeft(*getTransform()->getRotation()) * delta * 1000.0f);
+				updateVelocity(Utility::getLeft(*getTransform()->getRotation()) * delta * 10000.0f);
 			}
 			if (input.KeyDown(m_rightKey))
 			{
-				updateVelocity(Utility::getRight(*getTransform()->getRotation()) * delta * 1000.0f);
+				updateVelocity(Utility::getRight(*getTransform()->getRotation()) * delta * 10000.0f);
 			}	
 			if (input.KeyDown(SDLK_r))
 			{
-				updateVelocity(Utility::getUp(*getTransform()->getRotation()) * delta * 1000.0f);
+				updateVelocity(Utility::getUp(*getTransform()->getRotation()) * delta * 10000.0f);
 			}
 			if (input.KeyDown(SDLK_f))
 			{
@@ -217,6 +219,7 @@ public:
 
 	void updateVelocity(glm::vec3 velocity)
 	{
+		printf("%f\t%f\t%f\n", velocity.x, velocity.y, velocity.z);
 		if (m_sphereCollider != nullptr)
 		{
 			m_sphereCollider->setVelocity(velocity);
