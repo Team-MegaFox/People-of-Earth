@@ -101,7 +101,7 @@
     </ClCompile>
     <ClCompile Include="Core\ErrorLog.cpp">
       <Filter>Core</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="Components\GUIComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -209,7 +209,7 @@
     </ClInclude>
     <ClInclude Include="Audio\Sound.h">
       <Filter>Audio</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="Components\GUILabel.h">
       <Filter>Components</Filter>
     </ClInclude>

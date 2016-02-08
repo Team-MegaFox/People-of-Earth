@@ -138,8 +138,6 @@
     <ClInclude Include="Core\Utility.h" />
     <ClInclude Include="GUI\GUIEngine.h" />
     <ClInclude Include="MegaEngine.h" />
-    <ClInclude Include="Particles\Particle.h" />
-    <ClInclude Include="Particles\ParticleSystem.h" />
     <ClInclude Include="Physics\Collider.h" />
     <ClInclude Include="Physics\MultiCollider.h" />
     <ClInclude Include="Physics\PhysicsEngine.h" />
