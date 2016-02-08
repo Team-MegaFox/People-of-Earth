@@ -6,6 +6,8 @@
 #include "FreeLook.h"
 #include "FreeMove.h"
 #include "PlanetSpin.h"
+#include "Listener.h"
+#include "Audio.h"
 
 class TestScene : public Scene
 {
@@ -32,16 +34,22 @@ public:
 			(new GameObject("camera"))
 			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
 			->addGameComponent(new FreeLook(window.getCenter()))
-			->addGameComponent(new FreeMove(50.0f));
-		//GameObject* fighterShip = 
-		//	(new GameObject("Fighter Ship", glm::vec3(-2.0f, -4.0f, -10.0f), glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)))))
-		//	->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship")));
-		//camera->addChild(fighterShip);
+			->addGameComponent(new FreeMove(50.0f))
+			->addGameComponent(new Listener());
+		GameObject* fighterShip = 
+			(new GameObject("Fighter Ship", glm::vec3(-2.0f, -4.0f, -10.0f), glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)))))
+			->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship")));
+
+		//theListener->setAsListener();
+		camera->addChild(fighterShip);
 		addToRoot(camera);
 
+		Audio * stream = new Audio("./Assets/Music/music.mp3", AudioType::STREAM);
+
 		// the alien fighter ship
-		//addToRoot((new GameObject(glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
-		//	->addGameComponent(new MeshRenderer(Mesh("AlienFighter_FINAL.obj", 0.1f), Material("alien_ship"))));
+		addToRoot((new GameObject("Arrdvark",glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("AlienFighter_FINAL.obj", 0.1f), Material("alien_ship")))
+			->addGameComponent(stream));
 
 		// the second human fighter ship
 		//addToRoot((new GameObject(glm::vec3(0.0f, 15.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
@@ -64,8 +72,30 @@ public:
 		//addToRoot((new GameObject(glm::vec3(0.0f, -5.0f, -55000.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(1000.0f)))
 		//	->addGameComponent(new MeshRenderer(Mesh("sphere.obj", 0.1f), Material("sunTexture"))));
 
-		addToRoot((new GameObject("Directional Light", glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
+		addToRoot((new GameObject("DrLight", glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
 			->addGameComponent(new DirectionalLight(glm::vec3(1.0f), 0.02f, 7, 8.0f, 1.0f)));
+
+		stream->setPosition(glm::vec3(0.0f, -5.0f, 550.0f));
+		stream->play(true);
+
+		CameraComponent* cc = camera->getGameComponent<CameraComponent>();
+		if (cc != nullptr)
+		{
+			std::cout << "There is a camera component!" << std::endl;
+		}
+
+		addToRoot((new GameObject("Container"))
+			->addGUIComponent(new GUIContainer(glm::vec4(0.5f, 0.1f, 0.3f, 0.5f), glm::vec4(0.0f)))
+			->addChild((new GameObject("Label in Container"))
+			->addGUIComponent(new GUILabel(glm::vec4(0.1f, 0.1f, 0.5f, 0.05f), glm::vec4(0.0f), "In container"))
+			->addGUIComponent(new GUIButton(glm::vec4(0.1f, 0.4f, 0.5f, 0.1f), glm::vec4(0.0f), "Button",
+			std::bind(&TestScene::onButtonClick, this, std::placeholders::_1)))));
+	}
+
+	bool onButtonClick(const GameObject& obj)
+	{
+		obj.getGUIComponent<GUILabel>()->setText("[colour='FF00FF00']I clicked");
+		return true;
 	}
 };
 

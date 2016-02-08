@@ -114,7 +114,7 @@ public:
 	/// Gets the Game Component if it is attached.
 	/// </summary>
 	/// <returns>The specified Game Component if it is attached to the GameObject. Otherwise it returns a nullptr.</returns>
-	template<typename T> T* getGameComponent()
+	template<typename T> T* getGameComponent() const
 	{
 		if (!m_gameComponents.empty())
 		{
@@ -134,7 +134,7 @@ public:
 	/// Gets the GUI Component if it is attached.
 	/// </summary>
 	/// <returns>The specified GUI Component if it is attached to the GameObject. Otherwise it returns a nullptr.</returns>
-	template<typename T> T* getGUIComponent()
+	template<typename T> T* getGUIComponent() const
 	{
 		if (!m_guiComponents.empty())
 		{
@@ -160,7 +160,6 @@ public:
 	/// </summary>
 	/// <returns>All immediate children stored in a vector.</returns>
 	std::vector<GameObject*> getAllChildren();
-
 
 	/// <summary>
 	/// Gets the core engine.

@@ -207,7 +207,6 @@ void GameObject::renderGUIComponents(const GUIEngine& guiEngine, const Camera3D&
 {
 }
 
-
 void GameObject::processInputGUIComponents(const InputManager& input, float delta)
 {
 	for (size_t i = 0; i < m_guiComponents.size(); i++)
