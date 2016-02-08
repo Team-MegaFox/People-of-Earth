@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 02-08-2016
 // ***********************************************************************
 // <copyright file="Shader.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -143,7 +143,8 @@ void Shader::bind() const
 void Shader::updateUniforms(const Transform& transform, const Material& material, const RenderingEngine& renderingEngine, const Camera3D& camera) const
 {
 	glm::mat4 worldMatrix = transform.getTransformation();
-	glm::mat4 projectedMatrix = camera.getViewProjection() * worldMatrix;
+	glm::mat4 projectedMatrix = camera.getViewProjection();
+	glm::mat4 viewMatrix = camera.getView();
 
 	for (unsigned int i = 0; i < m_shaderData->getUniformNames().size(); i++)
 	{
@@ -181,10 +182,18 @@ void Shader::updateUniforms(const Transform& transform, const Material& material
 			material.getTexture(uniformName).bind(samplerSlot);
 			setUniformi(uniformName, samplerSlot);
 		}
+		else if (uniformType == "samplerCube")
+		{
+			int samplerSlot = renderingEngine.getSamplerSlot(uniformName);
+			material.getTexture(uniformName).bind();
+			setUniformi(uniformName, samplerSlot);
+		}
 		else if (uniformName.substr(0, 2) == "T_")
 		{
 			if (uniformName == "T_MVP")
-				setUniformMat4(uniformName, projectedMatrix);
+				setUniformMat4(uniformName, projectedMatrix * worldMatrix);
+			else if (uniformName == "T_VP")
+				setUniformMat4(uniformName, viewMatrix);
 			else if (uniformName == "T_model")
 				setUniformMat4(uniformName, worldMatrix);
 			else
@@ -465,6 +474,7 @@ static void checkShaderError(int shader, int flag, bool isProgram, const std::st
 			glGetShaderInfoLog(shader, sizeof(error), NULL, error);
 
 		fprintf(stderr, "%s: '%s'\n", errorMessage.c_str(), error);
+		assert(0 != 0);
 	}
 }
 
@@ -497,6 +507,7 @@ static std::string loadShader(const std::string& fileName)
 	else
 	{
 		std::cerr << "Unable to load shader: " << fileName << std::endl;
+		assert(0 != 0);
 	}
 
 	return output;

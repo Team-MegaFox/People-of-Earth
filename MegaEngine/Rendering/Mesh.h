@@ -244,7 +244,7 @@ public:
 	/// </summary>
 	/// <param name="fileName">Name of the file.</param>
 	/// <param name="scale">The scale factor.</param>
-	Mesh(const std::string& fileName = "cube.obj", float scale = 1.0f);	
+	Mesh(const std::string& fileName = "Primitives/Shape_Cube.OBJ", float scale = 1.0f);	
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Mesh"/> class by passing a indexed model object.
 	/// </summary>

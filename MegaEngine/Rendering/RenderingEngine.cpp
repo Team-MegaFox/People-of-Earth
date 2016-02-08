@@ -56,6 +56,8 @@ m_altCamera(glm::mat4(1.0f), &m_altCameraTransform)
 
 	setTexture("displayTexture", Texture(m_viewport->getScreenWidth(), m_viewport->getScreenHeight(), 0, GL_TEXTURE_2D, GL_LINEAR, GL_RGBA, GL_RGBA, true, GL_COLOR_ATTACHMENT0));
 
+	setSamplerSlot("S_skybox", 0);
+
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 	glFrontFace(GL_CW);
@@ -161,6 +163,15 @@ void RenderingEngine::render(GameObject & gameObject)
 		glDepthFunc(GL_LESS);
 		glDisable(GL_BLEND);
 
+	}
+
+	if (m_skybox != nullptr)
+	{
+		glDepthFunc(GL_LEQUAL);
+
+		m_skybox->render(*this, *m_mainCamera);
+
+		glDepthFunc(GL_LESS);
 	}
 
 	setVec3("inverseFilterTextureSize", glm::vec3(1.0f / getTexture("displayTexture").getWidth(), 1.0f / getTexture("displayTexture").getHeight(), 0.0f));

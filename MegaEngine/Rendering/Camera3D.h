@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 02-08-2016
 // ***********************************************************************
 // <copyright file="Camera3D.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -43,6 +43,12 @@ public:
 	/// </summary>
 	/// <returns>The view projection matrix.</returns>
 	glm::mat4 getViewProjection() const;
+
+	/// <summary>
+	/// Gets the view.
+	/// </summary>
+	/// <returns></returns>
+	glm::mat4 getView() const;
 
 	/// <summary>
 	/// Gets the transform.

@@ -106,6 +106,7 @@
     <ClCompile Include="Rendering\Mesh.cpp" />
     <ClCompile Include="Rendering\RenderingEngine.cpp" />
     <ClCompile Include="Rendering\Shader.cpp" />
+    <ClCompile Include="Rendering\Skybox.cpp" />
     <ClCompile Include="Rendering\Texture.cpp" />
     <ClCompile Include="Rendering\Viewport.cpp" />
   </ItemGroup>
@@ -149,6 +150,7 @@
     <ClInclude Include="Rendering\Mesh.h" />
     <ClInclude Include="Rendering\RenderingEngine.h" />
     <ClInclude Include="Rendering\Shader.h" />
+    <ClInclude Include="Rendering\Skybox.h" />
     <ClInclude Include="Rendering\Texture.h" />
     <ClInclude Include="Rendering\Viewport.h" />
   </ItemGroup>
