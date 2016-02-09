@@ -16,6 +16,7 @@
 #include "Core\GameObject.h"
 #include "Core\CoreEngine.h"
 #include "Core\Scene.h"
+#include "Core\SceneManager.h"
 #include "Rendering\Mesh.h"
 #include "Rendering\Shader.h"
 #include "Rendering\Camera3D.h"

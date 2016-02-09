@@ -12,5 +12,6 @@
     <ClInclude Include="PlanetSpin.h" />
     <ClInclude Include="Listener.h" />
     <ClInclude Include="Audio.h" />
+    <ClInclude Include="PopupMenuScene.h" />
   </ItemGroup>
 </Project>

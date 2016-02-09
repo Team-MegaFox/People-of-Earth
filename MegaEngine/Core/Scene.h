@@ -22,7 +22,7 @@ class InputManager;
 
 
 /// <summary>
-/// Holds a root GameObject for the scene graph.
+/// An abstract class that holds a root GameObject for the scene graph.
 /// </summary>
 class Scene
 {
@@ -41,7 +41,7 @@ public:
 	/// Initializes the scene with GameObjects.
 	/// </summary>
 	/// <param name="window">The window.</param>
-	virtual void init(const Viewport& window) { }
+	virtual void init(const Viewport& window) = 0;
 	/// <summary>
 	/// Updates the scene calling GameObject's update.
 	/// </summary>
@@ -98,7 +98,10 @@ public:
 	/// Sets the Core Engine.
 	/// </summary>
 	/// <param name="engine">The engine.</param>
-	void setEngine(CoreEngine* engine) { m_root.setEngine(engine); }
+	void setEngine(CoreEngine* engine) { m_coreEngine = engine; m_root.setEngine(engine); }
+
+protected:
+	CoreEngine* getCoreEngine() const { return m_coreEngine; }
 
 private:
 	/// <summary>
@@ -109,5 +112,9 @@ private:
 	/// The root GameObject.
 	/// </summary>
 	GameObject m_root;
+	/// <summary>
+	/// A pointer to the Core Engine.
+	/// </summary>
+	CoreEngine* m_coreEngine;
 };
 

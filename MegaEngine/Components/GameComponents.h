@@ -15,6 +15,7 @@
 #include "..\Core\Transform.h"
 #include "..\Core\GameObject.h"
 #include "..\Core\InputManager.h"
+#include "..\Core\CoreEngine.h"
 class RenderingEngine;
 class Shader;
 

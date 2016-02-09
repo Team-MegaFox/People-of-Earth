@@ -1,14 +1,21 @@
 #include "freeLook.h"
-#include <Rendering\Viewport.h>
 #include <Core\Utility.h>
+#include <Core\SceneManager.h>
+#include "PopupMenuScene.h"
 
 void FreeLook::processInput(const InputManager& input, float delta)
 {
+	if (input.KeyPress(SDLK_q))
+	{
+		input.SetCursor(true);
+		m_mouseLocked = false;
+		getCoreEngine()->getSceneManager()->push(new PopupMenuScene, Modality::Popup);
+	}
 
 	if (input.KeyDown(m_unlockMouseKey))
 	{
-		//input.SetCursor(true);
-		//m_mouseLocked = false;
+		input.SetCursor(true);
+		m_mouseLocked = false;
 	}
 
 	if (m_mouseLocked)
@@ -31,13 +38,12 @@ void FreeLook::processInput(const InputManager& input, float delta)
 		{
 			input.SetMousePosition(m_windowCenter);
 		}
-
 	}
 
 	if (input.MouseButtonDown(SDL_BUTTON_LEFT))
 	{
-		//input.SetCursor(false);
-		//input.SetMousePosition(m_windowCenter);
-		//m_mouseLocked = true;
+		input.SetCursor(false);
+		input.SetMousePosition(m_windowCenter);
+		m_mouseLocked = true;
 	}
 }
