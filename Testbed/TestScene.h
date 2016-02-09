@@ -18,7 +18,11 @@ public:
 	virtual void init(const Viewport& window) override
 	{
 		//getPhysicsWorld().init(glm::vec3(0, 0, 0), 100);
+		Material ship1("ship1", 0.5f, 4, Texture("AF-SS01_White.png"), Texture("AF-SS01_Normalmap.png"));
+		Material ship2("ship2", 0.5f, 4, Texture("AF-SS01_Navy.png"), Texture("AF-SS01_Normalmap.png"));
+		Material ship3("ship3", 0.5f, 4, Texture("AF-SS01_Black.png"), Texture("AF-SS01_Normalmap.png"));
 		Material bricks("bricks", 0.5f, 4, Texture("bricks.jpg"), Texture("bricks_normal.jpg"), Texture("bricks_disp.png"), 0.03f, -0.5f);
+
 		Material humanShip("human_ship", 0.5f, 4, Texture("Human-Ship-UVWs.png"));
 		Material alienShip("alien_ship", 0.5f, 4, Texture("AlienshipUVWs.png"));
 		Material skySphereTex("skySphereTexture", 0.5f, 4, Texture("night_sky.png"));
@@ -27,7 +31,7 @@ public:
 		Material moonTex("moonTexture", 0.5f, 4, Texture("moon.jpg"));
 
 		addToRoot((new GameObject("skybox"))
-			->addGameComponent(new SkyboxRenderer("Skybox/orbital/orbital.tga")));
+			->addGameComponent(new SkyboxRenderer("Skybox/BlueNebula/BlueNebula.jpg")));
 
 		// The human fighter ship and camera
 		GameObject* camera =
@@ -61,8 +65,16 @@ public:
 			->addGameComponent(new FreeMove()));*/
 
 		// The Earth
-		addToRoot((new GameObject("Earth", glm::vec3(0.0f, -5.0f, 550.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("sphere.obj", 0.1f), Material("earthTexture")))
+		addToRoot((new GameObject("shipWhite", glm::vec3(0.0f, -5.0f, 450.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("AF-SS01.obj", 0.01f), Material("ship1")))
+			->addGameComponent(new PlanetSpin));
+
+		addToRoot((new GameObject("shipNavy", glm::vec3(0.0f, -5.0f, 550.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("AF-SS01.obj", 0.01f), Material("ship2")))
+			->addGameComponent(new PlanetSpin));
+
+		addToRoot((new GameObject("shipBlack", glm::vec3(0.0f, -5.0f, 650.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("AF-SS01.obj", 0.01f), Material("ship3")))
 			->addGameComponent(new PlanetSpin));
 
 		//addToRoot((new GameObject(glm::vec3(0.0f, -5.0f, 4550.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(150.0f)))
