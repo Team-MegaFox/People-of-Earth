@@ -15,6 +15,26 @@
 #include "..\Components\GUIComponent.h"
 #include <algorithm>
 
+GameObject::~GameObject()
+{
+	for (size_t i = 0; i < m_gameComponents.size(); i++)
+	{
+		delete m_gameComponents[i];
+	}
+	m_gameComponents.clear();
+
+	for (size_t i = 0; i < m_guiComponents.size(); i++)
+	{
+		delete m_guiComponents[i];
+	}
+	m_guiComponents.clear();
+
+	for (size_t i = 0; i < m_children.size(); i++)
+	{
+		delete m_children[i];
+	}
+	m_children.clear();
+}
 
 void GameObject::updateAll(float delta)
 {
@@ -51,6 +71,21 @@ void GameObject::processAll(const InputManager& input, float delta)
 	}
 }
 
+void GameObject::activate()
+{
+	for (size_t i = 0; i < m_guiComponents.size(); i++)
+	{
+		m_guiComponents[i]->activate();
+	}
+}
+
+void GameObject::deactivate()
+{
+	for (size_t i = 0; i < m_guiComponents.size(); i++)
+	{
+		m_guiComponents[i]->deactivate();
+	}
+}
 
 GameObject* GameObject::addChild(GameObject* child)
 {

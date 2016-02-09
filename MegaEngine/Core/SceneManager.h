@@ -12,98 +12,53 @@
 // ***********************************************************************
 #pragma once
 #include <string>
-#include <unordered_map>
+#include <vector>
 
 class Scene;
-class CoreEngine;
+class Viewport;
 class RenderingEngine;
 class InputManager;
+class CoreEngine;
 
-/// <summary>
-/// Holds a map of scenes to manage.
-/// </summary>
+enum class Modality
+{
+	Exclusive,
+	Popup
+};
+
 class SceneManager
 {
 public:
-	/// <summary>
-	/// Initializes a new instance of the <see cref="SceneManager"/> class.
-	/// </summary>
-	SceneManager();
-	/// <summary>
-	/// Finalizes an instance of the <see cref="SceneManager"/> class.
-	/// </summary>
+	SceneManager(Viewport* viewport);
 	~SceneManager();
 
-	/// <summary>
-	/// Adds the scene to the manager.
-	/// </summary>
-	/// <param name="scene">The scene.</param>
-	void addScene(Scene* scene);
-	/// <summary>
-	/// Removes the scene from the manager.
-	/// </summary>
-	/// <param name="scene">The scene.</param>
-	/// <returns>If the scene was removed successfully.</returns>
-	bool removeScene(Scene* scene);
-	/// <summary>
-	/// Removes the scene from the manager by name.
-	/// </summary>
-	/// <param name="name">The name.</param>
-	/// <returns>If the scene was removed successfully.</returns>
-	bool removeScene(std::string name);
-	/// <summary>
-	/// Switches the scene.
-	/// </summary>
-	/// <param name="scene">The scene.</param>
-	void switchScene(Scene* scene);
-	/// <summary>
-	/// Switches the scene by name.
-	/// </summary>
-	/// <param name="name">The name.</param>
-	void switchScene(std::string name);
+	Scene* peek();
 
-	/// <summary>
-	/// Updates the current scene.
-	/// </summary>
-	/// <param name="delta">The frame time delta.</param>
+	void push(Scene* scene, Modality modality = Modality::Exclusive);
+
+	void pop();
+
+	Scene* switchScene(Scene* scene, Modality modality = Modality::Exclusive);
+
 	void update(float delta);
-	/// <summary>
-	/// Renders the the current scene.
-	/// </summary>
-	/// <param name="renderingEngine">The rendering engine.</param>
+
 	void render(RenderingEngine* renderingEngine);
-	/// <summary>
-	/// Processes the input for the current scene.
-	/// </summary>
-	/// <param name="input">The input.</param>
-	/// <param name="delta">The frame time delta.</param>
+
 	void processInput(const InputManager& input, float delta);
 
-	/// <summary>
-	/// Gets the current scene.
-	/// </summary>
-	/// <returns>A pointer to the current scene.</returns>
-	Scene* getCurrentScene() { return m_scenes[m_currentScene]; }
-	/// <summary>
-	/// Sets the Core Engine for all scenes.
-	/// </summary>
-	/// <param name="engine">The engine.</param>
 	void setEngine(CoreEngine* engine);
 
 private:
-	/// <summary>
-	/// The current scene.
-	/// </summary>
-	std::string m_currentScene;
-	/// <summary>
-	/// The map of scenes.
-	/// </summary>
-	std::unordered_map<std::string, Scene*> m_scenes;
+	void updateExclusiveScene();
 
-	/// <summary>
-	/// A pointer to the Core Engine.
-	/// </summary>
+	typedef std::pair<Scene*, Modality> SceneModalityPair;
+
+	std::vector<SceneModalityPair> m_activeList;
+
+	size_t m_exclusiveScene;
+
+	Viewport* m_viewport;
+
 	CoreEngine* m_coreEngine;
 
 };
-

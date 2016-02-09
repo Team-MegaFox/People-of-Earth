@@ -86,6 +86,8 @@
     <ClInclude Include="FreeLook.h" />
     <ClInclude Include="FreeMove.h" />
     <ClInclude Include="PlanetSpin.h" />
+    <ClInclude Include="PopMenu2Scene.h" />
+    <ClInclude Include="PopupMenuScene.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="Listener.h" />
   </ItemGroup>

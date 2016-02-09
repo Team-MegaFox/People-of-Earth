@@ -89,9 +89,6 @@ void RenderingEngine::render(GameObject & gameObject)
 	//getTexture("displayTexture").bindRenderTarget();
 	m_viewport->bindRenderTarget();
 
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	gameObject.renderAll(m_defaultShader, *m_guiEngine, *this, *m_mainCamera);
 
 	for (unsigned int i = 0; i < m_lights.size(); i++)

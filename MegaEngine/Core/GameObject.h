@@ -49,7 +49,7 @@ public:
 	/// <summary>
 	/// Finalizes an instance of the <see cref="GameObject" /> class.
 	/// </summary>
-	~GameObject() { }
+	~GameObject();
 
 	/// <summary>
 	/// Updates all children GameObjects, Game Components and GUI Components.
@@ -70,6 +70,10 @@ public:
 	/// <param name="input">The manager to get inputs from the viewport.</param>
 	/// <param name="delta">The delta time between frames.</param>
 	void processAll(const InputManager& input, float delta);
+
+	void activate();
+
+	void deactivate();
 
 	/// <summary>
 	/// Adds a child GameObject then returns the child GameObject.
