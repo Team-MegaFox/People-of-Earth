@@ -65,19 +65,19 @@ public:
 
 		// The human fighter ship and camera
 		GameObject* camera =
-			(new GameObject("Camera", glm::vec3(10.0f, 1.0f, 0.0f), glm::angleAxis(0.0f, glm::vec3(0.0f, 1.0f, 0.0f))))
+			(new GameObject("Camera", glm::vec3(0.0f, 4.0f, 10.0f), glm::angleAxis(0.0f, glm::vec3(0.0f, 1.0f, 0.0f))))
 			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(75.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
 			->addGameComponent(new FreeLook(window.getCenter()))
-			->addGameComponent(new FreeMove(50.0f))
+			//->addGameComponent(new FreeMove(50.0f))
 			->addGameComponent(new Listener());
 			//->addGameComponent(rB1);
 		//camera->getTransform()->setRotation(glm::quat(glm::angleAxis(glm::radians(-270.0f), glm::vec3(0.0f, 1.0f, 0.0f))));
 		
 		
 		//camera->addChild(fighterShip);
-		addToRoot(camera);
+		//addToRoot(camera);
 
-		//fighterShip->addChild(camera);
+		fighterShip->addChild(camera);
 		addToRoot(fighterShip);
 
 
