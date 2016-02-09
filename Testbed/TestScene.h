@@ -27,7 +27,7 @@ public:
 		Material moonTex("moonTexture", 0.5f, 4, Texture("moon.jpg"));
 
 		addToRoot((new GameObject("skybox"))
-			->addGameComponent(new SkyboxRenderer("Skybox/earth/earth.jpg")));
+			->addGameComponent(new SkyboxRenderer("Skybox/orbital/orbital.tga")));
 
 		// The human fighter ship and camera
 		GameObject* camera =
