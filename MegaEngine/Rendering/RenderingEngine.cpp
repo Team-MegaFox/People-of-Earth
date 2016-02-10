@@ -28,7 +28,7 @@
 const glm::mat4 RenderingEngine::BIAS_MATRIX = Utility::initScale(glm::vec3(0.5f)) * Utility::initTranslation(glm::vec3(1.0f));
 
 RenderingEngine::RenderingEngine(Viewport& viewport, GUIEngine& guiEngine) :
-m_filterPlane(Mesh("plane.obj")),
+m_filterPlane(Mesh("Environment/plane.obj")),
 m_viewport(&viewport),
 m_guiEngine(&guiEngine),
 m_tempTarget(viewport.getScreenWidth(), viewport.getScreenHeight(), 0, GL_TEXTURE_2D, GL_NEAREST, GL_RGBA, GL_RGBA, false, GL_COLOR_ATTACHMENT0),
