@@ -104,6 +104,7 @@
     <ClCompile Include="Rendering\Camera3D.cpp" />
     <ClCompile Include="Rendering\Material.cpp" />
     <ClCompile Include="Rendering\Mesh.cpp" />
+    <ClCompile Include="Rendering\ParticleSystem.cpp" />
     <ClCompile Include="Rendering\RenderingEngine.cpp" />
     <ClCompile Include="Rendering\Shader.cpp" />
     <ClCompile Include="Rendering\Skybox.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="Rendering\Camera3D.h" />
     <ClInclude Include="Rendering\Material.h" />
     <ClInclude Include="Rendering\Mesh.h" />
+    <ClInclude Include="Rendering\ParticleSystem.h" />
     <ClInclude Include="Rendering\RenderingEngine.h" />
     <ClInclude Include="Rendering\Shader.h" />
     <ClInclude Include="Rendering\Skybox.h" />

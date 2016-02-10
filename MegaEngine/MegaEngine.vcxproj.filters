@@ -108,6 +108,9 @@
     <ClCompile Include="Rendering\Skybox.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="Rendering\ParticleSystem.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\CoreEngine.h">
@@ -232,6 +235,9 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\Skybox.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\ParticleSystem.h">
       <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>
