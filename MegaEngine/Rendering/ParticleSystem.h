@@ -3,6 +3,7 @@
 #include <glm\gtc\quaternion.hpp>
 #include <vector>
 #include "..\Components\GameComponents.h"
+#include "Shader.h"
 
 struct Particle
 {
@@ -24,7 +25,7 @@ typedef std::vector<Particle> Particles;
 class ParticleEmitter
 {
 public:
-	ParticleEmitter();
+	ParticleEmitter(float maxParticles = 10000.0f, float spawnRate = 5.0f);
 	~ParticleEmitter();
 
 	void update(float deltaTime);
@@ -35,9 +36,9 @@ private:
 
 	float m_maxParticles;
 
-	int m_lastUsedParticle;
-
 	float m_spawnRate;
+
+	int m_lastUsedParticle;
 
 	int m_particleCount;
 
@@ -72,9 +73,27 @@ private:
 class ParticleSystem : public GameComponent
 {
 public:
-	ParticleSystem();
+	ParticleSystem(float spawnRate = 5.0f, Texture m_particleTex = Texture("defaultParticleTexture.png"), float maxParticles = 10000.0f);
 	~ParticleSystem();
 
+	/// <summary>
+	/// Virtual function for custom update functionality.
+	/// </summary>
+	/// <param name="delta">The frame time delta.</param>
+	virtual void update(float delta);
+	/// <summary>
+	/// Virtual function for custom rendering functionality.
+	/// </summary>
+	/// <param name="shader">The shader.</param>
+	/// <param name="renderingEngine">The rendering engine.</param>
+	/// <param name="camera">The camera.</param>
+	virtual void render(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D & camera) const;
+
 private:
+	ParticleEmitter* m_particleEmitter;
+
+	Shader m_particleShader;
+
+	Material m_particleMat;
 
 };

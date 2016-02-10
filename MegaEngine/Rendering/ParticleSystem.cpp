@@ -4,7 +4,9 @@
 #include <algorithm>
 #include "Camera3D.h"
 
-ParticleEmitter::ParticleEmitter()
+ParticleEmitter::ParticleEmitter(float maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/) :
+m_maxParticles(maxParticles),
+m_spawnRate(spawnRate)
 {
 	m_particles.resize(m_maxParticles, Particle());
 	m_positionData.resize(m_maxParticles);
@@ -32,6 +34,7 @@ ParticleEmitter::ParticleEmitter()
 
 ParticleEmitter::~ParticleEmitter()
 {
+	glDeleteVertexArrays(1, &m_vertexArrayObject);
 }
 
 void ParticleEmitter::update(float deltaTime)
@@ -67,7 +70,6 @@ void ParticleEmitter::update(float deltaTime)
 	m_particleCount = 0;
 	for (int i = 0; i < m_particles.size(); i++)
 	{
-
 		Particle* p = &m_particles[i]; 
 
 		if (p->life > 0.0f)
@@ -109,6 +111,8 @@ void ParticleEmitter::render(const Camera3D & camera)
 	}
 	sortParticles();
 
+	glBindVertexArray(m_vertexArrayObject);
+
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
 	glBufferData(GL_ARRAY_BUFFER, m_positionData.size() * sizeof(m_positionData[0]), NULL, GL_STREAM_DRAW); // Buffer orphaning, a common way to improve streaming perf. See above link for details.
 	glBufferSubData(GL_ARRAY_BUFFER, 0, m_particleCount * sizeof(m_positionData[0]), &m_positionData[0]);
@@ -120,7 +124,6 @@ void ParticleEmitter::render(const Camera3D & camera)
 	//The actually rendering
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[BILLBOARD_VB]);
@@ -186,10 +189,26 @@ void ParticleEmitter::sortParticles()
 	std::sort(&m_particles[0], &m_particles[m_particles.size()]);
 }
 
-ParticleSystem::ParticleSystem()
+ParticleSystem::ParticleSystem(float spawnRate /*= 5.0f*/, Texture m_particleTex /*= Texture("defaultTexture.png")*/, float maxParticles /*= 10000.0f*/) :
+m_particleShader("particle"),
+m_particleMat("particleMat", 1.0f, 1.0f, m_particleTex)
 {
+	m_particleEmitter = new ParticleEmitter;
 }
 
 ParticleSystem::~ParticleSystem()
 {
+	delete m_particleEmitter;
+}
+
+void ParticleSystem::update(float delta)
+{
+	m_particleEmitter->update(delta);
+}
+
+void ParticleSystem::render(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D & camera) const
+{
+	m_particleShader.bind();
+	m_particleShader.updateUniforms(getTransform(), m_particleMat, renderingEngine, camera);
+	m_particleEmitter->render(camera);
 }
