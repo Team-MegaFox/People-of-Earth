@@ -27,12 +27,19 @@ public:
 		GameObject* fighterShip =
 			(new GameObject("Fighter Ship"))
 			->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship")))
-			->addGameComponent(new RigidBody(glm::vec3(-2.0f, -4.0f, -10.0f),
-			glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f))),
+			->addGameComponent(new RigidBody(
+			glm::vec3(-2.0f, -4.0f, -10.0f),
+			glm::quat(),
+			//glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f))),
 			1.0f,
 			1.0f,
 			1.0f,
 			1.0f));
+
+		//PolygonCollider* poly = new PolygonCollider();
+
+		//fighterShip->getGameComponent<RigidBody>()->addCollider(*poly);
+
 		fighterShip->getGameComponent<RigidBody>()->init(*fighterShip->getTransform()->getPosition(),
 			glm::quat(),
 			glm::vec3(0),

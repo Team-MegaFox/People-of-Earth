@@ -252,6 +252,23 @@ public:
 		}
 	}
 
+    bool addCollider(Collider& collider)
+	{
+		if (m_sphereCollider != nullptr)
+		{
+			return false;
+		}
+		else if (m_polyCollider != nullptr)
+		{
+			return false;
+		}
+		else if (m_multiCollider != nullptr)
+		{
+			m_multiCollider->addColliderToObject(&collider);
+			return true;
+		}
+	}
+
 private:
 
 	/// <summary>
