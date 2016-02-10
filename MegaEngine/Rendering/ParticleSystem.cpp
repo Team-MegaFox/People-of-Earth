@@ -2,9 +2,10 @@
 #include <glew\glew.h>
 #include <glm\gtx\norm.hpp>
 #include <algorithm>
+#include <random>
 #include "Camera3D.h"
 
-ParticleEmitter::ParticleEmitter(float maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/) :
+ParticleEmitter::ParticleEmitter(int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/) :
 m_maxParticles(maxParticles),
 m_spawnRate(spawnRate)
 {
@@ -39,13 +40,13 @@ ParticleEmitter::~ParticleEmitter()
 
 void ParticleEmitter::update(float deltaTime)
 {
-	int newparticles = (int)(deltaTime*m_spawnRate);
+	int newparticles = (int)(deltaTime*1000.0);
 
 	for (int i = 0; i < newparticles; i++)
 	{
 		int particleIndex = findUnusedParticle();
-		m_particles[particleIndex].life = 5.0f; // This particle will live 5 seconds.
-		m_particles[particleIndex].pos = glm::vec3(0, 0, -20.0f);
+		m_particles[particleIndex].life = 0.5f; // This particle will live 5 seconds.
+		m_particles[particleIndex].pos = glm::vec3(0.0f, 10.0f, 0.0f);
 
 		float spread = 1.5f;
 		glm::vec3 maindir = glm::vec3(0.0f, 10.0f, 0.0f);
@@ -58,17 +59,17 @@ void ParticleEmitter::update(float deltaTime)
 		m_particles[particleIndex].speed = maindir + randomdir*spread;
 
 		// Very bad way to generate a random color
-		m_particles[particleIndex].colour.x = rand() % 256;
-		m_particles[particleIndex].colour.y = rand() % 256;
-		m_particles[particleIndex].colour.z = rand() % 256;
-		m_particles[particleIndex].colour.w = (rand() % 256) / 3;
+		m_particles[particleIndex].colour.x = (float)(rand() % 256);
+		m_particles[particleIndex].colour.y = (float)(rand() % 256);
+		m_particles[particleIndex].colour.z = (float)(rand() % 256);
+		m_particles[particleIndex].colour.w = (rand() % 256) / 3.0f;
 
 		m_particles[particleIndex].size = (rand() % 1000) / 2000.0f + 0.1f;
 
 	}
 
 	m_particleCount = 0;
-	for (int i = 0; i < m_particles.size(); i++)
+	for (size_t i = 0; i < m_particles.size(); i++)
 	{
 		Particle* p = &m_particles[i]; 
 
@@ -96,7 +97,7 @@ void ParticleEmitter::update(float deltaTime)
 
 void ParticleEmitter::render(const Camera3D & camera)
 {
-	for (int i = 0; i < m_particles.size(); i++)
+	for (size_t i = 0; i < m_particles.size(); i++)
 	{
 		Particle* p = &m_particles[i];
 		
@@ -163,9 +164,9 @@ void ParticleEmitter::render(const Camera3D & camera)
 
 int ParticleEmitter::findUnusedParticle()
 {
-	for (int i = m_lastUsedParticle; i < m_particles.size(); i++)
+	for (size_t i = m_lastUsedParticle; i < m_particles.size(); i++)
 	{
-		if (m_particles[i].life < 0)
+		if (m_particles[i].life <= 0.0f)
 		{
 			m_lastUsedParticle = i;
 			return i;
@@ -174,7 +175,7 @@ int ParticleEmitter::findUnusedParticle()
 
 	for (int i = 0; i < m_lastUsedParticle; i++)
 	{
-		if (m_particles[i].life < 0)
+		if (m_particles[i].life <= 0.0f)
 		{
 			m_lastUsedParticle = i;
 			return i;
@@ -186,12 +187,12 @@ int ParticleEmitter::findUnusedParticle()
 
 void ParticleEmitter::sortParticles()
 {
-	std::sort(&m_particles[0], &m_particles[m_particles.size()]);
+	std::sort(&m_particles[0], &m_particles[m_particles.size() - 1]);
 }
 
-ParticleSystem::ParticleSystem(float spawnRate /*= 5.0f*/, Texture m_particleTex /*= Texture("defaultTexture.png")*/, float maxParticles /*= 10000.0f*/) :
+ParticleSystem::ParticleSystem(float spawnRate /*= 5.0f*/, std::string texFileName /*= "defaultParticleTexture.png"*/, int maxParticles /*= 10000.0f*/) :
 m_particleShader("particle"),
-m_particleMat("particleMat", 1.0f, 1.0f, m_particleTex)
+m_particleMat("particleMat", 1.0f, 1.0f, Texture(texFileName))
 {
 	m_particleEmitter = new ParticleEmitter;
 }

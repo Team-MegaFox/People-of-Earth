@@ -38,7 +38,7 @@ public:
 			->addGameComponent(new FreeMove(50.0f))
 			->addGameComponent(new Listener());
 		GameObject* fighterShip = 
-			(new GameObject("Fighter Ship", glm::vec3(-2.0f, -4.0f, -10.0f), glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)))))
+			(new GameObject("Fighter Ship", glm::vec3(-2.0f, -4.0f, -10.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship")));
 
 		//theListener->setAsListener();
@@ -85,12 +85,8 @@ public:
 			std::cout << "There is a camera component!" << std::endl;
 		}
 
-	//	addToRoot((new GameObject("Container"))
-	//		->addGUIComponent(new GUIContainer(glm::vec4(0.5f, 0.1f, 0.3f, 0.5f), glm::vec4(0.0f)))
-	//		->addChild((new GameObject("Label in Container"))
-	//		->addGUIComponent(new GUILabel(glm::vec4(0.1f, 0.1f, 0.5f, 0.05f), glm::vec4(0.0f), "In container"))
-	//		->addGUIComponent(new GUIButton(glm::vec4(0.1f, 0.4f, 0.5f, 0.1f), glm::vec4(0.0f), "Button",
-	//		std::bind(&TestScene::onButtonClick, this, std::placeholders::_1)))));
+		addToRoot((new GameObject("particles"))
+			->addGameComponent(new ParticleSystem));
 	}
 	
 	bool onButtonClick(const GameObject& obj)

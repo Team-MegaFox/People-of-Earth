@@ -52,7 +52,7 @@ ShaderData::ShaderData(const std::string& fileName)
 	if (m_program == 0)
 	{
 		fprintf(stderr, "Error creating shader program\n");
-		exit(1);
+		assert(false);
 	}
 
 	if (s_supportedOpenGLLevel == 0)
@@ -326,7 +326,7 @@ void ShaderData::addProgram(const std::string& text, int type)
 	if (shader == 0)
 	{
 		fprintf(stderr, "Error creating shader type %d\n", type);
-		exit(1);
+		assert(false);
 	}
 
 	const GLchar* p[1];
@@ -346,7 +346,7 @@ void ShaderData::addProgram(const std::string& text, int type)
 		glGetShaderInfoLog(shader, 1024, NULL, InfoLog);
 		fprintf(stderr, "Error compiling shader type %d: '%s'\n", shader, InfoLog);
 
-		exit(1);
+		assert(false);
 	}
 
 	glAttachShader(m_program, shader);

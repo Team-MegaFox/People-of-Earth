@@ -25,7 +25,7 @@ typedef std::vector<Particle> Particles;
 class ParticleEmitter
 {
 public:
-	ParticleEmitter(float maxParticles = 10000.0f, float spawnRate = 5.0f);
+	ParticleEmitter(int maxParticles = 10000.0f, float spawnRate = 5.0f);
 	~ParticleEmitter();
 
 	void update(float deltaTime);
@@ -34,11 +34,11 @@ public:
 private:
 	Particles m_particles;
 
-	float m_maxParticles;
+	int m_maxParticles;
 
 	float m_spawnRate;
 
-	int m_lastUsedParticle;
+	int m_lastUsedParticle = 0;
 
 	int m_particleCount;
 
@@ -73,7 +73,7 @@ private:
 class ParticleSystem : public GameComponent
 {
 public:
-	ParticleSystem(float spawnRate = 5.0f, Texture m_particleTex = Texture("defaultParticleTexture.png"), float maxParticles = 10000.0f);
+	ParticleSystem(float spawnRate = 5.0f, std::string texFileName = "defaultParticleTexture.png", int maxParticles = 10000.0f);
 	~ParticleSystem();
 
 	/// <summary>
