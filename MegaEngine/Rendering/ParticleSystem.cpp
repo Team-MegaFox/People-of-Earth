@@ -51,7 +51,7 @@ void ParticleEmitter::update(float deltaTime)
 		for (int i = 0; i < newparticles; i++)
 		{
 			int particleIndex = findUnusedParticle();
-			m_particles[particleIndex].life = 5.0f; // This particle will live 5 seconds.
+			m_particles[particleIndex].life = 1.0f; // This particle will live 5 seconds.
 			m_particles[particleIndex].pos = glm::vec3(0.0f, 10.0f, 0.0f);
 
 			float spread = 1.5f;
@@ -65,10 +65,10 @@ void ParticleEmitter::update(float deltaTime)
 			m_particles[particleIndex].speed = maindir + randomdir*spread;
 
 			// Very bad way to generate a random color
-			m_particles[particleIndex].colour.x = 255.0f / 255.0f/*(float)(rand() % 256)*/;
-			m_particles[particleIndex].colour.y = 0.0f/*(float)(rand() % 256)*/;
-			m_particles[particleIndex].colour.z = 0.0f/*(float)(rand() % 256)*/;
-			m_particles[particleIndex].colour.w = 255.0f / 255.0f/*(rand() % 256) / 3.0f*/;
+			m_particles[particleIndex].colour.r = 255.0f / 255.0f/*(float)(rand() % 256)*/;
+			m_particles[particleIndex].colour.g = 255.0f / 255.0f/*(float)(rand() % 256)*/;
+			m_particles[particleIndex].colour.b = 255.0f / 255.0f/*(float)(rand() % 256)*/;
+			m_particles[particleIndex].colour.a = 0.0f/*(rand() % 256) / 3.0f*/;
 
 			m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
 
