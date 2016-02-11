@@ -21,7 +21,7 @@ m_spawnRate(spawnRate)
 		-0.5f, -0.5f, 0.0f,
 		0.5f, -0.5f, 0.0f,
 		-0.5f, 0.5f, 0.0f,
-		0.5f, 0.5f, 0.0f,
+		0.5f, 0.5f, 0.0f
 	};
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[BILLBOARD_VB]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
@@ -45,7 +45,7 @@ void ParticleEmitter::update(float deltaTime)
 	for (int i = 0; i < newparticles; i++)
 	{
 		int particleIndex = findUnusedParticle();
-		m_particles[particleIndex].life = 0.5f; // This particle will live 5 seconds.
+		m_particles[particleIndex].life = 5.0f; // This particle will live 5 seconds.
 		m_particles[particleIndex].pos = glm::vec3(0.0f, 10.0f, 0.0f);
 
 		float spread = 1.5f;
@@ -59,18 +59,20 @@ void ParticleEmitter::update(float deltaTime)
 		m_particles[particleIndex].speed = maindir + randomdir*spread;
 
 		// Very bad way to generate a random color
-		m_particles[particleIndex].colour.x = (float)(rand() % 256);
-		m_particles[particleIndex].colour.y = (float)(rand() % 256);
-		m_particles[particleIndex].colour.z = (float)(rand() % 256);
-		m_particles[particleIndex].colour.w = (rand() % 256) / 3.0f;
+		m_particles[particleIndex].colour.x = 255.0f / 255.0f/*(float)(rand() % 256)*/;
+		m_particles[particleIndex].colour.y = 0.0f/*(float)(rand() % 256)*/;
+		m_particles[particleIndex].colour.z = 0.0f/*(float)(rand() % 256)*/;
+		m_particles[particleIndex].colour.w = 255.0f / 255.0f/*(rand() % 256) / 3.0f*/;
 
-		m_particles[particleIndex].size = (rand() % 1000) / 2000.0f + 0.1f;
+		m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
 
 	}
 
 	m_particleCount = 0;
 	for (size_t i = 0; i < m_particles.size(); i++)
 	{
+		//m_positionData[i] = glm::vec4(0.0f);
+		//m_colourData[i] = glm::vec4(0.0f);
 		Particle* p = &m_particles[i]; 
 
 		if (p->life > 0.0f)
@@ -80,8 +82,8 @@ void ParticleEmitter::update(float deltaTime)
 			if (p->life > 0.0f)
 			{
 				// Simulate simple physics : gravity only, no collisions
-				p->speed += glm::vec3(0.0f, -9.81f, 0.0f) * (float)deltaTime * 0.5f;
-				p->pos += p->speed * (float)deltaTime;
+				p->speed += glm::vec3(0.0f, -9.81f, 0.0f) * deltaTime * 0.5f;
+				p->pos += p->speed * deltaTime;
 				//p->cameraDistance = glm::length2(p->pos - CameraPosition);
 				//ParticlesContainer[i].pos += glm::vec3(0.0f,10.0f, 0.0f) * (float)delta;
 
@@ -123,22 +125,22 @@ void ParticleEmitter::render(const Camera3D & camera)
 	glBufferSubData(GL_ARRAY_BUFFER, 0, m_particleCount * sizeof(m_colourData[0]), &m_colourData[0]);
 
 	//The actually rendering
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[BILLBOARD_VB]);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 	// 2nd attribute buffer : positions of particles' centers
 	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
 
 	// 3rd attribute buffer : particles' colors
 	glEnableVertexAttribArray(2);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[COLOUR_VB]);
-	glVertexAttribPointer(2, 4, GL_FLOAT, GL_TRUE, 0, (void*)0);
+	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 0, 0);
 
 	// These functions are specific to glDrawArrays*Instanced*.
 	// The first parameter is the attribute buffer we're talking about.
@@ -148,7 +150,7 @@ void ParticleEmitter::render(const Camera3D & camera)
 	glVertexAttribDivisor(1, 1); // positions : one per quad (its center)                 -> 1
 	glVertexAttribDivisor(2, 1); // color : one per quad                                  -> 1
 
-	// Draw the particules !
+	// Draw the particles !
 	// This draws many times a small triangle_strip (which looks like a quad).
 	// This is equivalent to :
 	// for(i in ParticlesCount) : glDrawArrays(GL_TRIANGLE_STRIP, 0, 4), 
@@ -159,7 +161,7 @@ void ParticleEmitter::render(const Camera3D & camera)
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
 
-	glDisable(GL_BLEND);
+	//glDisable(GL_BLEND);
 }
 
 int ParticleEmitter::findUnusedParticle()
@@ -190,9 +192,9 @@ void ParticleEmitter::sortParticles()
 	std::sort(&m_particles[0], &m_particles[m_particles.size() - 1]);
 }
 
-ParticleSystem::ParticleSystem(float spawnRate /*= 5.0f*/, std::string texFileName /*= "defaultParticleTexture.png"*/, int maxParticles /*= 10000.0f*/) :
+ParticleSystem::ParticleSystem(Material material, float spawnRate /*= 5.0f*/, int maxParticles /*= 10000.0f*/) :
 m_particleShader("particle"),
-m_particleMat("particleMat", 1.0f, 1.0f, Texture(texFileName))
+m_particleMat(material)
 {
 	m_particleEmitter = new ParticleEmitter;
 }
@@ -209,7 +211,9 @@ void ParticleSystem::update(float delta)
 
 void ParticleSystem::render(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D & camera) const
 {
-	m_particleShader.bind();
-	m_particleShader.updateUniforms(getTransform(), m_particleMat, renderingEngine, camera);
+	shader.bind();
+	shader.updateUniforms(getTransform(), m_particleMat, renderingEngine, camera);
+	//m_particleShader.bind();
+	//m_particleShader.updateUniforms(getTransform(), m_particleMat, renderingEngine, camera);
 	m_particleEmitter->render(camera);
 }

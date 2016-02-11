@@ -26,13 +26,14 @@ public:
 		Material sunTex("sunTexture", 0.5f, 4, Texture("sun.jpg"));
 		Material moonTex("moonTexture", 0.5f, 4, Texture("moon.jpg"));
 		Material fireTex("fireTexture", 0.5f, 4, Texture("fireTexture1.png"));
+		Material particleMat("particleMat", 0.5f, 4.0f, Texture("colourTest.png"));
 
 		addToRoot((new GameObject("skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/sky.jpg")));
 
 		// The human fighter ship and camera
 		GameObject* camera = 
-			(new GameObject("camera"))
+			(new GameObject("camera", glm::vec3(0.0f, 0.0f, 5.0f)))
 			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
 			->addGameComponent(new FreeLook(window.getCenter()))
 			->addGameComponent(new FreeMove(50.0f))
@@ -42,7 +43,7 @@ public:
 			->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship")));
 
 		//theListener->setAsListener();
-		camera->addChild(fighterShip);
+		//camera->addChild(fighterShip);
 		addToRoot(camera);
 
 		Audio * stream = new Audio("./Assets/Music/music.ogg", AudioType::STREAM);
@@ -74,7 +75,8 @@ public:
 		//	->addGameComponent(new MeshRenderer(Mesh("sphere.obj", 0.1f), Material("sunTexture"))));
 
 		addToRoot((new GameObject("DrLight", glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
-			->addGameComponent(new DirectionalLight(glm::vec3(1.0f), 0.02f, 7, 8.0f, 1.0f)));
+			//->addGameComponent(new DirectionalLight(glm::vec3(1.0f), 0.02f, 7, 8.0f, 1.0f)));
+			);
 
 		stream->setPosition(glm::vec3(0.0f, -5.0f, 550.0f));
 		stream->play(true);
@@ -86,7 +88,7 @@ public:
 		}
 
 		addToRoot((new GameObject("particles"))
-			->addGameComponent(new ParticleSystem));
+			->addGameComponent(new ParticleSystem(Material("particleMat"))));
 	}
 	
 	bool onButtonClick(const GameObject& obj)

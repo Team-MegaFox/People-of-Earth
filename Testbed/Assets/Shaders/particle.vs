@@ -25,7 +25,7 @@ void main()
 		+ C_up * squareVertices.y * particleSize;
 
 	// Output position of the vertex
-	gl_Position = T_MVP * vec4(vertexPosition_worldspace, 1.0f);
+	gl_Position = T_VP * vec4(vertexPosition_worldspace, 1.0f);
 
 	// UV of the vertex. No special space for this one.
 	texCoord = squareVertices.xy + vec2(0.5, 0.5);

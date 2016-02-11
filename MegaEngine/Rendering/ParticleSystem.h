@@ -73,7 +73,7 @@ private:
 class ParticleSystem : public GameComponent
 {
 public:
-	ParticleSystem(float spawnRate = 5.0f, std::string texFileName = "defaultParticleTexture.png", int maxParticles = 10000.0f);
+	ParticleSystem(Material material, float spawnRate = 5.0f, int maxParticles = 10000.0f);
 	~ParticleSystem();
 
 	/// <summary>
