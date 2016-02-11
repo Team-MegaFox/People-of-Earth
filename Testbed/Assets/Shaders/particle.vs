@@ -17,13 +17,14 @@ uniform mat4 T_VP; // Model-View-Projection matrix, but without the Model (the p
 void main()
 {
 	float particleSize = position.w; // because we encoded it this way.
-	vec3 particleCenter_wordspace = position.xyz;
+	vec3 particleCenter_worldspace = position.xyz;
 	
 	vec3 vertexPosition_worldspace = 
-		particleCenter_wordspace
+		particleCenter_worldspace
 		+ C_right * squareVertices.x * particleSize
 		+ C_up * squareVertices.y * particleSize;
-
+	vertexPosition_worldspace.xyz = vec3(0.0f);
+		
 	// Output position of the vertex
 	gl_Position = T_VP * vec4(vertexPosition_worldspace, 1.0f);
 

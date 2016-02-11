@@ -7,7 +7,8 @@
 
 ParticleEmitter::ParticleEmitter(int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/) :
 m_maxParticles(maxParticles),
-m_spawnRate(spawnRate)
+m_spawnRate(spawnRate),
+m_updateEmitter(true)
 {
 	m_particles.resize(m_maxParticles, Particle());
 	m_positionData.resize(m_maxParticles);
@@ -25,12 +26,15 @@ m_spawnRate(spawnRate)
 	};
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[BILLBOARD_VB]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+	std::cout << sizeof(g_vertex_buffer_data) << std::endl;
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
 	glBufferData(GL_ARRAY_BUFFER, m_positionData.size() * sizeof(m_positionData[0]), NULL, GL_STREAM_DRAW);
+	std::cout << m_positionData.size() * sizeof(m_positionData[0]) << std::endl;
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[COLOUR_VB]);
 	glBufferData(GL_ARRAY_BUFFER, m_colourData.size() * sizeof(m_colourData[0]), NULL, GL_STREAM_DRAW);
+	std::cout << m_colourData.size() * sizeof(m_colourData[0]) << std::endl;
 }
 
 ParticleEmitter::~ParticleEmitter()
@@ -40,65 +44,72 @@ ParticleEmitter::~ParticleEmitter()
 
 void ParticleEmitter::update(float deltaTime)
 {
-	int newparticles = (int)(deltaTime*1000.0);
-
-	for (int i = 0; i < newparticles; i++)
+	if (m_updateEmitter)
 	{
-		int particleIndex = findUnusedParticle();
-		m_particles[particleIndex].life = 5.0f; // This particle will live 5 seconds.
-		m_particles[particleIndex].pos = glm::vec3(0.0f, 10.0f, 0.0f);
+		int newparticles = (int)(deltaTime*1000.0);
 
-		float spread = 1.5f;
-		glm::vec3 maindir = glm::vec3(0.0f, 10.0f, 0.0f);
-		glm::vec3 randomdir = glm::vec3(
-			(rand() % 2000 - 1000.0f) / 1000.0f,
-			(rand() % 2000 - 1000.0f) / 1000.0f,
-			(rand() % 2000 - 1000.0f) / 1000.0f
-			);
-
-		m_particles[particleIndex].speed = maindir + randomdir*spread;
-
-		// Very bad way to generate a random color
-		m_particles[particleIndex].colour.x = 255.0f / 255.0f/*(float)(rand() % 256)*/;
-		m_particles[particleIndex].colour.y = 0.0f/*(float)(rand() % 256)*/;
-		m_particles[particleIndex].colour.z = 0.0f/*(float)(rand() % 256)*/;
-		m_particles[particleIndex].colour.w = 255.0f / 255.0f/*(rand() % 256) / 3.0f*/;
-
-		m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
-
-	}
-
-	m_particleCount = 0;
-	for (size_t i = 0; i < m_particles.size(); i++)
-	{
-		//m_positionData[i] = glm::vec4(0.0f);
-		//m_colourData[i] = glm::vec4(0.0f);
-		Particle* p = &m_particles[i]; 
-
-		if (p->life > 0.0f)
+		for (int i = 0; i < newparticles; i++)
 		{
-			// Decrease life
-			p->life -= deltaTime;
-			if (p->life > 0.0f)
-			{
-				// Simulate simple physics : gravity only, no collisions
-				p->speed += glm::vec3(0.0f, -9.81f, 0.0f) * deltaTime * 0.5f;
-				p->pos += p->speed * deltaTime;
-				//p->cameraDistance = glm::length2(p->pos - CameraPosition);
-				//ParticlesContainer[i].pos += glm::vec3(0.0f,10.0f, 0.0f) * (float)delta;
+			int particleIndex = findUnusedParticle();
+			m_particles[particleIndex].life = 5.0f; // This particle will live 5 seconds.
+			m_particles[particleIndex].pos = glm::vec3(0.0f, 10.0f, 0.0f);
 
-				m_positionData[i] = glm::vec4(p->pos, p->size);
-				m_colourData[i] = p->colour;
-			}
+			float spread = 1.5f;
+			glm::vec3 maindir = glm::vec3(0.0f, 10.0f, 0.0f);
+			glm::vec3 randomdir = glm::vec3(
+				(rand() % 2000 - 1000.0f) / 1000.0f,
+				(rand() % 2000 - 1000.0f) / 1000.0f,
+				(rand() % 2000 - 1000.0f) / 1000.0f
+				);
 
-			m_particleCount++;
+			m_particles[particleIndex].speed = maindir + randomdir*spread;
+
+			// Very bad way to generate a random color
+			m_particles[particleIndex].colour.x = 255.0f / 255.0f/*(float)(rand() % 256)*/;
+			m_particles[particleIndex].colour.y = 0.0f/*(float)(rand() % 256)*/;
+			m_particles[particleIndex].colour.z = 0.0f/*(float)(rand() % 256)*/;
+			m_particles[particleIndex].colour.w = 255.0f / 255.0f/*(rand() % 256) / 3.0f*/;
+
+			m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
 
 		}
+
+		m_particleCount = 0;
+		for (size_t i = 0; i < m_particles.size(); i++)
+		{
+			//m_positionData[i] = glm::vec4(0.0f);
+			//m_colourData[i] = glm::vec4(0.0f);
+			Particle* p = &m_particles[i];
+
+			if (p->life > 0.0f)
+			{
+				// Decrease life
+				p->life -= deltaTime;
+				if (p->life > 0.0f)
+				{
+					// Simulate simple physics : gravity only, no collisions
+					p->speed += glm::vec3(0.0f, -9.81f, 0.0f) * deltaTime * 0.5f;
+					p->pos += p->speed * deltaTime;
+					//p->cameraDistance = glm::length2(p->pos - CameraPosition);
+					//ParticlesContainer[i].pos += glm::vec3(0.0f,10.0f, 0.0f) * (float)delta;
+
+					m_positionData[i] = glm::vec4(p->pos, p->size);
+					m_colourData[i] = p->colour;
+				}
+
+				m_particleCount++;
+
+			}
+		}
+
+		m_updateEmitter = false;
 	}
 }
 
 void ParticleEmitter::render(const Camera3D & camera)
 {
+	m_updateEmitter = true;
+
 	for (size_t i = 0; i < m_particles.size(); i++)
 	{
 		Particle* p = &m_particles[i];
@@ -193,7 +204,7 @@ void ParticleEmitter::sortParticles()
 }
 
 ParticleSystem::ParticleSystem(Material material, float spawnRate /*= 5.0f*/, int maxParticles /*= 10000.0f*/) :
-m_particleShader("particle"),
+m_particleShader("particle-testing"),
 m_particleMat(material)
 {
 	m_particleEmitter = new ParticleEmitter;
@@ -211,9 +222,9 @@ void ParticleSystem::update(float delta)
 
 void ParticleSystem::render(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D & camera) const
 {
-	shader.bind();
-	shader.updateUniforms(getTransform(), m_particleMat, renderingEngine, camera);
-	//m_particleShader.bind();
-	//m_particleShader.updateUniforms(getTransform(), m_particleMat, renderingEngine, camera);
+	//shader.bind();
+	//shader.updateUniforms(getTransform(), m_particleMat, renderingEngine, camera);
+	m_particleShader.bind();
+	m_particleShader.updateUniforms(getTransform(), m_particleMat, renderingEngine, camera);
 	m_particleEmitter->render(camera);
 }

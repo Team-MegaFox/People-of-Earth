@@ -34,6 +34,8 @@ public:
 private:
 	Particles m_particles;
 
+	bool m_updateEmitter;
+
 	int m_maxParticles;
 
 	float m_spawnRate;
