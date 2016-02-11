@@ -20,6 +20,9 @@ MegaEngine.
 #include "..\Physics\MultiCollider.h"
 #include "..\Physics\PhysicsEngine.h"
 
+#include <glew/glew.h>
+#include <math.h>
+
 class RigidBody : public GameComponent
 {
 public:
@@ -148,12 +151,14 @@ public:
 		}
 	}
 
-	void setKeyInput(int forwardKey = SDLK_w, int backKey = SDLK_s, int leftKey = SDLK_a, int rightKey = SDLK_d)
+	void setKeyInput(int forwardKey = SDLK_w, int backKey = SDLK_s, int leftKey = SDLK_a, int rightKey = SDLK_d, int upKey = SDLK_z, int downKey = SDLK_x)
 	{
 		m_forwardKey = forwardKey;
 		m_backKey = backKey;
 		m_leftKey = leftKey;
 		m_rightKey = rightKey;
+		m_upKey = upKey;
+		m_downKey = downKey;
 		m_checkInput = true;
 	}
 
@@ -192,25 +197,25 @@ public:
 			if (input.KeyDown(m_forwardKey))
 			{
 				//m_polyCollider->applyRotation(glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f))));
-				updateVelocity(Utility::getForward(*getTransform()->getRotation()) * delta * 10000.0f);
+				updateVelocity(Utility::getForward(*getTransform()->getRotation()) * delta * 1000.0f);
 			}
 			if (input.KeyDown(m_backKey))
 			{
-				updateVelocity(Utility::getBack(*getTransform()->getRotation()) * delta * 10000.0f);
+				updateVelocity(Utility::getBack(*getTransform()->getRotation()) * delta * 1000.0f);
 			}
 			if (input.KeyDown(m_leftKey))
 			{
-				updateVelocity(Utility::getLeft(*getTransform()->getRotation()) * delta * 10000.0f);
+				updateVelocity(Utility::getLeft(*getTransform()->getRotation()) * delta * 1000.0f);
 			}
 			if (input.KeyDown(m_rightKey))
 			{
-				updateVelocity(Utility::getRight(*getTransform()->getRotation()) * delta * 10000.0f);
+				updateVelocity(Utility::getRight(*getTransform()->getRotation()) * delta * 1000.0f);
 			}	
-			if (input.KeyDown(SDLK_r))
+			if (input.KeyDown(m_upKey))
 			{
-				updateVelocity(Utility::getUp(*getTransform()->getRotation()) * delta * 10000.0f);
+				updateVelocity(Utility::getUp(*getTransform()->getRotation()) * delta * 1000.0f);
 			}
-			if (input.KeyDown(SDLK_f))
+			if (input.KeyDown(m_downKey))
 			{
 				updateVelocity(Utility::getDown(*getTransform()->getRotation()) * delta * 1000.0f);
 			}
@@ -219,7 +224,6 @@ public:
 
 	void updateVelocity(glm::vec3 velocity)
 	{
-		printf("%f\t%f\t%f\n", velocity.x, velocity.y, velocity.z);
 		if (m_sphereCollider != nullptr)
 		{
 			m_sphereCollider->setVelocity(velocity);
@@ -244,7 +248,6 @@ public:
 		{
 			m_polyCollider->applyAcceleration(acceleration);
 			//printf("%f\t%f\t%f\n", acceleration.x, acceleration.y, acceleration.z);
-			printf("%f\t%f\t%f\n", getTransform()->getPosition()->x, getTransform()->getPosition()->y, getTransform()->getPosition()->z);			
 		}
 		else if (m_multiCollider != nullptr)
 		{
@@ -267,6 +270,43 @@ public:
 			m_multiCollider->addColliderToObject(&collider);
 			return true;
 		}
+	}
+
+	//Debug Draw
+	virtual void render(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D & camera) const 
+	{
+		glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+		glBegin(GL_LINES);
+		
+			if (m_sphereCollider != nullptr)
+			{
+				//GLUquadricObj *quadric = gluNewQuadric();
+				//gluQuadricNormals(quadric, GLU_SMOOTH);
+				//glPushMatrix();
+				//	glTranslatef(m_sphereCollider->getPosition().x, m_sphereCollider->getPosition().y, m_sphereCollider->getPosition().z);
+				//	gluSphere(quadric, m_sphereCollider->getRadiusSphere(), 100, 100);
+				//glPopMatrix();
+			}
+			else if (m_polyCollider != nullptr)
+			{
+				glPushMatrix();
+				//glTranslatef(m_sphereCollider->getPosition().x, m_sphereCollider->getPosition().y, m_sphereCollider->getPosition().z);
+					glVertex3f(m_polyCollider->getHalfWidth(), m_polyCollider->getHalfHeight(), m_polyCollider->getHalfDepth());
+					glVertex3f(m_polyCollider->getHalfWidth(), -m_polyCollider->getHalfHeight(), m_polyCollider->getHalfDepth());
+				
+					glVertex3f(-m_polyCollider->getHalfWidth(), m_polyCollider->getHalfHeight(), m_polyCollider->getHalfDepth());
+					glVertex3f(-m_polyCollider->getHalfWidth(), -m_polyCollider->getHalfHeight(), m_polyCollider->getHalfDepth());
+					glVertex3f(m_polyCollider->getHalfWidth(), m_polyCollider->getHalfHeight(), -m_polyCollider->getHalfDepth());
+					glVertex3f(m_polyCollider->getHalfWidth(), -m_polyCollider->getHalfHeight(), -m_polyCollider->getHalfDepth());
+					glVertex3f(-m_polyCollider->getHalfWidth(), m_polyCollider->getHalfHeight(), -m_polyCollider->getHalfDepth());
+					glVertex3f(-m_polyCollider->getHalfWidth(), -m_polyCollider->getHalfHeight(), -m_polyCollider->getHalfDepth());
+				glPopMatrix();
+			}
+			else if (m_multiCollider != nullptr)
+			{
+				//m_multiCollider;
+			}
+		glEnd();
 	}
 
 private:
@@ -302,6 +342,8 @@ private:
 	int m_backKey;
 	int m_leftKey;
 	int m_rightKey;
+	int m_upKey;
+	int m_downKey;
 	bool m_checkInput;
 };
 

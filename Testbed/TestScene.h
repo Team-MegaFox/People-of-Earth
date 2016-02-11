@@ -9,6 +9,7 @@
 #include "Listener.h"
 #include "Audio.h"
 
+
 class TestScene : public Scene
 {
 public:
@@ -23,28 +24,37 @@ public:
 		Material skySphereTex("skySphereTexture", 0.5f, 4, Texture("night_sky.png"));
 		Material earthTex("earthTexture", 0.5f, 4, Texture("earth.png"));
 		Material moonTex("moonTexture", 0.5f, 4, Texture("moon.jpg"));
+		Material megaFoxTex("megaFoxTexture", 0.5f, 4, Texture("MegaFox.png"));
 
-		GameObject* fighterShip =
+		/*GameObject* fighterShip =
 			(new GameObject("Fighter Ship"))
 			->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship")))
 			->addGameComponent(new RigidBody(
 			glm::vec3(-2.0f, -4.0f, -10.0f),
 			glm::quat(),
-			//glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f))),
 			1.0f,
 			1.0f,
 			1.0f,
-			1.0f));
+			1.0f));*/
+
+		GameObject* fighterShip =
+			(new GameObject("Fighter Ship"))
+			->addGameComponent(new MeshRenderer(Mesh("AlienFighter_FINAL.obj", 0.1f), Material("alien_ship")))
+			->addGameComponent(new RigidBody(
+			glm::vec3(0.0f, -5.0f, -50.0f),
+			glm::angleAxis(glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)),
+			1.0f,
+			2.0f, 2.0f, 4.0f));
 
 		//PolygonCollider* poly = new PolygonCollider();
 
 		//fighterShip->getGameComponent<RigidBody>()->addCollider(*poly);
 
-		fighterShip->getGameComponent<RigidBody>()->init(*fighterShip->getTransform()->getPosition(),
-			glm::quat(),
-			glm::vec3(0),
-			glm::vec3(0.0f, 0.0f, 0.0f));
-		fighterShip->getGameComponent<RigidBody>()->setKeyInput(119, 115, 97, 100);
+		//fighterShip->getGameComponent<RigidBody>()->init(*fighterShip->getTransform()->getPosition(),
+		//	glm::quat(),
+		//	glm::vec3(0),
+		//	glm::vec3(0.0f, 0.0f, 0.0f));
+		fighterShip->getGameComponent<RigidBody>()->setKeyInput(SDLK_i, SDLK_k, SDLK_j, SDLK_l, SDLK_m, SDLK_n);
 
 		////Rigidbody Polygon Collider rB1
 		//RigidBody * rB1 = new RigidBody(
@@ -61,21 +71,24 @@ public:
 		//	glm::vec3(100.0f, 100.0f, 100.0f)
 		//	);
 
-		//Rigidbody Polygon Collider rb2
-		/*RigidBody * rB2 = new RigidBody(
-			glm::vec3(0.0f, -5.0f, 80.0f), 
-			glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
-			1.0f, 
-			20.0f, 
-			10.0f, 
-			50.0f);*/
+		
+
+		GameObject* fighterShip2 =
+			(new GameObject("Fighter Ship"))
+			->addGameComponent(new MeshRenderer(Mesh("cube.obj", 1.0f), Material("megaFoxTexture")))
+			->addGameComponent(new RigidBody(
+			glm::vec3(0.0f, -5.0f, -100.0f),
+			glm::angleAxis(glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)),
+			1.0f,
+			1.0f, 1.0f, 1.0f));
+		addToRoot(fighterShip2);
 
 		// The human fighter ship and camera
 		GameObject* camera =
-			(new GameObject("Camera", glm::vec3(0.0f, 4.0f, 10.0f), glm::angleAxis(0.0f, glm::vec3(0.0f, 1.0f, 0.0f))))
+			(new GameObject("Camera", glm::vec3(0.0f, 2.0f, 20.0f), glm::angleAxis(0.0f, glm::vec3(0.0f, 1.0f, 0.0f))))
 			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(75.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
 			->addGameComponent(new FreeLook(window.getCenter()))
-			//->addGameComponent(new FreeMove(50.0f))
+			->addGameComponent(new FreeMove(50.0f))
 			->addGameComponent(new Listener());
 			//->addGameComponent(rB1);
 		//camera->getTransform()->setRotation(glm::quat(glm::angleAxis(glm::radians(-270.0f), glm::vec3(0.0f, 1.0f, 0.0f))));
@@ -90,11 +103,24 @@ public:
 
 		Audio * stream = new Audio("./Assets/Music/music.mp3", AudioType::STREAM);
 
-		// the alien fighter ship
-		addToRoot((new GameObject("AlienFighterShip_1", glm::vec3(0.0f, 5.0f, -80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("AlienFighter_FINAL.obj", 0.1f), Material("alien_ship")))
-			->addGameComponent(stream));
-			//->addGameComponent(rB2));
+		////Rigidbody Polygon Collider rb2
+		//RigidBody * rB2 = new RigidBody(
+		//	glm::vec3(0.0f, 0.0f, 0.0f), 
+		//	glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
+		//	1.0f, 
+		//	3.0f, 
+		//	3.0f, 
+		//	3.0f);
+
+		//// the alien fighter ship
+		//addToRoot((new GameObject("AlienFighterShip_1"))//, glm::vec3(0.0f, 5.0f, -80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
+		//	->addGameComponent(new MeshRenderer(Mesh("AlienFighter_FINAL.obj", 0.1f), Material("alien_ship")))
+		//	->addGameComponent(stream)//);
+		//	->addGameComponent(new RigidBody(
+		//	glm::vec3(0.0f, -5.0f, -80.0f),
+		//	glm::quat(),
+		//	1.0f,
+		//	2.0f, 2.0f, 2.0f)));
 
 		// The skysphere
 		addToRoot((new GameObject("Skysphere", glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4000.0f)))
@@ -105,6 +131,8 @@ public:
 		addToRoot((new GameObject("Earth", glm::vec3(0.0f, -5.0f, 550.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("sphere.obj", 0.1f), Material("earthTexture")))
 			->addGameComponent(new PlanetSpin));
+			//->addGameComponent(new RigidBody(glm::vec3(0.0f, -5.0f, 550.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), 1.0, 450.0f)));
+
 
 		addToRoot((new GameObject("DirectionalLight_1", glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
 			->addGameComponent(new DirectionalLight(glm::vec3(1.0f), 0.02f, 7, 8.0f, 1.0f)));
