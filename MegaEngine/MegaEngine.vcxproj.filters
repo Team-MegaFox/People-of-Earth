@@ -234,5 +234,8 @@
     <ClInclude Include="Rendering\Skybox.h">
       <Filter>Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="Components\Audio.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

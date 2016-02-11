@@ -1,6 +1,19 @@
+// ***********************************************************************
+// Author           : Jesse Derochie
+// Created          : 02-01-2016
+//
+// Last Modified By : Jesse Derochie
+// Last Modified On : 02-11-2016
+// ***********************************************************************
+// <copyright file="Scene.h" company="Team MegaFox">
+//     Copyright (c) Team MegaFox. All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+
 #pragma once
-#include <Components/GameComponents.h>
-#include <Components/AudioSource.h>
+#include "GameComponents.h"
+#include "AudioSource.h"
 
 enum AudioType
 {

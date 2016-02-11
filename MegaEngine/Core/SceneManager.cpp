@@ -2,18 +2,21 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 02-11-2016
 // ***********************************************************************
 // <copyright file="SceneManager.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 #include "SceneManager.h"
 #include "Scene.h"
+#include "GameObject.h"
 
 #include <stdexcept>
+#include <algorithm>
 
 SceneManager::SceneManager(Viewport* viewport) :
 m_viewport(viewport)
@@ -123,6 +126,37 @@ void SceneManager::setEngine(CoreEngine* engine)
 	{
 		m_activeList[i].first->setEngine(engine);
 	}
+}
+
+bool SceneManager::removeGameObjectByName(const std::string& name)
+{
+	GameObject * temp = getGameObjectByName(name);
+
+	if (temp == nullptr)
+	{
+		return false;
+	}
+	else
+	{
+		delete temp;
+		return true;
+	}
+}
+
+GameObject* SceneManager::getGameObjectByName(const std::string& name)
+{
+	GameObject* result = nullptr;
+
+	std::vector<GameObject*> attached = peek()->getRoot()->getAllAttached();
+	for (size_t i = 0; i < attached.size(); i++)
+	{
+		if (attached[i]->getName() == name)
+		{
+			result = attached[i];
+		}
+	}
+
+	return result;
 }
 
 void SceneManager::updateExclusiveScene()

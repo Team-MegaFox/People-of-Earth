@@ -2,14 +2,15 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 02-11-2016
 // ***********************************************************************
 // <copyright file="Scene.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 #include "Scene.h"
 #include "..\Rendering\RenderingEngine.h"
 
@@ -61,45 +62,4 @@ bool Scene::removeGameObject(GameObject* gameobject)
 	}
 
 	return removed;
-}
-
-bool Scene::removeGameObjectByName(const std::string& name)
-{
-	bool removed = false;
-
-	std::vector<GameObject*> attached = m_root.getAllAttached();
-	for (size_t i = 0; i < attached.size() && !removed; i++)
-	{
-		if (attached[i]->getName() == name)
-		{
-			GameObject* parent = attached[i]->getTransform()->getParent()->getAttachedGameObject();
-			for (size_t j = 0; j < attached[i]->getAllChildren().size(); j++)
-			{
-				attached[i]->getAllChildren()[j]->getTransform()->setParent(parent->getTransform());
-				attached[i]->getAllChildren()[j]->getTransform()->setAttachedGameObject(parent);
-			}
-			attached[i]->setEngine(nullptr);
-			attached.erase(std::remove(attached.begin(), attached.end(), attached[i]), attached.end());
-
-			removed = true;
-		}
-	}
-
-	return removed;
-}
-
-GameObject* Scene::getGameObjectByName(const std::string& name)
-{
-	GameObject* result = nullptr;
-
-	std::vector<GameObject*> attached = m_root.getAllAttached();
-	for (size_t i = 0; i < attached.size(); i++)
-	{
-		if (attached[i]->getName() == name)
-		{
-			result = attached[i];
-		}
-	}
-
-	return result;
 }

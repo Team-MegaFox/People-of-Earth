@@ -115,6 +115,7 @@
     <ClInclude Include="Audio\AudioListener.h" />
     <ClInclude Include="Audio\Sound.h" />
     <ClInclude Include="Audio\Stream.h" />
+    <ClInclude Include="Components\Audio.h" />
     <ClInclude Include="Components\AudioSource.h" />
     <ClInclude Include="Components\GameComponents.h" />
     <ClInclude Include="Components\GUIButton.h" />

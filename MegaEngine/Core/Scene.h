@@ -2,14 +2,15 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 02-11-2016
 // ***********************************************************************
 // <copyright file="Scene.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 #pragma once
 #include <string>
 #include <vector>
@@ -70,29 +71,24 @@ public:
 	/// <param name="gameobject">The gameobject.</param>
 	/// <returns>If the GameObject was removed.</returns>
 	bool removeGameObject(GameObject* gameobject);
-	/// <summary>
-	/// Removes the GameObject by name.
-	/// </summary>
-	/// <param name="name">The name.</param>
-	/// <returns>if the GameObject was removed.</returns>
-	bool removeGameObjectByName(const std::string& name);
 
 	/// <summary>
 	/// Gets all game objects.
 	/// </summary>
 	/// <returns>All attached Objects to the root.</returns>
 	std::vector<GameObject*> getAllGameObjects() { return m_root.getAllAttached(); }
-	/// <summary>
-	/// Gets the GameObject by name.
-	/// </summary>
-	/// <param name="name">The name.</param>
-	/// <returns>A pointer to the GameObject.</returns>
-	GameObject* getGameObjectByName(const std::string& name);
+
 	/// <summary>
 	/// Gets the name.
 	/// </summary>
 	/// <returns>The string value.</returns>
 	std::string getName() { return m_name; }
+
+	/// <summary>
+	/// Gets the root.
+	/// </summary>
+	/// <returns></returns>
+	GameObject * getRoot() { return &m_root; }
 
 	/// <summary>
 	/// Sets the Core Engine.

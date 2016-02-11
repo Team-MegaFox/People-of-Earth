@@ -7,7 +7,6 @@
 #include "FreeMove.h"
 #include "PlanetSpin.h"
 #include "Listener.h"
-#include "Audio.h"
 
 class TestScene : public Scene
 {
@@ -22,8 +21,8 @@ public:
 		Material ship3("ship3", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_Black.png"), Texture("Ships/AF-SS01/AF-SS01_Normalmap.png"));
 
 		Material motherShip("motherShip", 0.5f, 4, Texture("Ships/MotherShip/MotherShip.png"));
-		Material humanShip("human_ship", 0.5f, 4, Texture("Ships/Eric/Human-Ship-UVWs.png"));
-		Material alienShip("alien_ship", 0.5f, 4, Texture("Ships/Eric/AlienshipUVWs.png"));
+		Material humanShip("human_ship", 1.0f, 10, Texture("Ships/Eric/HumanShip.png"));
+		Material alienShip("alien_ship", 5.0f, 4, Texture("Ships/Eric/Alienship.png"), Texture("Ships/Eric/Alienship_NORM.png"), Texture("Ships/Eric/Alienship_DISP.png"));
 
 		Material asteroidA("aster1", 0.5f, 4, Texture("Asteroids/Asteroid_A.png"), Texture("Asteroids/Asteroid_NRM.png"));
 		Material asteroidB("aster2", 0.5f, 4, Texture("Asteroids/Asteroid_B.png"), Texture("Asteroids/Asteroid_NRM.png"));
@@ -39,7 +38,7 @@ public:
 		Material GalaxyTex("galaxy1", 0.5f, 4, Texture("NebulaeAndGalaxies/Galaxy_A.png"));
 
 		addToRoot((new GameObject("skybox"))
-			->addGameComponent(new SkyboxRenderer("Skybox/RedOrangeNebula/RedOrangeNebula.jpg")));
+			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
 
 		// The human fighter ship and camera
 		GameObject* camera =
@@ -63,64 +62,63 @@ public:
 		// the alien fighter ship
 		addToRoot((new GameObject("enemyFighter", glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/AlienFighter_FINAL.obj", 0.1f), Material("alien_ship")))
-			->addGameComponent(stream)
-			->addGameComponent(new PlanetSpin));
+			->addGameComponent(stream));
 
 		addToRoot((new GameObject("shipWhite", glm::vec3(0.0f, -5.0f, 450.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj", 0.01f), Material("ship1")))
-			->addGameComponent(new PlanetSpin));
+);
 
 		addToRoot((new GameObject("shipNavy", glm::vec3(0.0f, -5.0f, 550.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj", 0.01f), Material("ship2")))
-			->addGameComponent(new PlanetSpin));
+);
 
 		addToRoot((new GameObject("shipBlack", glm::vec3(0.0f, -5.0f, 650.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj", 0.01f), Material("ship3")))
-			->addGameComponent(new PlanetSpin));
+);
 
 		addToRoot((new GameObject("mother", glm::vec3(0.0f, -5.0f, 650.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/MotherShip.obj", 0.1f), Material("motherShip")))
-			->addGameComponent(new PlanetSpin));
+);
 
 		addToRoot((new GameObject("asteroid1", glm::vec3(0.0f, 0.0f, 450.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Asteroids/Asteroid_A.obj", 0.1f), Material("aster1")))
-			->addGameComponent(new PlanetSpin));
+);
 
 		addToRoot((new GameObject("asteroid2", glm::vec3(0.0f, 0.0f, 550.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Asteroids/Asteroid_B.obj", 0.1f), Material("aster2")))
-			->addGameComponent(new PlanetSpin));
+);
 
 		addToRoot((new GameObject("asteroid3", glm::vec3(0.0f, 0.0f, 250.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Asteroids/Asteroid_C.obj", 0.1f), Material("aster3")))
-			->addGameComponent(new PlanetSpin));
+);
 
 		addToRoot((new GameObject("asteroid4", glm::vec3(0.0f, 0.0f, 350.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Asteroids/Asteroid_D.obj", 0.1f), Material("aster4")))
-			->addGameComponent(new PlanetSpin));
+);
 
 		addToRoot((new GameObject("planet1", glm::vec3(10.0f, 15.0f, 450.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 0.01f), Material("plan1")))
-			->addGameComponent(new PlanetSpin));
+);
 
 		addToRoot((new GameObject("planet2", glm::vec3(10.0f, 15.0f, 550.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_B.obj", 0.01f), Material("plan2")))
-			->addGameComponent(new PlanetSpin));
+);
 
 		addToRoot((new GameObject("planet3", glm::vec3(10.0f, 15.0f, 250.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_C.obj", 0.01f), Material("plan3")))
-			->addGameComponent(new PlanetSpin));
+);
 
 		addToRoot((new GameObject("planet4", glm::vec3(10.0f, 15.0f, 350.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_D.obj", 0.01f), Material("plan4")))
-			->addGameComponent(new PlanetSpin));
+);
 
 		addToRoot((new GameObject("nebula", glm::vec3(10.0f, 45.0f, 350.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("NebulaeAndGalaxies/Nebula_Large.obj", 0.01f), Material("nebula1")))
-			->addGameComponent(new PlanetSpin));
+);
 
 		addToRoot((new GameObject("galaxy", glm::vec3(10.0f, 45.0f, 650.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("NebulaeAndGalaxies/Galaxy_Large.obj", 0.01f), Material("galaxy1")))
-			->addGameComponent(new PlanetSpin));
+);
 
 		addToRoot((new GameObject("DrLight", glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
 			->addGameComponent(new DirectionalLight(glm::vec3(1.0f, 0.5f, 0.0f), 0.2f, 7, 8.0f, 1.0f)));
