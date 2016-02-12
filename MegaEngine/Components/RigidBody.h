@@ -275,22 +275,29 @@ public:
 	//Debug Draw
 	virtual void render(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D & camera) const 
 	{
-		glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glBegin(GL_LINES);
 		
 			if (m_sphereCollider != nullptr)
 			{
-				//GLUquadricObj *quadric = gluNewQuadric();
-				//gluQuadricNormals(quadric, GLU_SMOOTH);
-				//glPushMatrix();
-				//	glTranslatef(m_sphereCollider->getPosition().x, m_sphereCollider->getPosition().y, m_sphereCollider->getPosition().z);
-				//	gluSphere(quadric, m_sphereCollider->getRadiusSphere(), 100, 100);
-				//glPopMatrix();
+				//Draw the sphere collider
+				for (size_t height = 0; height < 180; height++)
+				{
+					for (size_t theta = 0; theta < 180; theta++)
+					{
+						glPushMatrix();
+							glVertex3f(
+								m_sphereCollider->getRadiusSphere() * cos(height) * cos(theta * 2 * 3.14159625f / 180.0f),
+								m_sphereCollider->getRadiusSphere() * sin(height),
+								m_sphereCollider->getRadiusSphere()  * cos(height) * sin(theta * 2 * 3.14159625f / 180.0f));
+						glPopMatrix();
+					}
+				}			
 			}
 			else if (m_polyCollider != nullptr)
-			{
+			{				
+				//Draw the polygon collider
 				glPushMatrix();
-				//glTranslatef(m_sphereCollider->getPosition().x, m_sphereCollider->getPosition().y, m_sphereCollider->getPosition().z);
 					glVertex3f(m_polyCollider->getHalfWidth(), m_polyCollider->getHalfHeight(), m_polyCollider->getHalfDepth());
 					glVertex3f(m_polyCollider->getHalfWidth(), -m_polyCollider->getHalfHeight(), m_polyCollider->getHalfDepth());
 				
@@ -301,6 +308,20 @@ public:
 					glVertex3f(-m_polyCollider->getHalfWidth(), m_polyCollider->getHalfHeight(), -m_polyCollider->getHalfDepth());
 					glVertex3f(-m_polyCollider->getHalfWidth(), -m_polyCollider->getHalfHeight(), -m_polyCollider->getHalfDepth());
 				glPopMatrix();
+
+				//Draw the sphere collider of the polygon
+				for (size_t height = 0; height < 180; height++)
+				{
+					for (size_t theta = 0; theta < 180; theta++)
+					{
+						glPushMatrix();
+							glVertex3f(
+								m_polyCollider->getRadiusSphere() * cos(height) * cos(theta * 2 * 3.14159625f / 180.0f),
+								m_polyCollider->getRadiusSphere() * sin(height),
+								m_polyCollider->getRadiusSphere()  * cos(height) * sin(theta * 2 * 3.14159625f / 180.0f));
+						glPopMatrix();
+					}
+				}
 			}
 			else if (m_multiCollider != nullptr)
 			{

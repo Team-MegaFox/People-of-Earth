@@ -39,13 +39,14 @@ public:
 
 		GameObject* fighterShip =
 			(new GameObject("Fighter Ship"))
-			->addGameComponent(new MeshRenderer(Mesh("AlienFighter_FINAL.obj", 0.1f), Material("alien_ship")))
+			->addGameComponent(new MeshRenderer(Mesh("sphere2.obj", 0.1f), Material("moonTexture")))
+			//->addGameComponent(new MeshRenderer(Mesh("AlienFighter_FINAL.obj", 0.1f), Material("alien_ship")))
 			->addGameComponent(new RigidBody(
 			glm::vec3(0.0f, -5.0f, -50.0f),
 			glm::angleAxis(glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)),
 			1.0f,
-			2.0f, 2.0f, 4.0f));
-
+			//2.0f, 2.0f, 4.0f));
+			2.0f));
 		//PolygonCollider* poly = new PolygonCollider();
 
 		//fighterShip->getGameComponent<RigidBody>()->addCollider(*poly);
