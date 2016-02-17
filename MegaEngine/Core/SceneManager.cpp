@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
+// Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 02-11-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-17-2016
 // ***********************************************************************
 // <copyright file="SceneManager.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -130,17 +130,21 @@ void SceneManager::setEngine(CoreEngine* engine)
 
 bool SceneManager::removeGameObjectByName(const std::string& name)
 {
-	GameObject * temp = getGameObjectByName(name);
-
-	if (temp == nullptr)
+	//Gets all gameobject in the scene
+	std::vector<GameObject*> attached = peek()->getRoot()->getAllAttached();
+	
+	//Loop through all the gameobject
+	for (size_t i = 0; i < attached.size(); i++)
 	{
-		return false;
+		//if the gameobject name is the same as the name you are looking for then
+		if (attached[i]->getName() == name)
+		{
+			//Delete gameobject from the parent
+			attached[i]->getTransform()->getParent()->getAttachedGameObject()->removeChild(attached[i]);
+			return true;
+		}
 	}
-	else
-	{
-		delete temp;
-		return true;
-	}
+	return false;
 }
 
 GameObject* SceneManager::getGameObjectByName(const std::string& name)

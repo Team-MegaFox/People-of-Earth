@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
+// Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-17-2016
 // ***********************************************************************
 // <copyright file="GameObject.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -122,7 +122,8 @@ bool GameObject::removeChild(GameObject* child)
 		{
 			child->setEngine(nullptr);
 			child->getTransform()->setParent(nullptr);
-			m_children.erase(std::remove(m_children.begin(), m_children.end(), m_children[go]), m_children.end());
+			m_children.erase(m_children.begin() + go);
+			delete child;
 			removed = true;
 		}
 	}

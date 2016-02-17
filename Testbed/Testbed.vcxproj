@@ -82,8 +82,10 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FireProjectile.h" />
     <ClInclude Include="FreeLook.h" />
     <ClInclude Include="FreeMove.h" />
+    <ClInclude Include="Laser.h" />
     <ClInclude Include="PlanetSpin.h" />
     <ClInclude Include="PopMenu2Scene.h" />
     <ClInclude Include="PopupMenuScene.h" />

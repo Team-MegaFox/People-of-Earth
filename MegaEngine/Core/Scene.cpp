@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
+// Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 02-11-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-17-2016
 // ***********************************************************************
 // <copyright file="Scene.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -38,6 +38,28 @@ void Scene::render(RenderingEngine* renderingEngine)
 void Scene::processInput(const InputManager& input, float delta)
 {
 	m_root.processAll(input, delta);
+}
+
+void Scene::addToRoot(GameObject* gameobject)
+{
+	auto it =  m_GONameCounter.find(gameobject->getName());
+	Uint16 tempCounter = 0;
+
+	//It exists
+	if (it != m_GONameCounter.end())
+	{
+		it->second++;
+		tempCounter = it->second;
+	}
+	else
+	{
+		m_GONameCounter.insert(std::make_pair(gameobject->getName(), 1));
+		tempCounter = 1;
+	}
+
+	gameobject->setName( gameobject->getName() + std::to_string(tempCounter));
+
+	m_root.addChild(gameobject);
 }
 
 bool Scene::removeGameObject(GameObject* gameobject)

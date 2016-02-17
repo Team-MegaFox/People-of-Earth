@@ -13,5 +13,7 @@
     <ClInclude Include="Listener.h" />
     <ClInclude Include="PopupMenuScene.h" />
     <ClInclude Include="PopMenu2Scene.h" />
+    <ClInclude Include="Laser.h" />
+    <ClInclude Include="FireProjectile.h" />
   </ItemGroup>
 </Project>

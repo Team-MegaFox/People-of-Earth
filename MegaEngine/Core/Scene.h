@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
+// Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 02-11-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-17-2016
 // ***********************************************************************
 // <copyright file="Scene.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -14,6 +14,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 #include "GameObject.h"
 #include "..\Rendering\Viewport.h"
@@ -64,7 +65,7 @@ public:
 	/// Adds a GameObject to the root GameObject.
 	/// </summary>
 	/// <param name="gameobject">The gameobject.</param>
-	void addToRoot(GameObject* gameobject) { m_root.addChild(gameobject); }
+	void addToRoot(GameObject* gameobject);
 	/// <summary>
 	/// Removes the GameOject from the root.
 	/// </summary>
@@ -100,6 +101,9 @@ protected:
 	CoreEngine* getCoreEngine() const { return m_coreEngine; }
 
 private:
+	
+	std::unordered_map<std::string, Uint16> m_GONameCounter;
+
 	/// <summary>
 	/// The name of the Scene.
 	/// </summary>

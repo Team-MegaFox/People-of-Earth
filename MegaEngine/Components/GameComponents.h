@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
+// Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 02-11-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-17-2016
 // ***********************************************************************
 // <copyright file="GameComponents.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -18,6 +18,7 @@
 #include "..\Core\InputManager.h"
 #include "..\Core\CoreEngine.h"
 #include "..\Core\SceneManager.h"
+#include "..\Core\Scene.h"
 class RenderingEngine;
 class Shader;
 
@@ -110,6 +111,18 @@ protected:
 	/// <returns></returns>
 	bool removeGameObjectByName(const std::string & gameObjectName) { return getCoreEngine()->getSceneManager()->removeGameObjectByName(gameObjectName); }
 
+	/// <summary>
+	/// Removes the game object by finding it in the top most scene.
+	/// </summary>
+	/// <param name="gameObjectName">The game object to remove.</param>
+	/// <returns></returns>
+	bool destroy(GameObject* gameObject) {	return removeGameObjectByName(gameObject->getName()); }
+
+	//TODO:: Comment
+	void instantiate(GameObject* gameObject)
+	{
+		getCoreEngine()->getSceneManager()->peek()->addToRoot(gameObject);
+	}
 
 private:
 	/// <summary>

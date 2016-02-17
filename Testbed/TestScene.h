@@ -7,6 +7,7 @@
 #include "FreeMove.h"
 #include "PlanetSpin.h"
 #include "Listener.h"
+#include "FireProjectile.h"
 
 class TestScene : public Scene
 {
@@ -46,12 +47,14 @@ public:
 			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
 			->addGameComponent(new FreeLook(window.getCenter()))
 			->addGameComponent(new FreeMove(50.0f))
+			->addGameComponent(new FireProjectile)
+			//->addGameComponent(new PlanetSpin)
 			->addGameComponent(new Listener());
 		GameObject* fighterShip =
 			(new GameObject("Fighter Ship", glm::vec3(-2.0f, -4.0f, -10.0f), glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)))))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/HumanFighter_Final.obj", 0.1f), Material("human_ship")));
 
-		fighterShip->addGameComponent(new PlanetSpin);
+		//fighterShip->addGameComponent(new PlanetSpin);
 
 		addToRoot(fighterShip);
 		//camera->addChild(fighterShip);

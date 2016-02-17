@@ -13,6 +13,7 @@ public:
 
 		getTransform()->setRotation(glm::angleAxis(m_angle, glm::vec3(0.0f, 0.0f, 1.0f)));
 
+
 	}
 
 private:

@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
+// Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-17-2016
 // ***********************************************************************
 // <copyright file="GameObject.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -188,6 +188,8 @@ public:
 	/// </summary>
 	/// <param name="engine">The pointer to the Core Engine object.</param>
 	void setEngine(CoreEngine* engine);
+
+	void setName(const std::string& name) { m_name = name; }
 
 private:
 	/// <summary>
