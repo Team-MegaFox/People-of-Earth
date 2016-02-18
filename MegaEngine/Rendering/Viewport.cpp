@@ -83,6 +83,12 @@ void Viewport::update(GUIEngine* guiEngine)
 	guiEngine->processInput(e);
 }
 
+void Viewport::clearScreen()
+{
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
 void Viewport::swapBuffers()
 {
 	SDL_GL_SwapWindow(m_window);

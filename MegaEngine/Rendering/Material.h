@@ -77,6 +77,8 @@ public:
 		const Texture & normalMap = Texture("default_normal.jpg"),
 		const Texture & dispMap = Texture("default_disp.png"), float dispMapScale = 0.0f, float dispMapOffset = 0.0f);
 
+	Material(const std::string & materialName, const Texture & skyboxTex);
+
 	/// <summary>
 	/// Sets the 3D vector with a name to the material data map.
 	/// </summary>

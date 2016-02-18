@@ -1,18 +1,20 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
+// Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-17-2016
 // ***********************************************************************
 // <copyright file="Scene.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 #pragma once
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 #include "GameObject.h"
 #include "..\Rendering\Viewport.h"
@@ -22,7 +24,7 @@ class InputManager;
 
 
 /// <summary>
-/// Holds a root GameObject for the scene graph.
+/// An abstract class that holds a root GameObject for the scene graph.
 /// </summary>
 class Scene
 {
@@ -41,7 +43,7 @@ public:
 	/// Initializes the scene with GameObjects.
 	/// </summary>
 	/// <param name="window">The window.</param>
-	virtual void init(const Viewport& window) { }
+	virtual void init(const Viewport& window) = 0;
 	/// <summary>
 	/// Updates the scene calling GameObject's update.
 	/// </summary>
@@ -63,31 +65,20 @@ public:
 	/// Adds a GameObject to the root GameObject.
 	/// </summary>
 	/// <param name="gameobject">The gameobject.</param>
-	void addToRoot(GameObject* gameobject) { m_root.addChild(gameobject); }
+	void addToRoot(GameObject* gameobject);
 	/// <summary>
 	/// Removes the GameOject from the root.
 	/// </summary>
 	/// <param name="gameobject">The gameobject.</param>
 	/// <returns>If the GameObject was removed.</returns>
 	bool removeGameObject(GameObject* gameobject);
-	/// <summary>
-	/// Removes the GameObject by name.
-	/// </summary>
-	/// <param name="name">The name.</param>
-	/// <returns>if the GameObject was removed.</returns>
-	bool removeGameObjectByName(const std::string& name);
 
 	/// <summary>
 	/// Gets all game objects.
 	/// </summary>
 	/// <returns>All attached Objects to the root.</returns>
 	std::vector<GameObject*> getAllGameObjects() { return m_root.getAllAttached(); }
-	/// <summary>
-	/// Gets the GameObject by name.
-	/// </summary>
-	/// <param name="name">The name.</param>
-	/// <returns>A pointer to the GameObject.</returns>
-	GameObject* getGameObjectByName(const std::string& name);
+
 	/// <summary>
 	/// Gets the name.
 	/// </summary>
@@ -95,12 +86,24 @@ public:
 	std::string getName() { return m_name; }
 
 	/// <summary>
+	/// Gets the root.
+	/// </summary>
+	/// <returns></returns>
+	GameObject * getRoot() { return &m_root; }
+
+	/// <summary>
 	/// Sets the Core Engine.
 	/// </summary>
 	/// <param name="engine">The engine.</param>
-	void setEngine(CoreEngine* engine) { m_root.setEngine(engine); }
+	void setEngine(CoreEngine* engine) { m_coreEngine = engine; m_root.setEngine(engine); }
+
+protected:
+	CoreEngine* getCoreEngine() const { return m_coreEngine; }
 
 private:
+	
+	std::unordered_map<std::string, Uint16> m_GONameCounter;
+
 	/// <summary>
 	/// The name of the Scene.
 	/// </summary>
@@ -109,5 +112,9 @@ private:
 	/// The root GameObject.
 	/// </summary>
 	GameObject m_root;
+	/// <summary>
+	/// A pointer to the Core Engine.
+	/// </summary>
+	CoreEngine* m_coreEngine;
 };
 

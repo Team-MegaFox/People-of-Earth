@@ -139,7 +139,7 @@ private:
 	/// </summary>
 	void setRealTime()
 	{
-		time_t temp = Time::getTime();
+		time_t temp = (time_t)Time::getTime();
 		m_time = ctime(&temp);
 	}
 

@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
+// Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-17-2016
 // ***********************************************************************
 // <copyright file="GameObject.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -49,7 +49,7 @@ public:
 	/// <summary>
 	/// Finalizes an instance of the <see cref="GameObject" /> class.
 	/// </summary>
-	~GameObject() { }
+	~GameObject();
 
 	/// <summary>
 	/// Updates all children GameObjects, Game Components and GUI Components.
@@ -70,6 +70,10 @@ public:
 	/// <param name="input">The manager to get inputs from the viewport.</param>
 	/// <param name="delta">The delta time between frames.</param>
 	void processAll(const InputManager& input, float delta);
+
+	void activate();
+
+	void deactivate();
 
 	/// <summary>
 	/// Adds a child GameObject then returns the child GameObject.
@@ -114,7 +118,7 @@ public:
 	/// Gets the Game Component if it is attached.
 	/// </summary>
 	/// <returns>The specified Game Component if it is attached to the GameObject. Otherwise it returns a nullptr.</returns>
-	template<typename T> T* getGameComponent()
+	template<typename T> T* getGameComponent() const
 	{
 		if (!m_gameComponents.empty())
 		{
@@ -134,7 +138,7 @@ public:
 	/// Gets the GUI Component if it is attached.
 	/// </summary>
 	/// <returns>The specified GUI Component if it is attached to the GameObject. Otherwise it returns a nullptr.</returns>
-	template<typename T> T* getGUIComponent()
+	template<typename T> T* getGUIComponent() const
 	{
 		if (!m_guiComponents.empty())
 		{
@@ -184,6 +188,8 @@ public:
 	/// </summary>
 	/// <param name="engine">The pointer to the Core Engine object.</param>
 	void setEngine(CoreEngine* engine);
+
+	void setName(const std::string& name) { m_name = name; }
 
 private:
 	/// <summary>

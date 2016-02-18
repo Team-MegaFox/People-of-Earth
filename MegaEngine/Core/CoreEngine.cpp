@@ -38,12 +38,10 @@ m_sceneManager(sceneManager)
 		m_guiEngine->loadScheme("TaharezLook.scheme");
 		m_guiEngine->setFont("DejaVuSans-10");
 		m_guiEngine->setMouseCursor("TaharezLook/MouseArrow");
-		m_guiEngine->showMouseCursor(true);
-		SDL_ShowCursor(0);
+		m_guiEngine->showMouseCursor(false);
+		//SDL_ShowCursor(0);
 
 		m_sceneManager->setEngine(this);
-
-		m_sceneManager->getCurrentScene()->init(*m_viewport);
 	}
 }
 
@@ -97,6 +95,8 @@ void CoreEngine::start()
 
 		if (render)
 		{
+			m_viewport->clearScreen();
+
 			m_sceneManager->render(m_renderingEngine);
 
 			m_guiEngine->render();

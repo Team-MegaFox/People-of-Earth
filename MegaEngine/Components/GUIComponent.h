@@ -38,7 +38,10 @@ public:
 	/// <summary>
 	/// Finalizes an instance of the <see cref="GUIComponent"/> class.
 	/// </summary>
-	virtual ~GUIComponent() { }
+	virtual ~GUIComponent() 
+	{ 
+		CEGUI::WindowManager::getSingleton().destroyWindow(m_widget);
+	}
 	/// <summary>
 	/// Virtual function for custom input processing.
 	/// </summary>
@@ -75,7 +78,17 @@ public:
 	/// <param name="parent">The GameObject to be attached to.</param>
 	virtual void setParent(GameObject* parent) { m_parent = parent; }
 
-protected:
+	void activate() { m_widget->enable(); }
+
+	void deactivate() { m_widget->disable(); }
+
+protected:	
+	/// <summary>
+	/// Gets the parented gameobject.
+	/// </summary>
+	/// <returns>A pointer to the parented gameobject.</returns>
+	GameObject* getParent() { return m_parent; }
+
 	/// <summary>
 	/// Gets the core engine.
 	/// </summary>
@@ -94,7 +107,6 @@ protected:
 	/// <returns>CEGUI.Window *.</returns>
 	CEGUI::Window* getWidget() { return m_widget; }
 
-
 	/// <summary>
 	/// Creates a widget.
 	/// </summary>
@@ -110,6 +122,7 @@ protected:
 		{
 			m_widget = m_parent->getCoreEngine()->getGUIEngine()->addWidget(m_parentWidget->getWidget(), widgetType, m_destRectPerc, m_destRectPix, m_parent->getName() + std::to_string(s_numWidgets));
 		}
+		m_widget->moveToFront();
 		s_numWidgets++;
 		return m_widget;
 	}

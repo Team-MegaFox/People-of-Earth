@@ -39,7 +39,7 @@ public:
 	/// <param name="pfcn">The function to call when the button is clicked.</param>
 	GUIButton(const glm::vec4& destRectPerc,
 		const glm::vec4& destRectPix, const std::string& text,
-		std::function<bool(MegaEvents)> pfcn = nullptr) :
+		std::function<bool(const GameObject&)> pfcn = nullptr) :
 		GUILabel(destRectPerc, destRectPix, text), f_clicked(pfcn) { }
 	/// <summary>
 	/// Finalizes an instance of the <see cref="GUIButton"/> class.
@@ -62,7 +62,7 @@ public:
 	/// Sets the on click function when the button is clicked.
 	/// </summary>
 	/// <param name="pfcn">The function to call when the button is clicked.</param>
-	void setOnClick(std::function<bool(MegaEvents)> pfcn)
+	void setOnClick(std::function<bool(const GameObject&)> pfcn)
 	{
 		f_clicked = pfcn;
 	}
@@ -77,7 +77,7 @@ private:
 	{
 		if (f_clicked != nullptr)
 		{
-			return f_clicked(megaEvents);
+			return f_clicked(*getParent());
 		}
 		return false;
 	}
@@ -85,7 +85,7 @@ private:
 	/// <summary>
 	/// The function to call when the button is clicked.
 	/// </summary>
-	std::function<bool(MegaEvents)> f_clicked;
+	std::function<bool(const GameObject&)> f_clicked;
 
 	/// <summary>
 	/// The mega events

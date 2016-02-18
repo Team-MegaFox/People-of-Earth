@@ -11,9 +11,12 @@ public:
 	{
 		m_angle += 0.001f;
 
-		getTransform()->setRotation(glm::angleAxis(m_angle, glm::vec3(0.0f, 1.0f, 0.0f)));
+		getTransform()->setRotation(glm::angleAxis(m_angle, glm::vec3(0.0f, 0.0f, 1.0f)));
+
+
 	}
 
 private:
 	float m_angle;
+	bool goAhead = false;
 };

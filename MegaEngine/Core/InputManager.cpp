@@ -106,6 +106,9 @@ bool InputManager::Update(SDL_Event& _inputEvent)
 			rightTrigger = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) / 32767.0f;
 			leftTrigger = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_TRIGGERLEFT) / 32767.0f;
 			break;
+		case SDL_CONTROLLERDEVICEADDED:
+			controller = SDL_GameControllerOpen(0);
+			break;
 		case SDL_TEXTINPUT:
 			text = _inputEvent.text.text;
 			textInputState = true;

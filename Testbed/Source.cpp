@@ -12,14 +12,12 @@ int main(int argc, char** argv)
 	Viewport window("Some demo", 800, 600, 0);
 	GUIEngine guiEngine("Assets/GUI");
 	RenderingEngine renderingEngine(window, guiEngine);
-	SceneManager sceneManager;
-	TestScene testscene;
+	SceneManager sceneManager(&window);
 	PhysicsEngine physicsEngine;
 	physicsEngine.getPhysicsWorld()->init(glm::vec3(0), 1000.0f);
 	AudioEngine audioEngine;
 
-	sceneManager.addScene(&testscene);
-	sceneManager.switchScene(testscene.getName());
+	sceneManager.push(new TestScene, Modality::Exclusive);
 
 	CoreEngine core(60.0, &window, &renderingEngine, &physicsEngine, &audioEngine, &guiEngine, &sceneManager);
 
