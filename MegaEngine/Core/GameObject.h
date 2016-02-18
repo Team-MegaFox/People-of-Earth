@@ -165,6 +165,8 @@ public:
 	/// <returns>All immediate children stored in a vector.</returns>
 	std::vector<GameObject*> getAllChildren();
 
+	std::vector<GameComponent*> getAllGameComponents() const;
+
 	/// <summary>
 	/// Gets the core engine.
 	/// </summary>

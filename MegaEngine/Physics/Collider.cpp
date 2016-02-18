@@ -115,5 +115,5 @@ void Collider::update(float timeStep)
 
 	//Reset the accleration
 	m_acceleration = glm::vec3(0);
-	m_velocity = glm::vec3(0);
+	//m_velocity = glm::vec3(0);
 }

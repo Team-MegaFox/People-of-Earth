@@ -92,10 +92,6 @@ GameObject* GameObject::addChild(GameObject* child)
 	m_children.push_back(child);
 	child->getTransform()->setParent(&m_transform);
 	child->setEngine(m_coreEngine);
-	for (size_t i = 0; i < child->m_gameComponents.size(); i++)
-	{
-		child->m_gameComponents[i]->onStart();
-	}
 	return this;
 }
 
@@ -180,6 +176,10 @@ std::vector<GameObject*> GameObject::getAllChildren()
 	return m_children;
 }
 
+std::vector<GameComponent*> GameObject::getAllGameComponents() const
+{
+	return m_gameComponents;
+}
 
 void GameObject::setEngine(CoreEngine* engine)
 {

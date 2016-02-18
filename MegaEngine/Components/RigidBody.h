@@ -333,9 +333,57 @@ public:
 		}
 	}
 
+	glm::vec3 getPosition()
+	{
+		if (m_sphereCollider != nullptr)
+		{
+			return m_sphereCollider->getPosition();
+		}
+		else if (m_polyCollider != nullptr)
+		{
+			return m_polyCollider->getPosition();
+		}
+		else if (m_multiCollider != nullptr)
+		{
+			return m_multiCollider->getPosition();
+		}
+	}
+
+	glm::quat getRotation()
+	{
+		if (m_sphereCollider != nullptr)
+		{
+			return m_sphereCollider->getRotation();
+		}
+		else if (m_polyCollider != nullptr)
+		{
+			return m_polyCollider->getRotation();
+		}
+		else if (m_multiCollider != nullptr)
+		{
+			return m_multiCollider->getRotation();
+		}
+	}
+
 	void setDebugDraw(bool debugDraw)
 	{
 		m_debugDraw = debugDraw;
+	}
+
+	void setRotation(glm::quat rotation)
+	{
+		if (m_sphereCollider != nullptr)
+		{
+			m_sphereCollider->setRotation(rotation);
+		}
+		else if (m_polyCollider != nullptr)
+		{
+			m_polyCollider->setRotation(rotation);
+		}
+		else if (m_multiCollider != nullptr)
+		{
+			m_multiCollider->setRotation(rotation);
+		}
 	}
 
 private:

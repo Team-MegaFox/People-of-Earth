@@ -14,7 +14,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "GameObject.h"
-
+#include "..\Components\GameComponents.h"
 #include <stdexcept>
 #include <algorithm>
 
@@ -59,6 +59,15 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 
 	scene->init(*m_viewport);
 	scene->setEngine(m_coreEngine);
+	auto attachedToRoot = scene->getRoot()->getAllAttached();
+	for (size_t i = attachedToRoot.size() - 1; i > 0; i--)
+	{
+		auto gameComponents = attachedToRoot[i]->getAllGameComponents();
+		for (size_t j = 0; j < gameComponents.size(); j++)
+		{
+			gameComponents[j]->onStart();
+		}
+	}
 }
 
 void SceneManager::pop()

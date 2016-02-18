@@ -17,9 +17,9 @@ int main(int argc, char** argv)
 	physicsEngine.getPhysicsWorld()->init(glm::vec3(0), 1000.0f);
 	AudioEngine audioEngine;
 
-	sceneManager.push(new TestScene, Modality::Exclusive);
-
 	CoreEngine core(60.0, &window, &renderingEngine, &physicsEngine, &audioEngine, &guiEngine, &sceneManager);
+
+	sceneManager.push(new TestScene, Modality::Exclusive);
 
 	core.start();
 

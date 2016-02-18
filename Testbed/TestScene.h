@@ -61,9 +61,7 @@ public:
 			//->addGameComponent(new PlanetSpin)
 			->addGameComponent(new Listener());
 
-		printf("%f\t%f\t%f\n", Utility::getForward(*fighterShip->getTransform()->getRotation()).x,
-			Utility::getForward(*fighterShip->getTransform()->getRotation()).y,
-			Utility::getForward(*fighterShip->getTransform()->getRotation()).z);
+
 
 		//fighterShip->addGameComponent(new PlanetSpin);
 

@@ -95,7 +95,10 @@ public:
 	/// Sets the Core Engine.
 	/// </summary>
 	/// <param name="engine">The engine.</param>
-	void setEngine(CoreEngine* engine) { m_coreEngine = engine; m_root.setEngine(engine); }
+	void setEngine(CoreEngine* engine) { 
+		m_coreEngine = engine; 
+		m_root.setEngine(engine); 
+	}
 
 protected:
 	CoreEngine* getCoreEngine() const { return m_coreEngine; }
