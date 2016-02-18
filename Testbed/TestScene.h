@@ -17,7 +17,7 @@ public:
 
 	virtual void init(const Viewport& window) override
 	{
-		Material ship1("ship1", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_White.png"), Texture("Ships/AF-SS01/AF-SS01_Normalmap.png"));
+		Material ship1("ship1", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_White - Copy.png"), Texture("Ships/AF-SS01/AF-SS01_Normalmap.png"));
 		Material ship2("ship2", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_Navy.png"), Texture("Ships/AF-SS01/AF-SS01_Normalmap.png"));
 		Material ship3("ship3", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_Black.png"), Texture("Ships/AF-SS01/AF-SS01_Normalmap.png"));
 
@@ -36,28 +36,32 @@ public:
 		Material planetD("plan4", 0.5f, 4, Texture("Planets/Planet_D.png"), Texture("Planets/Planet_D_NRM.png"));
 
 		Material nebulaTex("nebula1", 0.5f, 4, Texture("NebulaeAndGalaxies/Nebula_A.png"));
-		Material GalaxyTex("galaxy1", 0.5f, 4, Texture("NebulaeAndGalaxies/Galaxy_A.png"));
+		Material GalaxyTex("galaxy1", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_White - Copy.png"));
 
 		addToRoot((new GameObject("skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
 
-		// The human fighter ship and camera
-		GameObject* camera =
-			(new GameObject("camera"))
-			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
-			->addGameComponent(new FreeLook(window.getCenter()))
-			->addGameComponent(new FreeMove(50.0f))
-			->addGameComponent(new FireProjectile)
-			//->addGameComponent(new PlanetSpin)
-			->addGameComponent(new Listener());
 		GameObject* fighterShip =
 			(new GameObject("Fighter Ship", glm::vec3(-2.0f, -4.0f, -10.0f), glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)))))
-			->addGameComponent(new MeshRenderer(Mesh("Ships/HumanFighter_Final.obj", 0.1f), Material("human_ship")));
+			->addGameComponent(new MeshRenderer(Mesh("Ships/HumanFighter_Final.obj", 0.1f), Material("human_ship")))
+			
+			->addGameComponent(new FireProjectile);
+		// The human fighter ship and camera
+		GameObject* camera =
+			(new GameObject("camera", 
+			*fighterShip->getTransform()->getPosition() - Utility::getForward(*fighterShip->getTransform()->getRotation()) * -10.0f,
+			glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f))))
+			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
+			//->addGameComponent(new PlanetSpin)
+			->addGameComponent(new Listener())
+			->addGameComponent(new FreeLook(window.getCenter()))
+			->addGameComponent(new FreeMove(50.0f));
+		
 
 		//fighterShip->addGameComponent(new PlanetSpin);
 
+		//fighterShip->addChild(camera);
 		addToRoot(fighterShip);
-		//camera->addChild(fighterShip);
 		addToRoot(camera);
 
 		Audio * stream = new Audio("./Assets/Music/rightNow.mp3", AudioType::STREAM);
@@ -66,6 +70,10 @@ public:
 		addToRoot((new GameObject("enemyFighter", glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/AlienFighter_FINAL.obj", 0.1f), Material("alien_ship")))
 			->addGameComponent(stream));
+
+		addToRoot((new GameObject("planet1", glm::vec3(10.0f, 0.0f, 0.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 0.01f), Material("plan1")))
+			);
 
 		addToRoot((new GameObject("shipWhite", glm::vec3(0.0f, -5.0f, 450.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj", 0.01f), Material("ship1")))
@@ -99,10 +107,6 @@ public:
 			->addGameComponent(new MeshRenderer(Mesh("Asteroids/Asteroid_D.obj", 0.1f), Material("aster4")))
 );
 
-		addToRoot((new GameObject("planet1", glm::vec3(10.0f, 15.0f, 450.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 0.01f), Material("plan1")))
-);
-
 		addToRoot((new GameObject("planet2", glm::vec3(10.0f, 15.0f, 550.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_B.obj", 0.01f), Material("plan2")))
 );
@@ -128,12 +132,6 @@ public:
 
 		stream->setPosition(glm::vec3(0.0f, -5.0f, 550.0f));
 		//stream->play(true);
-
-		CameraComponent* cc = camera->getGameComponent<CameraComponent>();
-		if (cc != nullptr)
-		{
-			std::cout << "There is a camera component!" << std::endl;
-		}
 	}
 };
 

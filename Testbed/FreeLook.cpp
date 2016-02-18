@@ -5,6 +5,15 @@
 
 void FreeLook::processInput(const InputManager& input, float delta)
 {
+	if (input.GetThumbRPosition().x < -0.1f || input.GetThumbRPosition().x > 0.1f)
+	{
+		getTransform()->rotate(glm::vec3(0.0f, 1.0f, 0.0f), glm::radians(input.GetThumbRPosition().x) * 2.0f);
+	}
+	if (input.GetThumbRPosition().y < -0.1f || input.GetThumbRPosition().y > 0.1f)
+	{
+		getTransform()->rotate(Utility::getRight(*getTransform()->getRotation()), glm::radians(-input.GetThumbRPosition().y) * 2.0f);
+	}
+
 	if (input.KeyPress(SDLK_q))
 	{
 		input.SetCursor(true);

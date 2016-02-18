@@ -13,11 +13,12 @@
 #include "CoreEngine.h"
 #include <SDL2\SDL.h>
 
-#include "..\Rendering\Viewport.h"
-#include "..\Physics\PhysicsEngine.h"
 #include "Time.h"
 #include "SceneManager.h"
 #include "Scene.h"
+#include "Game.h"
+#include "..\Rendering\Viewport.h"
+#include "..\Physics\PhysicsEngine.h"
 #include "..\GUI\GUIEngine.h"
 #include "..\Audio\AudioEngine.h"
 
@@ -40,6 +41,8 @@ m_sceneManager(sceneManager)
 		m_guiEngine->setMouseCursor("TaharezLook/MouseArrow");
 		m_guiEngine->showMouseCursor(false);
 		//SDL_ShowCursor(0);
+
+		m_game = new Game;
 
 		m_sceneManager->setEngine(this);
 	}

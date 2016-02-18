@@ -237,5 +237,8 @@
     <ClInclude Include="Components\Audio.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Game.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

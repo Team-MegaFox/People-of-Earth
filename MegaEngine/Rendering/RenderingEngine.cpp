@@ -65,6 +65,8 @@ m_altCamera(glm::mat4(1.0f), &m_altCameraTransform)
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_DEPTH_CLAMP);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	m_filterPlaneTransform.setScale(glm::vec3(1.0f));
 	m_filterPlaneTransform.rotate(glm::quat(glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f))));
@@ -104,7 +106,7 @@ void RenderingEngine::render(GameObject & gameObject)
 
 		setTexture("shadowMap", m_shadowMaps[shadowMapIndex]);
 		m_shadowMaps[shadowMapIndex].bindRenderTarget();
-		glClearColor(1.0f, 1.0f, 0.0f, 0.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
 		if (shadowInfo.getShadowMapSizeAsPowerOf2() != 0)
@@ -149,7 +151,7 @@ void RenderingEngine::render(GameObject & gameObject)
 		//getTexture("displayTexture").bindRenderTarget();
 		m_viewport->bindRenderTarget();
 
-		glEnable(GL_BLEND);
+		//glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
 		glDepthFunc(GL_EQUAL);
@@ -158,7 +160,8 @@ void RenderingEngine::render(GameObject & gameObject)
 
 		glDepthMask(GL_TRUE);
 		glDepthFunc(GL_LESS);
-		glDisable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glDisable(GL_BLEND);
 
 	}
 

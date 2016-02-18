@@ -128,6 +128,7 @@
     <ClInclude Include="Components\MeshRenderer.h" />
     <ClInclude Include="Core\CoreEngine.h" />
     <ClInclude Include="Core\ErrorLog.h" />
+    <ClInclude Include="Core\Game.h" />
     <ClInclude Include="Core\GameObject.h" />
     <ClInclude Include="Core\InputManager.h" />
     <ClInclude Include="Core\MappedValues.h" />
