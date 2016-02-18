@@ -13,6 +13,7 @@
 #include "Camera3D.h"
 #include "..\Core\CoreEngine.h"
 #include "RenderingEngine.h"
+#include "..\Physics\PhysicsEngine.h"
 
 glm::mat4 Camera3D::getViewProjection() const
 {
@@ -30,6 +31,7 @@ glm::mat4 Camera3D::getView() const
 void CameraComponent::addToEngine(CoreEngine * engine) const
 {
 	engine->getRenderingEngine()->setMainCamera(m_camera);
+	engine->getPhysicsEngine()->setMainCamera(m_camera);
 }
 
 void CameraComponent::setParent(GameObject* parent)

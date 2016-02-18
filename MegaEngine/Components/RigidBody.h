@@ -51,7 +51,6 @@ public:
 			id);
 
 		PhysicsEngine::getPhysicsWorld()->addCollidableObject(m_sphereCollider);
-		m_checkInput = false;
 	}
 
 	/// <summary>
@@ -81,7 +80,7 @@ public:
 			id);
 
 		PhysicsEngine::getPhysicsWorld()->addCollidableObject(m_polyCollider);
-		m_checkInput = false;
+		//m_checkInput = false;
 	}
 
 	/// <summary>
@@ -106,7 +105,7 @@ public:
 			id);
 
 		PhysicsEngine::getPhysicsWorld()->addCollidableObject(m_multiCollider);
-		m_checkInput = false;
+		//m_checkInput = false;
 	}
 
 	/// <summary>
@@ -151,16 +150,16 @@ public:
 		}
 	}
 
-	void setKeyInput(int forwardKey = SDLK_w, int backKey = SDLK_s, int leftKey = SDLK_a, int rightKey = SDLK_d, int upKey = SDLK_z, int downKey = SDLK_x)
-	{
-		m_forwardKey = forwardKey;
-		m_backKey = backKey;
-		m_leftKey = leftKey;
-		m_rightKey = rightKey;
-		m_upKey = upKey;
-		m_downKey = downKey;
-		m_checkInput = true;
-	}
+	//void setKeyInput(int forwardKey = SDLK_w, int backKey = SDLK_s, int leftKey = SDLK_a, int rightKey = SDLK_d, int upKey = SDLK_z, int downKey = SDLK_x)
+	//{
+	//	m_forwardKey = forwardKey;
+	//	m_backKey = backKey;
+	//	m_leftKey = leftKey;
+	//	m_rightKey = rightKey;
+	//	m_upKey = upKey;
+	//	m_downKey = downKey;
+	//	m_checkInput = true;
+	//}
 
 	/// <summary>
 	/// Updates the collider every frame
@@ -190,37 +189,37 @@ public:
 		//m_rotation = *getTransform()->getRotation();
 	}
 
-	virtual void processInput(const InputManager& input, float delta) override
-	{
-		if (m_checkInput)
-		{
-			if (input.KeyDown(m_forwardKey))
-			{
-				//m_polyCollider->applyRotation(glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f))));
-				updateVelocity(Utility::getForward(*getTransform()->getRotation()) * delta * 1000.0f);
-			}
-			if (input.KeyDown(m_backKey))
-			{
-				updateVelocity(Utility::getBack(*getTransform()->getRotation()) * delta * 1000.0f);
-			}
-			if (input.KeyDown(m_leftKey))
-			{
-				updateVelocity(Utility::getLeft(*getTransform()->getRotation()) * delta * 1000.0f);
-			}
-			if (input.KeyDown(m_rightKey))
-			{
-				updateVelocity(Utility::getRight(*getTransform()->getRotation()) * delta * 1000.0f);
-			}	
-			if (input.KeyDown(m_upKey))
-			{
-				updateVelocity(Utility::getUp(*getTransform()->getRotation()) * delta * 1000.0f);
-			}
-			if (input.KeyDown(m_downKey))
-			{
-				updateVelocity(Utility::getDown(*getTransform()->getRotation()) * delta * 1000.0f);
-			}
-		}
-	}
+	//virtual void processInput(const InputManager& input, float delta) override
+	//{
+	//	if (m_checkInput)
+	//	{
+	//		if (input.KeyDown(m_forwardKey))
+	//		{
+	//			//m_polyCollider->applyRotation(glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f))));
+	//			updateVelocity(Utility::getForward(*getTransform()->getRotation()) * delta * 1000.0f);
+	//		}
+	//		if (input.KeyDown(m_backKey))
+	//		{
+	//			updateVelocity(Utility::getBack(*getTransform()->getRotation()) * delta * 1000.0f);
+	//		}
+	//		if (input.KeyDown(m_leftKey))
+	//		{
+	//			updateVelocity(Utility::getLeft(*getTransform()->getRotation()) * delta * 1000.0f);
+	//		}
+	//		if (input.KeyDown(m_rightKey))
+	//		{
+	//			updateVelocity(Utility::getRight(*getTransform()->getRotation()) * delta * 1000.0f);
+	//		}	
+	//		if (input.KeyDown(m_upKey))
+	//		{
+	//			updateVelocity(Utility::getUp(*getTransform()->getRotation()) * delta * 1000.0f);
+	//		}
+	//		if (input.KeyDown(m_downKey))
+	//		{
+	//			updateVelocity(Utility::getDown(*getTransform()->getRotation()) * delta * 1000.0f);
+	//		}
+	//	}
+	//}
 
 	void updateVelocity(glm::vec3 velocity)
 	{
@@ -275,9 +274,12 @@ public:
 	//Debug Draw
 	virtual void render(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D & camera) const 
 	{
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glBegin(GL_LINES);
-		
+		if (m_debugDraw)
+		{
+
+			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+			glBegin(GL_LINES);
+
 			if (m_sphereCollider != nullptr)
 			{
 				//Draw the sphere collider
@@ -286,27 +288,27 @@ public:
 					for (size_t theta = 0; theta < 180; theta++)
 					{
 						glPushMatrix();
-							glVertex3f(
-								m_sphereCollider->getRadiusSphere() * cos(height) * cos(theta * 2 * 3.14159625f / 180.0f),
-								m_sphereCollider->getRadiusSphere() * sin(height),
-								m_sphereCollider->getRadiusSphere()  * cos(height) * sin(theta * 2 * 3.14159625f / 180.0f));
+						glVertex3f(
+							m_sphereCollider->getRadiusSphere() * cos(height) * cos(theta * 2 * 3.14159625f / 180.0f),
+							m_sphereCollider->getRadiusSphere() * sin(height),
+							m_sphereCollider->getRadiusSphere()  * cos(height) * sin(theta * 2 * 3.14159625f / 180.0f));
 						glPopMatrix();
 					}
-				}			
+				}
 			}
 			else if (m_polyCollider != nullptr)
-			{				
+			{
 				//Draw the polygon collider
 				glPushMatrix();
-					glVertex3f(m_polyCollider->getHalfWidth(), m_polyCollider->getHalfHeight(), m_polyCollider->getHalfDepth());
-					glVertex3f(m_polyCollider->getHalfWidth(), -m_polyCollider->getHalfHeight(), m_polyCollider->getHalfDepth());
-				
-					glVertex3f(-m_polyCollider->getHalfWidth(), m_polyCollider->getHalfHeight(), m_polyCollider->getHalfDepth());
-					glVertex3f(-m_polyCollider->getHalfWidth(), -m_polyCollider->getHalfHeight(), m_polyCollider->getHalfDepth());
-					glVertex3f(m_polyCollider->getHalfWidth(), m_polyCollider->getHalfHeight(), -m_polyCollider->getHalfDepth());
-					glVertex3f(m_polyCollider->getHalfWidth(), -m_polyCollider->getHalfHeight(), -m_polyCollider->getHalfDepth());
-					glVertex3f(-m_polyCollider->getHalfWidth(), m_polyCollider->getHalfHeight(), -m_polyCollider->getHalfDepth());
-					glVertex3f(-m_polyCollider->getHalfWidth(), -m_polyCollider->getHalfHeight(), -m_polyCollider->getHalfDepth());
+				glVertex3f(m_polyCollider->getHalfWidth(), m_polyCollider->getHalfHeight(), m_polyCollider->getHalfDepth());
+				glVertex3f(m_polyCollider->getHalfWidth(), -m_polyCollider->getHalfHeight(), m_polyCollider->getHalfDepth());
+
+				glVertex3f(-m_polyCollider->getHalfWidth(), m_polyCollider->getHalfHeight(), m_polyCollider->getHalfDepth());
+				glVertex3f(-m_polyCollider->getHalfWidth(), -m_polyCollider->getHalfHeight(), m_polyCollider->getHalfDepth());
+				glVertex3f(m_polyCollider->getHalfWidth(), m_polyCollider->getHalfHeight(), -m_polyCollider->getHalfDepth());
+				glVertex3f(m_polyCollider->getHalfWidth(), -m_polyCollider->getHalfHeight(), -m_polyCollider->getHalfDepth());
+				glVertex3f(-m_polyCollider->getHalfWidth(), m_polyCollider->getHalfHeight(), -m_polyCollider->getHalfDepth());
+				glVertex3f(-m_polyCollider->getHalfWidth(), -m_polyCollider->getHalfHeight(), -m_polyCollider->getHalfDepth());
 				glPopMatrix();
 
 				//Draw the sphere collider of the polygon
@@ -315,10 +317,10 @@ public:
 					for (size_t theta = 0; theta < 180; theta++)
 					{
 						glPushMatrix();
-							glVertex3f(
-								m_polyCollider->getRadiusSphere() * cos(height) * cos(theta * 2 * 3.14159625f / 180.0f),
-								m_polyCollider->getRadiusSphere() * sin(height),
-								m_polyCollider->getRadiusSphere()  * cos(height) * sin(theta * 2 * 3.14159625f / 180.0f));
+						glVertex3f(
+							m_polyCollider->getRadiusSphere() * cos(height) * cos(theta * 2 * 3.14159625f / 180.0f),
+							m_polyCollider->getRadiusSphere() * sin(height),
+							m_polyCollider->getRadiusSphere()  * cos(height) * sin(theta * 2 * 3.14159625f / 180.0f));
 						glPopMatrix();
 					}
 				}
@@ -327,7 +329,13 @@ public:
 			{
 				//m_multiCollider;
 			}
-		glEnd();
+			glEnd();
+		}
+	}
+
+	void setDebugDraw(bool debugDraw)
+	{
+		m_debugDraw = debugDraw;
 	}
 
 private:
@@ -359,12 +367,6 @@ private:
 	/// </summary>
 	glm::vec3 m_zero = glm::vec3(0.0f);
 
-	int m_forwardKey;
-	int m_backKey;
-	int m_leftKey;
-	int m_rightKey;
-	int m_upKey;
-	int m_downKey;
-	bool m_checkInput;
+	bool m_debugDraw = false;
 };
 

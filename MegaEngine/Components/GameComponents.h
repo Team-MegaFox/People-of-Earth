@@ -43,6 +43,8 @@ public:
 	/// </summary>
 	virtual ~GameComponent() {}
 
+	virtual void onStart() {}
+
 	/// <summary>
 	/// Virtual function for custom input processing.
 	/// </summary>

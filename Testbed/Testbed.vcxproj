@@ -79,6 +79,7 @@
   <ItemGroup>
     <ClCompile Include="FreeLook.cpp" />
     <ClCompile Include="FreeMove.cpp" />
+    <ClCompile Include="PlayerMovementController.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -87,6 +88,7 @@
     <ClInclude Include="FreeMove.h" />
     <ClInclude Include="Laser.h" />
     <ClInclude Include="PlanetSpin.h" />
+    <ClInclude Include="PlayerMovementController.h" />
     <ClInclude Include="PopMenu2Scene.h" />
     <ClInclude Include="PopupMenuScene.h" />
     <ClInclude Include="TestScene.h" />

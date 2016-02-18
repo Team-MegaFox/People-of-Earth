@@ -101,7 +101,7 @@ public:
 	/// Sets the position vector.
 	/// </summary>
 	/// <param name="newPosition">The new position.</param>
-	void setPosition(glm::vec3& newPosition)
+	void setPosition(const glm::vec3& newPosition)
 	{
 		m_position = newPosition;
 	}

@@ -24,6 +24,7 @@
 #include "Rendering\Skybox.h"
 #include "Rendering\Lighting.h"
 #include "Rendering\Viewport.h"
+#include "Components\GameComponents.h"
 #include "Components\MeshRenderer.h"
 #include "Components\AudioSource.h"
 #include "Components\GUILabel.h"

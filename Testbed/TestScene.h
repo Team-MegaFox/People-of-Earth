@@ -8,6 +8,7 @@
 #include "PlanetSpin.h"
 #include "Listener.h"
 #include "FireProjectile.h"
+#include "PlayerMovementController.h"
 
 
 class TestScene : public Scene
@@ -43,26 +44,32 @@ public:
 			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
 
 		GameObject* fighterShip =
-			(new GameObject("Fighter Ship", glm::vec3(-2.0f, -4.0f, -10.0f), glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)))))
+			(new GameObject("Fighter Ship", glm::vec3(0.0f, 0.0f, 0.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/HumanFighter_Final.obj", 0.1f), Material("human_ship")))
-			
-			->addGameComponent(new FireProjectile);
+			//->addGameComponent(new FreeLook(window.getCenter()))
+			//->addGameComponent(new FreeMove(50.0f))
+			->addGameComponent(new RigidBody(glm::vec3(), glm::quat(), 1.0f, 2.0f, 2.0f, 8.0f))
+			->addGameComponent(new FireProjectile)
+			->addGameComponent(new PlayerMovementController);
+
 		// The human fighter ship and camera
 		GameObject* camera =
-			(new GameObject("camera", 
-			*fighterShip->getTransform()->getPosition() - Utility::getForward(*fighterShip->getTransform()->getRotation()) * -10.0f,
-			glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f))))
+			(new GameObject("camera",
+			*fighterShip->getTransform()->getPosition() - Utility::getForward(*fighterShip->getTransform()->getRotation()) * 30.0f
+			+ glm::vec3(0.0f, 5.0f, 0.0f)))
 			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
 			//->addGameComponent(new PlanetSpin)
-			->addGameComponent(new Listener())
-			->addGameComponent(new FreeLook(window.getCenter()))
-			->addGameComponent(new FreeMove(50.0f));
+			->addGameComponent(new Listener());
+
+		printf("%f\t%f\t%f\n", Utility::getForward(*fighterShip->getTransform()->getRotation()).x,
+			Utility::getForward(*fighterShip->getTransform()->getRotation()).y,
+			Utility::getForward(*fighterShip->getTransform()->getRotation()).z);
 
 		//fighterShip->addGameComponent(new PlanetSpin);
 
-		//fighterShip->addChild(camera);
+		fighterShip->addChild(camera);
 		addToRoot(fighterShip);
-		addToRoot(camera);
+		//addToRoot(camera);
 
 		Audio * stream = new Audio("./Assets/Music/rightNow.mp3", AudioType::STREAM);
 
