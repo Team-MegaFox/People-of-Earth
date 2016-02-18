@@ -234,6 +234,17 @@ public:
 	}
 
 	/// <summary>
+	/// Sets the stream distance filter.
+	/// </summary>
+	/// <param name="custom">if set to <c>true</c> [custom].</param>
+	/// <param name="customLevel">if set to <c>true</c> [custom level].</param>
+	/// <param name="centreFreq">The centre freq.</param>
+	void setStreamDistanceFilter(bool custom, bool customLevel, float centerFreq)
+	{
+		m_streamSource.setStreamDistanceFilter(custom, customLevel, centerFreq);
+	}
+
+	/// <summary>
 	/// Sets the sound 3D minimum distance for attenuation.
 	/// </summary>
 	/// <param name="min">The minimum.</param>

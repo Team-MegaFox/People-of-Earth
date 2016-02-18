@@ -1,5 +1,5 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 11.12.2015 22:57:37
+# File Created: 09.02.2016 13:49:28
 
 newmtl Material__47
 	Ns 10.0000
@@ -12,5 +12,5 @@ newmtl Material__47
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka C:\Users\Eric\Desktop\Fighers\Human Ship UVWs.psd
-	map_Kd C:\Users\Eric\Desktop\Fighers\Human Ship UVWs.psd
+	map_Ka C:\Users\Pavan\Documents\GitHub\People-of-Earth\Testbed\Assets\Textures\Human Ship UVWs.psd
+	map_Kd C:\Users\Pavan\Documents\GitHub\People-of-Earth\Testbed\Assets\Textures\Human Ship UVWs.psd

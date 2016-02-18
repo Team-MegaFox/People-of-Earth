@@ -80,7 +80,7 @@ std::vector<Collider*> SphereCollider::checkCollision(std::vector<Collider*> col
                     {
                         //Push back the collided object to the return collided object
                         collidedObject.push_back(collidableObjects[i]);
-                        std::cout << "Multi Collided\n";
+                        //std::cout << "Multi Collided\n";
                     }
                 }
                 //Collider is a sphere or polygon
@@ -88,7 +88,7 @@ std::vector<Collider*> SphereCollider::checkCollision(std::vector<Collider*> col
                 {
                     //Push back the collided object to the return collided object
 				    collidedObject.push_back(collidableObjects[i]);
-                    std::cout << "Sphere Collided\n";
+                    //std::cout << "Sphere Collided\n";
                 }	
 			}
 		}
@@ -97,11 +97,13 @@ std::vector<Collider*> SphereCollider::checkCollision(std::vector<Collider*> col
     //If the return collided object is more than 0 then 
 	if (collidedObject.size() > 0)
 	{
+		std::cout << "Collisions\n";
 		m_collided = true;
 	}
     //No return collided objects meaning no collision
 	else
 	{
+		std::cout << "No Collisions\n";
 		m_collided = false;
 	}
 

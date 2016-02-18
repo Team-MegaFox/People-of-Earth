@@ -14,6 +14,7 @@ int main(int argc, char** argv)
 	RenderingEngine renderingEngine(window, guiEngine);
 	SceneManager sceneManager(&window);
 	PhysicsEngine physicsEngine;
+	physicsEngine.getPhysicsWorld()->init(glm::vec3(0), 1000.0f);
 	AudioEngine audioEngine;
 
 	sceneManager.push(new TestScene, Modality::Exclusive);

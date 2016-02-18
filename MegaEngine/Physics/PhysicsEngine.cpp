@@ -13,9 +13,11 @@
 // ***********************************************************************
 #include "PhysicsEngine.h"
 
+World * PhysicsEngine::m_physicsWorld = nullptr;
 
-PhysicsEngine::PhysicsEngine() : m_physicsWorld(new World())
+PhysicsEngine::PhysicsEngine()
 {
+	m_physicsWorld = new World();
 }
 
 

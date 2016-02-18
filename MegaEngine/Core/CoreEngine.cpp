@@ -82,11 +82,11 @@ void CoreEngine::start()
 				stop();
 			}
 
-			m_sceneManager->processInput(*m_viewport->getInput(), (float)m_frameTime);
-			m_sceneManager->update((float)m_frameTime);
-
 			//Call the physics engine update
 			m_physicsEngine->updatePhysicsEngine((float)m_frameTime);
+
+			m_sceneManager->processInput(*m_viewport->getInput(), (float)m_frameTime);
+			m_sceneManager->update((float)m_frameTime);
 
 			//THE AUDIO ENGINE MUST BE UPDATED EVERY FRAME IN ORDER FOR 3D SOUND TO WORK
 			m_audioEngine->update();

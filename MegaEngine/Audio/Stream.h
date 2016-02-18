@@ -37,6 +37,9 @@ public:
 	/// </summary>
 	~Stream() {}
 
+	/// <summary>
+	/// Disposes this instance.
+	/// </summary>
 	void dispose()
 	{
 		if (!m_streamList->empty())
@@ -47,16 +50,6 @@ public:
 			}
 		}
 
-		if (AudioEngine::getStreams() != nullptr)
-		{
-			//delete [] m_streams;
-		}
-
-		if (AudioEngine::getStreamChannels() != nullptr)
-		{
-			//delete [] m_streamChannels;
-		}
-
 		if (AudioEngine::getStreamChannelGroup() != nullptr)
 		{
 			AudioEngine::getStreamChannelGroup()->release();
@@ -64,6 +57,9 @@ public:
 
 	}
 
+	/// <summary>
+	/// Sets the stream.
+	/// </summary>
 	void setStream()
 	{
 		AudioEngine::getStreams()[m_streamMap[m_fileName].second]->release();
@@ -72,6 +68,10 @@ public:
 		AudioEngine::getStreamChannels()[m_streamMap[m_fileName].second]->setChannelGroup(AudioEngine::getStreamChannelGroup());
 	}
 
+	/// <summary>
+	/// Sets the stream.
+	/// </summary>
+	/// <param name="filepath">The filepath.</param>
 	void setStream(std::string filepath)
 	{
 		AudioEngine::getStreams()[m_streamMap[filepath].second]->release();
@@ -80,6 +80,10 @@ public:
 		AudioEngine::getStreamChannels()[m_streamMap[filepath].second]->setChannelGroup(AudioEngine::getStreamChannelGroup());
 	}
 
+	/// <summary>
+	/// Plays the stream.
+	/// </summary>
+	/// <param name="looping">if set to <c>true</c> [looping].</param>
 	void playStream(bool looping)
 	{
 		if (looping)
@@ -90,11 +94,18 @@ public:
 		AudioEngine::getStreamChannels()[m_streamMap[m_fileName].second]->setPaused(false);
 	}
 
+	/// <summary>
+	/// Pauses the stream.
+	/// </summary>
+	/// <param name="pause">if set to <c>true</c> [pause].</param>
 	void pauseStream(bool pause)
 	{
 		AudioEngine::getStreamChannels()[m_streamMap[m_fileName].second]->setPaused(pause);
 	}
 
+	/// <summary>
+	/// Stops all streams.
+	/// </summary>
 	void stopAllStreams()
 	{
 		for (int i = 0; i < NUM_STREAM_CHANNELS; i++)
@@ -106,6 +117,10 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Determines whether [is stream playing].
+	/// </summary>
+	/// <returns></returns>
 	bool isStreamPlaying()
 	{
 		bool result;
@@ -115,53 +130,106 @@ public:
 		return result;
 	}
 
+	/// <summary>
+	/// Sets the stream effect volume.
+	/// </summary>
+	/// <param name="volumeLevel">The volume level.</param>
 	void setStreamEffectVolume(float volumeLevel)
 	{
 		AudioEngine::getStreamChannels()[m_streamMap[m_fileName].second]->setVolume(volumeLevel);
 	}
 
+	/// <summary>
+	/// Sets the stream effect volume all.
+	/// </summary>
+	/// <param name="volumeLevel">The volume level.</param>
 	void setStreamEffectVolumeAll(float volumeLevel)
 	{
 		AudioEngine::getStreamChannelGroup()->setVolume(volumeLevel);
 	}
 
+	/// <summary>
+	/// Gets the stream volume.
+	/// </summary>
+	/// <returns></returns>
 	float & getStreamVolume()
 	{
 		AudioEngine::getStreamChannelGroup()->getVolume(&m_streamVolume);
 		return m_streamVolume;
 	}
 
+	/// <summary>
+	/// Sets the stream position vel.
+	/// </summary>
+	/// <param name="pos">The position.</param>
+	/// <param name="vel">The vel.</param>
 	void setStreamPosVel(glm::vec3 pos, glm::vec3 vel = glm::vec3(0.0f))
 	{
 		AudioEngine::getStreamChannels()[m_streamMap[m_fileName].second]->set3DAttributes(&glmToFMOD(pos), &glmToFMOD(vel));
 	}
 
+	/// <summary>
+	/// Pan level, from -1.0 (left) to 1.0 (right), default = 0 (center).
+	/// </summary>
+	/// <param name="pan">The pan.</param>
 	void setStreamPan(float pan)
 	{
 		AudioEngine::getStreamChannels()[m_streamMap[m_fileName].second]->setPan(pan);
 	}
 
+	/// <summary>
+	/// Sets the stream doppler level.
+	/// Use with (but before) setStreamDistanceFilter for proper effect
+	/// </summary>
+	/// <param name="dopplerLevel">The doppler level.</param>
 	void setStreamDopplerLevel(float dopplerLevel)
 	{
 		AudioEngine::getStreamChannels()[m_streamMap[m_fileName].second]->set3DDopplerLevel(dopplerLevel);
 	}
 
-	void setSoundDistanceFilter(bool custom, bool customLevel, float centerFreq)
+	/// <summary>
+	/// Sets the sound distance filter.
+	/// use with (but after) setStreamDopplerLevel for proper effect
+	/// </summary>
+	/// <param name="custom">if set to <c>true</c> [custom].</param>
+	/// <param name="customLevel">if set to <c>true</c> [custom level].</param>
+	/// <param name="centerFreq">The center freq.</param>
+	void setStreamDistanceFilter(bool custom, bool customLevel, float centerFreq)
 	{
 		AudioEngine::getStreamChannels()[m_streamMap[m_fileName].second]->set3DDistanceFilter(custom, customLevel, centerFreq);
 	}
 
+	/// <summary>
+	/// In summary, increase the mindistance of a stream to make it 'louder' in a 3D world, 
+	/// and decrease it to make it 'quieter' in a 3D world.
+	/// Maxdistance is effectively obsolete unless you need the stream to stop fading out at 
+	/// a certain point.Do not adjust this from the default if you dont need to.
+	///	Some people have the confusion that maxdistance is the point the stream will fade out to, 
+	/// this is not the case.
+	/// </summary>
+	/// <param name="min">The minimum.</param>
+	/// <param name="max">The maximum.</param>
 	void setStream3DMinMaxDistance(float min, float max = NULL)
 	{
 		AudioEngine::getStreamChannels()[m_streamMap[m_fileName].second]->set3DMinMaxDistance(min, max);
 	}
 
+	/// <summary>
+	/// Sets the stream occlusion.
+	/// </summary>
+	/// <param name="attenuation">The attenuation.</param>
+	/// <param name="reverberation">The reverberation.</param>
 	void setStreamOcclusion(float attenuation, float reverberation = NULL)
 	{
 		AudioEngine::getStreamChannelGroup()[m_streamMap[m_fileName].second].set3DOcclusion(attenuation, reverberation);
 	}
 
 
+	/// <summary>
+	/// Loads the streams.
+	/// </summary>
+	/// <param name="streamList">The stream list.</param>
+	/// <returns></returns>
 	bool loadStreams(std::vector<std::string> streamList)
 	{
 		bool result;

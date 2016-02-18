@@ -9,6 +9,7 @@
 #include "Listener.h"
 #include "FireProjectile.h"
 
+
 class TestScene : public Scene
 {
 public:
@@ -17,7 +18,7 @@ public:
 
 	virtual void init(const Viewport& window) override
 	{
-		Material ship1("ship1", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_White - Copy.png"), Texture("Ships/AF-SS01/AF-SS01_Normalmap.png"));
+		Material ship1("ship1", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_White.png"), Texture("Ships/AF-SS01/AF-SS01_Normalmap.png"));
 		Material ship2("ship2", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_Navy.png"), Texture("Ships/AF-SS01/AF-SS01_Normalmap.png"));
 		Material ship3("ship3", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_Black.png"), Texture("Ships/AF-SS01/AF-SS01_Normalmap.png"));
 
@@ -56,7 +57,6 @@ public:
 			->addGameComponent(new Listener())
 			->addGameComponent(new FreeLook(window.getCenter()))
 			->addGameComponent(new FreeMove(50.0f));
-		
 
 		//fighterShip->addGameComponent(new PlanetSpin);
 
@@ -90,7 +90,6 @@ public:
 		addToRoot((new GameObject("mother", glm::vec3(0.0f, -5.0f, 650.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/MotherShip.obj", 0.1f), Material("motherShip")))
 );
-
 		addToRoot((new GameObject("asteroid1", glm::vec3(0.0f, 0.0f, 450.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Asteroids/Asteroid_A.obj", 0.1f), Material("aster1")))
 );
