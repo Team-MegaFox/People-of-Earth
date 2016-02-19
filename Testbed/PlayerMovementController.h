@@ -11,6 +11,18 @@ public:
 
 	virtual void processInput(const InputManager& input, float delta) override;
 
+	void lookAround(const InputManager& input);
+
+	void movement(const InputManager& input, float delta);
+
+	void returnToActualRotation();
+
+	void showVisualShipRotation();
+
+	void checkLerp(const InputManager& input);
+
+	void lerp();
+
 private:
 	RigidBody* m_rigidBody;
 	CameraComponent* m_camera;
@@ -24,5 +36,9 @@ private:
 
 	float m_accelerationValue;
 	float m_distance;
+
+	glm::vec3 m_shipsVisualRotation = glm::vec3(0);
+	bool m_lerp_X_Axis_Ship;
+	bool m_lerp_Y_Axis_Ship;
 };
 
