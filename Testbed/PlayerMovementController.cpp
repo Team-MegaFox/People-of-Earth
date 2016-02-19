@@ -3,14 +3,16 @@
 #define SIN_ANGLE(x) glm::sin(glm::radians(0.5f * x))
 #define ROTATE_X_AXIS(x) glm::quat(COS_ANGLE(x), 0, SIN_ANGLE(x), 0)
 #define ROTATE_Y_AXIS(x) glm::quat(COS_ANGLE(x), SIN_ANGLE(x), 0, 0)
+#define ROTATE_Z_AXIS(x) glm::quat(COS_ANGLE(x), 0, 0, SIN_ANGLE(x))
 #define SHIP_ROTATION(x, y)	glm::quat(						\
 		glm::cos(glm::radians(0.5f * (x + y))),				\
 		glm::sin(glm::radians(0.5f * x)),					\
 		glm::sin(glm::radians(0.5f * y)), 0					\
 )		
 
-PlayerMovementController::PlayerMovementController(float accelerationValue, int forwardKey, int backKey, int leftKey, int rightKey, int upKey, int downKey)
+PlayerMovementController::PlayerMovementController(float velocityValue, float accelerationValue, int forwardKey, int backKey, int leftKey, int rightKey, int upKey, int downKey)
 {
+	m_velocityValue = velocityValue;
 	m_accelerationValue = accelerationValue;
 	m_forwardKey = forwardKey;
 	m_backKey = backKey;
@@ -30,7 +32,7 @@ void PlayerMovementController::onStart()
 	m_camera = getGameObjectByName("camera")->getGameComponent<CameraComponent>();
 	//m_accelerationValue = 500.0f;
 	m_distance = glm::length((m_rigidBody->getPosition() - *m_camera->getTransform()->getPosition()));
-	forwardDirection = Utility::getForward(m_rigidBody->getRotation());
+	m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 }
 
 void PlayerMovementController::processInput(const InputManager& input, float delta)
@@ -47,7 +49,7 @@ void PlayerMovementController::processInput(const InputManager& input, float del
 	}
 
 	//Updates the camera position from the rigidbody
-	m_camera->getTransform()->setPosition(m_rigidBody->getPosition() - (m_distance * forwardDirection));
+	m_camera->getTransform()->setPosition(m_rigidBody->getPosition() - (m_distance * m_forwardDirection));
 
 }
 
@@ -59,7 +61,7 @@ void PlayerMovementController::lookAround(const InputManager& input)
 
 		m_rigidBody->updateRotation(ROTATE_X_AXIS(-1.0f));
 
-		forwardDirection = Utility::getForward(m_rigidBody->getRotation());
+		m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 
 		//Rotates the camera view
 		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_X_AXIS(-1.0f));
@@ -79,7 +81,7 @@ void PlayerMovementController::lookAround(const InputManager& input)
 		returnToActualRotation();
 		m_rigidBody->updateRotation(ROTATE_X_AXIS(1.0f));
 
-		forwardDirection = Utility::getForward(m_rigidBody->getRotation());
+		m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 
 		//Rotates the camera view
 		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_X_AXIS(1.0f));
@@ -98,7 +100,7 @@ void PlayerMovementController::lookAround(const InputManager& input)
 
 		m_rigidBody->updateRotation(ROTATE_Y_AXIS(1.0f));
 
-		forwardDirection = Utility::getForward(m_rigidBody->getRotation());
+		m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 
 		//Rotates the camera view
 		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Y_AXIS(1.0f));
@@ -117,7 +119,7 @@ void PlayerMovementController::lookAround(const InputManager& input)
 
 		m_rigidBody->updateRotation(ROTATE_Y_AXIS(-1.0f));
 
-		forwardDirection = Utility::getForward(m_rigidBody->getRotation());
+		m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 
 		//Rotates the camera view
 		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Y_AXIS(-1.0f));
@@ -134,40 +136,60 @@ void PlayerMovementController::lookAround(const InputManager& input)
 
 void PlayerMovementController::movement(const InputManager& input, float delta)
 {
+	m_rigidBody->updateVelocity(glm::vec3());
+
 	//Controller inputs
 	if (input.GetThumbLPosition().y > 0.3f)
 	{
-		m_rigidBody->updateAcceleration(forwardDirection * delta * m_accelerationValue);// *glm::abs(input.GetThumbLPosition().y));
+		m_rigidBody->updateVelocity(m_forwardDirection * m_velocityValue);// *glm::abs(input.GetThumbLPosition().y));
 	}
 	if (input.GetThumbLPosition().y < -0.3f)
 	{
-		m_rigidBody->updateAcceleration(forwardDirection * delta * m_accelerationValue);// * glm::abs(input.GetThumbLPosition().y));
+		m_rigidBody->updateVelocity(-m_forwardDirection * m_velocityValue);// * glm::abs(input.GetThumbLPosition().y));
+	}
+	if (input.PadButtonDown(SDL_CONTROLLER_BUTTON_LEFTSHOULDER))
+	{
+		returnToActualRotation();
+		m_rigidBody->updateRotation(ROTATE_Z_AXIS(-1.0f));
+		m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
+		//Rotates the camera view
+		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Z_AXIS(-1.0f));
+		showVisualShipRotation();
+	}
+	if (input.PadButtonDown(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER))
+	{
+		returnToActualRotation();
+		m_rigidBody->updateRotation(ROTATE_Z_AXIS(1.0f));
+		m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
+		//Rotates the camera view
+		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Z_AXIS(1.0f));
+		showVisualShipRotation();
 	}
 
 	//Keyboard input
 	if (input.KeyDown(m_forwardKey))
 	{
-		m_rigidBody->updateAcceleration(forwardDirection * delta * m_accelerationValue);
+		m_rigidBody->updateAcceleration(Utility::getForward(m_rigidBody->getRotation()) * delta * m_accelerationValue);
 	}
 	if (input.KeyDown(m_backKey))
 	{
-		m_rigidBody->updateAcceleration(forwardDirection * delta * m_accelerationValue);
+		m_rigidBody->updateAcceleration(Utility::getBack(m_rigidBody->getRotation()) * delta * m_accelerationValue);
 	}
 	if (input.KeyDown(m_leftKey))
 	{
-		m_rigidBody->updateAcceleration(forwardDirection * delta * m_accelerationValue);
+		m_rigidBody->updateAcceleration(Utility::getLeft(m_rigidBody->getRotation()) * delta * m_accelerationValue);
 	}
 	if (input.KeyDown(m_rightKey))
 	{
-		m_rigidBody->updateAcceleration(forwardDirection * delta * m_accelerationValue);
+		m_rigidBody->updateAcceleration(Utility::getRight(m_rigidBody->getRotation()) * delta * m_accelerationValue);
 	}
 	if (input.KeyDown(m_upKey))
 	{
-		m_rigidBody->updateAcceleration(forwardDirection * delta * m_accelerationValue);
+		m_rigidBody->updateAcceleration(Utility::getUp(m_rigidBody->getRotation()) * delta * m_accelerationValue);
 	}
 	if (input.KeyDown(m_downKey))
 	{
-		m_rigidBody->updateAcceleration(forwardDirection * delta * m_accelerationValue);
+		m_rigidBody->updateAcceleration(Utility::getDown(m_rigidBody->getRotation()) * delta * m_accelerationValue);
 	}
 }
 

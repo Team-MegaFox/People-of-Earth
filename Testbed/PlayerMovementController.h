@@ -4,7 +4,7 @@
 class PlayerMovementController : public GameComponent
 {
 public:
-	PlayerMovementController(float accelerationValue = 500.0f, int forwardKey = SDLK_w, int backKey = SDLK_s, int leftKey = SDLK_a, int rightKey = SDLK_d, int upKey = SDLK_z, int downKey = SDLK_x);
+	PlayerMovementController(float velocityValue = 30.0f, float accelerationValue = 500.0f, int forwardKey = SDLK_w, int backKey = SDLK_s, int leftKey = SDLK_a, int rightKey = SDLK_d, int upKey = SDLK_z, int downKey = SDLK_x);
 	~PlayerMovementController();
 
 	virtual void onStart() override;
@@ -36,10 +36,11 @@ private:
 
 	float m_accelerationValue;
 	float m_distance;
+	float m_velocityValue;
 
 	glm::vec3 m_shipsVisualRotation = glm::vec3(0);
 	bool m_lerp_X_Axis_Ship;
 	bool m_lerp_Y_Axis_Ship;
-	glm::vec3 forwardDirection = glm::vec3(0);
+	glm::vec3 m_forwardDirection = glm::vec3(0);
 };
 

@@ -97,13 +97,13 @@ std::vector<Collider*> SphereCollider::checkCollision(std::vector<Collider*> col
     //If the return collided object is more than 0 then 
 	if (collidedObject.size() > 0)
 	{
-		std::cout << "Collisions\n";
+		//std::cout << "Collisions\n";
 		m_collided = true;
 	}
     //No return collided objects meaning no collision
 	else
 	{
-		std::cout << "No Collisions\n";
+		//std::cout << "No Collisions\n";
 		m_collided = false;
 	}
 

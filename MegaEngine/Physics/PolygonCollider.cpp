@@ -123,14 +123,14 @@ std::vector<Collider*> PolygonCollider::checkCollision( std::vector<Collider*> c
     //If the return collided object is more than 0 then 
 	if (trueCollidedObject.size() > 0)
 	{
-		std::cout << "Collisions\n";
+		//std::cout << "Collisions\n";
 		m_collided = true;
 	}
     //No return collided objects meaning no collision
 	else
 	{
 		m_collided = false;
-		std::cout << "No Collisions\n";
+		//std::cout << "No Collisions\n";
 	}
 
 	//Return the collided objects

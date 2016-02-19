@@ -50,7 +50,7 @@ public:
 			//->addGameComponent(new FreeMove(50.0f))
 			->addGameComponent(new RigidBody(glm::vec3(), glm::quat(), 1.0f, 2.0f, 2.0f, 8.0f))
 			->addGameComponent(new FireProjectile)
-			->addGameComponent(new PlayerMovementController(500.0f));
+			->addGameComponent(new PlayerMovementController(100.0f));
 
 		// The human fighter ship and camera
 		GameObject* camera =
