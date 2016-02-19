@@ -4,7 +4,7 @@
 class PlayerMovementController : public GameComponent
 {
 public:
-	PlayerMovementController(float accelerationValue = 0.005f, int forwardKey = SDLK_w, int backKey = SDLK_s, int leftKey = SDLK_a, int rightKey = SDLK_d, int upKey = SDLK_z, int downKey = SDLK_x);
+	PlayerMovementController(float accelerationValue = 500.0f, int forwardKey = SDLK_w, int backKey = SDLK_s, int leftKey = SDLK_a, int rightKey = SDLK_d, int upKey = SDLK_z, int downKey = SDLK_x);
 	~PlayerMovementController();
 
 	virtual void onStart() override;

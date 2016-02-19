@@ -20,6 +20,7 @@ void PlayerMovementController::onStart()
 {
 	m_rigidBody = getParent()->getGameComponent<RigidBody>();
 	m_camera = getGameObjectByName("camera")->getGameComponent<CameraComponent>();
+	m_accelerationValue = 500.0f;
 }
 
 void PlayerMovementController::processInput(const InputManager& input, float delta)
@@ -43,39 +44,38 @@ void PlayerMovementController::processInput(const InputManager& input, float del
 		//	0, glm::sin(0.5f * -1.0f * 3.14159265f / 180.0f), 0));	
 	}
 
-	m_accelerationValue = delta * 100.0f;
 	if (input.GetThumbLPosition().y > 0.3f)
 	{
-		m_rigidBody->updateAcceleration(Utility::getForward(m_rigidBody->getRotation()) * m_accelerationValue);// *glm::abs(input.GetThumbLPosition().y));
+		m_rigidBody->updateAcceleration(Utility::getForward(m_rigidBody->getRotation()) * delta * m_accelerationValue);// *glm::abs(input.GetThumbLPosition().y));
 	}
 	if (input.GetThumbLPosition().y < -0.3f)
 	{
-		m_rigidBody->updateAcceleration(Utility::getBack(m_rigidBody->getRotation()) * m_accelerationValue);// * glm::abs(input.GetThumbLPosition().y));
+		m_rigidBody->updateAcceleration(Utility::getBack(m_rigidBody->getRotation()) * delta * m_accelerationValue);// * glm::abs(input.GetThumbLPosition().y));
 	}
 
 	if (input.KeyDown(m_forwardKey))
 	{
-		m_rigidBody->updateAcceleration(Utility::getForward(m_rigidBody->getRotation()) * m_accelerationValue);
+		m_rigidBody->updateAcceleration(Utility::getForward(m_rigidBody->getRotation()) * delta * m_accelerationValue);
 	}
 	if (input.KeyDown(m_backKey))
 	{
-		m_rigidBody->updateAcceleration(Utility::getBack(m_rigidBody->getRotation()) * m_accelerationValue);
+		m_rigidBody->updateAcceleration(Utility::getBack(m_rigidBody->getRotation()) * delta * m_accelerationValue);
 	}
 	if (input.KeyDown(m_leftKey))
 	{
-		m_rigidBody->updateAcceleration(Utility::getLeft(m_rigidBody->getRotation()) * m_accelerationValue);
+		m_rigidBody->updateAcceleration(Utility::getLeft(m_rigidBody->getRotation()) * delta * m_accelerationValue);
 	}
 	if (input.KeyDown(m_rightKey))
 	{
-		m_rigidBody->updateAcceleration(Utility::getRight(m_rigidBody->getRotation()) * m_accelerationValue);
+		m_rigidBody->updateAcceleration(Utility::getRight(m_rigidBody->getRotation()) * delta * m_accelerationValue);
 	}
 	if (input.KeyDown(m_upKey))
 	{
-		m_rigidBody->updateAcceleration(Utility::getUp(m_rigidBody->getRotation()) * m_accelerationValue);
+		m_rigidBody->updateAcceleration(Utility::getUp(m_rigidBody->getRotation()) * delta * m_accelerationValue);
 	}
 	if (input.KeyDown(m_downKey))
 	{
-		m_rigidBody->updateAcceleration(Utility::getDown(m_rigidBody->getRotation()) * m_accelerationValue);
+		m_rigidBody->updateAcceleration(Utility::getDown(m_rigidBody->getRotation()) * delta * m_accelerationValue);
 	}
 	
 }
