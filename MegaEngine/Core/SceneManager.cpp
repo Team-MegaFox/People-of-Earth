@@ -160,12 +160,17 @@ GameObject* SceneManager::getGameObjectByName(const std::string& name)
 {
 	GameObject* result = nullptr;
 
+	Uint16 counter = peek()->getNameCounter(name);
+
 	std::vector<GameObject*> attached = peek()->getRoot()->getAllAttached();
 	for (size_t i = 0; i < attached.size(); i++)
 	{
-		if (attached[i]->getName() == name)
+		for (size_t j = 1; j < counter + 1; j++)
 		{
-			result = attached[i];
+			if (attached[i]->getName() == name + std::to_string(j))
+			{
+				result = attached[i];
+			}
 		}
 	}
 

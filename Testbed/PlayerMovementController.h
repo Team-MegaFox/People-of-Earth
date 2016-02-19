@@ -23,5 +23,6 @@ private:
 	int m_downKey;
 
 	float m_accelerationValue;
+	float m_distance;
 };
 

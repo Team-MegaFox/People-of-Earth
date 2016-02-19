@@ -91,6 +91,8 @@ public:
 	/// <returns></returns>
 	GameObject * getRoot() { return &m_root; }
 
+	Uint16 getNameCounter(const std::string& name);
+
 	/// <summary>
 	/// Sets the Core Engine.
 	/// </summary>

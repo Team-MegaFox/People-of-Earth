@@ -50,7 +50,7 @@ public:
 			//->addGameComponent(new FreeMove(50.0f))
 			->addGameComponent(new RigidBody(glm::vec3(), glm::quat(), 1.0f, 2.0f, 2.0f, 8.0f))
 			->addGameComponent(new FireProjectile)
-			->addGameComponent(new PlayerMovementController);
+			->addGameComponent(new PlayerMovementController(500.0f));
 
 		// The human fighter ship and camera
 		GameObject* camera =
@@ -65,9 +65,9 @@ public:
 
 		//fighterShip->addGameComponent(new PlanetSpin);
 
-		fighterShip->addChild(camera);
+		//fighterShip->addChild(camera);
 		addToRoot(fighterShip);
-		//addToRoot(camera);
+		addToRoot(camera);
 
 		Audio * stream = new Audio("./Assets/Music/rightNow.mp3", AudioType::STREAM);
 

@@ -85,3 +85,13 @@ bool Scene::removeGameObject(GameObject* gameobject)
 
 	return removed;
 }
+
+Uint16 Scene::getNameCounter(const std::string& name)
+{
+	auto it = m_GONameCounter.find(name);
+	if (it != m_GONameCounter.end())
+	{
+		return it->second;
+	}
+	return 0;
+}

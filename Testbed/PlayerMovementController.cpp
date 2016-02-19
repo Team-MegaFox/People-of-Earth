@@ -20,7 +20,8 @@ void PlayerMovementController::onStart()
 {
 	m_rigidBody = getParent()->getGameComponent<RigidBody>();
 	m_camera = getGameObjectByName("camera")->getGameComponent<CameraComponent>();
-	m_accelerationValue = 500.0f;
+	//m_accelerationValue = 500.0f;
+	m_distance = glm::length((m_rigidBody->getPosition() - *m_camera->getTransform()->getPosition()));
 }
 
 void PlayerMovementController::processInput(const InputManager& input, float delta)
@@ -36,12 +37,15 @@ void PlayerMovementController::processInput(const InputManager& input, float del
 			glm::quat(glm::cos(0.5f * -1.0f * 3.14159625f / 180.0f),
 			0, glm::sin(0.5f * -1.0f * 3.14159265f / 180.0f), 0));
 
-		m_camera->getTransform()->setPosition(m_rigidBody->getPosition() - (20.0f * Utility::getForward(*getTransform()->getRotation())));// - new Vector3(0.0f, -0.5f, 0.0f);
-		
+		/*m_camera->getTransform()->setPosition(
+			m_rigidBody->getPosition() - (m_distance * glm::normalize(Utility::getForward(m_rigidBody->getRotation())))
+			);
+		*/
+
 		//Rotates the camera view
-		//m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() *
-		//	glm::quat(glm::cos(0.5f * -1.0f * 3.14159625f / 180.0f),
-		//	0, glm::sin(0.5f * -1.0f * 3.14159265f / 180.0f), 0));	
+		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() *
+			glm::quat(glm::cos(0.5f * -1.0f * 3.14159625f / 180.0f),
+			0, glm::sin(0.5f * -1.0f * 3.14159265f / 180.0f), 0));	
 	}
 
 	if (input.GetThumbLPosition().y > 0.3f)
@@ -77,6 +81,8 @@ void PlayerMovementController::processInput(const InputManager& input, float del
 	{
 		m_rigidBody->updateAcceleration(Utility::getDown(m_rigidBody->getRotation()) * delta * m_accelerationValue);
 	}
+
+	m_camera->getTransform()->setPosition(m_rigidBody->getPosition() - (m_distance * glm::normalize(Utility::getForward(m_rigidBody->getRotation()))));
 	
 }
 
