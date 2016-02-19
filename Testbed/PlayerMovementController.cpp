@@ -1,12 +1,12 @@
 #include "PlayerMovementController.h"
-#define COS_ANGLE(x) glm::cos(0.5f * x * 3.14159625f / 180.0f)
-#define SIN_ANGLE(x) glm::sin(0.5f * x * 3.14159265f / 180.0f)
+#define COS_ANGLE(x) glm::cos(glm::radians(0.5f * x))
+#define SIN_ANGLE(x) glm::sin(glm::radians(0.5f * x))
 #define ROTATE_X_AXIS(x) glm::quat(COS_ANGLE(x), 0, SIN_ANGLE(x), 0)
 #define ROTATE_Y_AXIS(x) glm::quat(COS_ANGLE(x), SIN_ANGLE(x), 0, 0)
 #define SHIP_ROTATION(x, y)	glm::quat(						\
-		glm::cos(0.5f * (x + y) * 3.14159625f / 180.0f),	\
-		glm::sin(0.5f * x * 3.14159265f / 180.0f),			\
-		glm::sin(0.5f * y * 3.14159265f / 180.0f), 0		\
+		glm::cos(glm::radians(0.5f * (x + y))),				\
+		glm::sin(glm::radians(0.5f * x)),					\
+		glm::sin(glm::radians(0.5f * y)), 0					\
 )		
 
 PlayerMovementController::PlayerMovementController(float accelerationValue, int forwardKey, int backKey, int leftKey, int rightKey, int upKey, int downKey)
