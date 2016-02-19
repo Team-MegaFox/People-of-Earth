@@ -136,6 +136,10 @@ public:
 
 		stream->setPosition(glm::vec3(0.0f, -5.0f, 550.0f));
 		//stream->play(true);
+
+		addToRoot((new GameObject("Label"))
+			->addGUIComponent(new GUILabel(glm::vec4(0.5f, 0.5f, 0.1f, 0.05f), glm::vec4(0.0f),
+			"[colour='FFFF0000']Hello!")));
 	}
 };
 
