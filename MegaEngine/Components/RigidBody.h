@@ -283,15 +283,15 @@ public:
 			if (m_sphereCollider != nullptr)
 			{
 				//Draw the sphere collider
-				for (size_t height = 0; height < 180; height++)
+				for (float height = 0.0f; height < 180.0f; height += 0.0f)
 				{
-					for (size_t theta = 0; theta < 180; theta++)
+					for (float theta = 0.0f; theta < 180.0f; theta += 0.0f)
 					{
 						glPushMatrix();
 						glVertex3f(
-							m_sphereCollider->getRadiusSphere() * cos(height) * cos(theta * 2 * 3.14159625f / 180.0f),
-							m_sphereCollider->getRadiusSphere() * sin(height),
-							m_sphereCollider->getRadiusSphere()  * cos(height) * sin(theta * 2 * 3.14159625f / 180.0f));
+							m_sphereCollider->getRadiusSphere() * cosf(height) * cosf(theta * 2 * 3.14159625f / 180.0f),
+							m_sphereCollider->getRadiusSphere() * sinf(height),
+							m_sphereCollider->getRadiusSphere()  * cosf(height) * sinf(theta * 2 * 3.14159625f / 180.0f));
 						glPopMatrix();
 					}
 				}
@@ -312,15 +312,15 @@ public:
 				glPopMatrix();
 
 				//Draw the sphere collider of the polygon
-				for (size_t height = 0; height < 180; height++)
+				for (float height = 0.0f; height < 180.0f; height += 0.0f)
 				{
-					for (size_t theta = 0; theta < 180; theta++)
+					for (float theta = 0.0f; theta < 180.0f; theta += 0.0f)
 					{
 						glPushMatrix();
 						glVertex3f(
-							m_polyCollider->getRadiusSphere() * cos(height) * cos(theta * 2 * 3.14159625f / 180.0f),
-							m_polyCollider->getRadiusSphere() * sin(height),
-							m_polyCollider->getRadiusSphere()  * cos(height) * sin(theta * 2 * 3.14159625f / 180.0f));
+							m_polyCollider->getRadiusSphere() * cosf(height) * cosf(theta * 2 * 3.14159625f / 180.0f),
+							m_polyCollider->getRadiusSphere() * sinf(height),
+							m_polyCollider->getRadiusSphere()  * cosf(height) * sinf(theta * 2 * 3.14159625f / 180.0f));
 						glPopMatrix();
 					}
 				}
@@ -347,6 +347,7 @@ public:
 		{
 			return m_multiCollider->getPosition();
 		}
+		return glm::vec3();
 	}
 
 	glm::quat getRotation()
@@ -363,6 +364,7 @@ public:
 		{
 			return m_multiCollider->getRotation();
 		}
+		return glm::quat();
 	}
 
 	void setDebugDraw(bool debugDraw)
