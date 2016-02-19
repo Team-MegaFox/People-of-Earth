@@ -40,5 +40,6 @@ private:
 	glm::vec3 m_shipsVisualRotation = glm::vec3(0);
 	bool m_lerp_X_Axis_Ship;
 	bool m_lerp_Y_Axis_Ship;
+	glm::vec3 forwardDirection = glm::vec3(0);
 };
 

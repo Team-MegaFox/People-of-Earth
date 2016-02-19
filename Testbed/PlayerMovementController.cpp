@@ -30,24 +30,25 @@ void PlayerMovementController::onStart()
 	m_camera = getGameObjectByName("camera")->getGameComponent<CameraComponent>();
 	//m_accelerationValue = 500.0f;
 	m_distance = glm::length((m_rigidBody->getPosition() - *m_camera->getTransform()->getPosition()));
+	forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 }
 
 void PlayerMovementController::processInput(const InputManager& input, float delta)
 {
 	lookAround(input);
 
-	checkLerp(input);
-
 	movement(input, delta);
-
+	
+	checkLerp(input);
+	
 	if (m_lerp_X_Axis_Ship || m_lerp_Y_Axis_Ship)
 	{
 		lerp();
 	}
 
 	//Updates the camera position from the rigidbody
-	m_camera->getTransform()->setPosition(m_rigidBody->getPosition() - (m_distance * glm::normalize(Utility::getForward(m_rigidBody->getRotation()))));
-	
+	m_camera->getTransform()->setPosition(m_rigidBody->getPosition() - (m_distance * forwardDirection));
+
 }
 
 void PlayerMovementController::lookAround(const InputManager& input)
@@ -55,67 +56,79 @@ void PlayerMovementController::lookAround(const InputManager& input)
 	if (input.GetThumbRPosition().x > 0.3f)
 	{
 		returnToActualRotation();
-		m_rigidBody->setRotation(m_rigidBody->getRotation() * ROTATE_X_AXIS(-1.0f));
+
+		m_rigidBody->updateRotation(ROTATE_X_AXIS(-1.0f));
+
+		forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 
 		//Rotates the camera view
 		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_X_AXIS(-1.0f));
+
 		if (m_shipsVisualRotation.y > -15.0f)
 		{
 			m_shipsVisualRotation.y--;
 		}
+
 		showVisualShipRotation();
-		m_lerp_X_Axis_Ship = false;
+
+		m_lerp_Y_Axis_Ship = false;
 	}
 
 	if (input.GetThumbRPosition().x < -0.3f)
 	{
 		returnToActualRotation();
-		m_rigidBody->setRotation(m_rigidBody->getRotation() * ROTATE_Y_AXIS(1.0f));
+		m_rigidBody->updateRotation(ROTATE_X_AXIS(1.0f));
+
+		forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 
 		//Rotates the camera view
-		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Y_AXIS(1.0f));
+		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_X_AXIS(1.0f));
 		
 		if (m_shipsVisualRotation.y < 15.0f)
 		{
 			m_shipsVisualRotation.y++;
 		}
 		showVisualShipRotation();
-		m_lerp_X_Axis_Ship = false;
+		m_lerp_Y_Axis_Ship = false;
 	}
 
 	if (input.GetThumbRPosition().y > 0.3f)
 	{
 		returnToActualRotation();
 
-		m_rigidBody->setRotation(m_rigidBody->getRotation() * ROTATE_Y_AXIS(1.0f));
+		m_rigidBody->updateRotation(ROTATE_Y_AXIS(1.0f));
+
+		forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 
 		//Rotates the camera view
 		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Y_AXIS(1.0f));
 		
-		if (m_shipsVisualRotation.x > -15.0f)
+		if (m_shipsVisualRotation.x < 15.0f)
 		{
-			m_shipsVisualRotation.x--;
+			m_shipsVisualRotation.x++;
 		}
 		showVisualShipRotation();
-		m_lerp_Y_Axis_Ship = false;
+		m_lerp_X_Axis_Ship = false;
 	}
 
 	if (input.GetThumbRPosition().y < -0.3f)
 	{
 		returnToActualRotation();
 
-		m_rigidBody->setRotation(m_rigidBody->getRotation() * ROTATE_X_AXIS(-1.0f));
+		m_rigidBody->updateRotation(ROTATE_Y_AXIS(-1.0f));
+
+		forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 
 		//Rotates the camera view
-		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_X_AXIS(-1.0f));
+		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Y_AXIS(-1.0f));
 
-		if (m_shipsVisualRotation.x < 15.0f)
+		if (m_shipsVisualRotation.x > -15.0f)
 		{
-			m_shipsVisualRotation.x++;
+			m_shipsVisualRotation.x--;
 		}
 
 		showVisualShipRotation();
-		m_lerp_Y_Axis_Ship = false;
+		m_lerp_X_Axis_Ship = false;
 	}
 }
 
@@ -162,13 +175,18 @@ void PlayerMovementController::returnToActualRotation()
 {
 	if (glm::abs(m_shipsVisualRotation.x) != 0 || glm::abs(m_shipsVisualRotation.y) != 0)
 	{
-		m_rigidBody->setRotation(m_rigidBody->getRotation() * SHIP_ROTATION(-m_shipsVisualRotation.x, -m_shipsVisualRotation.y));
+		//m_rigidBody->updateRotation(SHIP_ROTATION(-m_shipsVisualRotation.x, -m_shipsVisualRotation.y));
+
+		m_rigidBody->updateRotation(ROTATE_Y_AXIS(-m_shipsVisualRotation.x));
+		m_rigidBody->updateRotation(ROTATE_X_AXIS(-m_shipsVisualRotation.y));
 	}
 }
 
 void PlayerMovementController::showVisualShipRotation()
 {
-	m_rigidBody->setRotation(m_rigidBody->getRotation() * SHIP_ROTATION(m_shipsVisualRotation.x, m_shipsVisualRotation.y));
+	//m_rigidBody->updateRotation(SHIP_ROTATION(m_shipsVisualRotation.x, m_shipsVisualRotation.y));
+	m_rigidBody->updateRotation(ROTATE_X_AXIS(m_shipsVisualRotation.y));
+	m_rigidBody->updateRotation(ROTATE_Y_AXIS(m_shipsVisualRotation.x));
 }
 
 void PlayerMovementController::checkLerp(const InputManager& input)

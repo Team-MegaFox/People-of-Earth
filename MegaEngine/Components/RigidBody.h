@@ -254,6 +254,22 @@ public:
 		}
 	}
 
+	void updateRotation(glm::quat rotation)
+	{
+		if (m_sphereCollider != nullptr)
+		{
+			m_sphereCollider->applyRotation(rotation);
+		}
+		else if (m_polyCollider != nullptr)
+		{
+			m_polyCollider->applyRotation(rotation);
+		}
+		else if (m_multiCollider != nullptr)
+		{
+			m_multiCollider->applyRotation(rotation);
+		}
+	}
+
     bool addCollider(Collider& collider)
 	{
 		if (m_sphereCollider != nullptr)
