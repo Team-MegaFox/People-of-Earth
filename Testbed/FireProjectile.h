@@ -22,11 +22,19 @@ struct Projectile : public GameComponent
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Laser"/> class.
 	/// </summary>
-	Projectile() : m_lifeTime(5.0f) {}
+	Projectile() : m_lifeTime(2.0f) {}
 	/// <summary>
 	/// Finalizes an instance of the <see cref="Laser"/> class.
 	/// </summary>
-	~Projectile() {}
+	~Projectile() 
+	{
+		delete rb;
+	}
+
+	virtual void onStart() override
+	{
+		rb = new RigidBody(*getTransform()->getPosition(), *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 100.0f);
+	}
 
 	/// <summary>
 	/// Updates this GameComponent using delta time.
@@ -34,10 +42,6 @@ struct Projectile : public GameComponent
 	/// <param name="delta">The delta.</param>
 	virtual void update(float delta) override
 	{
-		getTransform()->setPosition(
-			*getTransform()->getPosition() +
-			Utility::getForward(*getTransform()->getRotation()) * 1.0f);
-
 		m_lifeTime -= delta;
 		if (m_lifeTime < 0)
 		{
@@ -52,6 +56,8 @@ private:
 	/// The life time of a laser projectile
 	/// </summary>
 	float m_lifeTime;
+
+	RigidBody* rb;
 };
 
 class FireProjectile : public GameComponent
@@ -88,7 +94,7 @@ public:
 					(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
 					->addGameComponent(new Projectile)
 					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
-					->addGameComponent(m_audioComponent)
+					//->addGameComponent(new RigidBody(*getTransform()->getPosition(), *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 100.0f))
 					);
 
 				m_audioComponent->play(true);
@@ -101,7 +107,6 @@ public:
 					(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
 					->addGameComponent(new Projectile)
 					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
-					->addGameComponent(m_audioComponent)
 					);
 
 				m_audioComponent->play(true);

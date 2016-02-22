@@ -2,7 +2,7 @@
 // Author           : Christopher Maeda and Jesse Derochie
 // Created          : 02-04-2016
 //
-// Last Modified By : Jesse Derochie
+// Last Modified By : Christopher Maeda
 // Last Modified On : 02-22-2016
 // ***********************************************************************
 // <copyright file="RigidBody.h" company="Team MegaFox">
@@ -34,9 +34,7 @@ public:
 	/// <param name="mass">The mass.</param>
 	/// <param name="radius">The radius.</param>
 	/// <param name="id">The identifier.</param>
-	RigidBody(glm::vec3 position, glm::quat rotation, float mass, float radius, int id = 0)// :
-		//m_position(position),
-		//m_rotation(rotation)
+	RigidBody(glm::vec3 position, glm::quat rotation, float mass, float radius, glm::vec3 velocity = glm::vec3(0), glm::vec3 acceleration = glm::vec3(0), int id = 0)
 	{
 		m_sphereCollider = new SphereCollider();
 
@@ -45,8 +43,8 @@ public:
 			rotation,
 			0.0f,// *getTransform()->getScale(),		// TODO: This needs to be a vec3 in the sphere collider class
 			mass,
-			m_zero,						// TODO: Currently there is no place in the engine that can give you the velocity
-			m_zero,						// TODO: Currently there is no place in the engine that can give you acceleration
+			velocity,						
+			acceleration,					
 			radius,
 			id);
 
@@ -61,9 +59,7 @@ public:
 	/// <param name="halfHeight">Height of the half.</param>
 	/// <param name="halfDepth">The half depth.</param>
 	/// <param name="id">The identifier.</param>
-	RigidBody(glm::vec3 position, glm::quat rotation, float mass, float halfWidth, float halfHeight, float halfDepth, int id = 0)// :
-		//m_position(position),
-		//m_rotation(rotation)
+	RigidBody(glm::vec3 position, glm::quat rotation, float mass, float halfWidth, float halfHeight, float halfDepth, glm::vec3 velocity = glm::vec3(0), glm::vec3 acceleration = glm::vec3(0), int id = 0)
 	{
 		m_polyCollider = new PolygonCollider();
 
@@ -72,8 +68,8 @@ public:
 			rotation,
 			0,// *getTransform()->getScale(),		// TODO: This needs to be a vec3 in the polygon collider class
 			mass,
-			m_zero,						// TODO: Currently there is no place in the engine that can give you the velocity
-			m_zero,						// TODO: Currently there is no place in the engine that can give you acceleration
+			velocity,						
+			acceleration,			
 			halfWidth,
 			halfHeight,
 			halfDepth,
@@ -89,9 +85,7 @@ public:
 	/// </summary>
 	/// <param name="mass">The mass.</param>
 	/// <param name="id">The identifier.</param>
-	RigidBody(glm::vec3 position, glm::quat rotation, float mass, int id = 0) //:
-		//m_position(position),
-		//m_rotation(rotation)
+	RigidBody(glm::vec3 position, glm::quat rotation, float mass, glm::vec3 velocity = glm::vec3(0), glm::vec3 acceleration = glm::vec3(0), int id = 0)
 	{
 		m_multiCollider = new MultiCollider();
 
@@ -100,8 +94,8 @@ public:
 			rotation,
 			0,// *getTransform()->getScale(),		// TODO: This needs to be a vec3 in the multi Collider class
 			mass,
-			m_zero,						// TODO: Currently there is no place in the engine that can give you the velocity
-			m_zero,						// TODO: Currently there is no place in the engine that can give you acceleration
+			velocity,						
+			acceleration,						
 			id);
 
 		PhysicsEngine::getPhysicsWorld()->addCollidableObject(m_multiCollider);
@@ -113,6 +107,18 @@ public:
 	/// </summary>
 	~RigidBody()
 	{
+		if (m_sphereCollider != nullptr)
+		{
+			PhysicsEngine::getPhysicsWorld()->removeCollidableObject(m_sphereCollider);
+		}
+		else if (m_polyCollider != nullptr)
+		{
+			PhysicsEngine::getPhysicsWorld()->removeCollidableObject(m_polyCollider);
+		}
+		else if (m_multiCollider != nullptr)
+		{
+			PhysicsEngine::getPhysicsWorld()->removeCollidableObject(m_multiCollider);
+		}
 		delete m_sphereCollider;
 		delete m_polyCollider;
 		delete m_multiCollider;

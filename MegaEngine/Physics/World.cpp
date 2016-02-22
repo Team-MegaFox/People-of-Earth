@@ -77,6 +77,18 @@ void World::addCollidableObject(Collider* collidableObject)
 	colliders.push_back(collidableObject);
 }
 
+void World::removeCollidableObject(Collider* collidableObject)
+{
+	for (size_t i = 0; i < colliders.size(); i++)
+	{
+		if (collidableObject == colliders[i])
+		{
+			auto it = colliders.begin() + i;
+			colliders.erase(it);
+		}
+	}
+}
+
 void World::calculateCollision(Collider* obj1, Collider* obj2, float timeStep)
 {
 	//Get the final velcoity of the first object from the idea of elastic collision formula

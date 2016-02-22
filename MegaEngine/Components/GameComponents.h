@@ -131,6 +131,11 @@ protected:
 	/// <param name="gameObject">The game object to create.</param>
 	void instantiate(GameObject* gameObject)
 	{
+		auto gameComponents = gameObject->getAllGameComponents();
+		for (size_t j = 0; j < gameComponents.size(); j++)
+		{
+			gameComponents[j]->onStart();
+		}
 		getCoreEngine()->getSceneManager()->peek()->addToRoot(gameObject);
 	}
 

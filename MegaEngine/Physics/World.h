@@ -60,6 +60,12 @@ public:
 	void addCollidableObject(Collider* collidableObject);
 
 	/// <summary>
+	/// Remove the specific collider to the World.
+	/// </summary>
+	/// <param name="collidableObject">The collider that will be added to the World.</param>
+	void removeCollidableObject(Collider* collidableObject);
+
+	/// <summary>
 	/// Apply a rebound acceleration to the first Collider object from the 2 Colliders colliding.
 	/// </summary>
 	/// <param name="obj1">The first collider object of the 2 Colliders colliding.</param>
