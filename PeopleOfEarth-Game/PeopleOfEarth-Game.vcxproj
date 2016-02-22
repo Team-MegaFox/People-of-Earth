@@ -77,7 +77,7 @@
   <ItemGroup>
     <ClCompile Include="FreeLook.cpp" />
     <ClCompile Include="FreeMove.cpp" />
-    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="PeopleOfEarth-Game.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DetailsScene.h" />
@@ -86,6 +86,7 @@
     <ClInclude Include="MainMenuScene.h" />
     <ClInclude Include="MissionSelectScene.h" />
     <ClInclude Include="PauseScene.h" />
+    <ClInclude Include="TextLerpAlpha.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

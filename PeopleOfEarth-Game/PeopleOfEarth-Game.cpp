@@ -9,7 +9,7 @@
 
 int main(int argc, char** argv)
 {
-	Viewport window("People of Earth", 800, 600, 0);
+	Viewport window("People of Earth", 1024, 576, 0);
 	GUIEngine guiEngine("Assets/GUI");
 	RenderingEngine renderingEngine(window, guiEngine);
 	SceneManager sceneManager(&window);
