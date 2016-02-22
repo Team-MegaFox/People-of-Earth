@@ -55,10 +55,7 @@ protected:
 	AudioListener * m_theListener;
 
 private:
-	/// <summary>
-	/// The parent
-	/// </summary>
-	GameObject * m_parent;
+
 	/// <summary>
 	/// The position of the listener
 	/// </summary>

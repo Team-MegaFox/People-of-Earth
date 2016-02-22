@@ -66,12 +66,6 @@ public:
 	~AudioSource() { }
 
 	/// <summary>
-	/// Sets the parent.
-	/// </summary>
-	/// <param name="parent">The parent.</param>
-	virtual void setParent(GameObject * parent) { m_parent = parent; }
-
-	/// <summary>
 	/// Plays the sound.
 	/// </summary>
 	void playSound() { m_soundSource.playSound(); }
@@ -126,16 +120,6 @@ public:
 		else
 			return false;
 	}
-
-	/// <summary>
-	/// Originally sets the sound later used to reset the sound.
-	/// </summary>
-	void setSound(std::string filename) { m_soundSource.setSound(filename); }
-
-	/// <summary>
-	/// Originally sets the stream later used to reset the stream.
-	/// </summary>
-	void setStream(std::string filename) { m_streamSource.setStream(filename); }
 
 	/// <summary>
 	/// Gets global sound volume.
@@ -268,26 +252,6 @@ public:
 	/// <param name="attenuation">The attenuation.</param>
 	void setStreamOcclusion(float attenuation, float reverberation = NULL) { m_streamSource.setStreamOcclusion(attenuation); }
 
-	/// <summary>
-	/// Loads the sounds list.
-	/// </summary>
-	/// <param name="fileNames">The sounds' file names.</param>
-	void loadSoundList(std::vector<std::string> fileNames) { m_soundSource.loadSounds(fileNames); }
-
-	/// <summary>
-	/// Loads the streams list.
-	/// </summary>
-	/// <param name="fileNames">The streams' file names.</param>
-	void loadStreamList(std::vector<std::string> fileNames) { m_streamSource.loadStreams(fileNames); }
-
-	/// <summary>
-	/// Sets as listener.
-	/// </summary>
-	void setAsListener()
-	{
-		m_audioListener.setAsListener(m_parent);
-	}
-
 protected:
 	 
 	/// <summary>
@@ -303,11 +267,5 @@ protected:
 	/// The audio listener handle
 	/// </summary>
 	AudioListener m_audioListener;
-
-private:
-	/// <summary>
-	/// The parent Game Object
-	/// </summary>
-	GameObject * m_parent;
 
 };

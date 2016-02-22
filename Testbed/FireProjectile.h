@@ -26,15 +26,7 @@ struct Projectile : public GameComponent
 	/// <summary>
 	/// Finalizes an instance of the <see cref="Laser"/> class.
 	/// </summary>
-	~Projectile() 
-	{
-		delete rb;
-	}
-
-	virtual void onStart() override
-	{
-		rb = new RigidBody(*getTransform()->getPosition(), *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 100.0f);
-	}
+	~Projectile() { }
 
 	/// <summary>
 	/// Updates this GameComponent using delta time.
@@ -56,8 +48,6 @@ private:
 	/// The life time of a laser projectile
 	/// </summary>
 	float m_lifeTime;
-
-	RigidBody* rb;
 };
 
 class FireProjectile : public GameComponent
@@ -94,9 +84,10 @@ public:
 					(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
 					->addGameComponent(new Projectile)
 					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
-					//->addGameComponent(new RigidBody(*getTransform()->getPosition(), *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 100.0f))
+					->addGameComponent(new RigidBody(*getTransform()->getPosition(), *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 100.0f))
 					);
 
+				if (!m_audioComponent->isPlaying())
 				m_audioComponent->play(true);
 
 				m_delay = 0.0f;
@@ -107,9 +98,11 @@ public:
 					(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
 					->addGameComponent(new Projectile)
 					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
+					->addGameComponent(new RigidBody(*getTransform()->getPosition(), *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 100.0f))
 					);
 
-				m_audioComponent->play(true);
+				if (!m_audioComponent->isPlaying())
+					m_audioComponent->play(true);
 
 				m_delay = 0.0f;
 			}

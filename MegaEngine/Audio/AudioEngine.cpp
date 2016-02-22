@@ -132,6 +132,21 @@ void AudioEngine::init()
 
 void AudioEngine::dispose()
 {
+	delete[] m_soundEffectChannels;
+	delete[] m_streamEffectChannels;
+
+	for (int i = 0; i < NUM_STREAM_CHANNELS; i++)
+	{
+		delete m_streams[i];
+		delete m_streamChannels[i];
+	}
+
+	for (int i = 0; i < NUM_SOUND_CHANNELS; i++)
+	{
+		delete m_sounds[i];
+		delete m_soundChannels[i];
+	}
+
 	// Clean up the System Object
 	if (m_system != nullptr)
 	{
