@@ -27,8 +27,7 @@ public:
 	/// <param name="resDir">The resource dir.</param>
 	GUIEngine(const std::string& resDir, 
 		const std::string& schemeFile = "TaharezLook.scheme",
-		const std::string& mouseImageFile = "",
-		const std::string& fontFile = "DejaVuSans-10");
+		const std::string& mouseImageFile = "");
 	/// <summary>
 	/// Finalizes an instance of the <see cref="GUIEngine"/> class.
 	/// </summary>
@@ -65,10 +64,16 @@ public:
 	/// <param name="schemeFile">The scheme file.</param>
 	void loadScheme(const std::string& schemeFile);
 	/// <summary>
-	/// Sets the font.
+	/// Adds a font to the CEGUI .
 	/// </summary>
-	/// <param name="fontFile">The font file.</param>
-	void setFont(const std::string& fontFile);
+	/// <param name="fontName">The name of the font.</param>
+	/// <param name="size">The size of the font.</param>
+	void addFont(const std::string& fontName, Uint8 size);
+	/// <summary>
+	/// Sets the font size.
+	/// </summary>
+	/// <param name="size">The size of the font.</param>
+	void setFontSize(Uint8 size = 10);
 
 	/// <summary>
 	/// Adds the widget.
@@ -100,36 +105,49 @@ public:
 	/// <summary>
 	/// Gets the renderer.
 	/// </summary>
-	/// <returns></returns>
-	CEGUI::OpenGL3Renderer* getRenderer() { return m_renderer; }
+	/// <returns>The CEGUI Renderer.</returns>
+	CEGUI::OpenGL3Renderer* getRenderer() const { return m_renderer; }
 	/// <summary>
 	/// Gets the context.
 	/// </summary>
-	/// <returns></returns>
+	/// <returns>The CEGUI Context.</returns>
 	const CEGUI::GUIContext* getContext() const { return m_context; }
 	/// <summary>
 	/// Gets the scheme style.
 	/// </summary>
-	/// <returns></returns>
-	const std::string& getSchemeStyle() { return m_schemeStyle; }
+	/// <returns>The current scheme style the GUI Engine is using.</returns>
+	const std::string& getSchemeStyle() const { return m_schemeStyle; }
+	/// <summary>
+	/// Gets the default name used in GUIEngine.
+	/// </summary>
+	/// <returns>The default font the GUI Engine is using.</returns>
+	const std::string& getDefaultFontName() const { return m_defaultFontName; }
 
 private:
 	/// <summary>
-	/// The m_renderer
+	/// The CEGUI renderer.
 	/// </summary>
 	CEGUI::OpenGL3Renderer* m_renderer = nullptr;
 	/// <summary>
-	/// The m_context
+	/// The CEGUI context.
 	/// </summary>
 	CEGUI::GUIContext* m_context = nullptr;
 	/// <summary>
-	/// The m_root
+	/// The root window object, like MegaEngine's scene root gameobject.
 	/// </summary>
 	CEGUI::Window* m_root = nullptr;
 	/// <summary>
-	/// The m_scheme style
+	/// The scheme style the GUIEngine/CEGUI is using.
 	/// </summary>
 	std::string m_schemeStyle = "TaharezLook";
+	/// <summary>
+	/// The font name the GUIEngine/CEGUI is currently using.
+	/// </summary>
+	std::string m_defaultFontName = "DejaVuSans";
+	/// <summary>
+	/// The font size the GUIEngine/CEGUI is using.
+	/// </summary>
+	Uint8 m_defaultFontSize = 10;
 	/// <summary>
 	/// The m_last time
 	/// </summary>

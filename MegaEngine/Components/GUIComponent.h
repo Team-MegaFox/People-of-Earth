@@ -105,7 +105,7 @@ protected:
 	/// Gets the widget.
 	/// </summary>
 	/// <returns>CEGUI.Window *.</returns>
-	CEGUI::Window* getWidget() { return m_widget; }
+	CEGUI::Window* getWidget() const { return m_widget; }
 
 	/// <summary>
 	/// Creates a widget.
