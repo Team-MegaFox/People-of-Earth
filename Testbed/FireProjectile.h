@@ -19,7 +19,7 @@ public:
 			if (input.GetRightTrigger() != 0)
 			{
 				instantiate(
-					(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), glm::vec3(1.0f, 1.0f, 10.0f)))
+					(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
 					->addGameComponent(new Laser)
 					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
 					);
@@ -28,7 +28,7 @@ public:
 			if (input.GetLeftTrigger() != 0)
 			{
 				instantiate(
-					(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), glm::vec3(1.0f, 1.0f, 10.0f)))
+					(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
 					->addGameComponent(new Laser)
 					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
 					);
@@ -38,15 +38,6 @@ public:
 		else
 		{
 			m_delay += delta;
-		}
-
-		if (input.MouseButtonPress(SDL_BUTTON_LEFT))
-		{
-			instantiate(
-				(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), glm::vec3(1.0f, 1.0f, 10.0f)))
-				->addGameComponent(new Laser)
-				->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
-				);
 		}
 
 	}
