@@ -5,7 +5,7 @@
 // Last Modified By : Jesse Derochie
 // Last Modified On : 02-11-2016
 // ***********************************************************************
-// <copyright file="Scene.h" company="Team MegaFox">
+// <copyright file="Audio.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
 // </copyright>
 // <summary></summary>

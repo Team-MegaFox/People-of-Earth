@@ -43,6 +43,10 @@ public:
 	/// </summary>
 	virtual ~GameComponent() {}
 
+	/// <summary>
+	/// An initialization method for game components that is called
+	/// when game components are added to the scene
+	/// </summary>
 	virtual void onStart() {}
 
 	/// <summary>
@@ -120,7 +124,11 @@ protected:
 	/// <returns></returns>
 	bool destroy(GameObject* gameObject) {	return removeGameObjectByName(gameObject->getName()); }
 
-	//TODO:: Comment
+	
+	/// <summary>
+	/// Creates the specified game object and adds it to the root
+	/// </summary>
+	/// <param name="gameObject">The game object to create.</param>
 	void instantiate(GameObject* gameObject)
 	{
 		getCoreEngine()->getSceneManager()->peek()->addToRoot(gameObject);

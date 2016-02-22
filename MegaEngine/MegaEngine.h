@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu 
 // Created          : 01-23-2016
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 02-18-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 02-22-2016
 // ***********************************************************************
 // <copyright file="MegaEngine.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -35,3 +35,5 @@
 #include "Components\GUIContainer.h"
 #include "Components\RigidBody.h"
 #include "Components\Audio.h"
+#include "Components\Listener.h"
+#include "Components\PlayerShipMovementController.h"

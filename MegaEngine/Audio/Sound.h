@@ -26,10 +26,11 @@ public:
 	/// Initializes a new instance of the <see cref="SoundSource"/> class.
 	/// </summary>
 	/// <param name="fileName">Name of the file.</param>
-	Sound(const std::string& fileName) :
-		m_fileName(fileName) 
+	Sound(const std::string& fileName)
 	{ 
-		setSound(fileName);
+		m_fileName = "Assets/Music/" + fileName;
+
+		setSound(m_fileName);
 	}
 	/// <summary>
 	/// Finalizes an instance of the <see cref="SoundSource"/> class.
@@ -88,6 +89,10 @@ public:
 	/// </summary>
 	void playSound()
 	{
+		AudioEngine::getSounds()[m_soundMap[m_fileName].second]->release();
+		AudioEngine::getSystem()->createSound(m_fileName.c_str(), FMOD_3D | FMOD_DEFAULT, 0, &m_soundMap[m_fileName].first);
+		AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX(m_soundMap[m_fileName].second), m_soundMap[m_fileName].first, true, &AudioEngine::getSoundChannels()[m_soundMap[m_fileName].second]);
+		AudioEngine::getSoundChannels()[m_soundMap[m_fileName].second]->setChannelGroup(AudioEngine::getSoundChannelGroup());
 		AudioEngine::getSoundChannels()[m_soundMap[m_fileName].second]->setPaused(false);
 	}
 
@@ -272,6 +277,7 @@ public:
 	}
 
 private:
+
 	/// <summary>
 	/// Converts glm::vec3's to FMOD_VECTOR *'s
 	/// for use in FMOD's positioning of the listener

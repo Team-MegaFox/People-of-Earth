@@ -91,6 +91,11 @@ public:
 	/// <returns></returns>
 	GameObject * getRoot() { return &m_root; }
 
+	/// <summary>
+	/// Gets the name counter (used to ensure no to game objects are named the same thing)
+	/// </summary>
+	/// <param name="name">The name.</param>
+	/// <returns></returns>
 	Uint16 getNameCounter(const std::string& name);
 
 	/// <summary>
@@ -103,10 +108,19 @@ public:
 	}
 
 protected:
+	/// <summary>
+	/// Gets a handle to the core engine.
+	/// </summary>
+	/// <returns></returns>
 	CoreEngine* getCoreEngine() const { return m_coreEngine; }
 
 private:
 	
+	/// <summary>
+	/// The map that stores the names of game objects and the number of times
+	/// that particular name is used, this map is used to ensure that no two
+	/// game objects have an identical name, by numbering the repetitions
+	/// </summary>
 	std::unordered_map<std::string, Uint16> m_GONameCounter;
 
 	/// <summary>

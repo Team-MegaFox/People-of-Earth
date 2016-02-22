@@ -45,6 +45,10 @@ public:
 		return m_physicsWorld;
 	}
 
+	/// <summary>
+	/// Sets the main camera in the scene using this physics world.
+	/// </summary>
+	/// <param name="camera">The camera.</param>
 	void setMainCamera(const Camera3D& camera);
 
 private:
@@ -53,6 +57,9 @@ private:
 	/// </summary>
 	static World *m_physicsWorld;
 
+	/// <summary>
+	/// The main camera in this physics world
+	/// </summary>
 	const Camera3D* m_mainCamera;
 };
 

@@ -126,6 +126,6 @@ private:
 	/// <summary>
 	/// The material's name.
 	/// </summary>
-	std::string   m_materialName;
+	std::string m_materialName;
 
 };

@@ -71,8 +71,14 @@ public:
 	/// <param name="delta">The delta time between frames.</param>
 	void processAll(const InputManager& input, float delta);
 
+	/// <summary>
+	/// Activates this game object (used for GUI Components)
+	/// </summary>
 	void activate();
 
+	/// <summary>
+	/// Deactivates this game object (used for GUI Components)
+	/// </summary>
 	void deactivate();
 
 	/// <summary>
@@ -191,6 +197,10 @@ public:
 	/// <param name="engine">The pointer to the Core Engine object.</param>
 	void setEngine(CoreEngine* engine);
 
+	/// <summary>
+	/// Sets the name of this game object.
+	/// </summary>
+	/// <param name="name">The name.</param>
 	void setName(const std::string& name) { m_name = name; }
 
 private:
