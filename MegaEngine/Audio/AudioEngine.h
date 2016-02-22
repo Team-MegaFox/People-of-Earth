@@ -104,15 +104,6 @@ public:
 	/// </summary>
 	void update();
 
-private:
-	
-	/// <summary>
-	/// Initializes FMOD
-	/// called automatically when the
-	/// AudioEngine instance is created.
-	/// </summary>
-	void init();
-
 	/// <summary>
 	/// Verifies that each step of the initialization 
 	/// was properly initalized.
@@ -125,6 +116,15 @@ private:
 			std::cout << "FMOD error! (" << result << ") " << FMOD_ErrorString(result) << std::endl;
 		}
 	}
+
+private:
+	
+	/// <summary>
+	/// Initializes FMOD
+	/// called automatically when the
+	/// AudioEngine instance is created.
+	/// </summary>
+	void init();
 
 	// FMOD requirements
 	/// <summary>

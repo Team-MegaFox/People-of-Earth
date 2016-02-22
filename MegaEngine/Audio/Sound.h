@@ -29,6 +29,7 @@ public:
 	Sound(const std::string& fileName)
 	{ 
 		m_fileName = "Assets/Music/" + fileName;
+		setSound();
 	}
 	/// <summary>
 	/// Finalizes an instance of the <see cref="SoundSource"/> class.
@@ -52,10 +53,10 @@ public:
 	/// </summary>
 	void setSound()
 	{
-		AudioEngine::getSounds()[m_soundPair.second]->release();
-		AudioEngine::getSystem()->createSound(m_fileName.c_str(), FMOD_3D | FMOD_DEFAULT, 0, &m_soundPair.first);
-		AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX(m_soundPair.second), m_soundPair.first, true, &AudioEngine::getSoundChannels()[m_soundPair.second]);
-		AudioEngine::getSoundChannels()[m_soundPair.second]->setChannelGroup(AudioEngine::getSoundChannelGroup());
+		if (m_soundPair.first) m_soundPair.first->release();
+		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->createSound(m_fileName.c_str(), FMOD_3D | FMOD_DEFAULT, 0, &m_soundPair.first));
+		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX(m_soundPair.second), m_soundPair.first, true, &AudioEngine::getSoundChannels()[m_soundPair.second]));
+		AudioEngine::FMODVerifyResult(AudioEngine::getSoundChannels()[m_soundPair.second]->setChannelGroup(AudioEngine::getSoundChannelGroup()));
 	}
 
 	/// <summary>

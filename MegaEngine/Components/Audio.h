@@ -44,7 +44,6 @@ public:
 		set3DMinMaxDistance(0.1f);
 		setDoppler(0.5f);
 		setVolume(100.0f);
-		
 	}
 
 	/// <summary>
@@ -84,6 +83,18 @@ public:
 		else if (m_type == SOUND)
 		{
 			m_source->pauseSound(pause);
+		}
+	}
+
+	void stopAllSounds()
+	{
+		if (m_type == STREAM)
+		{
+			m_source->stopAllStreams();
+		}
+		else if (m_type == SOUND)
+		{
+			m_source->stopAllSounds();
 		}
 	}
 
