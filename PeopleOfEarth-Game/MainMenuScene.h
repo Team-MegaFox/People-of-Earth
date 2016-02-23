@@ -16,8 +16,6 @@ public:
 
 	virtual void init(const Viewport& window) override
 	{
-		Material humanShip("human_ship", 1.0f, 10, Texture("Ships/Eric/HumanShip.png"));
-
 		addToRoot((new GameObject("Skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
 
