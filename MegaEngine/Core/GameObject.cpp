@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 02-17-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 02-23-2016
 // ***********************************************************************
 // <copyright file="GameObject.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -38,36 +38,45 @@ GameObject::~GameObject()
 
 void GameObject::updateAll(float delta)
 {
-	updateGameComponents(delta);
-	updateGUIComponents(delta);
-
-	for (size_t go = 0; go < m_children.size(); go++)
+	if (m_enabled)
 	{
-		m_children[go]->updateAll(delta);
+		updateGameComponents(delta);
+		updateGUIComponents(delta);
+
+		for (size_t go = 0; go < m_children.size(); go++)
+		{
+			m_children[go]->updateAll(delta);
+		}
 	}
 }
 
 
 void GameObject::renderAll(const Shader& shader, const GUIEngine& guiEngine, const RenderingEngine& renderingEngine, const Camera3D& camera)
 {
-	renderGameComponents(shader, renderingEngine, camera);
-	renderGUIComponents(guiEngine, camera);
-
-	for (size_t go = 0; go < m_children.size(); go++)
+	if (m_enabled)
 	{
-		m_children[go]->renderAll(shader, guiEngine, renderingEngine, camera);
+		renderGameComponents(shader, renderingEngine, camera);
+		renderGUIComponents(guiEngine, camera);
+
+		for (size_t go = 0; go < m_children.size(); go++)
+		{
+			m_children[go]->renderAll(shader, guiEngine, renderingEngine, camera);
+		}
 	}
 }
 
 
 void GameObject::processAll(const InputManager& input, float delta)
 {
-	processInputGameComponents(input, delta);
-	processInputGUIComponents(input, delta);
-
-	for (size_t go = 0; go < m_children.size(); go++)
+	if (m_enabled)
 	{
-		m_children[go]->processAll(input, delta);
+		processInputGameComponents(input, delta);
+		processInputGUIComponents(input, delta);
+
+		for (size_t go = 0; go < m_children.size(); go++)
+		{
+			m_children[go]->processAll(input, delta);
+		}
 	}
 }
 
@@ -252,5 +261,24 @@ void GameObject::processInputGUIComponents(const InputManager& input, float delt
 	for (size_t i = 0; i < m_guiComponents.size(); i++)
 	{
 		m_guiComponents[i]->processInput(input, delta);
+	}
+}
+
+void GameObject::setEnabled(const bool enabled)
+{
+	m_enabled = enabled;
+	if (m_enabled)
+	{
+		for (size_t i = 0; i < m_guiComponents.size(); i++)
+		{
+			m_guiComponents[i]->enable();
+		}
+	}
+	else
+	{
+		for (size_t i = 0; i < m_guiComponents.size(); i++)
+		{
+			m_guiComponents[i]->disable();
+		}
 	}
 }

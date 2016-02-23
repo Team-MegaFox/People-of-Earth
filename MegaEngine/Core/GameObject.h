@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 02-17-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 02-23-2016
 // ***********************************************************************
 // <copyright file="GameObject.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -40,7 +40,7 @@ public:
 	/// <param name="rot">The rotation of the GameObject.</param>
 	/// <param name="scale">The scale of the GameObject.</param>
 	GameObject(const std::string& name, const glm::vec3& pos = glm::vec3(0.0f), const glm::quat& rot = glm::quat(1.0f, 0.0f, 0.0f, 0.0f), const glm::vec3& scale = glm::vec3(1.0f))
-		: m_name(name), m_transform(pos, rot, scale), m_coreEngine(nullptr) 
+		: m_name(name), m_enabled(true), m_transform(pos, rot, scale), m_coreEngine(nullptr) 
 	{
 		m_transform.setAttachedGameObject(this);
 	}
@@ -183,7 +183,13 @@ public:
 	/// Gets the name of the GameObject.
 	/// </summary>
 	/// <returns>The string value of the GameObject name.</returns>
-	std::string getName() { return m_name; }
+	std::string getName() const { return m_name; }
+
+	/// <summary>
+	/// Checks if the gameobject is enabled.
+	/// </summary>
+	/// <returns>Whether the gameobject is enabled.</returns>
+	bool isEnabled() const { return m_enabled; }
 	
 	/// <summary>
 	/// Sets the Core Engine so the GameObject can access the different systems.
@@ -192,6 +198,12 @@ public:
 	void setEngine(CoreEngine* engine);
 
 	void setName(const std::string& name) { m_name = name; }
+
+	/// <summary>
+	/// Sets the gameobject to be enabled or not.
+	/// </summary>
+	/// <param name="enabled">If the gameobject and its children is enabled.</param>
+	void setEnabled(const bool enabled);
 
 private:
 	/// <summary>
@@ -235,6 +247,10 @@ private:
 	/// The name of the GameObject.
 	/// </summary>
 	std::string m_name;
+	/// <summary>
+	/// If the game object, it's components and children are accepting input, updating and rendering.
+	/// </summary>
+	bool m_enabled;
 	/// <summary>
 	/// The vector of child GameObjects.
 	/// </summary>

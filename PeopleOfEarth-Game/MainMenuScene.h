@@ -6,6 +6,7 @@
 #include "FreeLook.h"
 #include "FreeMove.h"
 #include "TextLerpAlpha.h"
+#include "MainMenuManager.h"
 
 class MainMenuScene : public Scene
 {
@@ -15,6 +16,8 @@ public:
 
 	virtual void init(const Viewport& window) override
 	{
+		Material humanShip("human_ship", 1.0f, 10, Texture("Ships/Eric/HumanShip.png"));
+
 		addToRoot((new GameObject("Skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
 
@@ -22,13 +25,17 @@ public:
 			->addGameComponent(new DirectionalLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.2f, 7, 8.0f, 1.0f)));
 
 		addToRoot((new GameObject("Camera"))
-			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
-			->addGameComponent(new FreeLook(window.getCenter()))
-			->addGameComponent(new FreeMove));
+			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f))));
 
-		addToRoot((new GameObject("Press start"))
-			->addGUIComponent(new GUILabel(glm::vec4(0.4f, 0.6f, 0.2f, 0.05f), glm::vec4(0.0f), "Press start...", 16))
+		addToRoot((new GameObject("Splash"))
+			->addGUIComponent(new GUILabel(glm::vec4(0.4f, 0.6f, 0.2f, 0.05f), glm::vec4(0.0f), "Press any button...", 16))
 			->addGameComponent(new TextLerpAlpha));
+
+		addToRoot((new GameObject("Main Menu"))
+			->addGUIComponent(new GUILabel(glm::vec4(0.4f, 0.2f, 0.2f, 0.05f), glm::vec4(0.0f), "Main Menu", 16)));
+
+		addToRoot((new GameObject("Main Menu Manager"))
+			->addGameComponent(new MainMenuManager));
 
 	}
 };

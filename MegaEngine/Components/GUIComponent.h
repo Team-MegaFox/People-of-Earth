@@ -3,7 +3,7 @@
 // Created          : 01-28-2016
 //
 // Last Modified By : Pavan Jakhu
-// Last Modified On : 02-02-2016
+// Last Modified On : 02-23-2016
 // ***********************************************************************
 // <copyright file="GUIComponent.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -78,9 +78,25 @@ public:
 	/// <param name="parent">The GameObject to be attached to.</param>
 	virtual void setParent(GameObject* parent) { m_parent = parent; }
 
+	/// <summary>
+	/// Activates the widget so it accepts input.
+	/// </summary>
 	void activate() { m_widget->enable(); }
 
+	/// <summary>
+	/// Deactivates the widget so it doesn't accept input.
+	/// </summary>
 	void deactivate() { m_widget->disable(); }
+
+	/// <summary>
+	/// Renders the widget.
+	/// </summary>
+	void enable() { m_widget->show(); }
+
+	/// <summary>
+	/// Stops rendering the widget.
+	/// </summary>
+	void disable() { m_widget->hide(); }
 
 protected:	
 	/// <summary>

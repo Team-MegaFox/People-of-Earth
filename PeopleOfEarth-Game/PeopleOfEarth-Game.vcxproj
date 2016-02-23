@@ -83,6 +83,7 @@
     <ClInclude Include="DetailsScene.h" />
     <ClInclude Include="FreeLook.h" />
     <ClInclude Include="FreeMove.h" />
+    <ClInclude Include="MainMenuManager.h" />
     <ClInclude Include="MainMenuScene.h" />
     <ClInclude Include="MissionSelectScene.h" />
     <ClInclude Include="PauseScene.h" />
