@@ -39,7 +39,6 @@ public:
 		Material GalaxyTex("galaxy1", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_White - Copy.png"));
 
 		Audio * stream = new Audio("rightNow.mp3", AudioType::STREAM);
-		Audio * laserSounds = new Audio("268168__shaun105__laser.wav", AudioType::SOUND);
 
 		addToRoot((new GameObject("skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
@@ -48,9 +47,8 @@ public:
 			(new GameObject("Fighter Ship", glm::vec3(0.0f, 0.0f, 0.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/HumanFighter_Final.obj", 0.1f), Material("human_ship")))
 			->addGameComponent(new RigidBody(glm::vec3(), glm::quat(), 1.0f, 2.0f, 2.0f, 8.0f))
-			->addGameComponent(new FireProjectile())
+			->addGameComponent(new FireProjectile("268168__shaun105__laser.wav"))
 			->addGameComponent(new PlayerShipMovementController("camera", 100.0f))
-			//->addGameComponent(laserSounds)
 			;
 
 		// The human fighter ship and camera
@@ -129,8 +127,8 @@ public:
 		addToRoot((new GameObject("DrLight", glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
 			->addGameComponent(new DirectionalLight(glm::vec3(1.0f, 0.5f, 0.0f), 0.2f, 7, 8.0f, 1.0f)));
 
-		//stream->setPosition(glm::vec3(0.0f, -5.0f, 80.0f));
-		//stream->play(true);
+		stream->setPosition(glm::vec3(0.0f, -5.0f, 80.0f));
+		stream->play(true);
 	}
 };
 

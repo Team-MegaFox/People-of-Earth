@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-01-2016
+// Last Modified On : 02-24-2016
 // ***********************************************************************
 // <copyright file="AudioSource.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -78,12 +78,12 @@ public:
 	/// <summary>
 	/// Stops all sounds.
 	/// </summary>
-	void stopAllSounds() { m_soundSource.stopAllSoundEffects(); }
+	void stopSound() { m_soundSource.stop(); }
 
 	/// <summary>
 	/// Stops all streams.
 	/// </summary>
-	void stopAllStreams() { m_streamSource.stopAllStreams(); }
+	void stopStream() { m_streamSource.stop(); }
 
 	/// <summary>
 	/// Pauses the sound.
@@ -134,22 +134,10 @@ public:
 	float getStreamVolume() { return m_streamSource.getStreamVolume(); }
 
 	/// <summary>
-	/// Sets the sound volume for all sounds.
-	/// </summary>
-	/// <param name="volume">The volume level.</param>
-	void setSoundVolumeAll(float volume) { m_soundSource.setSoundEffectVolumeAll(volume); }
-
-	/// <summary>
 	/// Sets this sounds volume.
 	/// </summary>
 	/// <param name="volume">The volume level.</param>
 	void setSoundVolume(float volume) { m_soundSource.setSoundEffectVolume(volume); }
-
-	/// <summary>
-	/// Sets the stream volume for all streams.
-	/// </summary>
-	/// <param name="volume">The volume level.</param>
-	void setStreamVolumeAll(float volume) { m_streamSource.setStreamEffectVolumeAll(volume); }
 
 	/// <summary>
 	/// Sets this streams volume.
@@ -239,18 +227,6 @@ public:
 	/// </summary>
 	/// <param name="min">The minimum.</param>
 	void setStream3DMinDist(float min, float max = NULL) { m_streamSource.setStream3DMinMaxDistance(min, max); }
-
-	/// <summary>
-	/// Sets the occlusion (if something is in the way of the sound).
-	/// </summary>
-	/// <param name="attenuation">The attenuation.</param>
-	void setSoundOcclusion(float attenuation, float reverberation = NULL) { m_soundSource.setSoundOcclusion(attenuation); }
-
-	/// <summary>
-	/// Sets the occlusion (if something is in the way of the stream).
-	/// </summary>
-	/// <param name="attenuation">The attenuation.</param>
-	void setStreamOcclusion(float attenuation, float reverberation = NULL) { m_streamSource.setStreamOcclusion(attenuation); }
 
 protected:
 	 

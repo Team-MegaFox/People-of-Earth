@@ -3,7 +3,7 @@
 // Created          : 02-01-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-11-2016
+// Last Modified On : 02-24-2016
 // ***********************************************************************
 // <copyright file="Audio.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -24,6 +24,7 @@ enum AudioType
 class Audio : public GameComponent
 {
 public:
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Audio"/> class.
 	/// </summary>
@@ -40,10 +41,6 @@ public:
 		{
 			m_source = new AudioSource(Sound(fileName));
 		}
-
-		set3DMinMaxDistance(0.1f);
-		setDoppler(0.5f);
-		setVolume(100.0f);
 	}
 
 	/// <summary>
@@ -86,15 +83,18 @@ public:
 		}
 	}
 
-	void stopAllSounds()
+	/// <summary>
+	/// Stops all sound channels or stream channels from playing.
+	/// </summary>
+	void stop()
 	{
 		if (m_type == STREAM)
 		{
-			m_source->stopAllStreams();
+			m_source->stopStream();
 		}
 		else if (m_type == SOUND)
 		{
-			m_source->stopAllSounds();
+			m_source->stopSound();
 		}
 	}
 
@@ -236,23 +236,6 @@ public:
 		else if (m_type == SOUND)
 		{
 			m_source->setSound3DMinDist(min, max);
-		}
-	}
-
-	/// <summary>
-	/// Sets the occlusion.
-	/// </summary>
-	/// <param name="attenuation">The attenuation.</param>
-	/// <param name="reverberation">The reverberation. defaulted to NULL</param>
-	void setOcclusion(float attenuation, float reverberation = NULL)
-	{
-		if (m_type == STREAM)
-		{
-			m_source->setStreamOcclusion(attenuation, reverberation);
-		}
-		else if (m_type == SOUND)
-		{
-			m_source->setSoundOcclusion(attenuation, reverberation);
 		}
 	}
 

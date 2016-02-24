@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-03-2016
+// Last Modified On : 02-24-2016
 // ***********************************************************************
 // <copyright file="AudioEngine.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -33,8 +33,7 @@
 #include <string>
 #include <unordered_map>
 
-static const int NUM_STREAM_CHANNELS = 100;
-static const int NUM_SOUND_CHANNELS = 100;
+const int MAX_NUM_CHANNELS = 100;
 
 /// <summary>
 /// Class AudioEngine.
@@ -69,36 +68,6 @@ public:
 	static FMOD::System * getSystem() { return m_system; }
 
 	/// <summary>
-	/// Gets the sound channel group.
-	/// </summary>
-	/// <returns></returns>
-	static FMOD::ChannelGroup * getSoundChannelGroup() { return m_soundEffectChannels; }
-
-	/// <summary>
-	/// Gets the stream channel group.
-	/// </summary>
-	/// <returns></returns>
-	static FMOD::ChannelGroup * getStreamChannelGroup() { return m_streamEffectChannels; }
-
-	/// <summary>
-	/// Gets the streams.
-	/// </summary>
-	/// <returns></returns>
-	static FMOD::Sound ** getStreams() { return m_streams; }
-
-	/// <summary>
-	/// Gets the stream channels.
-	/// </summary>
-	/// <returns></returns>
-	static FMOD::Channel ** getStreamChannels() { return m_streamChannels; }
-
-
-	static FMOD::Sound ** getSounds() { return m_sounds; }
-
-
-	static FMOD::Channel ** getSoundChannels() { return m_soundChannels; }
-
-	/// <summary>
 	/// Updates the system object
 	/// (should be called every frame)
 	/// </summary>
@@ -131,34 +100,6 @@ private:
 	/// The FMOD system.
 	/// </summary>
 	static FMOD::System * m_system;
-
-	/// <summary>
-	/// The stream effect channels.
-	/// </summary>
-	static FMOD::ChannelGroup * m_streamEffectChannels;
-
-	/// <summary>
-	/// The sound effect channels.
-	/// </summary>
-	static FMOD::ChannelGroup * m_soundEffectChannels;
-
-		/// <summary>
-	/// The streams.
-	/// </summary>
-	static FMOD::Sound * m_streams[NUM_STREAM_CHANNELS];
-	/// <summary>
-	/// The stream channels.
-	/// </summary>
-	static FMOD::Channel * m_streamChannels[NUM_STREAM_CHANNELS];
-
-	/// <summary>
-	/// The sound effects list.
-	/// </summary>
-	static FMOD::Sound * m_sounds[NUM_SOUND_CHANNELS];
-	/// <summary>
-	/// The sound channels.
-	/// </summary>
-	static FMOD::Channel * m_soundChannels[NUM_SOUND_CHANNELS];
 
 	/// <summary>
 	/// The FMOD result.

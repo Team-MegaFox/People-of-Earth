@@ -3,7 +3,7 @@
 // Created          : 02-01-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-03-2016
+// Last Modified On : 02-24-2016
 // ***********************************************************************
 // <copyright file="StreamSource.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -27,33 +27,27 @@ public:
 	/// Initializes a new instance of the <see cref="StreamSource"/> class.
 	/// </summary>
 	/// <param name="fileName">Name of the file.</param>
-	Stream(const std::string& fileName) :
-		m_fileName(fileName) { }
+	Stream(const std::string& fileName)
+	{ 
+		m_fileName = "Assets/Music/" + fileName;
+
+		m_streamPair.first = nullptr;
+		m_streamPair.second = nullptr;
+
+		setStream();
+	}
 	/// <summary>
 	/// Finalizes an instance of the <see cref="StreamSource"/> class.
 	/// </summary>
-	~Stream() {}
-
-	/// <summary>
-	/// Disposes this instance.
-	/// </summary>
-	void dispose()
-	{
-		if (AudioEngine::getStreamChannelGroup() != nullptr)
-		{
-			AudioEngine::getStreamChannelGroup()->release();
-		}
-	}
+	~Stream() { }
 
 	/// <summary>
 	/// Sets the stream.
 	/// </summary>
 	void setStream()
 	{
-		AudioEngine::getStreams()[m_streamPair.second]->release();
-		AudioEngine::getSystem()->createSound(m_fileName.c_str(), FMOD_3D | FMOD_DEFAULT, 0, &m_streamPair.first);
-		AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX(m_streamPair.second), m_streamPair.first, true, &AudioEngine::getStreamChannels()[m_streamPair.second]);
-		AudioEngine::getStreamChannels()[m_streamPair.second]->setChannelGroup(AudioEngine::getStreamChannelGroup());
+		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->createSound(m_fileName.c_str(), FMOD_3D | FMOD_DEFAULT, 0, &m_streamPair.first));
+		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX::FMOD_CHANNEL_REUSE, m_streamPair.first, true, &m_streamPair.second));
 	}
 
 	/// <summary>
@@ -64,10 +58,10 @@ public:
 	{
 		if (looping)
 		{
-			AudioEngine::getStreamChannels()[m_streamPair.second]->setMode(FMOD_LOOP_NORMAL);
-			AudioEngine::getStreamChannels()[m_streamPair.second]->setLoopCount(-1);
+			m_streamPair.second->setMode(FMOD_LOOP_NORMAL);
+			m_streamPair.second->setLoopCount(-1);
 		}
-		AudioEngine::getStreamChannels()[m_streamPair.second]->setPaused(false);
+		m_streamPair.second->setPaused(false);
 	}
 
 	/// <summary>
@@ -76,32 +70,26 @@ public:
 	/// <param name="pause">if set to <c>true</c> [pause].</param>
 	void pauseStream(bool pause)
 	{
-		AudioEngine::getStreamChannels()[m_streamPair.second]->setPaused(pause);
+		m_streamPair.second->setPaused(pause);
 	}
 
 	/// <summary>
 	/// Stops all streams.
 	/// </summary>
-	void stopAllStreams()
+	void stop()
 	{
-		for (int i = 0; i < NUM_STREAM_CHANNELS; i++)
-		{
-			if (AudioEngine::getStreamChannels()[i] != NULL)
-			{
-				AudioEngine::getStreamChannels()[i]->stop();
-			}
-		}
+		m_streamPair.second->stop();
 	}
 
 	/// <summary>
-	/// Determines whether [is stream playing].
+	/// Determines whether this stream is playing.
 	/// </summary>
 	/// <returns></returns>
 	bool isStreamPlaying()
 	{
 		bool result;
 
-		AudioEngine::getStreamChannels()[m_streamPair.second]->isPlaying(&result);
+		m_streamPair.second->isPlaying(&result);
 
 		return result;
 	}
@@ -112,16 +100,7 @@ public:
 	/// <param name="volumeLevel">The volume level.</param>
 	void setStreamEffectVolume(float volumeLevel)
 	{
-		AudioEngine::getStreamChannels()[m_streamPair.second]->setVolume(volumeLevel);
-	}
-
-	/// <summary>
-	/// Sets the stream effect volume all.
-	/// </summary>
-	/// <param name="volumeLevel">The volume level.</param>
-	void setStreamEffectVolumeAll(float volumeLevel)
-	{
-		AudioEngine::getStreamChannelGroup()->setVolume(volumeLevel);
+		m_streamPair.second->setVolume(volumeLevel);
 	}
 
 	/// <summary>
@@ -130,7 +109,7 @@ public:
 	/// <returns></returns>
 	float & getStreamVolume()
 	{
-		AudioEngine::getStreamChannelGroup()->getVolume(&m_streamVolume);
+		m_streamPair.second->getVolume(&m_streamVolume);
 		return m_streamVolume;
 	}
 
@@ -141,7 +120,7 @@ public:
 	/// <param name="vel">The vel.</param>
 	void setStreamPosVel(glm::vec3 pos, glm::vec3 vel = glm::vec3(0.0f))
 	{
-		AudioEngine::getStreamChannels()[m_streamPair.second]->set3DAttributes(&glmToFMOD(pos), &glmToFMOD(vel));
+		m_streamPair.second->set3DAttributes(&glmToFMOD(pos), &glmToFMOD(vel));
 	}
 
 	/// <summary>
@@ -150,7 +129,7 @@ public:
 	/// <param name="pan">The pan.</param>
 	void setStreamPan(float pan)
 	{
-		AudioEngine::getStreamChannels()[m_streamPair.second]->setPan(pan);
+		m_streamPair.second->setPan(pan);
 	}
 
 	/// <summary>
@@ -160,7 +139,7 @@ public:
 	/// <param name="dopplerLevel">The doppler level.</param>
 	void setStreamDopplerLevel(float dopplerLevel)
 	{
-		AudioEngine::getStreamChannels()[m_streamPair.second]->set3DDopplerLevel(dopplerLevel);
+		m_streamPair.second->set3DDopplerLevel(dopplerLevel);
 	}
 
 	/// <summary>
@@ -172,7 +151,7 @@ public:
 	/// <param name="centerFreq">The center freq.</param>
 	void setStreamDistanceFilter(bool custom, bool customLevel, float centerFreq)
 	{
-		AudioEngine::getStreamChannels()[m_streamPair.second]->set3DDistanceFilter(custom, customLevel, centerFreq);
+		m_streamPair.second->set3DDistanceFilter(custom, customLevel, centerFreq);
 	}
 
 	/// <summary>
@@ -187,19 +166,8 @@ public:
 	/// <param name="max">The maximum.</param>
 	void setStream3DMinMaxDistance(float min, float max = NULL)
 	{
-		AudioEngine::getStreamChannels()[m_streamPair.second]->set3DMinMaxDistance(min, max);
+		m_streamPair.second->set3DMinMaxDistance(min, max);
 	}
-
-	/// <summary>
-	/// Sets the stream occlusion.
-	/// </summary>
-	/// <param name="attenuation">The attenuation.</param>
-	/// <param name="reverberation">The reverberation.</param>
-	void setStreamOcclusion(float attenuation, float reverberation = NULL)
-	{
-		AudioEngine::getStreamChannelGroup()[m_streamPair.second].set3DOcclusion(attenuation, reverberation);
-	}
-
 
 
 private:
@@ -228,23 +196,14 @@ private:
 	std::string m_fileName;
 
 	/// <summary>
-	/// The file path of this StreamSource file
-	/// </summary>
-	std::string m_filePath = "";
-
-	/// <summary>
 	/// The stream's volume.
 	/// </summary>
 	float m_streamVolume;
 
 	/// <summary>
-	/// The m_stream map
+	/// The stream pair
+	/// Pair is made up of the FMOD:Sound * and the FMOD::Channel* that stream needs to be playable
 	/// </summary>
-	std::pair<FMOD::Sound*, int> m_streamPair;
+	std::pair<FMOD::Sound*, FMOD::Channel*> m_streamPair;
 
 };
-
-/*
-
-
-*/

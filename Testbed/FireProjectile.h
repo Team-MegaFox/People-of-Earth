@@ -3,7 +3,7 @@
 // Created          : 09-17-2015
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-22-2016
+// Last Modified On : 02-24-2016
 // ***********************************************************************
 // <copyright file="FireProjectile.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -58,16 +58,20 @@ public:
 	/// <summary>
 	/// Initializes a new instance of the <see cref="FireProjectile"/> class.
 	/// </summary>
-	FireProjectile() { }
+	FireProjectile(const std::string & fileName) :
+		m_fileName(fileName)
+	{ }
 	/// <summary>
 	/// Finalizes an instance of the <see cref="FireProjectile"/> class.
 	/// </summary>
 	~FireProjectile() { }
 
+	/// <summary>
+	/// Is called when this game component is created
+	/// </summary>
 	virtual void onStart() override
 	{
-		//m_audioComponent = getParent()->getGameComponent<Audio>();
-		//m_audioComponent = new Audio("268168__shaun105__laser.wav", AudioType::SOUND);
+		m_audioComponent = new Audio(m_fileName, AudioType::SOUND);
 	}
 
 	/// <summary>
@@ -79,50 +83,52 @@ public:
 	{
 		if (m_delay >= 0.2f)
 		{
-			
-			m_audioComponent = nullptr;
-			delete m_audioComponent;
-
 			if (input.GetRightTrigger() != 0)
 			{
-				m_audioComponent = new Audio("268168__shaun105__laser.wav", AudioType::SOUND);
-
 				instantiate(
-					(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
+					(new GameObject("Laser", 
+					*getTransform()->getPosition(), 
+					*getTransform()->getRotation(), 
+					glm::vec3(0.15f, 0.15f, 4.0f)))
 					->addGameComponent(new Projectile)
 					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
-					->addGameComponent(new RigidBody(*getTransform()->getPosition(), *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 100.0f))
-					->addGameComponent(std::move(m_audioComponent))
+					->addGameComponent(new RigidBody(
+					*getTransform()->getPosition(), 
+					*getTransform()->getRotation(), 
+					1.0f, 0.075f, 0.075f, 2.0f, 
+					Utility::getForward(*getTransform()->getRotation()) * 100.0f))
 					);
 
-				m_audioComponent->play(true);
+				m_audioComponent->play();
 
 				m_delay = 0.0f;
 			}
 			if (input.GetLeftTrigger() != 0)
 			{
-
-				m_audioComponent = new Audio("268168__shaun105__laser.wav", AudioType::SOUND);
-
 				instantiate(
-					(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
+					(new GameObject("Laser", 
+					*getTransform()->getPosition(), 
+					*getTransform()->getRotation(), 
+					glm::vec3(0.15f, 0.15f, 4.0f)))
 					->addGameComponent(new Projectile)
 					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
-					->addGameComponent(new RigidBody(*getTransform()->getPosition(), *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 100.0f))
-					->addGameComponent(std::move(m_audioComponent))
+					->addGameComponent(new RigidBody(
+					*getTransform()->getPosition(), 
+					*getTransform()->getRotation(), 
+					1.0f, 0.075f, 0.075f, 2.0f, 
+					Utility::getForward(*getTransform()->getRotation()) * 100.0f))
 					);
 
-				m_audioComponent->play(true);
+				m_audioComponent->play();
 
 				m_delay = 0.0f;
 			}
-
-
 		}
 		else
 		{
 			m_delay += delta;
 		}
+
 	}
 
 private:
@@ -130,5 +136,12 @@ private:
 	/// The delay between shots
 	/// </summary>
 	float m_delay = 0.2f;
+	/// <summary>
+	/// The file name of the sound to use
+	/// </summary>
+	std::string m_fileName;
+	/// <summary>
+	/// The audio component this game component will use for sound
+	/// </summary>
 	Audio * m_audioComponent;
 };

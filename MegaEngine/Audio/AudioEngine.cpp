@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-03-2016
+// Last Modified On : 02-24-2016
 // ***********************************************************************
 // <copyright file="AudioEngine.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -22,15 +22,8 @@
 // </summary>
 // ***********************************************************************
 #include "AudioEngine.h"
-#include "..\Components\AudioSource.h"
 
 FMOD::System * AudioEngine::m_system = nullptr;
-FMOD::ChannelGroup * AudioEngine::m_soundEffectChannels = nullptr;
-FMOD::ChannelGroup * AudioEngine::m_streamEffectChannels = nullptr;
-FMOD::Sound * AudioEngine::m_streams[NUM_STREAM_CHANNELS] = { nullptr };
-FMOD::Channel * AudioEngine::m_streamChannels[NUM_STREAM_CHANNELS] = { nullptr };
-FMOD::Sound * AudioEngine::m_sounds[NUM_SOUND_CHANNELS] = { nullptr };
-FMOD::Channel * AudioEngine::m_soundChannels[NUM_SOUND_CHANNELS] = { nullptr };
 
 AudioEngine::AudioEngine()
 {
@@ -107,7 +100,7 @@ void AudioEngine::init()
 		}
 	}
 
-	m_result = m_system->init(NUM_SOUND_CHANNELS, FMOD_INIT_NORMAL, 0);
+	m_result = m_system->init(MAX_NUM_CHANNELS, FMOD_INIT_NORMAL, 0);
 
 	if (m_result == FMOD_ERR_OUTPUT_CREATEBUFFER)
 	{
@@ -121,32 +114,14 @@ void AudioEngine::init()
 		m_result = m_system->setSpeakerMode(FMOD_SPEAKERMODE_STEREO);
 		FMODVerifyResult(m_result);
 
-		m_result = m_system->init(NUM_SOUND_CHANNELS, FMOD_INIT_NORMAL, 0);
+		m_result = m_system->init(MAX_NUM_CHANNELS, FMOD_INIT_NORMAL, 0);
 	}
 
 	FMODVerifyResult(m_result);
-
-	FMODVerifyResult(m_system->createChannelGroup(NULL, &m_streamEffectChannels));
-	FMODVerifyResult(m_system->createChannelGroup(NULL, &m_soundEffectChannels));
 }
 
 void AudioEngine::dispose()
 {
-	delete[] m_soundEffectChannels;
-	delete[] m_streamEffectChannels;
-
-	for (int i = 0; i < NUM_STREAM_CHANNELS; i++)
-	{
-		delete m_streams[i];
-		delete m_streamChannels[i];
-	}
-
-	for (int i = 0; i < NUM_SOUND_CHANNELS; i++)
-	{
-		delete m_sounds[i];
-		delete m_soundChannels[i];
-	}
-
 	// Clean up the System Object
 	if (m_system != nullptr)
 	{
