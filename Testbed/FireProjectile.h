@@ -80,8 +80,8 @@ public:
 		if (m_delay >= 0.2f)
 		{
 			
-			delete m_audioComponent;
 			m_audioComponent = nullptr;
+			delete m_audioComponent;
 
 			if (input.GetRightTrigger() != 0)
 			{

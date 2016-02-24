@@ -82,12 +82,14 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EnemyFighterShipAI.h" />
     <ClInclude Include="FireProjectile.h" />
     <ClInclude Include="FreeLook.h" />
     <ClInclude Include="FreeMove.h" />
     <ClInclude Include="PlanetSpin.h" />
     <ClInclude Include="PopMenu2Scene.h" />
     <ClInclude Include="PopupMenuScene.h" />
+    <ClInclude Include="SteeringBehaviour.h" />
     <ClInclude Include="TestScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

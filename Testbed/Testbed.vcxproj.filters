@@ -13,5 +13,7 @@
     <ClInclude Include="PopupMenuScene.h" />
     <ClInclude Include="PopMenu2Scene.h" />
     <ClInclude Include="FireProjectile.h" />
+    <ClInclude Include="SteeringBehaviour.h" />
+    <ClInclude Include="EnemyFighterShipAI.h" />
   </ItemGroup>
 </Project>

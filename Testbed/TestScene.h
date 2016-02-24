@@ -7,7 +7,7 @@
 #include "FreeMove.h"
 #include "PlanetSpin.h"
 #include "FireProjectile.h"
-
+#include "EnemyFighterShipAI.h"
 
 class TestScene : public Scene
 {
@@ -67,7 +67,9 @@ public:
 		// the alien fighter ship
 		addToRoot((new GameObject("enemyFighter", glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/AlienFighter_FINAL.obj", 0.1f), Material("alien_ship")))
-			->addGameComponent(stream));
+			->addGameComponent(stream)
+			->addGameComponent(new EnemyFighterShipAI)
+			);
 
 		addToRoot((new GameObject("planet1", glm::vec3(10.0f, 0.0f, 0.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 0.01f), Material("plan1")))
