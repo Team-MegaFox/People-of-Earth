@@ -3,7 +3,7 @@
 // Created          : 02-01-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-24-2016
+// Last Modified On : 02-25-2016
 // ***********************************************************************
 // <copyright file="StreamSource.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -27,15 +27,7 @@ public:
 	/// Initializes a new instance of the <see cref="StreamSource"/> class.
 	/// </summary>
 	/// <param name="fileName">Name of the file.</param>
-	Stream(const std::string& fileName)
-	{ 
-		m_fileName = "Assets/Music/" + fileName;
-
-		m_streamPair.first = nullptr;
-		m_streamPair.second = nullptr;
-
-		setStream();
-	}
+	Stream(const std::string& fileName);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="StreamSource"/> class.
 	/// </summary>
@@ -44,103 +36,62 @@ public:
 	/// <summary>
 	/// Sets the stream.
 	/// </summary>
-	void setStream()
-	{
-		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->createSound(m_fileName.c_str(), FMOD_3D | FMOD_DEFAULT, 0, &m_streamPair.first));
-		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX::FMOD_CHANNEL_REUSE, m_streamPair.first, true, &m_streamPair.second));
-	}
+	void setStream();
 
 	/// <summary>
 	/// Plays the stream.
 	/// </summary>
 	/// <param name="looping">if set to <c>true</c> [looping].</param>
-	void playStream(bool looping)
-	{
-		if (looping)
-		{
-			m_streamPair.second->setMode(FMOD_LOOP_NORMAL);
-			m_streamPair.second->setLoopCount(-1);
-		}
-		m_streamPair.second->setPaused(false);
-	}
+	void playStream(bool looping);
 
 	/// <summary>
 	/// Pauses the stream.
 	/// </summary>
 	/// <param name="pause">if set to <c>true</c> [pause].</param>
-	void pauseStream(bool pause)
-	{
-		m_streamPair.second->setPaused(pause);
-	}
+	void pauseStream(bool pause);
 
 	/// <summary>
 	/// Stops all streams.
 	/// </summary>
-	void stop()
-	{
-		m_streamPair.second->stop();
-	}
+	void stop();
 
 	/// <summary>
 	/// Determines whether this stream is playing.
 	/// </summary>
 	/// <returns></returns>
-	bool isStreamPlaying()
-	{
-		bool result;
-
-		m_streamPair.second->isPlaying(&result);
-
-		return result;
-	}
+	bool isStreamPlaying();
 
 	/// <summary>
 	/// Sets the stream effect volume.
 	/// </summary>
 	/// <param name="volumeLevel">The volume level.</param>
-	void setStreamEffectVolume(float volumeLevel)
-	{
-		m_streamPair.second->setVolume(volumeLevel);
-	}
+	void setStreamEffectVolume(float volumeLevel);
 
 	/// <summary>
 	/// Gets the stream volume.
 	/// </summary>
 	/// <returns></returns>
-	float & getStreamVolume()
-	{
-		m_streamPair.second->getVolume(&m_streamVolume);
-		return m_streamVolume;
-	}
+	float & getStreamVolume();
 
 	/// <summary>
 	/// Sets the stream position vel.
 	/// </summary>
 	/// <param name="pos">The position.</param>
 	/// <param name="vel">The vel.</param>
-	void setStreamPosVel(glm::vec3 pos, glm::vec3 vel = glm::vec3(0.0f))
-	{
-		m_streamPair.second->set3DAttributes(&glmToFMOD(pos), &glmToFMOD(vel));
-	}
+	void setStreamPosVel(glm::vec3 pos, glm::vec3 vel = glm::vec3(0.0f));
 
 	/// <summary>
 	/// Pan level, from -1.0 (left) to 1.0 (right), default = 0 (center).
 	/// </summary>
 	/// <param name="pan">The pan.</param>
-	void setStreamPan(float pan)
-	{
-		m_streamPair.second->setPan(pan);
-	}
+	void setStreamPan(float pan);
 
 	/// <summary>
 	/// Sets the stream doppler level.
 	/// Use with (but before) setStreamDistanceFilter for proper effect
 	/// </summary>
 	/// <param name="dopplerLevel">The doppler level.</param>
-	void setStreamDopplerLevel(float dopplerLevel)
-	{
-		m_streamPair.second->set3DDopplerLevel(dopplerLevel);
-	}
+	void setStreamDopplerLevel(float dopplerLevel);
 
 	/// <summary>
 	/// Sets the sound distance filter.
@@ -149,10 +100,7 @@ public:
 	/// <param name="custom">if set to <c>true</c> [custom].</param>
 	/// <param name="customLevel">if set to <c>true</c> [custom level].</param>
 	/// <param name="centerFreq">The center freq.</param>
-	void setStreamDistanceFilter(bool custom, bool customLevel, float centerFreq)
-	{
-		m_streamPair.second->set3DDistanceFilter(custom, customLevel, centerFreq);
-	}
+	void setStreamDistanceFilter(bool custom, bool customLevel, float centerFreq);
 
 	/// <summary>
 	/// In summary, increase the mindistance of a stream to make it 'louder' in a 3D world, 
@@ -164,11 +112,7 @@ public:
 	/// </summary>
 	/// <param name="min">The minimum.</param>
 	/// <param name="max">The maximum.</param>
-	void setStream3DMinMaxDistance(float min, float max = NULL)
-	{
-		m_streamPair.second->set3DMinMaxDistance(min, max);
-	}
-
+	void setStream3DMinMaxDistance(float min, float max = NULL);
 
 private:
 
@@ -179,16 +123,7 @@ private:
 	/// </summary>
 	/// <param name="vector">The glm vector to convert.</param>
 	/// <returns>The resulting FMOD vector conversion.</returns>
-	FMOD_VECTOR glmToFMOD(glm::vec3 vector)
-	{
-		FMOD_VECTOR Temp;
-
-		Temp.x = vector.x;
-		Temp.y = vector.y;
-		Temp.z = vector.z;
-
-		return Temp;
-	}
+	FMOD_VECTOR glmToFMOD(glm::vec3 vector);
 
 	/// <summary>
 	/// The file name of this audiosource file

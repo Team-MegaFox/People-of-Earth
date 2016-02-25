@@ -49,6 +49,7 @@ public:
 			->addGameComponent(new RigidBody(glm::vec3(), glm::quat(), 1.0f, 2.0f, 2.0f, 8.0f))
 			->addGameComponent(new FireProjectile("268168__shaun105__laser.wav"))
 			->addGameComponent(new PlayerShipMovementController("camera", 100.0f))
+			->addGameComponent(stream)
 			;
 
 		// The human fighter ship and camera
@@ -65,12 +66,7 @@ public:
 		// the alien fighter ship
 		addToRoot((new GameObject("enemyFighter", glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/AlienFighter_FINAL.obj", 0.1f), Material("alien_ship")))
-			->addGameComponent(stream)
-			->addGameComponent(new EnemyFighterShipAI)
-			);
-
-		addToRoot((new GameObject("planet1", glm::vec3(10.0f, 0.0f, 0.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 0.01f), Material("plan1")))
+			//->addGameComponent(new EnemyFighterShipAI)
 			);
 
 		addToRoot((new GameObject("shipWhite", glm::vec3(0.0f, -5.0f, 450.0f)))
@@ -104,6 +100,10 @@ public:
 			->addGameComponent(new MeshRenderer(Mesh("Asteroids/Asteroid_D.obj", 0.1f), Material("aster4")))
 );
 
+		addToRoot((new GameObject("planet1", glm::vec3(10.0f, 15.0f, 0.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 0.01f), Material("plan1")))
+);
+
 		addToRoot((new GameObject("planet2", glm::vec3(10.0f, 15.0f, 550.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_B.obj", 0.01f), Material("plan2")))
 );
@@ -127,7 +127,7 @@ public:
 		addToRoot((new GameObject("DrLight", glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
 			->addGameComponent(new DirectionalLight(glm::vec3(1.0f, 0.5f, 0.0f), 0.2f, 7, 8.0f, 1.0f)));
 
-		stream->setPosition(glm::vec3(0.0f, -5.0f, 80.0f));
+		stream->setVolume(0.075f);
 		stream->play(true);
 	}
 };
