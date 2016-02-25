@@ -25,7 +25,6 @@
 
 #include "../Audio/Sound.h"
 #include "../Audio/Stream.h"
-#include "../Audio/AudioListener.h"
 
 class AudioSource : public GameComponent
 {
@@ -44,16 +43,6 @@ public:
 	/// </summary>
 	/// <param name="stream">The stream.</param>
 	AudioSource(const Stream & stream);
-	/// <summary>
-	/// Initializes a new instance of the <see cref="AudioSource"/> class.
-	/// </summary>
-	/// <param name="listener">The listener.</param>
-	AudioSource(const AudioListener & listener);
-	/// <summary>
-	/// Initializes a new instance of the <see cref="AudioSource"/> class.
-	/// </summary>
-	/// <param name="fileName">Name of the file.</param>
-	AudioSource(const std::string& fileName);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="AudioSource"/> class.
 	/// </summary>
@@ -204,10 +193,4 @@ protected:
 	/// The stream source handle
 	/// </summary>
 	Stream m_streamSource;
-
-	/// <summary>
-	/// The audio listener handle
-	/// </summary>
-	AudioListener m_audioListener;
-
 };

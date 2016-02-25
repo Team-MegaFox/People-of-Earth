@@ -14,7 +14,6 @@
 
 #pragma once
 #include "..\Audio\AudioEngine.h"
-#include "..\Core\Utility.h"
 
 class AudioListener
 {
@@ -33,32 +32,12 @@ public:
 	/// </summary>
 	void setAsListener(glm::vec3 pos, glm::vec3 vel, glm::vec3 forward, glm::vec3 up)
 	{
-		AudioEngine::getSystem()->set3DListenerAttributes(
+		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->set3DListenerAttributes(
 			0,
-			&glmToFMOD(pos),
-			&glmToFMOD(vel),
-			&glmToFMOD(forward),
-			&glmToFMOD(up));
-	}
-
-private:
-
-	/// <summary>
-	/// Converts glm::vec3's to FMOD_VECTOR *'s
-	/// for use in FMOD's positioning of the listener
-	/// and sound / stream positioning
-	/// </summary>
-	/// <param name="vector">The glm vector to convert.</param>
-	/// <returns>The resulting FMOD vector conversion.</returns>
-	FMOD_VECTOR glmToFMOD(glm::vec3 vector)
-	{
-		FMOD_VECTOR Temp;
-
-		Temp.x = vector.x;
-		Temp.y = vector.y;
-		Temp.z = vector.z;
-
-		return Temp;
+			&AudioEngine::glmToFMOD(pos),
+			&AudioEngine::glmToFMOD(vel),
+			&AudioEngine::glmToFMOD(forward),
+			&AudioEngine::glmToFMOD(up)));
 	}
 };
 

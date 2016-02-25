@@ -29,9 +29,7 @@
 
 #include <GLM\glm.hpp>
 
-#include <vector>
 #include <string>
-#include <unordered_map>
 
 const int MAX_NUM_CHANNELS = 100;
 
@@ -78,13 +76,16 @@ public:
 	/// was properly initalized.
 	/// </summary>
 	/// <param name="result">The result.</param>
-	static void FMODVerifyResult(FMOD_RESULT result)
-	{
-		if (result != FMOD_OK)
-		{
-			std::cout << "FMOD error! (" << result << ") " << FMOD_ErrorString(result) << std::endl;
-		}
-	}
+	static void FMODVerifyResult(FMOD_RESULT result);
+
+	/// <summary>
+	/// Converts glm::vec3's to FMOD_VECTOR *'s
+	/// for use in FMOD's positioning of the listener
+	/// and sound / stream positioning
+	/// </summary>
+	/// <param name="vector">The glm vector to convert.</param>
+	/// <returns>The resulting FMOD vector conversion.</returns>
+	static FMOD_VECTOR glmToFMOD(glm::vec3 vector);
 
 private:
 	

@@ -133,3 +133,22 @@ void AudioEngine::update()
 {
 	FMODVerifyResult(m_system->update());
 }
+
+FMOD_VECTOR AudioEngine::glmToFMOD(glm::vec3 vector)
+{
+	FMOD_VECTOR Temp;
+
+	Temp.x = vector.x;
+	Temp.y = vector.y;
+	Temp.z = vector.z;
+
+	return Temp;
+}
+
+void AudioEngine::FMODVerifyResult(FMOD_RESULT result)
+{
+	if (result != FMOD_OK)
+	{
+		std::cout << "FMOD error! (" << result << ") " << FMOD_ErrorString(result) << std::endl;
+	}
+}

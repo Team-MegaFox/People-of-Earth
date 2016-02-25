@@ -27,12 +27,6 @@ AudioSource::AudioSource(const Stream & stream) :
 m_streamSource(stream)
 {}
 
-AudioSource::AudioSource(const AudioListener & listener) :
-m_audioListener(listener)
-{}
-
-AudioSource::AudioSource(const std::string& fileName) { }
-
 void AudioSource::playSound() { m_soundSource.playSound(); }
 
 void AudioSource::playStream(bool looping) { m_streamSource.playStream(looping); }

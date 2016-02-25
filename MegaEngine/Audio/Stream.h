@@ -12,7 +12,6 @@
 // </summary>
 // ***********************************************************************
 
-
 #pragma once
 #include "..\Audio\AudioEngine.h"
 
@@ -115,15 +114,6 @@ public:
 	void setStream3DMinMaxDistance(float min, float max = NULL);
 
 private:
-
-	/// <summary>
-	/// Converts glm::vec3's to FMOD_VECTOR *'s
-	/// for use in FMOD's positioning of the listener
-	/// and sound / stream positioning
-	/// </summary>
-	/// <param name="vector">The glm vector to convert.</param>
-	/// <returns>The resulting FMOD vector conversion.</returns>
-	FMOD_VECTOR glmToFMOD(glm::vec3 vector);
 
 	/// <summary>
 	/// The file name of this audiosource file

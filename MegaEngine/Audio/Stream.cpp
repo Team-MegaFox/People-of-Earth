@@ -34,74 +34,63 @@ void Stream::playStream(bool looping)
 {
 	if (looping)
 	{
-		m_streamPair.second->setMode(FMOD_LOOP_NORMAL);
-		m_streamPair.second->setLoopCount(-1);
+		AudioEngine::FMODVerifyResult(m_streamPair.second->setMode(FMOD_LOOP_NORMAL));
+		AudioEngine::FMODVerifyResult(m_streamPair.second->setLoopCount(-1));
 	}
-	m_streamPair.second->setPaused(false);
+	AudioEngine::FMODVerifyResult(m_streamPair.second->setPaused(false));
 }
 
 void Stream::pauseStream(bool pause)
 {
-	m_streamPair.second->setPaused(pause);
+	AudioEngine::FMODVerifyResult(m_streamPair.second->setPaused(pause));
 }
 
 void Stream::stop()
 {
-	m_streamPair.second->stop();
+	AudioEngine::FMODVerifyResult(m_streamPair.second->stop());
 }
 
 bool Stream::isStreamPlaying()
 {
 	bool result;
 
-	m_streamPair.second->isPlaying(&result);
+	AudioEngine::FMODVerifyResult(m_streamPair.second->isPlaying(&result));
 
 	return result;
 }
 
 void Stream::setStreamEffectVolume(float volumeLevel)
 {
-	m_streamPair.second->setVolume(volumeLevel);
+	AudioEngine::FMODVerifyResult(m_streamPair.second->setVolume(volumeLevel));
 }
 
 float & Stream::getStreamVolume()
 {
-	m_streamPair.second->getVolume(&m_streamVolume);
+	AudioEngine::FMODVerifyResult(m_streamPair.second->getVolume(&m_streamVolume));
 	return m_streamVolume;
 }
 
 void Stream::setStreamPosVel(glm::vec3 pos, glm::vec3 vel/* = glm::vec3(0.0f)*/)
 {
-	m_streamPair.second->set3DAttributes(&glmToFMOD(pos), &glmToFMOD(vel));
+	AudioEngine::FMODVerifyResult(m_streamPair.second->set3DAttributes(&AudioEngine::glmToFMOD(pos), &AudioEngine::glmToFMOD(vel)));
 }
 
 void Stream::setStreamPan(float pan)
 {
-	m_streamPair.second->setPan(pan);
+	AudioEngine::FMODVerifyResult(m_streamPair.second->setPan(pan));
 }
 
 void Stream::setStreamDopplerLevel(float dopplerLevel)
 {
-	m_streamPair.second->set3DDopplerLevel(dopplerLevel);
+	AudioEngine::FMODVerifyResult(m_streamPair.second->set3DDopplerLevel(dopplerLevel));
 }
 
 void Stream::setStreamDistanceFilter(bool custom, bool customLevel, float centerFreq)
 {
-	m_streamPair.second->set3DDistanceFilter(custom, customLevel, centerFreq);
+	AudioEngine::FMODVerifyResult(m_streamPair.second->set3DDistanceFilter(custom, customLevel, centerFreq));
 }
 
 void Stream::setStream3DMinMaxDistance(float min, float max/* = NULL */)
 {
-	m_streamPair.second->set3DMinMaxDistance(min, max);
-}
-
-FMOD_VECTOR Stream::glmToFMOD(glm::vec3 vector)
-{
-	FMOD_VECTOR Temp;
-
-	Temp.x = vector.x;
-	Temp.y = vector.y;
-	Temp.z = vector.z;
-
-	return Temp;
+	AudioEngine::FMODVerifyResult(m_streamPair.second->set3DMinMaxDistance(min, max));
 }
