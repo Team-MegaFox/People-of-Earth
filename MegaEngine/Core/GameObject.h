@@ -85,8 +85,10 @@ public:
 	/// Attaches a Game Component to the GameObject.
 	/// </summary>
 	/// <param name="component">The Game Component to attach.</param>
+	/// <param name="callOnStart">Wheather or no the onStart method is called. 
+	/// DO NOT set to true if adding in the scene init function.</param>
 	/// <returns>Returns the GameObject the component is attached too.</returns>
-	GameObject* addGameComponent(GameComponent* component);
+	GameObject* addGameComponent(GameComponent* component, bool callOnStart = false);
 	/// <summary>
 	/// Attaches a GUI Component to the GameObject.
 	/// </summary>

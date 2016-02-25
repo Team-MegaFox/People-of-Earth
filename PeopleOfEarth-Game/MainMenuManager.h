@@ -18,7 +18,7 @@ public:
 		m_playButton = getGameObjectByName("Play Button")->getGUIComponent<GUIButton>();
 		m_exitButton = getGameObjectByName("Exit Button")->getGUIComponent<GUIButton>();
 		m_focusButton = m_playButton;
-		m_focusButton->getParent()->addGameComponent(new TextLerpAlpha);
+		m_focusButton->getParent()->addGameComponent(new TextLerpAlpha, true);
 	}
 
 	/// <summary>
@@ -49,22 +49,21 @@ public:
 				m_mainMenuScreen->setEnabled(false);
 			}
 
-			if (m_focusButton == m_playButton && input.GetThumbLPosition().y < 0)
+			if (m_focusButton == m_playButton && (input.GetThumbLPosition().y < -0.1f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_DOWN)))
 			{
 				m_focusButton->getParent()->removeGameComponent(m_focusButton->getParent()->getGameComponent<TextLerpAlpha>());
 
 				m_focusButton = m_exitButton;
 
-				m_focusButton->getParent()->addGameComponent(new TextLerpAlpha);
+				m_focusButton->getParent()->addGameComponent(new TextLerpAlpha, true);
 			}
-
-			if (m_focusButton == m_exitButton && input.GetThumbLPosition().y > 0)
+			else if (m_focusButton == m_exitButton && (input.GetThumbLPosition().y > 0.1f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_UP)))
 			{
 				m_focusButton->getParent()->removeGameComponent(m_focusButton->getParent()->getGameComponent<TextLerpAlpha>());
 
 				m_focusButton = m_playButton;
 
-				m_focusButton->getParent()->addGameComponent(new TextLerpAlpha);
+				m_focusButton->getParent()->addGameComponent(new TextLerpAlpha, true);
 			}
 		}
 	}

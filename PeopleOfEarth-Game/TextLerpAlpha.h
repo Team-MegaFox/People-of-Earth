@@ -6,7 +6,10 @@ class TextLerpAlpha : public GameComponent
 {
 public:
 	TextLerpAlpha() { }
-	~TextLerpAlpha() { }
+	~TextLerpAlpha() 
+	{
+		m_label->setText(m_orginalText);
+	}
 
 	virtual void onStart() 
 	{

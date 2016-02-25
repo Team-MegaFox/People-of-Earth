@@ -105,10 +105,14 @@ GameObject* GameObject::addChild(GameObject* child)
 }
 
 
-GameObject* GameObject::addGameComponent(GameComponent* component)
+GameObject* GameObject::addGameComponent(GameComponent* component, bool callOnStart /*= false*/)
 {
 	m_gameComponents.push_back(component);
 	component->setParent(this);
+	if (callOnStart)
+	{
+		component->onStart();
+	}
 	return this;
 }
 
@@ -149,8 +153,8 @@ bool GameObject::removeGameComponent(GameComponent* component)
 	{
 		if (m_gameComponents[gc] == component)
 		{
-			component->setParent(nullptr);
-			m_gameComponents.erase(std::remove(m_gameComponents.begin(), m_gameComponents.end(), m_gameComponents[gc]), m_gameComponents.end());
+			m_gameComponents.erase(m_gameComponents.begin() + gc);
+			delete component;
 			removed = true;
 		}
 	}
