@@ -3,6 +3,7 @@
 
 #include "FreeLook.h"
 #include "FreeMove.h"
+#include "ShowPauseComp.h"
 
 class MissionOneScene : public Scene
 {
@@ -23,7 +24,8 @@ public:
 		addToRoot((new GameObject("Camera"))
 			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
 			->addGameComponent(new FreeLook(window.getCenter()))
-			->addGameComponent(new FreeMove));
+			->addGameComponent(new FreeMove)
+			->addGameComponent(new ShowPuaseComp));
 
 		addToRoot((new GameObject("Fighter Ship"))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/HumanFighter_Final.obj", 0.1f), Material("human_ship"))));

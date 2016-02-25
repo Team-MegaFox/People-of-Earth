@@ -98,6 +98,16 @@ void SceneManager::pop()
 	}
 }
 
+void SceneManager::popTo(Uint8 popIndex)
+{
+	assert(popIndex >= 0 && popIndex < m_activeList.size());
+
+	while (popIndex != m_activeList.size() - 1)
+	{
+		pop();
+	}
+}
+
 Scene* SceneManager::switchScene(Scene* scene, Modality modality /*= Modality::Exclusive*/)
 {
 	Scene* currentScene = peek();

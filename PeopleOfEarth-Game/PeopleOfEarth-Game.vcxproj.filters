@@ -40,6 +40,12 @@
     <ClInclude Include="MissionOneScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="ShowPauseComp.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseExit.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">

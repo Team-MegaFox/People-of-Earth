@@ -88,7 +88,9 @@
     <ClInclude Include="MissionOneScene.h" />
     <ClInclude Include="MissionSelectManager.h" />
     <ClInclude Include="MissionSelectScene.h" />
+    <ClInclude Include="PauseExit.h" />
     <ClInclude Include="PauseScene.h" />
+    <ClInclude Include="ShowPauseComp.h" />
     <ClInclude Include="TextLerpAlpha.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

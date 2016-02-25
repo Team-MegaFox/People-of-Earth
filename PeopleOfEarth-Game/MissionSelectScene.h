@@ -46,7 +46,7 @@ public:
 private:
 	bool clickBackButton(const GameObject& gameobject)
 	{
-		getCoreEngine()->getSceneManager()->pop();
+		getCoreEngine()->getSceneManager()->popTo(0);
 		return true;
 	}
 };
