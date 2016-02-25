@@ -15,6 +15,14 @@ public:
 	~SteeringBehaviour()
 	{}
 
+	virtual void onStart()
+	{
+		init();
+
+		m_rigidBody = getParent()->getGameComponent<RigidBody>();
+		m_velocityValue = 100.0f;
+	}
+
 	//Initialize
 	virtual void init() = 0;
 
@@ -58,8 +66,11 @@ public:
 
 		//Slerp the ship from current rotation to final rotation
 		//this.transform.setRotation(this.transform.getRotation() + glm::slerp(transform.getRotation(), directionQuaternion, timestep));
-		getTransform()->setRotation(//*getTransform()->getRotation() *
-			glm::slerp(*getTransform()->getRotation(), directionQuaternion, timestep));
+		
+		//getTransform()->setRotation(//*getTransform()->getRotation() *
+		//	glm::slerp(*getTransform()->getRotation(), directionQuaternion, timestep));
+
+		m_rigidBody->setRotation(glm::slerp(*getTransform()->getRotation(), directionQuaternion, timestep));
 
 	}
 
@@ -164,11 +175,13 @@ public:
 		//Get the forward direction
 		forwardDirection = Utility::getForward(*getTransform()->getRotation());
 
+		m_rigidBody->updateVelocity(forwardDirection * m_velocityValue);
+
 		//Update the position
-		getTransform()->setPosition(*getTransform()->getPosition() 
+		/*getTransform()->setPosition(*getTransform()->getPosition() 
 			+ glm::vec3(forwardDirection.x / SPEED_REDUCTION, 
 						forwardDirection.y / SPEED_REDUCTION, 
-						forwardDirection.z / SPEED_REDUCTION));
+						forwardDirection.z / SPEED_REDUCTION));*/
 
 	}
 
@@ -178,6 +191,6 @@ protected:
 	float SPEED_REDUCTION;
 	GameObject* targetObject;
 	glm::vec3 targetPoint;
-
-
+	RigidBody* m_rigidBody;
+	float m_velocityValue;
 };

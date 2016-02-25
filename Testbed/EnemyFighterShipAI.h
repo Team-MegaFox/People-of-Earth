@@ -12,19 +12,11 @@ public:
 	~EnemyFighterShipAI()
 	{}
 
-	virtual void onStart()
-	{
-		forwardDirection = glm::vec3(0);
-		direction = glm::vec3(0);
-		//SPEED_REDUCTION = 10.0f;
-		targetPoint = *getTransform()->getPosition();
-	}
-
 	virtual void init() override
 	{
 		forwardDirection = glm::vec3(0);
 		direction = glm::vec3(0);
-		SPEED_REDUCTION = 1000.0f;
+		//SPEED_REDUCTION = 1000.0f;
 		targetPoint = *getTransform()->getPosition();
 	}
 
