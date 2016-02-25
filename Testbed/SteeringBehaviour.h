@@ -21,6 +21,8 @@ public:
 
 		m_rigidBody = getParent()->getGameComponent<RigidBody>();
 		m_velocityValue = 100.0f;
+		m_rigidBody->setPosition(*getTransform()->getPosition());
+		m_rigidBody->setRotation(*getTransform()->getRotation());
 	}
 
 	//Initialize
@@ -107,8 +109,9 @@ public:
 		RotateShip(timestep);
 	}
 
-	int RandomNumber(int max, int min)
+	int RandomNumber(int max, int min, unsigned int timestep)
 	{
+		//srand(timestep);
 		int randnum = (rand() % (glm::abs(max) + glm::abs(min))) - ((glm::abs(max) + glm::abs(min)) / 2);
 		return randnum;
 	}
@@ -124,10 +127,12 @@ public:
 		//Wandering using waypoint 
 
 		//if the ship is close enough to the current waypoint then
-		if (glm::distance(targetPoint, *getTransform()->getPosition()) < 50.0f)
+		if (glm::distance(targetPoint, *getTransform()->getPosition()) < 75.0f)
 		{
 			//Change the position of the waypoint (random number between -100 to 100)
-			targetPoint = *getTransform()->getPosition() + glm::vec3(RandomNumber(100, -100), RandomNumber(100, -100), RandomNumber(100, -100));
+			targetPoint = *getTransform()->getPosition() + glm::vec3(RandomNumber(100, -100, timestep), 
+																	 RandomNumber(100, -100, timestep), 
+																	 RandomNumber(100, -100, timestep));
 		}
 
 		//Seek to the waypoint

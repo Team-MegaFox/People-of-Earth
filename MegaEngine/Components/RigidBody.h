@@ -383,6 +383,26 @@ public:
 	}
 
 	/// <summary>
+	/// Sets the position of the collider.
+	/// </summary>
+	/// <param name="rotation">The position.</param>
+	void setPosition(glm::vec3 position)
+	{
+		if (m_sphereCollider != nullptr)
+		{
+			return m_sphereCollider->setPosition(position);
+		}
+		else if (m_polyCollider != nullptr)
+		{
+			return m_polyCollider->setPosition(position);
+		}
+		else if (m_multiCollider != nullptr)
+		{
+			return m_multiCollider->setPosition(position);
+		}
+	}
+
+	/// <summary>
 	/// Sets the rotation of the collider.
 	/// </summary>
 	/// <param name="rotation">The rotation.</param>
