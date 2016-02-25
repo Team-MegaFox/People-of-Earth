@@ -3,7 +3,7 @@
 // Created          : 02-04-2016
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 02-22-2016
+// Last Modified On : 02-25-2016
 // ***********************************************************************
 // <copyright file="RigidBody.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -332,6 +332,29 @@ public:
 	}
 
 	/// <summary>
+	/// Checks collision with this rigidbody and vectors of gameobjects.
+	/// </summary>
+	/// <param name="rotation">The vectors of gameobjects to check collision.</param>
+	std::vector<GameObject*> checkCollision(std::vector<GameObject*> collisionCheckObject)
+	{
+		//The vector of collided gameojects this rigidbody collided with
+		std::vector<GameObject*> collidedObject;
+		
+		//Loop through the vector of gameobjects
+		for (size_t i = 0; i < collisionCheckObject.size(); i++)
+		{
+			//Check collision with rigidbody and this specific gameobject rigidbody
+			if (collisionCheckObject[i]->getGameComponent<RigidBody>()->getCollider()->checkCollision(getCollider()))
+			{
+				//Collided is true so add it to the vector of collided gameobjects
+				collidedObject.push_back(collisionCheckObject[i]);
+			}
+		}
+		//Return the vector of collided gameobjects
+		return collidedObject;
+	}
+
+	/// <summary>
 	/// Gets the position of the collider.
 	/// </summary>
 	/// <returns></returns>
@@ -371,6 +394,40 @@ public:
 			return m_multiCollider->getRotation();
 		}
 		return glm::quat();
+	}
+
+	bool getCollided()
+	{
+		if (m_sphereCollider != nullptr)
+		{
+			return m_sphereCollider->getCollided();
+		}
+		else if (m_polyCollider != nullptr)
+		{
+			return m_polyCollider->getCollided();
+		}
+		else if (m_multiCollider != nullptr)
+		{
+			return m_multiCollider->getCollided();
+		}
+		return false;
+	}
+
+	Collider* getCollider()
+	{
+		if (m_sphereCollider != nullptr)
+		{
+			return m_sphereCollider;
+		}
+		else if (m_polyCollider != nullptr)
+		{
+			return m_polyCollider;
+		}
+		else if (m_multiCollider != nullptr)
+		{
+			return m_multiCollider;
+		}
+		return nullptr;
 	}
 
 	/// <summary>

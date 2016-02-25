@@ -1,9 +1,9 @@
 // ***********************************************************************
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
-// Created          : 09-17-2015
+// Created          : 02-18-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 02-22-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-25-2016
 // ***********************************************************************
 // <copyright file="FireProjectile.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -16,6 +16,7 @@
 #include <Components\GameComponents.h>
 #include <Components\Audio.h>
 #include <Components\MeshRenderer.h>
+#include "ShipStats.h"
 
 struct Projectile : public GameComponent
 {
@@ -28,6 +29,11 @@ struct Projectile : public GameComponent
 	/// </summary>
 	~Projectile() { }
 
+	virtual void onStart()
+	{
+		m_rigidBody = getParent()->getGameComponent<RigidBody>();
+	}
+
 	/// <summary>
 	/// Updates this GameComponent using delta time.
 	/// </summary>
@@ -35,11 +41,53 @@ struct Projectile : public GameComponent
 	virtual void update(float delta) override
 	{
 		m_lifeTime -= delta;
-		if (m_lifeTime < 0)
+
+		if (m_rigidBody->getCollided())
+		{
+			std::vector<GameObject*> collisionCheckObject;
+			GameObject* gameObject;
+			int counter = 1;
+			//Add all the fighter ship
+			do
+			{
+				gameObject = getGameObjectByName("Fighter Ship" + std::to_string(counter));
+				if (gameObject != nullptr)
+				{
+					//collisionCheckObject.push_back(gameObject);
+				}
+				counter++;
+			} while (gameObject != nullptr);
+			counter = 1;
+			//Add all the enemy fighter ship
+			do
+			{
+				gameObject = getGameObjectByName("enemyFighter" + std::to_string(counter));
+				if (gameObject != nullptr)
+				{
+					collisionCheckObject.push_back(gameObject);
+				}
+				counter++;
+			} while (gameObject != nullptr);
+
+			//Check collision
+			std::vector<GameObject*> collidedGameObjects;
+			collidedGameObjects = m_rigidBody->checkCollision(collisionCheckObject);
+			for (size_t i = 0; i < collidedGameObjects.size(); i++)
+			{
+				//collidedGameObjects[i]->getGameComponent<ShipStats>()->updateHealth(-20);
+				printf("Collided with ship\n");
+			}
+			if (collidedGameObjects.size() > 0)
+			{
+				destroy(getParent());
+			}
+		}
+		else if (m_lifeTime < 0)
 		{
 			destroy(getParent());
 		}
 
+		
 	}
 
 private:
@@ -48,6 +96,8 @@ private:
 	/// The life time of a laser projectile
 	/// </summary>
 	float m_lifeTime;
+
+	RigidBody* m_rigidBody;
 };
 
 class FireProjectile : public GameComponent

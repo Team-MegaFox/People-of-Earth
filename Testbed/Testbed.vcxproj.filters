@@ -15,5 +15,6 @@
     <ClInclude Include="FireProjectile.h" />
     <ClInclude Include="SteeringBehaviour.h" />
     <ClInclude Include="EnemyFighterShipAI.h" />
+    <ClInclude Include="ShipStats.h" />
   </ItemGroup>
 </Project>

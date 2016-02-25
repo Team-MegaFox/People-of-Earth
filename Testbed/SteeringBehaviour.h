@@ -1,6 +1,18 @@
+// ***********************************************************************
+// Author           : Christopher Maeda
+// Created          : 02-23-2016
+//
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-25-2016
+// ***********************************************************************
+// <copyright file="SteeringBehaviour.h" company="Team MegaFox">
+//     Copyright (c) Team MegaFox. All rights reserved.
+// </copyright>
+// <summary>
+//</summary>
+// ***********************************************************************
 
 #pragma once
-
 #include <Components\GameComponents.h>
 #include <Core\GameObject.h>
 
@@ -8,8 +20,8 @@ class SteeringBehaviour : public GameComponent {
 
 public:
 
-	SteeringBehaviour() : forwardDirection(glm::vec3(0)), direction(glm::vec3(0)), SPEED_REDUCTION(1.0f),
-		targetObject(nullptr), targetPoint(glm::vec3(0))
+	SteeringBehaviour() : m_forwardDirection(glm::vec3(0)), m_direction(glm::vec3(0)),
+		m_targetObject(nullptr), m_targetPoint(glm::vec3(0))
 	{}
 
 	~SteeringBehaviour()
@@ -20,7 +32,6 @@ public:
 		init();
 
 		m_rigidBody = getParent()->getGameComponent<RigidBody>();
-		m_velocityValue = 100.0f;
 		m_rigidBody->setPosition(*getTransform()->getPosition());
 		m_rigidBody->setRotation(*getTransform()->getRotation());
 	}
@@ -35,16 +46,16 @@ public:
 		glm::quat quaternion = glm::quat();
 
 		//Get the axis (normal) of the forward and direction
-		glm::vec3 axis = glm::cross(forwardDirection, vDirection);
+		glm::vec3 axis = glm::cross(m_forwardDirection, vDirection);
 
 		//Angle between the 2 directions
 		float angle = 0;
 
 		//Special case statement when magnitude of the either direction is 0 so it does not give a null angle (divide by 0)
-		if (forwardDirection.length() != 0 || vDirection.length() != 0)
+		if (m_forwardDirection.length() != 0 || vDirection.length() != 0)
 		{
 			//Get the angle value
-			angle = glm::acos(glm::dot(forwardDirection, vDirection) / (forwardDirection.length() * vDirection.length()));
+			angle = glm::acos(glm::dot(m_forwardDirection, vDirection) / (m_forwardDirection.length() * vDirection.length()));
 		}
 
 		//Set the value from the axis and angle to the quaternion
@@ -64,7 +75,7 @@ public:
 		//http://www.ogre3d.org/tikiwiki/Quaternion+and+Rotation+Primer
 
 		//Get the transform of the ship pointing towards the direction
-		glm::quat directionQuaternion = ConvertDirectionVectorToQuaternion(direction) * *getTransform()->getRotation();
+		glm::quat directionQuaternion = ConvertDirectionVectorToQuaternion(m_direction) * *getTransform()->getRotation();
 
 		//Slerp the ship from current rotation to final rotation
 		//this.transform.setRotation(this.transform.getRotation() + glm::slerp(transform.getRotation(), directionQuaternion, timestep));
@@ -82,15 +93,15 @@ public:
 		if (point != *getTransform()->getPosition())
 		{
 			//Get the direction
-			direction = glm::normalize(point - *getTransform()->getPosition());
+			m_direction = glm::normalize(point - *getTransform()->getPosition());
 		}
 		else
 		{
-			direction = forwardDirection = Utility::getForward(*getTransform()->getRotation());
+			m_direction = m_forwardDirection = Utility::getForward(*getTransform()->getRotation());
 		}
 
 		//Get the forward direction
-		forwardDirection = Utility::getForward(*getTransform()->getRotation());
+		m_forwardDirection = Utility::getForward(*getTransform()->getRotation());
 
 		//Rotate the ship towards the direction
 		RotateShip(timestep);
@@ -100,10 +111,10 @@ public:
 	void SeekToTarget(float timestep)
 	{
 		//Get the direction from this ship to target
-		direction = glm::normalize(*targetObject->getTransform()->getPosition() - *getTransform()->getPosition());
+		m_direction = glm::normalize(*m_targetObject->getTransform()->getPosition() - *getTransform()->getPosition());
 
 		//Get the forward direction
-		forwardDirection = Utility::getForward(*getTransform()->getRotation());
+		m_forwardDirection = Utility::getForward(*getTransform()->getRotation());
 
 		//Rotate the ship towards the direction
 		RotateShip(timestep);
@@ -127,16 +138,16 @@ public:
 		//Wandering using waypoint 
 
 		//if the ship is close enough to the current waypoint then
-		if (glm::distance(targetPoint, *getTransform()->getPosition()) < 75.0f)
+		if (glm::distance(m_targetPoint, *getTransform()->getPosition()) < 75.0f)
 		{
 			//Change the position of the waypoint (random number between -100 to 100)
-			targetPoint = *getTransform()->getPosition() + glm::vec3(RandomNumber(100, -100, timestep), 
-																	 RandomNumber(100, -100, timestep), 
-																	 RandomNumber(100, -100, timestep));
+			m_targetPoint = *getTransform()->getPosition() + glm::vec3(RandomNumber(100, -100, timestep),
+																	   RandomNumber(100, -100, timestep), 
+																	   RandomNumber(100, -100, timestep));
 		}
 
 		//Seek to the waypoint
-		SeekToPoint(targetPoint, timestep);
+		SeekToPoint(m_targetPoint, timestep);
 	}
 
 	//Pursue the target
@@ -173,14 +184,14 @@ public:
 	void update(float timestep) override
 	{
 		//Get the forward direction
-		forwardDirection = Utility::getForward(*getTransform()->getRotation());
+		m_forwardDirection = Utility::getForward(*getTransform()->getRotation());
 
 		UpdateAI(timestep);
 
 		//Get the forward direction
-		forwardDirection = Utility::getForward(*getTransform()->getRotation());
+		m_forwardDirection = Utility::getForward(*getTransform()->getRotation());
 
-		m_rigidBody->updateVelocity(forwardDirection * m_velocityValue);
+		m_rigidBody->updateVelocity(m_forwardDirection * m_velocityValue);
 
 		//Update the position
 		/*getTransform()->setPosition(*getTransform()->getPosition() 
@@ -191,11 +202,10 @@ public:
 	}
 
 protected:
-	glm::vec3 forwardDirection;
-	glm::vec3 direction;
-	float SPEED_REDUCTION;
-	GameObject* targetObject;
-	glm::vec3 targetPoint;
+	glm::vec3 m_forwardDirection;
+	glm::vec3 m_direction;
+	GameObject* m_targetObject;
+	glm::vec3 m_targetPoint;
 	RigidBody* m_rigidBody;
 	float m_velocityValue;
 };

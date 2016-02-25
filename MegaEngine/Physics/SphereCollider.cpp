@@ -2,10 +2,10 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-25-2016
 // ***********************************************************************
-// <copyright file="SphereCollider.h" company="">
+// <copyright file="SphereCollider.cpp" company="">
 //     Copyright (c) . All rights reserved.
 // </copyright>
 // <summary>7
@@ -109,4 +109,38 @@ std::vector<Collider*> SphereCollider::checkCollision(std::vector<Collider*> col
 
 	//Return the collided objects
 	return collidedObject;
+}
+
+bool SphereCollider::checkCollision(Collider* collidableObject)
+{
+	//Checking to see if the collidable object is not checking itself
+	if (m_id != collidableObject->getID())
+	{
+		//Distance collision check theory
+
+		//Get the distance from this position to the other position
+		float distance = glm::length(collidableObject->getPosition() - m_position);
+		//Check to see if the 2 radius is lower than distance magnitude
+		if (m_radiusSphere + collidableObject->getRadiusSphere() >= distance)
+		{
+			//if the collider is a multi-collider then
+			if (collidableObject->getShapeCollider() == OTHER)
+			{
+				//Check collision with this Collider with the Multi Colliders colliders
+				if (checkCollision(dynamic_cast<MultiCollider*>(collidableObject)->getMultiCollider()).size() > 0)
+				{
+					//Push back the collided object to the return collided object
+					return true;
+				}
+			}
+			//Collider is a sphere or polygon
+			else
+			{
+				//Push back the collided object to the return collided object
+				return true;
+			}
+		}
+	}
+	//No collision
+	return false;
 }

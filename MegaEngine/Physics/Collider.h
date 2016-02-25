@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-25-2016
 // ***********************************************************************
 // <copyright file="Collider.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -98,6 +98,8 @@ public:
 	/// <param name="collidableObjects">Vectors of Colliders this collider will be checking.</param>
 	/// <returns>Vector of Collider this collider collided with.</returns>
 	virtual std::vector<Collider*> checkCollision(std::vector<Collider*> collidableObjects) = 0;
+
+	virtual bool checkCollision(Collider* collidableObject) = 0;
 
 	/// <summary>
 	/// Create an ID value for this collider.

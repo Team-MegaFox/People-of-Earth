@@ -2,10 +2,10 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-25-2016
 // ***********************************************************************
-// <copyright file="PolygonCollider.h" company="">
+// <copyright file="PolygonCollider.cpp" company="">
 //     Copyright (c) . All rights reserved.
 // </copyright>
 // <summary>
@@ -135,6 +135,42 @@ std::vector<Collider*> PolygonCollider::checkCollision( std::vector<Collider*> c
 
 	//Return the collided objects
 	return trueCollidedObject;
+}
+
+bool PolygonCollider::checkCollision(Collider* collidableObject)
+{
+	//Call base class collision check to take out any unnecessary collision check 
+	if (SphereCollider::checkCollision(collidableObject))
+	{
+		//Only check the collision if the other collider is also a polygon
+		if (collidableObject->getShapeCollider() == QUAD)
+		{
+			//Check collision using Separating Axis Theorm
+			if (checkSATCollision(dynamic_cast<PolygonCollider*>(collidableObject)))
+			{
+				//Push back the collided object to the return collided object
+				return true;
+			}
+		}
+		//if the collider is a multi-collider then
+		else if (collidableObject->getShapeCollider() == OTHER)
+		{
+			//Check collision with this Collider with the Multi Colliders colliders
+			if (checkCollision(dynamic_cast<MultiCollider*>(collidableObject)->getMultiCollider()).size() > 0)
+			{
+				//Push back the collided object to the return collided object
+				return true;
+			}
+		}
+		//if the collider is a sphere
+		else
+		{
+			//Push back the collided object to the return collided object
+			return true;
+		}
+	}
+	//No collision
+	return false;
 }
 
 bool PolygonCollider::checkSATCollision(PolygonCollider* collidableObject)

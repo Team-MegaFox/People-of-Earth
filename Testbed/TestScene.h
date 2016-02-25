@@ -58,14 +58,14 @@ public:
 			(new GameObject("camera",
 			*fighterShip->getTransform()->getPosition() - Utility::getForward(*fighterShip->getTransform()->getRotation()) * 30.0f
 			+ glm::vec3(0.0f, 5.0f, 0.0f)))
-			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
+			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(60.0f), window.getAspectRatio(), 0.1f, 20000.0f)))
 			->addGameComponent(new Listener());
 
 		addToRoot(fighterShip);
 		addToRoot(camera);
 
 		// the alien fighter ship
-		addToRoot((new GameObject("enemyFighter", glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
+		addToRoot((new GameObject("enemyFighter1", glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/AlienFighter_FINAL.obj", 0.1f), Material("alien_ship")))
 			->addGameComponent(stream)
 			->addGameComponent(new RigidBody(glm::vec3(), glm::quat(), 1.0f, 2.0f, 2.0f, 8.0f))

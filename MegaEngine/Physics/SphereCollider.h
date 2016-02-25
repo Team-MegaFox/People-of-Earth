@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-25-2016
 // ***********************************************************************
 // <copyright file="SphereCollider.h" company="">
 //     Copyright (c) . All rights reserved.
@@ -67,6 +67,13 @@ public:
 	/// <param name="collidableObjects">Vectors of Colliders this Sphere Collider will be checking.</param>
 	/// <returns>Vector of Collider this Sphere Collider collided with.</returns>
 	virtual std::vector<Collider*> checkCollision(std::vector<Collider*> collidableObjects);
+
+	/// <summary>
+	/// Check the collision with this Sphere Collider with the Collider
+	/// </summary>
+	/// <param name="collidableObjects">Collider this Sphere Collider will be checking.</param>
+	/// <returns>Return bool flag to determine this Sphere Collider collided with the Collider</returns>
+	virtual bool checkCollision(Collider* collidableObject) override;
 
 };
 
