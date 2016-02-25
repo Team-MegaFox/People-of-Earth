@@ -34,9 +34,7 @@ public:
 		if (forwardDirection.length() != 0 || vDirection.length() != 0)
 		{
 			//Get the angle value
-			angle = glm::dot(forwardDirection, vDirection);
-			angle = glm::acos(angle);
-			angle /= (forwardDirection.length() * vDirection.length());
+			angle = glm::acos(glm::dot(forwardDirection, vDirection) / (forwardDirection.length() * vDirection.length()));
 		}
 
 		//Set the value from the axis and angle to the quaternion
@@ -60,7 +58,7 @@ public:
 
 		//Slerp the ship from current rotation to final rotation
 		//this.transform.setRotation(this.transform.getRotation() + glm::slerp(transform.getRotation(), directionQuaternion, timestep));
-		getTransform()->setRotation(*getTransform()->getRotation() +
+		getTransform()->setRotation(//*getTransform()->getRotation() *
 			glm::slerp(*getTransform()->getRotation(), directionQuaternion, timestep));
 
 	}
@@ -68,8 +66,15 @@ public:
 	//Seek to the point
 	void SeekToPoint(glm::vec3 point, float timestep)
 	{
-		//Get the direction
-		direction = glm::normalize(point - *getTransform()->getPosition());
+		if (point != *getTransform()->getPosition())
+		{
+			//Get the direction
+			direction = glm::normalize(point - *getTransform()->getPosition());
+		}
+		else
+		{
+			direction = forwardDirection = Utility::getForward(*getTransform()->getRotation());
+		}
 
 		//Get the forward direction
 		forwardDirection = Utility::getForward(*getTransform()->getRotation());
@@ -91,16 +96,27 @@ public:
 		RotateShip(timestep);
 	}
 
+	int RandomNumber(int max, int min)
+	{
+		int randnum = (rand() % (glm::abs(max) + glm::abs(min))) - ((glm::abs(max) + glm::abs(min)) / 2);
+		return randnum;
+	}
+
+	float getMagnitude(glm::vec3 vector)
+	{
+		return glm::sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
+	}
+
 	//Wander the ship
 	void Wander(float timestep)
 	{
 		//Wandering using waypoint 
 
 		//if the ship is close enough to the current waypoint then
-		if ((targetPoint - *getTransform()->getPosition()).length() < 5.0f)
+		if (glm::distance(targetPoint, *getTransform()->getPosition()) < 50.0f)
 		{
-			//Change the position of the waypoint (random number between -10 to 10
-			targetPoint = *getTransform()->getPosition() + glm::vec3((rand() % -21) - 10, (rand() % -21) - 10, (rand() % -21) - 10);
+			//Change the position of the waypoint (random number between -100 to 100)
+			targetPoint = *getTransform()->getPosition() + glm::vec3(RandomNumber(100, -100), RandomNumber(100, -100), RandomNumber(100, -100));
 		}
 
 		//Seek to the waypoint
