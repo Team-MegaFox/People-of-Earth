@@ -281,9 +281,9 @@ public:
 			if (m_sphereCollider != nullptr)
 			{
 				//Draw the sphere collider
-				for (float height = 0.0f; height < 180.0f; height += 0.0f)
+				for (float height = 0.0f; height < 180.0f; height += 1.0f)
 				{
-					for (float theta = 0.0f; theta < 180.0f; theta += 0.0f)
+					for (float theta = 0.0f; theta < 180.0f; theta += 1.0f)
 					{
 						glPushMatrix();
 						glVertex3f(
@@ -310,9 +310,9 @@ public:
 				glPopMatrix();
 
 				//Draw the sphere collider of the polygon
-				for (float height = 0.0f; height < 180.0f; height += 0.0f)
+				for (float height = 0.0f; height < 180.0f; height += 1.0f)
 				{
-					for (float theta = 0.0f; theta < 180.0f; theta += 0.0f)
+					for (float theta = 0.0f; theta < 180.0f; theta += 1.0f)
 					{
 						glPushMatrix();
 						glVertex3f(
@@ -374,6 +374,15 @@ public:
 		}
 		return glm::vec3();
 	}
+	
+	/// <summary>
+	/// Gets the velocity of the collider.
+	/// </summary>
+	/// <returns></returns>
+	glm::vec3 getVelocity()
+	{
+		return getCollider()->getVelocity();
+	}
 
 	/// <summary>
 	/// Gets the rotation of the collider.
@@ -396,6 +405,10 @@ public:
 		return glm::quat();
 	}
 
+	/// <summary>
+	/// Gets the boolean flag of the collider colliding.
+	/// </summary>
+	/// <returns></returns>
 	bool getCollided()
 	{
 		if (m_sphereCollider != nullptr)
@@ -413,6 +426,10 @@ public:
 		return false;
 	}
 
+	/// <summary>
+	/// Gets the collider.
+	/// </summary>
+	/// <returns></returns>
 	Collider* getCollider()
 	{
 		if (m_sphereCollider != nullptr)

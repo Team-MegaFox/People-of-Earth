@@ -7,6 +7,11 @@ public:
 	PlanetSpin() { }
 	~PlanetSpin() { }
 
+	virtual void onStart() override
+	{
+		//getParent()->getGameComponent<RigidBody>()->setDebugDraw(true);
+	}
+
 	virtual void update(float delta) override
 	{
 		m_angle += 0.001f;

@@ -34,6 +34,7 @@ public:
 		m_rigidBody = getParent()->getGameComponent<RigidBody>();
 		m_rigidBody->setPosition(*getTransform()->getPosition());
 		m_rigidBody->setRotation(*getTransform()->getRotation());
+		m_rigidBody->setDebugDraw(true);
 	}
 
 	//Initialize
@@ -191,7 +192,7 @@ public:
 		//Get the forward direction
 		m_forwardDirection = Utility::getForward(*getTransform()->getRotation());
 
-		m_rigidBody->updateVelocity(m_forwardDirection * m_velocityValue);
+		//m_rigidBody->updateVelocity(m_forwardDirection * m_velocityValue);
 
 		//Update the position
 		/*getTransform()->setPosition(*getTransform()->getPosition() 

@@ -44,50 +44,91 @@ struct Projectile : public GameComponent
 
 		if (m_rigidBody->getCollided())
 		{
-			std::vector<GameObject*> collisionCheckObject;
-			GameObject* gameObject;
-			int counter = 1;
-			//Add all the fighter ship
-			do
-			{
-				gameObject = getGameObjectByName("Fighter Ship" + std::to_string(counter));
-				if (gameObject != nullptr)
-				{
-					//collisionCheckObject.push_back(gameObject);
-				}
-				counter++;
-			} while (gameObject != nullptr);
-			counter = 1;
-			//Add all the enemy fighter ship
-			do
-			{
-				gameObject = getGameObjectByName("enemyFighter" + std::to_string(counter));
-				if (gameObject != nullptr)
-				{
-					collisionCheckObject.push_back(gameObject);
-				}
-				counter++;
-			} while (gameObject != nullptr);
-
 			//Check collision
 			std::vector<GameObject*> collidedGameObjects;
-			collidedGameObjects = m_rigidBody->checkCollision(collisionCheckObject);
+			collidedGameObjects = m_rigidBody->checkCollision(getAllFigherShipsGameObjects());
 			for (size_t i = 0; i < collidedGameObjects.size(); i++)
 			{
 				//collidedGameObjects[i]->getGameComponent<ShipStats>()->updateHealth(-20);
 				printf("Collided with ship\n");
-			}
-			if (collidedGameObjects.size() > 0)
-			{
-				destroy(getParent());
+				m_lifeTime = -1.0f;
+				break;
 			}
 		}
-		else if (m_lifeTime < 0)
+		else if (!m_rigidBody->getCollided())
+		{
+			for (size_t i = 0; i < 3; i++)
+			{
+				m_rigidBody->setPosition(m_rigidBody->getPosition() - m_rigidBody->getVelocity() * delta / 3.0f);
+				//Check collision
+				std::vector<GameObject*> collidedGameObjects;
+				collidedGameObjects = m_rigidBody->checkCollision(getAllFigherShipsGameObjects());
+				for (size_t i = 0; i < collidedGameObjects.size(); i++)
+				{
+					//collidedGameObjects[i]->getGameComponent<ShipStats>()->updateHealth(-20);
+					printf("Collided with ship\n");
+					m_lifeTime = -1.0f;
+					break;
+				}
+				if (m_lifeTime < 0)
+				{
+					break;
+				}
+			}
+			m_rigidBody->setPosition(m_rigidBody->getPosition() + m_rigidBody->getVelocity() * delta);
+		}
+		else if (!PhysicsEngine::getPhysicsWorld()->checkInsideWorld(m_rigidBody->getCollider()))
+		{
+			m_lifeTime = -1.0f;
+		}
+
+		if (m_lifeTime < 0)
 		{
 			destroy(getParent());
 		}
 
-		
+	}
+
+	std::vector<GameObject*> getAllFigherShipsGameObjects()
+	{
+		std::vector<GameObject*> collisionCheckObject;
+		GameObject* gameObject;
+		int counter = 1;
+		//Add all the fighter ship
+		do
+		{
+			gameObject = getGameObjectByName("Fighter Ship" + std::to_string(counter));
+			if (gameObject != nullptr)
+			{
+				//collisionCheckObject.push_back(gameObject);
+			}
+			counter++;
+		} while (gameObject != nullptr);
+		counter = 1;
+		//Add all the enemy fighter ship
+		do
+		{
+			gameObject = getGameObjectByName("enemyFighter" + std::to_string(counter));
+			if (gameObject != nullptr)
+			{
+				collisionCheckObject.push_back(gameObject);
+			}
+			counter++;
+		} while (gameObject != nullptr);
+
+		counter = 1;
+		//Add all the planet
+		do
+		{
+			gameObject = getGameObjectByName("planet" + std::to_string(counter));
+			if (gameObject != nullptr)
+			{
+				collisionCheckObject.push_back(gameObject);
+			}
+			counter++;
+		} while (gameObject != nullptr);
+
+		return collisionCheckObject;
 	}
 
 private:
@@ -108,7 +149,8 @@ public:
 	/// <summary>
 	/// Initializes a new instance of the <see cref="FireProjectile"/> class.
 	/// </summary>
-	FireProjectile() { }
+	FireProjectile() : m_material(
+		"plan1", 1.0f, 10, Texture("Planets/Planet_A.png"), Texture("Planets/Planet_A_NORM.png")) {}
 	/// <summary>
 	/// Finalizes an instance of the <see cref="FireProjectile"/> class.
 	/// </summary>
@@ -136,12 +178,12 @@ public:
 			if (input.GetRightTrigger() != 0)
 			{
 				m_audioComponent = new Audio("268168__shaun105__laser.wav", AudioType::SOUND);
-
+				
 				instantiate(
 					(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
 					->addGameComponent(new Projectile)
 					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
-					->addGameComponent(new RigidBody(*getTransform()->getPosition(), *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 100.0f))
+					->addGameComponent(new RigidBody(*getTransform()->getPosition(), *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))
 					->addGameComponent(std::move(m_audioComponent))
 					);
 
@@ -158,7 +200,7 @@ public:
 					(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
 					->addGameComponent(new Projectile)
 					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
-					->addGameComponent(new RigidBody(*getTransform()->getPosition(), *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 100.0f))
+					->addGameComponent(new RigidBody(*getTransform()->getPosition(), *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))
 					->addGameComponent(std::move(m_audioComponent))
 					);
 
@@ -181,4 +223,5 @@ private:
 	/// </summary>
 	float m_delay = 0.2f;
 	Audio * m_audioComponent;
+	Material m_material;
 };
