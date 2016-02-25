@@ -33,9 +33,9 @@ public:
 		mainMenuObject->addChild((new GameObject("Play Button"))
 			->addGUIComponent(new GUIButton(glm::vec4(0.425f, 0.6f, 0.15f, 0.07f), glm::vec4(0.0f), "Play",
 			std::bind(&MainMenuScene::clickPlayButton, this, std::placeholders::_1), 16)));
-		//mainMenuObject->addChild((new GameObject("Exit Button"))
-		//	->addGUIComponent(new GUIButton(glm::vec4(0.425f, 0.7f, 0.15f, 0.07f), glm::vec4(0.0f), "Exit",
-		//	std::bind(&MainMenuScene::clickExitButton, this, std::placeholders::_1), 16)));
+		mainMenuObject->addChild((new GameObject("Exit Button"))
+			->addGUIComponent(new GUIButton(glm::vec4(0.425f, 0.7f, 0.15f, 0.07f), glm::vec4(0.0f), "Exit",
+			std::bind(&MainMenuScene::clickExitButton, this, std::placeholders::_1), 16)));
 		addToRoot(mainMenuObject);
 
 		addToRoot((new GameObject("Main Menu Manager"))
@@ -46,6 +46,12 @@ public:
 	bool clickPlayButton(const GameObject& game)
 	{
 		std::cout << "Clicked." << std::endl;
+		return true;
+	}
+
+	bool clickExitButton(const GameObject& game)
+	{
+		getCoreEngine()->stop();
 		return true;
 	}
 };

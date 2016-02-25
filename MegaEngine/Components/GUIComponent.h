@@ -73,6 +73,12 @@ public:
 	}
 
 	/// <summary>
+	/// Gets the parented gameobject.
+	/// </summary>
+	/// <returns>A pointer to the parented gameobject.</returns>
+	GameObject* getParent() { return m_parent; }
+
+	/// <summary>
 	/// Sets the parent GameObject.
 	/// </summary>
 	/// <param name="parent">The GameObject to be attached to.</param>
@@ -99,11 +105,6 @@ public:
 	void disable() { m_widget->hide(); }
 
 protected:	
-	/// <summary>
-	/// Gets the parented gameobject.
-	/// </summary>
-	/// <returns>A pointer to the parented gameobject.</returns>
-	GameObject* getParent() { return m_parent; }
 
 	/// <summary>
 	/// Gets the core engine.
@@ -162,12 +163,12 @@ private:
 	CEGUI::Window* m_widget;
 
 	/// <summary>
-	/// The m_dest rect perc
+	/// The destestion rectangle in percent relative to the parent window.
 	/// </summary>
 	glm::vec4 m_destRectPerc;
 
 	/// <summary>
-	/// The m_dest rect pix
+	/// The destestion rectangle in pixels.
 	/// </summary>
 	glm::vec4 m_destRectPix;
 

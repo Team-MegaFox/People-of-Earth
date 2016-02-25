@@ -14,7 +14,14 @@
 #include "GUILabel.h"
 #include <iostream>
 #include <functional>
-#include <SDL2\SDL_events.h>
+
+/// <summary>
+/// Some sort of event thing for the engine. Haven't decided what to do with it yet.
+/// </summary>
+struct MegaEvents
+{
+
+};
 
 /// <summary>
 /// The class GUIBUtton is the button widget for click events.
@@ -48,7 +55,7 @@ public:
 		GUIComponent::addToEngine(engine);
 		auto wi = createWidget(engine->getGUIEngine()->getSchemeStyle() + "/Button");
 		wi->setText(getText());
-		wi->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&GUIButton::onClick, this));
+		wi->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&GUIButton::pushButton, this));
 		engine->getGUIEngine()->addFont(engine->getGUIEngine()->getDefaultFontName(), getTextSize());
 		wi->setFont(engine->getGUIEngine()->getDefaultFontName() + "-" + std::to_string(getTextSize()));
 	}
@@ -74,7 +81,7 @@ private:
 	/// </summary>
 	/// <param name="e">The event handler by CEGUI.</param>
 	/// <returns>Don't know. It's for CEGUI.</returns>
-	bool onClick(const CEGUI::EventArgs& e)
+	bool pushButton(const CEGUI::EventArgs& e)
 	{
 		if (f_clicked != nullptr)
 		{
@@ -87,4 +94,9 @@ private:
 	/// The function to call when the button is clicked.
 	/// </summary>
 	std::function<bool(const GameObject&)> f_clicked;
+
+	/// <summary>
+	/// The mega events
+	/// </summary>
+	MegaEvents megaEvents;
 };

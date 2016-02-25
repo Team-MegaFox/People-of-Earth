@@ -1,6 +1,7 @@
 #pragma once
 #include <MegaEngine.h>
 #include <iostream>
+#include "TextLerpAlpha.h"
 
 class MainMenuManager : public GameComponent
 {
@@ -13,6 +14,11 @@ public:
 		m_splashScreen = getGameObjectByName("Splash");
 		m_mainMenuScreen = getGameObjectByName("Main Menu");
 		m_mainMenuScreen->setEnabled(false);
+
+		m_playButton = getGameObjectByName("Play Button")->getGUIComponent<GUIButton>();
+		m_exitButton = getGameObjectByName("Exit Button")->getGUIComponent<GUIButton>();
+		m_focusButton = m_playButton;
+		m_focusButton->getParent()->addGameComponent(new TextLerpAlpha);
 	}
 
 	/// <summary>
@@ -29,13 +35,38 @@ public:
 			m_mainMenuScreen->setEnabled(true);
 		}
 
-		if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B) && !m_showSplash)
+		if (!m_showSplash)
 		{
-			m_showSplash = true;
-			m_splashScreen->setEnabled(true);
-			m_mainMenuScreen->setEnabled(false);
-		}
+			if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_A))
+			{
+				m_focusButton->click();
+			}
 
+			if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B))
+			{
+				m_showSplash = true;
+				m_splashScreen->setEnabled(true);
+				m_mainMenuScreen->setEnabled(false);
+			}
+
+			if (m_focusButton == m_playButton && input.GetThumbLPosition().y < 0)
+			{
+				m_focusButton->getParent()->removeGameComponent(m_focusButton->getParent()->getGameComponent<TextLerpAlpha>());
+
+				m_focusButton = m_exitButton;
+
+				m_focusButton->getParent()->addGameComponent(new TextLerpAlpha);
+			}
+
+			if (m_focusButton == m_exitButton && input.GetThumbLPosition().y > 0)
+			{
+				m_focusButton->getParent()->removeGameComponent(m_focusButton->getParent()->getGameComponent<TextLerpAlpha>());
+
+				m_focusButton = m_playButton;
+
+				m_focusButton->getParent()->addGameComponent(new TextLerpAlpha);
+			}
+		}
 	}
 
 private:
@@ -44,5 +75,11 @@ private:
 	GameObject* m_splashScreen;
 
 	GameObject* m_mainMenuScreen;
+
+	GUIButton* m_playButton;
+
+	GUIButton* m_exitButton;
+
+	GUIButton* m_focusButton;
 
 };
