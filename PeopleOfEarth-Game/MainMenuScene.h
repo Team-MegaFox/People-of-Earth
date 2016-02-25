@@ -46,7 +46,7 @@ public:
 
 	bool clickPlayButton(const GameObject& game)
 	{
-		getCoreEngine()->getSceneManager()->push(new MissionSelectScene, Modality::Exclusive);
+		getCoreEngine()->getSceneManager()->push(new MissionSelectScene);
 		return true;
 	}
 

@@ -34,6 +34,12 @@
     <ClInclude Include="PauseScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="MissionSelectManager.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MissionOneScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">

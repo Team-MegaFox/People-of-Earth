@@ -1,6 +1,8 @@
 #pragma once
 #include <MegaEngine.h>
 
+#include "MissionSelectManager.h"
+
 class MissionSelectScene : public Scene
 {
 public:
@@ -18,6 +20,23 @@ public:
 		addToRoot((new GameObject("Camera"))
 			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f))));
 
+		addToRoot((new GameObject("Mission 1"))
+			->addGUIComponent(new GUIContainer(glm::vec4(0.1f, 0.1f, 0.8f, 0.8f), glm::vec4(0.0f)))
+			->addChild((new GameObject("Mission 1 label"))
+			->addGUIComponent(new GUILabel(glm::vec4(0.425f, 0.9f, 0.15f, 0.1f), glm::vec4(0.0f), "Mission 1", 16))));
+
+		addToRoot((new GameObject("Mission 2"))
+			->addGUIComponent(new GUIContainer(glm::vec4(1.1f, 0.1f, 0.8f, 0.8f), glm::vec4(0.0f)))
+			->addChild((new GameObject("Mission 2 label"))
+			->addGUIComponent(new GUILabel(glm::vec4(0.425f, 0.9f, 0.15f, 0.1f), glm::vec4(0.0f), "Mission 2", 16))));
+
+		addToRoot((new GameObject("Mission 3"))
+			->addGUIComponent(new GUIContainer(glm::vec4(2.1f, 0.1f, 0.8f, 0.8f), glm::vec4(0.0f)))
+			->addChild((new GameObject("Mission 3 label"))
+			->addGUIComponent(new GUILabel(glm::vec4(0.425f, 0.9f, 0.15f, 0.1f), glm::vec4(0.0f), "Mission 3", 16))));
+
+		addToRoot((new GameObject("Mission Select Manager"))
+			->addGameComponent(new MissionSelectManager(3)));
 	}
 
 private:

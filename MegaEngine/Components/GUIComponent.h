@@ -79,10 +79,34 @@ public:
 	GameObject* getParent() { return m_parent; }
 
 	/// <summary>
+	/// Gets the relative position to the window.
+	/// </summary>
+	/// <returns>A vector 2D of the relative position.</returns>
+	glm::vec2 getPercentPosition() { return glm::vec2(m_widget->getPosition().d_x.d_scale, m_widget->getPosition().d_y.d_scale); }
+
+	/// <summary>
+	/// Gets the absolute pixel position to the window.
+	/// </summary>
+	/// <returns>A vector 2D of the absolute pixel position.</returns>
+	glm::vec2 getPixelPosition() { return glm::vec2(m_widget->getPosition().d_x.d_offset, m_widget->getPosition().d_y.d_offset); }
+
+	/// <summary>
 	/// Sets the parent GameObject.
 	/// </summary>
 	/// <param name="parent">The GameObject to be attached to.</param>
 	virtual void setParent(GameObject* parent) { m_parent = parent; }
+
+	/// <summary>
+	/// Sets the relative position.
+	/// </summary>
+	/// <param name="pos">The position in percentage relative to the window.</param>
+	void setPercentPosition(const glm::vec2& pos) { m_widget->setPosition(CEGUI::UVector2(CEGUI::UDim(pos.x, 0.0f), CEGUI::UDim(pos.y, 0.0f))); }
+	
+	/// <summary>
+	/// Sets the absolute pixel position.
+	/// </summary>
+	/// <param name="pos">The position in pixels to the window.</param>
+	void setPixelPosition(const glm::vec2& pos) { m_widget->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f, pos.x), CEGUI::UDim(0.0f, pos.y))); }
 
 	/// <summary>
 	/// Activates the widget so it accepts input.

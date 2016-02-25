@@ -85,6 +85,8 @@
     <ClInclude Include="FreeMove.h" />
     <ClInclude Include="MainMenuManager.h" />
     <ClInclude Include="MainMenuScene.h" />
+    <ClInclude Include="MissionOneScene.h" />
+    <ClInclude Include="MissionSelectManager.h" />
     <ClInclude Include="MissionSelectScene.h" />
     <ClInclude Include="PauseScene.h" />
     <ClInclude Include="TextLerpAlpha.h" />
