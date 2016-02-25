@@ -71,7 +71,8 @@ public:
 	/// </summary>
 	virtual void onStart() override
 	{
-		m_audioComponent = new Audio(m_fileName, AudioType::SOUND);
+		m_audioComponent = new Audio(m_fileName, AudioType::SOUND, true);
+		m_audioComponent->setVolume(0.075f);
 	}
 
 	/// <summary>

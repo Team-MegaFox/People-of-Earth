@@ -14,7 +14,8 @@
 
 #include "Sound.h"
 
-Sound::Sound(const std::string& fileName)
+Sound::Sound(const std::string& fileName, bool TwoD /* = false */) :
+m_twoDimensionalSound(TwoD)
 {
 	m_fileName = "Assets/Music/" + fileName;
 
@@ -26,8 +27,16 @@ Sound::Sound(const std::string& fileName)
 
 void Sound::setSound()
 {
-	AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->createSound(m_fileName.c_str(), FMOD_3D | FMOD_DEFAULT, 0, &m_soundPair.first));
-	AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX::FMOD_CHANNEL_REUSE, m_soundPair.first, true, &m_soundPair.second));
+	if (m_twoDimensionalSound)
+	{
+		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->createSound(m_fileName.c_str(), m_twoDimensional, 0, &m_soundPair.first));
+		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX::FMOD_CHANNEL_REUSE, m_soundPair.first, true, &m_soundPair.second));
+	}
+	else
+	{
+		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->createSound(m_fileName.c_str(), m_threeDimensional, 0, &m_soundPair.first));
+		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX::FMOD_CHANNEL_REUSE, m_soundPair.first, true, &m_soundPair.second));
+	}
 }
 
 void Sound::playSound()

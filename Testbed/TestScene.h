@@ -38,7 +38,7 @@ public:
 		Material nebulaTex("nebula1", 0.5f, 4, Texture("NebulaeAndGalaxies/Nebula_A.png"));
 		Material GalaxyTex("galaxy1", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_White - Copy.png"));
 
-		Audio * BGM = new Audio("rightNow.mp3", AudioType::STREAM);
+		Audio * BGM = new Audio("rightNow.mp3", AudioType::STREAM, true);
 
 		addToRoot((new GameObject("skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
@@ -104,13 +104,13 @@ public:
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 1.0f), Material("plan1")))
 );
 
-		addToRoot((new GameObject("planet2", glm::vec3(10.0f, 15.0f, -5000.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_B.obj", 1.0f), Material("plan2")))
-);
-
-		addToRoot((new GameObject("planet3", glm::vec3(10.0f, 15.0f, 5000.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_C.obj", 1.0f), Material("plan3")))
-);
+//		addToRoot((new GameObject("planet2", glm::vec3(10.0f, 15.0f, -5000.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
+//			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_B.obj", 1.0f), Material("plan2")))
+//);
+//
+//		addToRoot((new GameObject("planet3", glm::vec3(10.0f, 15.0f, 5000.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
+//			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_C.obj", 1.0f), Material("plan3")))
+//);
 
 		addToRoot((new GameObject("planet4", glm::vec3(10.0f, 15.0f, -10000.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_D.obj", 1.0f), Material("plan4")))
@@ -125,7 +125,13 @@ public:
 );
 
 		addToRoot((new GameObject("DrLight", glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
-			->addGameComponent(new DirectionalLight(glm::vec3(1.0f, 0.5f, 0.0f), 0.2f, 8, 8.0f, 1.0f)));
+			->addGameComponent(new DirectionalLight(glm::vec3(1.0f, 0.5f, 0.0f), 0.2f, 8, 8.0f, 1.0f, 1.0f)));
+
+		addToRoot((new GameObject("DrLight2", glm::vec3(0.0f, 0.0f, 10000.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
+			->addGameComponent(new DirectionalLight(glm::vec3(1.0f, 0.5f, 0.0f), 0.2f, 8, 8.0f, 1.0f, 1.0f)));
+
+		addToRoot((new GameObject("DrLight3", glm::vec3(0.0f, 0.0f, -10000.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
+			->addGameComponent(new DirectionalLight(glm::vec3(1.0f, 0.5f, 0.0f), 0.2f, 8, 8.0f, 1.0f, 1.0f)));
 
 		BGM->setVolume(0.075f);
 		BGM->play(true);

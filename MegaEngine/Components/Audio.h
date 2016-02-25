@@ -25,21 +25,23 @@ class Audio : public GameComponent
 {
 public:
 
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Audio"/> class.
 	/// </summary>
-	/// <param name="fileName">Name of the file to play.</param>
-	/// <param name="type">The audio type.</param>
-	Audio(const std::string & fileName, AudioType type) :
+	/// <param name="fileName">The name of the music file including the extension, put music into Assets/Music directly</param>
+	/// <param name="type">The type of audio component either Stream or Sound</param>
+	/// <param name="TwoD">If set to true, this sound uses 2D sound (default = false).</param>
+	Audio(const std::string & fileName, AudioType type, bool TwoD = false) :
 		m_type(type)
 	{
 		if (m_type == STREAM)
 		{
-			m_source = new AudioSource(Stream(fileName));
+			m_source = new AudioSource(Stream(fileName, TwoD));
 		}
 		else if (m_type == SOUND)
 		{
-			m_source = new AudioSource(Sound(fileName));
+			m_source = new AudioSource(Sound(fileName, TwoD));
 		}
 	}
 

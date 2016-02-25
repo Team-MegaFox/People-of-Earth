@@ -26,7 +26,8 @@ public:
 	/// Initializes a new instance of the <see cref="SoundSource"/> class.
 	/// </summary>
 	/// <param name="fileName">Name of the file.</param>
-	Sound(const std::string& fileName);
+	/// <param name="TwoD">if true this sound is 2D (default is false)</param>
+	Sound(const std::string& fileName, bool TwoD = false);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="SoundSource"/> class.
 	/// </summary>
@@ -144,5 +145,17 @@ private:
 	/// </summary>
 	std::pair<FMOD::Sound*, FMOD::Channel*> m_soundPair;
 
+	/// <summary>
+	/// This boolean determines whether or not to use 3D sound
+	/// </summary>
+	bool m_twoDimensionalSound;
+	/// <summary>
+	/// For making this a 2D sound effect
+	/// </summary>
+	uint16_t m_twoDimensional = FMOD_2D | FMOD_DEFAULT;
+	/// <summary>
+	/// For making this sound a 3D sound effect
+	/// </summary>
+	uint16_t m_threeDimensional = FMOD_3D | FMOD_DEFAULT;
 };
 

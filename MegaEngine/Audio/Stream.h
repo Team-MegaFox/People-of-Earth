@@ -14,6 +14,7 @@
 
 #pragma once
 #include "..\Audio\AudioEngine.h"
+#include <cstdint>
 
 class Stream
 {
@@ -26,7 +27,8 @@ public:
 	/// Initializes a new instance of the <see cref="StreamSource"/> class.
 	/// </summary>
 	/// <param name="fileName">Name of the file.</param>
-	Stream(const std::string& fileName);
+	/// <param name="TwoD">if true this sound is 2D (default is false)</param>
+	Stream(const std::string& fileName, bool TwoD = false);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="StreamSource"/> class.
 	/// </summary>
@@ -131,4 +133,16 @@ private:
 	/// </summary>
 	std::pair<FMOD::Sound*, FMOD::Channel*> m_streamPair;
 
+	/// <summary>
+	/// This boolean determines whether or not to use 3D streaming
+	/// </summary>
+	bool m_twoDimensionalSound;
+	/// <summary>
+	/// For making this sound a 2D stream
+	/// </summary>
+	uint16_t m_twoDimensional	= FMOD_2D | FMOD_DEFAULT;
+	/// <summary>
+	/// For making this sound a 3D stream
+	/// </summary>
+	uint16_t m_threeDimensional = FMOD_3D | FMOD_DEFAULT;
 };
