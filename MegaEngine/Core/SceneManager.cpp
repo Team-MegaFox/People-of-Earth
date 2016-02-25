@@ -15,8 +15,12 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "..\Components\GameComponents.h"
+#include "..\Rendering\RenderingEngine.h"
+#include "..\Rendering\Camera3D.h"
+#include "..\Physics\PhysicsEngine.h"
 #include <stdexcept>
 #include <algorithm>
+#include <iostream>
 
 SceneManager::SceneManager(Viewport* viewport) :
 m_viewport(viewport)
@@ -51,6 +55,7 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 		for (size_t i = 0; i < go.size(); i++)
 		{
 			go[i]->deactivate();
+			go[i]->setEnabled(false);
 		}
 	}
 
@@ -88,6 +93,7 @@ void SceneManager::pop()
 		for (size_t i = 0; i < go.size(); i++)
 		{
 			go[i]->activate();
+			go[i]->setEnabled(true);
 		}
 	}
 }
@@ -188,16 +194,20 @@ void SceneManager::updateExclusiveScene()
 		}
 	}
 
-
-	if (m_exclusiveScene != 0)
+	auto go = m_activeList[m_exclusiveScene].first->getAllGameObjects();
+	for (size_t i = 0; i < go.size(); i++)
 	{
-		for (size_t i = 0; i < m_exclusiveScene; i++)
+		CameraComponent* camera = go[i]->getGameComponent<CameraComponent>();
+		if (camera != nullptr)
 		{
-			auto go = m_activeList[i].first->getAllGameObjects();
-			for (size_t j = 0; j < go.size(); j++)
-			{
-				go[j]->setEnabled(false);
-			}
+			m_coreEngine->getPhysicsEngine()->setMainCamera(*camera->getCamera3D());
+			m_coreEngine->getRenderingEngine()->setMainCamera(*camera->getCamera3D());
+		}
+
+		SkyboxRenderer* skybox = go[i]->getGameComponent<SkyboxRenderer>();
+		if (skybox != nullptr)
+		{
+			m_coreEngine->getRenderingEngine()->setSkybox(*skybox->getSkybox());
 		}
 	}
 }

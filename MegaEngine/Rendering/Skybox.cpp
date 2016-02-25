@@ -86,6 +86,7 @@ GL_TEXTURE_CUBE_MAP, GL_LINEAR, GL_RGBA, GL_RGBA, true)
 
 Skybox::~Skybox()
 {
+	
 }
 
 void Skybox::render(const RenderingEngine& renderingEngine, const Camera3D & camera) const
@@ -93,6 +94,11 @@ void Skybox::render(const RenderingEngine& renderingEngine, const Camera3D & cam
 	m_cubeShader.bind();
 	m_cubeShader.updateUniforms(m_cubeTransform, Material("skyboxMaterial", m_cubeTexture), renderingEngine, camera);
 	m_cubeMesh->render();
+}
+
+SkyboxRenderer::~SkyboxRenderer()
+{
+	getCoreEngine()->getRenderingEngine()->removeSkybox();
 }
 
 void SkyboxRenderer::addToEngine(CoreEngine* engine) const

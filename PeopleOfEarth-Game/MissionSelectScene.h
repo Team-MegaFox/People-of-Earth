@@ -35,10 +35,18 @@ public:
 			->addChild((new GameObject("Mission 3 label"))
 			->addGUIComponent(new GUILabel(glm::vec4(0.425f, 0.9f, 0.15f, 0.1f), glm::vec4(0.0f), "Mission 3", 16))));
 
+		addToRoot((new GameObject("Back Button"))
+			->addGUIComponent(new GUIButton(glm::vec4(0.45f, 0.95f, 0.1f, 0.05), glm::vec4(0.0f), "Back",
+			std::bind(&MissionSelectScene::clickBackButton, this, std::placeholders::_1))));
+
 		addToRoot((new GameObject("Mission Select Manager"))
 			->addGameComponent(new MissionSelectManager(3)));
 	}
 
 private:
-
+	bool clickBackButton(const GameObject& gameobject)
+	{
+		getCoreEngine()->getSceneManager()->pop();
+		return true;
+	}
 };

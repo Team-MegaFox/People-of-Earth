@@ -28,7 +28,7 @@ public:
 	{
 		if (!m_move)
 		{
-			if (input.KeyPress(SDLK_d) || input.GetThumbLPosition().x > 0.0f)
+			if (input.KeyPress(SDLK_d) || input.GetThumbLPosition().x > 0.2f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_RIGHT))
 			{
 				if (m_focusMission != m_missionWidgets.back())
 				{
@@ -43,7 +43,7 @@ public:
 					m_focusMission = m_missionWidgets.back();
 				}
 			}
-			else if (input.KeyPress(SDLK_a) || input.GetThumbLPosition().x < 0.0f)
+			else if (input.KeyPress(SDLK_a) || input.GetThumbLPosition().x < -0.2f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_LEFT))
 			{
 				if (m_focusMission != m_missionWidgets.front())
 				{
