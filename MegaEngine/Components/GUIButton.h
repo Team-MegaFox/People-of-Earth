@@ -14,14 +14,7 @@
 #include "GUILabel.h"
 #include <iostream>
 #include <functional>
-
-/// <summary>
-/// Some sort of event thing for the engine. Haven't decided what to do with it yet.
-/// </summary>
-struct MegaEvents
-{
-
-};
+#include <SDL2\SDL_events.h>
 
 /// <summary>
 /// The class GUIBUtton is the button widget for click events.
@@ -55,7 +48,7 @@ public:
 		GUIComponent::addToEngine(engine);
 		auto wi = createWidget(engine->getGUIEngine()->getSchemeStyle() + "/Button");
 		wi->setText(getText());
-		wi->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&GUIButton::pushButton, this));
+		wi->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&GUIButton::onClick, this));
 		engine->getGUIEngine()->addFont(engine->getGUIEngine()->getDefaultFontName(), getTextSize());
 		wi->setFont(engine->getGUIEngine()->getDefaultFontName() + "-" + std::to_string(getTextSize()));
 	}
@@ -69,13 +62,19 @@ public:
 		f_clicked = pfcn;
 	}
 
+	void click()
+	{
+		CEGUI::EventArgs args;
+		getWidget()->fireEvent(CEGUI::PushButton::EventClicked, args);
+	}
+
 private:
 	/// <summary>
 	/// The onClick function managed by CEGUI. It calls a function pointer so we can abstract CEGUI.
 	/// </summary>
 	/// <param name="e">The event handler by CEGUI.</param>
 	/// <returns>Don't know. It's for CEGUI.</returns>
-	bool pushButton(const CEGUI::EventArgs& e)
+	bool onClick(const CEGUI::EventArgs& e)
 	{
 		if (f_clicked != nullptr)
 		{
@@ -88,9 +87,4 @@ private:
 	/// The function to call when the button is clicked.
 	/// </summary>
 	std::function<bool(const GameObject&)> f_clicked;
-
-	/// <summary>
-	/// The mega events
-	/// </summary>
-	MegaEvents megaEvents;
 };

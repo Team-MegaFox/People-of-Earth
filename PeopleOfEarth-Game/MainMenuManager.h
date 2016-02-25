@@ -22,20 +22,20 @@ public:
 	/// <param name="delta">The frame time delta.</param>
 	virtual void processInput(const InputManager& input, float delta) override
 	{
-		if (input.KeyPress(SDLK_m))
+		if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_START) && m_showSplash)
 		{
-			m_showSplash = !m_showSplash;
-			if (m_showSplash)
-			{
-				m_splashScreen->setEnabled(true);
-				m_mainMenuScreen->setEnabled(false);
-			}
-			else
-			{
-				m_splashScreen->setEnabled(false);
-				m_mainMenuScreen->setEnabled(true);
-			}
+			m_showSplash = false;
+			m_splashScreen->setEnabled(false);
+			m_mainMenuScreen->setEnabled(true);
 		}
+
+		if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B) && !m_showSplash)
+		{
+			m_showSplash = true;
+			m_splashScreen->setEnabled(true);
+			m_mainMenuScreen->setEnabled(false);
+		}
+
 	}
 
 private:

@@ -281,4 +281,9 @@ void GameObject::setEnabled(const bool enabled)
 			m_guiComponents[i]->disable();
 		}
 	}
+
+	for (size_t i = 0; i < m_children.size(); i++)
+	{
+		m_children[i]->setEnabled(enabled);
+	}
 }

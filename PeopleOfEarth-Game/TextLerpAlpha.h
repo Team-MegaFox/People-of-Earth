@@ -11,6 +11,7 @@ public:
 	virtual void onStart() 
 	{
 		m_label = getParent()->getGUIComponent<GUILabel>();
+		m_orginalText = m_label->getText();
 	}
 
 	/// <summary>
@@ -36,7 +37,11 @@ public:
 			}
 		}
 
-		m_label->setAlpha(m_alpha);
+		int alphaV = (int)(m_alpha * 255.0f);
+		std::stringstream ss;
+		ss << "[colour='" << std::hex << alphaV << "FFFFFF']";
+		std::string stringstream = ss.str();
+		m_label->setText(ss.str() + m_orginalText);
 	}
 
 private:
@@ -45,5 +50,7 @@ private:
 	float m_alpha = 1.0f;
 
 	bool fadeOut = true;
+
+	std::string m_orginalText;
 
 };

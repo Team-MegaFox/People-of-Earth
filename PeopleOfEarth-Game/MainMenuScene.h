@@ -26,14 +26,26 @@ public:
 			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f))));
 
 		addToRoot((new GameObject("Splash"))
-			->addGUIComponent(new GUILabel(glm::vec4(0.4f, 0.6f, 0.2f, 0.05f), glm::vec4(0.0f), "Press any button...", 16))
+			->addGUIComponent(new GUILabel(glm::vec4(0.4f, 0.6f, 0.2f, 0.05f), glm::vec4(0.0f), "Press start...", 16))
 			->addGameComponent(new TextLerpAlpha));
 
-		addToRoot((new GameObject("Main Menu"))
-			->addGUIComponent(new GUILabel(glm::vec4(0.4f, 0.2f, 0.2f, 0.05f), glm::vec4(0.0f), "Main Menu", 16)));
+		GameObject* mainMenuObject = new GameObject("Main Menu");
+		mainMenuObject->addChild((new GameObject("Play Button"))
+			->addGUIComponent(new GUIButton(glm::vec4(0.425f, 0.6f, 0.15f, 0.07f), glm::vec4(0.0f), "Play",
+			std::bind(&MainMenuScene::clickPlayButton, this, std::placeholders::_1), 16)));
+		//mainMenuObject->addChild((new GameObject("Exit Button"))
+		//	->addGUIComponent(new GUIButton(glm::vec4(0.425f, 0.7f, 0.15f, 0.07f), glm::vec4(0.0f), "Exit",
+		//	std::bind(&MainMenuScene::clickExitButton, this, std::placeholders::_1), 16)));
+		addToRoot(mainMenuObject);
 
 		addToRoot((new GameObject("Main Menu Manager"))
 			->addGameComponent(new MainMenuManager));
 
+	}
+
+	bool clickPlayButton(const GameObject& game)
+	{
+		std::cout << "Clicked." << std::endl;
+		return true;
 	}
 };
