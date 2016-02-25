@@ -187,4 +187,17 @@ void SceneManager::updateExclusiveScene()
 			break;
 		}
 	}
+
+
+	if (m_exclusiveScene != 0)
+	{
+		for (size_t i = 0; i < m_exclusiveScene; i++)
+		{
+			auto go = m_activeList[i].first->getAllGameObjects();
+			for (size_t j = 0; j < go.size(); j++)
+			{
+				go[j]->setEnabled(false);
+			}
+		}
+	}
 }

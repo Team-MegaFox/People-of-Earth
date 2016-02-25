@@ -7,6 +7,7 @@
 #include "FreeMove.h"
 #include "TextLerpAlpha.h"
 #include "MainMenuManager.h"
+#include "MissionSelectScene.h"
 
 class MainMenuScene : public Scene
 {
@@ -17,7 +18,7 @@ public:
 	virtual void init(const Viewport& window) override
 	{
 		addToRoot((new GameObject("Skybox"))
-			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
+			->addGameComponent(new SkyboxRenderer("Skybox/orbital/orbital.tga")));
 
 		addToRoot((new GameObject("Directional Light"))
 			->addGameComponent(new DirectionalLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.2f, 7, 8.0f, 1.0f)));
@@ -45,7 +46,7 @@ public:
 
 	bool clickPlayButton(const GameObject& game)
 	{
-		std::cout << "Clicked." << std::endl;
+		getCoreEngine()->getSceneManager()->push(new MissionSelectScene, Modality::Exclusive);
 		return true;
 	}
 
