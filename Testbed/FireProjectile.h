@@ -160,6 +160,7 @@ public:
 	{
 		//m_audioComponent = getParent()->getGameComponent<Audio>();
 		//m_audioComponent = new Audio("268168__shaun105__laser.wav", AudioType::SOUND);
+		//getParent()->getGameComponent<RigidBody>()->setDebugDraw(true);
 	}
 
 	/// <summary>

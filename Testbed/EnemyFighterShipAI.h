@@ -30,13 +30,20 @@ public:
 		m_forwardDirection = glm::vec3(0);
 		m_direction = glm::vec3(0);
 		m_targetPoint = *getTransform()->getPosition();
-		m_velocityValue = 50.0f;
+		m_velocityValue = 50.0f; 
+		m_wayPoints.push_back(glm::vec3(80.0f, -11.0f, 550.0f));
+		m_wayPoints.push_back(glm::vec3(0.0f));
+		m_wayPoints.push_back(glm::vec3(20.0f, -5.0f, 450.0f));
+		m_wayPoints.push_back(glm::vec3(-60.0f, -11.0f, 550.0f));
+		m_delayCheckInFront = 0.0f;
+		m_distanceToChangeWayPoint = 150.0f;
 	}
 
 	virtual void UpdateAI(float timestep) override
 	{
-		Wander(timestep);
+		//Wander(timestep);
 		
+		WayPoint(timestep);
 	}
 };
 

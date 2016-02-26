@@ -34,7 +34,7 @@ public:
 		m_rigidBody = getParent()->getGameComponent<RigidBody>();
 		m_rigidBody->setPosition(*getTransform()->getPosition());
 		m_rigidBody->setRotation(*getTransform()->getRotation());
-		m_rigidBody->setDebugDraw(true);
+		//m_rigidBody->setDebugDraw(true);
 	}
 
 	//Initialize
@@ -121,16 +121,15 @@ public:
 		RotateShip(timestep);
 	}
 
-	int RandomNumber(int max, int min, unsigned int timestep)
+	int RandomNumber(int max, int min)
 	{
-		//srand(timestep);
 		int randnum = (rand() % (glm::abs(max) + glm::abs(min))) - ((glm::abs(max) + glm::abs(min)) / 2);
 		return randnum;
 	}
 
-	float getMagnitude(glm::vec3 vector)
+	void CheckPath()
 	{
-		return glm::sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
+		
 	}
 
 	//Wander the ship
@@ -142,9 +141,9 @@ public:
 		if (glm::distance(m_targetPoint, *getTransform()->getPosition()) < 75.0f)
 		{
 			//Change the position of the waypoint (random number between -100 to 100)
-			m_targetPoint = *getTransform()->getPosition() + glm::vec3(RandomNumber(100, -100, timestep),
-																	   RandomNumber(100, -100, timestep), 
-																	   RandomNumber(100, -100, timestep));
+			m_targetPoint = *getTransform()->getPosition() + glm::vec3(RandomNumber(100, -100),
+																	   RandomNumber(100, -100), 
+																	   RandomNumber(100, -100));
 		}
 
 		//Seek to the waypoint
@@ -178,6 +177,26 @@ public:
 		SeekToPoint(*getTransform()->getPosition() + futureDirection, timestep);
 	}
 
+	//Waypoint
+	void WayPoint(float timestep)
+	{
+		CheckPath();
+		if (m_wayPoints.size() > 0)
+		{
+			if (glm::distance(m_wayPoints[m_wayPoints.size() - 1], *getTransform()->getPosition()) < m_distanceToChangeWayPoint)
+			{
+				m_wayPoints.pop_back();
+			}
+			else
+			{
+				//Get the direction
+				m_direction = glm::normalize((m_wayPoints[m_wayPoints.size() - 1] - *getTransform()->getPosition()));
+
+				RotateShip(timestep);
+			}
+		}
+	}
+
 	//Any agent will inherit this function
 	virtual void UpdateAI(float timestep) = 0;
 
@@ -192,7 +211,7 @@ public:
 		//Get the forward direction
 		m_forwardDirection = Utility::getForward(*getTransform()->getRotation());
 
-		//m_rigidBody->updateVelocity(m_forwardDirection * m_velocityValue);
+		m_rigidBody->updateVelocity(m_forwardDirection * m_velocityValue);
 
 		//Update the position
 		/*getTransform()->setPosition(*getTransform()->getPosition() 
@@ -203,10 +222,21 @@ public:
 	}
 
 protected:
+	//Directions
 	glm::vec3 m_forwardDirection;
 	glm::vec3 m_direction;
+
+	//Seek targets
 	GameObject* m_targetObject;
 	glm::vec3 m_targetPoint;
+	
+	//Waypoints
+	/*All the waypoint must be that the 0 index being the last waypoint to the first waypoint*/
+	std::vector<glm::vec3> m_wayPoints;
+	float m_delayCheckInFront;
+	float m_distanceToChangeWayPoint;
+
+	//Physics
 	RigidBody* m_rigidBody;
 	float m_velocityValue;
 };
