@@ -40,8 +40,9 @@ public:
 	virtual void addToEngine(CoreEngine* engine)
 	{
 		GUIComponent::addToEngine(engine);
-		auto wi = static_cast<CEGUI::FrameWindow*>(createWidget(engine->getGUIEngine()->getSchemeStyle() + "/FrameWindow"));
-		wi->setTitleBarEnabled(false);
+		CEGUI::FrameWindow* wi = static_cast<CEGUI::FrameWindow*>(createWidget(engine->getGUIEngine()->getSchemeStyle() + "/FrameWindow"));
+		wi->setTitleBarEnabled(true);
+		wi->getTitlebar()->disable();
 		wi->setCloseButtonEnabled(false);
 		wi->setSizingEnabled(false);
 	}
