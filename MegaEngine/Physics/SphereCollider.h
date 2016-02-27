@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 02-25-2016
+// Last Modified On : 02-27-2016
 // ***********************************************************************
 // <copyright file="SphereCollider.h" company="">
 //     Copyright (c) . All rights reserved.
@@ -74,6 +74,14 @@ public:
 	/// <param name="collidableObjects">Collider this Sphere Collider will be checking.</param>
 	/// <returns>Return bool flag to determine this Sphere Collider collided with the Collider</returns>
 	virtual bool checkCollision(Collider* collidableObject) override;
+
+	/// <summary>
+	/// Check the collision with this Sphere Collider with the ray
+	/// </summary>
+	/// <param name="rayPosition">Ray Position.</param>
+	/// <param name = "rayDirection">Ray Direction.</param>
+	/// <returns>Return bool flag to determine this Sphere Collider collided with the ray</returns>
+	virtual bool checkCollision(glm::vec3 rayPosition, glm::vec3 rayDirection, float &timeOfCollision) override;
 
 };
 

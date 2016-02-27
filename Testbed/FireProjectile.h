@@ -23,7 +23,7 @@ struct Projectile : public GameComponent
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Laser"/> class.
 	/// </summary>
-	Projectile() : m_lifeTime(2.0f) {}
+	Projectile() : m_lifeTime(2.0f), m_delay(0.0f) {}
 	/// <summary>
 	/// Finalizes an instance of the <see cref="Laser"/> class.
 	/// </summary>
@@ -57,6 +57,40 @@ struct Projectile : public GameComponent
 		}
 		else if (!m_rigidBody->getCollided())
 		{
+			if (m_delay < 0)
+			{
+				std::vector<GameObject*> collidableGameObjects;
+				collidableGameObjects = getAllFigherShipsGameObjects();
+				float m_collisionTime;
+				for (size_t i = 0; i < collidableGameObjects.size(); i++)
+				{
+					if (collidableGameObjects[i]->getGameComponent<RigidBody>()->getCollider()->checkCollision(
+						*getTransform()->getPosition(),	glm::normalize(m_rigidBody->getVelocity()),
+						m_collisionTime)
+						)
+					{
+						m_collisionTime /= 60.0f;
+						//Within the lasers life time
+						if (m_collisionTime < m_lifeTime)
+						{
+							//collidedGameObjects[i]->getGameComponent<ShipStats>()->updateHealth(-20);
+							printf("Ray Collided with ship\n");
+							m_lifeTime = m_collisionTime;
+							m_delay = 2.0f;
+							break;
+						}
+					}
+				}
+				if (m_lifeTime > 0)
+				{
+					m_delay = 1.0f;
+				}
+			}
+			else
+			{
+				m_delay -= delta;
+			}
+			/*
 			for (size_t i = 0; i < 3; i++)
 			{
 				m_rigidBody->setPosition(m_rigidBody->getPosition() - m_rigidBody->getVelocity() * delta / 3.0f);
@@ -75,7 +109,7 @@ struct Projectile : public GameComponent
 					break;
 				}
 			}
-			m_rigidBody->setPosition(m_rigidBody->getPosition() + m_rigidBody->getVelocity() * delta);
+			m_rigidBody->setPosition(m_rigidBody->getPosition() + m_rigidBody->getVelocity() * delta);*/
 		}
 		else if (!PhysicsEngine::getPhysicsWorld()->checkInsideWorld(m_rigidBody->getCollider()))
 		{
@@ -139,6 +173,8 @@ private:
 	float m_lifeTime;
 
 	RigidBody* m_rigidBody;
+
+	float m_delay;
 };
 
 class FireProjectile : public GameComponent

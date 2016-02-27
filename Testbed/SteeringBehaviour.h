@@ -34,7 +34,7 @@ public:
 		m_rigidBody = getParent()->getGameComponent<RigidBody>();
 		m_rigidBody->setPosition(*getTransform()->getPosition());
 		m_rigidBody->setRotation(*getTransform()->getRotation());
-		//m_rigidBody->setDebugDraw(true);
+		m_rigidBody->setDebugDraw(true);
 	}
 
 	//Initialize
@@ -127,9 +127,12 @@ public:
 		return randnum;
 	}
 
-	void CheckPath()
+	//Check if anything is in front of the ship
+	void CheckPath(float timestep)
 	{
-		
+		//Forward direction is the ray
+		//Direction of the object
+
 	}
 
 	//Wander the ship
@@ -180,7 +183,7 @@ public:
 	//Waypoint
 	void WayPoint(float timestep)
 	{
-		CheckPath();
+		CheckPath(timestep);
 		if (m_wayPoints.size() > 0)
 		{
 			if (glm::distance(m_wayPoints[m_wayPoints.size() - 1], *getTransform()->getPosition()) < m_distanceToChangeWayPoint)
@@ -211,7 +214,7 @@ public:
 		//Get the forward direction
 		m_forwardDirection = Utility::getForward(*getTransform()->getRotation());
 
-		m_rigidBody->updateVelocity(m_forwardDirection * m_velocityValue);
+		//m_rigidBody->updateVelocity(m_forwardDirection * m_velocityValue);
 
 		//Update the position
 		/*getTransform()->setPosition(*getTransform()->getPosition() 

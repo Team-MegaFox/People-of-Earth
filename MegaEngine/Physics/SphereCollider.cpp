@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 02-25-2016
+// Last Modified On : 02-27-2016
 // ***********************************************************************
 // <copyright file="SphereCollider.cpp" company="">
 //     Copyright (c) . All rights reserved.
@@ -143,4 +143,50 @@ bool SphereCollider::checkCollision(Collider* collidableObject)
 	}
 	//No collision
 	return false;
+}
+
+bool SphereCollider::checkCollision(glm::vec3 rayPosition, glm::vec3 rayDirection, float &timeOfCollision)
+{
+	//Tutorial from http://www.miguelcasillas.com/?p=74
+
+	//Create a vector from the sphere to the ray's start point
+	glm::vec3 spherePosToRayPos = rayPosition - m_position;
+
+	//Get the dot product of this vector with the ray's direction
+	float projection = glm::dot(spherePosToRayPos, rayDirection);
+
+	//Get the square distance from the start of the ray to the sphere's surface
+	float squaredDistance = glm::dot(spherePosToRayPos, spherePosToRayPos) - (m_radiusSphere * m_radiusSphere);
+
+	//If the ray starts outside the sphere and points away from it, we return false
+	if (squaredDistance > 0.0f && projection > 0.0f)
+	{
+		return false;
+	}
+	
+	//Get the discriminant for our equation
+	float discriminant = projection * projection - squaredDistance;
+
+	//If this is less than zero, we return false (No intersection)
+	if (discriminant < 0.0f)
+	{
+		return false;
+	}
+
+	//We solve our equation and get the time of collision
+	//We use -sqrt(fDisc) to get the smallest root, ie. the first point in which the ray touches the sphere
+	timeOfCollision = -projection - sqrt(discriminant);
+
+	//If the time is less than zero, it means the ray started inside the sphere (Already Collision)
+	if (timeOfCollision < 0.0f)
+	{
+		timeOfCollision = 0.0f;
+	}
+
+	//Our collision point is going to be:
+	glm::vec3 collisionPoint = rayPosition + rayDirection * timeOfCollision;
+
+	//Collided
+	return true;
+
 }
