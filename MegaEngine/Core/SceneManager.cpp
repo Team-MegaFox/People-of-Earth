@@ -55,7 +55,10 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 		for (size_t i = 0; i < go.size(); i++)
 		{
 			go[i]->deactivate();
-			go[i]->setEnabled(false);
+			if (modality == Modality::Exclusive)
+			{
+				go[i]->setEnabled(false);
+			}
 		}
 	}
 

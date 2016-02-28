@@ -17,7 +17,7 @@ public:
 
 	virtual void init(const Viewport& window) override
 	{
-		Material earth("earth", 0.4f, 4.0f, Texture("Planets/earth_diffuse.jpg"), Texture("default_normal.jpg"), Texture("Planets/earth_disp.jpg"), 0.0f, 0.0f);
+		//Material earth("earth", 0.4f, 4.0f, Texture("Planets/earth_diffuse.jpg"), Texture("default_normal.jpg"), Texture("Planets/earth_disp.jpg"), 0.0f, 0.0f);
 
 		addToRoot((new GameObject("Skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/orbital/orbital.tga")));
@@ -46,8 +46,8 @@ public:
 		addToRoot((new GameObject("Main Menu Manager"))
 			->addGameComponent(new MainMenuManager));
 
-		addToRoot((new GameObject("Earth", glm::vec3(0.0f), glm::angleAxis(glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f))))
-			->addGameComponent(new MeshRenderer(Mesh("Environment/sphere.obj"), Material("earth"))));
+		//addToRoot((new GameObject("Earth", glm::vec3(0.0f), glm::angleAxis(glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f))))
+		//	->addGameComponent(new MeshRenderer(Mesh("Environment/sphere.obj"), Material("earth"))));
 	}
 
 	bool clickPlayButton(const GameObject& game)
