@@ -130,10 +130,49 @@ public:
 	//Check if anything is in front of the ship
 	void CheckPath(float timestep)
 	{
-		//Forward direction is the ray
-		//Direction of the object
-
+		if (m_delayCheckInFront < 0.0f)
+		{
+			std::vector<GameObject*> collidableGameObjects;
+			collidableGameObjects = getAllAvoidingObject();
+			float m_collisionTime;
+			for (size_t i = 0; i < collidableGameObjects.size(); i++)
+			{
+				if (collidableGameObjects[i]->getGameComponent<RigidBody>()->getCollider()->checkCollision(
+					*getTransform()->getPosition(), glm::normalize(m_rigidBody->getVelocity()),
+					m_collisionTime)
+					)
+				{
+					m_collisionTime /= 60.0f;
+					//Within the 3 sec
+					if (m_collisionTime < 3.0f)
+					{
+						if (collidableGameObjects[i]->getGameComponent<RigidBody>()->getVelocity() != glm::vec3(0.0f))
+						{
+							m_wayPoints.push_back(collidableGameObjects[i]->getGameComponent<RigidBody>()->getPosition() + 
+								glm::normalize(collidableGameObjects[i]->getGameComponent<RigidBody>()->getVelocity()) * -5.0f /*multiply by scale*/);
+							printf("Ray Going to collide\n");
+							m_delayCheckInFront = 1.0f;
+							break;
+						}
+						else
+						{
+							m_wayPoints.push_back(collidableGameObjects[i]->getGameComponent<RigidBody>()->getPosition() +
+								glm::vec3(RandomNumber(100, -100), RandomNumber(100, -100), 0.0f) /*multiply by scale*/);
+							printf("Ray Going to collide\n");
+							m_delayCheckInFront = 1.0f;
+							break;
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			m_delayCheckInFront -= timestep;
+		}
 	}
+
+	virtual std::vector<GameObject*> getAllAvoidingObject() = 0;
 
 	//Wander the ship
 	void Wander(float timestep)

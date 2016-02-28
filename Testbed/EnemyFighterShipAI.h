@@ -31,12 +31,32 @@ public:
 		m_direction = glm::vec3(0);
 		m_targetPoint = *getTransform()->getPosition();
 		m_velocityValue = 50.0f; 
-		m_wayPoints.push_back(glm::vec3(80.0f, -11.0f, 550.0f));
-		m_wayPoints.push_back(glm::vec3(0.0f));
-		m_wayPoints.push_back(glm::vec3(20.0f, -5.0f, 450.0f));
-		m_wayPoints.push_back(glm::vec3(-60.0f, -11.0f, 550.0f));
+		m_wayPoints.push_back(glm::vec3(10.0f, 15.0f, 600.0f));
+		m_wayPoints.push_back(glm::vec3(10.0f, 15.0f, 500.0f));
+		//m_wayPoints.push_back(glm::vec3(20.0f, -5.0f, 450.0f));
+		//m_wayPoints.push_back(glm::vec3(-60.0f, -11.0f, 550.0f));
 		m_delayCheckInFront = 0.0f;
 		m_distanceToChangeWayPoint = 150.0f;
+	}
+
+	virtual std::vector<GameObject*> getAllAvoidingObject() override
+	{
+		std::vector<GameObject*> collisionCheckObject;
+		GameObject* gameObject;
+		int counter = 1;
+		//Add all the planet
+		do
+		{
+			gameObject = getGameObjectByName("planet" + std::to_string(counter));
+			if (gameObject != nullptr)
+			{
+				collisionCheckObject.push_back(gameObject);
+			}
+			counter++;
+		} while (gameObject != nullptr);
+
+		return collisionCheckObject;
+
 	}
 
 	virtual void UpdateAI(float timestep) override

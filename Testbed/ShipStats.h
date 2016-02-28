@@ -18,7 +18,7 @@
 class ShipStats : public GameComponent
 {
 public: 
-	ShipStats() {}
+	ShipStats() : m_health(1.0f), m_fuel(1.0f), m_energy(1.0f) {}
 	~ShipStats() {}
 
 	void updateHealth(float health)

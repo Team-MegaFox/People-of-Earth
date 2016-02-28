@@ -66,9 +66,9 @@ public:
 
 		// the alien fighter ship
 		addToRoot((new GameObject("enemyFighter1", glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(1.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Ships/AlienFighter_FINAL.obj", 1.0f), Material("alien_ship")))
+			->addGameComponent(new MeshRenderer(Mesh("Ships/AlienFighter_FINAL.obj", 0.5f), Material("alien_ship")))
 			->addGameComponent(stream)
-			->addGameComponent(new RigidBody(glm::vec3(), glm::quat(), 1.0f, 4.0f, 4.0f, 16.0f))
+			->addGameComponent(new RigidBody(glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(), 1.0f, 4.0f, 4.0f, 16.0f))
 			->addGameComponent(new EnemyFighterShipAI)
 			);
 

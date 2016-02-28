@@ -81,6 +81,7 @@ struct Projectile : public GameComponent
 						}
 					}
 				}
+				//No collision along its path so delay this collision check by 1 sec
 				if (m_lifeTime > 0)
 				{
 					m_delay = 1.0f;
@@ -90,26 +91,6 @@ struct Projectile : public GameComponent
 			{
 				m_delay -= delta;
 			}
-			/*
-			for (size_t i = 0; i < 3; i++)
-			{
-				m_rigidBody->setPosition(m_rigidBody->getPosition() - m_rigidBody->getVelocity() * delta / 3.0f);
-				//Check collision
-				std::vector<GameObject*> collidedGameObjects;
-				collidedGameObjects = m_rigidBody->checkCollision(getAllFigherShipsGameObjects());
-				for (size_t i = 0; i < collidedGameObjects.size(); i++)
-				{
-					//collidedGameObjects[i]->getGameComponent<ShipStats>()->updateHealth(-20);
-					printf("Collided with ship\n");
-					m_lifeTime = -1.0f;
-					break;
-				}
-				if (m_lifeTime < 0)
-				{
-					break;
-				}
-			}
-			m_rigidBody->setPosition(m_rigidBody->getPosition() + m_rigidBody->getVelocity() * delta);*/
 		}
 		else if (!PhysicsEngine::getPhysicsWorld()->checkInsideWorld(m_rigidBody->getCollider()))
 		{
