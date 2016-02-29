@@ -3,7 +3,7 @@
 // Created          : 02-23-2016
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 02-25-2016
+// Last Modified On : 02-29-2016
 // ***********************************************************************
 // <copyright file="EnemyFighterShipAI.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -56,19 +56,6 @@ public:
 	virtual std::vector<GameObject*> getAllEnemyObject() override
 	{
 		std::vector<GameObject*> collisionCheckObject;
-		//GameObject* gameObject;
-		//int counter = 1;
-		////Add all the planet
-		//do
-		//{
-		//	gameObject = getGameObjectByName("planet" + std::to_string(counter));
-		//	if (gameObject != nullptr)
-		//	{
-		//		collisionCheckObject.push_back(gameObject);
-		//	}
-		//	counter++;
-		//} while (gameObject != nullptr);
-
 		std::vector<GameObject*> gameObjects;
 		gameObjects = getGameObjectsByName("Fighter Ship");
 		for (size_t i = 0; i < gameObjects.size(); i++)
@@ -140,16 +127,6 @@ public:
 			int counter = 1;
 			if (shipType == SHIP_CLASS::ALL_SHIP || shipType == SHIP_CLASS::FIGHTER_SHIP)
 			{
-				//All the Fighter Ship
-				//do
-				//{
-				//	gameObject = getGameObjectByName("Fighter Ship" + std::to_string(counter));
-				//	if (gameObject != nullptr)
-				//	{
-				//		allEnemyObject.push_back(gameObject);
-				//	}
-				//	counter++;
-				//} while (gameObject != nullptr);
 				gameObjects = getGameObjectsByName("Fighter Ship");
 				for (size_t i = 0; i < gameObjects.size(); i++)
 				{
@@ -158,16 +135,6 @@ public:
 			}
 			if (shipType == SHIP_CLASS::ALL_SHIP || shipType == SHIP_CLASS::PASSENGER_SHIP)
 			{
-				//All the Passenger Ship
-				//do
-				//{
-				//	gameObject = getGameObjectByName("Passenger Ship" + std::to_string(counter));
-				//	if (gameObject != nullptr)
-				//	{
-				//		allEnemyObject.push_back(gameObject);
-				//	}
-				//	counter++;
-				//} while (gameObject != nullptr);
 				gameObjects = getGameObjectsByName("Passenger Ship");
 				for (size_t i = 0; i < gameObjects.size(); i++)
 				{

@@ -3,7 +3,7 @@
 // Created          : 02-18-2015
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 02-25-2016
+// Last Modified On : 02-29-2016
 // ***********************************************************************
 // <copyright file="FireProjectile.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -63,7 +63,7 @@ public:
 					->addGameComponent(new Projectile)
 					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
 					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
-					Utility::getForward(*getTransform()->getRotation()) * 9.5f +
+					Utility::getForward(*getTransform()->getRotation()) * 10.0f +
 					Utility::getRight(*getTransform()->getRotation()) * 2.5f					
 					, *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))
 					->addGameComponent(std::move(m_audioComponent))
@@ -84,7 +84,7 @@ public:
 					->addGameComponent(new Projectile)
 					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
 					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
-					Utility::getForward(*getTransform()->getRotation()) * 9.5f +
+					Utility::getForward(*getTransform()->getRotation()) * 10.0f +
 					Utility::getLeft(*getTransform()->getRotation()) * 3.5f, *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))
 					->addGameComponent(std::move(m_audioComponent))
 					);

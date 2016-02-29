@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 02-25-2016
+// Last Modified On : 02-29-2016
 // ***********************************************************************
 // <copyright file="PolygonCollider.cpp" company="">
 //     Copyright (c) . All rights reserved.
@@ -114,9 +114,32 @@ std::vector<Collider*> PolygonCollider::checkCollision( std::vector<Collider*> c
         //if the collider is a sphere
         else
         {
-            //Push back the collided object to the return collided object
-            trueCollidedObject.push_back(collidedObject[i]);
-            //std::cout << "Sphere Collided\n";
+			float timeOfCollision;
+			//Check collision with rays
+			if (collidedObject[i]->checkCollision(m_position + glm::vec3(m_halfWidth, m_halfHeight, -m_halfDepth),
+				m_rotation * glm::vec3(0.0f, 0.0f, 1.0f), timeOfCollision))
+			{
+				//Push back the collided object to the return collided object
+				trueCollidedObject.push_back(collidedObject[i]);
+			}
+			else if (collidedObject[i]->checkCollision(m_position + glm::vec3(m_halfWidth, -m_halfHeight, -m_halfDepth),
+				m_rotation * glm::vec3(0.0f, 0.0f, 1.0f), timeOfCollision))
+			{
+				//Push back the collided object to the return collided object
+				trueCollidedObject.push_back(collidedObject[i]);
+			}
+			else if (collidedObject[i]->checkCollision(m_position + glm::vec3(-m_halfWidth, -m_halfHeight, -m_halfDepth),
+				m_rotation * glm::vec3(0.0f, 0.0f, 1.0f), timeOfCollision))
+			{
+				//Push back the collided object to the return collided object
+				trueCollidedObject.push_back(collidedObject[i]);
+			}
+			else if (collidedObject[i]->checkCollision(m_position + glm::vec3(-m_halfWidth, m_halfHeight, -m_halfDepth),
+				m_rotation * glm::vec3(0.0f, 0.0f, 1.0f), timeOfCollision))
+			{
+				//Push back the collided object to the return collided object
+				trueCollidedObject.push_back(collidedObject[i]);
+			}
         }
 	}
 

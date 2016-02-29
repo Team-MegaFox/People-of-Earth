@@ -1,3 +1,16 @@
+// ***********************************************************************
+// Author           : Christopher Maeda
+// Created          : 02-28-2016
+//
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-29-2016
+// ***********************************************************************
+// <copyright file="Projectile.h" company="Team MegaFox">
+//     Copyright (c) Team MegaFox. All rights reserved.
+// </copyright>
+// <summary>
+//</summary>
+// ***********************************************************************
 
 #pragma once
 #include <Components\GameComponents.h>
@@ -104,42 +117,6 @@ struct Projectile : public GameComponent
 		{
 			collisionCheckObject.push_back(gameObjects[i]);
 		}
-
-		//int counter = 1;
-		////Add all the fighter ship
-		//do
-		//{
-		//	gameObject = getGameObjectByName("Fighter Ship" + std::to_string(counter));
-		//	if (gameObject != nullptr)
-		//	{
-		//		collisionCheckObject.push_back(gameObject);
-		//	}
-		//	counter++;
-		//} while (gameObject != nullptr);
-		//counter = 1;
-		//Add all the enemy fighter ship
-		//do
-		//{
-		//	gameObject = getGameObjectByName("enemyFighter" + std::to_string(counter));
-		//	if (gameObject != nullptr)
-		//	{
-		//		collisionCheckObject.push_back(gameObject);
-		//	}
-		//	counter++;
-		//} while (gameObject != nullptr);
-
-		//counter = 1;
-		////Add all the planet
-		//do
-		//{
-		//	gameObject = getGameObjectByName("planet" + std::to_string(counter));
-		//	if (gameObject != nullptr)
-		//	{
-		//		collisionCheckObject.push_back(gameObject);
-		//	}
-		//	counter++;
-		//} while (gameObject != nullptr);
-
 		return collisionCheckObject;
 	}
 
