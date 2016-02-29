@@ -43,6 +43,7 @@ public:
 		{
 			m_source = new AudioSource(Sound(fileName, TwoD));
 		}
+
 	}
 
 	/// <summary>
@@ -50,7 +51,25 @@ public:
 	/// </summary>
 	~Audio()
 	{
+		//getCoreEngine()->getAudioEngine()->removeAudioComp(this);
 		delete m_source;
+	}
+
+	/// <summary>
+	/// An initialization method for game components that is called
+	/// when game components are added to the scene
+	/// </summary>
+	virtual void onStart() override
+	{
+		if (m_type == STREAM)
+		{
+			setVolume(getCoreEngine()->getAudioEngine()->getStreamVolume());
+		}
+		else if (m_type == SOUND)
+		{
+			setVolume(getCoreEngine()->getAudioEngine()->getSoundVolume());
+		}
+		getCoreEngine()->getAudioEngine()->addAudioComp(this);
 	}
 
 	/// <summary>
@@ -124,13 +143,33 @@ public:
 	/// <param name="value">The volume level for this audio source.</param>
 	void setVolume(float value)
 	{
+		m_volumeRatioValue = value;
 		if (m_type == STREAM)
 		{
-			m_source->setStreamVolume(value);
+			m_source->setStreamVolume(
+				m_volumeRatioValue * getCoreEngine()->getAudioEngine()->getStreamVolume());
 		}
 		else if (m_type == SOUND)
 		{
-			m_source->setSoundVolume(value);
+			m_source->setSoundVolume(
+				m_volumeRatioValue * getCoreEngine()->getAudioEngine()->getSoundVolume());
+		}
+	}
+
+	/// <summary>
+	/// Sets the new volume.
+	/// </summary>
+	void setNewVolume()
+	{
+		if (m_type == STREAM)
+		{
+			m_source->setStreamVolume(
+				m_volumeRatioValue * getCoreEngine()->getAudioEngine()->getStreamVolume());
+		}
+		else if (m_type == SOUND)
+		{
+			m_source->setSoundVolume(
+				m_volumeRatioValue * getCoreEngine()->getAudioEngine()->getSoundVolume());
 		}
 	}
 
@@ -241,6 +280,12 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Gets the type.
+	/// </summary>
+	AudioType getType() { return m_type; }
+
+
 private:
 	/// <summary>
 	/// The  audio source
@@ -250,4 +295,8 @@ private:
 	/// The audio type
 	/// </summary>
 	AudioType m_type;
+	/// <summary>
+	/// The volume ratio value
+	/// </summary>
+	float m_volumeRatioValue;
 };

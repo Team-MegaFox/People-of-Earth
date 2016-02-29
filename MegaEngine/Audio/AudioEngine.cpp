@@ -22,6 +22,8 @@
 // </summary>
 // ***********************************************************************
 #include "AudioEngine.h"
+#include "../Components/Audio.h"
+
 
 FMOD::System * AudioEngine::m_system = nullptr;
 
@@ -132,6 +134,30 @@ void AudioEngine::dispose()
 void AudioEngine::update()
 {
 	FMODVerifyResult(m_system->update());
+}
+
+void AudioEngine::setSoundVolume(float volume) 
+{ 
+	m_soundVolume = volume; 
+	for each (Audio * audio in m_audioComp)
+	{
+		if (audio->getType() == SOUND)
+		{
+			audio->setNewVolume();
+		}
+	}
+}
+
+void AudioEngine::setStreamVolume(float volume) 
+{ 
+	m_streamVolume = volume; 
+	for each (Audio * audio in m_audioComp)
+	{
+		if (audio->getType() == STREAM)
+		{
+			audio->setNewVolume();
+		}
+	}
 }
 
 FMOD_VECTOR AudioEngine::glmToFMOD(glm::vec3 vector)

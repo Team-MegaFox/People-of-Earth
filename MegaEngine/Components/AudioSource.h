@@ -189,6 +189,7 @@ protected:
 	/// The sound source handle
 	/// </summary>
 	Sound m_soundSource;
+
 	/// <summary>
 	/// The stream source handle
 	/// </summary>

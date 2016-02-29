@@ -72,7 +72,6 @@ public:
 	virtual void onStart() override
 	{
 		m_audioComponent = new Audio(m_fileName, AudioType::SOUND, true);
-		m_audioComponent->setVolume(0.075f);
 	}
 
 	/// <summary>
@@ -125,11 +124,22 @@ public:
 				m_delay = 0.0f;
 			}
 		}
+		if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_A))
+		{
+			counter += 0.25f;
+			getCoreEngine()->getAudioEngine()->setStreamVolume(counter);
+		}
+		if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B))
+		{
+			counter -= 0.25f;
+			getCoreEngine()->getAudioEngine()->setStreamVolume(counter);
+		}
+
+
 		else
 		{
 			m_delay += delta;
 		}
-
 	}
 
 private:
@@ -145,4 +155,6 @@ private:
 	/// The audio component this game component will use for sound
 	/// </summary>
 	Audio * m_audioComponent;
+
+	float counter = 1.0f;
 };

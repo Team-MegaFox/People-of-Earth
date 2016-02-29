@@ -28,10 +28,15 @@
 #include <FMOD\fmod_errors.h>
 
 #include <GLM\glm.hpp>
+#include <vector>
+#include <algorithm>
+
 
 #include <string>
 
 const int MAX_NUM_CHANNELS = 100;
+
+class Audio;
 
 /// <summary>
 /// Class AudioEngine.
@@ -87,6 +92,41 @@ public:
 	/// <returns>The resulting FMOD vector conversion.</returns>
 	static FMOD_VECTOR glmToFMOD(glm::vec3 vector);
 
+	/// <summary>
+	/// Gets the sound volume.
+	/// </summary>
+	/// <returns></returns>
+	inline float getSoundVolume() const { return m_soundVolume; }
+	/// <summary>
+	/// Gets the stream volume.
+	/// </summary>
+	/// <returns></returns>
+	inline float getStreamVolume() const { return m_streamVolume; }
+
+	/// <summary>
+	/// Sets the sound volume.
+	/// </summary>
+	/// <param name="volume">The volume.</param>
+	void setSoundVolume(float volume);
+	/// <summary>
+	/// Sets the stream volume.
+	/// </summary>
+	/// <param name="volume">The volume.</param>
+	void setStreamVolume(float volume);
+
+	/// <summary>
+	/// Adds the audio comp.
+	/// </summary>
+	/// <param name="audio">The audio.</param>
+	void addAudioComp(Audio * audio) { m_audioComp.push_back(audio); }
+	/// <summary>
+	/// Removes the audio comp.
+	/// </summary>
+	/// <param name="audio">The audio.</param>
+	void removeAudioComp(Audio * audio) { 
+		m_audioComp.erase(std::find(m_audioComp.begin(), m_audioComp.end(), audio));
+	}
+
 private:
 	
 	/// <summary>
@@ -107,5 +147,18 @@ private:
 	/// </summary>
 	FMOD_RESULT m_result;
 
+	/// <summary>
+	/// The stream volume
+	/// </summary>
+	float m_streamVolume = 1.0f;
+	/// <summary>
+	/// The sound volume
+	/// </summary>
+	float m_soundVolume = 1.0f;
+
+	/// <summary>
+	/// The audio components vector
+	/// </summary>
+	std::vector<Audio *> m_audioComp;
 };
 
