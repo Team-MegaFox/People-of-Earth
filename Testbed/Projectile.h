@@ -7,7 +7,7 @@ struct Projectile : public GameComponent
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Laser"/> class.
 	/// </summary>
-	Projectile() : m_lifeTime(2.0f), m_delay(0.0f) {}
+	Projectile() : m_lifeTime(2.0f), m_delay(0.0f), m_damageValue(0.1f) {}
 	/// <summary>
 	/// Finalizes an instance of the <see cref="Laser"/> class.
 	/// </summary>
@@ -33,7 +33,8 @@ struct Projectile : public GameComponent
 			collidedGameObjects = m_rigidBody->checkCollision(getAllFigherShipsGameObjects());
 			for (size_t i = 0; i < collidedGameObjects.size(); i++)
 			{
-				//collidedGameObjects[i]->getGameComponent<ShipStats>()->updateHealth(-20);
+				collidedGameObjects[i]->getGameComponent<ShipStats>()->updateHealth(-m_damageValue);
+				m_damageValue = 0.0f;
 				printf("Collided with ship\n");
 				m_lifeTime = -1.0f;
 				break;
@@ -57,7 +58,8 @@ struct Projectile : public GameComponent
 						//Within the lasers life time
 						if (m_collisionTime < m_lifeTime)
 						{
-							//collidedGameObjects[i]->getGameComponent<ShipStats>()->updateHealth(-20);
+							collidableGameObjects[i]->getGameComponent<ShipStats>()->updateHealth(-m_damageValue);
+							m_damageValue = 0.0f;
 							printf("Ray Collided with ship\n");
 							m_lifeTime = m_collisionTime;
 							m_delay = 2.0f;
@@ -91,41 +93,52 @@ struct Projectile : public GameComponent
 	std::vector<GameObject*> getAllFigherShipsGameObjects()
 	{
 		std::vector<GameObject*> collisionCheckObject;
-		GameObject* gameObject;
-		int counter = 1;
-		//Add all the fighter ship
-		do
+		std::vector<GameObject*> gameObjects;
+		gameObjects = getGameObjectsByName("Fighter Ship");
+		for (size_t i = 0; i < gameObjects.size(); i++)
 		{
-			gameObject = getGameObjectByName("Fighter Ship" + std::to_string(counter));
-			if (gameObject != nullptr)
-			{
-				//collisionCheckObject.push_back(gameObject);
-			}
-			counter++;
-		} while (gameObject != nullptr);
-		counter = 1;
-		//Add all the enemy fighter ship
-		do
+			collisionCheckObject.push_back(gameObjects[i]);
+		}
+		gameObjects = getGameObjectsByName("enemyFighter");
+		for (size_t i = 0; i < gameObjects.size(); i++)
 		{
-			gameObject = getGameObjectByName("enemyFighter" + std::to_string(counter));
-			if (gameObject != nullptr)
-			{
-				collisionCheckObject.push_back(gameObject);
-			}
-			counter++;
-		} while (gameObject != nullptr);
+			collisionCheckObject.push_back(gameObjects[i]);
+		}
 
-		counter = 1;
-		//Add all the planet
-		do
-		{
-			gameObject = getGameObjectByName("planet" + std::to_string(counter));
-			if (gameObject != nullptr)
-			{
-				collisionCheckObject.push_back(gameObject);
-			}
-			counter++;
-		} while (gameObject != nullptr);
+		//int counter = 1;
+		////Add all the fighter ship
+		//do
+		//{
+		//	gameObject = getGameObjectByName("Fighter Ship" + std::to_string(counter));
+		//	if (gameObject != nullptr)
+		//	{
+		//		collisionCheckObject.push_back(gameObject);
+		//	}
+		//	counter++;
+		//} while (gameObject != nullptr);
+		//counter = 1;
+		//Add all the enemy fighter ship
+		//do
+		//{
+		//	gameObject = getGameObjectByName("enemyFighter" + std::to_string(counter));
+		//	if (gameObject != nullptr)
+		//	{
+		//		collisionCheckObject.push_back(gameObject);
+		//	}
+		//	counter++;
+		//} while (gameObject != nullptr);
+
+		//counter = 1;
+		////Add all the planet
+		//do
+		//{
+		//	gameObject = getGameObjectByName("planet" + std::to_string(counter));
+		//	if (gameObject != nullptr)
+		//	{
+		//		collisionCheckObject.push_back(gameObject);
+		//	}
+		//	counter++;
+		//} while (gameObject != nullptr);
 
 		return collisionCheckObject;
 	}
@@ -140,4 +153,6 @@ private:
 	RigidBody* m_rigidBody;
 
 	float m_delay;
+
+	float m_damageValue;
 };

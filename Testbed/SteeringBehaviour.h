@@ -193,7 +193,7 @@ public:
 	}
 
 	//Pursue the target
-	void Pursue(GameObject pursueObject, float timestep)
+	void Pursue(GameObject& pursueObject, float timestep)
 	{
 		//Get the next future position of the evaded object
 		glm::vec3 futurePoint = *pursueObject.getTransform()->getPosition() +
@@ -205,7 +205,7 @@ public:
 	}
 
 	//Evade the target 
-	void Evade(GameObject evadeObject, float timestep)
+	void Evade(GameObject& evadeObject, float timestep)
 	{
 		//Get the next future position of the evaded object
 		glm::vec3 futurePoint = *evadeObject.getTransform()->getPosition() +
@@ -253,7 +253,7 @@ public:
 		//Get the forward direction
 		m_forwardDirection = Utility::getForward(*getTransform()->getRotation());
 
-		//m_rigidBody->updateVelocity(m_forwardDirection * m_velocityValue);
+		m_rigidBody->updateVelocity(m_forwardDirection * m_velocityValue);
 
 		//Update the position
 		/*getTransform()->setPosition(*getTransform()->getPosition() 

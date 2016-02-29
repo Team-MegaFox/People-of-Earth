@@ -16,6 +16,14 @@
 #include "SteeringBehaviour.h"
 #include "Projectile.h"
 #include "ShipStats.h"
+#include <Components\PlayerShipMovementController.h>
+
+enum SHIP_CLASS
+{
+	FIGHTER_SHIP,
+	PASSENGER_SHIP,
+	ALL_SHIP
+};
 
 class EnemyFighterShipAI : public SteeringBehaviour
 {
@@ -32,7 +40,7 @@ public:
 		m_forwardDirection = glm::vec3(0);
 		m_direction = glm::vec3(0);
 		m_targetPoint = *getTransform()->getPosition();
-		m_velocityValue = 50.0f; 
+		m_velocityValue = 100.0f; 
 		//m_wayPoints.push_back(glm::vec3(10.0f, 15.0f, 600.0f));
 		//m_wayPoints.push_back(glm::vec3(10.0f, 15.0f, 500.0f));
 		//m_wayPoints.push_back(glm::vec3(20.0f, -5.0f, 450.0f));
@@ -41,45 +49,60 @@ public:
 		//m_distanceToChangeWayPoint = 150.0f;
 
 		//In game code:
-		//m_targetObject = getGameObjectByName("PassengerShip");
+		m_targetObject = getGameObjectByName("Fighter Ship1");
 		m_shipStats = getParent()->getGameComponent<ShipStats>();
 	}
 
 	virtual std::vector<GameObject*> getAllEnemyObject() override
 	{
 		std::vector<GameObject*> collisionCheckObject;
-		GameObject* gameObject;
-		int counter = 1;
-		//Add all the planet
-		do
-		{
-			gameObject = getGameObjectByName("planet" + std::to_string(counter));
-			if (gameObject != nullptr)
-			{
-				collisionCheckObject.push_back(gameObject);
-			}
-			counter++;
-		} while (gameObject != nullptr);
+		//GameObject* gameObject;
+		//int counter = 1;
+		////Add all the planet
+		//do
+		//{
+		//	gameObject = getGameObjectByName("planet" + std::to_string(counter));
+		//	if (gameObject != nullptr)
+		//	{
+		//		collisionCheckObject.push_back(gameObject);
+		//	}
+		//	counter++;
+		//} while (gameObject != nullptr);
 
+		std::vector<GameObject*> gameObjects;
+		gameObjects = getGameObjectsByName("Fighter Ship");
+		for (size_t i = 0; i < gameObjects.size(); i++)
+		{
+			collisionCheckObject.push_back(gameObjects[i]);
+		}
+		gameObjects = getGameObjectsByName("Passenger Ship");
+		for (size_t i = 0; i < gameObjects.size(); i++)
+		{
+			collisionCheckObject.push_back(gameObjects[i]);
+		}
 		return collisionCheckObject;
 
 	}
 
 	virtual void UpdateAI(float timestep) override
 	{
-		if (m_delayObjectSearch < 0.0f)
-		{
-			getClosestObject();
-			m_delayObjectSearch = 2.0f;
-		}
-		else
-		{
-			m_delayObjectSearch -= timestep;
-		}
-
 		//Pursue the passenger ship if hp is above 80%
 		if (m_delayAttacking < 0.0f && m_shipStats->getHealth() > 0.8f)
 		{
+			//getClosestObject(SHIP_CLASS::PASSENGER_SHIP);
+			//float timeOfCollision;
+			//if (glm::distance(*getTransform()->getPosition(), *m_targetObject->getTransform()->getPosition()) < 100.0f
+			//	&& m_targetObject->getGameComponent<RigidBody>()->getCollider()->checkCollision(
+			//	*getTransform()->getPosition(), getParent()->getGameComponent<RigidBody>()->getVelocity(), timeOfCollision))
+			//{
+			//	shootLaser();
+			//}
+			//Pursue(*m_targetObject, timestep);
+		}
+		//Pursue the fighter ship
+		else if (m_delayAttacking < 0.0f && m_shipStats->getHealth() > 0.4f)
+		{
+			getClosestObject(SHIP_CLASS::FIGHTER_SHIP);
 			float timeOfCollision;
 			if (glm::distance(*getTransform()->getPosition(), *m_targetObject->getTransform()->getPosition()) < 100.0f
 				&& m_targetObject->getGameComponent<RigidBody>()->getCollider()->checkCollision(
@@ -89,16 +112,11 @@ public:
 			}
 			Pursue(*m_targetObject, timestep);
 		}
-		//Pursue the fighter ship
-		else if (m_delayAttacking < 0.0f && m_shipStats->getHealth() > 0.4f)
-		{
-
-		}
 		//Evade
 		else if (m_shipStats->getHealth() <= 0.2f)
 		{
-			
-			
+			getClosestObject(SHIP_CLASS::ALL_SHIP);
+			Evade(*m_targetObject, timestep);
 		}
 		//Wander
 		else
@@ -107,20 +125,67 @@ public:
 			m_delayAttacking -= timestep;
 		}
 
+		m_delayObjectSearch -= timestep;
+		
 		//WayPoint(timestep);
 	}
 
-	void getClosestObject()
+	void getClosestObject(SHIP_CLASS shipType)
 	{
-		std::vector<GameObject*> allEnemyObject = getAllEnemyObject();
-		float closestDistance = 999999.0f;
-		for (size_t i = 0; i < allEnemyObject.size(); i++)
+		if (m_delayObjectSearch < 0.0f)
 		{
-			if (closestDistance > glm::distance(*getTransform()->getPosition(), *allEnemyObject[i]->getTransform()->getPosition()))
+			std::vector<GameObject*> allEnemyObject;
+			float closestDistance = 999999.0f;
+			std::vector<GameObject*> gameObjects;
+			int counter = 1;
+			if (shipType == SHIP_CLASS::ALL_SHIP || shipType == SHIP_CLASS::FIGHTER_SHIP)
 			{
-				closestDistance = glm::distance(*getTransform()->getPosition(), *allEnemyObject[i]->getTransform()->getPosition());
-				m_targetObject = allEnemyObject[i];
+				//All the Fighter Ship
+				//do
+				//{
+				//	gameObject = getGameObjectByName("Fighter Ship" + std::to_string(counter));
+				//	if (gameObject != nullptr)
+				//	{
+				//		allEnemyObject.push_back(gameObject);
+				//	}
+				//	counter++;
+				//} while (gameObject != nullptr);
+				gameObjects = getGameObjectsByName("Fighter Ship");
+				for (size_t i = 0; i < gameObjects.size(); i++)
+				{
+					allEnemyObject.push_back(gameObjects[i]);
+				}
 			}
+			if (shipType == SHIP_CLASS::ALL_SHIP || shipType == SHIP_CLASS::PASSENGER_SHIP)
+			{
+				//All the Passenger Ship
+				//do
+				//{
+				//	gameObject = getGameObjectByName("Passenger Ship" + std::to_string(counter));
+				//	if (gameObject != nullptr)
+				//	{
+				//		allEnemyObject.push_back(gameObject);
+				//	}
+				//	counter++;
+				//} while (gameObject != nullptr);
+				gameObjects = getGameObjectsByName("Passenger Ship");
+				for (size_t i = 0; i < gameObjects.size(); i++)
+				{
+					allEnemyObject.push_back(gameObjects[i]);
+				}
+
+			}
+
+			for (size_t i = 0; i < allEnemyObject.size(); i++)
+			{
+
+				if (closestDistance > glm::distance(*getTransform()->getPosition(), *allEnemyObject[i]->getTransform()->getPosition()))
+				{
+					closestDistance = glm::distance(*getTransform()->getPosition(), *allEnemyObject[i]->getTransform()->getPosition());
+					m_targetObject = allEnemyObject[i];
+				}
+			}
+			m_delayObjectSearch = 2.0f;
 		}
 	}
 
@@ -128,10 +193,14 @@ public:
 	{
 		//Right side
 		instantiate(
-			(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
+			(new GameObject("Laser", *getTransform()->getPosition()
+			, *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
 			->addGameComponent(new Projectile)
 			->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
-			->addGameComponent(new RigidBody(*getTransform()->getPosition(), *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))
+			->addGameComponent(new RigidBody(*getTransform()->getPosition() +
+			Utility::getForward(*getTransform()->getRotation()) * 50.0f +//30.0f +
+			Utility::getRight(*getTransform()->getRotation()) * 8.0f
+			, *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))
 			//->addGameComponent(std::move(m_audioComponent))
 			);
 		//Left Side
@@ -139,7 +208,10 @@ public:
 			(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
 			->addGameComponent(new Projectile)
 			->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
-			->addGameComponent(new RigidBody(*getTransform()->getPosition(), *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))
+			->addGameComponent(new RigidBody(*getTransform()->getPosition() +
+			Utility::getForward(*getTransform()->getRotation()) * 50.0f + //30.0f +
+			Utility::getLeft(*getTransform()->getRotation()) * 10.0f
+			, *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))
 			//->addGameComponent(std::move(m_audioComponent))
 			);
 

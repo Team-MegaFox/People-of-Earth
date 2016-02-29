@@ -100,12 +100,20 @@ public:
 	/// <param name="name">The name.</param>
 	/// <returns>if the GameObject was removed.</returns>
 	bool removeGameObjectByName(const std::string& name);
+
 	/// <summary>
 	/// Gets a gameobject from the top most scene using its name to find it in the scene graph
 	/// </summary>
 	/// <param name="name">The name.</param>
 	/// <returns>A pointer to the GameObject.</returns>
 	GameObject* getGameObjectByName(const std::string& name);
+
+	/// <summary>
+	/// Gets a gameobjects from the top most scene using its name to find it in the scene graph
+	/// </summary>
+	/// <param name="name">The name.</param>
+	/// <returns>A vector of the GameObjects.</returns>
+	std::vector<GameObject*> getGameObjectsByName(const std::string& name);
 
 private:
 	/// <summary>

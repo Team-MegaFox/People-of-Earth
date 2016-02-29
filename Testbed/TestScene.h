@@ -50,6 +50,7 @@ public:
 			->addGameComponent(new RigidBody(glm::vec3(), glm::quat(), 1.0f, 2.0f, 2.0f, 8.0f))
 			->addGameComponent(new FireProjectile())
 			->addGameComponent(new PlayerShipMovementController("camera", 100.0f))
+			->addGameComponent(new ShipStats)
 			//->addGameComponent(laserSounds)
 			;
 
@@ -65,11 +66,12 @@ public:
 		addToRoot(camera);
 
 		// the alien fighter ship
-		addToRoot((new GameObject("enemyFighter1", glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(1.0f)))
+		addToRoot((new GameObject("enemyFighter", glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/AlienFighter_FINAL.obj", 0.5f), Material("alien_ship")))
 			->addGameComponent(stream)
 			->addGameComponent(new RigidBody(glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(), 1.0f, 4.0f, 4.0f, 16.0f))
 			->addGameComponent(new EnemyFighterShipAI)
+			->addGameComponent(new ShipStats)
 			);
 
 		/*addToRoot((new GameObject("planet1", glm::vec3(10.0f, 0.0f, 0.0f)))

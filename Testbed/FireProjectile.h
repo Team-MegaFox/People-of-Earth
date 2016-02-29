@@ -58,10 +58,14 @@ public:
 				m_audioComponent = new Audio("268168__shaun105__laser.wav", AudioType::SOUND);
 				
 				instantiate(
-					(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
+					(new GameObject("Laser", *getTransform()->getPosition()
+					, *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
 					->addGameComponent(new Projectile)
 					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
-					->addGameComponent(new RigidBody(*getTransform()->getPosition(), *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))
+					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
+					Utility::getForward(*getTransform()->getRotation()) * 9.5f +
+					Utility::getRight(*getTransform()->getRotation()) * 2.5f					
+					, *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))
 					->addGameComponent(std::move(m_audioComponent))
 					);
 
@@ -75,10 +79,13 @@ public:
 				m_audioComponent = new Audio("268168__shaun105__laser.wav", AudioType::SOUND);
 
 				instantiate(
-					(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
+					(new GameObject("Laser", *getTransform()->getPosition()
+					, *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
 					->addGameComponent(new Projectile)
 					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
-					->addGameComponent(new RigidBody(*getTransform()->getPosition(), *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))
+					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
+					Utility::getForward(*getTransform()->getRotation()) * 9.5f +
+					Utility::getLeft(*getTransform()->getRotation()) * 3.5f, *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))
 					->addGameComponent(std::move(m_audioComponent))
 					);
 
