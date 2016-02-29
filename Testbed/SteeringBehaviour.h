@@ -133,7 +133,7 @@ public:
 		if (m_delayCheckInFront < 0.0f)
 		{
 			std::vector<GameObject*> collidableGameObjects;
-			collidableGameObjects = getAllAvoidingObject();
+			collidableGameObjects = getAllEnemyObject();
 			float m_collisionTime;
 			for (size_t i = 0; i < collidableGameObjects.size(); i++)
 			{
@@ -172,7 +172,7 @@ public:
 		}
 	}
 
-	virtual std::vector<GameObject*> getAllAvoidingObject() = 0;
+	virtual std::vector<GameObject*> getAllEnemyObject() = 0;
 
 	//Wander the ship
 	void Wander(float timestep)

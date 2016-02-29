@@ -41,7 +41,22 @@ public:
 		
 	}
 
-protected:
+	float getHealth()
+	{
+		return m_health;
+	}
+
+	float getFuel()
+	{
+		return m_fuel;
+	}
+
+	float getEnergy()
+	{
+		return m_energy;
+	}
+
+private:
 	float m_health = 1.0f;
 	float m_fuel = 1.0f;
 	float m_energy = 1.0f;
