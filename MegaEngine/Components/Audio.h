@@ -3,7 +3,7 @@
 // Created          : 02-01-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-11-2016
+// Last Modified On : 02-24-2016
 // ***********************************************************************
 // <copyright file="Audio.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -24,26 +24,26 @@ enum AudioType
 class Audio : public GameComponent
 {
 public:
+
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Audio"/> class.
 	/// </summary>
-	/// <param name="fileName">Name of the file to play.</param>
-	/// <param name="type">The audio type.</param>
-	Audio(const std::string & fileName, AudioType type) :
+	/// <param name="fileName">The name of the music file including the extension, put music into Assets/Music directly</param>
+	/// <param name="type">The type of audio component either Stream or Sound</param>
+	/// <param name="TwoD">If set to true, this sound uses 2D sound (default = false).</param>
+	Audio(const std::string & fileName, AudioType type, bool TwoD = false) :
 		m_type(type)
 	{
 		if (m_type == STREAM)
 		{
-			m_source = new AudioSource(Stream(fileName));
+			m_source = new AudioSource(Stream(fileName, TwoD));
 		}
 		else if (m_type == SOUND)
 		{
-			m_source = new AudioSource(Sound(fileName));
+			m_source = new AudioSource(Sound(fileName, TwoD));
 		}
 
-		set3DMinMaxDistance(0.1f);
-		setDoppler(0.5f);
-		setVolume(100.0f);
 	}
 
 	/// <summary>
@@ -51,7 +51,25 @@ public:
 	/// </summary>
 	~Audio()
 	{
+		//getCoreEngine()->getAudioEngine()->removeAudioComp(this);
 		delete m_source;
+	}
+
+	/// <summary>
+	/// An initialization method for game components that is called
+	/// when game components are added to the scene
+	/// </summary>
+	virtual void onStart() override
+	{
+		if (m_type == STREAM)
+		{
+			setVolume(getCoreEngine()->getAudioEngine()->getStreamVolume());
+		}
+		else if (m_type == SOUND)
+		{
+			setVolume(getCoreEngine()->getAudioEngine()->getSoundVolume());
+		}
+		getCoreEngine()->getAudioEngine()->addAudioComp(this);
 	}
 
 	/// <summary>
@@ -86,15 +104,18 @@ public:
 		}
 	}
 
-	void stopAllSounds()
+	/// <summary>
+	/// Stops all sound channels or stream channels from playing.
+	/// </summary>
+	void stop()
 	{
 		if (m_type == STREAM)
 		{
-			m_source->stopAllStreams();
+			m_source->stopStream();
 		}
 		else if (m_type == SOUND)
 		{
-			m_source->stopAllSounds();
+			m_source->stopSound();
 		}
 	}
 
@@ -122,13 +143,33 @@ public:
 	/// <param name="value">The volume level for this audio source.</param>
 	void setVolume(float value)
 	{
+		m_volumeRatioValue = value;
 		if (m_type == STREAM)
 		{
-			m_source->setStreamVolume(value);
+			m_source->setStreamVolume(
+				m_volumeRatioValue * getCoreEngine()->getAudioEngine()->getStreamVolume());
 		}
 		else if (m_type == SOUND)
 		{
-			m_source->setSoundVolume(value);
+			m_source->setSoundVolume(
+				m_volumeRatioValue * getCoreEngine()->getAudioEngine()->getSoundVolume());
+		}
+	}
+
+	/// <summary>
+	/// Sets the new volume.
+	/// </summary>
+	void setNewVolume()
+	{
+		if (m_type == STREAM)
+		{
+			m_source->setStreamVolume(
+				m_volumeRatioValue * getCoreEngine()->getAudioEngine()->getStreamVolume());
+		}
+		else if (m_type == SOUND)
+		{
+			m_source->setSoundVolume(
+				m_volumeRatioValue * getCoreEngine()->getAudioEngine()->getSoundVolume());
 		}
 	}
 
@@ -240,21 +281,10 @@ public:
 	}
 
 	/// <summary>
-	/// Sets the occlusion.
+	/// Gets the type.
 	/// </summary>
-	/// <param name="attenuation">The attenuation.</param>
-	/// <param name="reverberation">The reverberation. defaulted to NULL</param>
-	void setOcclusion(float attenuation, float reverberation = NULL)
-	{
-		if (m_type == STREAM)
-		{
-			m_source->setStreamOcclusion(attenuation, reverberation);
-		}
-		else if (m_type == SOUND)
-		{
-			m_source->setSoundOcclusion(attenuation, reverberation);
-		}
-	}
+	AudioType getType() { return m_type; }
+
 
 private:
 	/// <summary>
@@ -265,4 +295,8 @@ private:
 	/// The audio type
 	/// </summary>
 	AudioType m_type;
+	/// <summary>
+	/// The volume ratio value
+	/// </summary>
+	float m_volumeRatioValue;
 };

@@ -33,11 +33,12 @@ public:
 	/// </summary>
 	~FireProjectile() { }
 
+	/// <summary>
+	/// Is called when this game component is created
+	/// </summary>
 	virtual void onStart() override
 	{
-		//m_audioComponent = getParent()->getGameComponent<Audio>();
-		//m_audioComponent = new Audio("268168__shaun105__laser.wav", AudioType::SOUND);
-		//getParent()->getGameComponent<RigidBody>()->setDebugDraw(true);
+		m_audioComponent = new Audio(m_fileName, AudioType::SOUND, true);
 	}
 
 	/// <summary>
@@ -49,10 +50,6 @@ public:
 	{
 		if (m_delay >= 0.2f)
 		{
-			
-			m_audioComponent = nullptr;
-			delete m_audioComponent;
-
 			if (input.GetRightTrigger() != 0)
 			{
 				m_audioComponent = new Audio("268168__shaun105__laser.wav", AudioType::SOUND);
@@ -66,18 +63,14 @@ public:
 					Utility::getForward(*getTransform()->getRotation()) * 15.0f +
 					Utility::getRight(*getTransform()->getRotation()) * 2.5f					
 					, *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))
-					->addGameComponent(std::move(m_audioComponent))
 					);
 
-				m_audioComponent->play(true);
+				m_audioComponent->play();
 
 				m_delay = 0.0f;
 			}
 			if (input.GetLeftTrigger() != 0)
 			{
-
-				m_audioComponent = new Audio("268168__shaun105__laser.wav", AudioType::SOUND);
-
 				instantiate(
 					(new GameObject("Laser", *getTransform()->getPosition()
 					, *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
@@ -86,16 +79,14 @@ public:
 					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
 					Utility::getForward(*getTransform()->getRotation()) * 15.0f +
 					Utility::getLeft(*getTransform()->getRotation()) * 3.5f, *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))
-					->addGameComponent(std::move(m_audioComponent))
 					);
 
-				m_audioComponent->play(true);
+				m_audioComponent->play();
 
 				m_delay = 0.0f;
 			}
-
-
 		}
+
 		else
 		{
 			m_delay += delta;
@@ -107,6 +98,13 @@ private:
 	/// The delay between shots
 	/// </summary>
 	float m_delay = 0.2f;
+	/// <summary>
+	/// The file name of the sound to use
+	/// </summary>
+	std::string m_fileName;
+	/// <summary>
+	/// The audio component this game component will use for sound
+	/// </summary>
 	Audio * m_audioComponent;
 	Material m_material;
 };

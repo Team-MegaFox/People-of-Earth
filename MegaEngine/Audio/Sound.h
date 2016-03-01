@@ -3,7 +3,7 @@
 // Created          : 02-01-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-04-2016
+// Last Modified On : 02-25-2016
 // ***********************************************************************
 // <copyright file="Sound.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -26,149 +26,77 @@ public:
 	/// Initializes a new instance of the <see cref="SoundSource"/> class.
 	/// </summary>
 	/// <param name="fileName">Name of the file.</param>
-	Sound(const std::string& fileName)
-	{ 
-		m_fileName = "Assets/Music/" + fileName;
-		setSound();
-	}
+	/// <param name="TwoD">if true this sound is 2D (default is false)</param>
+	Sound(const std::string& fileName, bool TwoD = false);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="SoundSource"/> class.
 	/// </summary>
 	~Sound() {	}
 
 	/// <summary>
-	/// Disposes this instance.
-	/// </summary>
-	void dispose()
-	{
-		//Clean up the Channel Groups
-		if (AudioEngine::getSoundChannelGroup() != nullptr)
-		{
-			AudioEngine::getSoundChannelGroup()->release();
-		}
-	}
-
-	/// <summary>
 	/// Sets the sound.
 	/// </summary>
-	void setSound()
-	{
-		if (m_soundPair.first) m_soundPair.first->release();
-		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->createSound(m_fileName.c_str(), FMOD_3D | FMOD_DEFAULT, 0, &m_soundPair.first));
-		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX(m_soundPair.second), m_soundPair.first, true, &AudioEngine::getSoundChannels()[m_soundPair.second]));
-		AudioEngine::FMODVerifyResult(AudioEngine::getSoundChannels()[m_soundPair.second]->setChannelGroup(AudioEngine::getSoundChannelGroup()));
-	}
+	void setSound();
 
 	/// <summary>
 	/// Plays the sound.
 	/// </summary>
-	void playSound()
-	{
-		setSound();
-		AudioEngine::getSoundChannels()[m_soundPair.second]->setPaused(false);
-	}
+	void playSound();
 
 	/// <summary>
 	/// Pauses the sound.
 	/// </summary>
 	/// <param name="pause">if set to <c>true</c> [pause].</param>
-	void pauseSound(bool pause)
-	{
-		AudioEngine::getSoundChannels()[m_soundPair.second]->setPaused(pause);
-	}
+	void pauseSound(bool pause);
 
 	/// <summary>
 	/// Stops all sound effects.
 	/// </summary>
-	void stopAllSoundEffects()
-	{
-		for (int i = 0; i < NUM_SOUND_CHANNELS; i++)
-		{
-			if (AudioEngine::getSoundChannels()[i] != NULL)
-			{
-				AudioEngine::getSoundChannels()[i]->stop();
-			}
-		}
-	}
+	void stop();
 
 	/// <summary>
-	/// Determines whether [is sound playing].
+	/// Determines whether this sound is playing.
 	/// </summary>
 	/// <returns></returns>
-	bool isSoundPlaying()
-	{
-		bool result;
-
-		AudioEngine::getSoundChannels()[m_soundPair.second]->isPlaying(&result);
-
-		return result;
-	}
+	bool isSoundPlaying();
 
 	/// <summary>
 	/// Sets the sound effect volume.
 	/// </summary>
 	/// <param name="volumeLevel">The volume level.</param>
-	void setSoundEffectVolume(float volumeLevel)
-	{
-		AudioEngine::getSoundChannelGroup()->setVolume(volumeLevel);
-	}
-
-	/// <summary>
-	/// Sets the sound effect volume all.
-	/// </summary>
-	/// <param name="volumeLevel">The volume level.</param>
-	void setSoundEffectVolumeAll(float volumeLevel)
-	{
-		AudioEngine::getSoundChannels()[m_soundPair.second]->setVolume(volumeLevel);
-	}
+	void setSoundEffectVolume(float volumeLevel);
 
 	/// <summary>
 	/// Gets the sound volume.
 	/// </summary>
 	/// <returns></returns>
-	float & getSoundVolume()
-	{
-		AudioEngine::getSoundChannelGroup()->getVolume(&m_soundVolume);
-		return m_soundVolume;
-	}
+	float & getSoundVolume();
 
 	/// <summary>
 	/// Sets the sound position vel.
 	/// </summary>
 	/// <param name="pos">The position.</param>
 	/// <param name="vel">The vel.</param>
-	void setSoundPosVel(glm::vec3 pos, glm::vec3 vel = glm::vec3(0.0f))
-	{
-		AudioEngine::getSoundChannels()[m_soundPair.second]->set3DAttributes(&glmToFMOD(pos), &glmToFMOD(vel));
-	}
+	void setSoundPosVel(glm::vec3 pos, glm::vec3 vel = glm::vec3(0.0f));
 
 	/// <summary>
 	/// Pan level, from -1.0 (left) to 1.0 (right), default = 0 (center).
 	/// </summary>
 	/// <param name="pan">The pan.</param>
-	void setSoundPan(float pan)
-	{
-		AudioEngine::getSoundChannels()[m_soundPair.second]->setPan(pan);
-	}
+	void setSoundPan(float pan);
 
 	/// <summary>
 	/// Sets the sound doppler level.
 	/// Use with (but before) setSoundDistanceFilter for proper effect
 	/// </summary>
 	/// <param name="dopplerLevel">The doppler level.</param>
-	void setSoundDopplerLevel(float dopplerLevel)
-	{
-		AudioEngine::getSoundChannels()[m_soundPair.second]->set3DDopplerLevel(dopplerLevel);
-	}
+	void setSoundDopplerLevel(float dopplerLevel);
 
 	/// <summary>
 	/// Sets the sound cone orientation.
 	/// </summary>
 	/// <param name="orientation">The orientation.</param>
-	void setSoundConeOrientation(glm::vec3 orientation)
-	{
-		AudioEngine::getSoundChannels()[m_soundPair.second]->set3DConeOrientation(&glmToFMOD(orientation));
-	}
+	void setSoundConeOrientation(glm::vec3 orientation);
 
 	/// <summary>
 	/// Sets the sound cone settings.
@@ -176,10 +104,7 @@ public:
 	/// <param name="insideConeAngle">The inside cone angle.</param>
 	/// <param name="outsideConeAngle">The outside cone angle.</param>
 	/// <param name="outsideVolume">The outside volume.</param>
-	void setSoundConeSettings(float insideConeAngle, float outsideConeAngle, float outsideVolume)
-	{
-		AudioEngine::getSoundChannels()[m_soundPair.second]->set3DConeSettings(insideConeAngle, outsideConeAngle, outsideVolume);
-	}
+	void setSoundConeSettings(float insideConeAngle, float outsideConeAngle, float outsideVolume);
 
 	/// <summary>
 	/// Sets the sound distance filter.
@@ -188,10 +113,7 @@ public:
 	/// <param name="custom">if set to <c>true</c> [custom].</param>
 	/// <param name="customLevel">if set to <c>true</c> [custom level].</param>
 	/// <param name="centerFreq">The center freq.</param>
-	void setSoundDistanceFilter(bool custom, bool customLevel, float centerFreq)
-	{
-		AudioEngine::getSoundChannels()[m_soundPair.second]->set3DDistanceFilter(custom, customLevel, centerFreq);
-	}
+	void setSoundDistanceFilter(bool custom, bool customLevel, float centerFreq);
 
 	/// <summary>
 	/// In summary, increase the mindistance of a sound to make it 'louder' in a 3D world, 
@@ -203,46 +125,10 @@ public:
 	/// </summary>
 	/// <param name="min">The minimum.</param>
 	/// <param name="max">The maximum.</param>
-	void setSound3DMinMaxDistance(float min, float max = NULL)
-	{
-		AudioEngine::getSoundChannels()[m_soundPair.second]->set3DMinMaxDistance(min, max);
-	}
-
-	/// <summary>
-	/// Sets the sound occlusion.
-	/// </summary>
-	/// <param name="attenuation">The attenuation.</param>
-	/// <param name="reverberation">The reverberation.</param>
-	void setSoundOcclusion(float attenuation, float reverberation = NULL)
-	{
-		AudioEngine::getSoundChannels()[m_soundPair.second]->set3DOcclusion(attenuation, reverberation);
-	}
+	void setSound3DMinMaxDistance(float min, float max = NULL);
 
 private:
 
-	/// <summary>
-	/// Converts glm::vec3's to FMOD_VECTOR *'s
-	/// for use in FMOD's positioning of the listener
-	/// and sound / stream positioning
-	/// </summary>
-	/// <param name="vector">The glm vector to convert.</param>
-	/// <returns>The resulting FMOD vector conversion.</returns>
-	FMOD_VECTOR glmToFMOD(glm::vec3 vector)
-	{
-		FMOD_VECTOR Temp;
-
-		Temp.x = vector.x;
-		Temp.y = vector.y;
-		Temp.z = vector.z;
-
-		return Temp;
-	}
-
-	/// <summary>
-	/// The FMOD result.
-	/// </summary>
-	FMOD_RESULT m_result;
-	
 	/// <summary>
 	/// The file name of this audiosource file
 	/// </summary>
@@ -254,10 +140,22 @@ private:
 	float m_soundVolume;
 
 	/// <summary>
-	/// The m_sound pair
-	/// Pair is made up of the FMOD:Sound and the index of that sound in the channel group
+	/// The sound pair
+	/// Pair is made up of the FMOD:Sound * and the FMOD::Channel* that sound needs to be playable
 	/// </summary>
-	std::pair<FMOD::Sound*, int> m_soundPair;
-	
+	std::pair<FMOD::Sound*, FMOD::Channel*> m_soundPair;
+
+	/// <summary>
+	/// This boolean determines whether or not to use 3D sound
+	/// </summary>
+	bool m_twoDimensionalSound;
+	/// <summary>
+	/// For making this a 2D sound effect
+	/// </summary>
+	uint16_t m_twoDimensional = FMOD_2D | FMOD_DEFAULT;
+	/// <summary>
+	/// For making this sound a 3D sound effect
+	/// </summary>
+	uint16_t m_threeDimensional = FMOD_3D | FMOD_DEFAULT;
 };
 

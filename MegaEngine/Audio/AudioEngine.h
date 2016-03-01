@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-03-2016
+// Last Modified On : 02-24-2016
 // ***********************************************************************
 // <copyright file="AudioEngine.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -28,13 +28,15 @@
 #include <FMOD\fmod_errors.h>
 
 #include <GLM\glm.hpp>
-
 #include <vector>
-#include <string>
-#include <unordered_map>
+#include <algorithm>
 
-static const int NUM_STREAM_CHANNELS = 100;
-static const int NUM_SOUND_CHANNELS = 100;
+
+#include <string>
+
+const int MAX_NUM_CHANNELS = 100;
+
+class Audio;
 
 /// <summary>
 /// Class AudioEngine.
@@ -69,36 +71,6 @@ public:
 	static FMOD::System * getSystem() { return m_system; }
 
 	/// <summary>
-	/// Gets the sound channel group.
-	/// </summary>
-	/// <returns></returns>
-	static FMOD::ChannelGroup * getSoundChannelGroup() { return m_soundEffectChannels; }
-
-	/// <summary>
-	/// Gets the stream channel group.
-	/// </summary>
-	/// <returns></returns>
-	static FMOD::ChannelGroup * getStreamChannelGroup() { return m_streamEffectChannels; }
-
-	/// <summary>
-	/// Gets the streams.
-	/// </summary>
-	/// <returns></returns>
-	static FMOD::Sound ** getStreams() { return m_streams; }
-
-	/// <summary>
-	/// Gets the stream channels.
-	/// </summary>
-	/// <returns></returns>
-	static FMOD::Channel ** getStreamChannels() { return m_streamChannels; }
-
-
-	static FMOD::Sound ** getSounds() { return m_sounds; }
-
-
-	static FMOD::Channel ** getSoundChannels() { return m_soundChannels; }
-
-	/// <summary>
 	/// Updates the system object
 	/// (should be called every frame)
 	/// </summary>
@@ -109,12 +81,50 @@ public:
 	/// was properly initalized.
 	/// </summary>
 	/// <param name="result">The result.</param>
-	static void FMODVerifyResult(FMOD_RESULT result)
-	{
-		if (result != FMOD_OK)
-		{
-			std::cout << "FMOD error! (" << result << ") " << FMOD_ErrorString(result) << std::endl;
-		}
+	static void FMODVerifyResult(FMOD_RESULT result);
+
+	/// <summary>
+	/// Converts glm::vec3's to FMOD_VECTOR *'s
+	/// for use in FMOD's positioning of the listener
+	/// and sound / stream positioning
+	/// </summary>
+	/// <param name="vector">The glm vector to convert.</param>
+	/// <returns>The resulting FMOD vector conversion.</returns>
+	static FMOD_VECTOR glmToFMOD(glm::vec3 vector);
+
+	/// <summary>
+	/// Gets the sound volume.
+	/// </summary>
+	/// <returns></returns>
+	inline float getSoundVolume() const { return m_soundVolume; }
+	/// <summary>
+	/// Gets the stream volume.
+	/// </summary>
+	/// <returns></returns>
+	inline float getStreamVolume() const { return m_streamVolume; }
+
+	/// <summary>
+	/// Sets the sound volume.
+	/// </summary>
+	/// <param name="volume">The volume.</param>
+	void setSoundVolume(float volume);
+	/// <summary>
+	/// Sets the stream volume.
+	/// </summary>
+	/// <param name="volume">The volume.</param>
+	void setStreamVolume(float volume);
+
+	/// <summary>
+	/// Adds the audio comp.
+	/// </summary>
+	/// <param name="audio">The audio.</param>
+	void addAudioComp(Audio * audio) { m_audioComp.push_back(audio); }
+	/// <summary>
+	/// Removes the audio comp.
+	/// </summary>
+	/// <param name="audio">The audio.</param>
+	void removeAudioComp(Audio * audio) { 
+		m_audioComp.erase(std::find(m_audioComp.begin(), m_audioComp.end(), audio));
 	}
 
 private:
@@ -133,37 +143,22 @@ private:
 	static FMOD::System * m_system;
 
 	/// <summary>
-	/// The stream effect channels.
-	/// </summary>
-	static FMOD::ChannelGroup * m_streamEffectChannels;
-
-	/// <summary>
-	/// The sound effect channels.
-	/// </summary>
-	static FMOD::ChannelGroup * m_soundEffectChannels;
-
-		/// <summary>
-	/// The streams.
-	/// </summary>
-	static FMOD::Sound * m_streams[NUM_STREAM_CHANNELS];
-	/// <summary>
-	/// The stream channels.
-	/// </summary>
-	static FMOD::Channel * m_streamChannels[NUM_STREAM_CHANNELS];
-
-	/// <summary>
-	/// The sound effects list.
-	/// </summary>
-	static FMOD::Sound * m_sounds[NUM_SOUND_CHANNELS];
-	/// <summary>
-	/// The sound channels.
-	/// </summary>
-	static FMOD::Channel * m_soundChannels[NUM_SOUND_CHANNELS];
-
-	/// <summary>
 	/// The FMOD result.
 	/// </summary>
 	FMOD_RESULT m_result;
 
+	/// <summary>
+	/// The stream volume
+	/// </summary>
+	float m_streamVolume = 1.0f;
+	/// <summary>
+	/// The sound volume
+	/// </summary>
+	float m_soundVolume = 1.0f;
+
+	/// <summary>
+	/// The audio components vector
+	/// </summary>
+	std::vector<Audio *> m_audioComp;
 };
 

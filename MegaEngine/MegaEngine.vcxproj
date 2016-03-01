@@ -82,6 +82,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Audio\AudioEngine.cpp" />
+    <ClCompile Include="Audio\Sound.cpp" />
+    <ClCompile Include="Audio\Stream.cpp" />
+    <ClCompile Include="Components\AudioSource.cpp" />
     <ClCompile Include="Components\GUIComponent.cpp" />
     <ClCompile Include="Components\PlayerShipMovementController.cpp" />
     <ClCompile Include="Core\CoreEngine.cpp" />
