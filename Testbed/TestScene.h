@@ -30,7 +30,7 @@ public:
 		Material asteroidC("aster3", 0.5f, 4, Texture("Asteroids/Asteroid_C.png"), Texture("Asteroids/Asteroid_NORM.png"));
 		Material asteroidD("aster4", 0.5f, 4, Texture("Asteroids/Asteroid_D.png"), Texture("Asteroids/Asteroid_NORM.png"));
 
-		Material planetA("plan1", 1.0f, 10, Texture("Planets/Planet_A.png"), Texture("Planets/Planet_A_NORM.png"));
+		Material planetA("plan1", 1.0f, 10, Texture("Planets/Planet_A.png"), Texture("Planets/Planet_A_NORM.png"), Texture("Planets/Planet_A.png"), 0.01f, 0.0f);
 		Material planetB("plan2", 0.5f, 4, Texture("Planets/Planet_B.png"), Texture("Planets/Planet_B_NORM.png"));
 		Material planetC("plan3", 0.5f, 4, Texture("Planets/Planet_C.png"), Texture("Planets/Planet_C_NORM.png"));
 		Material planetD("plan4", 0.5f, 4, Texture("Planets/Planet_D.png"), Texture("Planets/Planet_D_NORM.png"));
@@ -38,17 +38,17 @@ public:
 		Material nebulaTex("nebula1", 0.5f, 4, Texture("NebulaeAndGalaxies/Nebula_A.png"));
 		Material GalaxyTex("galaxy1", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_White - Copy.png"));
 
-		Audio * BGM = new Audio("rightNow.mp3", AudioType::STREAM, true);
+		Audio * BGM = new Audio("music.mp3", AudioType::STREAM, true);
 
 		addToRoot((new GameObject("skybox"))
-			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
+			->addGameComponent(new SkyboxRenderer("Skybox/white/white.png")));
 
 		GameObject* fighterShip =
 			(new GameObject("Fighter Ship", glm::vec3(0.0f, 0.0f, 0.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/HumanFighter_Final.obj", 0.1f), Material("human_ship")))
 			->addGameComponent(new RigidBody(glm::vec3(), glm::quat(), 1.0f, 2.0f, 2.0f, 8.0f))
 			->addGameComponent(new FireProjectile("268168__shaun105__laser.wav"))
-			->addGameComponent(new PlayerShipMovementController("camera", 100.0f))
+			->addGameComponent(new PlayerShipMovementController("camera", 1000.0f))
 			->addGameComponent(BGM)
 			;
 
@@ -100,7 +100,7 @@ public:
 			->addGameComponent(new MeshRenderer(Mesh("Asteroids/Asteroid_D.obj", 0.1f), Material("aster4")))
 );
 
-		addToRoot((new GameObject("planet1", glm::vec3(10.0f, 15.0f, 10000.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
+		addToRoot((new GameObject("planet1", glm::vec3(10.0f, 15.0f, 10000.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(100.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 1.0f), Material("plan1")))
 );
 
@@ -112,7 +112,7 @@ public:
 //			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_C.obj", 1.0f), Material("plan3")))
 //);
 
-		addToRoot((new GameObject("planet4", glm::vec3(10.0f, 15.0f, -10000.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
+		addToRoot((new GameObject("planet4", glm::vec3(10.0f, 15.0f, -10000.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(100.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_D.obj", 1.0f), Material("plan4")))
 );
 
@@ -124,16 +124,10 @@ public:
 			->addGameComponent(new MeshRenderer(Mesh("NebulaeAndGalaxies/Galaxy_Large.obj", 0.01f), Material("galaxy1")))
 );
 
-		addToRoot((new GameObject("DrLight", glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
-			->addGameComponent(new DirectionalLight(glm::vec3(1.0f, 0.5f, 0.0f), 0.2f, 8, 8.0f, 1.0f, 1.0f)));
+		addToRoot((new GameObject("DrLight", glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 1, 0)))))
+			->addGameComponent(new DirectionalLight(glm::vec3(1.0f), 1.0f)));
 
-		addToRoot((new GameObject("DrLight2", glm::vec3(0.0f, 0.0f, 10000.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
-			->addGameComponent(new DirectionalLight(glm::vec3(1.0f, 0.5f, 0.0f), 0.2f, 8, 8.0f, 1.0f, 1.0f)));
-
-		addToRoot((new GameObject("DrLight3", glm::vec3(0.0f, 0.0f, -10000.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
-			->addGameComponent(new DirectionalLight(glm::vec3(1.0f, 0.5f, 0.0f), 0.2f, 8, 8.0f, 1.0f, 1.0f)));
-
-		BGM->play(true);
+		//BGM->play(true);
 	}
 };
 

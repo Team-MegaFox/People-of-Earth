@@ -32,7 +32,7 @@ class BaseLight;
 /// <summary>
 /// The Rendering Engine class where it manages all the lights and cameras. 
 /// The class also renders the GameObjects by passing its self, the current shader program and the main camera.
-/// It renders the lights individually one at a time to calculate the shadows, also know as Forward Rendering.
+/// It renders the lights individually one at a time to calculate the shadows, also known as Forward Rendering.
 /// </summary>
 /// <seealso cref="MappedValues" />
 class RenderingEngine
@@ -81,13 +81,13 @@ public:
 	/// <returns>A const reference to the active light.</returns>
 	const BaseLight & getActiveLight() const { return *m_activeLight; }
 	/// <summary>
-	/// Gets the sampler slot.
+	/// Returns the sampler slot for the samplerName parameter
 	/// </summary>
 	/// <param name="samplerName">Name of the sampler.</param>
 	/// <returns>The position where the sample is stored in the graphics card..</returns>
 	inline unsigned int getSamplerSlot(const std::string & samplerName) const { return m_samplerMap.find(samplerName)->second; }
 	/// <summary>
-	/// Gets the light matrix.
+	/// Returns the light matrix.
 	/// </summary>
 	/// <returns>The light matrix.</returns>
 	glm::mat4 getLightMatrix() const { return m_lightMatrix; }
@@ -226,7 +226,7 @@ private:
 
 protected:
 	/// <summary>
-	/// Sets the sampler slot.
+	/// Sets the sampler slot for the name parameter with the value.
 	/// </summary>
 	/// <param name="name">The name.</param>
 	/// <param name="value">The value.</param>
