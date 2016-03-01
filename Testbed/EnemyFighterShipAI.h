@@ -76,9 +76,12 @@ public:
 		//Pursue the passenger ship if hp is above 80%
 		if (m_delayAttacking < 0.0f && m_shipStats->getHealth() > 0.8f)
 		{
+			//Demo Purpose
+			Wander(timestep);
+
 			//getClosestObject(SHIP_CLASS::PASSENGER_SHIP);
 			//float timeOfCollision;
-			//if (glm::distance(*getTransform()->getPosition(), *m_targetObject->getTransform()->getPosition()) < 100.0f
+			//if (glm::distance(*getTransform()->getPosition(), *m_targetObject->getTransform()->getPosition()) < 150.0f
 			//	&& m_targetObject->getGameComponent<RigidBody>()->getCollider()->checkCollision(
 			//	*getTransform()->getPosition(), getParent()->getGameComponent<RigidBody>()->getVelocity(), timeOfCollision))
 			//{
@@ -91,7 +94,7 @@ public:
 		{
 			getClosestObject(SHIP_CLASS::FIGHTER_SHIP);
 			float timeOfCollision;
-			if (glm::distance(*getTransform()->getPosition(), *m_targetObject->getTransform()->getPosition()) < 100.0f
+			if (glm::distance(*getTransform()->getPosition(), *m_targetObject->getTransform()->getPosition()) < 150.0f
 				&& m_targetObject->getGameComponent<RigidBody>()->getCollider()->checkCollision(
 				*getTransform()->getPosition(), getParent()->getGameComponent<RigidBody>()->getVelocity(), timeOfCollision))
 			{
@@ -100,10 +103,11 @@ public:
 			Pursue(*m_targetObject, timestep);
 		}
 		//Evade
-		else if (m_shipStats->getHealth() <= 0.2f)
+		else if (m_shipStats->getHealth() <= 0.4f)
 		{
 			getClosestObject(SHIP_CLASS::ALL_SHIP);
 			Evade(*m_targetObject, timestep);
+			m_shipStats->updateHealth(0.5f);
 		}
 		//Wander
 		else

@@ -48,7 +48,6 @@ struct Projectile : public GameComponent
 			{
 				collidedGameObjects[i]->getGameComponent<ShipStats>()->updateHealth(-m_damageValue);
 				m_damageValue = 0.0f;
-				printf("Collided with ship\n");
 				m_lifeTime = -1.0f;
 				break;
 			}
@@ -73,17 +72,16 @@ struct Projectile : public GameComponent
 						{
 							collidableGameObjects[i]->getGameComponent<ShipStats>()->updateHealth(-m_damageValue);
 							m_damageValue = 0.0f;
-							printf("Ray Collided with ship\n");
 							m_lifeTime = m_collisionTime;
 							m_delay = 2.0f;
 							break;
 						}
 					}
 				}
-				//No collision along its path so delay this collision check by 1 sec
+				//No collision along its path so delay this collision check by 0.25 sec
 				if (m_lifeTime > 0)
 				{
-					m_delay = 1.0f;
+					m_delay = 0.25f;
 				}
 			}
 			else
