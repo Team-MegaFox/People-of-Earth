@@ -34,6 +34,10 @@ public:
 			->addGUIComponent(new GUILabel(glm::vec4(0.4f, 0.6f, 0.2f, 0.05f), glm::vec4(0.0f), "Press start...", 16))
 			->addGameComponent(new TextLerpAlpha));
 
+		addToRoot((new GameObject("Logo"))
+			->addGUIComponent(new GUIImage(glm::vec4(0.1f, 0.2f, 0.8f, 0.2f), 
+			glm::vec4(0.0f), "Images/Logos/TPOE_LOGO_Trans.png")));
+
 		GameObject* mainMenuObject = new GameObject("Main Menu");
 		mainMenuObject->addChild((new GameObject("Play Button"))
 			->addGUIComponent(new GUIButton(glm::vec4(0.425f, 0.6f, 0.15f, 0.07f), glm::vec4(0.0f), "Play",

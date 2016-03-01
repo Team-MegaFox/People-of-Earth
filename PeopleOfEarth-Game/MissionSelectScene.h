@@ -23,17 +23,23 @@ public:
 		addToRoot((new GameObject("Mission 1"))
 			->addGUIComponent(new GUIContainer(glm::vec4(0.1f, 0.1f, 0.8f, 0.8f), glm::vec4(0.0f)))
 			->addChild((new GameObject("Mission 1 label"))
-			->addGUIComponent(new GUILabel(glm::vec4(0.425f, 0.9f, 0.15f, 0.1f), glm::vec4(0.0f), "Mission 1", 16))));
+			->addGUIComponent(new GUILabel(glm::vec4(0.425f, 0.9f, 0.15f, 0.1f), glm::vec4(0.0f), "Mission 1", 16)))
+			->addChild((new GameObject("Mission 1 Image"))
+			->addGUIComponent(new GUIImage(glm::vec4(0.05f, 0.1f, 0.9f, 0.8f), glm::vec4(0.0f), "Images/MissionOneImage.png"))));
 
 		addToRoot((new GameObject("Mission 2"))
 			->addGUIComponent(new GUIContainer(glm::vec4(1.1f, 0.1f, 0.8f, 0.8f), glm::vec4(0.0f)))
 			->addChild((new GameObject("Mission 2 label"))
-			->addGUIComponent(new GUILabel(glm::vec4(0.425f, 0.9f, 0.15f, 0.1f), glm::vec4(0.0f), "Mission 2", 16))));
+			->addGUIComponent(new GUILabel(glm::vec4(0.425f, 0.9f, 0.15f, 0.1f), glm::vec4(0.0f), "Mission 2", 16)))
+			->addChild((new GameObject("Mission 2 Image"))
+			->addGUIComponent(new GUIImage(glm::vec4(0.05f, 0.1f, 0.9f, 0.8f), glm::vec4(0.0f), "Images/MissionTwoImage.png"))));
 
 		addToRoot((new GameObject("Mission 3"))
 			->addGUIComponent(new GUIContainer(glm::vec4(2.1f, 0.1f, 0.8f, 0.8f), glm::vec4(0.0f)))
 			->addChild((new GameObject("Mission 3 label"))
-			->addGUIComponent(new GUILabel(glm::vec4(0.425f, 0.9f, 0.15f, 0.1f), glm::vec4(0.0f), "Mission 3", 16))));
+			->addGUIComponent(new GUILabel(glm::vec4(0.425f, 0.9f, 0.15f, 0.1f), glm::vec4(0.0f), "Mission 3", 16)))
+			->addChild((new GameObject("Mission 3 Image"))
+			->addGUIComponent(new GUIImage(glm::vec4(0.05f, 0.1f, 0.9f, 0.8f), glm::vec4(0.0f), "Images/MissionThreeImage.png"))));
 
 		addToRoot((new GameObject("Back Button"))
 			->addGUIComponent(new GUIButton(glm::vec4(0.45f, 0.95f, 0.1f, 0.05), glm::vec4(0.0f), "Back",
