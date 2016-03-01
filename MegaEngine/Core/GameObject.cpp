@@ -48,14 +48,13 @@ void GameObject::updateAll(float delta)
 }
 
 
-void GameObject::renderAll(const Shader& shader, const GUIEngine& guiEngine, const RenderingEngine& renderingEngine, const Camera3D& camera)
+void GameObject::renderAll(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D& camera) const
 {
 	renderGameComponents(shader, renderingEngine, camera);
-	renderGUIComponents(guiEngine, camera);
 
 	for (size_t go = 0; go < m_children.size(); go++)
 	{
-		m_children[go]->renderAll(shader, guiEngine, renderingEngine, camera);
+		m_children[go]->renderAll(shader, renderingEngine, camera);
 	}
 }
 
@@ -214,7 +213,7 @@ void GameObject::updateGameComponents(float delta)
 }
 
 
-void GameObject::renderGameComponents(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D& camera)
+void GameObject::renderGameComponents(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D& camera) const
 {
 	for (size_t gc = 0; gc < m_gameComponents.size(); gc++)
 	{
@@ -240,11 +239,6 @@ void GameObject::updateGUIComponents(float delta)
 	{
 		m_guiComponents[i]->update(delta);
 	}
-}
-
-
-void GameObject::renderGUIComponents(const GUIEngine& guiEngine, const Camera3D& camera)
-{
 }
 
 void GameObject::processInputGUIComponents(const InputManager& input, float delta)

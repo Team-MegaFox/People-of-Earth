@@ -1,27 +1,4 @@
-// ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
-// Created          : 09-15-2015
-//
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
-// ***********************************************************************
-// <copyright file="Transform.cpp" company="Team MegaFox">
-//     Copyright (c) Team MegaFox. All rights reserved.
-// </copyright>
-// <summary></summary>
-// ***********************************************************************
 #include "Transform.h"
-
-#define GLM_FORCE_RADIANS
-
-Transform::Transform(const glm::vec3 & position,
-	const glm::quat & rotation,
-	const glm::vec3 & scale) :
-	m_pos(position),
-	m_rot(rotation),
-	m_scale(scale)
-{ /* Empty */
-}
 
 bool Transform::hasChanged()
 {
@@ -40,7 +17,7 @@ bool Transform::hasChanged()
 		return true;
 	}
 
-	if (m_scale != m_oldScale)
+	if (m_scale != m_scale)
 	{
 		return true;
 	}
@@ -58,54 +35,58 @@ void Transform::update()
 	}
 	else
 	{
-		m_oldPos = m_pos + glm::vec3(1.0f, 1.0f, 1.0f);
+		m_oldPos = m_pos + glm::vec3(1.0f);
 		m_oldRot = m_rot * 0.5f;
-		m_oldScale = m_scale + glm::vec3(1.0f);
+		m_oldScale = m_scale + 1.0f;
 		m_initializedOldStuff = true;
 	}
 }
 
-glm::mat4 Transform::getTransformation() const
-{
-	glm::mat4 translationMatrix = Utility::initTranslation(m_pos);
-	glm::mat4 scaleMatrix = Utility::initScale(m_scale);
-	glm::mat4 result = translationMatrix * glm::mat4_cast(m_rot) * scaleMatrix;
-
-	return getParentMatrix() * result;
-}
-
-const glm::mat4 Transform::getParentMatrix() const
-{
-	if (m_parent != 0 && m_parent->hasChanged())
-	{
-		m_parentMatrix = m_parent->getTransformation();
-	}
-	return m_parentMatrix;
-}
-
-glm::quat Transform::getTransformedRot() const
-{
-	glm::quat parentRot(1.0f, 0.0f, 0.0f, 0.0f);
-
-	if (m_parent)
-	{
-		parentRot = m_parent->getTransformedRot();
-	}
-	
-	return parentRot * m_rot;
-}
-
-glm::vec3 Transform::getTransformedPos() const
-{
-	return glm::vec3(getParentMatrix() * glm::vec4(m_pos, 1.0f));
-}
-
 void Transform::rotate(const glm::vec3& axis, float angle)
 {
-	rotate(glm::angleAxis(-angle, axis));
+	rotate(glm::angleAxis(angle, axis));
 }
 
 void Transform::rotate(const glm::quat& rotation)
 {
 	m_rot = glm::quat(glm::normalize(rotation * m_rot));
+}
+
+void Transform::lookAt(const glm::vec3& point, const glm::vec3& up)
+{
+	m_rot = getLookAtRotation(point, up);
+}
+
+glm::mat4 Transform::getTransformation() const
+{
+	glm::mat4 translationMatrix;
+	glm::mat4 scaleMatrix;
+
+	translationMatrix = Utility::initTranslation(m_pos);
+	scaleMatrix = Utility::initScale(m_scale);
+
+	glm::mat4 result = translationMatrix * glm::mat4_cast(m_rot) * scaleMatrix;
+
+	return getParentMatrix() * result;
+}
+
+const glm::mat4& Transform::getParentMatrix() const
+{
+	if (m_parent != 0 && m_parent->hasChanged())
+	{
+		m_parentMatrix = m_parent->getTransformation();
+	}
+
+	return m_parentMatrix;
+}
+
+glm::quat Transform::getTransformedRot() const
+{
+	glm::quat parentRot = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
+
+	if (m_parent)
+	{
+		parentRot = m_parent->getTransformedRot();
+	}
+	return parentRot * m_rot;
 }

@@ -17,123 +17,163 @@ public:
 
 	virtual void init(const Viewport& window) override
 	{
-		Material ship1("ship1", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_White.png"), Texture("Ships/AF-SS01/AF-SS01_Normalmap.png"));
-		Material ship2("ship2", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_Navy.png"), Texture("Ships/AF-SS01/AF-SS01_Normalmap.png"));
-		Material ship3("ship3", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_Black.png"), Texture("Ships/AF-SS01/AF-SS01_Normalmap.png"));
+		Material bricks("bricks", 0.5f, 4, Texture("bricks.jpg"), Texture("bricks_normal.jpg"), Texture("bricks_disp.png"), 0.03f, -0.5f);
+		Material bricks2("bricks2", 1, 8, Texture("bricks2.jpg"), Texture("bricks2_normal.png"), Texture("bricks2_disp.jpg"), 0.04f, -1.0f);
 
-		Material motherShip("motherShip", 0.5f, 4, Texture("Ships/MotherShip/MotherShip.png"));
-		Material humanShip("human_ship", 1.0f, 10, Texture("Ships/Eric/HumanShip.png"), Texture("Ships/Eric/HumanShip_NORM.png"), Texture("Ships/Eric/HumanShip_DISP.png"));
-		Material alienShip("alien_ship", 5.0f, 4, Texture("Ships/Eric/Alienship.png"), Texture("Ships/Eric/Alienship_NORM.png"), Texture("Ships/Eric/Alienship_DISP.png"));
+		IndexedModel square;
+		{
+			square.addVertex(1.0f, -1.0f, 0.0f);  square.addTexCoord(1.0f, 1.0f);
+			square.addVertex(1.0f, 1.0f, 0.0f);   square.addTexCoord(1.0f, 0.0f);
+			square.addVertex(-1.0f, -1.0f, 0.0f); square.addTexCoord(0.0f, 1.0f);
+			square.addVertex(-1.0f, 1.0f, 0.0f);  square.addTexCoord(0.0f, 0.0f);
+			square.addFace(0, 1, 2); square.addFace(2, 1, 3);
+		}
+		Mesh customMesh("square", square.finalize());
 
-		Material asteroidA("aster1", 0.5f, 4, Texture("Asteroids/Asteroid_A.png"), Texture("Asteroids/Asteroid_NORM.png"));
-		Material asteroidB("aster2", 0.5f, 4, Texture("Asteroids/Asteroid_B.png"), Texture("Asteroids/Asteroid_NORM.png"));
-		Material asteroidC("aster3", 0.5f, 4, Texture("Asteroids/Asteroid_C.png"), Texture("Asteroids/Asteroid_NORM.png"));
-		Material asteroidD("aster4", 0.5f, 4, Texture("Asteroids/Asteroid_D.png"), Texture("Asteroids/Asteroid_NORM.png"));
+		addToRoot((new GameObject("Plane 1", glm::vec3(0, -1, 5), glm::quat(1, 0, 0, 0), glm::vec3(4.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Environment/plane4.obj"), Material("bricks"))));
 
-		Material planetA("plan1", 1.0f, 10, Texture("Planets/Planet_A.png"), Texture("Planets/Planet_A_NORM.png"));
-		Material planetB("plan2", 0.5f, 4, Texture("Planets/Planet_B.png"), Texture("Planets/Planet_B_NORM.png"));
-		Material planetC("plan3", 0.5f, 4, Texture("Planets/Planet_C.png"), Texture("Planets/Planet_C_NORM.png"));
-		Material planetD("plan4", 0.5f, 4, Texture("Planets/Planet_D.png"), Texture("Planets/Planet_D_NORM.png"));
+		addToRoot((new GameObject("Plane 2", glm::vec3(7, 0, 7)))
+			->addGameComponent(new PointLight(glm::vec3(0, 1, 0), 0.4f, Attenuation(0, 0, 1))));
 
-		Material nebulaTex("nebula1", 0.5f, 4, Texture("NebulaeAndGalaxies/Nebula_A.png"));
-		Material GalaxyTex("galaxy1", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_White - Copy.png"));
+		addToRoot((new GameObject("Plane 3", glm::vec3(10, 1.0f, 5), glm::angleAxis(glm::radians(-60.0f), glm::vec3(1, 0, 0)) * glm::angleAxis(glm::radians(90.0f), glm::vec3(0, 1, 0))))
+			->addGameComponent(new SpotLight(glm::vec3(0, 1, 1), 0.4f, Attenuation(0, 0, 0.02f), glm::radians(91.1f), 7, 1.0f, 0.5f)));
 
-		Audio * BGM = new Audio("rightNow.mp3", AudioType::STREAM, true);
+		addToRoot((new GameObject("Directional Light", glm::vec3(), glm::angleAxis(glm::radians(-45.0f), glm::vec3(1, 0, 0))))
+			->addGameComponent(new DirectionalLight(glm::vec3(1, 1, 1), 0.4f, 10, 80.0f, 1.0f)));
 
-		addToRoot((new GameObject("skybox"))
-			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
+		addToRoot((new GameObject("Plane 4", glm::vec3(0, 2, 0), glm::angleAxis(0.4f, glm::vec3(0, 1, 0)), glm::vec3(1.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Environment/plane3.obj"), Material("bricks2")))
+			->addChild((new GameObject("Plane 5", glm::vec3(0, 0, 25)))
+			->addGameComponent(new MeshRenderer(Mesh("Environment/plane3.obj"), Material("bricks2")))
+			->addChild((new GameObject("Main Camera"))
+			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(70.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
+			->addGameComponent(new FreeLook(window.getCenter()))
+			->addGameComponent(new FreeMove()))));
 
-		GameObject* fighterShip =
-			(new GameObject("Fighter Ship", glm::vec3(0.0f, 0.0f, 0.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Ships/HumanFighter_Final.obj", 0.1f), Material("human_ship")))
-			->addGameComponent(new RigidBody(glm::vec3(), glm::quat(), 1.0f, 2.0f, 2.0f, 8.0f))
-			->addGameComponent(new FireProjectile("268168__shaun105__laser.wav"))
-			->addGameComponent(new PlayerShipMovementController("camera", 100.0f))
-			->addGameComponent(BGM)
-			;
+		addToRoot((new GameObject("Cube", glm::vec3(14, 0, 5), glm::angleAxis(glm::radians(30.0f), glm::vec3(0, 1, 0))))
+			->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("bricks2"))));
 
-		// The human fighter ship and camera
-		GameObject* camera =
-			(new GameObject("camera",
-			*fighterShip->getTransform()->getPosition() - Utility::getForward(*fighterShip->getTransform()->getRotation()) * 30.0f
-			+ glm::vec3(0.0f, 5.0f, 0.0f)))
-			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(60.0f), window.getAspectRatio(), 0.1f, 20000.0f)))
-			->addGameComponent(new Listener());
+		addToRoot((new GameObject("Plane 6", glm::vec3(0, 0, 7), glm::quat(1, 0, 0, 0), glm::vec3(1.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("square"), Material("bricks2"))));
 
-		addToRoot(fighterShip);
-		addToRoot(camera);
-
-		// the alien fighter ship
-		addToRoot((new GameObject("enemyFighter", glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Ships/AlienFighter_FINAL.obj", 0.1f), Material("alien_ship")))
-			//->addGameComponent(new EnemyFighterShipAI)
-			);
-
-		addToRoot((new GameObject("shipWhite", glm::vec3(0.0f, -5.0f, 450.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj", 1.0f), Material("ship1")))
-			);
-
-		addToRoot((new GameObject("shipNavy", glm::vec3(0.0f, -5.0f, 550.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj"), Material("ship2")))
-			);
-
-		addToRoot((new GameObject("shipBlack", glm::vec3(0.0f, -5.0f, 650.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj"), Material("ship3")))
-			);
-
-		addToRoot((new GameObject("mother", glm::vec3(0.0f, -5.0f, 650.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Ships/MotherShip.obj", 0.1f), Material("motherShip")))
-);
-		addToRoot((new GameObject("asteroid1", glm::vec3(0.0f, 0.0f, 450.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Asteroids/Asteroid_A.obj", 0.1f), Material("aster1")))
-);
-
-		addToRoot((new GameObject("asteroid2", glm::vec3(0.0f, 0.0f, 550.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Asteroids/Asteroid_B.obj", 0.1f), Material("aster2")))
-);
-
-		addToRoot((new GameObject("asteroid3", glm::vec3(0.0f, 0.0f, 250.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Asteroids/Asteroid_C.obj", 0.1f), Material("aster3")))
-);
-
-		addToRoot((new GameObject("asteroid4", glm::vec3(0.0f, 0.0f, 350.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Asteroids/Asteroid_D.obj", 0.1f), Material("aster4")))
-);
-
-		addToRoot((new GameObject("planet1", glm::vec3(10.0f, 15.0f, 10000.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 1.0f), Material("plan1")))
-);
-
-//		addToRoot((new GameObject("planet2", glm::vec3(10.0f, 15.0f, -5000.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
-//			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_B.obj", 1.0f), Material("plan2")))
+//		Material ship1("ship1", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_White.png"), Texture("Ships/AF-SS01/AF-SS01_Normalmap.png"));
+//		Material ship2("ship2", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_Navy.png"), Texture("Ships/AF-SS01/AF-SS01_Normalmap.png"));
+//		Material ship3("ship3", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_Black.png"), Texture("Ships/AF-SS01/AF-SS01_Normalmap.png"));
+//
+//		Material motherShip("motherShip", 0.5f, 4, Texture("Ships/MotherShip/MotherShip.png"));
+//		Material humanShip("human_ship", 1.0f, 10, Texture("Ships/Eric/HumanShip.png"), Texture("Ships/Eric/HumanShip_NORM.png"), Texture("Ships/Eric/HumanShip_DISP.png"));
+//		Material alienShip("alien_ship", 5.0f, 4, Texture("Ships/Eric/Alienship.png"), Texture("Ships/Eric/Alienship_NORM.png"), Texture("Ships/Eric/Alienship_DISP.png"));
+//
+//		Material asteroidA("aster1", 0.5f, 4, Texture("Asteroids/Asteroid_A.png"), Texture("Asteroids/Asteroid_NORM.png"));
+//		Material asteroidB("aster2", 0.5f, 4, Texture("Asteroids/Asteroid_B.png"), Texture("Asteroids/Asteroid_NORM.png"));
+//		Material asteroidC("aster3", 0.5f, 4, Texture("Asteroids/Asteroid_C.png"), Texture("Asteroids/Asteroid_NORM.png"));
+//		Material asteroidD("aster4", 0.5f, 4, Texture("Asteroids/Asteroid_D.png"), Texture("Asteroids/Asteroid_NORM.png"));
+//
+//		Material planetA("plan1", 1.0f, 10, Texture("Planets/Planet_A.png"), Texture("Planets/Planet_A_NORM.png"));
+//		Material planetB("plan2", 0.5f, 4, Texture("Planets/Planet_B.png"), Texture("Planets/Planet_B_NORM.png"));
+//		Material planetC("plan3", 0.5f, 4, Texture("Planets/Planet_C.png"), Texture("Planets/Planet_C_NORM.png"));
+//		Material planetD("plan4", 0.5f, 4, Texture("Planets/Planet_D.png"), Texture("Planets/Planet_D_NORM.png"));
+//
+//		Material nebulaTex("nebula1", 0.5f, 4, Texture("NebulaeAndGalaxies/Nebula_A.png"));
+//		Material GalaxyTex("galaxy1", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_White - Copy.png"));
+//
+//		//Audio * BGM = new Audio("rightNow.mp3", AudioType::STREAM, true);
+//
+//		addToRoot((new GameObject("skybox"))
+//			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
+//
+//		//GameObject* fighterShip =
+//		//	(new GameObject("Fighter Ship", glm::vec3(0.0f, 0.0f, 0.0f)))
+//		//	->addGameComponent(new MeshRenderer(Mesh("Ships/HumanFighter_Final.obj", 0.1f), Material("human_ship")))
+//		//	->addGameComponent(new RigidBody(glm::vec3(), glm::quat(), 1.0f, 2.0f, 2.0f, 8.0f))
+//		//	->addGameComponent(new FireProjectile("268168__shaun105__laser.wav"))
+//		//	->addGameComponent(new PlayerShipMovementController("camera", 100.0f))
+//		//	//->addGameComponent(BGM)
+//		//	;
+//
+//		// The human fighter ship and camera
+//		GameObject* camera =
+//			(new GameObject("camera"))
+//			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(60.0f), window.getAspectRatio(), 0.1f, 20000.0f)))
+//			->addGameComponent(new Listener())
+//			->addGameComponent(new FreeLook(window.getCenter()))
+//			->addGameComponent(new FreeMove);
+//
+//		//addToRoot(fighterShip);
+//		addToRoot(camera);
+//
+//		// the alien fighter ship
+//		addToRoot((new GameObject("enemyFighter", glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
+//			->addGameComponent(new MeshRenderer(Mesh("Ships/AlienFighter_FINAL.obj", 0.1f), Material("alien_ship")))
+//			//->addGameComponent(new EnemyFighterShipAI)
+//			);
+//
+//		addToRoot((new GameObject("shipWhite", glm::vec3(0.0f, -5.0f, 450.0f)))
+//			->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj", 1.0f), Material("ship1")))
+//			);
+//
+//		addToRoot((new GameObject("shipNavy", glm::vec3(0.0f, -5.0f, 550.0f)))
+//			->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj"), Material("ship2")))
+//			);
+//
+//		addToRoot((new GameObject("shipBlack", glm::vec3(0.0f, -5.0f, 650.0f)))
+//			->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj"), Material("ship3")))
+//			);
+//
+//		addToRoot((new GameObject("mother", glm::vec3(0.0f, -5.0f, 650.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
+//			->addGameComponent(new MeshRenderer(Mesh("Ships/MotherShip.obj", 0.1f), Material("motherShip")))
+//);
+//		addToRoot((new GameObject("asteroid1", glm::vec3(0.0f, 0.0f, 450.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
+//			->addGameComponent(new MeshRenderer(Mesh("Asteroids/Asteroid_A.obj", 0.1f), Material("aster1")))
 //);
 //
-//		addToRoot((new GameObject("planet3", glm::vec3(10.0f, 15.0f, 5000.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
-//			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_C.obj", 1.0f), Material("plan3")))
+//		addToRoot((new GameObject("asteroid2", glm::vec3(0.0f, 0.0f, 550.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
+//			->addGameComponent(new MeshRenderer(Mesh("Asteroids/Asteroid_B.obj", 0.1f), Material("aster2")))
 //);
-
-		addToRoot((new GameObject("planet4", glm::vec3(10.0f, 15.0f, -10000.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_D.obj", 1.0f), Material("plan4")))
-);
-
-		addToRoot((new GameObject("nebula", glm::vec3(10.0f, 45.0f, 350.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("NebulaeAndGalaxies/Nebula_Large.obj", 0.01f), Material("nebula1")))
-);
-
-		addToRoot((new GameObject("galaxy", glm::vec3(10.0f, 45.0f, 650.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("NebulaeAndGalaxies/Galaxy_Large.obj", 0.01f), Material("galaxy1")))
-);
-
-		addToRoot((new GameObject("DrLight", glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
-			->addGameComponent(new DirectionalLight(glm::vec3(1.0f, 0.5f, 0.0f), 0.2f, 8, 8.0f, 1.0f, 1.0f)));
-
-		addToRoot((new GameObject("DrLight2", glm::vec3(0.0f, 0.0f, 10000.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
-			->addGameComponent(new DirectionalLight(glm::vec3(1.0f, 0.5f, 0.0f), 0.2f, 8, 8.0f, 1.0f, 1.0f)));
-
-		addToRoot((new GameObject("DrLight3", glm::vec3(0.0f, 0.0f, -10000.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
-			->addGameComponent(new DirectionalLight(glm::vec3(1.0f, 0.5f, 0.0f), 0.2f, 8, 8.0f, 1.0f, 1.0f)));
-
-		BGM->play(true);
+//
+//		addToRoot((new GameObject("asteroid3", glm::vec3(0.0f, 0.0f, 250.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
+//			->addGameComponent(new MeshRenderer(Mesh("Asteroids/Asteroid_C.obj", 0.1f), Material("aster3")))
+//);
+//
+//		addToRoot((new GameObject("asteroid4", glm::vec3(0.0f, 0.0f, 350.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
+//			->addGameComponent(new MeshRenderer(Mesh("Asteroids/Asteroid_D.obj", 0.1f), Material("aster4")))
+//);
+//
+//		addToRoot((new GameObject("planet1", glm::vec3(10.0f, 15.0f, 10000.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
+//			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 1.0f), Material("plan1")))
+//);
+//
+////		addToRoot((new GameObject("planet2", glm::vec3(10.0f, 15.0f, -5000.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
+////			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_B.obj", 1.0f), Material("plan2")))
+////);
+////
+////		addToRoot((new GameObject("planet3", glm::vec3(10.0f, 15.0f, 5000.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
+////			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_C.obj", 1.0f), Material("plan3")))
+////);
+//
+//		addToRoot((new GameObject("planet4", glm::vec3(10.0f, 15.0f, -10000.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
+//			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_D.obj", 1.0f), Material("plan4")))
+//);
+//
+//		addToRoot((new GameObject("nebula", glm::vec3(10.0f, 45.0f, 350.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
+//			->addGameComponent(new MeshRenderer(Mesh("NebulaeAndGalaxies/Nebula_Large.obj", 0.01f), Material("nebula1")))
+//);
+//
+//		addToRoot((new GameObject("galaxy", glm::vec3(10.0f, 45.0f, 650.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f)))
+//			->addGameComponent(new MeshRenderer(Mesh("NebulaeAndGalaxies/Galaxy_Large.obj", 0.01f), Material("galaxy1")))
+//);
+//
+//		addToRoot((new GameObject("DrLight", glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
+//			->addGameComponent(new DirectionalLight(glm::vec3(1.0f, 0.5f, 0.0f), 0.2f, 8, 8.0f, 1.0f, 1.0f)));
+//
+//		//addToRoot((new GameObject("DrLight2", glm::vec3(0.0f, 0.0f, 10000.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
+//		//	->addGameComponent(new DirectionalLight(glm::vec3(1.0f, 0.5f, 0.0f), 0.2f, 8, 8.0f, 1.0f, 1.0f)));
+//
+//		//addToRoot((new GameObject("DrLight3", glm::vec3(0.0f, 0.0f, -10000.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
+//		//	->addGameComponent(new DirectionalLight(glm::vec3(1.0f, 0.5f, 0.0f), 0.2f, 8, 8.0f, 1.0f, 1.0f)));
+//
+//		//BGM->play(true);
 	}
 };
 

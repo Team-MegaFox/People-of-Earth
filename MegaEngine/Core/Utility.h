@@ -71,42 +71,42 @@ namespace Utility
 	/// </summary>
 	/// <param name="quat">The quaternion.</param>
 	/// <returns>The vector facing in the forward direction.</returns>
-	glm::vec3 getForward(const glm::quat quat);
+	glm::vec3 getForward(const glm::quat& quat);
 
 	/// <summary>
 	/// Gets the backward facing vector based on the quaternion rotation.
 	/// </summary>
 	/// <param name="quat">The quaternion.</param>
 	/// <returns>The vector facing in the backward direction.</returns>
-	glm::vec3 getBack(const glm::quat quat);
+	glm::vec3 getBack(const glm::quat& quat);
 
 	/// <summary>
 	/// Gets the upward facing vector based on the quaternion rotation.
 	/// </summary>
 	/// <param name="quat">The quaternion.</param>
 	/// <returns>The vector facing in the upward direction.</returns>
-	glm::vec3 getUp(const glm::quat quat);
+	glm::vec3 getUp(const glm::quat& quat);
 
 	/// <summary>
 	/// Gets the downward facing vector based on the quaternion rotation.
 	/// </summary>
 	/// <param name="quat">The quaternion.</param>
 	/// <returns>The vector facing in the downward direction.</returns>
-	glm::vec3 getDown(const glm::quat quat);
+	glm::vec3 getDown(const glm::quat& quat);
 
 	/// <summary>
 	/// Gets the right facing vector based on the quaternion rotation.
 	/// </summary>
 	/// <param name="quat">The quaternion.</param>
 	/// <returns>The vector facing in the right direction.</returns>
-	glm::vec3 getRight(const glm::quat quat);
+	glm::vec3 getRight(const glm::quat& quat);
 
 	/// <summary>
 	/// Gets the left facing vector based on the quaternion rotation.
 	/// </summary>
 	/// <param name="quat">The quaternion.</param>
 	/// <returns>The vector facing in the left direction.</returns>
-	glm::vec3 getLeft(const glm::quat quat);
+	glm::vec3 getLeft(const glm::quat& quat);
 
 	/// <summary>
 	/// Get a initialized matrix with translation properties.

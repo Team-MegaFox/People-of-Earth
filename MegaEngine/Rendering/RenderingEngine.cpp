@@ -1,44 +1,34 @@
-// ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
-// Created          : 09-15-2015
-//
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
-// ***********************************************************************
-// <copyright file="RenderingEngine.cpp" company="Team MegaFox">
-//     Copyright (c) Team MegaFox. All rights reserved.
-// </copyright>
-// <summary></summary>
-// ***********************************************************************
-#include "RenderingEngine.h"
-
-#include <assert.h>
-#include <glm/gtc/matrix_transform.hpp>
-
+#include "renderingEngine.h"
 #include "..\Core\GameObject.h"
-#include "..\Core\Utility.h"
-#include "Viewport.h"
-#include "Lighting.h"
-#include "Camera3D.h"
+#include "Shader.h"
+#include "Mesh.h"
+#include <glew\glew.h>
+#include <cassert>
 
-/// <summary>
-/// Adds the light.
-/// </summary>
-/// <param name="light">The light.</param>
-const glm::mat4 RenderingEngine::BIAS_MATRIX = Utility::initScale(glm::vec3(0.5f)) * Utility::initTranslation(glm::vec3(1.0f));
+const glm::mat4 RenderingEngine::BIAS_MATRIX = Utility::initScale(glm::vec3(0.5, 0.5, 0.5)) * Utility::initTranslation(glm::vec3(1.0, 1.0, 1.0));
+//Should construct a Matrix like this:
+//     x   y   z   w
+//x [ 0.5 0.0 0.0 0.5 ]
+//y [ 0.0 0.5 0.0 0.5 ]
+//z [ 0.0 0.0 0.5 0.5 ]
+//w [ 0.0 0.0 0.0 1.0 ]
+//
+//Note the 'w' column in this representation should be
+//the translation column!
+//
+//This matrix will convert 3D coordinates from the range (-1, 1) to the range (0, 1).
 
-RenderingEngine::RenderingEngine(Viewport& viewport, GUIEngine& guiEngine) :
-m_filterPlane(Mesh("Environment/plane.obj")),
-m_viewport(&viewport),
-m_guiEngine(&guiEngine),
-m_tempTarget(viewport.getScreenWidth(), viewport.getScreenHeight(), 0, GL_TEXTURE_2D, GL_NEAREST, GL_RGBA, GL_RGBA, false, GL_COLOR_ATTACHMENT0),
-m_filterPlaneMaterial("renderingEngine_filterPlane", 1, 8, m_tempTarget),
+RenderingEngine::RenderingEngine(const Viewport& window) :
+m_plane(Mesh("Environment/plane.obj")),
+m_window(&window),
+m_tempTarget(window.getScreenWidth(), window.getScreenHeight(), 0, GL_TEXTURE_2D, GL_NEAREST, GL_RGBA, GL_RGBA, false, GL_COLOR_ATTACHMENT0),
+m_planeMaterial("renderingEngine_filterPlane", 1, 8, m_tempTarget),
 m_defaultShader("forward-ambient"),
 m_shadowMapShader("shadowMapGenerator"),
 m_nullFilter("filter-null"),
 m_gausBlurFilter("filter-gausBlur7x1"),
 m_fxaaFilter("filter-fxaa"),
-m_altCameraTransform(glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)))),
+m_altCameraTransform(glm::vec3(0, 0, 0), glm::angleAxis(glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f))),
 m_altCamera(glm::mat4(1.0f), &m_altCameraTransform)
 {
 	setSamplerSlot("diffuse", 0);
@@ -48,13 +38,13 @@ m_altCamera(glm::mat4(1.0f), &m_altCameraTransform)
 
 	setSamplerSlot("filterTexture", 0);
 
-	setVec3("ambient", glm::vec3(0.4f, 0.4f, 0.4f));
+	setVec3("ambient", glm::vec3(0.2f, 0.2f, 0.2f));
 
 	setFloat("fxaaSpanMax", 8.0f);
 	setFloat("fxaaReduceMin", 1.0f / 128.0f);
 	setFloat("fxaaReduceMul", 1.0f / 8.0f);
 
-	setTexture("displayTexture", Texture(m_viewport->getScreenWidth(), m_viewport->getScreenHeight(), 0, GL_TEXTURE_2D, GL_LINEAR, GL_RGBA, GL_RGBA, true, GL_COLOR_ATTACHMENT0));
+	setTexture("displayTexture", Texture(m_window->getScreenWidth(), m_window->getScreenHeight(), 0, GL_TEXTURE_2D, GL_LINEAR, GL_RGBA, GL_RGBA, true, GL_COLOR_ATTACHMENT0));
 
 	setSamplerSlot("S_skybox", 0);
 
@@ -65,12 +55,12 @@ m_altCamera(glm::mat4(1.0f), &m_altCameraTransform)
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_DEPTH_CLAMP);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_MULTISAMPLE);
 
-	m_filterPlaneTransform.setScale(glm::vec3(1.0f));
-	m_filterPlaneTransform.rotate(glm::quat(glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f))));
-	m_filterPlaneTransform.rotate(glm::quat(glm::angleAxis(glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f))));
+	//m_planeMaterial("renderingEngine_filterPlane", m_tempTarget, 1, 8);
+	m_planeTransform.setScale(glm::vec3(1.0f));
+	m_planeTransform.rotate(glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
+	m_planeTransform.rotate(glm::angleAxis(glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f)));
 
 	for (int i = 0; i < NUM_SHADOW_MAPS; i++)
 	{
@@ -79,19 +69,62 @@ m_altCamera(glm::mat4(1.0f), &m_altCameraTransform)
 		m_shadowMapTempTargets[i] = Texture(shadowMapSize, shadowMapSize, 0, GL_TEXTURE_2D, GL_LINEAR, GL_RG32F, GL_RGBA, true, GL_COLOR_ATTACHMENT0);
 	}
 
-	m_lightMatrix = glm::mat4(
-		glm::vec4(0.0f),
-		glm::vec4(0.0f),
-		glm::vec4(0.0f),
-		glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+	m_lightMatrix = Utility::initScale(glm::vec3(0, 0, 0));
 }
 
-void RenderingEngine::render(GameObject & gameObject)
+void RenderingEngine::blurShadowMap(int shadowMapIndex, float blurAmount)
 {
-	//getTexture("displayTexture").bindRenderTarget();
-	m_viewport->bindRenderTarget();
+	setVec3("blurScale", glm::vec3(blurAmount / (m_shadowMaps[shadowMapIndex].getWidth()), 0.0f, 0.0f));
+	applyFilter(m_gausBlurFilter, m_shadowMaps[shadowMapIndex], &m_shadowMapTempTargets[shadowMapIndex]);
 
-	gameObject.renderAll(m_defaultShader, *m_guiEngine, *this, *m_mainCamera);
+	setVec3("blurScale", glm::vec3(0.0f, blurAmount / (m_shadowMaps[shadowMapIndex].getHeight()), 0.0f));
+	applyFilter(m_gausBlurFilter, m_shadowMapTempTargets[shadowMapIndex], &m_shadowMaps[shadowMapIndex]);
+
+	//	SetPxVec3("inverseFilterTextureSize", PxVec3(blurAmount/m_shadowMaps[shadowMapIndex].GetWidth(), blurAmount/m_shadowMaps[shadowMapIndex].GetHeight(), 0.0f));
+	//	ApplyFilter(m_fxaaFilter, m_shadowMaps[shadowMapIndex], &m_shadowMapTempTargets[shadowMapIndex]);
+	//	
+	//	ApplyFilter(m_nullFilter, m_shadowMapTempTargets[shadowMapIndex], &m_shadowMaps[shadowMapIndex]);
+}
+
+void RenderingEngine::applyFilter(const Shader& filter, const Texture& source, const Texture* dest)
+{
+	assert(&source != dest);
+	if (dest == 0)
+	{
+		m_window->bindRenderTarget();
+	}
+	else
+	{
+		dest->bindAsRenderTarget();
+	}
+
+	setTexture("filterTexture", source);
+
+	m_altCamera.setProjection(glm::mat4(1.0f));
+	m_altCamera.getTransform()->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+	m_altCamera.getTransform()->setRotation(glm::angleAxis(glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
+
+	//	const Camera* temp = m_mainCamera;
+	//	m_mainCamera = m_altCamera;
+
+	glClear(GL_DEPTH_BUFFER_BIT);
+	filter.bind();
+	filter.updateUniforms(m_planeTransform, m_planeMaterial, *this, m_altCamera);
+	m_plane.render();
+
+	//	m_mainCamera = temp;
+	setTexture("filterTexture", 0);
+}
+
+void RenderingEngine::render(const GameObject& object)
+{
+	getTexture("displayTexture").bindAsRenderTarget();
+	//m_window->BindAsRenderTarget();
+	//m_tempTarget->BindAsRenderTarget();
+
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	object.renderAll(m_defaultShader, *this, *m_mainCamera);
 
 	for (unsigned int i = 0; i < m_lights.size(); i++)
 	{
@@ -105,8 +138,8 @@ void RenderingEngine::render(GameObject & gameObject)
 		assert(shadowMapIndex >= 0 && shadowMapIndex < NUM_SHADOW_MAPS);
 
 		setTexture("shadowMap", m_shadowMaps[shadowMapIndex]);
-		m_shadowMaps[shadowMapIndex].bindRenderTarget();
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		m_shadowMaps[shadowMapIndex].bindAsRenderTarget();
+		glClearColor(1.0f, 1.0f, 0.0f, 0.0f);
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
 		if (shadowInfo.getShadowMapSizeAsPowerOf2() != 0)
@@ -123,17 +156,22 @@ void RenderingEngine::render(GameObject & gameObject)
 			setFloat("shadowLightBleedingReduction", shadowInfo.getLightBleedReductionAmount());
 			bool flipFaces = shadowInfo.getFlipFaces();
 
+			//			const Camera* temp = m_mainCamera;
+			//			m_mainCamera = m_altCamera;
+
 			if (flipFaces)
 			{
 				glCullFace(GL_FRONT);
 			}
 
-			gameObject.renderAll(m_shadowMapShader, *m_guiEngine, *this, m_altCamera);
+			object.renderAll(m_shadowMapShader, *this, m_altCamera);
 
-			if (!flipFaces)
+			if (flipFaces)
 			{
 				glCullFace(GL_BACK);
 			}
+
+			//			m_mainCamera = temp;
 
 			float shadowSoftness = shadowInfo.getShadowSoftness();
 			if (shadowSoftness != 0)
@@ -143,26 +181,30 @@ void RenderingEngine::render(GameObject & gameObject)
 		}
 		else
 		{
-			m_lightMatrix = Utility::initScale(glm::vec3(0.0f));
+			m_lightMatrix = Utility::initScale(glm::vec3(0.0f, 0.0f, 0.0f));
 			setFloat("shadowVarianceMin", 0.00002f);
 			setFloat("shadowLightBleedingReduction", 0.0f);
 		}
 
-		//getTexture("displayTexture").bindRenderTarget();
-		m_viewport->bindRenderTarget();
+		getTexture("displayTexture").bindAsRenderTarget();
+		//m_window->BindAsRenderTarget();
 
-		//glEnable(GL_BLEND);
+		//		glEnable(GL_SCISSOR_TEST);
+		//		TODO: Make use of scissor test to limit light area
+		//		glScissor(0, 0, 100, 100);
+
+		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
 		glDepthFunc(GL_EQUAL);
 
-		gameObject.renderAll(m_activeLight->getShader(), *m_guiEngine, *this, *m_mainCamera);
+		object.renderAll(m_activeLight->getShader(), *this, *m_mainCamera);
 
 		glDepthMask(GL_TRUE);
 		glDepthFunc(GL_LESS);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		//glDisable(GL_BLEND);
+		glDisable(GL_BLEND);
 
+		//		glDisable(GL_SCISSOR_TEST);
 	}
 
 	if (m_skybox != nullptr)
@@ -176,52 +218,5 @@ void RenderingEngine::render(GameObject & gameObject)
 
 	setVec3("inverseFilterTextureSize", glm::vec3(1.0f / getTexture("displayTexture").getWidth(), 1.0f / getTexture("displayTexture").getHeight(), 0.0f));
 
-	//applyFilter(m_fxaaFilter, getTexture("displayTexture"), 0);
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glUseProgram(0);
-	glActiveTexture(GL_TEXTURE0);
-
+	applyFilter(m_fxaaFilter, getTexture("displayTexture"), 0);
 }
-
-void RenderingEngine::applyFilter(const Shader & filter, const Texture & src, const Texture * dst)
-{
-	assert(&src != dst);
-	if (dst == 0)
-	{
-		m_viewport->bindRenderTarget();
-	}
-	else
-	{
-		dst->bindRenderTarget();
-	}
-
-	setTexture("filterTexture", src);
-
-	m_altCamera.setProjection(glm::mat4(1.0f));
-	m_altCamera.getTransform()->setPosition(glm::vec3(0.0f));
-	m_altCamera.getTransform()->setRotation(glm::quat(glm::angleAxis(glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f))));
-
-	glClear(GL_DEPTH_BUFFER_BIT);
-	filter.bind();
-	filter.updateUniforms(m_filterPlaneTransform, m_filterPlaneMaterial, *this, m_altCamera);
-	m_filterPlane.render();
-
-	setTexture("filterTexture", 0);
-
-}
-
-void RenderingEngine::blurShadowMap(int shadowMapIndex, float blurAmount)
-{
-	setVec3("blurScale", glm::vec3(blurAmount / (m_shadowMaps[shadowMapIndex].getWidth()), 0.0f, 0.0f));
-	applyFilter(m_gausBlurFilter, m_shadowMaps[shadowMapIndex], &m_shadowMapTempTargets[shadowMapIndex]);
-
-	setVec3("blurScale", glm::vec3(0.0f, blurAmount / (m_shadowMaps[shadowMapIndex].getHeight()), 0.0f));
-	applyFilter(m_gausBlurFilter, m_shadowMapTempTargets[shadowMapIndex], &m_shadowMaps[shadowMapIndex]);
-}
-
-void RenderingEngine::setSamplerSlot(std::string name, GLuint value)
-{
-	m_samplerMap[name] = value;
-}
-

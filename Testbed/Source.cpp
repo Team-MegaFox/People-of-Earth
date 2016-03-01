@@ -11,7 +11,7 @@ int main(int argc, char** argv)
 {
 	Viewport window("The People of Earth TestBed ***Demo***", 800, 600, 0);
 	GUIEngine guiEngine("Assets/GUI");
-	RenderingEngine renderingEngine(window, guiEngine);
+	RenderingEngine renderingEngine(window);
 	SceneManager sceneManager(&window);
 	PhysicsEngine physicsEngine;
 	physicsEngine.getPhysicsWorld()->init(glm::vec3(0), 1000.0f);

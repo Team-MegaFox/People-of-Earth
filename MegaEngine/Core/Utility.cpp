@@ -69,34 +69,34 @@ float Utility::maxVec4(const glm::vec4 & vec)
 	return Max;
 }
 
-glm::vec3 Utility::getForward(const glm::quat quat)
+glm::vec3 Utility::getForward(const glm::quat& quat)
 {
-	return rotateQuatByVec(quat, glm::vec3(0.0f, 0.0f, -1.0f));
+	return Utility::rotateQuatByVec(quat, glm::vec3(0.0f, 0.0f, 1.0f));
 }
 
-glm::vec3 Utility::getBack(const glm::quat quat)
+glm::vec3 Utility::getBack(const glm::quat& quat)
 {
-	return rotateQuatByVec(quat, glm::vec3(0.0f, 0.0f, 1.0f));
+	return Utility::rotateQuatByVec(quat, glm::vec3(0.0f, 0.0f, -1.0f));
 }
 
-glm::vec3 Utility::getUp(const glm::quat quat)
+glm::vec3 Utility::getUp(const glm::quat& quat)
 {
-	return rotateQuatByVec(quat, glm::vec3(0.0f, 1.0f, 0.0f));
+	return Utility::rotateQuatByVec(quat, glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
-glm::vec3 Utility::getDown(const glm::quat quat)
+glm::vec3 Utility::getDown(const glm::quat& quat)
 {
-	return rotateQuatByVec(quat, glm::vec3(0.0f, -1.0f, 0.0f));
+	return Utility::rotateQuatByVec(quat, glm::vec3(0.0f, -1.0f, 0.0f));
 }
 
-glm::vec3 Utility::getRight(const glm::quat quat)
+glm::vec3 Utility::getRight(const glm::quat& quat)
 {
-	return rotateQuatByVec(quat, glm::vec3(1.0f, 0.0f, 0.0f));
+	return Utility::rotateQuatByVec(quat, glm::vec3(1.0f, 0.0f, 0.0f));
 }
 
-glm::vec3 Utility::getLeft(const glm::quat quat)
+glm::vec3 Utility::getLeft(const glm::quat& quat)
 {
-	return rotateQuatByVec(quat, glm::vec3(-1.0f, 0.0f, 0.0f));
+	return Utility::rotateQuatByVec(quat, glm::vec3(-1.0f, 0.0f, 0.0f));
 }
 
 glm::mat4 Utility::initTranslation(glm::vec3 translation)
