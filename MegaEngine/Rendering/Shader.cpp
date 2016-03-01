@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 02-08-2016
 // ***********************************************************************
 // <copyright file="Shader.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -144,6 +144,7 @@ void Shader::updateUniforms(const Transform& transform, const Material& material
 {
 	glm::mat4 worldMatrix = transform.getTransformation();
 	glm::mat4 projectedMatrix = camera.getViewProjection();
+	glm::mat4 viewMatrix = camera.getView();
 
 	for (unsigned int i = 0; i < m_shaderData->getUniformNames().size(); i++)
 	{
@@ -192,7 +193,7 @@ void Shader::updateUniforms(const Transform& transform, const Material& material
 			if (uniformName == "T_MVP")
 				setUniformMat4(uniformName, projectedMatrix * worldMatrix);
 			else if (uniformName == "T_VP")
-				setUniformMat4(uniformName, glm::mat4(glm::mat3(projectedMatrix)));
+				setUniformMat4(uniformName, viewMatrix);
 			else if (uniformName == "T_model")
 				setUniformMat4(uniformName, worldMatrix);
 			else

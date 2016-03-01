@@ -27,7 +27,6 @@
 enum ShapeCollider{
 	QUAD,
 	SPHERE,
-	CYLINDER,
 	OTHER
 };	
 
@@ -203,6 +202,50 @@ public:
 	}
 
     //Properties Setters
+	/// <summary>
+	/// Sets the radius of the sphere.
+	/// </summary>
+	/// <param name="id">The radius sphere.</param>
+	void setRadiusSphere(float radiusSphere)
+	{
+		m_radiusSphere = radiusSphere;
+	}
+
+	/// <summary>
+	/// Sets the position.
+	/// </summary>
+	/// <param name="id">The position.</param>
+	void setPosition(glm::vec3 position)
+	{
+		m_position = position;
+	}
+
+	/// <summary>
+	/// Sets the rotation.
+	/// </summary>
+	/// <param name="id">The rotation.</param>
+	void setRotation(glm::quat rotation)
+	{
+		m_rotation = rotation;
+	}
+
+	/// <summary>
+	/// Sets the scale.
+	/// </summary>
+	/// <param name="id">The scale.</param>
+	void setScale(float scale)
+	{
+		m_scale = scale;
+	}
+
+	/// <summary>
+	/// Sets the mass.
+	/// </summary>
+	/// <param name="id">The mass.</param>
+	void setMass(float mass)
+	{
+		m_mass = mass;
+	}
 
 	/// <summary>
 	/// Sets the identifier.
@@ -211,6 +254,24 @@ public:
 	void setID(int id)
 	{
 		m_id = id;
+	}
+
+	/// <summary>
+	/// Sets the velocity.
+	/// </summary>
+	/// <param name="id">The velocity.</param>
+	void setVelocity(glm::vec3 velocity)
+	{
+		m_velocity = velocity;
+	}
+
+	/// <summary>
+	/// Sets the acceleration.
+	/// </summary>
+	/// <param name="id">The acceleration.</param>
+	void setAcceleration(glm::vec3 acceleration)
+	{
+		m_acceleration = acceleration;
 	}
 
 protected:

@@ -121,5 +121,9 @@ private:
 	/// The multiple collider.
 	/// </summary>
 	std::vector<Collider*> m_multipleCollider;
+	/// <summary>
+	/// The distance this collider is from the center of gravity
+	/// </summary>
+	std::vector<glm::vec3> m_distanceColliderFromCenterOfGravity;
 };
 

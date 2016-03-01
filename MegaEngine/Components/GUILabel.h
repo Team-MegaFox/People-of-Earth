@@ -1,3 +1,15 @@
+// ***********************************************************************
+// Author           : Pavan Jakhu and Jesse Derochie
+// Created          : 09-15-2015
+//
+// Last Modified By : Jesse Derochie
+// Last Modified On : 01-28-2016
+// ***********************************************************************
+// <copyright file="GameComponents.h" company="Team MegaFox">
+//     Copyright (c) Team MegaFox. All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
 #pragma once
 #include "GUIComponent.h"
 #include <glm\glm.hpp>

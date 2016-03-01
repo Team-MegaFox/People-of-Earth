@@ -18,6 +18,7 @@ class GUIEngine;
 class SceneManager;
 class Viewport;
 class AudioEngine;
+class Game;
 
 /// <summary>
 /// The class that links all the different engines together. It also starts and ends the game loop
@@ -78,6 +79,11 @@ public:
 	/// </summary>
 	/// <returns>A pointer to the viewport screen.</returns>
 	inline Viewport* getViewport() const { return m_viewport; }
+	/// <summary>
+	/// Gets the global game object from the core engine.
+	/// </summary>
+	/// <returns>A pointer to the the global game object.</returns>
+	inline Game* getGame() const { return m_game; }
 
 private:
 	/// <summary>
@@ -113,6 +119,11 @@ private:
 	/// Points to the GUI engine object.
 	/// </summary>
 	GUIEngine* m_guiEngine = nullptr;
+	/// <summary>
+	/// Points to the game object which stores global variables
+	/// accesible by anywhere.
+	/// </summary>
+	Game* m_game = nullptr;
 
 };
 

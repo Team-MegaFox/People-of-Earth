@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 01-30-2016
 // ***********************************************************************
 // <copyright file="CoreEngine.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -13,12 +13,14 @@
 #include "CoreEngine.h"
 #include <SDL2\SDL.h>
 
-#include "..\Rendering\Viewport.h"
-#include "..\Physics\PhysicsEngine.h"
 #include "Time.h"
 #include "SceneManager.h"
 #include "Scene.h"
+#include "Game.h"
+#include "..\Rendering\Viewport.h"
+#include "..\Physics\PhysicsEngine.h"
 #include "..\GUI\GUIEngine.h"
+#include "..\Audio\AudioEngine.h"
 
 CoreEngine::CoreEngine(double frameRate, Viewport* viewport, 
 	RenderingEngine* renderingEngine, PhysicsEngine* physicsEngine, AudioEngine* audioEngine, GUIEngine* guiEngine, 
@@ -34,9 +36,15 @@ m_sceneManager(sceneManager)
 {
 	if (m_sceneManager)
 	{
-		m_sceneManager->setEngine(this);
+		m_guiEngine->loadScheme("TaharezLook.scheme");
+		m_guiEngine->setFont("DejaVuSans-10");
+		m_guiEngine->setMouseCursor("TaharezLook/MouseArrow");
+		m_guiEngine->showMouseCursor(false);
+		//SDL_ShowCursor(0);
 
-		m_sceneManager->getCurrentScene()->init(*m_viewport);
+		m_game = new Game;
+
+		m_sceneManager->setEngine(this);
 	}
 }
 
@@ -74,11 +82,14 @@ void CoreEngine::start()
 				stop();
 			}
 
+			//Call the physics engine update
+			m_physicsEngine->updatePhysicsEngine((float)m_frameTime);
+
 			m_sceneManager->processInput(*m_viewport->getInput(), (float)m_frameTime);
 			m_sceneManager->update((float)m_frameTime);
 
-			//Call the physics engine update
-			m_physicsEngine->updatePhysicsEngine((float)m_frameTime);
+			//THE AUDIO ENGINE MUST BE UPDATED EVERY FRAME IN ORDER FOR 3D SOUND TO WORK
+			m_audioEngine->update();
 
 			render = true;
 
@@ -87,6 +98,8 @@ void CoreEngine::start()
 
 		if (render)
 		{
+			m_viewport->clearScreen();
+
 			m_sceneManager->render(m_renderingEngine);
 
 			m_guiEngine->render();

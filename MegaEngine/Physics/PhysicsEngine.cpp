@@ -12,10 +12,13 @@
 // </summary>
 // ***********************************************************************
 #include "PhysicsEngine.h"
+#include "../Rendering/Camera3D.h"
 
+World * PhysicsEngine::m_physicsWorld = nullptr;
 
-PhysicsEngine::PhysicsEngine() : m_physicsWorld(new World())
+PhysicsEngine::PhysicsEngine()
 {
+	m_physicsWorld = new World();
 }
 
 
@@ -23,8 +26,13 @@ PhysicsEngine::~PhysicsEngine()
 {
 }
 
+void PhysicsEngine::setMainCamera(const Camera3D& camera)
+{
+	m_mainCamera = &camera;
+}
 
 void PhysicsEngine::updatePhysicsEngine(float timeStep)
 {
+	m_physicsWorld->setPosition(m_mainCamera->getTransform().getTransformedPos());
 	m_physicsWorld->update(timeStep);
 }

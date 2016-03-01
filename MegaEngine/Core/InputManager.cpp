@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-18-2016
 // ***********************************************************************
 // <copyright file="InputManager.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -89,10 +89,10 @@ bool InputManager::Update(SDL_Event& _inputEvent)
 			mousePos.y = (float)_inputEvent.motion.y;
 			break;
 		case SDL_CONTROLLERBUTTONDOWN:
-			currPadButtonStates[_inputEvent.cbutton.button - 1] = true;
+			currPadButtonStates[_inputEvent.cbutton.button] = true;
 			break;
 		case SDL_CONTROLLERBUTTONUP:
-			currPadButtonStates[_inputEvent.cbutton.button - 1] = false;
+			currPadButtonStates[_inputEvent.cbutton.button] = false;
 			break;
 			//sets the thumbstick motion to true and then finds the position of the thumbstick movement.
 			//does this also for the triggers
@@ -105,6 +105,9 @@ bool InputManager::Update(SDL_Event& _inputEvent)
 			thumbRPos.y = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_RIGHTY) / -32767.0f;
 			rightTrigger = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) / 32767.0f;
 			leftTrigger = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_TRIGGERLEFT) / 32767.0f;
+			break;
+		case SDL_CONTROLLERDEVICEADDED:
+			controller = SDL_GameControllerOpen(0);
 			break;
 		case SDL_TEXTINPUT:
 			text = _inputEvent.text.text;
@@ -217,21 +220,28 @@ void InputManager::SetMousePosition(const glm::vec2& pos) const
 const bool InputManager::PadButtonDown(Uint8 _button) const
 {
 	if (!currPadButtonStates.empty())
-		return currPadButtonStates.at(_button - 1);
+		if (currPadButtonStates.find(_button) != currPadButtonStates.end())
+			return currPadButtonStates.at(_button);
+		else return false;
 	else return false;
 }
 
 const bool InputManager::PadButtonUp(Uint8 _button) const
 {
 	if (!currPadButtonStates.empty())
-		return !currPadButtonStates.at(_button - 1);
+		if (currPadButtonStates.find(_button) != currPadButtonStates.end())
+			return !currPadButtonStates.at(_button);
+		else return false;
 	else return false;
 }
 
 const bool InputManager::PadButtonPress(Uint8 _button) const
 {
+
 	if (!currPadButtonStates.empty() && !prevPadButtonStates.empty())
-		return prevPadButtonStates.at(_button - 1) && !currPadButtonStates.at(_button - 1);
+		if (currPadButtonStates.find(_button) != currPadButtonStates.end() && prevPadButtonStates.find(_button) != prevPadButtonStates.end())
+			return prevPadButtonStates.at(_button) && !currPadButtonStates.at(_button);
+		else return false;
 	else return false;
 }
 

@@ -38,9 +38,10 @@ public:
 	/// <summary>
 	/// Finalizes an instance of the <see cref="GUIComponent"/> class.
 	/// </summary>
-	virtual ~GUIComponent() { }
-
-
+	virtual ~GUIComponent() 
+	{ 
+		CEGUI::WindowManager::getSingleton().destroyWindow(m_widget);
+	}
 	/// <summary>
 	/// Virtual function for custom input processing.
 	/// </summary>
@@ -77,7 +78,16 @@ public:
 	/// <param name="parent">The GameObject to be attached to.</param>
 	virtual void setParent(GameObject* parent) { m_parent = parent; }
 
-protected:
+	void activate() { m_widget->enable(); }
+
+	void deactivate() { m_widget->disable(); }
+
+protected:	
+	/// <summary>
+	/// Gets the parented gameobject.
+	/// </summary>
+	/// <returns>A pointer to the parented gameobject.</returns>
+	GameObject* getParent() { return m_parent; }
 
 	/// <summary>
 	/// Gets the core engine.
@@ -85,20 +95,17 @@ protected:
 	/// <returns>CoreEngine *.</returns>
 	CoreEngine* getCoreEngine() { return m_parent->getCoreEngine(); }
 
-
 	/// <summary>
 	/// Sets the widget.
 	/// </summary>
 	/// <param name="widget">The widget.</param>
 	void setWidget(CEGUI::Window* widget) { m_widget = widget; }
 
-
 	/// <summary>
 	/// Gets the widget.
 	/// </summary>
 	/// <returns>CEGUI.Window *.</returns>
 	CEGUI::Window* getWidget() { return m_widget; }
-
 
 	/// <summary>
 	/// Creates a widget.
@@ -115,6 +122,7 @@ protected:
 		{
 			m_widget = m_parent->getCoreEngine()->getGUIEngine()->addWidget(m_parentWidget->getWidget(), widgetType, m_destRectPerc, m_destRectPix, m_parent->getName() + std::to_string(s_numWidgets));
 		}
+		m_widget->moveToFront();
 		s_numWidgets++;
 		return m_widget;
 	}
@@ -147,7 +155,6 @@ private:
 	/// </summary>
 	glm::vec4 m_destRectPix;
 
-	/// <summary>
 	/// Initializes a new instance of the <see cref="GameComponent" /> class.
 	/// </summary>
 	/// <param name="other">The other.</param>

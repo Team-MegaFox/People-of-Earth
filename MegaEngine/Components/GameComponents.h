@@ -1,20 +1,24 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
+// Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-17-2016
 // ***********************************************************************
 // <copyright file="GameComponents.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 #pragma once
 
 #include "..\Core\Transform.h"
 #include "..\Core\GameObject.h"
 #include "..\Core\InputManager.h"
+#include "..\Core\CoreEngine.h"
+#include "..\Core\SceneManager.h"
+#include "..\Core\Scene.h"
 class RenderingEngine;
 class Shader;
 
@@ -38,6 +42,12 @@ public:
 	/// Finalizes an instance of the <see cref="GameComponent"/> class.
 	/// </summary>
 	virtual ~GameComponent() {}
+
+	/// <summary>
+	/// An initialization method for game components that is called
+	/// when game components are added to the scene
+	/// </summary>
+	virtual void onStart() {}
 
 	/// <summary>
 	/// Virtual function for custom input processing.
@@ -82,7 +92,52 @@ public:
 	virtual void setParent(GameObject* parent) { m_parent = parent; }
 
 protected:
-	CoreEngine* getCoreEngine() { return m_parent->getCoreEngine(); }
+	/// <summary>
+	/// Gets the core engine.
+	/// </summary>
+	/// <returns></returns>
+	CoreEngine * getCoreEngine() { return m_parent->getCoreEngine(); }
+	/// <summary>
+	/// Gets the parent.
+	/// </summary>
+	/// <returns></returns>
+	GameObject * getParent() { return m_parent; }
+
+	/// <summary>
+	/// Gets the game object from the top most scene by name.
+	/// </summary>
+	/// <param name="gameObjectName">Name of the game object to get.</param>
+	/// <returns></returns>
+	GameObject * getGameObjectByName(const std::string & gameObjectName) { return getCoreEngine()->getSceneManager()->getGameObjectByName(gameObjectName); }
+
+	/// <summary>
+	/// Removes the game object by finding it in the top most scene by name.
+	/// </summary>
+	/// <param name="gameObjectName">Name of the game object to remove.</param>
+	/// <returns></returns>
+	bool removeGameObjectByName(const std::string & gameObjectName) { return getCoreEngine()->getSceneManager()->removeGameObjectByName(gameObjectName); }
+
+	/// <summary>
+	/// Removes the game object by finding it in the top most scene.
+	/// </summary>
+	/// <param name="gameObjectName">The game object to remove.</param>
+	/// <returns></returns>
+	bool destroy(GameObject* gameObject) {	return removeGameObjectByName(gameObject->getName()); }
+
+	
+	/// <summary>
+	/// Creates the specified game object and adds it to the root
+	/// </summary>
+	/// <param name="gameObject">The game object to create.</param>
+	void instantiate(GameObject* gameObject)
+	{
+		auto gameComponents = gameObject->getAllGameComponents();
+		for (size_t j = 0; j < gameComponents.size(); j++)
+		{
+			gameComponents[j]->onStart();
+		}
+		getCoreEngine()->getSceneManager()->peek()->addToRoot(gameObject);
+	}
 
 private:
 	/// <summary>

@@ -280,7 +280,7 @@ CEGUI::Window* GUIEngine::addWidget(const std::string& type, const glm::vec4& de
 
 CEGUI::Window* GUIEngine::addWidget(CEGUI::Window* parent, const std::string& type, const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& name/* = ""*/)
 {
-	CEGUI::Window*	 newWindow = CEGUI::WindowManager::getSingleton().createWindow(type, name);
+	CEGUI::Window* newWindow = CEGUI::WindowManager::getSingleton().createWindow(type, name);
 	parent->addChild(newWindow);
 	setWidgetDestRect(newWindow, destRectPerc, destRectPix);
 	return newWindow;

@@ -2,7 +2,7 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan
+// Last Modified By : Pavan Jakhu
 // Last Modified On : 01-24-2016
 // ***********************************************************************
 // <copyright file="World.h" company="">
@@ -44,7 +44,8 @@ void World::update(float timeStep)
 			//Loop to calculate all the forces needed to be added with the current collider with the collided objects
 			for (size_t j = 0; j < collidedObjects.size(); j++)
 			{
-				calculateCollision(colliders[i], collidedObjects[j], timeStep);
+				//printf("Collision occured\n");
+				//calculateCollision(colliders[i], collidedObjects[j], timeStep);
 			}
 		}
 	}
@@ -74,6 +75,18 @@ bool World::checkInsideWorld(Collider* collidableObject)
 void World::addCollidableObject(Collider* collidableObject)
 {
 	colliders.push_back(collidableObject);
+}
+
+void World::removeCollidableObject(Collider* collidableObject)
+{
+	for (size_t i = 0; i < colliders.size(); i++)
+	{
+		if (collidableObject == colliders[i])
+		{
+			auto it = colliders.begin() + i;
+			colliders.erase(it);
+		}
+	}
 }
 
 void World::calculateCollision(Collider* obj1, Collider* obj2, float timeStep)

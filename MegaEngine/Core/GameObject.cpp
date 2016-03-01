@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
+// Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-17-2016
 // ***********************************************************************
 // <copyright file="GameObject.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -15,6 +15,26 @@
 #include "..\Components\GUIComponent.h"
 #include <algorithm>
 
+GameObject::~GameObject()
+{
+	for (size_t i = 0; i < m_gameComponents.size(); i++)
+	{
+		delete m_gameComponents[i];
+	}
+	m_gameComponents.clear();
+
+	for (size_t i = 0; i < m_guiComponents.size(); i++)
+	{
+		delete m_guiComponents[i];
+	}
+	m_guiComponents.clear();
+
+	for (size_t i = 0; i < m_children.size(); i++)
+	{
+		delete m_children[i];
+	}
+	m_children.clear();
+}
 
 void GameObject::updateAll(float delta)
 {
@@ -51,6 +71,21 @@ void GameObject::processAll(const InputManager& input, float delta)
 	}
 }
 
+void GameObject::activate()
+{
+	for (size_t i = 0; i < m_guiComponents.size(); i++)
+	{
+		m_guiComponents[i]->activate();
+	}
+}
+
+void GameObject::deactivate()
+{
+	for (size_t i = 0; i < m_guiComponents.size(); i++)
+	{
+		m_guiComponents[i]->deactivate();
+	}
+}
 
 GameObject* GameObject::addChild(GameObject* child)
 {
@@ -87,7 +122,8 @@ bool GameObject::removeChild(GameObject* child)
 		{
 			child->setEngine(nullptr);
 			child->getTransform()->setParent(nullptr);
-			m_children.erase(std::remove(m_children.begin(), m_children.end(), m_children[go]), m_children.end());
+			m_children.erase(m_children.begin() + go);
+			delete child;
 			removed = true;
 		}
 	}
@@ -140,6 +176,10 @@ std::vector<GameObject*> GameObject::getAllChildren()
 	return m_children;
 }
 
+std::vector<GameComponent*> GameObject::getAllGameComponents() const
+{
+	return m_gameComponents;
+}
 
 void GameObject::setEngine(CoreEngine* engine)
 {
@@ -206,7 +246,6 @@ void GameObject::updateGUIComponents(float delta)
 void GameObject::renderGUIComponents(const GUIEngine& guiEngine, const Camera3D& camera)
 {
 }
-
 
 void GameObject::processInputGUIComponents(const InputManager& input, float delta)
 {

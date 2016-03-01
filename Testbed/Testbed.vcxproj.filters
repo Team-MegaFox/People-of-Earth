@@ -10,5 +10,10 @@
     <ClInclude Include="FreeLook.h" />
     <ClInclude Include="FreeMove.h" />
     <ClInclude Include="PlanetSpin.h" />
+    <ClInclude Include="PopupMenuScene.h" />
+    <ClInclude Include="PopMenu2Scene.h" />
+    <ClInclude Include="FireProjectile.h" />
+    <ClInclude Include="SteeringBehaviour.h" />
+    <ClInclude Include="EnemyFighterShipAI.h" />
   </ItemGroup>
 </Project>

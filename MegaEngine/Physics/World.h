@@ -2,7 +2,7 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan
+// Last Modified By : Pavan Jakhu
 // Last Modified On : 01-24-2016
 // ***********************************************************************
 // <copyright file="World.h" company="">
@@ -60,6 +60,12 @@ public:
 	void addCollidableObject(Collider* collidableObject);
 
 	/// <summary>
+	/// Remove the specific collider to the World.
+	/// </summary>
+	/// <param name="collidableObject">The collider that will be added to the World.</param>
+	void removeCollidableObject(Collider* collidableObject);
+
+	/// <summary>
 	/// Apply a rebound acceleration to the first Collider object from the 2 Colliders colliding.
 	/// </summary>
 	/// <param name="obj1">The first collider object of the 2 Colliders colliding.</param>
@@ -101,7 +107,7 @@ public:
 	/// Sets the position vector.
 	/// </summary>
 	/// <param name="newPosition">The new position.</param>
-	void setPosition(glm::vec3& newPosition)
+	void setPosition(const glm::vec3& newPosition)
 	{
 		m_position = newPosition;
 	}
