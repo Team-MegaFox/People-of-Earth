@@ -119,6 +119,12 @@ private:
 	/// The forward direction
 	/// </summary>
 	glm::vec3 m_forwardDirection = glm::vec3(0);
+	/// <summary>
+	/// The up direction
+	/// </summary>
+	glm::vec3 m_upDirection = glm::vec3(0);
+
+
 
 };
 

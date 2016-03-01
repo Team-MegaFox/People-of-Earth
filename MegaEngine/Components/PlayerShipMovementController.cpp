@@ -31,6 +31,7 @@ void PlayerShipMovementController::onStart()
 	m_camera = getGameObjectByName(m_cameraInstanceName)->getGameComponent<CameraComponent>();
 	m_distance = glm::length((m_rigidBody->getPosition() - *m_camera->getTransform()->getPosition()));
 	m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
+	m_upDirection = Utility::getUp(m_rigidBody->getRotation());
 }
 
 void PlayerShipMovementController::processInput(const InputManager& input, float delta)
@@ -47,7 +48,7 @@ void PlayerShipMovementController::processInput(const InputManager& input, float
 	}
 
 	//Updates the camera position from the rigidbody
-	m_camera->getTransform()->setPosition(m_rigidBody->getPosition() - (m_distance * m_forwardDirection));
+	m_camera->getTransform()->setPosition(m_rigidBody->getPosition() - (m_distance * m_forwardDirection) + (m_upDirection * 10.0f));
 
 }
 
@@ -60,6 +61,8 @@ void PlayerShipMovementController::lookAround(const InputManager& input)
 		m_rigidBody->updateRotation(ROTATE_X_AXIS(-1.0f));
 
 		m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
+
+		m_upDirection = Utility::getUp(m_rigidBody->getRotation());
 
 		//Rotates the camera view
 		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_X_AXIS(-1.0f));
@@ -81,6 +84,8 @@ void PlayerShipMovementController::lookAround(const InputManager& input)
 
 		m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 
+		m_upDirection = Utility::getUp(m_rigidBody->getRotation());
+
 		//Rotates the camera view
 		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_X_AXIS(1.0f));
 		
@@ -100,6 +105,8 @@ void PlayerShipMovementController::lookAround(const InputManager& input)
 
 		m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 
+		m_upDirection = Utility::getUp(m_rigidBody->getRotation());
+
 		//Rotates the camera view
 		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Y_AXIS(1.0f));
 		
@@ -118,6 +125,8 @@ void PlayerShipMovementController::lookAround(const InputManager& input)
 		m_rigidBody->updateRotation(ROTATE_Y_AXIS(-1.0f));
 
 		m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
+
+		m_upDirection = Utility::getUp(m_rigidBody->getRotation());
 
 		//Rotates the camera view
 		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Y_AXIS(-1.0f));
@@ -150,6 +159,7 @@ void PlayerShipMovementController::movement(const InputManager& input, float del
 		returnToActualRotation();
 		m_rigidBody->updateRotation(ROTATE_Z_AXIS(-1.0f));
 		m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
+		m_upDirection = Utility::getUp(m_rigidBody->getRotation());
 		//Rotates the camera view
 		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Z_AXIS(-1.0f));
 		showVisualShipRotation();
@@ -159,6 +169,7 @@ void PlayerShipMovementController::movement(const InputManager& input, float del
 		returnToActualRotation();
 		m_rigidBody->updateRotation(ROTATE_Z_AXIS(1.0f));
 		m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
+		m_upDirection = Utility::getUp(m_rigidBody->getRotation());
 		//Rotates the camera view
 		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Z_AXIS(1.0f));
 		showVisualShipRotation();

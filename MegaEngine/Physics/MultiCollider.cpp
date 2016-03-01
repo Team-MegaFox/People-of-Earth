@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-25-2016
 // ***********************************************************************
 // <copyright file="MultiCollider.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -146,6 +146,34 @@ std::vector<Collider*> MultiCollider::checkCollision( std::vector<Collider*> col
 
     //Return the collided objects
 	return trueCollidedObject;
+}
+
+bool MultiCollider::checkCollision(Collider* collidableObject)
+{
+	//If there were any collision then
+	if (SphereCollider::checkCollision(collidableObject))
+	{
+		//Loop through all the parts in the multi-collider and check collision with the ones that passed the collision
+		for (size_t i = 0; i < m_multipleCollider.size(); i++)
+		{
+			//Get the collision of this specific collider
+			if (m_multipleCollider[i]->checkCollision(collidableObject))
+			{
+				if (collidableObject->getShapeCollider() == ShapeCollider::OTHER)
+				{
+					if (dynamic_cast<MultiCollider*>(collidableObject)->checkCollision(m_multipleCollider[i]))
+					{
+						return true;
+					}
+				}
+				else
+				{
+					return true;
+				}
+			}
+		}
+	}
+	return false;
 }
 
 bool MultiCollider::multiMultiCollisionCheck(Collider* mulitSpecficCollider, MultiCollider* multiCollider)

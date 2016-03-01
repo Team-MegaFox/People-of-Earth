@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 02-17-2016
+// Last Modified On : 02-29-2016
 // ***********************************************************************
 // <copyright file="GameComponents.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -109,6 +109,13 @@ protected:
 	/// <param name="gameObjectName">Name of the game object to get.</param>
 	/// <returns></returns>
 	GameObject * getGameObjectByName(const std::string & gameObjectName) { return getCoreEngine()->getSceneManager()->getGameObjectByName(gameObjectName); }
+
+	/// <summary>
+	/// Gets the game object from the top most scene by name.
+	/// </summary>
+	/// <param name="gameObjectName">Name of the game object to get.</param>
+	/// <returns></returns>
+	std::vector<GameObject*> getGameObjectsByName(const std::string & gameObjectName) { return getCoreEngine()->getSceneManager()->getGameObjectsByName(gameObjectName); }
 
 	/// <summary>
 	/// Removes the game object by finding it in the top most scene by name.

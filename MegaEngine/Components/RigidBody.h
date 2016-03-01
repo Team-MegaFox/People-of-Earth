@@ -3,7 +3,7 @@
 // Created          : 02-04-2016
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 02-22-2016
+// Last Modified On : 02-25-2016
 // ***********************************************************************
 // <copyright file="RigidBody.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -281,9 +281,9 @@ public:
 			if (m_sphereCollider != nullptr)
 			{
 				//Draw the sphere collider
-				for (float height = 0.0f; height < 180.0f; height += 0.0f)
+				for (float height = 0.0f; height < 180.0f; height += 1.0f)
 				{
-					for (float theta = 0.0f; theta < 180.0f; theta += 0.0f)
+					for (float theta = 0.0f; theta < 180.0f; theta += 1.0f)
 					{
 						glPushMatrix();
 						glVertex3f(
@@ -310,9 +310,9 @@ public:
 				glPopMatrix();
 
 				//Draw the sphere collider of the polygon
-				for (float height = 0.0f; height < 180.0f; height += 0.0f)
+				for (float height = 0.0f; height < 180.0f; height += 1.0f)
 				{
-					for (float theta = 0.0f; theta < 180.0f; theta += 0.0f)
+					for (float theta = 0.0f; theta < 180.0f; theta += 1.0f)
 					{
 						glPushMatrix();
 						glVertex3f(
@@ -329,6 +329,29 @@ public:
 			}
 			glEnd();
 		}
+	}
+
+	/// <summary>
+	/// Checks collision with this rigidbody and vectors of gameobjects.
+	/// </summary>
+	/// <param name="rotation">The vectors of gameobjects to check collision.</param>
+	std::vector<GameObject*> checkCollision(std::vector<GameObject*> collisionCheckObject)
+	{
+		//The vector of collided gameojects this rigidbody collided with
+		std::vector<GameObject*> collidedObject;
+		
+		//Loop through the vector of gameobjects
+		for (size_t i = 0; i < collisionCheckObject.size(); i++)
+		{
+			//Check collision with rigidbody and this specific gameobject rigidbody
+			if (collisionCheckObject[i]->getGameComponent<RigidBody>()->getCollider()->checkCollision(getCollider()))
+			{
+				//Collided is true so add it to the vector of collided gameobjects
+				collidedObject.push_back(collisionCheckObject[i]);
+			}
+		}
+		//Return the vector of collided gameobjects
+		return collidedObject;
 	}
 
 	/// <summary>
@@ -350,6 +373,15 @@ public:
 			return m_multiCollider->getPosition();
 		}
 		return glm::vec3();
+	}
+	
+	/// <summary>
+	/// Gets the velocity of the collider.
+	/// </summary>
+	/// <returns></returns>
+	glm::vec3 getVelocity()
+	{
+		return getCollider()->getVelocity();
 	}
 
 	/// <summary>
@@ -374,12 +406,74 @@ public:
 	}
 
 	/// <summary>
+	/// Gets the boolean flag of the collider colliding.
+	/// </summary>
+	/// <returns></returns>
+	bool getCollided()
+	{
+		if (m_sphereCollider != nullptr)
+		{
+			return m_sphereCollider->getCollided();
+		}
+		else if (m_polyCollider != nullptr)
+		{
+			return m_polyCollider->getCollided();
+		}
+		else if (m_multiCollider != nullptr)
+		{
+			return m_multiCollider->getCollided();
+		}
+		return false;
+	}
+
+	/// <summary>
+	/// Gets the collider.
+	/// </summary>
+	/// <returns></returns>
+	Collider* getCollider()
+	{
+		if (m_sphereCollider != nullptr)
+		{
+			return m_sphereCollider;
+		}
+		else if (m_polyCollider != nullptr)
+		{
+			return m_polyCollider;
+		}
+		else if (m_multiCollider != nullptr)
+		{
+			return m_multiCollider;
+		}
+		return nullptr;
+	}
+
+	/// <summary>
 	/// Sets the debug draw mode.
 	/// </summary>
 	/// <param name="debugDraw">if set to <c>true</c> [debug draw].</param>
 	void setDebugDraw(bool debugDraw)
 	{
 		m_debugDraw = debugDraw;
+	}
+
+	/// <summary>
+	/// Sets the position of the collider.
+	/// </summary>
+	/// <param name="rotation">The position.</param>
+	void setPosition(glm::vec3 position)
+	{
+		if (m_sphereCollider != nullptr)
+		{
+			return m_sphereCollider->setPosition(position);
+		}
+		else if (m_polyCollider != nullptr)
+		{
+			return m_polyCollider->setPosition(position);
+		}
+		else if (m_multiCollider != nullptr)
+		{
+			return m_multiCollider->setPosition(position);
+		}
 	}
 
 	/// <summary>
