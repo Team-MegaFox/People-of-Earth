@@ -87,6 +87,7 @@ public:
 		//	glm::slerp(*getTransform()->getRotation(), directionQuaternion, timestep));
 
 		m_rigidBody->setRotation(Utility::slerp(*getTransform()->getRotation(), directionQuaternion, timestep));
+
 	}
 
 	//Seek to the point
@@ -128,12 +129,15 @@ public:
 		return randnum;
 	}
 
-	float distance(PxVec3 point1, PxVec3 point2)
+	/*float distance(PxVec3 point1, PxVec3 point2)
 	{
-		return PxSqrt((point2.x - point1.x) * (point2.x - point1.x) +
-			(point2.y - point1.y) * (point2.y - point1.y) +
-			(point2.z - point1.z) * (point2.z - point1.z));
-	}
+		printf("%f\n", PxSqrt(((point2.x - point1.x) * (point2.x - point1.x)) +
+			((point2.y - point1.y) * (point2.y - point1.y)) +
+			((point2.z - point1.z) * (point2.z - point1.z))));
+		return PxSqrt(((point2.x - point1.x) * (point2.x - point1.x)) +
+			((point2.y - point1.y) * (point2.y - point1.y)) +
+			((point2.z - point1.z) * (point2.z - point1.z)));
+	}*/
 
 	//Check if anything is in front of the ship
 	void CheckPath(float timestep)
@@ -189,7 +193,7 @@ public:
 
 		//if the ship is close enough to the current waypoint then
 		
-		if (distance(m_targetPoint, *getTransform()->getPosition()) < 75.0f)
+		if (Utility::getDistance(m_targetPoint, *getTransform()->getPosition()) < 75.0f)
 		{
 			//Change the position of the waypoint (random number between -100 to 100)
 			m_targetPoint = *getTransform()->getPosition() + PxVec3(

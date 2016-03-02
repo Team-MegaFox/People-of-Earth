@@ -89,14 +89,13 @@ public:
 			//{
 			//	shootLaser();
 			//}
-			//Pursue(*m_targetObject, timestep);
 		}
 		//Pursue the fighter ship
 		else if (m_delayAttacking < 0.0f && m_shipStats->getHealth() > 0.4f)
 		{
 			getClosestObject(SHIP_CLASS::FIGHTER_SHIP);
 			float timeOfCollision;
-			if (distance(*getTransform()->getPosition(), *m_targetObject->getTransform()->getPosition()) < 150.0f
+			if (Utility::getDistance(*getTransform()->getPosition(), *m_targetObject->getTransform()->getPosition()) < 200.0f
 				&& m_targetObject->getGameComponent<RigidBody>()->getCollider()->checkCollision(
 				*getTransform()->getPosition(), getParent()->getGameComponent<RigidBody>()->getVelocity(), timeOfCollision))
 			{
@@ -109,7 +108,7 @@ public:
 		{
 			getClosestObject(SHIP_CLASS::ALL_SHIP);
 			Evade(*m_targetObject, timestep);
-			m_shipStats->updateHealth(0.5f);
+			m_shipStats->updateHealth(0.01f);
 		}
 		//Wander
 		else
@@ -152,7 +151,7 @@ public:
 			for (size_t i = 0; i < allEnemyObject.size(); i++)
 			{
 
-				if (closestDistance > distance(*getTransform()->getPosition(), *allEnemyObject[i]->getTransform()->getPosition()))
+				if (closestDistance > Utility::getDistance(*getTransform()->getPosition(), *allEnemyObject[i]->getTransform()->getPosition()))
 				{
 					closestDistance = (*getTransform()->getPosition(), *allEnemyObject[i]->getTransform()->getPosition()).magnitude();
 					m_targetObject = allEnemyObject[i];

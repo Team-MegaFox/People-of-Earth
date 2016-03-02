@@ -111,6 +111,14 @@ namespace Utility
 	PxVec3 getLeft(const PxQuat& quat);
 
 	/// <summary>
+	/// Gets the distance between 2 vector points.
+	/// </summary>
+	/// <param name="quat">The first point.</param>
+	/// <param name = "quat">The second point.< / param>
+	/// <returns>The distance.</returns>
+	PxF32 getDistance(const PxVec3& point1, const PxVec3& point2);
+
+	/// <summary>
 	/// Get a initialized matrix with translation properties.
 	/// </summary>
 	/// <param name="translation">The translation.</param>

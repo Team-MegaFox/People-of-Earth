@@ -100,6 +100,13 @@ PxVec3 Utility::getLeft(const PxQuat& quat)
 	return quat.rotate(PxVec3(-1, 0, 0));
 }
 
+PxF32 Utility::getDistance(const PxVec3& point1, const PxVec3& point2)
+{
+	return PxSqrt(((point2.x - point1.x) * (point2.x - point1.x)) +
+		((point2.y - point1.y) * (point2.y - point1.y)) +
+		((point2.z - point1.z) * (point2.z - point1.z)));
+}
+
 PxMat44 Utility::initTranslation(PxVec3 translation)
 {
 	return PxMat44(PxVec3(1, 0, 0), PxVec3(0, 1, 0), PxVec3(0, 0, 1), translation);
