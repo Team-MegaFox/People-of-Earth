@@ -79,7 +79,7 @@ public:
 		if (m_delayAttacking < 0.0f && m_shipStats->getHealth() > 0.8f)
 		{
 			//Demo Purpose
-			//Wander(timestep);
+			Wander(timestep);
 
 			//getClosestObject(SHIP_CLASS::PASSENGER_SHIP);
 			//float timeOfCollision;

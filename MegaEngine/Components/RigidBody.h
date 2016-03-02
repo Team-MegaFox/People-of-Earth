@@ -335,19 +335,19 @@ public:
 				glVertex3f(-m_polyCollider->getHalfWidth(), -m_polyCollider->getHalfHeight(), -m_polyCollider->getHalfDepth());
 				glPopMatrix();
 
-				////Draw the sphere collider of the polygon
-				//for (float height = 0.0f; height < 180.0f; height += 1.0f)
-				//{
-				//	for (float theta = 0.0f; theta < 180.0f; theta += 1.0f)
-				//	{
-				//		glPushMatrix();
-				//		glVertex3f(
-				//			m_polyCollider->getRadiusSphere() * cosf(height) * cosf(theta * 2 * 3.14159625f / 180.0f),
-				//			m_polyCollider->getRadiusSphere() * sinf(height),
-				//			m_polyCollider->getRadiusSphere()  * cosf(height) * sinf(theta * 2 * 3.14159625f / 180.0f));
-				//		glPopMatrix();
-				//	}
-				//}
+				//Draw the sphere collider of the polygon
+				for (float height = 0.0f; height < 180.0f; height += 1.0f)
+				{
+					for (float theta = 0.0f; theta < 180.0f; theta += 1.0f)
+					{
+						glPushMatrix();
+						glVertex3f(
+							m_polyCollider->getRadiusSphere() * cosf(height) * cosf(theta * 2 * 3.14159625f / 180.0f),
+							m_polyCollider->getRadiusSphere() * sinf(height),
+							m_polyCollider->getRadiusSphere()  * cosf(height) * sinf(theta * 2 * 3.14159625f / 180.0f));
+						glPopMatrix();
+					}
+				}
 			}
 			else if (m_multiCollider != nullptr)
 			{

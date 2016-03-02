@@ -7,6 +7,7 @@
 #include "PlanetSpin.h"
 #include "FireProjectile.h"
 #include "EnemyFighterShipAI.h"
+#include "PassengerShipAI.h"
 #include <PhysX/PxPhysicsAPI.h>
 using namespace physx;
 
@@ -36,8 +37,8 @@ public:
 
 		Material planetA("plan1", 0.5f, 4, Texture("Planets/Planet_A.png"), Texture("Planets/Planet_A_NORM.png"));
 		Material planetB("plan2", 0.5f, 4, Texture("Planets/Planet_B.png"), Texture("Planets/Planet_B_NORM.png"));
-		//Material planetC("plan3", 0.5f, 4, Texture("Planets/Planet_C.png"), Texture("Planets/Planet_C_NORM.png"));
-		//Material planetD("plan4", 0.5f, 4, Texture("Planets/Planet_D.png"), Texture("Planets/Planet_D_NORM.png"));
+		Material planetC("plan3", 0.5f, 4, Texture("Planets/Planet_C.png"), Texture("Planets/Planet_C_NORM.png"));
+		Material planetD("plan4", 0.5f, 4, Texture("Planets/Planet_D.png"), Texture("Planets/Planet_D_NORM.png"));
 
 		//Material nebulaTex("nebula1", 0.5f, 4, Texture("NebulaeAndGalaxies/Nebula_A.png"));
 		//Material GalaxyTex("galaxy1", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_White - Copy.png"));
@@ -77,8 +78,6 @@ public:
 			*fighterShip->getTransform()->getPosition() - Utility::getForward(*fighterShip->getTransform()->getRotation()) * 30.0f
 			+ PxVec3(0.0f, 5.0f, 0.0f)))
 			->addGameComponent(new CameraComponent(Utility::initPerspective(ToRadians(75.0f), window.getAspectRatio(), 0.1f, 200000.0f)))
-			//->addGameComponent(new FreeLook(window.getCenter()))
-			//->addGameComponent(new FreeMove)
 			->addGameComponent(new Listener());
 		addToRoot(fighterShip);
 		addToRoot(camera);
@@ -92,8 +91,28 @@ public:
 			->addGameComponent(new ShipStats)
 			);
 
-		addToRoot((new GameObject("planet1", PxVec3(10.0f, 15.0f, 20000.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 400.0f), Material("plan1")))
+		// the passenger ship
+		addToRoot((new GameObject("passengerShip", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Ships/MotherShip.obj", 50.0f), Material("motherShip")))
+			->addGameComponent(new RigidBody(PxVec3(0.0f, 0.0f, 0.0f), PxQuat(PxIdentity), 1.0f, 25.0f, 60.0f, 50.0f))
+			->addGameComponent(new PassengerShipAI)
+			->addGameComponent(new ShipStats)
+			);
+
+		addToRoot((new GameObject("planet", PxVec3(10.0f, 15.0f, 500.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 10.0f), Material("plan1")))
+			);
+
+		addToRoot((new GameObject("planet", PxVec3(300.0f, 15.0f, 1000.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_B.obj", 10.0f), Material("plan2")))
+			);
+
+		addToRoot((new GameObject("planet", PxVec3(150, 15.0f, 1500.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_C.obj", 10.0f), Material("plan3")))
+			);
+
+		addToRoot((new GameObject("planet", PxVec3(0.0f, 15.0f, 2000.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_D.obj", 10.0f), Material("plan4")))
 			);
 
 		addToRoot((new GameObject("DrLight", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(45.0f), PxVec3(1.0f, 1.0f, 0.0f))))

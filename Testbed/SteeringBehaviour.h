@@ -238,7 +238,7 @@ public:
 		CheckPath(timestep);
 		if (m_wayPoints.size() > 0)
 		{
-			if ((m_wayPoints[m_wayPoints.size() - 1], *getTransform()->getPosition()).magnitude() < m_distanceToChangeWayPoint)
+			if (Utility::getDistance(m_wayPoints[m_wayPoints.size() - 1], *getTransform()->getPosition()) < m_distanceToChangeWayPoint)
 			{
 				m_wayPoints.pop_back();
 			}
@@ -266,7 +266,7 @@ public:
 		//Get the forward direction
 		m_forwardDirection = Utility::getForward(*getTransform()->getRotation());
 
-		//m_rigidBody->updateVelocity(m_forwardDirection * m_velocityValue);
+		m_rigidBody->updateVelocity(m_forwardDirection * m_velocityValue);
 
 		//Update the position
 		/*getTransform()->setPosition(*getTransform()->getPosition() 
