@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 02-18-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="InputManager.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -197,7 +197,7 @@ const bool InputManager::MouseMoved() const
 	return mouseMoved;
 }
 
-const glm::vec2 InputManager::GetMousePosition() const
+const physx::PxVec2 InputManager::GetMousePosition() const
 {
 	return mousePos;
 }
@@ -212,7 +212,7 @@ void InputManager::SetCursor(bool visible) const
 
 }
 
-void InputManager::SetMousePosition(const glm::vec2& pos) const
+void InputManager::SetMousePosition(const physx::PxVec2& pos) const
 {
 	SDL_WarpMouseInWindow(m_window->getWindow(), (int)pos.x, (int)pos.y);
 }
@@ -250,7 +250,7 @@ const bool InputManager::ThumbLMoved() const
 	return thumbLMoved;
 }
 
-const glm::vec2 InputManager::GetThumbLPosition() const
+const physx::PxVec2 InputManager::GetThumbLPosition() const
 {
 	return thumbLPos;
 }
@@ -260,7 +260,7 @@ const bool InputManager::ThumbRMoved() const
 	return thumbRMoved;
 }
 
-const glm::vec2 InputManager::GetThumbRPosition() const
+const physx::PxVec2 InputManager::GetThumbRPosition() const
 {
 	return thumbRPos;
 }

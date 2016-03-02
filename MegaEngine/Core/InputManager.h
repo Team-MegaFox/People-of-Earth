@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="InputManager.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -13,7 +13,7 @@
 #pragma once
 #include <unordered_map>
 #include <SDL2\SDL.h>
-#include <glm\glm.hpp>
+#include <PhysX/PxPhysicsAPI.h>
 
 class Viewport;
 ///<summary>
@@ -112,12 +112,12 @@ public:
 	/// Gets the mouse position on screen.
 	/// </summary>
 	/// <returns>The mouse position.</returns>
-	const glm::vec2 GetMousePosition() const;
+	const physx::PxVec2 GetMousePosition() const;
 	/// <summary>
 	/// Sets the mouse position manually.
 	/// </summary>
 	/// <param name='pos'>The position where the mouse cursor should be.</param>
-	void SetMousePosition(const glm::vec2& pos) const;
+	void SetMousePosition(const physx::PxVec2& pos) const;
 	/// <summary>
 	/// Sets the mouse cursor to be visible.
 	/// </summary>
@@ -151,7 +151,7 @@ public:
 	/// Gets the left thumbstick position.
 	/// </summary>
 	/// <returns>The left thumbstick position.</returns>
-	const glm::vec2 GetThumbLPosition() const;
+	const physx::PxVec2 GetThumbLPosition() const;
 	/// <summary>
 	/// Checks if the right gamepad thumbstick moved.
 	/// </summary>
@@ -161,7 +161,7 @@ public:
 	/// Gets the right thumbstick position.
 	/// </summary>
 	/// <returns>The right thumbstick position.</returns>
-	const glm::vec2 GetThumbRPosition() const;
+	const physx::PxVec2 GetThumbRPosition() const;
 	/// <summary>
 	/// Gets the left trigger depth.
 	/// </summary>
@@ -225,7 +225,7 @@ private:
 	/// <summary>
 	/// The mouse position.
 	/// </summary>
-	glm::vec2 mousePos;
+	physx::PxVec2 mousePos;
 	/// <summary>
 	/// Returns true if the mouse has moved.
 	/// </summary>
@@ -250,7 +250,7 @@ private:
 	/// <summary>
 	/// Stores the left thumbstick position.
 	/// </summary>
-	glm::vec2 thumbLPos;
+	physx::PxVec2 thumbLPos;
 	/// <summary>
 	/// Returns true if the right thumbstick has moved.
 	/// </summary>
@@ -258,7 +258,7 @@ private:
 	/// <summary>
 	/// Stores the right thumbstick position.
 	/// </summary>
-	glm::vec2 thumbRPos;
+	physx::PxVec2 thumbRPos;
 	/// <summary>
 	/// Gets the left trigger.
 	/// </summary>

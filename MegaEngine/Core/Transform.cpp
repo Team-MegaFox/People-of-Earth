@@ -1,3 +1,15 @@
+// ***********************************************************************
+// Author           : Pavan Jakhu, Jesse Derochie
+// Created          : 09-15-2015
+//
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-01-2016
+// ***********************************************************************
+// <copyright file="Transform.cpp" company="Team MegaFox">
+//     Copyright (c) Team MegaFox. All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
 #include "transform.h"
 
 bool Transform::hasChanged()

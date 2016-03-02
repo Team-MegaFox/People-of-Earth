@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 02-23-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="GameObject.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -13,9 +13,10 @@
 #pragma once
 #include <vector>
 #include <string>
-#include <glm\glm.hpp>
 #include "Transform.h"
 #include "InputManager.h"
+#include <PhysX/PxPhysicsAPI.h>
+
 class Camera3D;
 class CoreEngine;
 class GameComponent;
@@ -39,7 +40,11 @@ public:
 	/// <param name="pos">The position of the GameObject.</param>
 	/// <param name="rot">The rotation of the GameObject.</param>
 	/// <param name="scale">The scale of the GameObject.</param>
-	GameObject(const std::string& name, const glm::vec3& pos = glm::vec3(0.0f), const glm::quat& rot = glm::quat(1.0f, 0.0f, 0.0f, 0.0f), const glm::vec3& scale = glm::vec3(1.0f))
+	GameObject(
+		const std::string& name, 
+		const physx::PxVec3& pos = physx::PxVec3(0.0f, 0.0f, 0.0f), 
+		const physx::PxQuat& rot = physx::PxQuat(PxIdentity),
+		const physx::PxVec3& scale = physx::PxVec3(1.0f, 1.0f, 1.0f))
 		: m_name(name), m_enabled(true), m_transform(pos, rot, scale), m_coreEngine(nullptr) 
 	{
 		m_transform.setAttachedGameObject(this);
