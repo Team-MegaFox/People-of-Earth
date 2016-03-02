@@ -108,7 +108,7 @@ public:
 	/// <summary>
 	/// Binds the render target to the screen.
 	/// </summary>
-	void bindRenderTarget() const;
+	void bindAsRenderTarget() const;
 
 private:
 	/// <summary>

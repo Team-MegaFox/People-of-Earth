@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="Utility.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -161,7 +161,7 @@ namespace Utility
 	/// <param name="min">The minimum possible value.</param>
 	/// <param name="max">The maximum possible value.</param>
 	/// <returns>The clamped value.</returns>
-	template<typename T> inline T Clamp(const T &a, const T &min, const T &max)
+	template<typename T> inline T clamp(const T &a, const T &min, const T &max)
 	{
 		if (a < min) return min;
 		else if (a > max) return max;
