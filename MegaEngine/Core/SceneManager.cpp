@@ -21,6 +21,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <iostream>
+#include <assert.h>
 
 SceneManager::SceneManager(Viewport* viewport) :
 m_viewport(viewport)

@@ -155,3 +155,41 @@ PxMat44 Utility::initOrthographic(float left, float right, float bottom, float t
 
 	return m;
 }
+
+PxQuat Utility::slerp(PxQuat q1, PxQuat q2, float t)
+{
+	PxQuat result;
+
+	float opposite;
+	float inverse;
+	float dot = (q1.x * q2.x) + (q1.y * q2.y) + (q1.z * q2.z) + (q1.w * q2.w);
+	bool flag = false;
+
+	if (dot < 0.0f)
+	{
+		flag = true;
+		dot = -dot;
+	}
+
+	if (dot > 0.999999f)
+	{
+		inverse = 1.0f - t;
+		opposite = flag ? -t : t;
+	}
+	else
+	{
+		float acos = PxAcos(dot);
+		float invSin = 1.0f / PxSin(acos);
+
+		inverse = (PxSin((1.0f - t) * acos)) * invSin;
+		opposite = flag ? ((-PxSin(t * acos)) * invSin) : ((PxSin(t * acos)) * invSin);
+	}
+
+	result.x = (inverse * q1.x) + (opposite * q2.x);
+	result.y = (inverse * q1.y) + (opposite * q2.y);
+	result.z = (inverse * q1.z) + (opposite * q2.z);
+	result.w = (inverse * q1.w) + (opposite * q2.w);
+
+	return result;
+}
+

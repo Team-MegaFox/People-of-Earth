@@ -168,4 +168,5 @@ namespace Utility
 		else return a;
 	}
 
+	PxQuat slerp(PxQuat q1, PxQuat q2, float t);
 }

@@ -12,7 +12,6 @@
 // ***********************************************************************
 #pragma once
 #include "GUIComponent.h"
-#include <glm\glm.hpp>
 
 class GUILabel : public GUIComponent
 {

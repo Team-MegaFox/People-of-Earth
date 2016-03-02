@@ -17,6 +17,8 @@
 #include "Projectile.h"
 #include "ShipStats.h"
 #include <Components\PlayerShipMovementController.h>
+#include <PhysX/PxPhysicsAPI.h>
+using namespace physx;
 
 enum SHIP_CLASS
 {
@@ -37,8 +39,8 @@ public:
 
 	virtual void init() override
 	{
-		m_forwardDirection = glm::vec3(0);
-		m_direction = glm::vec3(0);
+		m_forwardDirection = PxVec3(0.0f, 0.0f, 0.0f);
+		m_direction = PxVec3(0.0f, 0.0f, 0.0f);
 		m_targetPoint = *getTransform()->getPosition();
 		m_velocityValue = 100.0f; 
 		//m_wayPoints.push_back(glm::vec3(10.0f, 15.0f, 600.0f));
@@ -94,7 +96,7 @@ public:
 		{
 			getClosestObject(SHIP_CLASS::FIGHTER_SHIP);
 			float timeOfCollision;
-			if (glm::distance(*getTransform()->getPosition(), *m_targetObject->getTransform()->getPosition()) < 150.0f
+			if ((*getTransform()->getPosition(), *m_targetObject->getTransform()->getPosition()).magnitude() < 150.0f
 				&& m_targetObject->getGameComponent<RigidBody>()->getCollider()->checkCollision(
 				*getTransform()->getPosition(), getParent()->getGameComponent<RigidBody>()->getVelocity(), timeOfCollision))
 			{
@@ -150,9 +152,9 @@ public:
 			for (size_t i = 0; i < allEnemyObject.size(); i++)
 			{
 
-				if (closestDistance > glm::distance(*getTransform()->getPosition(), *allEnemyObject[i]->getTransform()->getPosition()))
+				if (closestDistance > (*getTransform()->getPosition(), *allEnemyObject[i]->getTransform()->getPosition()).magnitude())
 				{
-					closestDistance = glm::distance(*getTransform()->getPosition(), *allEnemyObject[i]->getTransform()->getPosition());
+					closestDistance = (*getTransform()->getPosition(), *allEnemyObject[i]->getTransform()->getPosition()).magnitude();
 					m_targetObject = allEnemyObject[i];
 				}
 			}
@@ -165,7 +167,7 @@ public:
 		//Right side
 		instantiate(
 			(new GameObject("Laser", *getTransform()->getPosition()
-			, *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
+			, *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
 			->addGameComponent(new Projectile)
 			->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
 			->addGameComponent(new RigidBody(*getTransform()->getPosition() +
@@ -176,7 +178,7 @@ public:
 			);
 		//Left Side
 		instantiate(
-			(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
+			(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
 			->addGameComponent(new Projectile)
 			->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
 			->addGameComponent(new RigidBody(*getTransform()->getPosition() +

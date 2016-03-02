@@ -17,6 +17,8 @@
 #include <Components\MeshRenderer.h>
 #include "ShipStats.h"
 #include "Projectile.h"
+#include <PhysX/PxPhysicsAPI.h>
+using namespace physx;
 
 class FireProjectile : public GameComponent
 {
@@ -52,11 +54,9 @@ public:
 		{
 			if (input.GetRightTrigger() != 0)
 			{
-				m_audioComponent = new Audio("268168__shaun105__laser.wav", AudioType::SOUND);
-				
 				instantiate(
 					(new GameObject("Laser", *getTransform()->getPosition()
-					, *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
+					, *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
 					->addGameComponent(new Projectile)
 					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
 					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
@@ -73,7 +73,7 @@ public:
 			{
 				instantiate(
 					(new GameObject("Laser", *getTransform()->getPosition()
-					, *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
+					, *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
 					->addGameComponent(new Projectile)
 					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
 					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
