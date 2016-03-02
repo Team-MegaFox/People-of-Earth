@@ -123,11 +123,12 @@ void RenderingEngine::applyFilter(const Shader& filter, const Texture& source, c
 void RenderingEngine::render(const GameObject& object)
 {
 	getTexture("displayTexture").bindAsRenderTarget();
-	//m_window->BindAsRenderTarget();
+	//m_window->bindAsRenderTarget();
 	//m_tempTarget->BindAsRenderTarget();
 
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	m_window->clearScreen();
+	//glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	object.renderAll(m_defaultShader, *this, *m_mainCamera);
 
 	for (unsigned int i = 0; i < m_lights.size(); i++)
@@ -186,7 +187,7 @@ void RenderingEngine::render(const GameObject& object)
 		}
 
 		getTexture("displayTexture").bindAsRenderTarget();
-		//m_window->BindAsRenderTarget();
+		//m_window->bindAsRenderTarget();
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
@@ -212,4 +213,8 @@ void RenderingEngine::render(const GameObject& object)
 	setVec3("inverseFilterTextureSize", PxVec3(1.0f / getTexture("displayTexture").getWidth(), 1.0f / getTexture("displayTexture").getHeight(), 0.0f));
 
 	applyFilter(m_fxaaFilter, getTexture("displayTexture"), 0);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glUseProgram(0);
+	glActiveTexture(GL_TEXTURE0);
 }

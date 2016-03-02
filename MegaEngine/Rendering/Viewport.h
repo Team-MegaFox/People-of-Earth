@@ -44,7 +44,7 @@ public:
 	/// </summary>
 	~Viewport();
 
-	void clearScreen();
+	void clearScreen() const;
 	/// <summary>
 	/// Swaps the buffers.
 	/// </summary>
