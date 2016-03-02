@@ -21,13 +21,13 @@
 */
 #define COS_ANGLE(x) PxCos(0.5f * x)
 #define SIN_ANGLE(x) PxSin(0.5f * x)
-#define ROTATE_X_AXIS(x) PxQuat(0, SIN_ANGLE(x), 0, COS_ANGLE(x))
-#define ROTATE_Y_AXIS(x) PxQuat(SIN_ANGLE(x), 0, 0, COS_ANGLE(x))
-#define ROTATE_Z_AXIS(x) PxQuat(0, 0, SIN_ANGLE(x), COS_ANGLE(x))
+#define ROTATE_X_AXIS(x) PxQuat(ToRadians(COS_ANGLE(x)), PxVec3(0, SIN_ANGLE(x), 0))
+#define ROTATE_Y_AXIS(x) PxQuat(ToRadians(COS_ANGLE(x)), PxVec3(SIN_ANGLE(x), 0, 0))
+#define ROTATE_Z_AXIS(x) PxQuat(ToRadians(COS_ANGLE(x)), PxVec3(0, 0, SIN_ANGLE(x)))
 #define SHIP_ROTATION(x, y)	PxQuat(						\
-		PxSin(0.5f * x),									\
-		PxSin(0.5f * y), 0,								\
-		PxCos(0.5f * (x + y))							\
+		ToRadians(PxCos(0.5f * (x + y))),				\
+		PxVec3(PxSin(0.5f * x),							\
+		PxSin(0.5f * y), 0)								\
 )		
 
 PlayerShipMovementController::PlayerShipMovementController(

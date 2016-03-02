@@ -42,7 +42,7 @@ public:
 		Audio * BGM = new Audio("music.mp3", AudioType::STREAM, true);
 
 		addToRoot((new GameObject("skybox"))
-			->addGameComponent(new SkyboxRenderer("Skybox/white/white.png")));
+			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
 
 		GameObject* fighterShip =
 			(new GameObject("Fighter Ship", PxVec3(0.0f, 0.0f, 0.0f)))
@@ -136,8 +136,8 @@ public:
 			->addGameComponent(new MeshRenderer(Mesh("NebulaeAndGalaxies/Galaxy_Large.obj", 0.01f), Material("galaxy1")))
 );*/
 
-		addToRoot((new GameObject("DrLight", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(1.0f, 1.0f, 0.0f, 45.0f)))
-			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 0.5f, 0.0f), 1.0f, 8)));
+		addToRoot((new GameObject("DrLight", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(45.0f), PxVec3(1.0f, 1.0f, 0.0f))))
+			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 0.5f, 0.0f), 0.2f, 8)));
 
 		//BGM->play(true);
 	}
