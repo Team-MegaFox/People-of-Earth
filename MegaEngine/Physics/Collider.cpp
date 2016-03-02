@@ -105,7 +105,7 @@ void Collider::update(float timeStep)
 
 	//Have it update the position a frame more
 	//This is to prevent it so the object does not collide again because position did not move so be stuck in one spot (loop)
-	if (m_acceleration != PxVec3(0) && displacement.magnitude == 0)
+	if (m_acceleration != PxVec3(0) && displacement.magnitude() == 0)
 	{
 		displacement = m_velocity * timeStep + 0.5f * m_acceleration * timeStep * timeStep;
 	}

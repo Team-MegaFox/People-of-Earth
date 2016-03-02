@@ -506,7 +506,7 @@ public:
 	/// Sets the rotation of the collider.
 	/// </summary>
 	/// <param name="rotation">The rotation.</param>
-	void setRotation(glm::quat rotation)
+	void setRotation(PxQuat rotation)
 	{
 		if (m_sphereCollider != nullptr)
 		{
