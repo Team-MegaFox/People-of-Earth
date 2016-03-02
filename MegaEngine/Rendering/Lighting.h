@@ -155,6 +155,7 @@ public:
 		m_intensity(intensity),
 		m_shader(shader),
 		m_shadowInfo(ShadowInfo()) {}
+	~BaseLight();
 
 	/// <summary>
 	/// A virtual function to be implemented differently based on the type of light.

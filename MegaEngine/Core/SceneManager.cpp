@@ -64,7 +64,6 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 	}
 
 	m_activeList.push_back(std::make_pair(scene, modality));
-	updateExclusiveScene();
 
 	scene->init(*m_viewport);
 	scene->setEngine(m_coreEngine);
@@ -77,6 +76,8 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 			gameComponents[j]->onStart();
 		}
 	}
+
+	updateExclusiveScene();
 }
 
 void SceneManager::pop()
@@ -138,7 +139,10 @@ void SceneManager::render(RenderingEngine* renderingEngine)
 {
 	for (size_t i = m_exclusiveScene; i < m_activeList.size(); i++)
 	{
-		m_activeList[i].first->render(renderingEngine);
+		if (m_activeList[i].second == Modality::Exclusive)
+		{
+			m_activeList[i].first->render(renderingEngine);
+		}
 	}
 }
 

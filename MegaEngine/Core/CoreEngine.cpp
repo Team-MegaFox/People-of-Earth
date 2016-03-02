@@ -54,7 +54,6 @@ void CoreEngine::start()
 	double lastTime = Time::getTime();
 	double frameCounter = 0;
 	double unprocessedTime = 0;
-	int frames = 0;
 
 	while (m_running)
 	{
@@ -99,8 +98,6 @@ void CoreEngine::start()
 			m_guiEngine->render();
 
 			m_viewport->swapBuffers();
-
-			frames++;
 		}
 		else
 		{

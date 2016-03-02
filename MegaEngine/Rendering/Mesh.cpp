@@ -221,8 +221,10 @@ m_fileName(meshName)
 	std::map<std::string, MeshData*>::const_iterator it = s_resourceMap.find(meshName);
 	if (it != s_resourceMap.end())
 	{
-		std::cout << "Error adding mesh " << meshName << ": Mesh already exists by the same name!" << std::endl;
-		assert(0 != 0);
+		m_meshData = it->second;
+		m_meshData->addReference();
+		//std::cout << "Error adding mesh " << meshName << ": Mesh already exists by the same name!" << std::endl;
+		//assert(0 != 0);
 	}
 	else
 	{

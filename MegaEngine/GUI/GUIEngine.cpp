@@ -222,7 +222,9 @@ void GUIEngine::update()
 
 void GUIEngine::render()
 {
+	glDisable(GL_DEPTH_CLAMP);
 	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
 
 	m_renderer->beginRendering();
 	m_context->draw();
@@ -236,7 +238,9 @@ void GUIEngine::render()
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_CLAMP);
 }
 
 void GUIEngine::setMouseCursor(const std::string& imageFile)

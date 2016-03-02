@@ -69,6 +69,8 @@ m_altCamera(PxMat44(PxIdentity), &m_altCameraTransform)
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_DEPTH_CLAMP);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	//glEnable(GL_MULTISAMPLE);
 
 	m_planeTransform.setScale(PxVec3(1.0f));
@@ -124,7 +126,7 @@ void RenderingEngine::render(const GameObject& object)
 {
 	getTexture("displayTexture").bindAsRenderTarget();
 	//m_window->bindAsRenderTarget();
-	//m_tempTarget->BindAsRenderTarget();
+	//m_tempTarget->bindAsRenderTarget();
 
 	m_window->clearScreen();
 	//glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
