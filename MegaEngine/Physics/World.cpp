@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="World.h" company="">
 //     Copyright (c) . All rights reserved.
@@ -17,7 +17,7 @@
 
 World::World()
 {
-	m_position = glm::vec3(0);
+	m_position = physx::PxVec3(0.0f, 0.0f, 0.0f);
 	m_radius = 0;
 }
 
@@ -25,7 +25,7 @@ World::~World()
 {
 }
 
-void World::init(glm::vec3 position, float radius)
+void World::init(physx::PxVec3 position, float radius)
 {
 	m_position = position;
 	m_radius = radius;
@@ -63,7 +63,7 @@ void World::update(float timeStep)
 bool World::checkInsideWorld(Collider* collidableObject)
 {
 	//Get the distance from this position to the other position
-	float distance = glm::length(collidableObject->getPosition() - m_position);
+	float distance = (collidableObject->getPosition() - m_position).magnitude();
 	//Check to see if the 2 radius is lower than distance magnitude
 	if (m_radius + collidableObject->getRadiusSphere() > distance)
 	{
@@ -92,8 +92,9 @@ void World::removeCollidableObject(Collider* collidableObject)
 void World::calculateCollision(Collider* obj1, Collider* obj2, float timeStep)
 {
 	//Get the final velcoity of the first object from the idea of elastic collision formula
-	glm::vec3 finalVelcoty = ((obj1->getMass() - obj2->getMass()) / (obj1->getMass() + obj2->getMass())) * obj1->getVelocity() + 
-		((2 * obj2->getMass()) / (obj1->getMass() + obj2->getMass())) * obj2->getVelocity();
+	physx::PxVec3 finalVelcoty = 
+		(((obj1->getMass() - obj2->getMass()) / (obj1->getMass() + obj2->getMass())) * obj1->getVelocity())
+		+ (((2 * obj2->getMass()) / (obj1->getMass() + obj2->getMass())) * obj2->getVelocity());
 	//Push in the acceleration to first object using the formula:
 	//Final vel = initial vel + acceleration * time
 	obj1->applyAcceleration( ((finalVelcoty - obj1->getVelocity()) / timeStep) * 1.0f );

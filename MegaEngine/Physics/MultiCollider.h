@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 02-25-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="MultiCollider.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -52,12 +52,12 @@ public:
 	/// <param name="acceleration">Starting Acceleration of the Multi Collider.</param>
 	/// <param name="id">The identifier of the Multi Collider.</param>
 	void init(
-		glm::vec3 position,
-		glm::quat rotation,
+		physx::PxVec3 position,
+		physx::PxQuat rotation,
 		float scale,
 		float mass,
-		glm::vec3 velocity,
-		glm::vec3 acceleration,
+		physx::PxVec3 velocity,
+		physx::PxVec3 acceleration,
         int id = 0
     );
 
@@ -93,19 +93,19 @@ public:
 	/// Rotate the Multi Collider and the collider in the Multi Collider.
 	/// </summary>
 	/// <param name="rotation">Quaternion value of how much to rotate the Colliders.</param>
-	virtual void applyRotation(glm::quat rotation) override;
+	virtual void applyRotation(physx::PxQuat rotation) override;
 
 	/// <summary>
 	/// Update force value of the Multi Collider and the collider in the Multi Collider.
 	/// </summary>
 	/// <param name="force">A Force value of how much force is being applied to the Colliders.</param>
-	virtual void applyForce(glm::vec3 force) override;
+	virtual void applyForce(physx::PxVec3 force) override;
 
 	/// <summary>
 	/// Update acceleration value of the Multi Collider and the collider in the Multi Collider.
 	/// </summary>
 	/// <param name="accel">A Acceleation value of how much acceleration is being applied to the Colliders.</param>
-	virtual void applyAcceleration(glm::vec3 accel) override;
+	virtual void applyAcceleration(physx::PxVec3 accel) override;
 
 	/// <summary>
 	/// Update the values of the Multi Collider and the collider in the Multi Collider.
@@ -131,6 +131,6 @@ private:
 	/// <summary>
 	/// The distance this collider is from the center of gravity
 	/// </summary>
-	std::vector<glm::vec3> m_distanceColliderFromCenterOfGravity;
+	std::vector<physx::PxVec3> m_distanceColliderFromCenterOfGravity;
 };
 
