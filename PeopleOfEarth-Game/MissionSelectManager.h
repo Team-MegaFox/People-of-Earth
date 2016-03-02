@@ -82,14 +82,14 @@ public:
 			{
 				for (size_t i = 0; i < m_missionWidgets.size(); i++)
 				{
-					m_missionWidgets[i]->setPercentPosition(m_missionWidgets[i]->getPercentPosition() + glm::vec2(m_moveSpeed * delta, 0.0f));
+					m_missionWidgets[i]->setPercentPosition(m_missionWidgets[i]->getPercentPosition() + PxVec2(m_moveSpeed * delta, 0.0f));
 				}
 			}
 			else
 			{
 				for (size_t i = 0; i < m_missionWidgets.size(); i++)
 				{
-					m_missionWidgets[i]->setPercentPosition(m_missionWidgets[i]->getPercentPosition() - glm::vec2(m_moveSpeed * delta, 0.0f));
+					m_missionWidgets[i]->setPercentPosition(m_missionWidgets[i]->getPercentPosition() - PxVec2(m_moveSpeed * delta, 0.0f));
 				}
 			}
 

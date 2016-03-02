@@ -1,8 +1,9 @@
 #pragma once
 
 #include <Components\GameComponents.h>
-#include <glm\glm.hpp>
 #include <SDL2\SDL.h>
+#include <PhysX\PxPhysicsAPI.h>
+using namespace physx;
 
 class FreeMove : public GameComponent
 {
@@ -17,7 +18,7 @@ public:
 	virtual void processInput(const InputManager& input, float delta) override;
 protected:
 private:
-	void Move(const glm::vec3& direction, float amt);
+	void Move(const PxVec3& direction, float amt);
 
 	float m_speed;
 	int m_forwardKey;

@@ -32,9 +32,9 @@ void FreeMove::processInput(const InputManager& input, float delta)
 	}
 }
 
-void FreeMove::Move(const glm::vec3& direction, float amt)
+void FreeMove::Move(const PxVec3& direction, float amt)
 {
-	glm::vec3 result = *getTransform()->getPosition() + (direction * amt);
+	PxVec3 result = *getTransform()->getPosition() + (direction * amt);
 	getTransform()->setPosition(*getTransform()->getPosition() + (direction * amt));
 	
 	//Need to find a way to get another game component (specifically rigidbody) in a game component
