@@ -159,7 +159,7 @@ public:
 						else
 						{
 							m_wayPoints.push_back(collidableGameObjects[i]->getGameComponent<RigidBody>()->getPosition() +
-								PxVec3(RandomNumber(100, -100), RandomNumber(100, -100), 0.0f) /*multiply by scale*/);
+								PxVec3((float)RandomNumber(100, -100), (float)RandomNumber(100, -100), 0.0f) /*multiply by scale*/);
 							printf("Ray Going to collide\n");
 							m_delayCheckInFront = 1.0f;
 							break;
