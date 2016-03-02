@@ -3,7 +3,7 @@
 // Created          : 02-01-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-25-2016
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="Stream.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -79,9 +79,9 @@ float & Stream::getStreamVolume()
 	return m_streamVolume;
 }
 
-void Stream::setStreamPosVel(glm::vec3 pos, glm::vec3 vel/* = glm::vec3(0.0f)*/)
+void Stream::setStreamPosVel(physx::PxVec3 pos, physx::PxVec3 vel/* = physx::PxVec3(0.0f, 0.0f, 0.0f)*/)
 {
-	AudioEngine::FMODVerifyResult(m_streamPair.second->set3DAttributes(&AudioEngine::glmToFMOD(pos), &AudioEngine::glmToFMOD(vel)));
+	AudioEngine::FMODVerifyResult(m_streamPair.second->set3DAttributes(&AudioEngine::physxToFMOD(pos), &AudioEngine::physxToFMOD(vel)));
 }
 
 void Stream::setStreamPan(float pan)

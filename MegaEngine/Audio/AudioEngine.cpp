@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-24-2016
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="AudioEngine.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -160,7 +160,7 @@ void AudioEngine::setStreamVolume(float volume)
 	}
 }
 
-FMOD_VECTOR AudioEngine::glmToFMOD(glm::vec3 vector)
+FMOD_VECTOR AudioEngine::physxToFMOD(physx::PxVec3 vector)
 {
 	FMOD_VECTOR Temp;
 

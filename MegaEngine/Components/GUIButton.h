@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 02-23-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="GameComponents.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -37,8 +37,8 @@ public:
 	/// <param name="destRectPix">The size of the widget in pixels.</param>
 	/// <param name="text">The text in the button.</param>
 	/// <param name="pfcn">The function to call when the button is clicked.</param>
-	GUIButton(const glm::vec4& destRectPerc,
-		const glm::vec4& destRectPix, const std::string& text,
+	GUIButton(const physx::PxVec4& destRectPerc,
+		const physx::PxVec4& destRectPix, const std::string& text,
 		std::function<bool(const GameObject&)> pfcn = nullptr, Uint8 size = 10) :
 		GUILabel(destRectPerc, destRectPix, text, size), f_clicked(pfcn) { }
 	/// <summary>

@@ -3,7 +3,7 @@
 // Created          : 02-01-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-24-2016
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="Audio.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -177,7 +177,7 @@ public:
 	/// Sets the position.
 	/// </summary>
 	/// <param name="position">The position of this audio source.</param>
-	void setPosition(glm::vec3 position)
+	void setPosition(physx::PxVec3 position)
 	{
 		if (m_type == STREAM)
 		{
@@ -230,7 +230,7 @@ public:
 	/// <param name="outsideConeAngle">The outside cone angle.</param>
 	/// <param name="outsideVolume">The outside volume level.</param>
 	void setSoundConeOrientation(
-		glm::vec3 orientation, 
+		physx::PxVec3 orientation,
 		float insideConeAngle, 
 		float outsideConeAngle, 
 		float outsideVolume)
