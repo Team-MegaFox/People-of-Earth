@@ -30,7 +30,7 @@ public:
 	/// </summary>
 	FireProjectile(const std::string fileName) : 
 		m_material(
-		"plan1", 1.0f, 10, Texture("Planets/Planet_A.png"), Texture("Planets/Planet_A_NORM.png")),
+		"laser", 10.0f, 100, Texture("defaultTexture.png")),
 		m_fileName(fileName){}
 	/// <summary>
 	/// Finalizes an instance of the <see cref="FireProjectile"/> class.
@@ -60,7 +60,7 @@ public:
 					(new GameObject("Laser", *getTransform()->getPosition()
 					, *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
 					->addGameComponent(new Projectile)
-					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
+					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj", 0.1f), Material("laser")))
 					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
 					Utility::getForward(*getTransform()->getRotation()) * 15.0f +
 					Utility::getRight(*getTransform()->getRotation()) * 2.5f					
@@ -77,7 +77,7 @@ public:
 					(new GameObject("Laser", *getTransform()->getPosition()
 					, *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
 					->addGameComponent(new Projectile)
-					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
+					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj", 0.1f), Material("laser")))
 					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
 					Utility::getForward(*getTransform()->getRotation()) * 15.0f +
 					Utility::getLeft(*getTransform()->getRotation()) * 3.5f, *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))
