@@ -75,14 +75,14 @@ void PlayerShipMovementController::lookAround(const InputManager& input)
 	{
 		returnToActualRotation();
 
-		m_rigidBody->updateRotation(ROTATE_X_AXIS(0.05f));
+		m_rigidBody->updateRotation(ROTATE_X_AXIS(-0.05f));
 
 		m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 
 		m_upDirection = Utility::getUp(m_rigidBody->getRotation());
 
 		//Rotates the camera view
-		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_X_AXIS(0.05f));
+		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_X_AXIS(-0.05f));
 
 		if (m_shipsVisualRotation.y > -5.0f)
 		{
@@ -97,14 +97,14 @@ void PlayerShipMovementController::lookAround(const InputManager& input)
 	if (input.GetThumbRPosition().x < -0.3f)
 	{
 		returnToActualRotation();
-		m_rigidBody->updateRotation(ROTATE_X_AXIS(-0.05f));
+		m_rigidBody->updateRotation(ROTATE_X_AXIS(0.05f));
 
 		m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 
 		m_upDirection = Utility::getUp(m_rigidBody->getRotation());
 
 		//Rotates the camera view
-		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_X_AXIS(-0.05f));
+		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_X_AXIS(0.05f));
 		
 		if (m_shipsVisualRotation.y < 5.0f)
 		{
@@ -118,14 +118,14 @@ void PlayerShipMovementController::lookAround(const InputManager& input)
 	{
 		returnToActualRotation();
 
-		m_rigidBody->updateRotation(ROTATE_Y_AXIS(-0.05f));
+		m_rigidBody->updateRotation(ROTATE_Y_AXIS(0.05f));
 
 		m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 
 		m_upDirection = Utility::getUp(m_rigidBody->getRotation());
 
 		//Rotates the camera view
-		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Y_AXIS(-0.05f));
+		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Y_AXIS(0.05f));
 		
 		if (m_shipsVisualRotation.x < 5.0f)
 		{
@@ -139,14 +139,14 @@ void PlayerShipMovementController::lookAround(const InputManager& input)
 	{
 		returnToActualRotation();
 
-		m_rigidBody->updateRotation(ROTATE_Y_AXIS(0.05f));
+		m_rigidBody->updateRotation(ROTATE_Y_AXIS(-0.05f));
 
 		m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 
 		m_upDirection = Utility::getUp(m_rigidBody->getRotation());
 
 		//Rotates the camera view
-		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Y_AXIS(0.05f));
+		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Y_AXIS(-0.05f));
 
 		if (m_shipsVisualRotation.x > -5.0f)
 		{
