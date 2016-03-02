@@ -18,6 +18,8 @@ public:
 
 	virtual void init(const Viewport& window) override
 	{
+		Material bricks("bricks", 0.5f, 4, Texture("bricks.jpg"), Texture("bricks_normal.jpg"), Texture("bricks_disp.png"));
+
 		Material ship1("ship1", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_White.png"), Texture("Ships/AF-SS01/AF-SS01_Normalmap.png"));
 		//Material ship2("ship2", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_Navy.png"), Texture("Ships/AF-SS01/AF-SS01_Normalmap.png"));
 		//Material ship3("ship3", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_Black.png"), Texture("Ships/AF-SS01/AF-SS01_Normalmap.png"));
@@ -44,6 +46,20 @@ public:
 		addToRoot((new GameObject("skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
 
+		GameObject* pointlight =
+			(new GameObject("pointLight", PxVec3(0.0f, 1.0f, 0.0f)))
+			->addGameComponent(new PointLight(PxVec3(1.0f, 0.0f, 0.0f), 0.4f))
+			;
+
+		//GameObject* plane =
+		//	(new GameObject("plane", PxVec3(10.0f, 10.0f, 10.0f)))
+		//	->addGameComponent(new MeshRenderer(Mesh("Environment/plane.obj", 100.0f), Material("bricks")))
+		//	->addGameComponent(new PlanetSpin())
+
+		//	;
+
+		//addToRoot(plane);
+
 		GameObject* fighterShip =
 			(new GameObject("Fighter Ship", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f))))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj", 1.0f), Material("ship1")))
@@ -51,6 +67,7 @@ public:
 			->addGameComponent(new FireProjectile("268168__shaun105__laser.wav"))
 			->addGameComponent(new PlayerShipMovementController("camera", 10.0f))
 			->addGameComponent(new ShipStats)
+			->addChild(pointlight)
 
 			;
 
@@ -71,6 +88,10 @@ public:
 			->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 4.0f, 4.0f, 16.0f))
 			->addGameComponent(new EnemyFighterShipAI)
 			->addGameComponent(new ShipStats)
+			);
+
+		addToRoot((new GameObject("planet1", PxVec3(10.0f, 15.0f, 19999.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 400.0f), Material("plan1")))
 			);
 
 		/*addToRoot((new GameObject("planet1", PxVec3(10.0f, 0.0f, 0.0f)))
@@ -139,7 +160,7 @@ public:
 		addToRoot((new GameObject("DrLight", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(45.0f), PxVec3(1.0f, 1.0f, 0.0f))))
 			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 1.0f, 1.0f), 0.5f, 8)));
 
-		BGM->play(true);
+		//BGM->play(true);
 	}
 };
 

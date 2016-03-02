@@ -16,9 +16,9 @@ public:
 
 	virtual void update(float delta) override
 	{
-		m_angle += 0.001f;
+		m_angle += 0.1f;
 
-		getTransform()->setRotation(PxQuat(0.0f, 0.0f, 1.0f, m_angle));
+		getTransform()->setRotation(PxQuat(ToRadians(m_angle), PxVec3(0.0f, 0.0f, 1.0f)));
 	}
 
 private:

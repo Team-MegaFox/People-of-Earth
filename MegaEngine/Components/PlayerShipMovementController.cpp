@@ -191,6 +191,7 @@ void PlayerShipMovementController::movement(const InputManager& input, float del
 		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Z_AXIS(0.05f));
 		showVisualShipRotation();
 	}
+
 }
 
 void PlayerShipMovementController::returnToActualRotation()

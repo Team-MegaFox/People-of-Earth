@@ -185,9 +185,10 @@ public:
 		if ((m_targetPoint, *getTransform()->getPosition()).magnitude() < 75.0f)
 		{
 			//Change the position of the waypoint (random number between -100 to 100)
-			m_targetPoint = *getTransform()->getPosition() + PxVec3(RandomNumber(100, -100),
-																	   RandomNumber(100, -100), 
-																	   RandomNumber(100, -100));
+			m_targetPoint = *getTransform()->getPosition() + PxVec3(
+				(float)RandomNumber(100, -100),
+				(float)RandomNumber(100, -100),
+				(float)RandomNumber(100, -100));
 		}
 
 		//Seek to the waypoint
