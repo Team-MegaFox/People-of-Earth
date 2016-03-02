@@ -88,7 +88,8 @@
     <ClInclude Include="MissionOneScene.h" />
     <ClInclude Include="MissionSelectManager.h" />
     <ClInclude Include="MissionSelectScene.h" />
-    <ClInclude Include="PauseExit.h" />
+    <ClInclude Include="OptionsMenuManager.h" />
+    <ClInclude Include="OptionsScene.h" />
     <ClInclude Include="PauseScene.h" />
     <ClInclude Include="ShowPauseComp.h" />
     <ClInclude Include="TextLerpAlpha.h" />

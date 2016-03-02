@@ -36,7 +36,6 @@ public:
 	/// </summary>
 	~GUISlider() { }
 
-
 	/// <summary>
 	/// Adds to Core Engine.
 	/// </summary>
@@ -48,13 +47,15 @@ public:
 		m_slider->setCurrentValue(m_position);
 		m_slider->setMaxValue(m_maxValue);
 		m_slider->setClickStep(m_stepAmt);
+		m_slider->subscribeEvent(CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber(&GUISlider::onThumbChange, this));
+		m_slider->subscribeEvent(CEGUI::Slider::EventInputCaptureLost, CEGUI::Event::Subscriber(&GUISlider::onFocusLost, this));
 	}
 
 	/// <summary>
 	/// Gets the thumb posiiton.
 	/// </summary>
 	/// <returns>The slider's thumb position right now.</returns>
-	float getThumbPosiiton() const { return m_position; }
+	float getThumbPosiiton() const { return m_slider->getCurrentValue(); }
 	/// <summary>
 	/// Gets the maximum value of the slider.
 	/// </summary>
@@ -65,6 +66,11 @@ public:
 	/// </summary>
 	/// <returns>The step amount of the slider.</returns>
 	float getStepAmount() const { return m_stepAmt; }
+	/// <summary>
+	/// If the value of the thumb changed.
+	/// </summary>
+	/// <returns>Wheather the thumb value changed.</returns>
+	float valueChanged() const { return m_valueChanged; }
 
 	/// <summary>
 	/// Sets the slider's thumb position.
@@ -95,6 +101,18 @@ public:
 	}
 
 private:
+	bool onThumbChange(const CEGUI::EventArgs& e)
+	{
+		m_valueChanged = true;
+		return true;
+	}
+
+	bool onFocusLost(const CEGUI::EventArgs& e)
+	{
+		m_valueChanged = false;
+		return true;
+	}
+
 	/// <summary>
 	/// The slider widget.
 	/// </summary>
@@ -114,5 +132,10 @@ private:
 	/// The amount to step by.
 	/// </summary>
 	float m_stepAmt;
+
+	/// <summary>
+	/// If slider value changed.
+	/// </summary>
+	bool m_valueChanged;
 
 };

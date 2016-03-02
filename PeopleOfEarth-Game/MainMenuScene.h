@@ -8,6 +8,7 @@
 #include "TextLerpAlpha.h"
 #include "MainMenuManager.h"
 #include "MissionSelectScene.h"
+#include "OptionsScene.h"
 
 class MainMenuScene : public Scene
 {
@@ -27,8 +28,9 @@ public:
 
 		addToRoot((new GameObject("Camera"))
 			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
-			->addGameComponent(new FreeLook(window.getCenter()))
-			->addGameComponent(new FreeMove));
+			//->addGameComponent(new FreeLook(window.getCenter()))
+			//->addGameComponent(new FreeMove)
+			);
 
 		addToRoot((new GameObject("Splash"))
 			->addGUIComponent(new GUILabel(glm::vec4(0.4f, 0.6f, 0.2f, 0.05f), glm::vec4(0.0f), "Press start...", 16))
@@ -42,8 +44,11 @@ public:
 		mainMenuObject->addChild((new GameObject("Play Button"))
 			->addGUIComponent(new GUIButton(glm::vec4(0.425f, 0.6f, 0.15f, 0.07f), glm::vec4(0.0f), "Play",
 			std::bind(&MainMenuScene::clickPlayButton, this, std::placeholders::_1), 16)));
+		mainMenuObject->addChild((new GameObject("Options Button"))
+			->addGUIComponent(new GUIButton(glm::vec4(0.425f, 0.7f, 0.15f, 0.07f), glm::vec4(0.0f), "Options",
+			std::bind(&MainMenuScene::clickOptionsButton, this, std::placeholders::_1), 16)));
 		mainMenuObject->addChild((new GameObject("Exit Button"))
-			->addGUIComponent(new GUIButton(glm::vec4(0.425f, 0.7f, 0.15f, 0.07f), glm::vec4(0.0f), "Exit",
+			->addGUIComponent(new GUIButton(glm::vec4(0.425f, 0.8f, 0.15f, 0.07f), glm::vec4(0.0f), "Exit",
 			std::bind(&MainMenuScene::clickExitButton, this, std::placeholders::_1), 16)));
 		addToRoot(mainMenuObject);
 
@@ -57,6 +62,12 @@ public:
 	bool clickPlayButton(const GameObject& game)
 	{
 		getCoreEngine()->getSceneManager()->push(new MissionSelectScene);
+		return true;
+	}
+
+	bool clickOptionsButton(const GameObject& game)
+	{
+		getCoreEngine()->getSceneManager()->push(new OptionsScene, Modality::Popup);
 		return true;
 	}
 

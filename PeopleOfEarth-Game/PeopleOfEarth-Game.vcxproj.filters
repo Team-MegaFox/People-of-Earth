@@ -43,7 +43,10 @@
     <ClInclude Include="ShowPauseComp.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="PauseExit.h">
+    <ClInclude Include="OptionsScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionsMenuManager.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
