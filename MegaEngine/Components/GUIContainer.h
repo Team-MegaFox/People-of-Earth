@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu
 // Created          : 02-03-2016
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 02-03-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="GUIContainer.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -26,7 +26,7 @@ public:
 	/// </summary>
 	/// <param name="destRectPerc">The dest rect perc.</param>
 	/// <param name="destRectPix">The dest rect pix.</param>
-	GUIContainer(const glm::vec4& destRectPerc, const glm::vec4& destRectPix) :
+	GUIContainer(const physx::PxVec4& destRectPerc, const physx::PxVec4& destRectPix) :
 		GUIComponent(destRectPerc, destRectPix) { }
 	/// <summary>
 	/// Finalizes an instance of the <see cref="GUIContainer"/> class.

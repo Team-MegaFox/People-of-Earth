@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-24-2016
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="AudioSource.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -114,13 +114,13 @@ public:
 	/// Sets the sound position and vel.
 	/// </summary>
 	/// <param name="pos">The position of this sound.</param>
-	void setSoundPosition(glm::vec3 pos);
+	void setSoundPosition(physx::PxVec3 pos);
 
 	/// <summary>
 	/// Sets the stream position and vel.
 	/// </summary>
 	/// <param name="pos">The position of this stream.</param>
-	void setStreamPosition(glm::vec3 pos);
+	void setStreamPosition(physx::PxVec3 pos);
 
 	/// <summary>
 	/// Sets the panning of this sound.
@@ -153,7 +153,7 @@ public:
 	/// <param name="iCA">The inside Cone Angle.</param>
 	/// <param name="oCA">The outside cone angle.</param>
 	/// <param name="oVol">The outside volume (the level of volume outside the cone).</param>
-	void setupSoundCone(glm::vec3 orient, float iCA, float oCA, float oVol);
+	void setupSoundCone(physx::PxVec3 orient, float iCA, float oCA, float oVol);
 
 	/// <summary>
 	/// Sets the sound distance filter.

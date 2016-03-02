@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 01-28-2016
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="GameComponents.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -23,7 +23,7 @@ public:
 	/// <param name="destRectPerc">The dest rect perc.</param>
 	/// <param name="destRectPix">The dest rect pix.</param>
 	/// <param name="text">The text.</param>
-	GUILabel(const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& text, Uint8 size = 10) :
+	GUILabel(const physx::PxVec4& destRectPerc, const physx::PxVec4& destRectPix, const std::string& text, Uint8 size = 10) :
 		GUIComponent(destRectPerc, destRectPix), m_text(text), m_textSize(size) { }
 
 	/// <summary>

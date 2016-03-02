@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu
 // Created          : 01-28-2016
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 02-23-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="GUIComponent.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -32,7 +32,7 @@ public:
 	/// </summary>
 	/// <param name="destRectPerc">The size of the widget relative the parent widget.</param>
 	/// <param name="destRectPix">The size of the widget in pixels.</param>
-	GUIComponent(const glm::vec4& destRectPerc, const glm::vec4& destRectPix) :
+	GUIComponent(const physx::PxVec4& destRectPerc, const physx::PxVec4& destRectPix) :
 		m_parent(nullptr), m_widget(nullptr), m_destRectPerc(destRectPerc), m_destRectPix(destRectPix) { }
 
 	/// <summary>
@@ -82,13 +82,13 @@ public:
 	/// Gets the relative position to the window.
 	/// </summary>
 	/// <returns>A vector 2D of the relative position.</returns>
-	glm::vec2 getPercentPosition() { return glm::vec2(m_widget->getPosition().d_x.d_scale, m_widget->getPosition().d_y.d_scale); }
+	physx::PxVec2 getPercentPosition() { return physx::PxVec2(m_widget->getPosition().d_x.d_scale, m_widget->getPosition().d_y.d_scale); }
 
 	/// <summary>
 	/// Gets the absolute pixel position to the window.
 	/// </summary>
 	/// <returns>A vector 2D of the absolute pixel position.</returns>
-	glm::vec2 getPixelPosition() { return glm::vec2(m_widget->getPosition().d_x.d_offset, m_widget->getPosition().d_y.d_offset); }
+	physx::PxVec2 getPixelPosition() { return physx::PxVec2(m_widget->getPosition().d_x.d_offset, m_widget->getPosition().d_y.d_offset); }
 
 	/// <summary>
 	/// Sets the parent GameObject.
@@ -100,13 +100,13 @@ public:
 	/// Sets the relative position.
 	/// </summary>
 	/// <param name="pos">The position in percentage relative to the window.</param>
-	void setPercentPosition(const glm::vec2& pos) { m_widget->setPosition(CEGUI::UVector2(CEGUI::UDim(pos.x, 0.0f), CEGUI::UDim(pos.y, 0.0f))); }
+	void setPercentPosition(const physx::PxVec2& pos) { m_widget->setPosition(CEGUI::UVector2(CEGUI::UDim(pos.x, 0.0f), CEGUI::UDim(pos.y, 0.0f))); }
 	
 	/// <summary>
 	/// Sets the absolute pixel position.
 	/// </summary>
 	/// <param name="pos">The position in pixels to the window.</param>
-	void setPixelPosition(const glm::vec2& pos) { m_widget->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f, pos.x), CEGUI::UDim(0.0f, pos.y))); }
+	void setPixelPosition(const physx::PxVec2& pos) { m_widget->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f, pos.x), CEGUI::UDim(0.0f, pos.y))); }
 
 	/// <summary>
 	/// Activates the widget so it accepts input.
