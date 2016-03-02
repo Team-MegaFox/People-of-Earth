@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 01-28-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 02-23-2016
 // ***********************************************************************
 // <copyright file="GameComponents.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -39,8 +39,8 @@ public:
 	/// <param name="pfcn">The function to call when the button is clicked.</param>
 	GUIButton(const glm::vec4& destRectPerc,
 		const glm::vec4& destRectPix, const std::string& text,
-		std::function<bool(const GameObject&)> pfcn = nullptr) :
-		GUILabel(destRectPerc, destRectPix, text), f_clicked(pfcn) { }
+		std::function<bool(const GameObject&)> pfcn = nullptr, Uint8 size = 10) :
+		GUILabel(destRectPerc, destRectPix, text, size), f_clicked(pfcn) { }
 	/// <summary>
 	/// Finalizes an instance of the <see cref="GUIButton"/> class.
 	/// </summary>
@@ -56,6 +56,8 @@ public:
 		auto wi = createWidget(engine->getGUIEngine()->getSchemeStyle() + "/Button");
 		wi->setText(getText());
 		wi->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&GUIButton::pushButton, this));
+		engine->getGUIEngine()->addFont(engine->getGUIEngine()->getDefaultFontName(), getTextSize());
+		wi->setFont(engine->getGUIEngine()->getDefaultFontName() + "-" + std::to_string(getTextSize()));
 	}
 	
 	/// <summary>
@@ -65,6 +67,12 @@ public:
 	void setOnClick(std::function<bool(const GameObject&)> pfcn)
 	{
 		f_clicked = pfcn;
+	}
+
+	void click()
+	{
+		CEGUI::EventArgs args;
+		getWidget()->fireEvent(CEGUI::PushButton::EventClicked, args);
 	}
 
 private:

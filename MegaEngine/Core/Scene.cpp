@@ -49,15 +49,17 @@ void Scene::addToRoot(GameObject* gameobject)
 	if (it != m_GONameCounter.end())
 	{
 		it->second++;
-		tempCounter = it->second;
+		gameobject->setName(gameobject->getName() + std::to_string(it->second));
 	}
 	else
 	{
-		m_GONameCounter.insert(std::make_pair(gameobject->getName(), 1));
-		tempCounter = 1;
+		auto children = gameobject->getAllAttached();
+		for (size_t i = 0; i < children.size(); i++)
+		{
+			m_GONameCounter.insert(std::make_pair(children[i]->getName(), 1));
+			children[i]->setName(children[i]->getName() + std::to_string(1));
+		}
 	}
-
-	gameobject->setName( gameobject->getName() + std::to_string(tempCounter));
 
 	m_root.addChild(gameobject);
 }

@@ -13,6 +13,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <cstdint>
 
 class Scene;
 class Viewport;
@@ -60,6 +61,12 @@ public:
 	/// Pops the top most scene off the scene stack.
 	/// </summary>
 	void pop();
+
+	/// <summary>
+	/// Pops the scene stack to the specified index.
+	/// </summary>
+	/// <param name="scene">The scene index to pop to.</param>
+	void popTo(uint8_t popIndex);
 
 	/// <summary>
 	/// Removes the top most scene and replaces it with the a new scene

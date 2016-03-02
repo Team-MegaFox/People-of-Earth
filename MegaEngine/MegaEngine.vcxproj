@@ -86,6 +86,7 @@
     <ClCompile Include="Audio\Stream.cpp" />
     <ClCompile Include="Components\AudioSource.cpp" />
     <ClCompile Include="Components\GUIComponent.cpp" />
+    <ClCompile Include="Components\GUIImage.cpp" />
     <ClCompile Include="Components\PlayerShipMovementController.cpp" />
     <ClCompile Include="Core\CoreEngine.cpp" />
     <ClCompile Include="Core\ErrorLog.cpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="Components\GUIButton.h" />
     <ClInclude Include="Components\GUIComponent.h" />
     <ClInclude Include="Components\GUIContainer.h" />
+    <ClInclude Include="Components\GUIImage.h" />
     <ClInclude Include="Components\GUILabel.h" />
     <ClInclude Include="Components\GUIProgressBar.h" />
     <ClInclude Include="Components\GUISlider.h" />

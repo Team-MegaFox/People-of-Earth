@@ -88,6 +88,9 @@
     <ClCompile Include="Rendering\Skybox.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="Components\GUIImage.cpp">
+	  <Filter>Components</Filter>
+    </ClCompile>
     <ClCompile Include="Components\PlayerShipMovementController.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -264,6 +267,9 @@
     </ClInclude>
     <ClInclude Include="Core\Game.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUIImage.h">
+	 <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Components\PlayerShipMovementController.h">
       <Filter>Components</Filter>

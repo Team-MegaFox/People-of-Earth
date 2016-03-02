@@ -3,7 +3,7 @@
 // Created          : 01-28-2016
 //
 // Last Modified By : Pavan Jakhu
-// Last Modified On : 02-02-2016
+// Last Modified On : 02-23-2016
 // ***********************************************************************
 // <copyright file="GUIComponent.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -73,21 +73,62 @@ public:
 	}
 
 	/// <summary>
+	/// Gets the parented gameobject.
+	/// </summary>
+	/// <returns>A pointer to the parented gameobject.</returns>
+	GameObject* getParent() { return m_parent; }
+
+	/// <summary>
+	/// Gets the relative position to the window.
+	/// </summary>
+	/// <returns>A vector 2D of the relative position.</returns>
+	glm::vec2 getPercentPosition() { return glm::vec2(m_widget->getPosition().d_x.d_scale, m_widget->getPosition().d_y.d_scale); }
+
+	/// <summary>
+	/// Gets the absolute pixel position to the window.
+	/// </summary>
+	/// <returns>A vector 2D of the absolute pixel position.</returns>
+	glm::vec2 getPixelPosition() { return glm::vec2(m_widget->getPosition().d_x.d_offset, m_widget->getPosition().d_y.d_offset); }
+
+	/// <summary>
 	/// Sets the parent GameObject.
 	/// </summary>
 	/// <param name="parent">The GameObject to be attached to.</param>
 	virtual void setParent(GameObject* parent) { m_parent = parent; }
 
+	/// <summary>
+	/// Sets the relative position.
+	/// </summary>
+	/// <param name="pos">The position in percentage relative to the window.</param>
+	void setPercentPosition(const glm::vec2& pos) { m_widget->setPosition(CEGUI::UVector2(CEGUI::UDim(pos.x, 0.0f), CEGUI::UDim(pos.y, 0.0f))); }
+	
+	/// <summary>
+	/// Sets the absolute pixel position.
+	/// </summary>
+	/// <param name="pos">The position in pixels to the window.</param>
+	void setPixelPosition(const glm::vec2& pos) { m_widget->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f, pos.x), CEGUI::UDim(0.0f, pos.y))); }
+
+	/// <summary>
+	/// Activates the widget so it accepts input.
+	/// </summary>
 	void activate() { m_widget->enable(); }
 
+	/// <summary>
+	/// Deactivates the widget so it doesn't accept input.
+	/// </summary>
 	void deactivate() { m_widget->disable(); }
 
-protected:	
 	/// <summary>
-	/// Gets the parented gameobject.
+	/// Renders the widget.
 	/// </summary>
-	/// <returns>A pointer to the parented gameobject.</returns>
-	GameObject* getParent() { return m_parent; }
+	void enable() { m_widget->show(); }
+
+	/// <summary>
+	/// Stops rendering the widget.
+	/// </summary>
+	void disable() { m_widget->hide(); }
+
+protected:	
 
 	/// <summary>
 	/// Gets the core engine.
@@ -105,7 +146,7 @@ protected:
 	/// Gets the widget.
 	/// </summary>
 	/// <returns>CEGUI.Window *.</returns>
-	CEGUI::Window* getWidget() { return m_widget; }
+	CEGUI::Window* getWidget() const { return m_widget; }
 
 	/// <summary>
 	/// Creates a widget.
@@ -146,12 +187,12 @@ private:
 	CEGUI::Window* m_widget;
 
 	/// <summary>
-	/// The m_dest rect perc
+	/// The destestion rectangle in percent relative to the parent window.
 	/// </summary>
 	glm::vec4 m_destRectPerc;
 
 	/// <summary>
-	/// The m_dest rect pix
+	/// The destestion rectangle in pixels.
 	/// </summary>
 	glm::vec4 m_destRectPix;
 
