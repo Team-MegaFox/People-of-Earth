@@ -62,7 +62,7 @@ struct Projectile : public GameComponent
 				for (size_t i = 0; i < collidableGameObjects.size(); i++)
 				{
 					if (collidableGameObjects[i]->getGameComponent<RigidBody>()->getCollider()->checkCollision(
-						*getTransform()->getPosition(), glm::normalize(m_rigidBody->getVelocity()),
+						*getTransform()->getPosition(), m_rigidBody->getVelocity().getNormalized(),
 						m_collisionTime)
 						)
 					{

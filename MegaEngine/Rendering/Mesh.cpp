@@ -231,7 +231,7 @@ m_fileName(meshName)
 	}
 }
 
-Mesh::Mesh(const std::string& fileName) :
+Mesh::Mesh(const std::string& fileName, float scale /*= 1.0f*/) :
 m_fileName(fileName),
 m_meshData(0)
 {
@@ -268,7 +268,7 @@ m_meshData(0)
 		const aiVector3D aiZeroVector(0.0f, 0.0f, 0.0f);
 		for (unsigned int i = 0; i < model->mNumVertices; i++)
 		{
-			const aiVector3D pos = model->mVertices[i];
+			const aiVector3D pos = model->mVertices[i] * scale;
 			const aiVector3D normal = model->mNormals[i];
 			const aiVector3D texCoord = model->HasTextureCoords(0) ? model->mTextureCoords[0][i] : aiZeroVector;
 			const aiVector3D tangent = model->mTangents[i];

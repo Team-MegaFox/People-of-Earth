@@ -195,7 +195,7 @@ void PlayerShipMovementController::movement(const InputManager& input, float del
 
 void PlayerShipMovementController::returnToActualRotation()
 {
-	if (glm::abs(m_shipsVisualRotation.x) != 0 || glm::abs(m_shipsVisualRotation.y) != 0)
+	if (PxAbs(m_shipsVisualRotation.x) != 0 || PxAbs(m_shipsVisualRotation.y) != 0)
 	{
 		m_rigidBody->updateRotation(ROTATE_Y_AXIS(-m_shipsVisualRotation.x));
 		m_rigidBody->updateRotation(ROTATE_X_AXIS(-m_shipsVisualRotation.y));
