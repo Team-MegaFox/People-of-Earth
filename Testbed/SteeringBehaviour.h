@@ -87,7 +87,6 @@ public:
 		//	glm::slerp(*getTransform()->getRotation(), directionQuaternion, timestep));
 
 		m_rigidBody->setRotation(Utility::slerp(*getTransform()->getRotation(), directionQuaternion, timestep));
-		
 	}
 
 	//Seek to the point
@@ -127,6 +126,13 @@ public:
 	{
 		int randnum = (rand() % (PxAbs(max) + PxAbs(min))) - ((PxAbs(max) + PxAbs(min)) / 2);
 		return randnum;
+	}
+
+	float distance(PxVec3 point1, PxVec3 point2)
+	{
+		return PxSqrt((point2.x - point1.x) * (point2.x - point1.x) +
+			(point2.y - point1.y) * (point2.y - point1.y) +
+			(point2.z - point1.z) * (point2.z - point1.z));
 	}
 
 	//Check if anything is in front of the ship
@@ -182,7 +188,8 @@ public:
 		//Wandering using waypoint 
 
 		//if the ship is close enough to the current waypoint then
-		if ((m_targetPoint, *getTransform()->getPosition()).magnitude() < 75.0f)
+		
+		if (distance(m_targetPoint, *getTransform()->getPosition()) < 75.0f)
 		{
 			//Change the position of the waypoint (random number between -100 to 100)
 			m_targetPoint = *getTransform()->getPosition() + PxVec3(

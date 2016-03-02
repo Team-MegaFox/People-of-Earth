@@ -96,7 +96,7 @@ public:
 		{
 			getClosestObject(SHIP_CLASS::FIGHTER_SHIP);
 			float timeOfCollision;
-			if ((*getTransform()->getPosition(), *m_targetObject->getTransform()->getPosition()).magnitude() < 150.0f
+			if (distance(*getTransform()->getPosition(), *m_targetObject->getTransform()->getPosition()) < 150.0f
 				&& m_targetObject->getGameComponent<RigidBody>()->getCollider()->checkCollision(
 				*getTransform()->getPosition(), getParent()->getGameComponent<RigidBody>()->getVelocity(), timeOfCollision))
 			{
@@ -152,7 +152,7 @@ public:
 			for (size_t i = 0; i < allEnemyObject.size(); i++)
 			{
 
-				if (closestDistance > (*getTransform()->getPosition(), *allEnemyObject[i]->getTransform()->getPosition()).magnitude())
+				if (closestDistance > distance(*getTransform()->getPosition(), *allEnemyObject[i]->getTransform()->getPosition()))
 				{
 					closestDistance = (*getTransform()->getPosition(), *allEnemyObject[i]->getTransform()->getPosition()).magnitude();
 					m_targetObject = allEnemyObject[i];

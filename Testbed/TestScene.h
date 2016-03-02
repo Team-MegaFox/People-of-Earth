@@ -66,7 +66,7 @@ public:
 			->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj", 1.0f), Material("ship1")))
 			->addGameComponent(new RigidBody(PxVec3(1.0f, 1.0f, 1.0f), PxQuat(PxIdentity), 1.0f, 2.0f, 2.0f, 8.0f))
 			->addGameComponent(new FireProjectile("268168__shaun105__laser.wav"))
-			->addGameComponent(new PlayerShipMovementController("camera", 10.0f))
+			->addGameComponent(new PlayerShipMovementController("camera", 50.0f))
 			->addGameComponent(new ShipStats)
 
 			;
