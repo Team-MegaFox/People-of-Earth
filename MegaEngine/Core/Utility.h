@@ -14,6 +14,8 @@
 
 #define SNPRINTF snprintf
 
+#define ToRadians(x) (float)(((x) * 3.1415926536f / 180.0f))
+#define ToDegree(x) (float)(((x) * 180.0f / 3.1415926536f))
 #define ZERO_MEM(a) memset(a,0,sizeof(a))
 #define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
 #define ARRAY_SIZE_IN_ELEMENTS(a) (sizeof(a)/sizeof(a[0]))
@@ -22,8 +24,8 @@
 
 #include <vector>
 #include <string>
-#include <glm\glm.hpp>
-#include <glm\gtc\quaternion.hpp>
+#include <PhysX\PxPhysicsAPI.h>
+using namespace physx;
 
 /// <summary>
 /// The Utility namespace.
@@ -50,77 +52,77 @@ namespace Utility
 	/// <param name="quat">The quaternion.</param>
 	/// <param name="v">The vector.</param>
 	/// <returns>The rotated vector.</returns>
-	const glm::vec3 rotateQuatByVec(const glm::quat& quat, const glm::vec3& v);
+	const PxVec3 rotateQuatByVec(const PxQuat& quat, const PxVec3& v);
 
 	/// <summary>
 	/// Gets the maximum value in a 3D vector.
 	/// </summary>
 	/// <param name="vec">The 3D vector.</param>
 	/// <returns>The highest value in the 3D vector.</returns>
-	float maxVec3(const glm::vec3 & vec);
+	float maxVec3(const PxVec3 & vec);
 
 	/// <summary>
 	/// Gets the maximum value in a 4D vector.
 	/// </summary>
 	/// <param name="vec">The 4D vector.</param>
 	/// <returns>The highest value in the 4D vector.</returns>
-	float maxVec4(const glm::vec4 & vec);
+	float maxVec4(const PxVec4 & vec);
 
 	/// <summary>
 	/// Gets the forward facing vector based on the quaternion rotation.
 	/// </summary>
 	/// <param name="quat">The quaternion.</param>
 	/// <returns>The vector facing in the forward direction.</returns>
-	glm::vec3 getForward(const glm::quat quat);
+	PxVec3 getForward(const PxQuat& quat);
 
 	/// <summary>
 	/// Gets the backward facing vector based on the quaternion rotation.
 	/// </summary>
 	/// <param name="quat">The quaternion.</param>
 	/// <returns>The vector facing in the backward direction.</returns>
-	glm::vec3 getBack(const glm::quat quat);
+	PxVec3 getBack(const PxQuat& quat);
 
 	/// <summary>
 	/// Gets the upward facing vector based on the quaternion rotation.
 	/// </summary>
 	/// <param name="quat">The quaternion.</param>
 	/// <returns>The vector facing in the upward direction.</returns>
-	glm::vec3 getUp(const glm::quat quat);
+	PxVec3 getUp(const PxQuat& quat);
 
 	/// <summary>
 	/// Gets the downward facing vector based on the quaternion rotation.
 	/// </summary>
 	/// <param name="quat">The quaternion.</param>
 	/// <returns>The vector facing in the downward direction.</returns>
-	glm::vec3 getDown(const glm::quat quat);
+	PxVec3 getDown(const PxQuat& quat);
 
 	/// <summary>
 	/// Gets the right facing vector based on the quaternion rotation.
 	/// </summary>
 	/// <param name="quat">The quaternion.</param>
 	/// <returns>The vector facing in the right direction.</returns>
-	glm::vec3 getRight(const glm::quat quat);
+	PxVec3 getRight(const PxQuat& quat);
 
 	/// <summary>
 	/// Gets the left facing vector based on the quaternion rotation.
 	/// </summary>
 	/// <param name="quat">The quaternion.</param>
 	/// <returns>The vector facing in the left direction.</returns>
-	glm::vec3 getLeft(const glm::quat quat);
+	PxVec3 getLeft(const PxQuat& quat);
 
 	/// <summary>
 	/// Get a initialized matrix with translation properties.
 	/// </summary>
 	/// <param name="translation">The translation.</param>
 	/// <returns>The translation matrix.</returns>
-	glm::mat4 initTranslation(glm::vec3 translation);
+	PxMat44 initTranslation(PxVec3 translation);
 
 	/// <summary>
 	/// Get a initialized matrix with the scale properties.
 	/// </summary>
 	/// <param name="translation">The translation.</param>
 	/// <returns>The scaled matrix.</returns>
-	glm::mat4 initScale(glm::vec3 scale);
+	PxMat44 initScale(PxVec3 scale);
 
 	/// <summary>
 	/// Gets the rotation matrix based on a target position and up vector.
@@ -128,6 +130,42 @@ namespace Utility
 	/// <param name="target">The target position.</param>
 	/// <param name="up">The upward facing vector.</param>
 	/// <returns>The result rotation matrix.</returns>
-	glm::mat4 initRotationFromDirection(const glm::vec3 & target, const glm::vec3 & up);
+	PxMat44 initRotationFromDirection(const PxVec3& target, const PxVec3& up);
+
+	/// <summary>
+	/// Creates a perspective matrix.
+	/// </summary>
+	/// <param name="fov">The field of view of the camera.</param>
+	/// <param name="aspect">The aspect ratio of the texture or window.</param>
+	/// <param name="zNear">The near plane distance to the camera.</param>
+	/// <param name="zFar">The far plane distance to the camera.</param>
+	/// <returns>The result perspective matrix.</returns>
+	PxMat44 initPerspective(float fov, float aspect, float zNear, float zFar);
+
+	/// <summary>
+	/// Creates a orthographic matrix.
+	/// </summary>
+	/// <param name="left">The distance to the plane on the left.</param>
+	/// <param name="right">The distance to the plane on the right.</param>
+	/// <param name="bottom">The distance to the plane on the bottom.</param>
+	/// <param name="top">The distance to the plane on the top.</param>
+	/// <param name="near">The distance to the nearest plane.</param>
+	/// <param name="far">The distance to the furthest plane.</param>
+	/// <returns>The result perspective matrix.</returns>
+	PxMat44 initOrthographic(float left, float right, float bottom, float top, float near, float far);
+
+	/// <summary>
+	/// Template class that clamps the value.
+	/// </summary>
+	/// <param name="a">The value needing to be clamped.</param>
+	/// <param name="min">The minimum possible value.</param>
+	/// <param name="max">The maximum possible value.</param>
+	/// <returns>The clamped value.</returns>
+	template<typename T> inline T Clamp(const T &a, const T &min, const T &max)
+	{
+		if (a < min) return min;
+		else if (a > max) return max;
+		else return a;
+	}
 
 }
