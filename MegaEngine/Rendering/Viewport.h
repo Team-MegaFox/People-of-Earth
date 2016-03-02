@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="Viewport.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -77,7 +77,7 @@ public:
 	/// Gets the center position of the window.
 	/// </summary>
 	/// <returns>The center point of the window.</returns>
-	inline const glm::vec2 getCenter() const { return glm::vec2((float)m_screenWidth / 2.0f, (float)m_screenHeight / 2.0f); }
+	inline const PxVec2 getCenter() const { return PxVec2((float)m_screenWidth / 2.0f, (float)m_screenHeight / 2.0f); }
 	/// <summary>
 	/// Gets the name of the screen.
 	/// </summary>
