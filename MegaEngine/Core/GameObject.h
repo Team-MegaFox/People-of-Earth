@@ -63,7 +63,7 @@ public:
 	/// <param name="guiEngine">The GUI Engine object.</param>
 	/// <param name="renderingEngine">The Rendering Engine object.</param>
 	/// <param name="camera">The main active camera.</param>
-	void renderAll(const Shader& shader, const GUIEngine& guiEngine, const RenderingEngine& renderingEngine, const Camera3D& camera);
+	void renderAll(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D& camera) const;
 	/// <summary>
 	/// Processes all inputs for the children GameObjects, Game Components and GUI Components.
 	/// </summary>
@@ -229,7 +229,7 @@ private:
 	/// <param name="shader">The shader program.</param>
 	/// <param name="renderingEngine">The Rendering Engine object.</param>
 	/// <param name="camera">The main active camera.</param>
-	void renderGameComponents(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D& camera);
+	void renderGameComponents(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D& camera) const;
 	/// <summary>
 	/// Processes all inputs for the Game Components.
 	/// </summary>
@@ -242,12 +242,6 @@ private:
 	/// </summary>
 	/// <param name="delta">The delta time between frames.</param>
 	void updateGUIComponents(float delta);
-	/// <summary>
-	/// Renders the GUI components.
-	/// </summary>
-	/// <param name="guiEngine">The GUI engine.</param>
-	/// <param name="camera">The camera.</param>
-	void renderGUIComponents(const GUIEngine& guiEngine, const Camera3D& camera);
 	/// <summary>
 	/// Processes all inputs for the GUI Components.
 	/// </summary>
