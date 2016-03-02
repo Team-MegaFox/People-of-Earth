@@ -232,12 +232,11 @@ void GUIEngine::render()
 	glDisable(GL_SCISSOR_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	//glEnable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST);
 }
 
 void GUIEngine::setMouseCursor(const std::string& imageFile)

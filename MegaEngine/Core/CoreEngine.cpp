@@ -92,7 +92,7 @@ void CoreEngine::start()
 
 		if (render)
 		{
-			m_viewport->clearScreen();
+			//m_viewport->clearScreen();
 
 			m_sceneManager->render(m_renderingEngine);
 
