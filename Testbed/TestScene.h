@@ -49,11 +49,9 @@ public:
 			->addGameComponent(new MeshRenderer(Mesh("Ships/HumanFighter_Final.obj", 0.1f), Material("human_ship")))
 			->addGameComponent(new RigidBody(PxVec3(1.0f, 1.0f, 1.0f), PxQuat(PxIdentity), 1.0f, 2.0f, 2.0f, 8.0f))
 			->addGameComponent(new FireProjectile("268168__shaun105__laser.wav"))
-			->addGameComponent(new PlayerShipMovementController("camera", 1000.0f))
-
+			->addGameComponent(new PlayerShipMovementController("camera", 100.0f))
 			->addGameComponent(new ShipStats)
-			//->addGameComponent(laserSounds)
-			->addGameComponent(BGM)
+
 			;
 
 		// The human fighter ship and camera
@@ -61,7 +59,7 @@ public:
 			(new GameObject("camera",
 			*fighterShip->getTransform()->getPosition() - Utility::getForward(*fighterShip->getTransform()->getRotation()) * 30.0f
 			+ PxVec3(0.0f, 5.0f, 0.0f)))
-			->addGameComponent(new CameraComponent(Utility::initPerspective(60.0f, window.getAspectRatio(), 0.1f, 20000.0f)))
+			->addGameComponent(new CameraComponent(Utility::initPerspective(ToRadians(60.0f), window.getAspectRatio(), 0.1f, 20000.0f)))
 			->addGameComponent(new Listener());
 		addToRoot(fighterShip);
 		addToRoot(camera);
@@ -139,7 +137,7 @@ public:
 );*/
 
 		addToRoot((new GameObject("DrLight", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(1.0f, 1.0f, 0.0f, 45.0f)))
-			->addGameComponent(new DirectionalLight(PxVec3(1.0f), 1.0f)));
+			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 0.5f, 0.0f), 1.0f, 8)));
 
 		//BGM->play(true);
 	}
