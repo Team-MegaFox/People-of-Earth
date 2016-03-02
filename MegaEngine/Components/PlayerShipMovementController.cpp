@@ -19,15 +19,15 @@
 /*
 	Player Ship Movement Controller Macros
 */
-#define COS_ANGLE(x) physx::PxCos(0.5f * x)
-#define SIN_ANGLE(x) physx::PxSin(0.5f * x)
-#define ROTATE_X_AXIS(x) physx::PxQuat(0, SIN_ANGLE(x), 0, COS_ANGLE(x))
-#define ROTATE_Y_AXIS(x) physx::PxQuat(SIN_ANGLE(x), 0, 0, COS_ANGLE(x))
-#define ROTATE_Z_AXIS(x) physx::PxQuat(0, 0, SIN_ANGLE(x), COS_ANGLE(x))
-#define SHIP_ROTATION(x, y)	physx::PxQuat(						\
-		physx::PxSin(0.5f * x),									\
-		physx::PxSin(0.5f * y), 0,								\
-		physx::PxCos(0.5f * (x + y))							\
+#define COS_ANGLE(x) PxCos(0.5f * x)
+#define SIN_ANGLE(x) PxSin(0.5f * x)
+#define ROTATE_X_AXIS(x) PxQuat(0, SIN_ANGLE(x), 0, COS_ANGLE(x))
+#define ROTATE_Y_AXIS(x) PxQuat(SIN_ANGLE(x), 0, 0, COS_ANGLE(x))
+#define ROTATE_Z_AXIS(x) PxQuat(0, 0, SIN_ANGLE(x), COS_ANGLE(x))
+#define SHIP_ROTATION(x, y)	PxQuat(						\
+		PxSin(0.5f * x),									\
+		PxSin(0.5f * y), 0,								\
+		PxCos(0.5f * (x + y))							\
 )		
 
 PlayerShipMovementController::PlayerShipMovementController(
@@ -160,7 +160,7 @@ void PlayerShipMovementController::lookAround(const InputManager& input)
 
 void PlayerShipMovementController::movement(const InputManager& input, float delta)
 {
-	m_rigidBody->updateVelocity(physx::PxVec3(0.0f, 0.0f, 0.0f));
+	m_rigidBody->updateVelocity(PxVec3(0.0f, 0.0f, 0.0f));
 
 	//Controller inputs
 	if (input.GetThumbLPosition().y > 0.3f)

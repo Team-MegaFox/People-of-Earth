@@ -27,7 +27,7 @@ public:
 	/// <param name="destRectPix">The size of the widget in pixels.</param>
 	/// <param name="startPerc">The start percentage. Defaults to 1.0f (100%).</param>
 	/// <param name="stepPerc">The step percentage. Defaults to 0.1f (1%).(</param>
-	GUIImage(const physx::PxVec4& destRectPerc, const physx::PxVec4& destRectPix, const std::string& imageFile) :
+	GUIImage(const PxVec4& destRectPerc, const PxVec4& destRectPix, const std::string& imageFile) :
 		GUIComponent(destRectPerc, destRectPix), m_imageFile(imageFile) 
 	{ 
 		s_numImages++; 

@@ -35,12 +35,12 @@ public:
 	/// <param name="radius">The radius.</param>
 	/// <param name="id">The identifier.</param>
 	RigidBody(
-		physx::PxVec3 position, 
-		physx::PxQuat rotation,
+		PxVec3 position, 
+		PxQuat rotation,
 		float mass, 
 		float radius, 
-		physx::PxVec3 velocity = physx::PxVec3(0.0f, 0.0f, 0.0f), 
-		physx::PxVec3 acceleration = physx::PxVec3(0.0f, 0.0f, 0.0f),
+		PxVec3 velocity = PxVec3(0.0f, 0.0f, 0.0f), 
+		PxVec3 acceleration = PxVec3(0.0f, 0.0f, 0.0f),
 		int id = 0)
 	{
 		m_sphereCollider = new SphereCollider();
@@ -67,14 +67,14 @@ public:
 	/// <param name="halfDepth">The half depth.</param>
 	/// <param name="id">The identifier.</param>
 	RigidBody(
-		physx::PxVec3 position, 
-		physx::PxQuat rotation,
+		PxVec3 position, 
+		PxQuat rotation,
 		float mass, 
 		float halfWidth, 
 		float halfHeight, 
 		float halfDepth, 
-		physx::PxVec3 velocity = physx::PxVec3(0),
-		physx::PxVec3 acceleration = physx::PxVec3(0),
+		PxVec3 velocity = PxVec3(0),
+		PxVec3 acceleration = PxVec3(0),
 		int id = 0)
 	{
 		m_polyCollider = new PolygonCollider();
@@ -102,11 +102,11 @@ public:
 	/// <param name="mass">The mass.</param>
 	/// <param name="id">The identifier.</param>
 	RigidBody(
-		physx::PxVec3 position,
-		physx::PxQuat rotation,
+		PxVec3 position,
+		PxQuat rotation,
 		float mass, 
-		physx::PxVec3 velocity = physx::PxVec3(0),
-		physx::PxVec3 acceleration = physx::PxVec3(0),
+		PxVec3 velocity = PxVec3(0),
+		PxVec3 acceleration = PxVec3(0),
 		int id = 0)
 	{
 		m_multiCollider = new MultiCollider();
@@ -154,10 +154,10 @@ public:
 	/// <param name="id">The velocity.</param>
 	/// <param name="id">The acceleration.</param>
 	void init(
-		physx::PxVec3 position, 
-		physx::PxQuat rotation, 
-		physx::PxVec3 velocity, 
-		physx::PxVec3 acceleration)
+		PxVec3 position, 
+		PxQuat rotation, 
+		PxVec3 velocity, 
+		PxVec3 acceleration)
 	{
 		if (m_sphereCollider != nullptr)
 		{
@@ -196,7 +196,7 @@ public:
 		}
 		else if (m_polyCollider != nullptr)
 		{
-			physx::PxVec3 pos = m_polyCollider->getPosition();
+			PxVec3 pos = m_polyCollider->getPosition();
 			getTransform()->setPosition(m_polyCollider->getPosition());
 			getTransform()->setRotation(m_polyCollider->getRotation());
 		}
@@ -212,7 +212,7 @@ public:
 	/// Updates the velocity of the collider.
 	/// </summary>
 	/// <param name="velocity">The velocity.</param>
-	void updateVelocity(physx::PxVec3 velocity)
+	void updateVelocity(PxVec3 velocity)
 	{
 		if (m_sphereCollider != nullptr)
 		{
@@ -232,7 +232,7 @@ public:
 	/// Updates the acceleration of the collider.
 	/// </summary>
 	/// <param name="acceleration">The acceleration.</param>
-	void updateAcceleration(physx::PxVec3 acceleration)
+	void updateAcceleration(PxVec3 acceleration)
 	{
 		if (m_sphereCollider != nullptr)
 		{
@@ -252,7 +252,7 @@ public:
 	/// Updates the rotation of the collider.
 	/// </summary>
 	/// <param name="rotation">The rotation.</param>
-	void updateRotation(physx::PxQuat rotation)
+	void updateRotation(PxQuat rotation)
 	{
 		if (m_sphereCollider != nullptr)
 		{
@@ -384,7 +384,7 @@ public:
 	/// Gets the position of the collider.
 	/// </summary>
 	/// <returns></returns>
-	physx::PxVec3 getPosition()
+	PxVec3 getPosition()
 	{
 		if (m_sphereCollider != nullptr)
 		{
@@ -398,14 +398,14 @@ public:
 		{
 			return m_multiCollider->getPosition();
 		}
-		return physx::PxVec3(PxIdentity);
+		return PxVec3(PxIdentity);
 	}
 	
 	/// <summary>
 	/// Gets the velocity of the collider.
 	/// </summary>
 	/// <returns></returns>
-	physx::PxVec3 getVelocity()
+	PxVec3 getVelocity()
 	{
 		return getCollider()->getVelocity();
 	}
@@ -414,7 +414,7 @@ public:
 	/// Gets the rotation of the collider.
 	/// </summary>
 	/// <returns></returns>
-	physx::PxQuat getRotation()
+	PxQuat getRotation()
 	{
 		if (m_sphereCollider != nullptr)
 		{
@@ -428,7 +428,7 @@ public:
 		{
 			return m_multiCollider->getRotation();
 		}
-		return physx::PxQuat(PxIdentity);
+		return PxQuat(PxIdentity);
 	}
 
 	/// <summary>
@@ -486,7 +486,7 @@ public:
 	/// Sets the position of the collider.
 	/// </summary>
 	/// <param name="rotation">The position.</param>
-	void setPosition(physx::PxVec3 position)
+	void setPosition(PxVec3 position)
 	{
 		if (m_sphereCollider != nullptr)
 		{
@@ -549,7 +549,7 @@ private:
 	/// <summary>
 	/// The zero variable
 	/// </summary>
-	physx::PxVec3 m_zero = physx::PxVec3(0.0f, 0.0f, 0.0f);
+	PxVec3 m_zero = PxVec3(0.0f, 0.0f, 0.0f);
 
 	/// <summary>
 	/// The debug draw boolean set this to true to draw the colliders

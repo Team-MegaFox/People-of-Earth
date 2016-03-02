@@ -63,9 +63,9 @@ void AudioSource::setSoundVolume(float volume) { m_soundSource.setSoundEffectVol
 
 void AudioSource::setStreamVolume(float volume) { m_streamSource.setStreamEffectVolume(volume); }
 
-void AudioSource::setSoundPosition(physx::PxVec3 pos) { m_soundSource.setSoundPosVel(pos); }
+void AudioSource::setSoundPosition(PxVec3 pos) { m_soundSource.setSoundPosVel(pos); }
 
-void AudioSource::setStreamPosition(physx::PxVec3 pos) { m_streamSource.setStreamPosVel(pos); }
+void AudioSource::setStreamPosition(PxVec3 pos) { m_streamSource.setStreamPosVel(pos); }
 
 void AudioSource::setSoundPan(float pan) { m_soundSource.setSoundPan(pan); }
 
@@ -75,7 +75,7 @@ void AudioSource::setSoundDoppler(float dop) { m_soundSource.setSoundDopplerLeve
 
 void AudioSource::setStreamDoppler(float dop) { m_streamSource.setStreamDopplerLevel(dop); }
 
-void AudioSource::setupSoundCone(physx::PxVec3 orient, float iCA, float oCA, float oVol)
+void AudioSource::setupSoundCone(PxVec3 orient, float iCA, float oCA, float oVol)
 {
 	m_soundSource.setSoundConeOrientation(orient);
 	m_soundSource.setSoundConeSettings(iCA, oCA, oVol);

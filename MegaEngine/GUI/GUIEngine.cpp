@@ -278,7 +278,7 @@ void GUIEngine::setFontSize(Uint8 size /*= 10*/)
 	m_context->setDefaultFont(m_defaultFontName + "-" + std::to_string(m_defaultFontSize));
 }
 
-CEGUI::Window* GUIEngine::addWidget(const std::string& type, const physx::PxVec4& destRectPerc, const physx::PxVec4& destRectPix, const std::string& name/* = ""*/)
+CEGUI::Window* GUIEngine::addWidget(const std::string& type, const PxVec4& destRectPerc, const PxVec4& destRectPix, const std::string& name/* = ""*/)
 {
 	CEGUI::Window* newWindow = CEGUI::WindowManager::getSingleton().createWindow(type, name);
 	m_root->addChild(newWindow);
@@ -286,7 +286,7 @@ CEGUI::Window* GUIEngine::addWidget(const std::string& type, const physx::PxVec4
 	return newWindow;
 }
 
-CEGUI::Window* GUIEngine::addWidget(CEGUI::Window* parent, const std::string& type, const physx::PxVec4& destRectPerc, const physx::PxVec4& destRectPix, const std::string& name/* = ""*/)
+CEGUI::Window* GUIEngine::addWidget(CEGUI::Window* parent, const std::string& type, const PxVec4& destRectPerc, const PxVec4& destRectPix, const std::string& name/* = ""*/)
 {
 	CEGUI::Window* newWindow = CEGUI::WindowManager::getSingleton().createWindow(type, name);
 	parent->addChild(newWindow);
@@ -294,7 +294,7 @@ CEGUI::Window* GUIEngine::addWidget(CEGUI::Window* parent, const std::string& ty
 	return newWindow;
 }
 
-void GUIEngine::setWidgetDestRect(CEGUI::Window* widget, const physx::PxVec4& destRectPerc, const physx::PxVec4& destRectPix)
+void GUIEngine::setWidgetDestRect(CEGUI::Window* widget, const PxVec4& destRectPerc, const PxVec4& destRectPix)
 {
 	widget->setPosition(CEGUI::UVector2(CEGUI::UDim(destRectPerc.x, destRectPix.x), CEGUI::UDim(destRectPerc.y, destRectPix.y)));
 	widget->setSize(CEGUI::USize(CEGUI::UDim(destRectPerc.z, destRectPix.z), CEGUI::UDim(destRectPerc.w, destRectPix.w)));

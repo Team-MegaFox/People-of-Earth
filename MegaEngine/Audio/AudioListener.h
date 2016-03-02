@@ -30,7 +30,7 @@ public:
 	/// <summary>
 	/// Sets as the scene audio listener.
 	/// </summary>
-	void setAsListener(physx::PxVec3 pos, physx::PxVec3 vel, physx::PxVec3 forward, physx::PxVec3 up)
+	void setAsListener(PxVec3 pos, PxVec3 vel, PxVec3 forward, PxVec3 up)
 	{
 		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->set3DListenerAttributes(
 			0,

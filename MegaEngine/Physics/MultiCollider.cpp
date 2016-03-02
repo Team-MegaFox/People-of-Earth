@@ -38,12 +38,12 @@ MultiCollider::~MultiCollider()
 }
 
 void MultiCollider::init(
-		physx::PxVec3 position,
-		physx::PxQuat rotation,
+		PxVec3 position,
+		PxQuat rotation,
 		float scale,
 		float mass,
-		physx::PxVec3 velocity,
-		physx::PxVec3 acceleration,
+		PxVec3 velocity,
+		PxVec3 acceleration,
         int id)
 {
 	Collider::init(position, rotation, scale, mass, velocity, acceleration, id);
@@ -56,10 +56,10 @@ void MultiCollider::addColliderToObject(Collider* collider)
     //Set the collider id so it is part of the Multi Collider 
     collider->setID(m_id);
     m_multipleCollider.push_back(collider);
-	m_distanceColliderFromCenterOfGravity.push_back(physx::PxVec3(0.0f, 0.0f, 0.0f));
+	m_distanceColliderFromCenterOfGravity.push_back(PxVec3(0.0f, 0.0f, 0.0f));
 
 	//Set the Center of the gravity
-	m_position = physx::PxVec3(0.0f, 0.0f, 0.0f);
+	m_position = PxVec3(0.0f, 0.0f, 0.0f);
 	for (size_t i = 0; i < m_multipleCollider.size(); i++)
 	{
 		m_position += m_multipleCollider[i]->getPosition();
@@ -191,7 +191,7 @@ bool MultiCollider::multiMultiCollisionCheck(Collider* mulitSpecficCollider, Mul
     return false;
 }
 
-void MultiCollider::applyRotation(physx::PxQuat rotation)
+void MultiCollider::applyRotation(PxQuat rotation)
 {
     //Apply the rotation on all the collider in the multi collider
     for (size_t i = 0; i < m_multipleCollider.size(); i++)
@@ -202,7 +202,7 @@ void MultiCollider::applyRotation(physx::PxQuat rotation)
     Collider::applyRotation(m_rotation);
 }
 
-void MultiCollider::applyForce(physx::PxVec3 force)
+void MultiCollider::applyForce(PxVec3 force)
 {
     //Apply the force on all the collider in the multi collider
     for (size_t i = 0; i < m_multipleCollider.size(); i++)
@@ -213,7 +213,7 @@ void MultiCollider::applyForce(physx::PxVec3 force)
     Collider::applyForce(force);
 }
 
-void MultiCollider::applyAcceleration(physx::PxVec3 accel)
+void MultiCollider::applyAcceleration(PxVec3 accel)
 {
     //Apply the acceleration on all the collider in the multi collider
     for (size_t i = 0; i < m_multipleCollider.size(); i++)

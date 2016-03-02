@@ -75,7 +75,7 @@ float & Sound::getSoundVolume()
 	return m_soundVolume;
 }
 
-void Sound::setSoundPosVel(physx::PxVec3 pos, physx::PxVec3 vel/* = physx::PxVec3(0.0f, 0.0f, 0.0f)*/)
+void Sound::setSoundPosVel(PxVec3 pos, PxVec3 vel/* = PxVec3(0.0f, 0.0f, 0.0f)*/)
 {
 	AudioEngine::FMODVerifyResult(m_soundPair.second->set3DAttributes(&AudioEngine::physxToFMOD(pos), &AudioEngine::physxToFMOD(vel)));
 }
@@ -90,7 +90,7 @@ void Sound::setSoundDopplerLevel(float dopplerLevel)
 	AudioEngine::FMODVerifyResult(m_soundPair.second->set3DDopplerLevel(dopplerLevel));
 }
 
-void Sound::setSoundConeOrientation(physx::PxVec3 orientation)
+void Sound::setSoundConeOrientation(PxVec3 orientation)
 {
 	AudioEngine::FMODVerifyResult(m_soundPair.second->set3DConeOrientation(&AudioEngine::physxToFMOD(orientation)));
 }

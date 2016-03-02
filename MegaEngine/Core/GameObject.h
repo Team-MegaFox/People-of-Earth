@@ -16,6 +16,7 @@
 #include "Transform.h"
 #include "InputManager.h"
 #include <PhysX/PxPhysicsAPI.h>
+using namespace physx;
 
 class Camera3D;
 class CoreEngine;
@@ -42,9 +43,9 @@ public:
 	/// <param name="scale">The scale of the GameObject.</param>
 	GameObject(
 		const std::string& name, 
-		const physx::PxVec3& pos = physx::PxVec3(0.0f, 0.0f, 0.0f), 
-		const physx::PxQuat& rot = physx::PxQuat(PxIdentity),
-		const physx::PxVec3& scale = physx::PxVec3(1.0f, 1.0f, 1.0f))
+		const PxVec3& pos = PxVec3(0.0f, 0.0f, 0.0f), 
+		const PxQuat& rot = PxQuat(PxIdentity),
+		const PxVec3& scale = PxVec3(1.0f, 1.0f, 1.0f))
 		: m_name(name), m_enabled(true), m_transform(pos, rot, scale), m_coreEngine(nullptr) 
 	{
 		m_transform.setAttachedGameObject(this);

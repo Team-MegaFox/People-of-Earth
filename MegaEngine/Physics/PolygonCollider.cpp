@@ -44,12 +44,12 @@ PolygonCollider::~PolygonCollider()
 }
 
 void PolygonCollider::init(
-		physx::PxVec3 position,
-		physx::PxQuat rotation,
+		PxVec3 position,
+		PxQuat rotation,
 		float scale,
 		float mass,
-		physx::PxVec3 velocity,
-		physx::PxVec3 acceleration,
+		PxVec3 velocity,
+		PxVec3 acceleration,
 		float halfWidth,
         float halfHeight,
         float halfDepth,
@@ -116,26 +116,26 @@ std::vector<Collider*> PolygonCollider::checkCollision( std::vector<Collider*> c
         {
 			float timeOfCollision;
 			//Check collision with rays
-			if (collidedObject[i]->checkCollision(m_position + physx::PxVec3(m_halfWidth, m_halfHeight, -m_halfDepth),
-				m_rotation.rotate(physx::PxVec3(0.0f, 0.0f, 1.0f)), timeOfCollision))
+			if (collidedObject[i]->checkCollision(m_position + PxVec3(m_halfWidth, m_halfHeight, -m_halfDepth),
+				m_rotation.rotate(PxVec3(0.0f, 0.0f, 1.0f)), timeOfCollision))
 			{
 				//Push back the collided object to the return collided object
 				trueCollidedObject.push_back(collidedObject[i]);
 			}
-			else if (collidedObject[i]->checkCollision(m_position + physx::PxVec3(m_halfWidth, -m_halfHeight, -m_halfDepth),
-				m_rotation.rotate(physx::PxVec3(0.0f, 0.0f, 1.0f)), timeOfCollision))
+			else if (collidedObject[i]->checkCollision(m_position + PxVec3(m_halfWidth, -m_halfHeight, -m_halfDepth),
+				m_rotation.rotate(PxVec3(0.0f, 0.0f, 1.0f)), timeOfCollision))
 			{
 				//Push back the collided object to the return collided object
 				trueCollidedObject.push_back(collidedObject[i]);
 			}
-			else if (collidedObject[i]->checkCollision(m_position + physx::PxVec3(-m_halfWidth, -m_halfHeight, -m_halfDepth),
-				m_rotation.rotate(physx::PxVec3(0.0f, 0.0f, 1.0f)), timeOfCollision))
+			else if (collidedObject[i]->checkCollision(m_position + PxVec3(-m_halfWidth, -m_halfHeight, -m_halfDepth),
+				m_rotation.rotate(PxVec3(0.0f, 0.0f, 1.0f)), timeOfCollision))
 			{
 				//Push back the collided object to the return collided object
 				trueCollidedObject.push_back(collidedObject[i]);
 			}
-			else if (collidedObject[i]->checkCollision(m_position + physx::PxVec3(-m_halfWidth, m_halfHeight, -m_halfDepth),
-				m_rotation.rotate(physx::PxVec3(0.0f, 0.0f, 1.0f)), timeOfCollision))
+			else if (collidedObject[i]->checkCollision(m_position + PxVec3(-m_halfWidth, m_halfHeight, -m_halfDepth),
+				m_rotation.rotate(PxVec3(0.0f, 0.0f, 1.0f)), timeOfCollision))
 			{
 				//Push back the collided object to the return collided object
 				trueCollidedObject.push_back(collidedObject[i]);
@@ -211,9 +211,9 @@ bool PolygonCollider::checkSATCollision(PolygonCollider* collidableObject)
 	//Could break out earlier
 
     //Create a necessary variable for the collision check 
-	physx::PxVec3 rightDirection1, upDirection1, forwardDirection1;
-	physx::PxVec3 rightDirection2, upDirection2, forwardDirection2;
-	physx::PxVec3 axis;	
+	PxVec3 rightDirection1, upDirection1, forwardDirection1;
+	PxVec3 rightDirection2, upDirection2, forwardDirection2;
+	PxVec3 axis;	
 
     //Get all the direction vectors of the this Collider
     rightDirection1 = GetRightVector(m_rotation).getNormalized(); 
@@ -226,7 +226,7 @@ bool PolygonCollider::checkSATCollision(PolygonCollider* collidableObject)
 	forwardDirection2 = GetForwardVector(collidableObject->getRotation()).getNormalized();
 
     //Get the Vector from this Collider Position to the other Collider Position
-	physx::PxVec3 tPosition = collidableObject->getPosition() - m_position;
+	PxVec3 tPosition = collidableObject->getPosition() - m_position;
 
 	//Now is the big long check statement of each axis
 	//The first polygon X axis
@@ -340,26 +340,26 @@ bool PolygonCollider::checkSATCollision(PolygonCollider* collidableObject)
 }
 
 bool PolygonCollider::checkAxisCollision(
-	physx::PxVec3 tPosition, 
-	physx::PxVec3 axis, 
-	physx::PxVec3 rightDirection1, 
-	physx::PxVec3 upDirection1, 
-	physx::PxVec3 forwardDirection1, 
-	physx::PxVec3 rightDirection2, 
-	physx::PxVec3 upDirection2, 
-	physx::PxVec3 forwardDirection2, 
+	PxVec3 tPosition, 
+	PxVec3 axis, 
+	PxVec3 rightDirection1, 
+	PxVec3 upDirection1, 
+	PxVec3 forwardDirection1, 
+	PxVec3 rightDirection2, 
+	PxVec3 upDirection2, 
+	PxVec3 forwardDirection2, 
 	PolygonCollider* collidableObject)
 {
     //Axis Collision check
-	if (physx::PxAbs(tPosition.dot(axis)) >
+	if (PxAbs(tPosition.dot(axis)) >
 
-		physx::PxAbs((rightDirection1 * m_halfWidth).dot(axis)) +
-		physx::PxAbs((upDirection1 * m_halfHeight).dot(axis)) +
-		physx::PxAbs((forwardDirection1 * m_halfDepth).dot(axis)) +
+		PxAbs((rightDirection1 * m_halfWidth).dot(axis)) +
+		PxAbs((upDirection1 * m_halfHeight).dot(axis)) +
+		PxAbs((forwardDirection1 * m_halfDepth).dot(axis)) +
 
-		physx::PxAbs((rightDirection2 * collidableObject->getHalfWidth()).dot(axis)) +
-		physx::PxAbs((upDirection2 * collidableObject->getHalfHeight()).dot(axis)) +
-		physx::PxAbs((forwardDirection2 * collidableObject->getHalfDepth()).dot(axis))
+		PxAbs((rightDirection2 * collidableObject->getHalfWidth()).dot(axis)) +
+		PxAbs((upDirection2 * collidableObject->getHalfHeight()).dot(axis)) +
+		PxAbs((forwardDirection2 * collidableObject->getHalfDepth()).dot(axis))
 
 		)
 	{

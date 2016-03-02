@@ -37,8 +37,8 @@ public:
 	/// <param name="destRectPix">The size of the widget in pixels.</param>
 	/// <param name="text">The text in the button.</param>
 	/// <param name="pfcn">The function to call when the button is clicked.</param>
-	GUIButton(const physx::PxVec4& destRectPerc,
-		const physx::PxVec4& destRectPix, const std::string& text,
+	GUIButton(const PxVec4& destRectPerc,
+		const PxVec4& destRectPix, const std::string& text,
 		std::function<bool(const GameObject&)> pfcn = nullptr, Uint8 size = 10) :
 		GUILabel(destRectPerc, destRectPix, text, size), f_clicked(pfcn) { }
 	/// <summary>

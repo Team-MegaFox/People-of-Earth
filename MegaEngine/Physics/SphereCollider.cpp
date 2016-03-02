@@ -39,12 +39,12 @@ SphereCollider::~SphereCollider()
 }
 
 void SphereCollider::init(
-		physx::PxVec3 position,
-		physx::PxQuat rotation,
+		PxVec3 position,
+		PxQuat rotation,
 		float scale,
 		float mass,
-		physx::PxVec3 velocity,
-		physx::PxVec3 acceleration,
+		PxVec3 velocity,
+		PxVec3 acceleration,
 		float radiusSphere,
 		int id)
 {
@@ -145,12 +145,12 @@ bool SphereCollider::checkCollision(Collider* collidableObject)
 	return false;
 }
 
-bool SphereCollider::checkCollision(physx::PxVec3 rayPosition, physx::PxVec3 rayDirection, float &timeOfCollision)
+bool SphereCollider::checkCollision(PxVec3 rayPosition, PxVec3 rayDirection, float &timeOfCollision)
 {
 	//Tutorial from http://www.miguelcasillas.com/?p=74
 
 	//Create a vector from the sphere to the ray's start point
-	physx::PxVec3 spherePosToRayPos = rayPosition - m_position;
+	PxVec3 spherePosToRayPos = rayPosition - m_position;
 
 	//Get the dot product of this vector with the ray's direction
 	float projection = spherePosToRayPos.dot(rayDirection);
@@ -175,7 +175,7 @@ bool SphereCollider::checkCollision(physx::PxVec3 rayPosition, physx::PxVec3 ray
 
 	//We solve our equation and get the time of collision
 	//We use -sqrt(fDisc) to get the smallest root, ie. the first point in which the ray touches the sphere
-	timeOfCollision = -projection - physx::PxSqrt(discriminant);
+	timeOfCollision = -projection - PxSqrt(discriminant);
 
 	//If the time is less than zero, it means the ray started inside the sphere (Already Collision)
 	if (timeOfCollision < 0.0f)
@@ -184,7 +184,7 @@ bool SphereCollider::checkCollision(physx::PxVec3 rayPosition, physx::PxVec3 ray
 	}
 
 	//Our collision point is going to be:
-	physx::PxVec3 collisionPoint = rayPosition + rayDirection * timeOfCollision;
+	PxVec3 collisionPoint = rayPosition + rayDirection * timeOfCollision;
 
 	//Collided
 	return true;

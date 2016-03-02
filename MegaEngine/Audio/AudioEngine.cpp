@@ -160,7 +160,7 @@ void AudioEngine::setStreamVolume(float volume)
 	}
 }
 
-FMOD_VECTOR AudioEngine::physxToFMOD(physx::PxVec3 vector)
+FMOD_VECTOR AudioEngine::physxToFMOD(PxVec3 vector)
 {
 	FMOD_VECTOR Temp;
 

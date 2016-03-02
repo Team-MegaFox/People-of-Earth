@@ -27,7 +27,7 @@ public:
 	/// <param name="destRectPix">The size of the widget in pixels.</param>
 	/// <param name="startPerc">The start percentage. Defaults to 1.0f (100%).</param>
 	/// <param name="stepPerc">The step percentage. Defaults to 0.1f (1%).(</param>
-	GUIProgressBar(const physx::PxVec4& destRectPerc, const physx::PxVec4& destRectPix, float startPerc = 1.0f, float stepPerc = 0.01f) :
+	GUIProgressBar(const PxVec4& destRectPerc, const PxVec4& destRectPix, float startPerc = 1.0f, float stepPerc = 0.01f) :
 	GUIComponent(destRectPerc, destRectPix), m_percent(startPerc) { }
 	/// <summary>
 	/// Finalizes an instance of the <see cref="GUIProgressBar"/> class.

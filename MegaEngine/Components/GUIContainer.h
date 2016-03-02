@@ -26,7 +26,7 @@ public:
 	/// </summary>
 	/// <param name="destRectPerc">The dest rect perc.</param>
 	/// <param name="destRectPix">The dest rect pix.</param>
-	GUIContainer(const physx::PxVec4& destRectPerc, const physx::PxVec4& destRectPix) :
+	GUIContainer(const PxVec4& destRectPerc, const PxVec4& destRectPix) :
 		GUIComponent(destRectPerc, destRectPix) { }
 	/// <summary>
 	/// Finalizes an instance of the <see cref="GUIContainer"/> class.

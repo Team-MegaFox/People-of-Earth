@@ -78,7 +78,7 @@ public:
 	/// </summary>
 	/// <param name="pos">The position.</param>
 	/// <param name="vel">The vel.</param>
-	void setSoundPosVel(physx::PxVec3 pos, physx::PxVec3 vel = physx::PxVec3(0.0f, 0.0f, 0.0f));
+	void setSoundPosVel(PxVec3 pos, PxVec3 vel = PxVec3(0.0f, 0.0f, 0.0f));
 	
 	/// <summary>
 	/// Pan level, from -1.0 (left) to 1.0 (right), default = 0 (center).
@@ -97,7 +97,7 @@ public:
 	/// Sets the sound cone orientation.
 	/// </summary>
 	/// <param name="orientation">The orientation.</param>
-	void setSoundConeOrientation(physx::PxVec3 orientation);
+	void setSoundConeOrientation(PxVec3 orientation);
 
 	/// <summary>
 	/// Sets the sound cone settings.

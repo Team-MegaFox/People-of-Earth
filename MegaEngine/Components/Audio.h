@@ -177,7 +177,7 @@ public:
 	/// Sets the position.
 	/// </summary>
 	/// <param name="position">The position of this audio source.</param>
-	void setPosition(physx::PxVec3 position)
+	void setPosition(PxVec3 position)
 	{
 		if (m_type == STREAM)
 		{
@@ -230,7 +230,7 @@ public:
 	/// <param name="outsideConeAngle">The outside cone angle.</param>
 	/// <param name="outsideVolume">The outside volume level.</param>
 	void setSoundConeOrientation(
-		physx::PxVec3 orientation,
+		PxVec3 orientation,
 		float insideConeAngle, 
 		float outsideConeAngle, 
 		float outsideVolume)

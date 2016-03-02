@@ -55,12 +55,12 @@ public:
 	/// <param name="halfDepth">Half depth of the Polygon Collider.</param>
 	/// <param name="id">The identifier of the Polygon Collider.</param>
 	void init(
-		physx::PxVec3 position,
-		physx::PxQuat rotation,
+		PxVec3 position,
+		PxQuat rotation,
 		float scale,
 		float mass,
-		physx::PxVec3 velocity,
-		physx::PxVec3 acceleration,
+		PxVec3 velocity,
+		PxVec3 acceleration,
 		float halfWidth,
         float halfHeight,
         float halfDepth,
@@ -102,14 +102,14 @@ public:
 	/// <param name="collidableObject">Other Polygon Collider (Collider to check with).</param>
 	/// <returns>Boolean telling if this axis collided with the other collider.</returns>
 	bool checkAxisCollision(
-		physx::PxVec3 tPosition, 
-		physx::PxVec3 axis, 
-		physx::PxVec3 rightDirection1, 
-		physx::PxVec3 upDirection1, 
-		physx::PxVec3 forwardDirection1,
-		physx::PxVec3 rightDirection2, 
-		physx::PxVec3 upDirection2, 
-		physx::PxVec3 forwardDirection2, 
+		PxVec3 tPosition, 
+		PxVec3 axis, 
+		PxVec3 rightDirection1, 
+		PxVec3 upDirection1, 
+		PxVec3 forwardDirection1,
+		PxVec3 rightDirection2, 
+		PxVec3 upDirection2, 
+		PxVec3 forwardDirection2, 
 		PolygonCollider* collidableObject);
 
 	/// <summary>
@@ -117,9 +117,9 @@ public:
 	/// </summary>
 	/// <param name="quat">Quaternion value to convert to vectors.</param>
 	/// <returns>Vector of the x axis rotation.</returns>
-	physx::PxVec3 GetRightVector(physx::PxQuat quat)
+	PxVec3 GetRightVector(PxQuat quat)
     {
-		return physx::PxVec3(1 - 2 * (quat.y * quat.y - quat.z * quat.z),
+		return PxVec3(1 - 2 * (quat.y * quat.y - quat.z * quat.z),
                         2 * (quat.x * quat.y - quat.w * quat.z),
                         2 * (quat.x * quat.z + quat.w * quat.y));
     }
@@ -129,9 +129,9 @@ public:
 	/// </summary>
 	/// <param name="quat">Quaternion value to convert to vectors.</param>
 	/// <returns>Vector of the y axis rotation.</returns>
-	physx::PxVec3 GetUpVector(physx::PxQuat quat)
+	PxVec3 GetUpVector(PxQuat quat)
     {
-		return physx::PxVec3(2 * (quat.x * quat.y + quat.w * quat.z),
+		return PxVec3(2 * (quat.x * quat.y + quat.w * quat.z),
                         1 - 2 * (quat.x * quat.x + quat.z * quat.z),
                         2 * (quat.y * quat.z - quat.w * quat.x));
     }
@@ -141,9 +141,9 @@ public:
 	/// </summary>
 	/// <param name="quat">Quaternion value to convert to vectors.</param>
 	/// <returns>Vector of the z axis rotation.</returns>
-	physx::PxVec3 GetForwardVector(physx::PxQuat quat)
+	PxVec3 GetForwardVector(PxQuat quat)
     {
-		return physx::PxVec3(2 * (quat.x * quat.z - quat.w * quat.y),
+		return PxVec3(2 * (quat.x * quat.z - quat.w * quat.y),
                         2 * (quat.y * quat.z + quat.w * quat.x),
                         1 - 2 * (quat.x * quat.x + quat.y * quat.y));
     }

@@ -28,7 +28,7 @@ public:
 	/// <param name="destRectPix">The size of the widget in pixels.</param>
 	/// <param name="text">The text at the start of the text box.</param>
 	/// <param name="maxLength">The maximum text length can input in the text box.</param>
-	GUITextBox(physx::PxVec4& destRectPerc, const physx::PxVec4& destRectPix,
+	GUITextBox(PxVec4& destRectPerc, const PxVec4& destRectPix,
 		const std::string& text = "", int maxLength = -1) : 
 	GUIComponent(destRectPerc, destRectPix), m_text(text), m_maxLength(maxLength), m_textChanged(false) { }
 	/// <summary>

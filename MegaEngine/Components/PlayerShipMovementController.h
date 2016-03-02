@@ -17,6 +17,7 @@
 #pragma once
 #include "../MegaEngine.h"
 #include <PhysX/PxPhysicsAPI.h>
+using namespace physx;
 
 class PlayerShipMovementController : public GameComponent
 {
@@ -107,7 +108,7 @@ private:
 	/// <summary>
 	/// The player ships visual rotation
 	/// </summary>
-	physx::PxVec3 m_shipsVisualRotation = physx::PxVec3(0.0f, 0.0f, 0.0f);
+	PxVec3 m_shipsVisualRotation = PxVec3(0.0f, 0.0f, 0.0f);
 	/// <summary>
 	/// The x axis lerp  of the ship
 	/// </summary>
@@ -119,11 +120,11 @@ private:
 	/// <summary>
 	/// The forward direction
 	/// </summary>
-	physx::PxVec3 m_forwardDirection = physx::PxVec3(0.0f, 0.0f, 0.0f);
+	PxVec3 m_forwardDirection = PxVec3(0.0f, 0.0f, 0.0f);
 	/// <summary>
 	/// The up direction
 	/// </summary>
-	physx::PxVec3 m_upDirection = physx::PxVec3(0.0f, 0.0f, 0.0f);
+	PxVec3 m_upDirection = PxVec3(0.0f, 0.0f, 0.0f);
 
 
 

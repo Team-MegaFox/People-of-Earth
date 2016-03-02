@@ -38,7 +38,7 @@ public:
 	/// </summary>
 	/// <param name="position">Position of the World.</param>
 	/// <param name="radius">Radius of the World (Sphere World).</param>
-	void init(physx::PxVec3 position, float radius);
+	void init(PxVec3 position, float radius);
 
 	/// <summary>
 	/// Update all the Colliders in the World.
@@ -78,7 +78,7 @@ public:
 	/// Gets the position vector.
 	/// </summary>
 	/// <returns>The position vector.</returns>
-	physx::PxVec3 getPosition()
+	PxVec3 getPosition()
 	{
 		return m_position;
 	}
@@ -107,7 +107,7 @@ public:
 	/// Sets the position vector.
 	/// </summary>
 	/// <param name="newPosition">The new position.</param>
-	void setPosition(const physx::PxVec3& newPosition)
+	void setPosition(const PxVec3& newPosition)
 	{
 		m_position = newPosition;
 	}
@@ -130,7 +130,7 @@ private:
 	/// <summary>
 	/// The position vector.
 	/// </summary>
-	physx::PxVec3 m_position;
+	PxVec3 m_position;
 
 	/// <summary>
 	/// The radius.

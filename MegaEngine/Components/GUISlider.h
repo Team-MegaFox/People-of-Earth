@@ -28,7 +28,7 @@ public:
 	/// <param name="position">The slider's thumb position.</param>
 	/// <param name="maxValue">The maximum value of the slider.</param>
 	/// <param name="stepAmt">The step amount of the slider.</param>
-	GUISlider(const physx::PxVec4& destRectPerc, const physx::PxVec4& destRectPix,
+	GUISlider(const PxVec4& destRectPerc, const PxVec4& destRectPix,
 		float position = 0.0f, float maxValue = 1.0f, float stepAmt = 0.01f) :
 	GUIComponent(destRectPerc, destRectPix), m_position(position), m_maxValue(maxValue), m_stepAmt(stepAmt) { }
 	/// <summary>

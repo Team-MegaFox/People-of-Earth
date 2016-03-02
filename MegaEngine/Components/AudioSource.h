@@ -114,13 +114,13 @@ public:
 	/// Sets the sound position and vel.
 	/// </summary>
 	/// <param name="pos">The position of this sound.</param>
-	void setSoundPosition(physx::PxVec3 pos);
+	void setSoundPosition(PxVec3 pos);
 
 	/// <summary>
 	/// Sets the stream position and vel.
 	/// </summary>
 	/// <param name="pos">The position of this stream.</param>
-	void setStreamPosition(physx::PxVec3 pos);
+	void setStreamPosition(PxVec3 pos);
 
 	/// <summary>
 	/// Sets the panning of this sound.
@@ -153,7 +153,7 @@ public:
 	/// <param name="iCA">The inside Cone Angle.</param>
 	/// <param name="oCA">The outside cone angle.</param>
 	/// <param name="oVol">The outside volume (the level of volume outside the cone).</param>
-	void setupSoundCone(physx::PxVec3 orient, float iCA, float oCA, float oVol);
+	void setupSoundCone(PxVec3 orient, float iCA, float oCA, float oVol);
 
 	/// <summary>
 	/// Sets the sound distance filter.

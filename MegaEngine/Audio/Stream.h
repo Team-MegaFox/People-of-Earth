@@ -79,7 +79,7 @@ public:
 	/// </summary>
 	/// <param name="pos">The position.</param>
 	/// <param name="vel">The vel.</param>
-	void setStreamPosVel(physx::PxVec3 pos, physx::PxVec3 vel = physx::PxVec3(0.0f, 0.0f, 0.0f));
+	void setStreamPosVel(PxVec3 pos, PxVec3 vel = PxVec3(0.0f, 0.0f, 0.0f));
 
 	/// <summary>
 	/// Pan level, from -1.0 (left) to 1.0 (right), default = 0 (center).

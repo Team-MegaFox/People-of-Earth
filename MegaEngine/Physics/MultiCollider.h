@@ -52,12 +52,12 @@ public:
 	/// <param name="acceleration">Starting Acceleration of the Multi Collider.</param>
 	/// <param name="id">The identifier of the Multi Collider.</param>
 	void init(
-		physx::PxVec3 position,
-		physx::PxQuat rotation,
+		PxVec3 position,
+		PxQuat rotation,
 		float scale,
 		float mass,
-		physx::PxVec3 velocity,
-		physx::PxVec3 acceleration,
+		PxVec3 velocity,
+		PxVec3 acceleration,
         int id = 0
     );
 
@@ -93,19 +93,19 @@ public:
 	/// Rotate the Multi Collider and the collider in the Multi Collider.
 	/// </summary>
 	/// <param name="rotation">Quaternion value of how much to rotate the Colliders.</param>
-	virtual void applyRotation(physx::PxQuat rotation) override;
+	virtual void applyRotation(PxQuat rotation) override;
 
 	/// <summary>
 	/// Update force value of the Multi Collider and the collider in the Multi Collider.
 	/// </summary>
 	/// <param name="force">A Force value of how much force is being applied to the Colliders.</param>
-	virtual void applyForce(physx::PxVec3 force) override;
+	virtual void applyForce(PxVec3 force) override;
 
 	/// <summary>
 	/// Update acceleration value of the Multi Collider and the collider in the Multi Collider.
 	/// </summary>
 	/// <param name="accel">A Acceleation value of how much acceleration is being applied to the Colliders.</param>
-	virtual void applyAcceleration(physx::PxVec3 accel) override;
+	virtual void applyAcceleration(PxVec3 accel) override;
 
 	/// <summary>
 	/// Update the values of the Multi Collider and the collider in the Multi Collider.
@@ -131,6 +131,6 @@ private:
 	/// <summary>
 	/// The distance this collider is from the center of gravity
 	/// </summary>
-	std::vector<physx::PxVec3> m_distanceColliderFromCenterOfGravity;
+	std::vector<PxVec3> m_distanceColliderFromCenterOfGravity;
 };
 

@@ -23,7 +23,7 @@ public:
 	/// <param name="destRectPerc">The dest rect perc.</param>
 	/// <param name="destRectPix">The dest rect pix.</param>
 	/// <param name="text">The text.</param>
-	GUILabel(const physx::PxVec4& destRectPerc, const physx::PxVec4& destRectPix, const std::string& text, Uint8 size = 10) :
+	GUILabel(const PxVec4& destRectPerc, const PxVec4& destRectPix, const std::string& text, Uint8 size = 10) :
 		GUIComponent(destRectPerc, destRectPix), m_text(text), m_textSize(size) { }
 
 	/// <summary>

@@ -28,6 +28,7 @@
 #include <FMOD\fmod_errors.h>
 
 #include <PhysX/PxPhysicsAPI.h>
+using namespace physx;
 
 #include <vector>
 #include <algorithm>
@@ -91,7 +92,7 @@ public:
 	/// </summary>
 	/// <param name="vector">The vector.</param>
 	/// <returns></returns>
-	static FMOD_VECTOR physxToFMOD(physx::PxVec3 vector);
+	static FMOD_VECTOR physxToFMOD(PxVec3 vector);
 
 	/// <summary>
 	/// Gets the sound volume.

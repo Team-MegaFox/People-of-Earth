@@ -79,7 +79,7 @@ float & Stream::getStreamVolume()
 	return m_streamVolume;
 }
 
-void Stream::setStreamPosVel(physx::PxVec3 pos, physx::PxVec3 vel/* = physx::PxVec3(0.0f, 0.0f, 0.0f)*/)
+void Stream::setStreamPosVel(PxVec3 pos, PxVec3 vel/* = PxVec3(0.0f, 0.0f, 0.0f)*/)
 {
 	AudioEngine::FMODVerifyResult(m_streamPair.second->set3DAttributes(&AudioEngine::physxToFMOD(pos), &AudioEngine::physxToFMOD(vel)));
 }

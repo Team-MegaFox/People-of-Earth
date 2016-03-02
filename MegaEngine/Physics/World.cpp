@@ -17,7 +17,7 @@
 
 World::World()
 {
-	m_position = physx::PxVec3(0.0f, 0.0f, 0.0f);
+	m_position = PxVec3(0.0f, 0.0f, 0.0f);
 	m_radius = 0;
 }
 
@@ -25,7 +25,7 @@ World::~World()
 {
 }
 
-void World::init(physx::PxVec3 position, float radius)
+void World::init(PxVec3 position, float radius)
 {
 	m_position = position;
 	m_radius = radius;
@@ -92,7 +92,7 @@ void World::removeCollidableObject(Collider* collidableObject)
 void World::calculateCollision(Collider* obj1, Collider* obj2, float timeStep)
 {
 	//Get the final velcoity of the first object from the idea of elastic collision formula
-	physx::PxVec3 finalVelcoty = 
+	PxVec3 finalVelcoty = 
 		(((obj1->getMass() - obj2->getMass()) / (obj1->getMass() + obj2->getMass())) * obj1->getVelocity())
 		+ (((2 * obj2->getMass()) / (obj1->getMass() + obj2->getMass())) * obj2->getVelocity());
 	//Push in the acceleration to first object using the formula:

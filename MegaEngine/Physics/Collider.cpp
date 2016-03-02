@@ -38,12 +38,12 @@ Collider::~Collider()
 }
 
 void Collider::init(
-		physx::PxVec3 position,
-		physx::PxQuat rotation,
+		PxVec3 position,
+		PxQuat rotation,
 		float scale,
 		float mass,
-		physx::PxVec3 velocity,
-		physx::PxVec3 acceleration,
+		PxVec3 velocity,
+		PxVec3 acceleration,
         int id
 		) 
 {
@@ -63,12 +63,12 @@ void Collider::init(
 	}
 }
 
-void Collider::applyRotation(physx::PxQuat rotation)
+void Collider::applyRotation(PxQuat rotation)
 {
     m_rotation *= rotation;
 }
 
-void Collider::applyForce(physx::PxVec3 force)
+void Collider::applyForce(PxVec3 force)
 {
 	//Newton's Second Law
 	//Force = mass * acceleration 
@@ -77,7 +77,7 @@ void Collider::applyForce(physx::PxVec3 force)
 	m_acceleration += force / m_mass;
 }
 
-void Collider::applyAcceleration(physx::PxVec3 accel)
+void Collider::applyAcceleration(PxVec3 accel)
 {
 	m_acceleration += accel;
 }
@@ -95,7 +95,7 @@ void Collider::createUniqueID()
 void Collider::update(float timeStep)
 {
     //Displacement formula (Kinematic formula) split into 2 part because of loss of memory and number
-	physx::PxVec3 displacement = m_velocity * timeStep + 0.5f * m_acceleration * timeStep * timeStep;
+	PxVec3 displacement = m_velocity * timeStep + 0.5f * m_acceleration * timeStep * timeStep;
 
     //Velocity formula (Kinematic formula)
 	m_velocity += m_acceleration * timeStep;
@@ -105,7 +105,7 @@ void Collider::update(float timeStep)
 
 	//Have it update the position a frame more
 	//This is to prevent it so the object does not collide again because position did not move so be stuck in one spot (loop)
-	if (m_acceleration != physx::PxVec3(0) && displacement.magnitude == 0)
+	if (m_acceleration != PxVec3(0) && displacement.magnitude == 0)
 	{
 		displacement = m_velocity * timeStep + 0.5f * m_acceleration * timeStep * timeStep;
 	}
@@ -114,6 +114,6 @@ void Collider::update(float timeStep)
 	m_position += displacement;
 
 	//Reset the accleration
-	m_acceleration = physx::PxVec3(0.0f, 0.0f, 0.0f);
-	//m_velocity = physx::PxVec3(0);
+	m_acceleration = PxVec3(0.0f, 0.0f, 0.0f);
+	//m_velocity = PxVec3(0);
 }

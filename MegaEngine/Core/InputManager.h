@@ -14,6 +14,7 @@
 #include <unordered_map>
 #include <SDL2\SDL.h>
 #include <PhysX/PxPhysicsAPI.h>
+using namespace physx;
 
 class Viewport;
 ///<summary>
@@ -112,12 +113,12 @@ public:
 	/// Gets the mouse position on screen.
 	/// </summary>
 	/// <returns>The mouse position.</returns>
-	const physx::PxVec2 GetMousePosition() const;
+	const PxVec2 GetMousePosition() const;
 	/// <summary>
 	/// Sets the mouse position manually.
 	/// </summary>
 	/// <param name='pos'>The position where the mouse cursor should be.</param>
-	void SetMousePosition(const physx::PxVec2& pos) const;
+	void SetMousePosition(const PxVec2& pos) const;
 	/// <summary>
 	/// Sets the mouse cursor to be visible.
 	/// </summary>
@@ -151,7 +152,7 @@ public:
 	/// Gets the left thumbstick position.
 	/// </summary>
 	/// <returns>The left thumbstick position.</returns>
-	const physx::PxVec2 GetThumbLPosition() const;
+	const PxVec2 GetThumbLPosition() const;
 	/// <summary>
 	/// Checks if the right gamepad thumbstick moved.
 	/// </summary>
@@ -161,7 +162,7 @@ public:
 	/// Gets the right thumbstick position.
 	/// </summary>
 	/// <returns>The right thumbstick position.</returns>
-	const physx::PxVec2 GetThumbRPosition() const;
+	const PxVec2 GetThumbRPosition() const;
 	/// <summary>
 	/// Gets the left trigger depth.
 	/// </summary>
@@ -225,7 +226,7 @@ private:
 	/// <summary>
 	/// The mouse position.
 	/// </summary>
-	physx::PxVec2 mousePos;
+	PxVec2 mousePos;
 	/// <summary>
 	/// Returns true if the mouse has moved.
 	/// </summary>
@@ -250,7 +251,7 @@ private:
 	/// <summary>
 	/// Stores the left thumbstick position.
 	/// </summary>
-	physx::PxVec2 thumbLPos;
+	PxVec2 thumbLPos;
 	/// <summary>
 	/// Returns true if the right thumbstick has moved.
 	/// </summary>
@@ -258,7 +259,7 @@ private:
 	/// <summary>
 	/// Stores the right thumbstick position.
 	/// </summary>
-	physx::PxVec2 thumbRPos;
+	PxVec2 thumbRPos;
 	/// <summary>
 	/// Gets the left trigger.
 	/// </summary>
