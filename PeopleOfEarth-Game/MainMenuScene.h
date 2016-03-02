@@ -37,8 +37,8 @@ public:
 			->addGameComponent(new TextLerpAlpha));
 
 		addToRoot((new GameObject("Logo"))
-			->addGUIComponent(new GUIImage(PxVec4(0.1f, 0.2f, 0.8f, 0.2f), 
-			PxVec4(0.0f), "Images/Logos/TPOE_LOGO_Trans.png")));
+			->addGUIComponent(new GUIImage(PxVec4(0.1f, 0.1f, 0.8f, 0.3f), 
+			PxVec4(0.0f), "Images/Logos/TPOE_LOGO_Trans.png", 2500.0f / 500.0f)));
 
 		GameObject* mainMenuObject = new GameObject("Main Menu");
 		mainMenuObject->addChild((new GameObject("Play Button"))
