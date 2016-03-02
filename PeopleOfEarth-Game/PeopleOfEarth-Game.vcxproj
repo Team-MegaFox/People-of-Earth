@@ -82,6 +82,8 @@
   <ItemGroup>
     <ClInclude Include="ControlsScene.h" />
     <ClInclude Include="DetailsScene.h" />
+    <ClInclude Include="EnemyFighterShipAI.h" />
+    <ClInclude Include="FireProjectile.h" />
     <ClInclude Include="FreeLook.h" />
     <ClInclude Include="FreeMove.h" />
     <ClInclude Include="MainMenuManager.h" />
@@ -91,8 +93,12 @@
     <ClInclude Include="MissionSelectScene.h" />
     <ClInclude Include="OptionsMenuManager.h" />
     <ClInclude Include="OptionsScene.h" />
+    <ClInclude Include="PassengerShipAI.h" />
     <ClInclude Include="PauseScene.h" />
+    <ClInclude Include="Projectile.h" />
+    <ClInclude Include="ShipStats.h" />
     <ClInclude Include="ShowPauseComp.h" />
+    <ClInclude Include="SteeringBehaviour.h" />
     <ClInclude Include="TextLerpAlpha.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

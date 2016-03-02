@@ -52,6 +52,24 @@
     <ClInclude Include="ControlsScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyFighterShipAI.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="FireProjectile.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PassengerShipAI.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ShipStats.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SteeringBehaviour.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">

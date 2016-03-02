@@ -46,7 +46,7 @@ void PlayerShipMovementController::onStart()
 {
 	m_rigidBody = getParent()->getGameComponent<RigidBody>();
 	m_camera = getGameObjectByName(m_cameraInstanceName)->getGameComponent<CameraComponent>();
-	m_distance = (m_rigidBody->getPosition() - *m_camera->getTransform()->getPosition()).magnitude();
+	m_distance = Utility::getDistance(m_rigidBody->getPosition(), *m_camera->getTransform()->getPosition());
 	m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 	m_upDirection = Utility::getUp(m_rigidBody->getRotation());
 }

@@ -554,6 +554,6 @@ private:
 	/// <summary>
 	/// The debug draw boolean set this to true to draw the colliders
 	/// </summary>
-	bool m_debugDraw = true;
+	bool m_debugDraw = false;
 };
 
