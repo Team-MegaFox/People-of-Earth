@@ -1,6 +1,7 @@
 #pragma once
 #include <MegaEngine.h>
 #include "OptionsMenuManager.h"
+#include "ControlsScene.h"
 
 class OptionsScene : public Scene
 {
@@ -23,14 +24,17 @@ public:
 			->addGUIComponent(new GUITextBox(PxVec4(0.37f, 0.7f, 0.11f, 0.09f), PxVec4(0.0f, 8.0f, 0.0f, 0.0f), "0", 3));
 
 		addToRoot((new GameObject("Options Menu"))
-			->addGUIComponent(new GUIContainer(PxVec4(0.3f, 0.3f, 0.4f, 0.6f), PxVec4(0.0f)))
+			->addGUIComponent(new GUIContainer(PxVec4(0.1f, 0.1f, 0.8f, 0.8f), PxVec4(0.0f), "Options"))
 			->addChild(effectsSlider)
 			->addChild(effectsBox)
 			->addChild(bgmSlider)
 			->addChild(bgmBox)
 			->addChild((new GameObject("Back Button"))
-			->addGUIComponent(new GUIButton(PxVec4(0.375f, 0.85f, 0.25f, 0.08f), PxVec4(0.0f), "Back",
-			std::bind(&OptionsScene::onBackClick, this, std::placeholders::_1), 14))));
+			->addGUIComponent(new GUIButton(PxVec4(0.2f, 0.85f, 0.25f, 0.08f), PxVec4(0.0f), "Back",
+			std::bind(&OptionsScene::onBackClick, this, std::placeholders::_1), 14)))
+			->addChild((new GameObject("Controls Button"))
+			->addGUIComponent(new GUIButton(PxVec4(0.5f, 0.85f, 0.25f, 0.08f), PxVec4(0.0f), "Controls",
+			std::bind(&OptionsScene::onControlsClick, this, std::placeholders::_1), 14))));
 
 		addToRoot((new GameObject("Options Menu Manager"))
 			->addGameComponent(new OptionsMenuManager(effectsSlider, effectsBox, bgmSlider, bgmBox)));
@@ -40,6 +44,12 @@ private:
 	bool onBackClick(const GameObject& gameobject)
 	{
 		getCoreEngine()->getSceneManager()->pop();
+		return true;
+	}
+
+	bool onControlsClick(const GameObject& gameobject)
+	{
+		getCoreEngine()->getSceneManager()->push(new ControlsScene, Modality::Popup);
 		return true;
 	}
 

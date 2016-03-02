@@ -26,8 +26,8 @@ public:
 	/// </summary>
 	/// <param name="destRectPerc">The dest rect perc.</param>
 	/// <param name="destRectPix">The dest rect pix.</param>
-	GUIContainer(const PxVec4& destRectPerc, const PxVec4& destRectPix) :
-		GUIComponent(destRectPerc, destRectPix) { }
+	GUIContainer(const PxVec4& destRectPerc, const PxVec4& destRectPix, const std::string& title = "") :
+		GUIComponent(destRectPerc, destRectPix), m_title(title) { }
 	/// <summary>
 	/// Finalizes an instance of the <see cref="GUIContainer"/> class.
 	/// </summary>
@@ -42,8 +42,13 @@ public:
 		GUIComponent::addToEngine(engine);
 		CEGUI::FrameWindow* wi = static_cast<CEGUI::FrameWindow*>(createWidget(engine->getGUIEngine()->getSchemeStyle() + "/FrameWindow"));
 		wi->setTitleBarEnabled(true);
+		wi->getTitlebar()->setText(m_title);
 		wi->getTitlebar()->disable();
 		wi->setCloseButtonEnabled(false);
 		wi->setSizingEnabled(false);
 	}
+
+private:
+	std::string m_title;
+
 };
