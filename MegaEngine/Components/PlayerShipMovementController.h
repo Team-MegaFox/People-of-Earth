@@ -3,7 +3,7 @@
 // Created          : 09-17-2015
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-22-2016
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="PlayerShipMovementController.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -16,6 +16,7 @@
 
 #pragma once
 #include "../MegaEngine.h"
+#include <PhysX/PxPhysicsAPI.h>
 
 class PlayerShipMovementController : public GameComponent
 {
@@ -106,7 +107,7 @@ private:
 	/// <summary>
 	/// The player ships visual rotation
 	/// </summary>
-	glm::vec3 m_shipsVisualRotation = glm::vec3(0);
+	physx::PxVec3 m_shipsVisualRotation = physx::PxVec3(0.0f, 0.0f, 0.0f);
 	/// <summary>
 	/// The x axis lerp  of the ship
 	/// </summary>
@@ -118,11 +119,11 @@ private:
 	/// <summary>
 	/// The forward direction
 	/// </summary>
-	glm::vec3 m_forwardDirection = glm::vec3(0);
+	physx::PxVec3 m_forwardDirection = physx::PxVec3(0.0f, 0.0f, 0.0f);
 	/// <summary>
 	/// The up direction
 	/// </summary>
-	glm::vec3 m_upDirection = glm::vec3(0);
+	physx::PxVec3 m_upDirection = physx::PxVec3(0.0f, 0.0f, 0.0f);
 
 
 

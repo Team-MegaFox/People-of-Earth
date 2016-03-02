@@ -189,12 +189,12 @@ private:
 	/// <summary>
 	/// The destestion rectangle in percent relative to the parent window.
 	/// </summary>
-	glm::vec4 m_destRectPerc;
+	physx::PxVec4 m_destRectPerc;
 
 	/// <summary>
 	/// The destestion rectangle in pixels.
 	/// </summary>
-	glm::vec4 m_destRectPix;
+	physx::PxVec4 m_destRectPix;
 
 	/// Initializes a new instance of the <see cref="GameComponent" /> class.
 	/// </summary>
