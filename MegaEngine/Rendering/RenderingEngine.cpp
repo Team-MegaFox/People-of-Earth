@@ -60,6 +60,8 @@ m_altCamera(PxMat44(PxIdentity), &m_altCameraTransform)
 
 	setTexture("displayTexture", Texture(m_window->getScreenWidth(), m_window->getScreenHeight(), 0, GL_TEXTURE_2D, GL_LINEAR, GL_RGBA, GL_RGBA, true, GL_COLOR_ATTACHMENT0));
 
+	setSamplerSlot("S_skybox", 0);
+
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 	glFrontFace(GL_CW);
