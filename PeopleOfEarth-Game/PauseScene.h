@@ -11,7 +11,7 @@ public:
 	virtual void init(const Viewport& window) override
 	{
 		addToRoot((new GameObject("Pause Menu"))
-			->addGUIComponent(new GUIContainer(PxVec4(0.3f, 0.3f, 0.4f, 0.6f), PxVec4(0.0f)))
+			->addGUIComponent(new GUIContainer(PxVec4(0.1f, 0.1f, 0.8f, 0.8f), PxVec4(0.0f)))
 			->addChild((new GameObject("Resume Button"))
 			->addGUIComponent(new GUIButton(PxVec4(0.35f, 0.2f, 0.3f, 0.08f), PxVec4(0.0f), "Resume",
 			std::bind(&PauseScene::onResumeClick, this, std::placeholders::_1), 14)))

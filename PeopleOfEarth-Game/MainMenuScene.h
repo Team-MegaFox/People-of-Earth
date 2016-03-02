@@ -23,11 +23,11 @@ public:
 		addToRoot((new GameObject("Skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/orbital/orbital.tga")));
 
-		addToRoot((new GameObject("Directional Light"))
-			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 1.0f, 1.0f), 0.2f, 7, 8.0f, 1.0f)));
+		//addToRoot((new GameObject("Directional Light"))
+		//	->addGameComponent(new DirectionalLight(PxVec3(1.0f, 1.0f, 1.0f), 0.2f, 7, 8.0f, 1.0f)));
 
 		addToRoot((new GameObject("Camera"))
-			->addGameComponent(new CameraComponent(Utility::initPerspective(glm::radians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
+			->addGameComponent(new CameraComponent(Utility::initPerspective(ToRadians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
 			//->addGameComponent(new FreeLook(window.getCenter()))
 			//->addGameComponent(new FreeMove)
 			);
