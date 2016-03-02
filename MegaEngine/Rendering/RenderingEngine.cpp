@@ -69,6 +69,8 @@ m_altCamera(PxMat44(PxIdentity), &m_altCameraTransform)
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_DEPTH_CLAMP);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	//glEnable(GL_MULTISAMPLE);
 
 	m_planeTransform.setScale(PxVec3(1.0f));
@@ -83,6 +85,8 @@ m_altCamera(PxMat44(PxIdentity), &m_altCameraTransform)
 	}
 
 	m_lightMatrix = Utility::initScale(PxVec3(0, 0, 0));
+
+	//m_window->bindAsRenderTarget();
 }
 
 void RenderingEngine::blurShadowMap(int shadowMapIndex, float blurAmount)
@@ -122,11 +126,11 @@ void RenderingEngine::applyFilter(const Shader& filter, const Texture& source, c
 
 void RenderingEngine::render(const GameObject& object)
 {
-	getTexture("displayTexture").bindAsRenderTarget();
-	//m_window->bindAsRenderTarget();
+	//getTexture("displayTexture").bindAsRenderTarget();
+	m_window->bindAsRenderTarget();
 	//m_tempTarget->BindAsRenderTarget();
 
-	m_window->clearScreen();
+	//m_window->clearScreen();
 	//glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	object.renderAll(m_defaultShader, *this, *m_mainCamera);
@@ -186,10 +190,10 @@ void RenderingEngine::render(const GameObject& object)
 			setFloat("shadowLightBleedingReduction", 0.0f);
 		}
 
-		getTexture("displayTexture").bindAsRenderTarget();
-		//m_window->bindAsRenderTarget();
+		//getTexture("displayTexture").bindAsRenderTarget();
+		m_window->bindAsRenderTarget();
 
-		glEnable(GL_BLEND);
+		//glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
 		glDepthFunc(GL_EQUAL);
@@ -198,7 +202,8 @@ void RenderingEngine::render(const GameObject& object)
 
 		glDepthMask(GL_TRUE);
 		glDepthFunc(GL_LESS);
-		glDisable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glDisable(GL_BLEND);
 	}
 
 	if (m_skybox != nullptr)
@@ -212,8 +217,10 @@ void RenderingEngine::render(const GameObject& object)
 
 	setVec3("inverseFilterTextureSize", PxVec3(1.0f / getTexture("displayTexture").getWidth(), 1.0f / getTexture("displayTexture").getHeight(), 0.0f));
 
-	applyFilter(m_fxaaFilter, getTexture("displayTexture"), 0);
+	//applyFilter(m_fxaaFilter, getTexture("displayTexture"), 0);
 
+	glBindVertexArray(0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUseProgram(0);
 	glActiveTexture(GL_TEXTURE0);

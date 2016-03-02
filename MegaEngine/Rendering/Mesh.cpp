@@ -212,6 +212,7 @@ void MeshData::render() const
 {
 	glBindVertexArray(m_vertexArrayObject);
 	glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
 }
 
 

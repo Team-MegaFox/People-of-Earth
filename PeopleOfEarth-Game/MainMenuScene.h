@@ -28,8 +28,8 @@ public:
 
 		addToRoot((new GameObject("Camera"))
 			->addGameComponent(new CameraComponent(Utility::initPerspective(glm::radians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
-			//->addGameComponent(new FreeLook(window.getCenter()))
-			//->addGameComponent(new FreeMove)
+			->addGameComponent(new FreeLook(window.getCenter()))
+			->addGameComponent(new FreeMove)
 			);
 
 		addToRoot((new GameObject("Splash"))
