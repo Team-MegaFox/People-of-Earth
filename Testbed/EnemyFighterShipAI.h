@@ -79,11 +79,11 @@ public:
 		if (m_delayAttacking < 0.0f && m_shipStats->getHealth() > 0.8f)
 		{
 			//Demo Purpose
-			Wander(timestep);
+			//Wander(timestep);
 
 			//getClosestObject(SHIP_CLASS::PASSENGER_SHIP);
 			//float timeOfCollision;
-			//if (glm::distance(*getTransform()->getPosition(), *m_targetObject->getTransform()->getPosition()) < 150.0f
+			//if (glm::distance(*getTransform()->getPosition(), *m_targetObject->getTransform()->getPosition()) < 200.0f
 			//	&& m_targetObject->getGameComponent<RigidBody>()->getCollider()->checkCollision(
 			//	*getTransform()->getPosition(), getParent()->getGameComponent<RigidBody>()->getVelocity(), timeOfCollision))
 			//{

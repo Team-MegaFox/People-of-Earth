@@ -64,7 +64,7 @@ public:
 		GameObject* fighterShip =
 			(new GameObject("Fighter Ship", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f))))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj", 1.0f), Material("ship1")))
-			->addGameComponent(new RigidBody(PxVec3(1.0f, 1.0f, 1.0f), PxQuat(PxIdentity), 1.0f, 2.0f, 2.0f, 8.0f))
+			->addGameComponent(new RigidBody(PxVec3(1.0f, 1.0f, 1.0f), PxQuat(PxIdentity), 1.0f, 7.0f, 1.0f, 5.0f))
 			->addGameComponent(new FireProjectile("268168__shaun105__laser.wav"))
 			->addGameComponent(new PlayerShipMovementController("camera", 50.0f))
 			->addGameComponent(new ShipStats)
@@ -77,6 +77,8 @@ public:
 			*fighterShip->getTransform()->getPosition() - Utility::getForward(*fighterShip->getTransform()->getRotation()) * 30.0f
 			+ PxVec3(0.0f, 5.0f, 0.0f)))
 			->addGameComponent(new CameraComponent(Utility::initPerspective(ToRadians(75.0f), window.getAspectRatio(), 0.1f, 200000.0f)))
+			//->addGameComponent(new FreeLook(window.getCenter()))
+			//->addGameComponent(new FreeMove)
 			->addGameComponent(new Listener());
 		addToRoot(fighterShip);
 		addToRoot(camera);
@@ -85,7 +87,7 @@ public:
 		addToRoot((new GameObject("enemyFighter", PxVec3(0.0f, -5.0f, 80.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/AlienFighter_FINAL.obj", 0.5f), Material("alien_ship")))
 			->addGameComponent(BGM)
-			->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 4.0f, 4.0f, 16.0f))
+			->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 6.0f, 24.0f))
 			->addGameComponent(new EnemyFighterShipAI)
 			->addGameComponent(new ShipStats)
 			);
