@@ -33,6 +33,7 @@
 #include "Components\GUITextBox.h"
 #include "Components\GUISlider.h"
 #include "Components\GUIContainer.h"
+#include "Components\GUIImage.h"
 #include "Components\RigidBody.h"
 #include "Components\Audio.h"
 #include "Components\Listener.h"

@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-25-2016
 // ***********************************************************************
 // <copyright file="PolygonCollider.h" company="">
 //     Copyright (c) . All rights reserved.
@@ -73,6 +73,13 @@ public:
 	/// <param name="collidableObjects">Vectors of Colliders this Polygon Collider will be checking.</param>
 	/// <returns>Vector of Collider this Polygon Collider collided with.</returns>
 	virtual std::vector<Collider*> checkCollision(std::vector<Collider*> collidableObjects) override;
+
+	/// <summary>
+	/// Check the collision with this Polygon Collider with the Collider
+	/// </summary>
+	/// <param name="collidableObjects">Collider this Polygon Collider will be checking.</param>
+	/// <returns>Return bool flag to determine this Polygon Collider collided with the Collider</returns>
+	virtual bool checkCollision(Collider* collidableObject) override;
 
 	/// <summary>
 	/// Check the collision with this Polygon Collider with the other Polygon Collider using Separating Axis Theorm.

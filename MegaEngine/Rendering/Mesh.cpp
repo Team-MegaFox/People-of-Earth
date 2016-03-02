@@ -262,7 +262,8 @@ m_fileName(meshName)
 	{
 		//Error
 		//Adding mesh, could not add mesh
-		assert(0 != 0);
+		//assert(0 != 0);
+		m_meshData = it->second;
 	}
 	else
 	{

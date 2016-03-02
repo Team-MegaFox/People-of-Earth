@@ -18,6 +18,7 @@
 
 #include "..\Core\MappedValues.h"
 #include "..\GUI\GUIEngine.h"
+#include "Lighting.h"
 #include "Viewport.h"
 #include "Texture.h"
 #include "Shader.h"
@@ -61,8 +62,13 @@ public:
 	/// <summary>
 	/// Adds a light.
 	/// </summary>
-	/// <param name="light">The light.</param>
+	/// <param name="light">The light to add to the rendering engine.</param>
 	inline void addLight(const BaseLight & light) { m_lights.push_back(&light); }
+	/// <summary>
+	/// Removes a light.
+	/// </summary>
+	/// <param name="light">The light to remove.</param>
+	void removeLight(const BaseLight* light) { m_lights.erase(std::remove(m_lights.begin(), m_lights.end(), light), m_lights.end()); }
 	/// <summary>
 	/// Sets the main camera.
 	/// </summary>
@@ -73,6 +79,10 @@ public:
 	/// </summary>
 	/// <param name="skybox">The skybox.</param>
 	inline void setSkybox(const Skybox & skybox) { m_skybox = &skybox; }
+	/// <summary>
+	/// Removes the skybox from the rendering engine.
+	/// </summary>
+	inline void removeSkybox() { m_skybox = nullptr; }
 
 	// Getters
 	/// <summary>

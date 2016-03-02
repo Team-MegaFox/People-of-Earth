@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 02-17-2016
+// Last Modified On : 02-29-2016
 // ***********************************************************************
 // <copyright file="SceneManager.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -15,8 +15,12 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "..\Components\GameComponents.h"
+#include "..\Rendering\RenderingEngine.h"
+#include "..\Rendering\Camera3D.h"
+#include "..\Physics\PhysicsEngine.h"
 #include <stdexcept>
 #include <algorithm>
+#include <iostream>
 
 SceneManager::SceneManager(Viewport* viewport) :
 m_viewport(viewport)
@@ -51,6 +55,10 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 		for (size_t i = 0; i < go.size(); i++)
 		{
 			go[i]->deactivate();
+			if (modality == Modality::Exclusive)
+			{
+				go[i]->setEnabled(false);
+			}
 		}
 	}
 
@@ -88,7 +96,18 @@ void SceneManager::pop()
 		for (size_t i = 0; i < go.size(); i++)
 		{
 			go[i]->activate();
+			go[i]->setEnabled(true);
 		}
+	}
+}
+
+void SceneManager::popTo(Uint8 popIndex)
+{
+	assert(popIndex >= 0 && popIndex < m_activeList.size());
+
+	while (popIndex != m_activeList.size() - 1)
+	{
+		pop();
 	}
 }
 
@@ -165,7 +184,7 @@ GameObject* SceneManager::getGameObjectByName(const std::string& name)
 	std::vector<GameObject*> attached = peek()->getRoot()->getAllAttached();
 	for (size_t i = 0; i < attached.size(); i++)
 	{
-		for (size_t j = 1; j < counter + 1; j++)
+		for (Uint16 j = 1; j < counter + 1; j++)
 		{
 			if (attached[i]->getName() == name + std::to_string(j))
 			{
@@ -177,6 +196,28 @@ GameObject* SceneManager::getGameObjectByName(const std::string& name)
 	return result;
 }
 
+std::vector<GameObject*> SceneManager::getGameObjectsByName(const std::string& name)
+{
+	std::vector<GameObject*> returnGameObjects;
+
+	Uint16 counter = peek()->getNameCounter(name);
+
+	std::vector<GameObject*> attached = peek()->getRoot()->getAllAttached();
+
+	for (size_t i = 0; i < attached.size(); i++)
+	{
+		for (size_t j = 1; j < counter + 1; j++)
+		{
+			if (attached[i]->getName() == name + std::to_string(j))
+			{
+				returnGameObjects.push_back(attached[i]);
+			}
+		}
+	}
+
+	return returnGameObjects;
+}
+
 void SceneManager::updateExclusiveScene()
 {
 	for (size_t i = m_activeList.size() - 1; i >= 0; i--)
@@ -185,6 +226,23 @@ void SceneManager::updateExclusiveScene()
 		{
 			m_exclusiveScene = i;
 			break;
+		}
+	}
+
+	auto go = m_activeList[m_exclusiveScene].first->getAllGameObjects();
+	for (size_t i = 0; i < go.size(); i++)
+	{
+		CameraComponent* camera = go[i]->getGameComponent<CameraComponent>();
+		if (camera != nullptr)
+		{
+			m_coreEngine->getPhysicsEngine()->setMainCamera(*camera->getCamera3D());
+			m_coreEngine->getRenderingEngine()->setMainCamera(*camera->getCamera3D());
+		}
+
+		SkyboxRenderer* skybox = go[i]->getGameComponent<SkyboxRenderer>();
+		if (skybox != nullptr)
+		{
+			m_coreEngine->getRenderingEngine()->setSkybox(*skybox->getSkybox());
 		}
 	}
 }

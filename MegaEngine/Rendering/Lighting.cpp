@@ -16,6 +16,11 @@
 
 #define COLOR_DEPTH 256
 
+BaseLight::~BaseLight()
+{
+	getCoreEngine()->getRenderingEngine()->removeLight(this);
+}
+
 void BaseLight::addToEngine(CoreEngine * engine) const
 {
 	engine->getRenderingEngine()->addLight(*this);

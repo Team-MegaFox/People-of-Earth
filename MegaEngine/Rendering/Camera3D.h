@@ -111,8 +111,14 @@ public:
 	/// <summary>
 	/// Gets the view projection.
 	/// </summary>
-	/// <returns>glm.mat4.</returns>
+	/// <returns>The view projection of of the camera.</returns>
 	inline glm::mat4 getViewProjection() const { m_camera.getViewProjection(); }
+
+	/// <summary>
+	/// Gets a reference to the camera object stored in the component.
+	/// </summary>
+	/// <returns>The reference to the camera object.</returns>
+	inline Camera3D* getCamera3D() { return &m_camera; }
 
 	/// <summary>
 	/// Sets the projection.

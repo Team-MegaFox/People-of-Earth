@@ -157,6 +157,8 @@ public:
 		m_shader(shader),
 		m_shadowInfo(ShadowInfo()) {}
 
+	virtual ~BaseLight();
+
 	/// <summary>
 	/// A virtual function to be implemented differently based on the type of light.
 	/// The default beahviour is to use the attached GameObject's position and rotation for the Shadow's position and rotation.

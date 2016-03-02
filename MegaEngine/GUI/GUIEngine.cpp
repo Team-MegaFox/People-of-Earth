@@ -20,8 +20,7 @@
 
 GUIEngine::GUIEngine(const std::string& resDir, 
 	const std::string& schemeFile /*= "TaharezLook.scheme"*/,
-	const std::string& mouseImageFile /*= "TaharezLook/MouseArrow"*/,
-	const std::string& fontFile /*= "DejaVuSans-10"*/)
+	const std::string& mouseImageFile /*= "TaharezLook/MouseArrow"*/)
 {
 	if (m_renderer == nullptr)
 	{
@@ -47,7 +46,7 @@ GUIEngine::GUIEngine(const std::string& resDir,
 	m_context->setRootWindow(m_root);
 
 	loadScheme(schemeFile);
-	setFont(fontFile);
+	addFont(m_defaultFontName, m_defaultFontSize);
 	if (mouseImageFile != "")
 	{
 		setMouseCursor(mouseImageFile);
@@ -264,10 +263,19 @@ void GUIEngine::loadScheme(const std::string& schemeFile)
 	m_schemeStyle = sp[0];
 }
 
-void GUIEngine::setFont(const std::string& fontFile)
+void GUIEngine::addFont(const std::string& fontName, Uint8 size)
 {
-	CEGUI::FontManager::getSingleton().createFromFile(fontFile + ".font");
-	m_context->setDefaultFont(fontFile);
+	m_defaultFontName = fontName;
+	m_defaultFontSize = size;
+	CEGUI::FontManager::getSingleton().createFromFile(m_defaultFontName + "-" + std::to_string(m_defaultFontSize) + ".font");
+	m_context->setDefaultFont(m_defaultFontName + "-" + std::to_string(m_defaultFontSize));
+}
+
+void GUIEngine::setFontSize(Uint8 size /*= 10*/)
+{
+	m_defaultFontSize = size;
+	CEGUI::FontManager::getSingleton().createFromFile(m_defaultFontName + "-" + std::to_string(m_defaultFontSize) + ".font");
+	m_context->setDefaultFont(m_defaultFontName + "-" + std::to_string(m_defaultFontSize));
 }
 
 CEGUI::Window* GUIEngine::addWidget(const std::string& type, const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& name/* = ""*/)
