@@ -28,8 +28,10 @@ public:
 	/// <summary>
 	/// Initializes a new instance of the <see cref="FireProjectile"/> class.
 	/// </summary>
-	FireProjectile() : m_material(
-		"plan1", 1.0f, 10, Texture("Planets/Planet_A.png"), Texture("Planets/Planet_A_NORM.png")) {}
+	FireProjectile(const std::string fileName) : 
+		m_material(
+		"plan1", 1.0f, 10, Texture("Planets/Planet_A.png"), Texture("Planets/Planet_A_NORM.png")),
+		m_fileName(fileName){}
 	/// <summary>
 	/// Finalizes an instance of the <see cref="FireProjectile"/> class.
 	/// </summary>

@@ -48,7 +48,7 @@ public:
 			(new GameObject("Fighter Ship", PxVec3(0.0f, 0.0f, 0.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/HumanFighter_Final.obj", 0.1f), Material("human_ship")))
 			->addGameComponent(new RigidBody(PxVec3(1.0f, 1.0f, 1.0f), PxQuat(PxIdentity), 1.0f, 2.0f, 2.0f, 8.0f))
-			->addGameComponent(new FireProjectile())
+			->addGameComponent(new FireProjectile("268168__shaun105__laser.wav"))
 			->addGameComponent(new PlayerShipMovementController("camera", 1000.0f))
 
 			->addGameComponent(new ShipStats)
