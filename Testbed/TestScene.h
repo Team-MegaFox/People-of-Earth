@@ -8,6 +8,8 @@
 #include "PlanetSpin.h"
 #include "FireProjectile.h"
 #include "EnemyFighterShipAI.h"
+#include <PhysX/PxPhysicsAPI.h>
+using namespace physx;
 
 class TestScene : public Scene
 {
