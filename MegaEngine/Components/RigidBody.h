@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda and Jesse Derochie
 // Created          : 02-04-2016
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 02-05-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-25-2016
 // ***********************************************************************
 // <copyright file="RigidBody.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -34,9 +34,7 @@ public:
 	/// <param name="mass">The mass.</param>
 	/// <param name="radius">The radius.</param>
 	/// <param name="id">The identifier.</param>
-	RigidBody(glm::vec3 position, glm::quat rotation, float mass, float radius, int id = 0)// :
-		//m_position(position),
-		//m_rotation(rotation)
+	RigidBody(glm::vec3 position, glm::quat rotation, float mass, float radius, glm::vec3 velocity = glm::vec3(0), glm::vec3 acceleration = glm::vec3(0), int id = 0)
 	{
 		m_sphereCollider = new SphereCollider();
 
@@ -45,8 +43,8 @@ public:
 			rotation,
 			0.0f,// *getTransform()->getScale(),		// TODO: This needs to be a vec3 in the sphere collider class
 			mass,
-			m_zero,						// TODO: Currently there is no place in the engine that can give you the velocity
-			m_zero,						// TODO: Currently there is no place in the engine that can give you acceleration
+			velocity,						
+			acceleration,					
 			radius,
 			id);
 
@@ -61,9 +59,7 @@ public:
 	/// <param name="halfHeight">Height of the half.</param>
 	/// <param name="halfDepth">The half depth.</param>
 	/// <param name="id">The identifier.</param>
-	RigidBody(glm::vec3 position, glm::quat rotation, float mass, float halfWidth, float halfHeight, float halfDepth, int id = 0)// :
-		//m_position(position),
-		//m_rotation(rotation)
+	RigidBody(glm::vec3 position, glm::quat rotation, float mass, float halfWidth, float halfHeight, float halfDepth, glm::vec3 velocity = glm::vec3(0), glm::vec3 acceleration = glm::vec3(0), int id = 0)
 	{
 		m_polyCollider = new PolygonCollider();
 
@@ -72,8 +68,8 @@ public:
 			rotation,
 			0,// *getTransform()->getScale(),		// TODO: This needs to be a vec3 in the polygon collider class
 			mass,
-			m_zero,						// TODO: Currently there is no place in the engine that can give you the velocity
-			m_zero,						// TODO: Currently there is no place in the engine that can give you acceleration
+			velocity,						
+			acceleration,			
 			halfWidth,
 			halfHeight,
 			halfDepth,
@@ -89,9 +85,7 @@ public:
 	/// </summary>
 	/// <param name="mass">The mass.</param>
 	/// <param name="id">The identifier.</param>
-	RigidBody(glm::vec3 position, glm::quat rotation, float mass, int id = 0) //:
-		//m_position(position),
-		//m_rotation(rotation)
+	RigidBody(glm::vec3 position, glm::quat rotation, float mass, glm::vec3 velocity = glm::vec3(0), glm::vec3 acceleration = glm::vec3(0), int id = 0)
 	{
 		m_multiCollider = new MultiCollider();
 
@@ -100,8 +94,8 @@ public:
 			rotation,
 			0,// *getTransform()->getScale(),		// TODO: This needs to be a vec3 in the multi Collider class
 			mass,
-			m_zero,						// TODO: Currently there is no place in the engine that can give you the velocity
-			m_zero,						// TODO: Currently there is no place in the engine that can give you acceleration
+			velocity,						
+			acceleration,						
 			id);
 
 		PhysicsEngine::getPhysicsWorld()->addCollidableObject(m_multiCollider);
@@ -113,6 +107,18 @@ public:
 	/// </summary>
 	~RigidBody()
 	{
+		if (m_sphereCollider != nullptr)
+		{
+			PhysicsEngine::getPhysicsWorld()->removeCollidableObject(m_sphereCollider);
+		}
+		else if (m_polyCollider != nullptr)
+		{
+			PhysicsEngine::getPhysicsWorld()->removeCollidableObject(m_polyCollider);
+		}
+		else if (m_multiCollider != nullptr)
+		{
+			PhysicsEngine::getPhysicsWorld()->removeCollidableObject(m_multiCollider);
+		}
 		delete m_sphereCollider;
 		delete m_polyCollider;
 		delete m_multiCollider;
@@ -150,17 +156,6 @@ public:
 		}
 	}
 
-	//void setKeyInput(int forwardKey = SDLK_w, int backKey = SDLK_s, int leftKey = SDLK_a, int rightKey = SDLK_d, int upKey = SDLK_z, int downKey = SDLK_x)
-	//{
-	//	m_forwardKey = forwardKey;
-	//	m_backKey = backKey;
-	//	m_leftKey = leftKey;
-	//	m_rightKey = rightKey;
-	//	m_upKey = upKey;
-	//	m_downKey = downKey;
-	//	m_checkInput = true;
-	//}
-
 	/// <summary>
 	/// Updates the collider every frame
 	/// - updates the position and the rotation of the collider every frame
@@ -178,49 +173,19 @@ public:
 			glm::vec3 pos = m_polyCollider->getPosition();
 			getTransform()->setPosition(m_polyCollider->getPosition());
 			getTransform()->setRotation(m_polyCollider->getRotation());
-			//printf("%f\t%f\t%f\n", getTransform()->getPosition()->x, getTransform()->getPosition()->y, getTransform()->getPosition()->z);
 		}
 		else if (m_multiCollider != nullptr)
 		{
 			getTransform()->setPosition(m_multiCollider->getPosition());
 			getTransform()->setRotation(m_multiCollider->getRotation());
 		}
-		//m_position = *getTransform()->getPosition();
-		//m_rotation = *getTransform()->getRotation();
+
 	}
 
-	//virtual void processInput(const InputManager& input, float delta) override
-	//{
-	//	if (m_checkInput)
-	//	{
-	//		if (input.KeyDown(m_forwardKey))
-	//		{
-	//			//m_polyCollider->applyRotation(glm::quat(glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f))));
-	//			updateVelocity(Utility::getForward(*getTransform()->getRotation()) * delta * 1000.0f);
-	//		}
-	//		if (input.KeyDown(m_backKey))
-	//		{
-	//			updateVelocity(Utility::getBack(*getTransform()->getRotation()) * delta * 1000.0f);
-	//		}
-	//		if (input.KeyDown(m_leftKey))
-	//		{
-	//			updateVelocity(Utility::getLeft(*getTransform()->getRotation()) * delta * 1000.0f);
-	//		}
-	//		if (input.KeyDown(m_rightKey))
-	//		{
-	//			updateVelocity(Utility::getRight(*getTransform()->getRotation()) * delta * 1000.0f);
-	//		}	
-	//		if (input.KeyDown(m_upKey))
-	//		{
-	//			updateVelocity(Utility::getUp(*getTransform()->getRotation()) * delta * 1000.0f);
-	//		}
-	//		if (input.KeyDown(m_downKey))
-	//		{
-	//			updateVelocity(Utility::getDown(*getTransform()->getRotation()) * delta * 1000.0f);
-	//		}
-	//	}
-	//}
-
+	/// <summary>
+	/// Updates the velocity of the collider.
+	/// </summary>
+	/// <param name="velocity">The velocity.</param>
 	void updateVelocity(glm::vec3 velocity)
 	{
 		if (m_sphereCollider != nullptr)
@@ -237,6 +202,10 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Updates the acceleration of the collider.
+	/// </summary>
+	/// <param name="acceleration">The acceleration.</param>
 	void updateAcceleration(glm::vec3 acceleration)
 	{
 		if (m_sphereCollider != nullptr)
@@ -246,7 +215,6 @@ public:
 		else if (m_polyCollider != nullptr)
 		{
 			m_polyCollider->applyAcceleration(acceleration);
-			//printf("%f\t%f\t%f\n", acceleration.x, acceleration.y, acceleration.z);
 		}
 		else if (m_multiCollider != nullptr)
 		{
@@ -254,7 +222,32 @@ public:
 		}
 	}
 
-    bool addCollider(Collider& collider)
+	/// <summary>
+	/// Updates the rotation of the collider.
+	/// </summary>
+	/// <param name="rotation">The rotation.</param>
+	void updateRotation(glm::quat rotation)
+	{
+		if (m_sphereCollider != nullptr)
+		{
+			m_sphereCollider->applyRotation(rotation);
+		}
+		else if (m_polyCollider != nullptr)
+		{
+			m_polyCollider->applyRotation(rotation);
+		}
+		else if (m_multiCollider != nullptr)
+		{
+			m_multiCollider->applyRotation(rotation);
+		}
+	}
+
+	/// <summary>
+	/// Adds a collider to the multicollider.
+	/// </summary>
+	/// <param name="collider">The collider.</param>
+	/// <returns></returns>
+	bool addCollider(Collider& collider)
 	{
 		if (m_sphereCollider != nullptr)
 		{
@@ -271,8 +264,13 @@ public:
 		}
 	}
 
-	//Debug Draw
-	virtual void render(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D & camera) const 
+	/// <summary>
+	/// Renders the specified shader using debug draw mode.
+	/// </summary>
+	/// <param name="shader">The shader.</param>
+	/// <param name="renderingEngine">The rendering engine.</param>
+	/// <param name="camera">The camera.</param>
+	virtual void render(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D & camera) const
 	{
 		if (m_debugDraw)
 		{
@@ -283,9 +281,9 @@ public:
 			if (m_sphereCollider != nullptr)
 			{
 				//Draw the sphere collider
-				for (float height = 0.0f; height < 180.0f; height += 0.0f)
+				for (float height = 0.0f; height < 180.0f; height += 1.0f)
 				{
-					for (float theta = 0.0f; theta < 180.0f; theta += 0.0f)
+					for (float theta = 0.0f; theta < 180.0f; theta += 1.0f)
 					{
 						glPushMatrix();
 						glVertex3f(
@@ -312,9 +310,9 @@ public:
 				glPopMatrix();
 
 				//Draw the sphere collider of the polygon
-				for (float height = 0.0f; height < 180.0f; height += 0.0f)
+				for (float height = 0.0f; height < 180.0f; height += 1.0f)
 				{
-					for (float theta = 0.0f; theta < 180.0f; theta += 0.0f)
+					for (float theta = 0.0f; theta < 180.0f; theta += 1.0f)
 					{
 						glPushMatrix();
 						glVertex3f(
@@ -333,6 +331,33 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Checks collision with this rigidbody and vectors of gameobjects.
+	/// </summary>
+	/// <param name="rotation">The vectors of gameobjects to check collision.</param>
+	std::vector<GameObject*> checkCollision(std::vector<GameObject*> collisionCheckObject)
+	{
+		//The vector of collided gameojects this rigidbody collided with
+		std::vector<GameObject*> collidedObject;
+		
+		//Loop through the vector of gameobjects
+		for (size_t i = 0; i < collisionCheckObject.size(); i++)
+		{
+			//Check collision with rigidbody and this specific gameobject rigidbody
+			if (collisionCheckObject[i]->getGameComponent<RigidBody>()->getCollider()->checkCollision(getCollider()))
+			{
+				//Collided is true so add it to the vector of collided gameobjects
+				collidedObject.push_back(collisionCheckObject[i]);
+			}
+		}
+		//Return the vector of collided gameobjects
+		return collidedObject;
+	}
+
+	/// <summary>
+	/// Gets the position of the collider.
+	/// </summary>
+	/// <returns></returns>
 	glm::vec3 getPosition()
 	{
 		if (m_sphereCollider != nullptr)
@@ -349,7 +374,20 @@ public:
 		}
 		return glm::vec3();
 	}
+	
+	/// <summary>
+	/// Gets the velocity of the collider.
+	/// </summary>
+	/// <returns></returns>
+	glm::vec3 getVelocity()
+	{
+		return getCollider()->getVelocity();
+	}
 
+	/// <summary>
+	/// Gets the rotation of the collider.
+	/// </summary>
+	/// <returns></returns>
 	glm::quat getRotation()
 	{
 		if (m_sphereCollider != nullptr)
@@ -367,11 +405,81 @@ public:
 		return glm::quat();
 	}
 
+	/// <summary>
+	/// Gets the boolean flag of the collider colliding.
+	/// </summary>
+	/// <returns></returns>
+	bool getCollided()
+	{
+		if (m_sphereCollider != nullptr)
+		{
+			return m_sphereCollider->getCollided();
+		}
+		else if (m_polyCollider != nullptr)
+		{
+			return m_polyCollider->getCollided();
+		}
+		else if (m_multiCollider != nullptr)
+		{
+			return m_multiCollider->getCollided();
+		}
+		return false;
+	}
+
+	/// <summary>
+	/// Gets the collider.
+	/// </summary>
+	/// <returns></returns>
+	Collider* getCollider()
+	{
+		if (m_sphereCollider != nullptr)
+		{
+			return m_sphereCollider;
+		}
+		else if (m_polyCollider != nullptr)
+		{
+			return m_polyCollider;
+		}
+		else if (m_multiCollider != nullptr)
+		{
+			return m_multiCollider;
+		}
+		return nullptr;
+	}
+
+	/// <summary>
+	/// Sets the debug draw mode.
+	/// </summary>
+	/// <param name="debugDraw">if set to <c>true</c> [debug draw].</param>
 	void setDebugDraw(bool debugDraw)
 	{
 		m_debugDraw = debugDraw;
 	}
 
+	/// <summary>
+	/// Sets the position of the collider.
+	/// </summary>
+	/// <param name="rotation">The position.</param>
+	void setPosition(glm::vec3 position)
+	{
+		if (m_sphereCollider != nullptr)
+		{
+			return m_sphereCollider->setPosition(position);
+		}
+		else if (m_polyCollider != nullptr)
+		{
+			return m_polyCollider->setPosition(position);
+		}
+		else if (m_multiCollider != nullptr)
+		{
+			return m_multiCollider->setPosition(position);
+		}
+	}
+
+	/// <summary>
+	/// Sets the rotation of the collider.
+	/// </summary>
+	/// <param name="rotation">The rotation.</param>
 	void setRotation(glm::quat rotation)
 	{
 		if (m_sphereCollider != nullptr)
@@ -417,6 +525,9 @@ private:
 	/// </summary>
 	glm::vec3 m_zero = glm::vec3(0.0f);
 
+	/// <summary>
+	/// The debug draw boolean set this to true to draw the colliders
+	/// </summary>
 	bool m_debugDraw = false;
 };
 

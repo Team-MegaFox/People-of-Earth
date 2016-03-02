@@ -89,6 +89,18 @@
       <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Components\GUIImage.cpp">
+	  <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\PlayerShipMovementController.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\Sound.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\Stream.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\AudioSource.cpp">
       <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
@@ -257,6 +269,12 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Components\GUIImage.h">
+	 <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\PlayerShipMovementController.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\Listener.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>

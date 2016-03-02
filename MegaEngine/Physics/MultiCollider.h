@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-25-2016
 // ***********************************************************************
 // <copyright file="MultiCollider.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -75,6 +75,13 @@ public:
 	virtual std::vector<Collider*> checkCollision(std::vector<Collider*> collidableObjects) override;
 
 	/// <summary>
+	/// Check the collision with this Multi Collider with the Collider
+	/// </summary>
+	/// <param name="collidableObjects">Collider this Multi Collider will be checking.</param>
+	/// <returns>Return bool flag to determine this Multi Collider collided with the Collider</returns>
+	virtual bool checkCollision(Collider* collidableObject) override;
+
+	/// <summary>
 	/// Check the collision with the specific Collider in the Multi Collider with the other Multi Collider Object (Different Multi Collider objects).
 	/// </summary>
 	/// <param name="mulitSpecficCollider">Specific Collider in the Multi Collider.</param>
@@ -121,6 +128,9 @@ private:
 	/// The multiple collider.
 	/// </summary>
 	std::vector<Collider*> m_multipleCollider;
+	/// <summary>
+	/// The distance this collider is from the center of gravity
+	/// </summary>
 	std::vector<glm::vec3> m_distanceColliderFromCenterOfGravity;
 };
 

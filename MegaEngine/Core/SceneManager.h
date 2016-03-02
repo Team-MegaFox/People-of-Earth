@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
+// Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-29-2016
 // ***********************************************************************
 // <copyright file="SceneManager.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -107,12 +107,20 @@ public:
 	/// <param name="name">The name.</param>
 	/// <returns>if the GameObject was removed.</returns>
 	bool removeGameObjectByName(const std::string& name);
+
 	/// <summary>
 	/// Gets a gameobject from the top most scene using its name to find it in the scene graph
 	/// </summary>
 	/// <param name="name">The name.</param>
 	/// <returns>A pointer to the GameObject.</returns>
 	GameObject* getGameObjectByName(const std::string& name);
+
+	/// <summary>
+	/// Gets a gameobjects from the top most scene using its name to find it in the scene graph
+	/// </summary>
+	/// <param name="name">The name.</param>
+	/// <returns>A vector of the GameObjects.</returns>
+	std::vector<GameObject*> getGameObjectsByName(const std::string& name);
 
 private:
 	/// <summary>

@@ -82,8 +82,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Audio\AudioEngine.cpp" />
+    <ClCompile Include="Audio\Sound.cpp" />
+    <ClCompile Include="Audio\Stream.cpp" />
+    <ClCompile Include="Components\AudioSource.cpp" />
     <ClCompile Include="Components\GUIComponent.cpp" />
     <ClCompile Include="Components\GUIImage.cpp" />
+    <ClCompile Include="Components\PlayerShipMovementController.cpp" />
     <ClCompile Include="Core\CoreEngine.cpp" />
     <ClCompile Include="Core\ErrorLog.cpp" />
     <ClCompile Include="Core\GameObject.cpp" />
@@ -127,7 +131,9 @@
     <ClInclude Include="Components\GUIProgressBar.h" />
     <ClInclude Include="Components\GUISlider.h" />
     <ClInclude Include="Components\GUITextBox.h" />
+    <ClInclude Include="Components\Listener.h" />
     <ClInclude Include="Components\MeshRenderer.h" />
+    <ClInclude Include="Components\PlayerShipMovementController.h" />
     <ClInclude Include="Components\RigidBody.h" />
     <ClInclude Include="Core\CoreEngine.h" />
     <ClInclude Include="Core\ErrorLog.h" />

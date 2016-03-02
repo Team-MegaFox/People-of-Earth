@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 02-17-2016
+// Last Modified On : 02-29-2016
 // ***********************************************************************
 // <copyright file="SceneManager.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -194,6 +194,28 @@ GameObject* SceneManager::getGameObjectByName(const std::string& name)
 	}
 
 	return result;
+}
+
+std::vector<GameObject*> SceneManager::getGameObjectsByName(const std::string& name)
+{
+	std::vector<GameObject*> returnGameObjects;
+
+	Uint16 counter = peek()->getNameCounter(name);
+
+	std::vector<GameObject*> attached = peek()->getRoot()->getAllAttached();
+
+	for (size_t i = 0; i < attached.size(); i++)
+	{
+		for (size_t j = 1; j < counter + 1; j++)
+		{
+			if (attached[i]->getName() == name + std::to_string(j))
+			{
+				returnGameObjects.push_back(attached[i]);
+			}
+		}
+	}
+
+	return returnGameObjects;
 }
 
 void SceneManager::updateExclusiveScene()

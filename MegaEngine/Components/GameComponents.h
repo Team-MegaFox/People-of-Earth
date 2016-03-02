@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 02-17-2016
+// Last Modified On : 02-29-2016
 // ***********************************************************************
 // <copyright file="GameComponents.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -43,6 +43,10 @@ public:
 	/// </summary>
 	virtual ~GameComponent() {}
 
+	/// <summary>
+	/// An initialization method for game components that is called
+	/// when game components are added to the scene
+	/// </summary>
 	virtual void onStart() {}
 
 	/// <summary>
@@ -107,6 +111,13 @@ protected:
 	GameObject * getGameObjectByName(const std::string & gameObjectName) { return getCoreEngine()->getSceneManager()->getGameObjectByName(gameObjectName); }
 
 	/// <summary>
+	/// Gets the game object from the top most scene by name.
+	/// </summary>
+	/// <param name="gameObjectName">Name of the game object to get.</param>
+	/// <returns></returns>
+	std::vector<GameObject*> getGameObjectsByName(const std::string & gameObjectName) { return getCoreEngine()->getSceneManager()->getGameObjectsByName(gameObjectName); }
+
+	/// <summary>
 	/// Removes the game object by finding it in the top most scene by name.
 	/// </summary>
 	/// <param name="gameObjectName">Name of the game object to remove.</param>
@@ -120,9 +131,18 @@ protected:
 	/// <returns></returns>
 	bool destroy(GameObject* gameObject) {	return removeGameObjectByName(gameObject->getName()); }
 
-	//TODO:: Comment
+	
+	/// <summary>
+	/// Creates the specified game object and adds it to the root
+	/// </summary>
+	/// <param name="gameObject">The game object to create.</param>
 	void instantiate(GameObject* gameObject)
 	{
+		auto gameComponents = gameObject->getAllGameComponents();
+		for (size_t j = 0; j < gameComponents.size(); j++)
+		{
+			gameComponents[j]->onStart();
+		}
 		getCoreEngine()->getSceneManager()->peek()->addToRoot(gameObject);
 	}
 
