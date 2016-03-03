@@ -26,6 +26,11 @@ public:
 	/// <param name="delta">The frame time delta.</param>
 	virtual void processInput(const InputManager& input, float delta) override
 	{
+		if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B))
+		{
+			getCoreEngine()->getSceneManager()->pop();
+		}
+
 		if (!m_move)
 		{
 			if (input.KeyPress(SDLK_d) || input.GetThumbLPosition().x > 0.2f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_RIGHT))

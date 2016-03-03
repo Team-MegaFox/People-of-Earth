@@ -155,13 +155,12 @@ public:
 				{
 					m_collisionTime /= 60.0f;
 					//Within the 3 sec
-					if (m_collisionTime < 3.0f)
+					if (m_collisionTime < 10.0f)
 					{
 						if (collidableGameObjects[i]->getGameComponent<RigidBody>()->getVelocity() != PxVec3(0.0f))
 						{
 							m_wayPoints.push_back(collidableGameObjects[i]->getGameComponent<RigidBody>()->getPosition() + 
 								(collidableGameObjects[i]->getGameComponent<RigidBody>()->getVelocity()).getNormalized() * -5.0f /*multiply by scale*/);
-							printf("Ray Going to collide\n");
 							m_delayCheckInFront = 1.0f;
 							break;
 						}
@@ -169,7 +168,6 @@ public:
 						{
 							m_wayPoints.push_back(collidableGameObjects[i]->getGameComponent<RigidBody>()->getPosition() +
 								PxVec3((float)RandomNumber(100, -100), (float)RandomNumber(100, -100), 0.0f) /*multiply by scale*/);
-							printf("Ray Going to collide\n");
 							m_delayCheckInFront = 1.0f;
 							break;
 						}
