@@ -54,7 +54,7 @@ public:
 		addToRoot((new GameObject("Mission Select Manager"))
 			->addGameComponent(new MissionSelectManager(3)));
 
-		//BGM->play();
+		BGM->play();
 	}
 
 private:

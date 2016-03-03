@@ -150,44 +150,44 @@ public:
 
 		*/
 
-		//if (m_delayCheckInFront < 0.0f)
-		//{
-		//	std::vector<GameObject*> collidableGameObjects;
-		//	collidableGameObjects = getAllEnemyObject();
-		//	float m_collisionTime;
-		//	for (size_t i = 0; i < collidableGameObjects.size(); i++)
-		//	{
-		//		if (collidableGameObjects[i]->getGameComponent<RigidBody>()->getCollider()->checkCollision(
-		//			*getTransform()->getPosition(), (m_rigidBody->getVelocity()).getNormalized(),
-		//			m_collisionTime)
-		//			)
-		//		{
-		//			m_collisionTime /= 60.0f;
-		//			//Within the 3 sec
-		//			if (m_collisionTime < 10.0f)
-		//			{
-		//				if (collidableGameObjects[i]->getGameComponent<RigidBody>()->getVelocity() != PxVec3(0.0f))
-		//				{
-		//					m_wayPoints.push_back(collidableGameObjects[i]->getGameComponent<RigidBody>()->getPosition() + 
-		//						(collidableGameObjects[i]->getGameComponent<RigidBody>()->getVelocity()).getNormalized() * -5.0f /*multiply by scale*/);
-		//					m_delayCheckInFront = 1.0f;
-		//					break;
-		//				}
-		//				else
-		//				{
-		//					m_wayPoints.push_back(collidableGameObjects[i]->getGameComponent<RigidBody>()->getPosition() +
-		//						PxVec3((float)RandomNumber(100, -100), (float)RandomNumber(100, -100), 0.0f) /*multiply by scale*/);
-		//					m_delayCheckInFront = 1.0f;
-		//					break;
-		//				}
-		//			}
-		//		}
-		//	}
-		//}
-		//else
-		//{
-		//	m_delayCheckInFront -= timestep;
-		//}
+		if (m_delayCheckInFront < 0.0f)
+		{
+			std::vector<GameObject*> collidableGameObjects;
+			collidableGameObjects = getAllEnemyObject();
+			float m_collisionTime;
+			for (size_t i = 0; i < collidableGameObjects.size(); i++)
+			{
+				if (collidableGameObjects[i]->getGameComponent<RigidBody>()->getCollider()->checkCollision(
+					*getTransform()->getPosition(), (m_rigidBody->getVelocity()).getNormalized(),
+					m_collisionTime)
+					)
+				{
+					m_collisionTime /= 60.0f;
+					//Within the 3 sec
+					if (m_collisionTime < 10.0f)
+					{
+						if (collidableGameObjects[i]->getGameComponent<RigidBody>()->getVelocity() != PxVec3(0.0f))
+						{
+							m_wayPoints.push_back(collidableGameObjects[i]->getGameComponent<RigidBody>()->getPosition() + 
+								(collidableGameObjects[i]->getGameComponent<RigidBody>()->getVelocity()).getNormalized() * -5.0f /*multiply by scale*/);
+							m_delayCheckInFront = 1.0f;
+							break;
+						}
+						else
+						{
+							m_wayPoints.push_back(collidableGameObjects[i]->getGameComponent<RigidBody>()->getPosition() +
+								PxVec3((float)RandomNumber(100, -100), (float)RandomNumber(100, -100), 0.0f) /*multiply by scale*/);
+							m_delayCheckInFront = 1.0f;
+							break;
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			m_delayCheckInFront -= timestep;
+		}
 	}
 
 	virtual std::vector<GameObject*> getAllEnemyObject() = 0;
