@@ -30,7 +30,7 @@ public:
 	/// </summary>
 	FireProjectile(const std::string fileName) : 
 		m_material(
-		"laser", 10.0f, 100, Texture("defaultTexture.png")),
+		"laser", 10.0f, 100, Texture("laserGreen.png")),
 		m_fileName(fileName){}
 	/// <summary>
 	/// Finalizes an instance of the <see cref="FireProjectile"/> class.

@@ -11,6 +11,8 @@ public:
 
 	virtual void init(const Viewport& window) override
 	{
+		Audio * BGM = new Audio("surprise.mp3", AudioType::STREAM, true);
+
 		addToRoot((new GameObject("Skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
 
@@ -18,7 +20,8 @@ public:
 			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 1.0f, 1.0f), 0.2f, 7, 8.0f, 1.0f)));
 
 		addToRoot((new GameObject("Camera"))
-			->addGameComponent(new CameraComponent(Utility::initPerspective(ToRadians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f))));
+			->addGameComponent(new CameraComponent(Utility::initPerspective(ToRadians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
+			->addGameComponent(BGM));
 
 		addToRoot((new GameObject("Mission 1"))
 			->addGUIComponent(new GUIContainer(PxVec4(0.1f, 0.1f, 0.8f, 0.8f), PxVec4(0.0f)))
@@ -50,6 +53,8 @@ public:
 
 		addToRoot((new GameObject("Mission Select Manager"))
 			->addGameComponent(new MissionSelectManager(3)));
+
+		//BGM->play();
 	}
 
 private:

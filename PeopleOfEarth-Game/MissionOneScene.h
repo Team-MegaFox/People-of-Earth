@@ -33,7 +33,6 @@ public:
 		addToRoot((new GameObject("Skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/Starfield/starfield.tga")));
 
-
 		GameObject * starBoardLight = new GameObject("starBoardPointLight", PxVec3(7.0f, 1.0f, -3.5f));
 		starBoardLight->addGameComponent(new PointLight(PxVec3(0.0f, 1.0f, 0.0f), 0.5f));
 
@@ -52,6 +51,7 @@ public:
 			->addGameComponent(new RigidBody(PxVec3(1.0f, 1.0f, 1.0f), PxQuat(PxIdentity), 1.0f, 7.0f, 1.0f, 5.0f))
 			->addGameComponent(new FireProjectile("268168__shaun105__laser.wav"))
 			->addGameComponent(new PlayerShipMovementController("camera", 50.0f))
+			->addGameComponent(new Audio("268168__shaun105__laser.wav", AudioType::SOUND, true))
 			->addChild(starBoardLight)
 			->addChild(portLight)
 			->addChild(rearLight)
@@ -87,20 +87,20 @@ public:
 
 	void addArea1OfMission1()
 	{
-		// the alien fighter ship
-		addToRoot((new GameObject("enemyFighter", PxVec3(20.0f, 0.0f, 1000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Ships/AlienFighter_FINAL.obj", 0.5f), Material("alien_ship")))
-			->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 6.0f, 24.0f))
-			->addGameComponent(new EnemyFighterShipAI)
-			->addGameComponent(new ShipStats)
-			);
-		// the alien fighter ship
-		addToRoot((new GameObject("enemyFighter", PxVec3(-20.0f, 0.0f, 3000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Ships/AlienFighter_FINAL.obj", 0.5f), Material("alien_ship")))
-			->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 6.0f, 24.0f))
-			->addGameComponent(new EnemyFighterShipAI)
-			->addGameComponent(new ShipStats)
-			);
+		//// the alien fighter ship
+		//addToRoot((new GameObject("enemyFighter", PxVec3(20.0f, 0.0f, 1000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
+		//	->addGameComponent(new MeshRenderer(Mesh("Ships/AlienFighter_FINAL.obj", 0.5f), Material("alien_ship")))
+		//	->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 6.0f, 24.0f))
+		//	->addGameComponent(new EnemyFighterShipAI)
+		//	->addGameComponent(new ShipStats)
+		//	);
+		//// the alien fighter ship
+		//addToRoot((new GameObject("enemyFighter", PxVec3(-20.0f, 0.0f, 3000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
+		//	->addGameComponent(new MeshRenderer(Mesh("Ships/AlienFighter_FINAL.obj", 0.5f), Material("alien_ship")))
+		//	->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 6.0f, 24.0f))
+		//	->addGameComponent(new EnemyFighterShipAI)
+		//	->addGameComponent(new ShipStats)
+		//	);
 		// the alien fighter ship
 		addToRoot((new GameObject("enemyFighter", PxVec3(0.0f, 20.0f, 3000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/AlienFighter_FINAL.obj", 0.5f), Material("alien_ship")))
@@ -151,13 +151,13 @@ public:
 	{
 		// TODO : Optimize AsteroidField class
 
-		// Asteroids
-		addToRoot((new GameObject("Asteroid Field", PxVec3(0.0f, 0.0f, 4000.0f)))
-			->addGameComponent(new AsteroidField())
-			);
-		addToRoot((new GameObject("Asteroid Field", PxVec3(0.0f, 5.0f, 4500.0f)))
-			->addGameComponent(new AsteroidField())
-			);
+		//// Asteroids
+		//addToRoot((new GameObject("Asteroid Field", PxVec3(0.0f, 0.0f, 4000.0f)))
+		//	->addGameComponent(new AsteroidField())
+		//	);
+		//addToRoot((new GameObject("Asteroid Field", PxVec3(0.0f, 5.0f, 4500.0f)))
+		//	->addGameComponent(new AsteroidField())
+		//	);
 
 		addToRoot((new GameObject("jupiterMoon1", PxVec3(1000.0f, 0.0f, 10300.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_D.obj", 75.0f), Material("moon")))

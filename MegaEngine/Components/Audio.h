@@ -25,7 +25,6 @@ class Audio : public GameComponent
 {
 public:
 
-
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Audio"/> class.
 	/// </summary>
@@ -37,11 +36,11 @@ public:
 	{
 		if (m_type == STREAM)
 		{
-			m_source = new AudioSource(Stream(fileName, TwoD));
+			m_source = new AudioSource(new Stream(fileName, TwoD));
 		}
 		else if (m_type == SOUND)
 		{
-			m_source = new AudioSource(Sound(fileName, TwoD));
+			m_source = new AudioSource(new Sound(fileName, TwoD));
 		}
 
 	}

@@ -37,16 +37,20 @@ public:
 	/// Initializes a new instance of the <see cref="AudioSource"/> class.
 	/// </summary>
 	/// <param name="sound">The sound.</param>
-	AudioSource(const Sound & sound);
+	AudioSource(Sound * sound);
 	/// <summary>
 	/// Initializes a new instance of the <see cref="AudioSource"/> class.
 	/// </summary>
 	/// <param name="stream">The stream.</param>
-	AudioSource(const Stream & stream);
+	AudioSource(Stream * stream);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="AudioSource"/> class.
 	/// </summary>
-	~AudioSource() { }
+	~AudioSource() 
+	{ 
+		delete m_soundSource;
+		delete m_streamSource;
+	}
 
 	/// <summary>
 	/// Plays the sound.
@@ -188,10 +192,10 @@ protected:
 	/// <summary>
 	/// The sound source handle
 	/// </summary>
-	Sound m_soundSource;
+	Sound * m_soundSource;
 
 	/// <summary>
 	/// The stream source handle
 	/// </summary>
-	Stream m_streamSource;
+	Stream * m_streamSource;
 };

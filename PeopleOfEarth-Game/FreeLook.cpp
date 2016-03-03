@@ -13,7 +13,7 @@ void FreeLook::processInput(const InputManager& input, float delta)
 		getTransform()->rotate(Utility::getRight(*getTransform()->getRotation()), ToRadians(-input.GetThumbRPosition().y) * 2.0f);
 	}
 
-	if (input.KeyDown(m_unlockMouseKey))
+	/*if (input.KeyDown(m_unlockMouseKey))
 	{
 		input.SetCursor(true);
 		m_mouseLocked = false;
@@ -46,5 +46,5 @@ void FreeLook::processInput(const InputManager& input, float delta)
 		input.SetCursor(false);
 		input.SetMousePosition(m_windowCenter);
 		m_mouseLocked = true;
-	}
+	}*/
 }

@@ -31,11 +31,10 @@ class EnemyFighterShipAI : public SteeringBehaviour
 {
 
 public:
-	EnemyFighterShipAI() 
+	EnemyFighterShipAI()
 	{}
 
-	~EnemyFighterShipAI()
-	{}
+	~EnemyFighterShipAI() { }
 
 	virtual void init() override
 	{
@@ -163,12 +162,13 @@ public:
 
 	void shootLaser()
 	{
+		Material bob("enemyLaser", 10.0f, 100, Texture("laserGreen.png"));
 		//Right side
 		instantiate(
 			(new GameObject("Laser", *getTransform()->getPosition()
 			, *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
 			->addGameComponent(new Projectile)
-			->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("laser")))
+			->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("enemyLaser")))
 			->addGameComponent(new RigidBody(*getTransform()->getPosition() +
 			Utility::getForward(*getTransform()->getRotation()) * 50.0f +//30.0f +
 			Utility::getRight(*getTransform()->getRotation()) * 8.0f
@@ -179,7 +179,7 @@ public:
 		instantiate(
 			(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
 			->addGameComponent(new Projectile)
-			->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("laser")))
+			->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("enemyLaser")))
 			->addGameComponent(new RigidBody(*getTransform()->getPosition() +
 			Utility::getForward(*getTransform()->getRotation()) * 50.0f + //30.0f +
 			Utility::getLeft(*getTransform()->getRotation()) * 10.0f
@@ -201,6 +201,7 @@ public:
 	}
 
 private:
+
 	ShipStats* m_shipStats;
 	float m_delayAttacking;
 	int numberOfLaserShot;

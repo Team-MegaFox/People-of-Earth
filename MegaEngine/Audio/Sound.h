@@ -32,7 +32,11 @@ public:
 	/// <summary>
 	/// Finalizes an instance of the <see cref="SoundSource"/> class.
 	/// </summary>
-	~Sound() {	}
+	~Sound() 
+	{	
+		m_soundPair.first->release();
+		//delete m_soundPair.second;
+	}
 
 	/// <summary>
 	/// Sets the sound.

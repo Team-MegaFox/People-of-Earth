@@ -55,7 +55,7 @@ public:
 	/// Gets the thumb posiiton.
 	/// </summary>
 	/// <returns>The slider's thumb position right now.</returns>
-	float getThumbPosiiton() const { return m_slider->getCurrentValue(); }
+	float getThumbPosition() const { return m_slider->getCurrentValue(); }
 	/// <summary>
 	/// Gets the maximum value of the slider.
 	/// </summary>

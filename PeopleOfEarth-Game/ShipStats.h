@@ -38,7 +38,10 @@ public:
 
 	virtual void update(float timestep) override
 	{
-		
+		if (m_health <= 0.0f)
+		{
+			destroy(getParent());
+		}
 	}
 
 	float getHealth()

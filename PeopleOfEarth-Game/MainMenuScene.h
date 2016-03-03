@@ -20,6 +20,8 @@ public:
 	{
 		//Material earth("earth", 0.4f, 4.0f, Texture("Planets/earth_diffuse.jpg"), Texture("default_normal.jpg"), Texture("Planets/earth_disp.jpg"), 0.0f, 0.0f);
 
+		Audio * BGM = new Audio("music.mp3", AudioType::STREAM, true);
+
 		addToRoot((new GameObject("Skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/orbital/orbital.tga")));
 
@@ -29,6 +31,7 @@ public:
 		addToRoot((new GameObject("Camera"))
 			->addGameComponent(new CameraComponent(Utility::initPerspective(ToRadians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
 			->addGameComponent(new FreeLook(window.getCenter()))
+			->addGameComponent(BGM)
 			//->addGameComponent(new FreeMove)
 			);
 
@@ -57,6 +60,7 @@ public:
 
 		//addToRoot((new GameObject("Earth", PxVec3(0.0f), glm::angleAxis(glm::radians(-90.0f), PxVec3(1.0f, 0.0f, 0.0f))))
 		//	->addGameComponent(new MeshRenderer(Mesh("Environment/sphere.obj"), Material("earth"))));
+		//BGM->play(true);
 	}
 
 	bool clickPlayButton(const GameObject& game)

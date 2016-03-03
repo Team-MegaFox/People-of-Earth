@@ -132,8 +132,6 @@ bool GameObject::removeChild(GameObject* child)
 	{
 		if (m_children[go] == child)
 		{
-			child->setEngine(nullptr);
-			child->getTransform()->setParent(nullptr);
 			m_children.erase(m_children.begin() + go);
 			delete child;
 			removed = true;

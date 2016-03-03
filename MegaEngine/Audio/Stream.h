@@ -32,7 +32,11 @@ public:
 	/// <summary>
 	/// Finalizes an instance of the <see cref="StreamSource"/> class.
 	/// </summary>
-	~Stream() { }
+	~Stream() 
+	{
+		m_streamPair.first->release();
+		//delete m_streamPair.second;
+	}
 
 	/// <summary>
 	/// Sets the stream.

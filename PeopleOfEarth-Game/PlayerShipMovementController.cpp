@@ -15,6 +15,7 @@
 // ***********************************************************************
 
 #include "PlayerShipMovementController.h"
+#include "pauseScene.h"
 #include "ShipStats.h"
 
 /*
@@ -54,6 +55,11 @@ void PlayerShipMovementController::onStart()
 
 void PlayerShipMovementController::processInput(const InputManager& input, float delta)
 {
+	if (input.KeyPress(SDLK_ESCAPE) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_START))
+	{
+		getCoreEngine()->getSceneManager()->push(new PauseScene, Modality::Popup);
+	}
+
 	lookAround(input);
 
 	movement(input, delta);

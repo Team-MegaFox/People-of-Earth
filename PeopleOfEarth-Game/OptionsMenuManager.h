@@ -1,5 +1,6 @@
 #pragma once
 #include <MegaEngine.h>
+#include "TextLerpAlpha.h"
 
 class OptionsMenuManager : public GameComponent
 {
@@ -25,9 +26,9 @@ public:
 	virtual void onStart() override
 	{
 		m_effectsSlider->setThumbPosition(getCoreEngine()->getAudioEngine()->getSoundVolume());
-		m_effectsBox->setText(std::to_string((int)(m_effectsSlider->getThumbPosiiton() * 100.0f)));
+		m_effectsBox->setText(std::to_string((int)(m_effectsSlider->getThumbPosition() * 100.0f)));
 		m_bgmSlider->setThumbPosition(getCoreEngine()->getAudioEngine()->getStreamVolume());
-		m_bgmBox->setText(std::to_string((int)(m_bgmSlider->getThumbPosiiton() * 100.0f)));
+		m_bgmBox->setText(std::to_string((int)(m_bgmSlider->getThumbPosition() * 100.0f)));
 	}
 
 	/// <summary>
@@ -81,16 +82,19 @@ public:
 
 	virtual void update(float delta) override
 	{
+		float bob = m_effectsSlider->getThumbPosition();
+		printf("bob = %f\n", bob);
+
 		if (m_effectsSlider->valueChanged())
 		{
-			getCoreEngine()->getAudioEngine()->setSoundVolume(m_effectsSlider->getThumbPosiiton());
-			m_effectsBox->setText(std::to_string((int)(m_effectsSlider->getThumbPosiiton() * 100.0f)));
+			getCoreEngine()->getAudioEngine()->setSoundVolume(m_effectsSlider->getThumbPosition());
+			m_effectsBox->setText(std::to_string((int)(m_effectsSlider->getThumbPosition() * 100.0f)));
 		}
 
 		if (m_bgmSlider->valueChanged())
 		{
-			getCoreEngine()->getAudioEngine()->setStreamVolume(m_bgmSlider->getThumbPosiiton());
-			m_bgmBox->setText(std::to_string((int)(m_bgmSlider->getThumbPosiiton() * 100.0f)));
+			getCoreEngine()->getAudioEngine()->setStreamVolume(m_bgmSlider->getThumbPosition());
+			m_bgmBox->setText(std::to_string((int)(m_bgmSlider->getThumbPosition() * 100.0f)));
 		}
 	}
 
