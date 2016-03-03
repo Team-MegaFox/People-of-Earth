@@ -56,6 +56,21 @@ public:
 		return m_energy;
 	}
 
+	void setHealth(float health)
+	{
+		m_health = health;
+	}
+
+	void setFuel(float fuel)
+	{
+		m_fuel = fuel;
+	}
+
+	void setEnergy(float energy)
+	{
+		m_energy = energy;
+	}
+
 private:
 	float m_health = 1.0f;
 	float m_fuel = 1.0f;
