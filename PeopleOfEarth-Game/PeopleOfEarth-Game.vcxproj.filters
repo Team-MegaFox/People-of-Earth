@@ -8,6 +8,9 @@
     <ClCompile Include="FreeMove.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerShipMovementController.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TextLerpAlpha.h">
@@ -72,6 +75,9 @@
     </ClInclude>
     <ClInclude Include="PauseMenuManager.h">
       <Filter>Components\Menu Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerShipMovementController.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

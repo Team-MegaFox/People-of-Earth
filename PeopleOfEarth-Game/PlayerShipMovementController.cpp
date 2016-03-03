@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-17-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 03-02-2016
 // ***********************************************************************
 // <copyright file="PlayerShipMovementController.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -15,6 +15,7 @@
 // ***********************************************************************
 
 #include "PlayerShipMovementController.h"
+#include "ShipStats.h"
 
 /*
 	Player Ship Movement Controller Macros
@@ -67,6 +68,15 @@ void PlayerShipMovementController::processInput(const InputManager& input, float
 	//Updates the camera position from the rigidbody
 	m_camera->getTransform()->setPosition(m_rigidBody->getPosition() - (m_distance * m_forwardDirection) + (m_upDirection * 10.0f));
 
+	//If any collision occured then
+	if (m_rigidBody->getCollided())
+	{
+		std::vector<GameObject*> collidedObjects = m_rigidBody->checkCollision(getGameObjectsByName("enemyFighter"));
+		if (collidedObjects.size() > 0)
+		{
+			getParent()->getGameComponent<ShipStats>()->setHealth(0.0f);
+		}
+	}
 }
 
 void PlayerShipMovementController::lookAround(const InputManager& input)

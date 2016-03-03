@@ -78,6 +78,7 @@
     <ClCompile Include="FreeLook.cpp" />
     <ClCompile Include="FreeMove.cpp" />
     <ClCompile Include="PeopleOfEarth-Game.cpp" />
+    <ClCompile Include="PlayerShipMovementController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControlsScene.h" />
@@ -96,6 +97,7 @@
     <ClInclude Include="PassengerShipAI.h" />
     <ClInclude Include="PauseMenuManager.h" />
     <ClInclude Include="PauseScene.h" />
+    <ClInclude Include="PlayerShipMovementController.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="ShipStats.h" />
     <ClInclude Include="ShowPauseComp.h" />
