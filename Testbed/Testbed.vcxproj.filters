@@ -4,6 +4,7 @@
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="FreeLook.cpp" />
     <ClCompile Include="FreeMove.cpp" />
+    <ClCompile Include="PlayerShipMovementController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestScene.h" />
@@ -18,5 +19,6 @@
     <ClInclude Include="PassengerShipAI.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="AsteroidField.h" />
+    <ClInclude Include="PlayerShipMovementController.h" />
   </ItemGroup>
 </Project>

@@ -16,7 +16,7 @@
 #include "SteeringBehaviour.h"
 #include "Projectile.h"
 #include "ShipStats.h"
-#include <Components\PlayerShipMovementController.h>
+#include "PlayerShipMovementController.h"
 #include <PhysX/PxPhysicsAPI.h>
 using namespace physx;
 
