@@ -25,13 +25,13 @@ public:
 
 		Material motherShip("motherShip", 0.5f, 4, Texture("Ships/MotherShip/MotherShip.png"));
 		Material earth("earth", 1.0f, 10, Texture("Planets/earth.png"));
-		Material mars("mars", 1.0f, 10, Texture("Planets/mars.jpg"), Texture("Planets/mars_NORM.jpg"));
-		Material jupiter("jupiter", 1.0f, 10, Texture("Planets/jupiter.jpg"), Texture("Planets/jupiter_NORM.jpg"));
+		Material mars("mars", 1.0f, 10, Texture("Planets/mars.jpg"));
+		Material jupiter("jupiter", 1.0f, 10, Texture("Planets/jupiter.jpg"));
 		Material sun("sun", 10.0f, 100, Texture("Planets/sun.jpg"));
 		Material moon("moon", 1.0f, 10, Texture("Planets/moon.jpg"));
 
 		addToRoot((new GameObject("Skybox"))
-			->addGameComponent(new SkyboxRenderer("Skybox/sky/sky.jpg"))); // Starfield/starfield.tga")));
+			->addGameComponent(new SkyboxRenderer("Skybox/Starfield/starfield.tga")));
 
 
 		GameObject * starBoardLight = new GameObject("starBoardPointLight", PxVec3(7.0f, 1.0f, -3.5f));
@@ -57,7 +57,6 @@ public:
 			->addChild(rearLight)
 			->addChild(thrusterLight)
 			->addGameComponent(new ShipStats);
-
 
 		// The human fighter ship and camera
 		GameObject* camera =
@@ -150,14 +149,15 @@ public:
 
 	void addArea2OfMission1()
 	{
+		// TODO : Optimize AsteroidField class
 
-		//// Asteroids
-		//addToRoot((new GameObject("Asteroid Field", PxVec3(0.0f, 0.0f, 10000.0f)))
-		//	->addGameComponent(new AsteroidField())
-		//	);
-		//addToRoot((new GameObject("Asteroid Field", PxVec3(90.0f, 0.0f, 12000.0f)))
-		//	->addGameComponent(new AsteroidField())
-		//	);
+		// Asteroids
+		addToRoot((new GameObject("Asteroid Field", PxVec3(0.0f, 0.0f, 4000.0f)))
+			->addGameComponent(new AsteroidField())
+			);
+		addToRoot((new GameObject("Asteroid Field", PxVec3(0.0f, 5.0f, 4500.0f)))
+			->addGameComponent(new AsteroidField())
+			);
 
 		addToRoot((new GameObject("jupiterMoon1", PxVec3(1000.0f, 0.0f, 10300.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_D.obj", 75.0f), Material("moon")))
