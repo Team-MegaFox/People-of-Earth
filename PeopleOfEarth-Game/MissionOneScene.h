@@ -23,7 +23,7 @@ public:
 		Material alienShip("alien_ship", 5.0f, 4, Texture("Ships/Eric/Alienship.png"), Texture("Ships/Eric/Alienship_NORM.png"), Texture("Ships/Eric/Alienship_DISP.png"));
 
 		addToRoot((new GameObject("Skybox"))
-			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
+			->addGameComponent(new SkyboxRenderer("Skybox/Starfield/starfield.tga")));
 
 
 		GameObject * starBoardLight = new GameObject("starBoardPointLight", PxVec3(7.0f, 1.0f, -3.5f));
