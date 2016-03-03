@@ -2,6 +2,7 @@
 #include <MegaEngine.h>
 #include <iostream>
 #include "TextLerpAlpha.h"
+#include "PauseScene.h"
 
 class MainMenuManager : public GameComponent
 {
@@ -45,7 +46,7 @@ public:
 
 		if (m_showSplash)
 		{
-			if (input.KeyPress(SDLK_SPACE) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_START))
+			if (input.KeyPress(SDLK_SPACE) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_START) || input.MouseButtonPress(SDL_BUTTON_LEFT))
 			{
 				m_splashScreen->setEnabled(false);
 				m_mainMenuScreen->setEnabled(true);

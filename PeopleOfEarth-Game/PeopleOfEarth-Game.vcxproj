@@ -94,6 +94,7 @@
     <ClInclude Include="OptionsMenuManager.h" />
     <ClInclude Include="OptionsScene.h" />
     <ClInclude Include="PassengerShipAI.h" />
+    <ClInclude Include="PauseMenuManager.h" />
     <ClInclude Include="PauseScene.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="ShipStats.h" />

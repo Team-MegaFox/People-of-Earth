@@ -22,22 +22,25 @@ public:
 
 		addToRoot((new GameObject("Mission 1"))
 			->addGUIComponent(new GUIContainer(PxVec4(0.1f, 0.1f, 0.8f, 0.8f), PxVec4(0.0f)))
-			->addChild((new GameObject("Mission 1 label"))
-			->addGUIComponent(new GUILabel(PxVec4(0.425f, 0.9f, 0.15f, 0.1f), PxVec4(0.0f), "Mission 1", 16)))
+			->addChild((new GameObject("Mission 1 Button"))
+			->addGUIComponent(new GUIButton(PxVec4(0.425f, 0.95f, 0.15f, 0.05f), PxVec4(0.0f), "Mission 1",
+			std::bind(&MissionSelectScene::clickMissonOne, this, std::placeholders::_1), 16)))
 			->addChild((new GameObject("Mission 1 Image"))
 			->addGUIComponent(new GUIImage(PxVec4(0.05f, 0.1f, 0.9f, 0.8f), PxVec4(0.0f), "Images/MissionOneImage.png"))));
 
 		addToRoot((new GameObject("Mission 2"))
 			->addGUIComponent(new GUIContainer(PxVec4(1.1f, 0.1f, 0.8f, 0.8f), PxVec4(0.0f)))
-			->addChild((new GameObject("Mission 2 label"))
-			->addGUIComponent(new GUILabel(PxVec4(0.425f, 0.9f, 0.15f, 0.1f), PxVec4(0.0f), "Mission 2", 16)))
+			->addChild((new GameObject("Mission 2 Button"))
+			->addGUIComponent(new GUIButton(PxVec4(0.425f, 0.95f, 0.15f, 0.05f), PxVec4(0.0f), "Mission 2",
+			std::bind(&MissionSelectScene::clickMissonTwo, this, std::placeholders::_1), 16)))
 			->addChild((new GameObject("Mission 2 Image"))
 			->addGUIComponent(new GUIImage(PxVec4(0.05f, 0.1f, 0.9f, 0.8f), PxVec4(0.0f), "Images/MissionTwoImage.png"))));
 
 		addToRoot((new GameObject("Mission 3"))
 			->addGUIComponent(new GUIContainer(PxVec4(2.1f, 0.1f, 0.8f, 0.8f), PxVec4(0.0f)))
-			->addChild((new GameObject("Mission 3 label"))
-			->addGUIComponent(new GUILabel(PxVec4(0.425f, 0.9f, 0.15f, 0.1f), PxVec4(0.0f), "Mission 3", 16)))
+			->addChild((new GameObject("Mission 3 Button"))
+			->addGUIComponent(new GUIButton(PxVec4(0.425f, 0.95f, 0.15f, 0.05f), PxVec4(0.0f), "Mission 3",
+			std::bind(&MissionSelectScene::clickMissonThree, this, std::placeholders::_1), 16)))
 			->addChild((new GameObject("Mission 3 Image"))
 			->addGUIComponent(new GUIImage(PxVec4(0.05f, 0.1f, 0.9f, 0.8f), PxVec4(0.0f), "Images/MissionThreeImage.png"))));
 
@@ -53,6 +56,22 @@ private:
 	bool clickBackButton(const GameObject& gameobject)
 	{
 		getCoreEngine()->getSceneManager()->popTo(0);
+		return true;
+	}
+
+	bool clickMissonOne(const GameObject& gameobject)
+	{
+		getCoreEngine()->getSceneManager()->push(new MissionOneScene);
+		return true;
+	}
+
+	bool clickMissonTwo(const GameObject& gameobject)
+	{
+		return true;
+	}
+
+	bool clickMissonThree(const GameObject& gameobject)
+	{
 		return true;
 	}
 };

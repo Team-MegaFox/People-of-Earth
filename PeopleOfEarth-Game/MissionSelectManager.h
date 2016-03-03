@@ -61,10 +61,7 @@ public:
 
 			if (input.KeyPress(SDLK_RETURN) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_A))
 			{
-				if (m_focusMissionIndex == 0)
-				{
-					getCoreEngine()->getSceneManager()->push(new MissionOneScene);
-				}
+				m_missionWidgets[m_focusMissionIndex]->getParent()->getAllChildren()[0]->getGUIComponent<GUIButton>()->click();
 			}
 		}
 	}

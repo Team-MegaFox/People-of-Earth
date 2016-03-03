@@ -70,6 +70,9 @@
     <ClInclude Include="SteeringBehaviour.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="PauseMenuManager.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">
