@@ -24,8 +24,7 @@ enum SHIP_CLASS
 {
 	FIGHTER_SHIP,
 	PASSENGER_SHIP,
-	ALL_ENEMY_SHIP,
-	FRIENDLY_SHIP
+	ALL_ENEMY_SHIP
 };
 
 class EnemyFighterShipAI : public SteeringBehaviour
@@ -47,7 +46,7 @@ public:
 		//In game code:
 		m_shipStats = getParent()->getGameComponent<ShipStats>();
 		m_delayObjectSearch = -1.0f;
-		m_targetObject = getClosestObject(SHIP_CLASS::ALL_ENEMY_SHIP);
+		getClosestObject(SHIP_CLASS::ALL_ENEMY_SHIP);
 	}
 
 	virtual std::vector<GameObject*> getAllEnemyObject() override
@@ -123,9 +122,8 @@ public:
 		//WayPoint(timestep);
 	}
 
-	GameObject* getClosestObject(SHIP_CLASS shipType)
+	void getClosestObject(SHIP_CLASS shipType)
 	{
-		GameObject* returnObject = nullptr;
 		if (m_delayObjectSearch < 0.0f)
 		{
 			std::vector<GameObject*> allEnemyObject;
@@ -142,20 +140,12 @@ public:
 			}
 			if (shipType == SHIP_CLASS::ALL_ENEMY_SHIP || shipType == SHIP_CLASS::PASSENGER_SHIP)
 			{
-				gameObjects = getGameObjectsByName("Passenger Ship");
+				gameObjects = getGameObjectsByName("passengerShip");
 				for (size_t i = 0; i < gameObjects.size(); i++)
 				{
 					allEnemyObject.push_back(gameObjects[i]);
 				}
 
-			}
-			if (shipType == SHIP_CLASS::FRIENDLY_SHIP)
-			{
-				gameObjects = getGameObjectsByName("enemyFighter");
-				for (size_t i = 0; i < gameObjects.size(); i++)
-				{
-					allEnemyObject.push_back(gameObjects[i]);
-				}
 			}
 
 			for (size_t i = 0; i < allEnemyObject.size(); i++)
@@ -164,12 +154,11 @@ public:
 				if (closestDistance > Utility::getDistance(*getTransform()->getPosition(), *allEnemyObject[i]->getTransform()->getPosition()))
 				{
 					closestDistance = Utility::getDistance(*getTransform()->getPosition(), *allEnemyObject[i]->getTransform()->getPosition());
-					returnObject = allEnemyObject[i];
+					m_targetObject = allEnemyObject[i];
 				}
 			}
 			m_delayObjectSearch = 2.0f;
 		}
-		return returnObject;
 	}
 
 	void shootLaser()

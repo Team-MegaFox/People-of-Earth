@@ -7,9 +7,9 @@ class AsteroidField : public GameComponent
 public:
 
 	AsteroidField() :
-		m_aster1("aster1", 0.5f, 4, Texture("Asteroids/Asteroid_A.png"), Texture("Asteroids/Asteroid_NORM.png")),
-		m_aster2("aster2", 0.5f, 4, Texture("Asteroids/Asteroid_B.png"), Texture("Asteroids/Asteroid_NORM.png")),
-		m_aster3("aster3", 0.5f, 4, Texture("Asteroids/Asteroid_C.png"), Texture("Asteroids/Asteroid_NORM.png"))
+		m_aster1("aster1", 0.5f, 4, Texture("Asteroids/Asteroid_A.png"), Texture("Asteroids/Asteroid_NRM.png")),
+		m_aster2("aster2", 0.5f, 4, Texture("Asteroids/Asteroid_B.png"), Texture("Asteroids/Asteroid_NRM.png")),
+		m_aster3("aster3", 0.5f, 4, Texture("Asteroids/Asteroid_C.png"), Texture("Asteroids/Asteroid_NRM.png"))
 	{ }
 
 	~AsteroidField() {}
@@ -52,7 +52,7 @@ public:
 
 		instantiate(groupA);
 		// Needs a Collider
-
+		
 
 		for (int i = 0; i < 8; i++)
 		{
