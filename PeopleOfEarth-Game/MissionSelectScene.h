@@ -42,7 +42,7 @@ public:
 			->addGUIComponent(new GUIImage(PxVec4(0.05f, 0.1f, 0.9f, 0.8f), PxVec4(0.0f), "Images/MissionThreeImage.png"))));
 
 		addToRoot((new GameObject("Back Button"))
-			->addGUIComponent(new GUIButton(PxVec4(0.45f, 0.95f, 0.1f, 0.05), PxVec4(0.0f), "Back",
+			->addGUIComponent(new GUIButton(PxVec4(0.45f, 0.95f, 0.1f, 0.05f), PxVec4(0.0f), "Back",
 			std::bind(&MissionSelectScene::clickBackButton, this, std::placeholders::_1))));
 
 		addToRoot((new GameObject("Mission Select Manager"))

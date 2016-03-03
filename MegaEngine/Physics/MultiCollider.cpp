@@ -64,7 +64,7 @@ void MultiCollider::addColliderToObject(Collider* collider)
 	{
 		m_position += m_multipleCollider[i]->getPosition();
 	}
-	m_position /= m_multipleCollider.size();
+	m_position /= (PxReal)m_multipleCollider.size();
 
     //Calculate the highest radius of the multiple collider object
     m_radiusSphere = 0.0f;
