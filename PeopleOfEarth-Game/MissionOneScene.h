@@ -25,8 +25,18 @@ public:
 		addToRoot((new GameObject("Skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
 
-		//addToRoot((new GameObject("Directional Light"))
-		//	->addGameComponent(new DirectionalLight(PxVec3(1.0f, 1.0f, 1.0f), 0.2f, 7, 8.0f, 1.0f)));
+
+		GameObject * starBoardLight = new GameObject("starBoardPointLight", PxVec3(7.0f, 1.0f, -3.5f));
+		starBoardLight->addGameComponent(new PointLight(PxVec3(0.0f, 1.0f, 0.0f), 0.5f));
+
+		GameObject * portLight = new GameObject("portPointLight", PxVec3(-7.0f, 1.0f, -3.5f));
+		portLight->addGameComponent(new PointLight(PxVec3(1.0f, 0.0f, 0.0f), 0.5f));
+
+		GameObject * rearLight = new GameObject("rearPointLight", PxVec3(0.0f, 1.0f, -6.0f));
+		rearLight->addGameComponent(new PointLight(PxVec3(0.1f, 0.1f, 0.1f), 0.5f));
+
+		GameObject * thrusterLight = new GameObject("thrusdterPointLight", PxVec3(0.0f, 0.0f, -8.0f));
+		thrusterLight->addGameComponent(new PointLight(PxVec3(1.0f, 0.75f, 0.0f), 0.5f));
 
 		GameObject* fighterShip =
 			(new GameObject("Fighter Ship", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f))))
@@ -34,7 +44,12 @@ public:
 			->addGameComponent(new RigidBody(PxVec3(1.0f, 1.0f, 1.0f), PxQuat(PxIdentity), 1.0f, 7.0f, 1.0f, 5.0f))
 			->addGameComponent(new FireProjectile("268168__shaun105__laser.wav"))
 			->addGameComponent(new PlayerShipMovementController("camera", 50.0f))
+			->addChild(starBoardLight)
+			->addChild(portLight)
+			->addChild(rearLight)
+			->addChild(thrusterLight)
 			->addGameComponent(new ShipStats);
+
 
 		// The human fighter ship and camera
 		GameObject* camera =
