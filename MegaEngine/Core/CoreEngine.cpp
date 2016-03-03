@@ -34,12 +34,16 @@ m_audioEngine(audioEngine),
 m_guiEngine(guiEngine),
 m_sceneManager(sceneManager)
 {
+	m_game = new Game;
 	if (m_sceneManager)
 	{
-		m_game = new Game;
-
 		m_sceneManager->setEngine(this);
 	}
+}
+
+CoreEngine::~CoreEngine()
+{
+	delete m_game;
 }
 
 void CoreEngine::start()
