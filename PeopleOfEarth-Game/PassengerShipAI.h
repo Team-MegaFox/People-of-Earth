@@ -21,9 +21,11 @@ public:
 		m_forwardDirection = PxVec3(0.0f, 0.0f, 0.0f);
 		m_direction = PxVec3(0.0f, 0.0f, 0.0f);
 		m_velocityValue = 25.0f;
-		m_wayPoints.push_back(PxVec3(10.0f, 15.0f, 2000.0f));
-		m_wayPoints.push_back(PxVec3(300.0f, 15.0f, 1500.0f));
-		m_wayPoints.push_back(PxVec3(150.0f, 15.0f, 1000.0f));
+		m_wayPoints.push_back(PxVec3(0.0f, 0.0f, 15000.0f));
+		m_wayPoints.push_back(PxVec3(0.0f, 0.0f, 12000.0f));
+		m_wayPoints.push_back(PxVec3(0.0f, 0.0f, 10000.0f));
+		m_wayPoints.push_back(PxVec3(0.0f, 0.0f, 7500.0f));
+		m_wayPoints.push_back(PxVec3(0.0f, 0.0f, 1000.0f));
 		m_wayPoints.push_back(PxVec3(0.0f, 15.0f, 500.0f));
 		m_delayCheckInFront = 0.0f;
 		m_distanceToChangeWayPoint = 200.0f;
@@ -35,8 +37,14 @@ public:
 	virtual std::vector<GameObject*> getAllEnemyObject() override
 	{
 		std::vector<GameObject*> collisionCheckObject;
-		//std::vector<GameObject*> gameObjects;
-		//gameObjects = getGameObjectsByName("enemyFighter");
+		std::vector<GameObject*> gameObjects;
+		gameObjects = getGameObjectsByName("enemyFighter");
+		for (size_t i = 0; i < gameObjects.size(); i++)
+		{
+			collisionCheckObject.push_back(gameObjects[i]);
+		}
+		//No Collider at the moment
+		//gameObjects = getGameObjectsByName("Asteroid Field");
 		//for (size_t i = 0; i < gameObjects.size(); i++)
 		//{
 		//	collisionCheckObject.push_back(gameObjects[i]);

@@ -141,46 +141,53 @@ public:
 	//Check if anything is in front of the ship
 	void CheckPath(float timestep)
 	{
-		if (m_delayCheckInFront < 0.0f)
-		{
-			std::vector<GameObject*> collidableGameObjects;
-			collidableGameObjects = getAllEnemyObject();
-			float m_collisionTime;
-			for (size_t i = 0; i < collidableGameObjects.size(); i++)
-			{
-				if (collidableGameObjects[i]->getGameComponent<RigidBody>()->getCollider()->checkCollision(
-					*getTransform()->getPosition(), (m_rigidBody->getVelocity()).getNormalized(),
-					m_collisionTime)
-					)
-				{
-					m_collisionTime /= 60.0f;
-					//Within the 3 sec
-					if (m_collisionTime < 3.0f)
-					{
-						if (collidableGameObjects[i]->getGameComponent<RigidBody>()->getVelocity() != PxVec3(0.0f))
-						{
-							m_wayPoints.push_back(collidableGameObjects[i]->getGameComponent<RigidBody>()->getPosition() + 
-								(collidableGameObjects[i]->getGameComponent<RigidBody>()->getVelocity()).getNormalized() * -5.0f /*multiply by scale*/);
-							printf("Ray Going to collide\n");
-							m_delayCheckInFront = 1.0f;
-							break;
-						}
-						else
-						{
-							m_wayPoints.push_back(collidableGameObjects[i]->getGameComponent<RigidBody>()->getPosition() +
-								PxVec3((float)RandomNumber(100, -100), (float)RandomNumber(100, -100), 0.0f) /*multiply by scale*/);
-							printf("Ray Going to collide\n");
-							m_delayCheckInFront = 1.0f;
-							break;
-						}
-					}
-				}
-			}
-		}
-		else
-		{
-			m_delayCheckInFront -= timestep;
-		}
+		/*
+		TODO : Optimize CheckPath()
+		When there is an obstacle in the way, this method lags the prgram really hard.
+		If there is a way to optimize this method we will work on it after the presentation.
+		for now we turned it off because of the lag, and because checking for
+		objects in our path was less important right now, than having asteroids in the scene.
+
+		*/
+
+		//if (m_delayCheckInFront < 0.0f)
+		//{
+		//	std::vector<GameObject*> collidableGameObjects;
+		//	collidableGameObjects = getAllEnemyObject();
+		//	float m_collisionTime;
+		//	for (size_t i = 0; i < collidableGameObjects.size(); i++)
+		//	{
+		//		if (collidableGameObjects[i]->getGameComponent<RigidBody>()->getCollider()->checkCollision(
+		//			*getTransform()->getPosition(), (m_rigidBody->getVelocity()).getNormalized(),
+		//			m_collisionTime)
+		//			)
+		//		{
+		//			m_collisionTime /= 60.0f;
+		//			//Within the 3 sec
+		//			if (m_collisionTime < 10.0f)
+		//			{
+		//				if (collidableGameObjects[i]->getGameComponent<RigidBody>()->getVelocity() != PxVec3(0.0f))
+		//				{
+		//					m_wayPoints.push_back(collidableGameObjects[i]->getGameComponent<RigidBody>()->getPosition() + 
+		//						(collidableGameObjects[i]->getGameComponent<RigidBody>()->getVelocity()).getNormalized() * -5.0f /*multiply by scale*/);
+		//					m_delayCheckInFront = 1.0f;
+		//					break;
+		//				}
+		//				else
+		//				{
+		//					m_wayPoints.push_back(collidableGameObjects[i]->getGameComponent<RigidBody>()->getPosition() +
+		//						PxVec3((float)RandomNumber(100, -100), (float)RandomNumber(100, -100), 0.0f) /*multiply by scale*/);
+		//					m_delayCheckInFront = 1.0f;
+		//					break;
+		//				}
+		//			}
+		//		}
+		//	}
+		//}
+		//else
+		//{
+		//	m_delayCheckInFront -= timestep;
+		//}
 	}
 
 	virtual std::vector<GameObject*> getAllEnemyObject() = 0;
