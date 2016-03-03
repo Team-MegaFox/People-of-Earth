@@ -14,7 +14,7 @@ using namespace physx;
 class MissionOneScene : public Scene
 {
 public:
-	MissionOneScene() : Scene("Misson 1") { }
+	MissionOneScene() : Scene("Mission 1") { }
 	~MissionOneScene() { }
 
 	virtual void init(const Viewport& window) override
@@ -36,7 +36,7 @@ public:
 		GameObject * rearLight = new GameObject("rearPointLight", PxVec3(0.0f, 1.0f, -6.0f));
 		rearLight->addGameComponent(new PointLight(PxVec3(0.1f, 0.1f, 0.1f), 0.5f));
 
-		GameObject * thrusterLight = new GameObject("thrusdterPointLight", PxVec3(0.0f, 0.0f, -8.0f));
+		GameObject * thrusterLight = new GameObject("thrusterPointLight", PxVec3(0.0f, 0.0f, -8.0f));
 		thrusterLight->addGameComponent(new PointLight(PxVec3(1.0f, 0.75f, 0.0f), 0.5f));
 
 		GameObject* fighterShip =
