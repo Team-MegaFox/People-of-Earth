@@ -73,6 +73,7 @@
     <ClInclude Include="PauseMenuManager.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="AsteroidField.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">

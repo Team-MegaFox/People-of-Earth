@@ -80,6 +80,7 @@
     <ClCompile Include="PeopleOfEarth-Game.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AsteroidField.h" />
     <ClInclude Include="ControlsScene.h" />
     <ClInclude Include="DetailsScene.h" />
     <ClInclude Include="EnemyFighterShipAI.h" />

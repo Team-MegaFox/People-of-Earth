@@ -82,6 +82,7 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AsteroidField.h" />
     <ClInclude Include="EnemyFighterShipAI.h" />
     <ClInclude Include="FireProjectile.h" />
     <ClInclude Include="FreeLook.h" />

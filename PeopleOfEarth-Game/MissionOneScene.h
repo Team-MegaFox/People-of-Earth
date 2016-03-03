@@ -7,6 +7,7 @@
 #include "FireProjectile.h"
 #include "EnemyFighterShipAI.h"
 #include "PassengerShipAI.h"
+#include "AsteroidField.h"
 #include <PhysX/PxPhysicsAPI.h>
 using namespace physx;
 
@@ -69,6 +70,14 @@ public:
 			->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 6.0f, 24.0f))
 			->addGameComponent(new EnemyFighterShipAI)
 			->addGameComponent(new ShipStats)
+			);
+
+		// Asteroids
+		addToRoot((new GameObject("Asteroid Field1", PxVec3(0.0f, 0.0f, 30.0f)))
+			->addGameComponent(new AsteroidField())
+			);
+		addToRoot((new GameObject("Asteroid Field2", PxVec3(90.0f, 0.0f, 30.0f)))
+			->addGameComponent(new AsteroidField())
 			);
 
 	}
