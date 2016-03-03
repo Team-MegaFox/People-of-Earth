@@ -29,6 +29,14 @@ public:
 		GameObject* bgmVolume = (new GameObject("BGM Volume Label"))
 			->addGUIComponent(new GUILabel(PxVec4(0.365f, 0.7f, 0.1f, 0.09f), PxVec4(0.0f, 1.0f, 0.0f, 0.0f), "100", 16));
 
+		GameObject* backButton = (new GameObject("Back Button"))
+			->addGUIComponent(new GUIButton(PxVec4(0.2f, 0.85f, 0.25f, 0.08f), PxVec4(0.0f), "Back",
+			std::bind(&OptionsScene::onBackClick, this, std::placeholders::_1), 14));
+
+		GameObject* controlsButton = (new GameObject("Controls Button"))
+			->addGUIComponent(new GUIButton(PxVec4(0.5f, 0.85f, 0.25f, 0.08f), PxVec4(0.0f), "Controls",
+			std::bind(&OptionsScene::onControlsClick, this, std::placeholders::_1), 14));
+
 		addToRoot((new GameObject("Options Menu"))
 			->addGUIComponent(new GUIContainer(PxVec4(0.1f, 0.1f, 0.8f, 0.8f), PxVec4(0.0f), "Options"))
 			->addChild(effectsLabel)
@@ -37,15 +45,11 @@ public:
 			->addChild(bgmLabel)
 			->addChild(bgmSlider)
 			->addChild(bgmVolume)
-			->addChild((new GameObject("Back Button"))
-			->addGUIComponent(new GUIButton(PxVec4(0.2f, 0.85f, 0.25f, 0.08f), PxVec4(0.0f), "Back",
-			std::bind(&OptionsScene::onBackClick, this, std::placeholders::_1), 14)))
-			->addChild((new GameObject("Controls Button"))
-			->addGUIComponent(new GUIButton(PxVec4(0.5f, 0.85f, 0.25f, 0.08f), PxVec4(0.0f), "Controls",
-			std::bind(&OptionsScene::onControlsClick, this, std::placeholders::_1), 14))));
+			->addChild(backButton)
+			->addChild(controlsButton));
 
 		addToRoot((new GameObject("Options Menu Manager"))
-			->addGameComponent(new OptionsMenuManager(effectsSlider, effectsVolume, bgmSlider, bgmVolume)));
+			->addGameComponent(new OptionsMenuManager(effectsSlider, effectsVolume, bgmSlider, bgmVolume, backButton, controlsButton)));
 	}
 
 private:
