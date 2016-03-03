@@ -14,7 +14,7 @@ void FreeLook::processInput(const InputManager& input, float delta)
 		getTransform()->rotate(Utility::getRight(*getTransform()->getRotation()), -input.GetThumbRPosition().y * 2.0f);
 	}
 
-	if (input.KeyPress(SDLK_q))
+	/*if (input.KeyPress(SDLK_q))
 	{
 		input.SetCursor(true);
 		m_mouseLocked = false;
@@ -54,5 +54,5 @@ void FreeLook::processInput(const InputManager& input, float delta)
 		input.SetCursor(false);
 		input.SetMousePosition(m_windowCenter);
 		m_mouseLocked = true;
-	}
+	}*/
 }

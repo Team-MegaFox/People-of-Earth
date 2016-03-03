@@ -37,12 +37,17 @@ public:
 	/// <param name="delta">The frame time delta.</param>
 	virtual void processInput(const InputManager& input, float delta) override
 	{
+		if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B))
+		{
+			getCoreEngine()->getSceneManager()->pop();
+		}
+
 		if (!m_usingMouse && input.MouseButtonPress(SDL_BUTTON_LEFT))
 		{
 			m_usingMouse = true;
 			m_buttons[m_focusButton]->getParent()->removeGameComponent(m_buttons[m_focusButton]->getParent()->getGameComponent<TextLerpAlpha>());
 		}
-		else if (m_usingMouse && (input.KeyPress(SDLK_a) || input.KeyPress(SDLK_d) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_A) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_LEFT) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) || input.ThumbLMoved()))
+		else if (m_usingMouse && (input.KeyPress(SDLK_a) || input.KeyPress(SDLK_d) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_A) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_LEFT) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) || input.GetThumbLPosition().x < -0.1f || input.GetThumbLPosition().x > 0.1f))
 		{
 			m_usingMouse = false;
 			m_buttons[m_focusButton]->getParent()->addGameComponent(new TextLerpAlpha, true);

@@ -1,6 +1,18 @@
 #pragma once
 #include <MegaEngine.h>
 
+class ControlsMenuManager : public GameComponent
+{
+public:
+	virtual void processInput(const InputManager& input, float delta) 
+	{
+		if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B))
+		{
+			getCoreEngine()->getSceneManager()->pop();
+		}
+	}
+};
+
 class ControlsScene : public Scene
 {
 public:
@@ -16,6 +28,9 @@ public:
 			->addChild((new GameObject("Back Button"))
 			->addGUIComponent(new GUIButton(PxVec4(0.375f, 0.9f, 0.25f, 0.08f), PxVec4(0.0f), "Back",
 			std::bind(&ControlsScene::onBackClick, this, std::placeholders::_1), 14))));
+
+		addToRoot((new GameObject("Options Menu Manager"))
+			->addGameComponent(new ControlsMenuManager));
 	}
 
 private:

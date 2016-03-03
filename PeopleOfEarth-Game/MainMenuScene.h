@@ -28,7 +28,7 @@ public:
 
 		addToRoot((new GameObject("Camera"))
 			->addGameComponent(new CameraComponent(Utility::initPerspective(ToRadians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
-			//->addGameComponent(new FreeLook(window.getCenter()))
+			->addGameComponent(new FreeLook(window.getCenter()))
 			//->addGameComponent(new FreeMove)
 			);
 
