@@ -22,21 +22,13 @@ public:
 		//Material humanShip("human_ship", 1.0f, 10, Texture("Ships/Eric/HumanShip.png"));
 		Material ship1("ship1", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_White.png"), Texture("Ships/AF-SS01/AF-SS01_Normalmap.png"));
 		Material alienShip("alien_ship", 5.0f, 4, Texture("Ships/Eric/Alienship.png"), Texture("Ships/Eric/Alienship_NORM.png"), Texture("Ships/Eric/Alienship_DISP.png"));
-<<<<<<< HEAD
-		Material earth("earth", 1.0f, 10, Texture("Planets/earth.png"));
-		Material mars("mars", 1.0f, 10, Texture("Planets/mars.jpg"));
-		Material jupiter("jupiter", 1.0f, 10, Texture("Planets/jupiter.jpg"));
-		Material sun("sun", 10.0f, 100, Texture("Planets/sun.jpg"));
-		Material moon("moon", 1.0f, 10, Texture("Planets/moon.jpg"));
-=======
+
 		Material motherShip("motherShip", 0.5f, 4, Texture("Ships/MotherShip/MotherShip.png"));
 		Material earth("earth", 1.0f, 10, Texture("Planets/earth.png"));
 		Material mars("mars", 1.0f, 10, Texture("Planets/mars.jpg"), Texture("Planets/mars_NORM.jpg"));
 		Material jupiter("jupiter", 1.0f, 10, Texture("Planets/jupiter.jpg"), Texture("Planets/jupiter_NORM.jpg"));
 		Material sun("sun", 10.0f, 100, Texture("Planets/sun.jpg"));
 		Material moon("moon", 1.0f, 10, Texture("Planets/moon.jpg"));
-
->>>>>>> origin/RE-Endering
 
 		addToRoot((new GameObject("Skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/sky/sky.jpg"))); // Starfield/starfield.tga")));
