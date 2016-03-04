@@ -75,7 +75,7 @@ public:
 		// the passenger ship
 		addToRoot((new GameObject("passengerShip", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/MotherShip.obj", 50.0f), Material("motherShip")))
-			->addGameComponent(new RigidBody(PxVec3(0.0f, 0.0f, 0.0f), PxQuat(PxIdentity), 1.0f, 25.0f, 60.0f, 50.0f))
+			->addGameComponent(new RigidBody(PxVec3(0.0f, 0.0f, 0.0f), PxQuat(PxIdentity), 1.0f, 50.0f, 40.0f, 275.0f))
 			->addGameComponent(new PassengerShipAI)
 			->addGameComponent(new ShipStats)
 			);
