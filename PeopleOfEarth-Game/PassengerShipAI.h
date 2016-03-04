@@ -1,3 +1,16 @@
+// ***********************************************************************
+// Author           : Christopher Maeda
+// Created          : 03-03-2016
+//
+// Last Modified By : Christopher Maeda
+// Last Modified On : 03-04-2016
+// ***********************************************************************
+// <copyright file="EnemyFighterShipAI.h" company="Team MegaFox">
+//     Copyright (c) Team MegaFox. All rights reserved.
+// </copyright>
+// <summary>
+//</summary>
+// ***********************************************************************
 
 #pragma once
 #include "SteeringBehaviour.h"
@@ -26,7 +39,6 @@ public:
 		m_wayPoints.push_back(PxVec3(0.0f, 0.0f, 10000.0f));
 		m_wayPoints.push_back(PxVec3(0.0f, 0.0f, 7500.0f));
 		m_wayPoints.push_back(PxVec3(0.0f, 0.0f, 1000.0f));
-		m_wayPoints.push_back(PxVec3(0.0f, 15.0f, 500.0f));
 		m_delayCheckInFront = 0.0f;
 		m_distanceToChangeWayPoint = 200.0f;
 
@@ -38,17 +50,17 @@ public:
 	{
 		std::vector<GameObject*> collisionCheckObject;
 		std::vector<GameObject*> gameObjects;
-		gameObjects = getGameObjectsByName("enemyFighter");
-		for (size_t i = 0; i < gameObjects.size(); i++)
-		{
-			collisionCheckObject.push_back(gameObjects[i]);
-		}
-		//No Collider at the moment
-		//gameObjects = getGameObjectsByName("Asteroid Field");
+		//gameObjects = getGameObjectsByName("enemyFighter");
 		//for (size_t i = 0; i < gameObjects.size(); i++)
 		//{
 		//	collisionCheckObject.push_back(gameObjects[i]);
 		//}
+		//No Collider at the moment
+		gameObjects = getGameObjectsByName("Asteroid Field");
+		for (size_t i = 0; i < gameObjects.size(); i++)
+		{
+			collisionCheckObject.push_back(gameObjects[i]);
+		}
 		return collisionCheckObject;
 	}
 

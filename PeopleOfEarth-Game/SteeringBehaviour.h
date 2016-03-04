@@ -128,16 +128,6 @@ public:
 		return randnum;
 	}
 
-	/*float distance(PxVec3 point1, PxVec3 point2)
-	{
-		printf("%f\n", PxSqrt(((point2.x - point1.x) * (point2.x - point1.x)) +
-			((point2.y - point1.y) * (point2.y - point1.y)) +
-			((point2.z - point1.z) * (point2.z - point1.z))));
-		return PxSqrt(((point2.x - point1.x) * (point2.x - point1.x)) +
-			((point2.y - point1.y) * (point2.y - point1.y)) +
-			((point2.z - point1.z) * (point2.z - point1.z)));
-	}*/
-
 	//Check if anything is in front of the ship
 	void CheckPath(float timestep)
 	{
@@ -163,7 +153,7 @@ public:
 					)
 				{
 					m_collisionTime /= 60.0f;
-					//Within the 3 sec
+					//Within the 10 sec
 					if (m_collisionTime < 10.0f)
 					{
 						if (collidableGameObjects[i]->getGameComponent<RigidBody>()->getVelocity() != PxVec3(0.0f))

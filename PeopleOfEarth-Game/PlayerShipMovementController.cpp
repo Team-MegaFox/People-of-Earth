@@ -3,7 +3,7 @@
 // Created          : 09-17-2015
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 03-02-2016
+// Last Modified On : 03-04-2016
 // ***********************************************************************
 // <copyright file="PlayerShipMovementController.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -85,6 +85,12 @@ void PlayerShipMovementController::processInput(const InputManager& input, float
 			getParent()->getGameComponent<ShipStats>()->setHealth(0.0f);
 			m_gameOverButton->setEnabled(true);
 		}
+		collidedObjects = m_rigidBody->checkCollision(getGameObjectsByName("passengerShip"));
+		if (collidedObjects.size() > 0)
+		{
+			getParent()->getGameComponent<ShipStats>()->setHealth(0.0f);
+			m_gameOverButton->setEnabled(true);
+		}
 	}
 }
 
@@ -103,7 +109,7 @@ void PlayerShipMovementController::lookAround(const InputManager& input)
 		//Rotates the camera view
 		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_X_AXIS(0.025f));
 
-		if (m_shipsVisualRotation.y < 5.0f)
+		if (m_shipsVisualRotation.y < 50.0f)
 		{
 			m_shipsVisualRotation.y++;
 		}
@@ -125,7 +131,7 @@ void PlayerShipMovementController::lookAround(const InputManager& input)
 		//Rotates the camera view
 		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_X_AXIS(-0.025f));
 		
-		if (m_shipsVisualRotation.y > -5.0f)
+		if (m_shipsVisualRotation.y > -50.0f)
 		{
 			m_shipsVisualRotation.y--;
 		}
@@ -146,7 +152,7 @@ void PlayerShipMovementController::lookAround(const InputManager& input)
 		//Rotates the camera view
 		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Y_AXIS(-0.025f));
 		
-		if (m_shipsVisualRotation.x > -5.0f)
+		if (m_shipsVisualRotation.x > -50.0f)
 		{
 			m_shipsVisualRotation.x--;
 		}
@@ -167,7 +173,7 @@ void PlayerShipMovementController::lookAround(const InputManager& input)
 		//Rotates the camera view
 		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Y_AXIS(0.025f));
 
-		if (m_shipsVisualRotation.x < 5.0f)
+		if (m_shipsVisualRotation.x < 50.0f)
 		{
 			m_shipsVisualRotation.x++;
 		}
@@ -217,15 +223,15 @@ void PlayerShipMovementController::returnToActualRotation()
 {
 	if (PxAbs(m_shipsVisualRotation.x) != 0 || PxAbs(m_shipsVisualRotation.y) != 0)
 	{
-		m_rigidBody->updateRotation(ROTATE_Y_AXIS(-m_shipsVisualRotation.x / 10.0f));
-		m_rigidBody->updateRotation(ROTATE_X_AXIS(-m_shipsVisualRotation.y / 10.0f));
+		m_rigidBody->updateRotation(ROTATE_Y_AXIS(-m_shipsVisualRotation.x / 100.0f));
+		m_rigidBody->updateRotation(ROTATE_X_AXIS(-m_shipsVisualRotation.y / 100.0f));
 	}
 }
 
 void PlayerShipMovementController::showVisualShipRotation()
 {
-	m_rigidBody->updateRotation(ROTATE_X_AXIS(m_shipsVisualRotation.y / 10.0f));
-	m_rigidBody->updateRotation(ROTATE_Y_AXIS(m_shipsVisualRotation.x / 10.0f));
+	m_rigidBody->updateRotation(ROTATE_X_AXIS(m_shipsVisualRotation.y / 100.0f));
+	m_rigidBody->updateRotation(ROTATE_Y_AXIS(m_shipsVisualRotation.x / 100.0f));
 }
 
 void PlayerShipMovementController::checkLerp(const InputManager& input)

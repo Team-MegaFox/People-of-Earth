@@ -3,7 +3,7 @@
 // Created          : 02-23-2016
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 02-29-2016
+// Last Modified On : 03-04-2016
 // ***********************************************************************
 // <copyright file="EnemyFighterShipAI.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -46,6 +46,7 @@ public:
 		m_shipStats = getParent()->getGameComponent<ShipStats>();
 		m_delayObjectSearch = -1.0f;
 		getClosestObject(SHIP_CLASS::ALL_ENEMY_SHIP);
+		m_passengerShip = getGameObjectByName("passengerShip");
 	}
 
 	virtual std::vector<GameObject*> getAllEnemyObject() override
@@ -76,11 +77,15 @@ public:
 			{
 				getClosestObject(SHIP_CLASS::PASSENGER_SHIP);
 				float timeOfCollision;
-				if (Utility::getDistance(*getTransform()->getPosition(), *m_targetObject->getTransform()->getPosition()) < 150.0f
+				if (Utility::getDistance(*getTransform()->getPosition(), *m_targetObject->getTransform()->getPosition()) < 600.0f
 					&& m_targetObject->getGameComponent<RigidBody>()->getCollider()->checkCollision(
-					*getTransform()->getPosition(), getParent()->getGameComponent<RigidBody>()->getVelocity(), timeOfCollision))
+					*getTransform()->getPosition(), Utility::getForward(*getTransform()->getRotation()) /*getParent()->getGameComponent<RigidBody>()->getVelocity()*/, timeOfCollision))
 				{
-					shootLaser();
+					timeOfCollision /= 60.0f;
+					if (timeOfCollision < 2.0f)
+					{
+						shootLaser();
+					}
 				}
 				Pursue(*m_targetObject, timestep);
 			}
@@ -107,6 +112,7 @@ public:
 			//Wander
 			else
 			{
+				Evade(*m_passengerShip, timestep);
 				Wander(timestep);
 				m_delayAttacking -= timestep;
 			}
@@ -206,5 +212,6 @@ private:
 	float m_delayAttacking;
 	int numberOfLaserShot;
 	float m_delayObjectSearch;
+	GameObject* m_passengerShip;
 };
 
