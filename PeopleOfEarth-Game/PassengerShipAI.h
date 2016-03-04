@@ -56,11 +56,11 @@ public:
 		//	collisionCheckObject.push_back(gameObjects[i]);
 		//}
 		//No Collider at the moment
-		gameObjects = getGameObjectsByName("Asteroid Field");
-		for (size_t i = 0; i < gameObjects.size(); i++)
-		{
-			collisionCheckObject.push_back(gameObjects[i]);
-		}
+		//gameObjects = getGameObjectsByName("Asteroid Field");
+		//for (size_t i = 0; i < gameObjects.size(); i++)
+		//{
+		//	collisionCheckObject.push_back(gameObjects[i]);
+		//}
 		return collisionCheckObject;
 	}
 
