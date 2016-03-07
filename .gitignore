@@ -89,6 +89,7 @@ $tf/
 
 # GhostDoc
 PeopleOfEarth.sln.GhostDoc.xml
+PeopleOfEarth.sln.GhostDoc.user.dic
 
 # ReSharper is a .NET coding add-in
 _ReSharper*/
