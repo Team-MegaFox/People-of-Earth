@@ -3,7 +3,7 @@
 // Created          : 02-01-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-25-2016
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="Sound.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -14,6 +14,7 @@
 
 #pragma once
 #include "..\Audio\AudioEngine.h"
+#include <cstdint>
 
 class Sound
 {
@@ -31,7 +32,11 @@ public:
 	/// <summary>
 	/// Finalizes an instance of the <see cref="SoundSource"/> class.
 	/// </summary>
-	~Sound() {	}
+	~Sound() 
+	{	
+		m_soundPair.first->release();
+		//delete m_soundPair.second;
+	}
 
 	/// <summary>
 	/// Sets the sound.
@@ -77,8 +82,8 @@ public:
 	/// </summary>
 	/// <param name="pos">The position.</param>
 	/// <param name="vel">The vel.</param>
-	void setSoundPosVel(glm::vec3 pos, glm::vec3 vel = glm::vec3(0.0f));
-
+	void setSoundPosVel(PxVec3 pos, PxVec3 vel = PxVec3(0.0f, 0.0f, 0.0f));
+	
 	/// <summary>
 	/// Pan level, from -1.0 (left) to 1.0 (right), default = 0 (center).
 	/// </summary>
@@ -96,7 +101,7 @@ public:
 	/// Sets the sound cone orientation.
 	/// </summary>
 	/// <param name="orientation">The orientation.</param>
-	void setSoundConeOrientation(glm::vec3 orientation);
+	void setSoundConeOrientation(PxVec3 orientation);
 
 	/// <summary>
 	/// Sets the sound cone settings.
@@ -152,10 +157,12 @@ private:
 	/// <summary>
 	/// For making this a 2D sound effect
 	/// </summary>
+
 	uint16_t m_twoDimensional = FMOD_2D | FMOD_DEFAULT;
 	/// <summary>
 	/// For making this sound a 3D sound effect
 	/// </summary>
 	uint16_t m_threeDimensional = FMOD_3D | FMOD_DEFAULT;
+
 };
 

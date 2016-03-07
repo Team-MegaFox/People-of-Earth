@@ -1,6 +1,5 @@
 #pragma once
 #include <MegaEngine.h>
-#include <glm\glm.hpp>
 
 class TextLerpAlpha : public GameComponent
 {

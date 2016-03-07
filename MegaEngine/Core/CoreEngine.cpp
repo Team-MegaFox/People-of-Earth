@@ -34,12 +34,16 @@ m_audioEngine(audioEngine),
 m_guiEngine(guiEngine),
 m_sceneManager(sceneManager)
 {
+	m_game = new Game;
 	if (m_sceneManager)
 	{
-		m_game = new Game;
-
 		m_sceneManager->setEngine(this);
 	}
+}
+
+CoreEngine::~CoreEngine()
+{
+	delete m_game;
 }
 
 void CoreEngine::start()
@@ -54,7 +58,6 @@ void CoreEngine::start()
 	double lastTime = Time::getTime();
 	double frameCounter = 0;
 	double unprocessedTime = 0;
-	int frames = 0;
 
 	while (m_running)
 	{
@@ -92,15 +95,13 @@ void CoreEngine::start()
 
 		if (render)
 		{
-			m_viewport->clearScreen();
+			//m_viewport->clearScreen();
 
 			m_sceneManager->render(m_renderingEngine);
 
 			m_guiEngine->render();
 
 			m_viewport->swapBuffers();
-
-			frames++;
 		}
 		else
 		{

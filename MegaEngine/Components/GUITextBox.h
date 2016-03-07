@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu
 // Created          : 02-03-2016
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 02-03-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="GUITextBox.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -28,7 +28,7 @@ public:
 	/// <param name="destRectPix">The size of the widget in pixels.</param>
 	/// <param name="text">The text at the start of the text box.</param>
 	/// <param name="maxLength">The maximum text length can input in the text box.</param>
-	GUITextBox(glm::vec4& destRectPerc, const glm::vec4& destRectPix,
+	GUITextBox(PxVec4& destRectPerc, const PxVec4& destRectPix,
 		const std::string& text = "", int maxLength = -1) : 
 	GUIComponent(destRectPerc, destRectPix), m_text(text), m_maxLength(maxLength), m_textChanged(false) { }
 	/// <summary>

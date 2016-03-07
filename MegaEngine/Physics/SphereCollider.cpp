@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 02-27-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="SphereCollider.cpp" company="">
 //     Copyright (c) . All rights reserved.
@@ -39,12 +39,12 @@ SphereCollider::~SphereCollider()
 }
 
 void SphereCollider::init(
-		glm::vec3 position,
-		glm::quat rotation,
+		PxVec3 position,
+		PxQuat rotation,
 		float scale,
 		float mass,
-		glm::vec3 velocity,
-		glm::vec3 acceleration,
+		PxVec3 velocity,
+		PxVec3 acceleration,
 		float radiusSphere,
 		int id)
 {
@@ -68,7 +68,7 @@ std::vector<Collider*> SphereCollider::checkCollision(std::vector<Collider*> col
 			//Get the distance from this position to the other position
             //glm::vec3 distanceVec = collidableObjects[i]->getPosition() - m_position;
 			//float distance = glm::length(distanceVec);
-            float distance = glm::length(collidableObjects[i]->getPosition() - m_position);
+            float distance = (collidableObjects[i]->getPosition() - m_position).magnitude();
 			//Check to see if the 2 radius is lower than distance magnitude
             if (m_radiusSphere + collidableObjects[i]->getRadiusSphere() >= distance)
 			{
@@ -119,7 +119,7 @@ bool SphereCollider::checkCollision(Collider* collidableObject)
 		//Distance collision check theory
 
 		//Get the distance from this position to the other position
-		float distance = glm::length(collidableObject->getPosition() - m_position);
+		float distance = (collidableObject->getPosition() - m_position).magnitude();
 		//Check to see if the 2 radius is lower than distance magnitude
 		if (m_radiusSphere + collidableObject->getRadiusSphere() >= distance)
 		{
@@ -145,18 +145,18 @@ bool SphereCollider::checkCollision(Collider* collidableObject)
 	return false;
 }
 
-bool SphereCollider::checkCollision(glm::vec3 rayPosition, glm::vec3 rayDirection, float &timeOfCollision)
+bool SphereCollider::checkCollision(PxVec3 rayPosition, PxVec3 rayDirection, float &timeOfCollision)
 {
 	//Tutorial from http://www.miguelcasillas.com/?p=74
 
 	//Create a vector from the sphere to the ray's start point
-	glm::vec3 spherePosToRayPos = rayPosition - m_position;
+	PxVec3 spherePosToRayPos = rayPosition - m_position;
 
 	//Get the dot product of this vector with the ray's direction
-	float projection = glm::dot(spherePosToRayPos, rayDirection);
+	float projection = spherePosToRayPos.dot(rayDirection);
 
 	//Get the square distance from the start of the ray to the sphere's surface
-	float squaredDistance = glm::dot(spherePosToRayPos, spherePosToRayPos) - (m_radiusSphere * m_radiusSphere);
+	float squaredDistance = spherePosToRayPos.dot(spherePosToRayPos) - (m_radiusSphere * m_radiusSphere);
 
 	//If the ray starts outside the sphere and points away from it, we return false
 	if (squaredDistance > 0.0f && projection > 0.0f)
@@ -175,7 +175,7 @@ bool SphereCollider::checkCollision(glm::vec3 rayPosition, glm::vec3 rayDirectio
 
 	//We solve our equation and get the time of collision
 	//We use -sqrt(fDisc) to get the smallest root, ie. the first point in which the ray touches the sphere
-	timeOfCollision = -projection - sqrt(discriminant);
+	timeOfCollision = -projection - PxSqrt(discriminant);
 
 	//If the time is less than zero, it means the ray started inside the sphere (Already Collision)
 	if (timeOfCollision < 0.0f)
@@ -184,7 +184,7 @@ bool SphereCollider::checkCollision(glm::vec3 rayPosition, glm::vec3 rayDirectio
 	}
 
 	//Our collision point is going to be:
-	glm::vec3 collisionPoint = rayPosition + rayDirection * timeOfCollision;
+	PxVec3 collisionPoint = rayPosition + rayDirection * timeOfCollision;
 
 	//Collided
 	return true;

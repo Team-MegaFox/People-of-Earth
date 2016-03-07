@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="Texture.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -37,9 +37,7 @@ public:
 	/// <param name="format">The format.</param>
 	/// <param name="clamp">The clamp.</param>
 	/// <param name="attachments">The attachments for the texture.</param>
-	TextureData(GLenum textureTarget, int width, int height, int numTextures,
-		unsigned char** data, GLfloat* filters, GLenum* internalFormat, 
-		GLenum* format, bool clamp, GLenum* attachments);
+	TextureData(GLenum textureTarget, int width, int height, int numTextures, unsigned char** data, GLfloat* filters, GLenum* internalFormat, GLenum* format, bool clamp, GLenum* attachments);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="TextureData"/> class.
 	/// </summary>
@@ -53,20 +51,24 @@ public:
 	/// <summary>
 	/// Binds to render target to this instance of the texture.
 	/// </summary>
-	void bindToRenderTarget() const;
+	void bindAsRenderTarget() const;
 
 	/// <summary>
 	/// Gets the texture width.
 	/// </summary>
 	/// <returns>The texture width.</returns>
-	inline int getWidth() { return m_width; }
+	inline int getWidth()  const { return m_width; }
 	/// <summary>
 	/// Gets the texture height.
 	/// </summary>
 	/// <returns>The texture height.</returns>
-	inline int getHeight() { return m_height; }
+	inline int getHeight() const { return m_height; }
 
+protected:
 private:
+	TextureData(TextureData& other) {}
+	void operator=(TextureData& other) {}
+
 	/// <summary>
 	/// Initializes the texture(s).
 	/// </summary>
@@ -75,13 +77,12 @@ private:
 	/// <param name="internalFormat">The internal format.</param>
 	/// <param name="format">The format.</param>
 	/// <param name="clamp">The clamp.</param>
-	void initTextures(unsigned char** data, GLfloat* filters, GLenum* internalFormat,
-		GLenum* format, bool clamp);
+	void initTextures(unsigned char** data, GLfloat* filter, GLenum* internalFormat, GLenum* format, bool clamp);
 	/// <summary>
 	/// Initializes the render target.
 	/// </summary>
 	/// <param name="attachments">The attachments.</param>
-	void initRenderTarget(GLenum* attachments);
+	void initRenderTargets(GLenum* attachments);
 
 	/// <summary>
 	/// The texture identifier in the graphics card.
@@ -111,7 +112,6 @@ private:
 	/// The texture height.
 	/// </summary>
 	int m_height;
-
 };
 
 /// <summary>
@@ -131,9 +131,7 @@ public:
 	/// <param name="format">The format.</param>
 	/// <param name="clamp">The clamp.</param>
 	/// <param name="attachment">The attachment.</param>
-	Texture(const std::string& fileName, GLenum textureTarget = GL_TEXTURE_2D,
-		GLfloat filter = GL_LINEAR_MIPMAP_LINEAR, GLenum internalFormat = GL_RGBA, 
-		GLenum format = GL_RGBA, bool clamp = false, GLenum attachment = GL_NONE);
+	Texture(const std::string& fileName, GLenum textureTarget = GL_TEXTURE_2D, GLfloat filter = GL_LINEAR_MIPMAP_LINEAR, GLenum internalFormat = GL_RGBA, GLenum format = GL_RGBA, bool clamp = false, GLenum attachment = GL_NONE);
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Texture"/> class with custom values.
 	/// </summary>
@@ -146,24 +144,21 @@ public:
 	/// <param name="format">The format.</param>
 	/// <param name="clamp">The clamp.</param>
 	/// <param name="attachment">The attachment.</param>
-	Texture(int width = 0, int height = 0, unsigned char* data = nullptr,
-		GLenum textureTarget = GL_TEXTURE_2D, GLfloat filter = GL_LINEAR_MIPMAP_LINEAR, 
-		GLenum internalFormat = GL_RGBA, GLenum format = GL_RGBA, bool clamp = false, 
-		GLenum attachment = GL_NONE);
+	Texture(int width = 0, int height = 0, unsigned char* data = 0, GLenum textureTarget = GL_TEXTURE_2D, GLfloat filter = GL_LINEAR_MIPMAP_LINEAR, GLenum internalFormat = GL_RGBA, GLenum format = GL_RGBA, bool clamp = false, GLenum attachment = GL_NONE);
 	/// <summary>
-	/// Initializes a new instance of the <see cref="Texture"/> class with a texture object.
+	/// Adds a refernce to the counter.
 	/// </summary>
 	/// <param name="texture">The texture.</param>
 	Texture(const Texture& texture);
 	/// <summary>
+	/// Equal operator override. Copies the memory over from a texture to this new Texture object.
+	/// </summary>
+	/// <param name="other">The texture to copy.</param>
+	void operator=(Texture texture);
+	/// <summary>
 	/// Finalizes an instance of the <see cref="Texture"/> class.
 	/// </summary>
 	virtual ~Texture();
-	/// <summary>
-	/// Equal operator override.
-	/// </summary>
-	/// <param name="other">The texture to copy.</param>
-	void operator=(Texture other);
 
 	/// <summary>
 	/// Binds the texture data to be used in the graphics card.
@@ -173,18 +168,18 @@ public:
 	/// <summary>
 	/// Binds to render target to this instance of the texture.
 	/// </summary>
-	void bindRenderTarget() const;
+	void bindAsRenderTarget() const;
 
 	/// <summary>
 	/// Gets the texture width.
 	/// </summary>
-	/// <returns>int.</returns>
-	inline int getWidth() const { return m_textureData->getWidth(); }
+	/// <returns>The width of the texture.</returns>
+	inline int getWidth()  const { return m_textureData->getWidth(); }
 	/// <summary>
 	/// Gets the texture height.
 	/// </summary>
-	/// <returns>int.</returns>
-	inline int getHeight() const { return m_textureData->getHeight(); }
+	/// <returns>The height of the texture.</returns>
+	inline int getHeight() const { return m_textureData->getWidth(); }
 
 	/// <summary>
 	/// Checks if this instance of a Texture is equal to another.
@@ -198,9 +193,11 @@ public:
 	/// <param name="texture">The texture.</param>
 	/// <returns>If the texture is not the same as the other.</returns>
 	bool operator!=(const Texture& texture) const { return !operator==(texture); }
-
-private:	
-	/// <summary>The map of every <see cref="TextureData"/>.</summary>
+protected:
+private:
+	/// <summary>
+	/// A static map of <see cref="TextureData"/> pointers that stores all Textures by their file name or given name.
+	/// </summary>
 	static std::map<std::string, TextureData*> s_resourceMap;
 
 	/// <summary>
@@ -212,4 +209,3 @@ private:
 	/// </summary>
 	std::string m_fileName;
 };
-

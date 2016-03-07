@@ -16,7 +16,9 @@
 #include "SteeringBehaviour.h"
 #include "Projectile.h"
 #include "ShipStats.h"
-#include <Components\PlayerShipMovementController.h>
+#include "PlayerShipMovementController.h"
+#include <PhysX/PxPhysicsAPI.h>
+using namespace physx;
 
 enum SHIP_CLASS
 {
@@ -37,8 +39,8 @@ public:
 
 	virtual void init() override
 	{
-		m_forwardDirection = glm::vec3(0);
-		m_direction = glm::vec3(0);
+		m_forwardDirection = PxVec3(0.0f, 0.0f, 0.0f);
+		m_direction = PxVec3(0.0f, 0.0f, 0.0f);
 		m_targetPoint = *getTransform()->getPosition();
 		m_velocityValue = 100.0f; 
 		//m_wayPoints.push_back(glm::vec3(10.0f, 15.0f, 600.0f));
@@ -81,20 +83,19 @@ public:
 
 			//getClosestObject(SHIP_CLASS::PASSENGER_SHIP);
 			//float timeOfCollision;
-			//if (glm::distance(*getTransform()->getPosition(), *m_targetObject->getTransform()->getPosition()) < 150.0f
+			//if (glm::distance(*getTransform()->getPosition(), *m_targetObject->getTransform()->getPosition()) < 200.0f
 			//	&& m_targetObject->getGameComponent<RigidBody>()->getCollider()->checkCollision(
 			//	*getTransform()->getPosition(), getParent()->getGameComponent<RigidBody>()->getVelocity(), timeOfCollision))
 			//{
 			//	shootLaser();
 			//}
-			//Pursue(*m_targetObject, timestep);
 		}
 		//Pursue the fighter ship
 		else if (m_delayAttacking < 0.0f && m_shipStats->getHealth() > 0.4f)
 		{
 			getClosestObject(SHIP_CLASS::FIGHTER_SHIP);
 			float timeOfCollision;
-			if (glm::distance(*getTransform()->getPosition(), *m_targetObject->getTransform()->getPosition()) < 150.0f
+			if (Utility::getDistance(*getTransform()->getPosition(), *m_targetObject->getTransform()->getPosition()) < 200.0f
 				&& m_targetObject->getGameComponent<RigidBody>()->getCollider()->checkCollision(
 				*getTransform()->getPosition(), getParent()->getGameComponent<RigidBody>()->getVelocity(), timeOfCollision))
 			{
@@ -107,7 +108,7 @@ public:
 		{
 			getClosestObject(SHIP_CLASS::ALL_SHIP);
 			Evade(*m_targetObject, timestep);
-			m_shipStats->updateHealth(0.5f);
+			m_shipStats->updateHealth(0.01f);
 		}
 		//Wander
 		else
@@ -150,9 +151,9 @@ public:
 			for (size_t i = 0; i < allEnemyObject.size(); i++)
 			{
 
-				if (closestDistance > glm::distance(*getTransform()->getPosition(), *allEnemyObject[i]->getTransform()->getPosition()))
+				if (closestDistance > Utility::getDistance(*getTransform()->getPosition(), *allEnemyObject[i]->getTransform()->getPosition()))
 				{
-					closestDistance = glm::distance(*getTransform()->getPosition(), *allEnemyObject[i]->getTransform()->getPosition());
+					closestDistance = (*getTransform()->getPosition(), *allEnemyObject[i]->getTransform()->getPosition()).magnitude();
 					m_targetObject = allEnemyObject[i];
 				}
 			}
@@ -165,7 +166,7 @@ public:
 		//Right side
 		instantiate(
 			(new GameObject("Laser", *getTransform()->getPosition()
-			, *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
+			, *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
 			->addGameComponent(new Projectile)
 			->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
 			->addGameComponent(new RigidBody(*getTransform()->getPosition() +
@@ -176,7 +177,7 @@ public:
 			);
 		//Left Side
 		instantiate(
-			(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
+			(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
 			->addGameComponent(new Projectile)
 			->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
 			->addGameComponent(new RigidBody(*getTransform()->getPosition() +

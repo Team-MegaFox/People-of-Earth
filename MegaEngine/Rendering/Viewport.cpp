@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="Viewport.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -83,9 +83,9 @@ void Viewport::update(GUIEngine* guiEngine)
 	guiEngine->processInput(e);
 }
 
-void Viewport::clearScreen()
+void Viewport::clearScreen() const
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
@@ -94,7 +94,7 @@ void Viewport::swapBuffers()
 	SDL_GL_SwapWindow(m_window);
 }
 
-void Viewport::bindRenderTarget() const
+void Viewport::bindAsRenderTarget() const
 {
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);

@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
+// Author           : Pavan Jakhu, Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="Transform.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -11,182 +11,68 @@
 // <summary></summary>
 // ***********************************************************************
 #pragma once
-#include <glm\glm.hpp>
-#include <glm\gtx\transform.hpp>
-#include <glm\gtc\quaternion.hpp>
+
+#include <PhysX\PxPhysicsAPI.h>
+using namespace physx;
 #include "Utility.h"
 
 class GameObject;
 
-/// <summary>
-/// Stores the position, rotation and scale of an object.
-/// </summary>
 class Transform
 {
 public:
+	Transform(const PxVec3& pos = PxVec3(0, 0, 0), const PxQuat& rot = PxQuat(0, 0, 0, 1), PxVec3 scale = PxVec3(0, 0, 0)) :
+		m_pos(pos),
+		m_rot(rot),
+		m_scale(scale),
+		m_parent(0),
+		m_parentMatrix(PxMat44(PxVec4(1,1,1,1))),
+		m_initializedOldStuff(false) {}
 
-	/// <summary>
-	/// Initializes a new instance of the <see cref="Transform"/> class.
-	/// </summary>
-	/// <param name="position">The position.</param>
-	/// <param name="rotation">The rotation.</param>
-	/// <param name="scale">The scale.</param>
-	Transform(const glm::vec3 & position = glm::vec3(0.0f),
-		const glm::quat & rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
-		const glm::vec3 & scale = glm::vec3(1.0f));
-
-	/// <summary>
-	/// Determines whether this instance has changed.
-	/// </summary>
-	/// <returns>If the instance has changed.</returns>
+	PxMat44 getTransformation() const;
 	bool hasChanged();
-	/// <summary>
-	/// Gets the transformation matrix.
-	/// </summary>
-	/// <returns>The transformation matrix.</returns>
-	glm::mat4 getTransformation() const;
-	/// <summary>
-	/// Gets the parent matrix.
-	/// </summary>
-	/// <returns>The parent's tranformation matrix.</returns>
-	const glm::mat4 getParentMatrix() const;
-	/// <summary>
-	/// Gets the transformed rotation.
-	/// </summary>
-	/// <returns>The transfomred roation quaternion.</returns>
-	glm::quat getTransformedRot() const;
-	/// <summary>
-	/// Gets the transformed position.
-	/// </summary>
-	/// <returns>The transformed position vector.</returns>
-	glm::vec3 getTransformedPos() const;
-	/// <summary>
-	/// Rotates the Transform by a specified axis.
-	/// </summary>
-	/// <param name="axis">The axis.</param>
-	/// <param name="angle">The angle.</param>
-	void rotate(const glm::vec3& axis, float angle);
-	/// <summary>
-	/// Rotates the Transform by a specified rotation.
-	/// </summary>
-	/// <param name="rotation">The rotation.</param>
-	void rotate(const glm::quat& rotation);
-	/// <summary>
-	/// Updates this instance.
-	/// </summary>
 	void update();
+	void rotate(const PxVec3& axis, float angle);
+	void rotate(const PxQuat& rotation);
+	void lookAt(const PxVec3& point, const PxVec3& up);
 
-	// Getters
-	/// <summary>
-	/// Gets the attached game object.
-	/// </summary>
-	/// <returns>Attached GameObject pointers.</returns>
-	GameObject * getAttachedGameObject() { return m_attached; }
-	/// <summary>
-	/// Gets the parent Transform.
-	/// </summary>
-	/// <returns>A pointer to the parent's Transform.</returns>
-	Transform * getParent() { return m_parent; }
-	/// <summary>
-	/// Gets the position.
-	/// </summary>
-	/// <returns>A pointer to the position vector.</returns>
-	glm::vec3 * getPosition() { return &m_pos; }
-	/// <summary>
-	/// Gets the position.
-	/// </summary>
-	/// <returns>A const refernce to the position vector.</returns>
-	const glm::vec3 & getPosition() const { return m_pos; }
-	/// <summary>
-	/// Gets the rotation.
-	/// </summary>
-	/// <returns>A pointer to the rotation quaternion.</returns>
-	glm::quat * getRotation() { return &m_rot; }
-	/// <summary>
-	/// Gets the rotation.
-	/// </summary>
-	/// <returns>A const reference to the roation quaternion.</returns>
-	const glm::quat & getRotation() const { return m_rot; }
-	/// <summary>
-	/// Gets the scale.
-	/// </summary>
-	/// <returns>A pointer to the scale vector.</returns>
-	glm::vec3 * getScale() { return &m_scale; }
-	/// <summary>
-	/// Gets the scale.
-	/// </summary>
-	/// <returns>A const reference to the scale vector.</returns>
-	const glm::vec3 & getScale() const { return m_scale; }
+	PxQuat getLookAtRotation(const PxVec3& point, const PxVec3& up)
+	{
+		PxMat44 swag = PxMat44(Utility::initRotationFromDirection((point - m_pos).getNormalized(), up));
+		return PxQuat(PxMat33(swag.column0.getXYZ(), swag.column1.getXYZ(), swag.column2.getXYZ()));
+	}
 
-	// Setters
-	/// <summary>
-	/// Sets the attached game object.
-	/// </summary>
-	/// <param name="attach">The attach.</param>
-	void setAttachedGameObject(GameObject* attach) { m_attached = attach; }
-	/// <summary>
-	/// Sets the parent.
-	/// </summary>
-	/// <param name="parent">The parent.</param>
-	void setParent(Transform* parent) { m_parent = parent; }
-	/// <summary>
-	/// Sets the position.
-	/// </summary>
-	/// <param name="pos">The position.</param>
-	void setPosition(const glm::vec3 & pos) { m_pos = pos; }
-	/// <summary>
-	/// Sets the rotation.
-	/// </summary>
-	/// <param name="rot">The rot.</param>
-	void setRotation(const glm::quat & rot) { m_rot = rot; }
-	/// <summary>
-	/// Sets the scale.
-	/// </summary>
-	/// <param name="scale">The scale.</param>
-	void setScale(const glm::vec3 & scale) { m_scale = scale; }
+	inline PxVec3* getPosition()					{ return &m_pos; }
+	inline const PxVec3& getPosition()     const	{ return m_pos; }
+	inline PxQuat* getRotation()					{ return &m_rot; }
+	inline const PxQuat& getRotation()		const	{ return m_rot; }
+	inline PxVec3* getScale()						{ return &m_scale; }
+	inline const PxVec3& getScale()        const	{ return m_scale; }
+	inline PxVec3 getTransformedPos()		const	{ return PxVec3(GetParentMatrix().transform(m_pos)); }
+	PxQuat getTransformedRot()				const;
+	Transform * getParent()					const	{ return m_parent; }
+	GameObject * getAttachedGameObject()	const	{ return m_attachedGameObject; }
 
+	inline void setPosition(const PxVec3& pos) { m_pos = pos; }
+	inline void setRotation(const PxQuat& rot) { m_rot = rot; }
+	inline void setScale(const PxVec3& scale) { m_scale = scale; }
+	inline void setParent(Transform* parent) { m_parent = parent; }
+	inline void setAttachedGameObject(GameObject * gameObject) { m_attachedGameObject = gameObject; }
+
+protected:
 private:
-	/// <summary>
-	/// The position vector.
-	/// </summary>
-	glm::vec3 m_pos;
-	/// <summary>
-	/// The rotation quaternion.
-	/// </summary>
-	glm::quat m_rot;
-	/// <summary>
-	/// The scale vector.
-	/// </summary>
-	glm::vec3 m_scale;;
+	const PxMat44& GetParentMatrix() const;
 
-	/// <summary>
-	/// The attached GameObject.
-	/// </summary>
-	GameObject* m_attached;
-	/// <summary>
-	/// The parent Transform.
-	/// </summary>
+	PxVec3 m_pos;
+	PxQuat m_rot;
+	PxVec3 m_scale;
+
 	Transform* m_parent;
-	/// <summary>
-	/// The parent transformation matrix.
-	/// </summary>
-	mutable glm::mat4 m_parentMatrix;
+	GameObject * m_attachedGameObject;
+	mutable PxMat44 m_parentMatrix;
 
-	/// <summary>
-	/// The old position vector.
-	/// </summary>
-	mutable glm::vec3 m_oldPos;
-	/// <summary>
-	/// The old rotation quaternion.
-	/// </summary>
-	mutable glm::quat m_oldRot;
-	/// <summary>
-	/// The old scale vector.
-	/// </summary>
-	mutable glm::vec3 m_oldScale;
-	/// <summary>
-	/// The initialized old stuff.
-	/// </summary>
+	mutable PxVec3 m_oldPos;
+	mutable PxQuat m_oldRot;
+	mutable PxVec3 m_oldScale;
 	mutable bool m_initializedOldStuff;
-
 };

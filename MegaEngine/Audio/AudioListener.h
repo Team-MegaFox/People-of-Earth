@@ -30,14 +30,14 @@ public:
 	/// <summary>
 	/// Sets as the scene audio listener.
 	/// </summary>
-	void setAsListener(glm::vec3 pos, glm::vec3 vel, glm::vec3 forward, glm::vec3 up)
+	void setAsListener(PxVec3 pos, PxVec3 vel, PxVec3 forward, PxVec3 up)
 	{
 		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->set3DListenerAttributes(
 			0,
-			&AudioEngine::glmToFMOD(pos),
-			&AudioEngine::glmToFMOD(vel),
-			&AudioEngine::glmToFMOD(forward),
-			&AudioEngine::glmToFMOD(up)));
+			&AudioEngine::physxToFMOD(pos),
+			&AudioEngine::physxToFMOD(vel),
+			&AudioEngine::physxToFMOD(forward),
+			&AudioEngine::physxToFMOD(up)));
 	}
 };
 

@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 02-29-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="PolygonCollider.cpp" company="">
 //     Copyright (c) . All rights reserved.
@@ -44,12 +44,12 @@ PolygonCollider::~PolygonCollider()
 }
 
 void PolygonCollider::init(
-		glm::vec3 position,
-		glm::quat rotation,
+		PxVec3 position,
+		PxQuat rotation,
 		float scale,
 		float mass,
-		glm::vec3 velocity,
-		glm::vec3 acceleration,
+		PxVec3 velocity,
+		PxVec3 acceleration,
 		float halfWidth,
         float halfHeight,
         float halfDepth,
@@ -116,26 +116,26 @@ std::vector<Collider*> PolygonCollider::checkCollision( std::vector<Collider*> c
         {
 			float timeOfCollision;
 			//Check collision with rays
-			if (collidedObject[i]->checkCollision(m_position + glm::vec3(m_halfWidth, m_halfHeight, -m_halfDepth),
-				m_rotation * glm::vec3(0.0f, 0.0f, 1.0f), timeOfCollision))
+			if (collidedObject[i]->checkCollision(m_position + PxVec3(m_halfWidth, m_halfHeight, -m_halfDepth),
+				m_rotation.rotate(PxVec3(0.0f, 0.0f, 1.0f)), timeOfCollision))
 			{
 				//Push back the collided object to the return collided object
 				trueCollidedObject.push_back(collidedObject[i]);
 			}
-			else if (collidedObject[i]->checkCollision(m_position + glm::vec3(m_halfWidth, -m_halfHeight, -m_halfDepth),
-				m_rotation * glm::vec3(0.0f, 0.0f, 1.0f), timeOfCollision))
+			else if (collidedObject[i]->checkCollision(m_position + PxVec3(m_halfWidth, -m_halfHeight, -m_halfDepth),
+				m_rotation.rotate(PxVec3(0.0f, 0.0f, 1.0f)), timeOfCollision))
 			{
 				//Push back the collided object to the return collided object
 				trueCollidedObject.push_back(collidedObject[i]);
 			}
-			else if (collidedObject[i]->checkCollision(m_position + glm::vec3(-m_halfWidth, -m_halfHeight, -m_halfDepth),
-				m_rotation * glm::vec3(0.0f, 0.0f, 1.0f), timeOfCollision))
+			else if (collidedObject[i]->checkCollision(m_position + PxVec3(-m_halfWidth, -m_halfHeight, -m_halfDepth),
+				m_rotation.rotate(PxVec3(0.0f, 0.0f, 1.0f)), timeOfCollision))
 			{
 				//Push back the collided object to the return collided object
 				trueCollidedObject.push_back(collidedObject[i]);
 			}
-			else if (collidedObject[i]->checkCollision(m_position + glm::vec3(-m_halfWidth, m_halfHeight, -m_halfDepth),
-				m_rotation * glm::vec3(0.0f, 0.0f, 1.0f), timeOfCollision))
+			else if (collidedObject[i]->checkCollision(m_position + PxVec3(-m_halfWidth, m_halfHeight, -m_halfDepth),
+				m_rotation.rotate(PxVec3(0.0f, 0.0f, 1.0f)), timeOfCollision))
 			{
 				//Push back the collided object to the return collided object
 				trueCollidedObject.push_back(collidedObject[i]);
@@ -211,22 +211,22 @@ bool PolygonCollider::checkSATCollision(PolygonCollider* collidableObject)
 	//Could break out earlier
 
     //Create a necessary variable for the collision check 
-	glm::vec3 rightDirection1, upDirection1, forwardDirection1;
-	glm::vec3 rightDirection2, upDirection2, forwardDirection2;
-	glm::vec3 axis;	
+	PxVec3 rightDirection1, upDirection1, forwardDirection1;
+	PxVec3 rightDirection2, upDirection2, forwardDirection2;
+	PxVec3 axis;	
 
     //Get all the direction vectors of the this Collider
-    rightDirection1 = glm::normalize(GetRightVector(m_rotation)); 
-    upDirection1 = glm::normalize(GetUpVector(m_rotation)); 
-    forwardDirection1 = glm::normalize(GetForwardVector(m_rotation));
+    rightDirection1 = GetRightVector(m_rotation).getNormalized(); 
+	upDirection1 = GetUpVector(m_rotation).getNormalized();
+	forwardDirection1 = GetForwardVector(m_rotation).getNormalized();
 	
     //Get all the direction vectors of the other Collider
-	rightDirection2 = glm::normalize(GetRightVector(collidableObject->getRotation())); 
-    upDirection2 = glm::normalize(GetUpVector(collidableObject->getRotation())); 
-    forwardDirection2 = glm::normalize(GetForwardVector(collidableObject->getRotation()));
+	rightDirection2 = GetRightVector(collidableObject->getRotation()).getNormalized();
+	upDirection2 = GetUpVector(collidableObject->getRotation()).getNormalized();
+	forwardDirection2 = GetForwardVector(collidableObject->getRotation()).getNormalized();
 
     //Get the Vector from this Collider Position to the other Collider Position
-	glm::vec3 tPosition = collidableObject->getPosition() - m_position;
+	PxVec3 tPosition = collidableObject->getPosition() - m_position;
 
 	//Now is the big long check statement of each axis
 	//The first polygon X axis
@@ -272,63 +272,63 @@ bool PolygonCollider::checkSATCollision(PolygonCollider* collidableObject)
 		return false;
 	}
 	//The cross product of first polygon X axis with second polygon X axis
-	axis = glm::cross(rightDirection1, rightDirection2);
+	axis = rightDirection1.cross(rightDirection2);
 	if (!checkAxisCollision(tPosition, axis, rightDirection1, upDirection1, forwardDirection1,
 		rightDirection2 ,upDirection2, forwardDirection2, collidableObject))
 	{
 		return false;
 	}
 	//The cross product of first polygon X axis with second polygon Y axis
-	axis = glm::cross(rightDirection1, upDirection2);
+	axis = rightDirection1.cross(upDirection2);
 	if (!checkAxisCollision(tPosition, axis, rightDirection1, upDirection1, forwardDirection1,
 		rightDirection2 ,upDirection2, forwardDirection2, collidableObject))
 	{
 		return false;
 	}
 	//The cross product of first polygon X axis with second polygon Z axis
-	axis = glm::cross(rightDirection1, forwardDirection2);
+	axis = rightDirection1.cross(forwardDirection2);
 	if (!checkAxisCollision(tPosition, axis, rightDirection1, upDirection1, forwardDirection1,
 		rightDirection2 ,upDirection2, forwardDirection2, collidableObject))
 	{
 		return false;
 	}
 	//The cross product of first polygon Y axis with second polygon X axis
-	axis = glm::cross(upDirection1, rightDirection2);
+	axis = upDirection1.cross(rightDirection2);
 	if (!checkAxisCollision(tPosition, axis, rightDirection1, upDirection1, forwardDirection1,
 		rightDirection2 ,upDirection2, forwardDirection2, collidableObject))
 	{
 		return false;
 	}
 	//The cross product of first polygon Y axis with second polygon Y axis
-	axis = glm::cross(upDirection1, upDirection2);
+	axis = upDirection1.cross(upDirection2);
 	if (!checkAxisCollision(tPosition, axis, rightDirection1, upDirection1, forwardDirection1,
 		rightDirection2 ,upDirection2, forwardDirection2, collidableObject))
 	{
 		return false;
 	}
 	//The cross product of first polygon Y axis with second polygon Z axis
-	axis = glm::cross(upDirection1, forwardDirection2);
+	axis = upDirection1.cross(forwardDirection2);
 	if (!checkAxisCollision(tPosition, axis, rightDirection1, upDirection1, forwardDirection1,
 		rightDirection2 ,upDirection2, forwardDirection2, collidableObject))
 	{
 		return false;
 	}
 		//The cross product of first polygon Z axis with second polygon X axis
-	axis = glm::cross(forwardDirection1, rightDirection2);
+	axis = forwardDirection1.cross(rightDirection2);
 	if (!checkAxisCollision(tPosition, axis, rightDirection1, upDirection1, forwardDirection1,
 		rightDirection2 ,upDirection2, forwardDirection2, collidableObject))
 	{
 		return false;
 	}
 	//The cross product of first polygon Z axis with second polygon Y axis
-	axis = glm::cross(forwardDirection1, upDirection2);
+	axis = forwardDirection1.cross(upDirection2);
 	if (!checkAxisCollision(tPosition, axis, rightDirection1, upDirection1, forwardDirection1,
 		rightDirection2 ,upDirection2, forwardDirection2, collidableObject))
 	{
 		return false;
 	}
 	//The cross product of first polygon Z axis with second polygon Z axis
-	axis = glm::cross(forwardDirection1, forwardDirection2);
+	axis = forwardDirection1.cross(forwardDirection2);
 	if (!checkAxisCollision(tPosition, axis, rightDirection1, upDirection1, forwardDirection1,
 		rightDirection2 ,upDirection2, forwardDirection2, collidableObject))
 	{
@@ -339,21 +339,28 @@ bool PolygonCollider::checkSATCollision(PolygonCollider* collidableObject)
 	return true;
 }
 
-bool PolygonCollider::checkAxisCollision(glm::vec3 tPosition, glm::vec3 axis, glm::vec3 rightDirection1, glm::vec3 upDirection1, glm::vec3 forwardDirection1, 
-		glm::vec3 rightDirection2, glm::vec3 upDirection2, glm::vec3 forwardDirection2, PolygonCollider* collidableObject)
+bool PolygonCollider::checkAxisCollision(
+	PxVec3 tPosition, 
+	PxVec3 axis, 
+	PxVec3 rightDirection1, 
+	PxVec3 upDirection1, 
+	PxVec3 forwardDirection1, 
+	PxVec3 rightDirection2, 
+	PxVec3 upDirection2, 
+	PxVec3 forwardDirection2, 
+	PolygonCollider* collidableObject)
 {
     //Axis Collision check
-	if ( glm::abs(glm::dot(tPosition, axis)) >
+	if (PxAbs(tPosition.dot(axis)) >
 
-		glm::abs(glm::dot((rightDirection1 * m_halfWidth), axis)) + 
-		glm::abs(glm::dot((upDirection1 * m_halfHeight), axis)) +
-		glm::abs(glm::dot((forwardDirection1 * m_halfDepth), axis)) + 
+		PxAbs((rightDirection1 * m_halfWidth).dot(axis)) +
+		PxAbs((upDirection1 * m_halfHeight).dot(axis)) +
+		PxAbs((forwardDirection1 * m_halfDepth).dot(axis)) +
 
-		glm::abs(glm::dot((rightDirection2 * collidableObject->getHalfWidth()), axis)) + 
-		glm::abs(glm::dot((upDirection2 * collidableObject->getHalfHeight()), axis)) +
-		glm::abs(glm::dot((forwardDirection2 * collidableObject->getHalfDepth()), axis)) 
+		PxAbs((rightDirection2 * collidableObject->getHalfWidth()).dot(axis)) +
+		PxAbs((upDirection2 * collidableObject->getHalfHeight()).dot(axis)) +
+		PxAbs((forwardDirection2 * collidableObject->getHalfDepth()).dot(axis))
 
-	
 		)
 	{
         //No collision

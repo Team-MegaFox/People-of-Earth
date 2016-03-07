@@ -9,12 +9,12 @@
 
 int main(int argc, char** argv)
 {
-	Viewport window("People of Earth", 1024, 576, 0);
+	Viewport window("People of Earth", 1366, 768, 0);
 	GUIEngine guiEngine("Assets/GUI");
-	RenderingEngine renderingEngine(window, guiEngine);
+	RenderingEngine renderingEngine(window);
 	SceneManager sceneManager(&window);
 	PhysicsEngine physicsEngine;
-	physicsEngine.getPhysicsWorld()->init(glm::vec3(0), 1000.0f);
+	physicsEngine.getPhysicsWorld()->init(PxVec3(0), 1000.0f);
 	AudioEngine audioEngine;
 
 	CoreEngine core(60.0, &window, &renderingEngine, &physicsEngine, &audioEngine, &guiEngine, &sceneManager);

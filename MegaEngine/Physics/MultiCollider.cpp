@@ -38,12 +38,12 @@ MultiCollider::~MultiCollider()
 }
 
 void MultiCollider::init(
-		glm::vec3 position,
-		glm::quat rotation,
+		PxVec3 position,
+		PxQuat rotation,
 		float scale,
 		float mass,
-		glm::vec3 velocity,
-		glm::vec3 acceleration,
+		PxVec3 velocity,
+		PxVec3 acceleration,
         int id)
 {
 	Collider::init(position, rotation, scale, mass, velocity, acceleration, id);
@@ -56,25 +56,25 @@ void MultiCollider::addColliderToObject(Collider* collider)
     //Set the collider id so it is part of the Multi Collider 
     collider->setID(m_id);
     m_multipleCollider.push_back(collider);
-	m_distanceColliderFromCenterOfGravity.push_back(glm::vec3(0));
+	m_distanceColliderFromCenterOfGravity.push_back(PxVec3(0.0f, 0.0f, 0.0f));
 
 	//Set the Center of the gravity
-	m_position = glm::vec3(0);
+	m_position = PxVec3(0.0f, 0.0f, 0.0f);
 	for (size_t i = 0; i < m_multipleCollider.size(); i++)
 	{
 		m_position += m_multipleCollider[i]->getPosition();
 	}
-	m_position /= m_multipleCollider.size();
+	m_position /= (PxReal)m_multipleCollider.size();
 
     //Calculate the highest radius of the multiple collider object
     m_radiusSphere = 0.0f;
     for (size_t i = 0; i < m_multipleCollider.size(); i++)
     {
         //if the current radius sphere is smaller then the specific collider disance from Multi Collider position and specific collider radius then
-        if (m_radiusSphere < glm::length(m_multipleCollider[i]->getPosition() - m_position) + m_multipleCollider[i]->getRadiusSphere())
+        if (m_radiusSphere < (m_multipleCollider[i]->getPosition() - m_position).magnitude() + m_multipleCollider[i]->getRadiusSphere())
         {
             //Update the value of the radius
-            m_radiusSphere = glm::length(m_multipleCollider[i]->getPosition() - m_position) + m_multipleCollider[i]->getRadiusSphere();
+            m_radiusSphere = (m_multipleCollider[i]->getPosition() - m_position).magnitude() + m_multipleCollider[i]->getRadiusSphere();
         }
     }
 
@@ -191,7 +191,7 @@ bool MultiCollider::multiMultiCollisionCheck(Collider* mulitSpecficCollider, Mul
     return false;
 }
 
-void MultiCollider::applyRotation(glm::quat rotation)
+void MultiCollider::applyRotation(PxQuat rotation)
 {
     //Apply the rotation on all the collider in the multi collider
     for (size_t i = 0; i < m_multipleCollider.size(); i++)
@@ -202,7 +202,7 @@ void MultiCollider::applyRotation(glm::quat rotation)
     Collider::applyRotation(m_rotation);
 }
 
-void MultiCollider::applyForce(glm::vec3 force) 
+void MultiCollider::applyForce(PxVec3 force)
 {
     //Apply the force on all the collider in the multi collider
     for (size_t i = 0; i < m_multipleCollider.size(); i++)
@@ -213,7 +213,7 @@ void MultiCollider::applyForce(glm::vec3 force)
     Collider::applyForce(force);
 }
 
-void MultiCollider::applyAcceleration(glm::vec3 accel) 
+void MultiCollider::applyAcceleration(PxVec3 accel)
 {
     //Apply the acceleration on all the collider in the multi collider
     for (size_t i = 0; i < m_multipleCollider.size(); i++)

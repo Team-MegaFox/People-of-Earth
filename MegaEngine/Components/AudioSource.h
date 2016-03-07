@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-24-2016
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="AudioSource.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -37,16 +37,20 @@ public:
 	/// Initializes a new instance of the <see cref="AudioSource"/> class.
 	/// </summary>
 	/// <param name="sound">The sound.</param>
-	AudioSource(const Sound & sound);
+	AudioSource(Sound * sound);
 	/// <summary>
 	/// Initializes a new instance of the <see cref="AudioSource"/> class.
 	/// </summary>
 	/// <param name="stream">The stream.</param>
-	AudioSource(const Stream & stream);
+	AudioSource(Stream * stream);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="AudioSource"/> class.
 	/// </summary>
-	~AudioSource() { }
+	~AudioSource() 
+	{ 
+		delete m_soundSource;
+		delete m_streamSource;
+	}
 
 	/// <summary>
 	/// Plays the sound.
@@ -114,13 +118,13 @@ public:
 	/// Sets the sound position and vel.
 	/// </summary>
 	/// <param name="pos">The position of this sound.</param>
-	void setSoundPosition(glm::vec3 pos);
+	void setSoundPosition(PxVec3 pos);
 
 	/// <summary>
 	/// Sets the stream position and vel.
 	/// </summary>
 	/// <param name="pos">The position of this stream.</param>
-	void setStreamPosition(glm::vec3 pos);
+	void setStreamPosition(PxVec3 pos);
 
 	/// <summary>
 	/// Sets the panning of this sound.
@@ -153,7 +157,7 @@ public:
 	/// <param name="iCA">The inside Cone Angle.</param>
 	/// <param name="oCA">The outside cone angle.</param>
 	/// <param name="oVol">The outside volume (the level of volume outside the cone).</param>
-	void setupSoundCone(glm::vec3 orient, float iCA, float oCA, float oVol);
+	void setupSoundCone(PxVec3 orient, float iCA, float oCA, float oVol);
 
 	/// <summary>
 	/// Sets the sound distance filter.
@@ -188,10 +192,10 @@ protected:
 	/// <summary>
 	/// The sound source handle
 	/// </summary>
-	Sound m_soundSource;
+	Sound * m_soundSource;
 
 	/// <summary>
 	/// The stream source handle
 	/// </summary>
-	Stream m_streamSource;
+	Stream * m_streamSource;
 };

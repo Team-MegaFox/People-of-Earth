@@ -1,27 +1,16 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
+// Author           : Pavan Jakhu, Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="Transform.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-#include "Transform.h"
-
-#define GLM_FORCE_RADIANS
-
-Transform::Transform(const glm::vec3 & position,
-	const glm::quat & rotation,
-	const glm::vec3 & scale) :
-	m_pos(position),
-	m_rot(rotation),
-	m_scale(scale)
-{ /* Empty */
-}
+#include "transform.h"
 
 bool Transform::hasChanged()
 {
@@ -40,7 +29,7 @@ bool Transform::hasChanged()
 		return true;
 	}
 
-	if (m_scale != m_oldScale)
+	if (m_scale != m_scale)
 	{
 		return true;
 	}
@@ -58,54 +47,58 @@ void Transform::update()
 	}
 	else
 	{
-		m_oldPos = m_pos + glm::vec3(1.0f, 1.0f, 1.0f);
+		m_oldPos = m_pos + PxVec3(1, 1, 1);
 		m_oldRot = m_rot * 0.5f;
-		m_oldScale = m_scale + glm::vec3(1.0f);
+		m_oldScale = m_scale + PxVec3(1, 1, 1);
 		m_initializedOldStuff = true;
 	}
 }
 
-glm::mat4 Transform::getTransformation() const
+void Transform::rotate(const PxVec3& axis, float angle)
 {
-	glm::mat4 translationMatrix = Utility::initTranslation(m_pos);
-	glm::mat4 scaleMatrix = Utility::initScale(m_scale);
-	glm::mat4 result = translationMatrix * glm::mat4_cast(m_rot) * scaleMatrix;
-
-	return getParentMatrix() * result;
+	rotate(PxQuat(angle, axis));
 }
 
-const glm::mat4 Transform::getParentMatrix() const
+void Transform::rotate(const PxQuat& rotation)
+{
+	m_rot = PxQuat((rotation * m_rot).getNormalized());
+}
+
+void Transform::lookAt(const PxVec3& point, const PxVec3& up)
+{
+	m_rot = getLookAtRotation(point, up);
+}
+
+PxMat44 Transform::getTransformation() const
+{
+	PxMat44 translationMatrix;
+	PxMat44 scaleMatrix;
+
+	translationMatrix = Utility::initTranslation(m_pos);
+	scaleMatrix = Utility::initScale(m_scale);
+
+	PxMat44 result = translationMatrix * PxMat44(m_rot) * scaleMatrix;
+
+	return GetParentMatrix() * result;
+}
+
+const PxMat44& Transform::GetParentMatrix() const
 {
 	if (m_parent != 0 && m_parent->hasChanged())
 	{
 		m_parentMatrix = m_parent->getTransformation();
 	}
+
 	return m_parentMatrix;
 }
 
-glm::quat Transform::getTransformedRot() const
+PxQuat Transform::getTransformedRot() const
 {
-	glm::quat parentRot(1.0f, 0.0f, 0.0f, 0.0f);
+	PxQuat parentRot = PxQuat(0, 0, 0, 1);
 
 	if (m_parent)
 	{
 		parentRot = m_parent->getTransformedRot();
 	}
-	
 	return parentRot * m_rot;
-}
-
-glm::vec3 Transform::getTransformedPos() const
-{
-	return glm::vec3(getParentMatrix() * glm::vec4(m_pos, 1.0f));
-}
-
-void Transform::rotate(const glm::vec3& axis, float angle)
-{
-	rotate(glm::angleAxis(-angle, axis));
-}
-
-void Transform::rotate(const glm::quat& rotation)
-{
-	m_rot = glm::quat(glm::normalize(rotation * m_rot));
 }

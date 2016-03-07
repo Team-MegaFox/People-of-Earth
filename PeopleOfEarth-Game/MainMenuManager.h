@@ -2,6 +2,7 @@
 #include <MegaEngine.h>
 #include <iostream>
 #include "TextLerpAlpha.h"
+#include "PauseScene.h"
 
 class MainMenuManager : public GameComponent
 {
@@ -15,12 +16,13 @@ public:
 		m_mainMenuScreen = getGameObjectByName("Main Menu");
 		m_mainMenuScreen->setEnabled(false);
 
-		m_playButton = getGameObjectByName("Play Button")->getGUIComponent<GUIButton>();
-		m_exitButton = getGameObjectByName("Exit Button")->getGUIComponent<GUIButton>();
-		m_focusButton = m_playButton;
+		m_buttons.push_back(getGameObjectByName("Play Button")->getGUIComponent<GUIButton>());
+		m_buttons.push_back(getGameObjectByName("Options Button")->getGUIComponent<GUIButton>());
+		m_buttons.push_back(getGameObjectByName("Exit Button")->getGUIComponent<GUIButton>());
+		m_focusButton = 0;
 		if (!m_usingMouse)
 		{
-			m_focusButton->getParent()->addGameComponent(new TextLerpAlpha, true);
+			m_buttons[m_focusButton]->getParent()->addGameComponent(new TextLerpAlpha, true);
 		}
 	}
 
@@ -31,93 +33,51 @@ public:
 	/// <param name="delta">The frame time delta.</param>
 	virtual void processInput(const InputManager& input, float delta) override
 	{
-		if (m_showSplash && (input.PadButtonPress(SDL_CONTROLLER_BUTTON_START) || input.KeyPress(SDLK_SPACE) || input.MouseButtonPress(SDL_BUTTON_LEFT)))
+		if (!m_usingMouse && input.MouseButtonPress(SDL_BUTTON_LEFT))
 		{
-			m_showSplash = false;
-			m_splashScreen->setEnabled(false);
-			m_mainMenuScreen->setEnabled(true);
-
-			if (input.MouseButtonPress(SDL_BUTTON_LEFT) || input.KeyPress(SDLK_SPACE))
-			{
-				m_usingMouse = true;
-			}
-			else if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_START))
-			{
-				m_usingMouse = false;
-			}
+			m_usingMouse = true;
+			m_buttons[m_focusButton]->getParent()->removeGameComponent(m_buttons[m_focusButton]->getParent()->getGameComponent<TextLerpAlpha>());
+		}
+		else if (m_usingMouse && (input.KeyPress(SDLK_w) || input.KeyPress(SDLK_s) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_A) || input.ThumbLMoved()))
+		{
+			m_usingMouse = false;
+			m_buttons[m_focusButton]->getParent()->addGameComponent(new TextLerpAlpha, true);
 		}
 
-		if (!m_showSplash)
+		if (m_showSplash)
 		{
-			if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_A) || input.KeyPress(SDLK_RETURN))
+			if (input.KeyPress(SDLK_SPACE) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_START) || input.MouseButtonPress(SDL_BUTTON_LEFT))
 			{
-				m_focusButton->click();
+				m_splashScreen->setEnabled(false);
+				m_mainMenuScreen->setEnabled(true);
+				m_showSplash = false;
+			}
+		}
+		else
+		{
+			if (input.KeyPress(SDLK_w) || input.GetThumbLPosition().y > 0.1f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_UP))
+			{
+				m_buttons[m_focusButton]->getParent()->removeGameComponent(m_buttons[m_focusButton]->getParent()->getGameComponent<TextLerpAlpha>());
+
+				if (m_focusButton > 0) m_focusButton--;
+				else m_focusButton = 0;
+
+				m_buttons[m_focusButton]->getParent()->addGameComponent(new TextLerpAlpha, true);
 			}
 
-			if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B) || input.KeyPress(SDLK_BACKSPACE))
+			if (input.KeyPress(SDLK_s) || input.GetThumbLPosition().y < -0.1f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_DOWN))
 			{
-				m_showSplash = true;
-				m_splashScreen->setEnabled(true);
-				m_mainMenuScreen->setEnabled(false);
+				m_buttons[m_focusButton]->getParent()->removeGameComponent(m_buttons[m_focusButton]->getParent()->getGameComponent<TextLerpAlpha>());
 
-				if (input.KeyPress(SDLK_BACKSPACE))
-				{
-					m_usingMouse = true;
-				}
-				else if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B))
-				{
-					m_usingMouse = false;
-				}
+				if (m_focusButton < m_buttons.size() - 1) m_focusButton++;
+				else m_focusButton = m_buttons.size() - 1;
+
+				m_buttons[m_focusButton]->getParent()->addGameComponent(new TextLerpAlpha, true);
 			}
 
-			if (m_focusButton == m_playButton && 
-				(input.GetThumbLPosition().y < -0.1f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_DOWN) || input.KeyPress(SDLK_s)))
+			if (input.KeyPress(SDLK_RETURN) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_A))
 			{
-				if (input.KeyPress(SDLK_s))
-				{
-					m_usingMouse = true;
-					m_focusButton->getParent()->removeGameComponent(m_focusButton->getParent()->getGameComponent<TextLerpAlpha>());
-				}
-				else if (input.GetThumbLPosition().y < -0.1f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_DOWN))
-				{
-					m_usingMouse = false;
-				}
-
-				if (!m_usingMouse)
-				{
-					m_focusButton->getParent()->removeGameComponent(m_focusButton->getParent()->getGameComponent<TextLerpAlpha>());
-				}
-
-				m_focusButton = m_exitButton;
-
-				if (!m_usingMouse)
-				{
-					m_focusButton->getParent()->addGameComponent(new TextLerpAlpha, true);
-				}
-			}
-			else if (m_focusButton == m_exitButton && 
-				(input.GetThumbLPosition().y > 0.1f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_UP) || input.KeyPress(SDLK_w)))
-			{
-				if (input.KeyPress(SDLK_w))
-				{
-					m_usingMouse = true;
-				}
-				else if (input.GetThumbLPosition().y > 0.1f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_UP))
-				{
-					m_usingMouse = false;
-				}
-
-				if (!m_usingMouse)
-				{
-					m_focusButton->getParent()->removeGameComponent(m_focusButton->getParent()->getGameComponent<TextLerpAlpha>());
-				}
-
-				m_focusButton = m_playButton;
-
-				if (!m_usingMouse)
-				{
-					m_focusButton->getParent()->addGameComponent(new TextLerpAlpha, true);
-				}
+				m_buttons[m_focusButton]->click();
 			}
 		}
 	}
@@ -131,10 +91,8 @@ private:
 
 	GameObject* m_mainMenuScreen;
 
-	GUIButton* m_playButton;
+	std::vector<GUIButton*> m_buttons;
 
-	GUIButton* m_exitButton;
-
-	GUIButton* m_focusButton;
+	size_t m_focusButton;
 
 };

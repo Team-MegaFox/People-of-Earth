@@ -3,7 +3,7 @@
 // Created          : 02-01-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-25-2016
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="Sound.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -75,9 +75,9 @@ float & Sound::getSoundVolume()
 	return m_soundVolume;
 }
 
-void Sound::setSoundPosVel(glm::vec3 pos, glm::vec3 vel/* = glm::vec3(0.0f)*/)
+void Sound::setSoundPosVel(PxVec3 pos, PxVec3 vel/* = PxVec3(0.0f, 0.0f, 0.0f)*/)
 {
-	AudioEngine::FMODVerifyResult(m_soundPair.second->set3DAttributes(&AudioEngine::glmToFMOD(pos), &AudioEngine::glmToFMOD(vel)));
+	AudioEngine::FMODVerifyResult(m_soundPair.second->set3DAttributes(&AudioEngine::physxToFMOD(pos), &AudioEngine::physxToFMOD(vel)));
 }
 
 void Sound::setSoundPan(float pan)
@@ -90,9 +90,9 @@ void Sound::setSoundDopplerLevel(float dopplerLevel)
 	AudioEngine::FMODVerifyResult(m_soundPair.second->set3DDopplerLevel(dopplerLevel));
 }
 
-void Sound::setSoundConeOrientation(glm::vec3 orientation)
+void Sound::setSoundConeOrientation(PxVec3 orientation)
 {
-	AudioEngine::FMODVerifyResult(m_soundPair.second->set3DConeOrientation(&AudioEngine::glmToFMOD(orientation)));
+	AudioEngine::FMODVerifyResult(m_soundPair.second->set3DConeOrientation(&AudioEngine::physxToFMOD(orientation)));
 }
 
 void Sound::setSoundConeSettings(float insideConeAngle, float outsideConeAngle, float outsideVolume)

@@ -26,6 +26,11 @@ public:
 	/// <param name="delta">The frame time delta.</param>
 	virtual void processInput(const InputManager& input, float delta) override
 	{
+		if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B))
+		{
+			getCoreEngine()->getSceneManager()->pop();
+		}
+
 		if (!m_move)
 		{
 			if (input.KeyPress(SDLK_d) || input.GetThumbLPosition().x > 0.2f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_RIGHT))
@@ -61,10 +66,7 @@ public:
 
 			if (input.KeyPress(SDLK_RETURN) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_A))
 			{
-				if (m_focusMissionIndex == 0)
-				{
-					getCoreEngine()->getSceneManager()->push(new MissionOneScene);
-				}
+				m_missionWidgets[m_focusMissionIndex]->getParent()->getAllChildren()[0]->getGUIComponent<GUIButton>()->click();
 			}
 		}
 	}
@@ -82,14 +84,14 @@ public:
 			{
 				for (size_t i = 0; i < m_missionWidgets.size(); i++)
 				{
-					m_missionWidgets[i]->setPercentPosition(m_missionWidgets[i]->getPercentPosition() + glm::vec2(m_moveSpeed * delta, 0.0f));
+					m_missionWidgets[i]->setPercentPosition(m_missionWidgets[i]->getPercentPosition() + PxVec2(m_moveSpeed * delta, 0.0f));
 				}
 			}
 			else
 			{
 				for (size_t i = 0; i < m_missionWidgets.size(); i++)
 				{
-					m_missionWidgets[i]->setPercentPosition(m_missionWidgets[i]->getPercentPosition() - glm::vec2(m_moveSpeed * delta, 0.0f));
+					m_missionWidgets[i]->setPercentPosition(m_missionWidgets[i]->getPercentPosition() - PxVec2(m_moveSpeed * delta, 0.0f));
 				}
 			}
 

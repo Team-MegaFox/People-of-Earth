@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu
 // Created          : 02-03-2016
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 02-03-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="GUISlider.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -28,7 +28,7 @@ public:
 	/// <param name="position">The slider's thumb position.</param>
 	/// <param name="maxValue">The maximum value of the slider.</param>
 	/// <param name="stepAmt">The step amount of the slider.</param>
-	GUISlider(const glm::vec4& destRectPerc, const glm::vec4& destRectPix,
+	GUISlider(const PxVec4& destRectPerc, const PxVec4& destRectPix,
 		float position = 0.0f, float maxValue = 1.0f, float stepAmt = 0.01f) :
 	GUIComponent(destRectPerc, destRectPix), m_position(position), m_maxValue(maxValue), m_stepAmt(stepAmt) { }
 	/// <summary>
@@ -55,7 +55,7 @@ public:
 	/// Gets the thumb posiiton.
 	/// </summary>
 	/// <returns>The slider's thumb position right now.</returns>
-	float getThumbPosiiton() const { return m_slider->getCurrentValue(); }
+	float getThumbPosition() const { return m_slider->getCurrentValue(); }
 	/// <summary>
 	/// Gets the maximum value of the slider.
 	/// </summary>

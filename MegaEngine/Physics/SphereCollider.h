@@ -51,12 +51,12 @@ public:
 	/// <param name="radiusSphere">Radius of the Sphere Collider.</param>
 	/// <param name="id">The identifier of the Sphere Collider.</param>
 	void init(
-		glm::vec3 position,
-		glm::quat rotation,
+		PxVec3 position,
+		PxQuat rotation,
 		float scale,
 		float mass,
-		glm::vec3 velocity,
-		glm::vec3 acceleration,
+		PxVec3 velocity,
+		PxVec3 acceleration,
 		float radiusSphere,
 		int id = 0
 		);  
@@ -81,7 +81,7 @@ public:
 	/// <param name="rayPosition">Ray Position.</param>
 	/// <param name = "rayDirection">Ray Direction.</param>
 	/// <returns>Return bool flag to determine this Sphere Collider collided with the ray</returns>
-	virtual bool checkCollision(glm::vec3 rayPosition, glm::vec3 rayDirection, float &timeOfCollision) override;
+	virtual bool checkCollision(PxVec3 rayPosition, PxVec3 rayDirection, float &timeOfCollision) override;
 
 };
 

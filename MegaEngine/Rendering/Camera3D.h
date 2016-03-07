@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 02-08-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="Camera3D.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -11,45 +11,39 @@
 // <summary></summary>
 // ***********************************************************************
 #pragma once
-#include <GLM/glm.hpp>
+#include <PhysX/PxPhysicsAPI.h>
+using namespace physx;
 
-#include "..\Core\Transform.h"
 #include "..\Components\GameComponents.h"
 
 /// <summary>
-/// A camera class that holds the projection matrix and its Transform.
+/// Cameras represent a location, orientation, and projection from
+/// which the scene can be rendered.
 /// </summary>
 class Camera3D
 {
 public:
 	/// <summary>
-	/// Initializes a new instance of the <see cref="Camera3D"/> class.
+	/// Transform is passed in so the Camera doesn't need to be attached to a game object.
+	/// That's useful for places such as the rendering engine which can use cameras
+	/// without creating placeholder game objects.
 	/// </summary>
-	Camera3D() { }
-	/// <summary>
-	/// Initializes a new instance of the <see cref="Camera3D"/> class.
-	/// </summary>
-	/// <param name="projection">The projection matrix.</param>
-	/// <param name="transform">The transform object.</param>
-	Camera3D(const glm::mat4& projection, Transform * transform) :
-		m_projection(projection), m_transform(transform) { }
-	/// <summary>
-	/// Finalizes an instance of the <see cref="Camera3D"/> class.
-	/// </summary>
-	~Camera3D() { }
+	Camera3D(const PxMat44& projection, Transform* transform) :
+		m_projection(projection),
+		m_transform(transform) {}
 
 	/// <summary>
-	/// Gets the view projection matrix.
+	/// This is the primary function of the camera. Multiplying a point by the returned matrix
+	/// will transform the point into it's location on the screen, where -1 represents the bottom/left
+	/// of the screen, and 1 represents the top/right of the screen.
 	/// </summary>
 	/// <returns>The view projection matrix.</returns>
-	glm::mat4 getViewProjection() const;
-
+	PxMat44 getViewProjection() const;
 	/// <summary>
-	/// Gets the view.
+	/// Gets the view with the rotation of the camera.
 	/// </summary>
-	/// <returns></returns>
-	glm::mat4 getView() const;
-
+	/// <returns>The view matrix.</returns>
+	PxMat44 getView() const;
 	/// <summary>
 	/// Gets the transform.
 	/// </summary>
@@ -65,76 +59,70 @@ public:
 	/// Sets the projection matrix.
 	/// </summary>
 	/// <param name="projection">The projection matrix.</param>
-	inline void setProjection(const glm::mat4& projection) { m_projection = projection; }
+	inline void setProjection(const PxMat44& projection) { m_projection = projection; }
 	/// <summary>
 	/// Sets the transform.
 	/// </summary>
 	/// <param name="transform">The transform.</param>
-	inline void setTransform(Transform * transform) { m_transform = transform; }
-
+	inline void setTransform(Transform* transform)        { m_transform = transform; }
+protected:
 private:
 	/// <summary>
-	/// The projection view matrix.
+	/// The projection with which the camera sees the world (i.e. perspective, orthographic, identity, etc.)
 	/// </summary>
-	glm::mat4 m_projection;
+	PxMat44 m_projection;
 	/// <summary>
-	/// The transform object.
+	/// The transform representing the position and orientation of the camera.
 	/// </summary>
-	Transform * m_transform;
-
+	Transform* m_transform;
 };
 
 /// <summary>
-/// Class CameraComponent.
+/// CameraComponents are an easy way to use a camera as a component
+/// on a game object.
 /// </summary>
-/// <seealso cref="GameComponent" />
 class CameraComponent : public GameComponent
 {
 public:
 	/// <summary>
-	/// Initializes a new instance of the <see cref="CameraComponent"/> class.
+	/// The camera's transform is initialized to 0 (null) because
+	/// at construction, this isn't attached to a game object,
+	/// and therefore doesn't have access to a valid transform.
 	/// </summary>
-	/// <param name="projection">The projection.</param>
-	CameraComponent(const glm::mat4 & projection) :
-		m_camera(projection, nullptr) { }
-	/// <summary>
-	/// Finalizes an instance of the <see cref="CameraComponent"/> class.
-	/// </summary>
-	~CameraComponent() { }
+	CameraComponent(const PxMat44& projection) :
+		m_camera(projection, 0) {}
 
 	/// <summary>
 	/// Adds to engine.
 	/// </summary>
 	/// <param name="engine">The engine.</param>
-	virtual void addToEngine(CoreEngine * engine) const;
-
-	/// <summary>
-	/// Gets the view projection.
-	/// </summary>
-	/// <returns>The view projection of of the camera.</returns>
-	inline glm::mat4 getViewProjection() const { m_camera.getViewProjection(); }
+	virtual void addToEngine(CoreEngine* engine) const;
 
 	/// <summary>
 	/// Gets a reference to the camera object stored in the component.
 	/// </summary>
 	/// <returns>The reference to the camera object.</returns>
 	inline Camera3D* getCamera3D() { return &m_camera; }
+	/// <summary>
+	/// Gets the view projection.
+	/// </summary>
+	/// <returns>The view projection of of the camera.</returns>
+	inline PxMat44 getViewProjection() const { return m_camera.getViewProjection(); }
 
 	/// <summary>
 	/// Sets the projection.
 	/// </summary>
 	/// <param name="projection">The projection.</param>
-	inline void setProjection(const glm::mat4& projection) { m_camera.setProjection(projection); }
+	inline void setProjection(const PxMat44& projection) { m_camera.setProjection(projection); }
 	/// <summary>
 	/// Sets the parent.
 	/// </summary>
 	/// <param name="parent">The parent.</param>
 	virtual void setParent(GameObject* parent);
-
+protected:
 private:
 	/// <summary>
-	/// The m_camera
+	/// The camera that's being used like a componentt.
 	/// </summary>
 	Camera3D m_camera;
-
 };

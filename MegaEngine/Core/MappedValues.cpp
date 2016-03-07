@@ -12,7 +12,7 @@
 // ***********************************************************************
 #include "MappedValues.h"
 
-const glm::vec3& MappedValues::getVec3(const std::string& name) const
+const PxVec3& MappedValues::getVec3(const std::string& name) const
 {
 	auto it = m_vector3fMap.find(name);
 	if (it != m_vector3fMap.end())

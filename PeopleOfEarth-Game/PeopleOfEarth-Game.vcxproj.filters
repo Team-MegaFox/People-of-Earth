@@ -8,12 +8,12 @@
     <ClCompile Include="FreeMove.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerShipMovementController.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TextLerpAlpha.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="MainMenuManager.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="FreeLook.h">
@@ -34,9 +34,6 @@
     <ClInclude Include="PauseScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="MissionSelectManager.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="MissionOneScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -46,7 +43,43 @@
     <ClInclude Include="OptionsScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="ControlsScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyFighterShipAI.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="FireProjectile.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PassengerShipAI.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ShipStats.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SteeringBehaviour.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuManager.h">
+      <Filter>Components\Menu Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="MissionSelectManager.h">
+      <Filter>Components\Menu Managers</Filter>
+    </ClInclude>
     <ClInclude Include="OptionsMenuManager.h">
+      <Filter>Components\Menu Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseMenuManager.h">
+      <Filter>Components\Menu Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerShipMovementController.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AsteroidField.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
@@ -56,6 +89,9 @@
     </Filter>
     <Filter Include="Scenes">
       <UniqueIdentifier>{88a6fc09-1a8a-4c24-b7ac-ee8e6a726665}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Menu Managers">
+      <UniqueIdentifier>{f28c829b-4281-4c3d-b34e-007a6cbe186e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

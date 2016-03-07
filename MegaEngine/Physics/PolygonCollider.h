@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 02-25-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="PolygonCollider.h" company="">
 //     Copyright (c) . All rights reserved.
@@ -55,12 +55,12 @@ public:
 	/// <param name="halfDepth">Half depth of the Polygon Collider.</param>
 	/// <param name="id">The identifier of the Polygon Collider.</param>
 	void init(
-		glm::vec3 position,
-		glm::quat rotation,
+		PxVec3 position,
+		PxQuat rotation,
 		float scale,
 		float mass,
-		glm::vec3 velocity,
-		glm::vec3 acceleration,
+		PxVec3 velocity,
+		PxVec3 acceleration,
 		float halfWidth,
         float halfHeight,
         float halfDepth,
@@ -101,17 +101,25 @@ public:
 	/// <param name="forwardDirection2">Forward Direction of the other Polygon Collider.</param>
 	/// <param name="collidableObject">Other Polygon Collider (Collider to check with).</param>
 	/// <returns>Boolean telling if this axis collided with the other collider.</returns>
-	bool checkAxisCollision(glm::vec3 tPosition, glm::vec3 axis, glm::vec3 rightDirection1, glm::vec3 upDirection1, glm::vec3 forwardDirection1,
-		glm::vec3 rightDirection2, glm::vec3 upDirection2, glm::vec3 forwardDirection2, PolygonCollider* collidableObject);
+	bool checkAxisCollision(
+		PxVec3 tPosition, 
+		PxVec3 axis, 
+		PxVec3 rightDirection1, 
+		PxVec3 upDirection1, 
+		PxVec3 forwardDirection1,
+		PxVec3 rightDirection2, 
+		PxVec3 upDirection2, 
+		PxVec3 forwardDirection2, 
+		PolygonCollider* collidableObject);
 
 	/// <summary>
 	/// Convert the quaternion to a vector format in the x axis rotation.
 	/// </summary>
 	/// <param name="quat">Quaternion value to convert to vectors.</param>
 	/// <returns>Vector of the x axis rotation.</returns>
-	glm::vec3 GetRightVector(glm::quat quat)
+	PxVec3 GetRightVector(PxQuat quat)
     {
-        return glm::vec3( 1 - 2 * (quat.y * quat.y - quat.z * quat.z),
+		return PxVec3(1 - 2 * (quat.y * quat.y - quat.z * quat.z),
                         2 * (quat.x * quat.y - quat.w * quat.z),
                         2 * (quat.x * quat.z + quat.w * quat.y));
     }
@@ -121,9 +129,9 @@ public:
 	/// </summary>
 	/// <param name="quat">Quaternion value to convert to vectors.</param>
 	/// <returns>Vector of the y axis rotation.</returns>
-	glm::vec3 GetUpVector(glm::quat quat)
+	PxVec3 GetUpVector(PxQuat quat)
     {
-	    return glm::vec3( 2 * (quat.x * quat.y + quat.w * quat.z), 
+		return PxVec3(2 * (quat.x * quat.y + quat.w * quat.z),
                         1 - 2 * (quat.x * quat.x + quat.z * quat.z),
                         2 * (quat.y * quat.z - quat.w * quat.x));
     }
@@ -133,9 +141,9 @@ public:
 	/// </summary>
 	/// <param name="quat">Quaternion value to convert to vectors.</param>
 	/// <returns>Vector of the z axis rotation.</returns>
-	glm::vec3 GetForwardVector(glm::quat quat)
+	PxVec3 GetForwardVector(PxQuat quat)
     {
-	    return glm::vec3( 2 * (quat.x * quat.z - quat.w * quat.y), 
+		return PxVec3(2 * (quat.x * quat.z - quat.w * quat.y),
                         2 * (quat.y * quat.z + quat.w * quat.x),
                         1 - 2 * (quat.x * quat.x + quat.y * quat.y));
     }

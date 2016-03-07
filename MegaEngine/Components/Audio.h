@@ -3,7 +3,7 @@
 // Created          : 02-01-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-24-2016
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="Audio.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -25,7 +25,6 @@ class Audio : public GameComponent
 {
 public:
 
-
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Audio"/> class.
 	/// </summary>
@@ -37,11 +36,11 @@ public:
 	{
 		if (m_type == STREAM)
 		{
-			m_source = new AudioSource(Stream(fileName, TwoD));
+			m_source = new AudioSource(new Stream(fileName, TwoD));
 		}
 		else if (m_type == SOUND)
 		{
-			m_source = new AudioSource(Sound(fileName, TwoD));
+			m_source = new AudioSource(new Sound(fileName, TwoD));
 		}
 
 	}
@@ -177,7 +176,7 @@ public:
 	/// Sets the position.
 	/// </summary>
 	/// <param name="position">The position of this audio source.</param>
-	void setPosition(glm::vec3 position)
+	void setPosition(PxVec3 position)
 	{
 		if (m_type == STREAM)
 		{
@@ -230,7 +229,7 @@ public:
 	/// <param name="outsideConeAngle">The outside cone angle.</param>
 	/// <param name="outsideVolume">The outside volume level.</param>
 	void setSoundConeOrientation(
-		glm::vec3 orientation, 
+		PxVec3 orientation,
 		float insideConeAngle, 
 		float outsideConeAngle, 
 		float outsideVolume)

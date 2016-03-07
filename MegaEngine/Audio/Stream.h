@@ -3,7 +3,7 @@
 // Created          : 02-01-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-25-2016
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="StreamSource.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -32,7 +32,11 @@ public:
 	/// <summary>
 	/// Finalizes an instance of the <see cref="StreamSource"/> class.
 	/// </summary>
-	~Stream() { }
+	~Stream() 
+	{
+		m_streamPair.first->release();
+		//delete m_streamPair.second;
+	}
 
 	/// <summary>
 	/// Sets the stream.
@@ -79,7 +83,7 @@ public:
 	/// </summary>
 	/// <param name="pos">The position.</param>
 	/// <param name="vel">The vel.</param>
-	void setStreamPosVel(glm::vec3 pos, glm::vec3 vel = glm::vec3(0.0f));
+	void setStreamPosVel(PxVec3 pos, PxVec3 vel = PxVec3(0.0f, 0.0f, 0.0f));
 
 	/// <summary>
 	/// Pan level, from -1.0 (left) to 1.0 (right), default = 0 (center).

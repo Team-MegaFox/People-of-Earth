@@ -15,12 +15,14 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "..\Components\GameComponents.h"
+#include"..\Components\Audio.h"
 #include "..\Rendering\RenderingEngine.h"
 #include "..\Rendering\Camera3D.h"
 #include "..\Physics\PhysicsEngine.h"
 #include <stdexcept>
 #include <algorithm>
 #include <iostream>
+#include <assert.h>
 
 SceneManager::SceneManager(Viewport* viewport) :
 m_viewport(viewport)
@@ -63,7 +65,28 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 	}
 
 	m_activeList.push_back(std::make_pair(scene, modality));
-	updateExclusiveScene();
+
+	if (modality == Modality::Exclusive)
+	{
+		for (int i = m_activeList.size() - 2; i >= 0; i--)
+		{
+			if (m_activeList[i].second == Modality::Exclusive)
+			{
+				auto go = m_activeList[i].first->getAllGameObjects();
+
+				for (size_t j = 0; j < go.size(); j++)
+				{
+					Audio * audio = go[j]->getGameComponent<Audio>();
+					if (audio != nullptr)
+					{
+						// stop music
+						audio->pause(true);
+					}
+				}
+				break;
+			}
+		}
+	}
 
 	scene->init(*m_viewport);
 	scene->setEngine(m_coreEngine);
@@ -76,6 +99,8 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 			gameComponents[j]->onStart();
 		}
 	}
+
+	updateExclusiveScene();	
 }
 
 void SceneManager::pop()
@@ -84,6 +109,8 @@ void SceneManager::pop()
 	{
 		throw std::runtime_error("Attempted to pop from an empty game state stack");
 	}
+
+	auto go = m_activeList.back().first->getAllGameObjects();
 
 	delete m_activeList.back().first;
 	m_activeList.pop_back();
@@ -98,7 +125,18 @@ void SceneManager::pop()
 			go[i]->activate();
 			go[i]->setEnabled(true);
 		}
+
+		for (size_t i = 0; i < go.size(); i++)
+		{
+			Audio * audio = go[i]->getGameComponent<Audio>();
+			if (audio != nullptr)
+			{
+				audio->pause(false);
+			}
+		}
 	}
+
+	//auto go = m_activeList[m_exclusiveScene].first->getAllGameObjects();
 }
 
 void SceneManager::popTo(Uint8 popIndex)
@@ -137,7 +175,10 @@ void SceneManager::render(RenderingEngine* renderingEngine)
 {
 	for (size_t i = m_exclusiveScene; i < m_activeList.size(); i++)
 	{
-		m_activeList[i].first->render(renderingEngine);
+		if (m_activeList[i].second == Modality::Exclusive)
+		{
+			m_activeList[i].first->render(renderingEngine);
+		}
 	}
 }
 
@@ -206,7 +247,7 @@ std::vector<GameObject*> SceneManager::getGameObjectsByName(const std::string& n
 
 	for (size_t i = 0; i < attached.size(); i++)
 	{
-		for (size_t j = 1; j < counter + 1; j++)
+		for (Uint16 j = 1; j < counter + 1; j++)
 		{
 			if (attached[i]->getName() == name + std::to_string(j))
 			{
@@ -220,6 +261,17 @@ std::vector<GameObject*> SceneManager::getGameObjectsByName(const std::string& n
 
 void SceneManager::updateExclusiveScene()
 {
+	//auto go = m_activeList[m_exclusiveScene].first->getAllGameObjects();
+
+	//for (size_t i = 0; i < go.size(); i++)
+	//{
+	//	Audio * audio = go[i]->getGameComponent<Audio>();
+	//	if (audio != nullptr)
+	//	{
+	//		audio->pause();
+	//	}
+	//}
+
 	for (size_t i = m_activeList.size() - 1; i >= 0; i--)
 	{
 		if (m_activeList[i].second == Modality::Exclusive)

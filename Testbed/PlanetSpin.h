@@ -1,5 +1,7 @@
 #pragma once
 #include <Components\GameComponents.h>
+#include <PhysX/PxPhysicsAPI.h>
+using namespace physx;
 
 class PlanetSpin : public GameComponent
 {
@@ -14,11 +16,9 @@ public:
 
 	virtual void update(float delta) override
 	{
-		m_angle += 0.001f;
+		m_angle += 0.1f;
 
-		getTransform()->setRotation(glm::angleAxis(m_angle, glm::vec3(0.0f, 0.0f, 1.0f)));
-
-
+		getTransform()->setRotation(PxQuat(ToRadians(m_angle), PxVec3(0.0f, 0.0f, 1.0f)));
 	}
 
 private:

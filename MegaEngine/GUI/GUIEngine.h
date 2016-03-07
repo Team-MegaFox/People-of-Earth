@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="GUIEngine.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -12,9 +12,10 @@
 // ***********************************************************************
 #pragma once
 #include <SDL2\SDL_events.h>
-#include <glm\glm.hpp>
 #include <CEGUI\CEGUI.h>
 #include <CEGUI\RendererModules\OpenGL\GL3Renderer.h>
+#include <PhysX/PxPhysicsAPI.h>
+using namespace physx;
 
 #include "..\Core\InputManager.h"
 
@@ -83,7 +84,7 @@ public:
 	/// <param name="destRectPix">The dest rect pix.</param>
 	/// <param name="name">The name.</param>
 	/// <returns></returns>
-	CEGUI::Window* addWidget(const std::string& type, const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& name = "");
+	CEGUI::Window* addWidget(const std::string& type, const PxVec4& destRectPerc, const PxVec4& destRectPix, const std::string& name = "");
 	/// <summary>
 	/// Adds the widget.
 	/// </summary>
@@ -93,14 +94,14 @@ public:
 	/// <param name="destRectPix">The dest rect pix.</param>
 	/// <param name="name">The name.</param>
 	/// <returns></returns>
-	CEGUI::Window* addWidget(CEGUI::Window* parent, const std::string& type, const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& name = "");
+	CEGUI::Window* addWidget(CEGUI::Window* parent, const std::string& type, const PxVec4& destRectPerc, const PxVec4& destRectPix, const std::string& name = "");
 	/// <summary>
 	/// Sets the widget dest rect.
 	/// </summary>
 	/// <param name="widget">The widget.</param>
 	/// <param name="destRectPerc">The dest rect perc.</param>
 	/// <param name="destRectPix">The dest rect pix.</param>
-	static void setWidgetDestRect(CEGUI::Window* widget, const glm::vec4& destRectPerc, const glm::vec4& destRectPix);
+	static void setWidgetDestRect(CEGUI::Window* widget, const PxVec4& destRectPerc, const PxVec4& destRectPix);
 
 	/// <summary>
 	/// Gets the renderer.

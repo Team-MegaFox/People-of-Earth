@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 02-23-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="GameObject.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -13,9 +13,11 @@
 #pragma once
 #include <vector>
 #include <string>
-#include <glm\glm.hpp>
 #include "Transform.h"
 #include "InputManager.h"
+#include <PhysX/PxPhysicsAPI.h>
+using namespace physx;
+
 class Camera3D;
 class CoreEngine;
 class GameComponent;
@@ -39,7 +41,11 @@ public:
 	/// <param name="pos">The position of the GameObject.</param>
 	/// <param name="rot">The rotation of the GameObject.</param>
 	/// <param name="scale">The scale of the GameObject.</param>
-	GameObject(const std::string& name, const glm::vec3& pos = glm::vec3(0.0f), const glm::quat& rot = glm::quat(1.0f, 0.0f, 0.0f, 0.0f), const glm::vec3& scale = glm::vec3(1.0f))
+	GameObject(
+		const std::string& name, 
+		const PxVec3& pos = PxVec3(0.0f, 0.0f, 0.0f), 
+		const PxQuat& rot = PxQuat(PxIdentity),
+		const PxVec3& scale = PxVec3(1.0f, 1.0f, 1.0f))
 		: m_name(name), m_enabled(true), m_transform(pos, rot, scale), m_coreEngine(nullptr) 
 	{
 		m_transform.setAttachedGameObject(this);
@@ -63,7 +69,7 @@ public:
 	/// <param name="guiEngine">The GUI Engine object.</param>
 	/// <param name="renderingEngine">The Rendering Engine object.</param>
 	/// <param name="camera">The main active camera.</param>
-	void renderAll(const Shader& shader, const GUIEngine& guiEngine, const RenderingEngine& renderingEngine, const Camera3D& camera);
+	void renderAll(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D& camera) const;
 	/// <summary>
 	/// Processes all inputs for the children GameObjects, Game Components and GUI Components.
 	/// </summary>
@@ -229,7 +235,7 @@ private:
 	/// <param name="shader">The shader program.</param>
 	/// <param name="renderingEngine">The Rendering Engine object.</param>
 	/// <param name="camera">The main active camera.</param>
-	void renderGameComponents(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D& camera);
+	void renderGameComponents(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D& camera) const;
 	/// <summary>
 	/// Processes all inputs for the Game Components.
 	/// </summary>
@@ -242,12 +248,6 @@ private:
 	/// </summary>
 	/// <param name="delta">The delta time between frames.</param>
 	void updateGUIComponents(float delta);
-	/// <summary>
-	/// Renders the GUI components.
-	/// </summary>
-	/// <param name="guiEngine">The GUI engine.</param>
-	/// <param name="camera">The camera.</param>
-	void renderGUIComponents(const GUIEngine& guiEngine, const Camera3D& camera);
 	/// <summary>
 	/// Processes all inputs for the GUI Components.
 	/// </summary>

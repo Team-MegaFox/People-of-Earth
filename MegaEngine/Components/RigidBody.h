@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda and Jesse Derochie
 // Created          : 02-04-2016
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 02-25-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="RigidBody.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -34,7 +34,14 @@ public:
 	/// <param name="mass">The mass.</param>
 	/// <param name="radius">The radius.</param>
 	/// <param name="id">The identifier.</param>
-	RigidBody(glm::vec3 position, glm::quat rotation, float mass, float radius, glm::vec3 velocity = glm::vec3(0), glm::vec3 acceleration = glm::vec3(0), int id = 0)
+	RigidBody(
+		PxVec3 position, 
+		PxQuat rotation,
+		float mass, 
+		float radius, 
+		PxVec3 velocity = PxVec3(0.0f, 0.0f, 0.0f), 
+		PxVec3 acceleration = PxVec3(0.0f, 0.0f, 0.0f),
+		int id = 0)
 	{
 		m_sphereCollider = new SphereCollider();
 
@@ -59,7 +66,16 @@ public:
 	/// <param name="halfHeight">Height of the half.</param>
 	/// <param name="halfDepth">The half depth.</param>
 	/// <param name="id">The identifier.</param>
-	RigidBody(glm::vec3 position, glm::quat rotation, float mass, float halfWidth, float halfHeight, float halfDepth, glm::vec3 velocity = glm::vec3(0), glm::vec3 acceleration = glm::vec3(0), int id = 0)
+	RigidBody(
+		PxVec3 position, 
+		PxQuat rotation,
+		float mass, 
+		float halfWidth, 
+		float halfHeight, 
+		float halfDepth, 
+		PxVec3 velocity = PxVec3(0),
+		PxVec3 acceleration = PxVec3(0),
+		int id = 0)
 	{
 		m_polyCollider = new PolygonCollider();
 
@@ -85,7 +101,13 @@ public:
 	/// </summary>
 	/// <param name="mass">The mass.</param>
 	/// <param name="id">The identifier.</param>
-	RigidBody(glm::vec3 position, glm::quat rotation, float mass, glm::vec3 velocity = glm::vec3(0), glm::vec3 acceleration = glm::vec3(0), int id = 0)
+	RigidBody(
+		PxVec3 position,
+		PxQuat rotation,
+		float mass, 
+		PxVec3 velocity = PxVec3(0),
+		PxVec3 acceleration = PxVec3(0),
+		int id = 0)
 	{
 		m_multiCollider = new MultiCollider();
 
@@ -131,7 +153,11 @@ public:
 	/// <param name="radius">The rotation.</param>
 	/// <param name="id">The velocity.</param>
 	/// <param name="id">The acceleration.</param>
-	void init(glm::vec3 position, glm::quat rotation, glm::vec3 velocity, glm::vec3 acceleration)
+	void init(
+		PxVec3 position, 
+		PxQuat rotation, 
+		PxVec3 velocity, 
+		PxVec3 acceleration)
 	{
 		if (m_sphereCollider != nullptr)
 		{
@@ -170,7 +196,7 @@ public:
 		}
 		else if (m_polyCollider != nullptr)
 		{
-			glm::vec3 pos = m_polyCollider->getPosition();
+			PxVec3 pos = m_polyCollider->getPosition();
 			getTransform()->setPosition(m_polyCollider->getPosition());
 			getTransform()->setRotation(m_polyCollider->getRotation());
 		}
@@ -186,7 +212,7 @@ public:
 	/// Updates the velocity of the collider.
 	/// </summary>
 	/// <param name="velocity">The velocity.</param>
-	void updateVelocity(glm::vec3 velocity)
+	void updateVelocity(PxVec3 velocity)
 	{
 		if (m_sphereCollider != nullptr)
 		{
@@ -206,7 +232,7 @@ public:
 	/// Updates the acceleration of the collider.
 	/// </summary>
 	/// <param name="acceleration">The acceleration.</param>
-	void updateAcceleration(glm::vec3 acceleration)
+	void updateAcceleration(PxVec3 acceleration)
 	{
 		if (m_sphereCollider != nullptr)
 		{
@@ -226,7 +252,7 @@ public:
 	/// Updates the rotation of the collider.
 	/// </summary>
 	/// <param name="rotation">The rotation.</param>
-	void updateRotation(glm::quat rotation)
+	void updateRotation(PxQuat rotation)
 	{
 		if (m_sphereCollider != nullptr)
 		{
@@ -358,7 +384,7 @@ public:
 	/// Gets the position of the collider.
 	/// </summary>
 	/// <returns></returns>
-	glm::vec3 getPosition()
+	PxVec3 getPosition()
 	{
 		if (m_sphereCollider != nullptr)
 		{
@@ -372,14 +398,14 @@ public:
 		{
 			return m_multiCollider->getPosition();
 		}
-		return glm::vec3();
+		return PxVec3(PxIdentity);
 	}
 	
 	/// <summary>
 	/// Gets the velocity of the collider.
 	/// </summary>
 	/// <returns></returns>
-	glm::vec3 getVelocity()
+	PxVec3 getVelocity()
 	{
 		return getCollider()->getVelocity();
 	}
@@ -388,7 +414,7 @@ public:
 	/// Gets the rotation of the collider.
 	/// </summary>
 	/// <returns></returns>
-	glm::quat getRotation()
+	PxQuat getRotation()
 	{
 		if (m_sphereCollider != nullptr)
 		{
@@ -402,7 +428,7 @@ public:
 		{
 			return m_multiCollider->getRotation();
 		}
-		return glm::quat();
+		return PxQuat(PxIdentity);
 	}
 
 	/// <summary>
@@ -460,7 +486,7 @@ public:
 	/// Sets the position of the collider.
 	/// </summary>
 	/// <param name="rotation">The position.</param>
-	void setPosition(glm::vec3 position)
+	void setPosition(PxVec3 position)
 	{
 		if (m_sphereCollider != nullptr)
 		{
@@ -480,7 +506,7 @@ public:
 	/// Sets the rotation of the collider.
 	/// </summary>
 	/// <param name="rotation">The rotation.</param>
-	void setRotation(glm::quat rotation)
+	void setRotation(PxQuat rotation)
 	{
 		if (m_sphereCollider != nullptr)
 		{
@@ -523,7 +549,7 @@ private:
 	/// <summary>
 	/// The zero variable
 	/// </summary>
-	glm::vec3 m_zero = glm::vec3(0.0f);
+	PxVec3 m_zero = PxVec3(0.0f, 0.0f, 0.0f);
 
 	/// <summary>
 	/// The debug draw boolean set this to true to draw the colliders

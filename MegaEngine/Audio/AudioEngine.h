@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-24-2016
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="AudioEngine.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -27,7 +27,9 @@
 #include <FMOD\fmod.hpp>
 #include <FMOD\fmod_errors.h>
 
-#include <GLM\glm.hpp>
+#include <PhysX/PxPhysicsAPI.h>
+using namespace physx;
+
 #include <vector>
 #include <algorithm>
 
@@ -84,13 +86,13 @@ public:
 	static void FMODVerifyResult(FMOD_RESULT result);
 
 	/// <summary>
-	/// Converts glm::vec3's to FMOD_VECTOR *'s
+	/// Converts PxVec3's to FMOD_VECTOR's
 	/// for use in FMOD's positioning of the listener
 	/// and sound / stream positioning
 	/// </summary>
-	/// <param name="vector">The glm vector to convert.</param>
-	/// <returns>The resulting FMOD vector conversion.</returns>
-	static FMOD_VECTOR glmToFMOD(glm::vec3 vector);
+	/// <param name="vector">The vector.</param>
+	/// <returns></returns>
+	static FMOD_VECTOR physxToFMOD(PxVec3 vector);
 
 	/// <summary>
 	/// Gets the sound volume.

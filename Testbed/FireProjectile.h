@@ -17,6 +17,8 @@
 #include <Components\MeshRenderer.h>
 #include "ShipStats.h"
 #include "Projectile.h"
+#include <PhysX/PxPhysicsAPI.h>
+using namespace physx;
 
 class FireProjectile : public GameComponent
 {
@@ -26,8 +28,10 @@ public:
 	/// <summary>
 	/// Initializes a new instance of the <see cref="FireProjectile"/> class.
 	/// </summary>
-	FireProjectile() : m_material(
-		"plan1", 1.0f, 10, Texture("Planets/Planet_A.png"), Texture("Planets/Planet_A_NORM.png")) {}
+	FireProjectile(const std::string fileName) : 
+		m_material(
+		"laser", 10.0f, 100, Texture("defaultTexture.png")),
+		m_fileName(fileName){}
 	/// <summary>
 	/// Finalizes an instance of the <see cref="FireProjectile"/> class.
 	/// </summary>
@@ -52,13 +56,11 @@ public:
 		{
 			if (input.GetRightTrigger() != 0)
 			{
-				m_audioComponent = new Audio("268168__shaun105__laser.wav", AudioType::SOUND);
-				
 				instantiate(
 					(new GameObject("Laser", *getTransform()->getPosition()
-					, *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
+					, *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
 					->addGameComponent(new Projectile)
-					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
+					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("laser")))
 					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
 					Utility::getForward(*getTransform()->getRotation()) * 15.0f +
 					Utility::getRight(*getTransform()->getRotation()) * 2.5f					
@@ -73,9 +75,9 @@ public:
 			{
 				instantiate(
 					(new GameObject("Laser", *getTransform()->getPosition()
-					, *getTransform()->getRotation(), glm::vec3(0.15f, 0.15f, 4.0f)))
+					, *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
 					->addGameComponent(new Projectile)
-					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("plan1")))
+					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("laser")))
 					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
 					Utility::getForward(*getTransform()->getRotation()) * 15.0f +
 					Utility::getLeft(*getTransform()->getRotation()) * 3.5f, *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))

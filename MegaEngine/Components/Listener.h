@@ -3,7 +3,7 @@
 // Created          : 02-01-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 02-22-2016
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="Listener.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -41,7 +41,7 @@ public:
 	virtual void update(float deltaTime) override
 	{
 		m_pos = *getTransform()->getPosition();
-		m_vel = glm::vec3(0.0f);
+		m_vel = PxVec3(0.0f);
 		m_forward = Utility::getForward(*getTransform()->getRotation());
 		m_up = Utility::getUp(*getTransform()->getRotation());
 
@@ -59,17 +59,17 @@ private:
 	/// <summary>
 	/// The position of the listener
 	/// </summary>
-	glm::vec3 m_pos;
+	PxVec3 m_pos;
 	/// <summary>
 	/// The velocity of the listener
 	/// </summary>
-	glm::vec3 m_vel;
+	PxVec3 m_vel;
 	/// <summary>
 	/// The forward vector of the listener
 	/// </summary>
-	glm::vec3 m_forward;
+	PxVec3 m_forward;
 	/// <summary>
 	/// The up vector of the listener
 	/// </summary>
-	glm::vec3 m_up;
+	PxVec3 m_up;
 };
