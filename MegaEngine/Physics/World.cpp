@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 03-07-2016
 // ***********************************************************************
 // <copyright file="World.h" company="">
 //     Copyright (c) . All rights reserved.
@@ -19,6 +19,7 @@ World::World()
 {
 	m_position = PxVec3(0.0f, 0.0f, 0.0f);
 	m_radius = 0;
+	m_delayCollisionCheck = 0.0f;
 }
 
 World::~World()
@@ -33,21 +34,29 @@ void World::init(PxVec3 position, float radius)
 
 void World::update(float timeStep)
 {
-	//Update all the collision
-	for (size_t i = 0; i < colliders.size(); i++)
+	if (m_delayCollisionCheck > 1.0f)
 	{
-		//Check if the object is inside the world
-		if (checkInsideWorld(colliders[i]))
+		//Update all the collision
+		for (size_t i = 0; i < colliders.size(); i++)
 		{
-			//Get the vector of collided objects
-			std::vector<Collider*> collidedObjects = colliders[i]->checkCollision(colliders);
-			//Loop to calculate all the forces needed to be added with the current collider with the collided objects
-			for (size_t j = 0; j < collidedObjects.size(); j++)
+			//Check if the object is inside the world
+			if (checkInsideWorld(colliders[i]))
 			{
-				//printf("Collision occured\n");
-				//calculateCollision(colliders[i], collidedObjects[j], timeStep);
+				//Get the vector of collided objects
+				std::vector<Collider*> collidedObjects = colliders[i]->checkCollision(colliders);
+				//Loop to calculate all the forces needed to be added with the current collider with the collided objects
+				for (size_t j = 0; j < collidedObjects.size(); j++)
+				{
+					//printf("Collision occured\n");
+					//calculateCollision(colliders[i], collidedObjects[j], timeStep);
+				}
 			}
 		}
+		m_delayCollisionCheck -= 1.0f;
+	}
+	else
+	{
+		m_delayCollisionCheck += timeStep;
 	}
 	//Update all the physics
 	for (size_t i = 0; i < colliders.size(); i++)

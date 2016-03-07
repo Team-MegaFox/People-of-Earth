@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 03-07-2016
 // ***********************************************************************
 // <copyright file="World.h" company="">
 //     Copyright (c) . All rights reserved.
@@ -136,5 +136,10 @@ private:
 	/// The radius.
 	/// </summary>
 	float m_radius;
+	
+	/// <summary>
+	/// The collision delay check.
+	/// </summary>
+	float m_delayCollisionCheck;
 };
 

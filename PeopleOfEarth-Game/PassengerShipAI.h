@@ -5,7 +5,7 @@
 // Last Modified By : Christopher Maeda
 // Last Modified On : 03-04-2016
 // ***********************************************************************
-// <copyright file="EnemyFighterShipAI.h" company="Team MegaFox">
+// <copyright file="PassengerShipAI.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
 // </copyright>
 // <summary>
