@@ -11,7 +11,7 @@ public:
 
 	virtual void init(const Viewport& window) override
 	{
-		Audio * BGM = new Audio("surprise.mp3", AudioType::STREAM, true);
+		Audio * BGM = new Audio("music.mp3", AudioType::STREAM, true);
 
 		addToRoot((new GameObject("Skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
