@@ -35,7 +35,7 @@ public:
 	/// <summary>
 	/// Finalizes an instance of the <see cref="FireProjectile"/> class.
 	/// </summary>
-	~FireProjectile() { }
+	~FireProjectile() { delete m_audioComponent; }
 
 	/// <summary>
 	/// Is called when this game component is created

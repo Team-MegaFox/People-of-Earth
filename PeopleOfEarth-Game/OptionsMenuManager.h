@@ -82,9 +82,6 @@ public:
 
 	virtual void update(float delta) override
 	{
-		float bob = m_effectsSlider->getThumbPosition();
-		printf("bob = %f\n", bob);
-
 		if (m_effectsSlider->valueChanged())
 		{
 			getCoreEngine()->getAudioEngine()->setSoundVolume(m_effectsSlider->getThumbPosition());

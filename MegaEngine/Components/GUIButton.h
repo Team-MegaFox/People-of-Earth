@@ -16,14 +16,6 @@
 #include <functional>
 
 /// <summary>
-/// Some sort of event thing for the engine. Haven't decided what to do with it yet.
-/// </summary>
-struct MegaEvents
-{
-
-};
-
-/// <summary>
 /// The class GUIBUtton is the button widget for click events.
 /// </summary>
 /// <seealso cref="GUILabel" />
@@ -94,9 +86,4 @@ private:
 	/// The function to call when the button is clicked.
 	/// </summary>
 	std::function<bool(const GameObject&)> f_clicked;
-
-	/// <summary>
-	/// The mega events
-	/// </summary>
-	MegaEvents megaEvents;
 };

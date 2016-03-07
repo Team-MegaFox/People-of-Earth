@@ -179,7 +179,6 @@ public:
 			Utility::getForward(*getTransform()->getRotation()) * 50.0f +//30.0f +
 			Utility::getRight(*getTransform()->getRotation()) * 8.0f
 			, *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))
-			//->addGameComponent(std::move(m_audioComponent))
 			);
 		//Left Side
 		instantiate(
@@ -190,7 +189,6 @@ public:
 			Utility::getForward(*getTransform()->getRotation()) * 50.0f + //30.0f +
 			Utility::getLeft(*getTransform()->getRotation()) * 10.0f
 			, *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))
-			//->addGameComponent(std::move(m_audioComponent))
 			);
 
 		numberOfLaserShot++;

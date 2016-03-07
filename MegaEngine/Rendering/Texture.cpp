@@ -211,6 +211,7 @@ Texture::Texture(const std::string& fileName, GLenum textureTarget, GLfloat filt
 			{
 				stbi_image_free(dataArr[i]);
 			}
+			delete[] dataArr;
 		}
 
 		s_resourceMap.insert(std::make_pair(fileName, m_textureData));

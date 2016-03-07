@@ -40,6 +40,7 @@ public:
 	/// </summary>
 	virtual ~GUIComponent() 
 	{ 
+		m_widget->removeAllEvents();
 		CEGUI::WindowManager::getSingleton().destroyWindow(m_widget);
 	}
 	/// <summary>

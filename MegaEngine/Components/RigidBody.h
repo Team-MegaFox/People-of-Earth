@@ -132,18 +132,18 @@ public:
 		if (m_sphereCollider != nullptr)
 		{
 			PhysicsEngine::getPhysicsWorld()->removeCollidableObject(m_sphereCollider);
+			delete m_sphereCollider;
 		}
 		else if (m_polyCollider != nullptr)
 		{
 			PhysicsEngine::getPhysicsWorld()->removeCollidableObject(m_polyCollider);
+			delete m_polyCollider;
 		}
 		else if (m_multiCollider != nullptr)
 		{
 			PhysicsEngine::getPhysicsWorld()->removeCollidableObject(m_multiCollider);
+			delete m_multiCollider;
 		}
-		delete m_sphereCollider;
-		delete m_polyCollider;
-		delete m_multiCollider;
 	}
 
 	/// <summary>

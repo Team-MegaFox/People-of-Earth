@@ -58,6 +58,9 @@ GUIEngine::GUIEngine(const std::string& resDir,
 GUIEngine::~GUIEngine()
 {
 	CEGUI::System::getSingleton().destroyGUIContext(*m_context);
+	CEGUI::WindowManager::getSingleton().destroyWindow(m_root);
+	m_context = nullptr;
+	m_root = nullptr;
 }
 
 CEGUI::Key::Scan SDLKeyToCEGUIKey(SDL_Keycode key) {

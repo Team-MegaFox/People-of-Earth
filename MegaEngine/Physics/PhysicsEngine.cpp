@@ -24,6 +24,7 @@ PhysicsEngine::PhysicsEngine()
 
 PhysicsEngine::~PhysicsEngine()
 {
+	delete m_physicsWorld;
 }
 
 void PhysicsEngine::setMainCamera(const Camera3D& camera)

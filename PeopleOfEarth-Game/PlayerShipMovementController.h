@@ -126,7 +126,7 @@ private:
 	/// </summary>
 	PxVec3 m_upDirection = PxVec3(0.0f, 0.0f, 0.0f);
 
-	GameObject * m_gameOverButton;
+	//GameObject * m_gameOverButton;
 
 };
 
