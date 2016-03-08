@@ -39,8 +39,8 @@ public:
 	/// Finalizes an instance of the <see cref="GUIComponent"/> class.
 	/// </summary>
 	virtual ~GUIComponent() 
-	{ 
-		m_widget->removeAllEvents();
+	{
+		//m_widget->removeAllEvents();
 		CEGUI::WindowManager::getSingleton().destroyWindow(m_widget);
 	}
 	/// <summary>

@@ -36,7 +36,7 @@ public:
 	/// <summary>
 	/// Finalizes an instance of the <see cref="GUIButton"/> class.
 	/// </summary>
-	~GUIButton() { }
+	~GUIButton() {  }
 
 	/// <summary>
 	/// Creates the widget, sets the text and subscribes the event to the button.
@@ -47,7 +47,7 @@ public:
 		GUIComponent::addToEngine(engine);
 		auto wi = createWidget(engine->getGUIEngine()->getSchemeStyle() + "/Button");
 		wi->setText(getText());
-		wi->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&GUIButton::pushButton, this));
+		wi->subscribeEvent(CEGUI::PushButton::EventClicked.c_str(), CEGUI::Event::Subscriber(&GUIButton::pushButton, this));
 		engine->getGUIEngine()->addFont(engine->getGUIEngine()->getDefaultFontName(), getTextSize());
 		wi->setFont(engine->getGUIEngine()->getDefaultFontName() + "-" + std::to_string(getTextSize()));
 	}
