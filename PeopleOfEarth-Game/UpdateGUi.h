@@ -1,6 +1,6 @@
 #pragma once
 #include "ShipStats.h"
-#include <Components\GameComponents.h>
+#include <MegaEngine.h>
 
 class UpdateGUI 
 	: public GameComponent
@@ -14,10 +14,7 @@ public:
 	/// <summary>
 	/// Finalizes an instance of the <see cref="UpdateGUI"/> class.
 	/// </summary>
-	~UpdateGUI()
-	{
-		delete m_shipStats;
-	}
+	~UpdateGUI() { }
 
 	/// <summary>
 	/// Sets variables for this class
@@ -25,7 +22,60 @@ public:
 	virtual void onStart() override
 	{
 		m_shipStats = getGameObjectByName("Fighter Ship")->getGameComponent<ShipStats>();
+
+		m_healthBar = getGameObjectByName("Health Bar")->getGUIComponent<GUIImage>();
+		m_healthOGSize = m_healthBar->getPercentSize();
+		m_energyBar = getGameObjectByName("Energy Bar")->getGUIComponent<GUIImage>();
+		m_energyOGSize = m_healthBar->getPercentSize();
+		m_fuelBar = getGameObjectByName("Fuel Bar")->getGUIComponent<GUIImage>();
+		m_fuelOGSize = m_healthBar->getPercentSize();
 	}
+
+	virtual void processInput(const InputManager& input, float delta) override
+	{
+		if (input.KeyPress(SDLK_i))
+		{
+			setHealth(getHealth() - 0.1f);
+		}
+
+		if (input.KeyPress(SDLK_k))
+		{
+			setEnergy(getEnergy() - 0.1f);
+		}
+
+		if (input.KeyPress(SDLK_m))
+		{
+			setFuel(getFuel() - 0.1f);
+		}
+	}
+
+	virtual void update(float delta) override
+	{
+		m_healthBar->setPercentSize(PxVec2(getHealth() * m_healthOGSize.x, m_healthOGSize.y));
+		m_healthBar->setAspectRatio((getHealth() * m_healthOGSize.x) / m_healthOGSize.y);
+
+		m_energyBar->setPercentSize(PxVec2(getEnergy() * m_energyOGSize.x, m_energyOGSize.y));
+		m_energyBar->setAspectRatio((getEnergy() * m_energyOGSize.x) / m_energyOGSize.y);
+
+		m_fuelBar->setPercentSize(PxVec2(getFuel() * m_fuelOGSize.x, m_fuelOGSize.y));
+		m_fuelBar->setAspectRatio((getFuel() * m_fuelOGSize.x) / m_fuelOGSize.y);
+	}
+
+private:
+
+	/// <summary>
+	/// The player ship stats
+	/// </summary>
+	ShipStats * m_shipStats;
+
+	GUIImage* m_healthBar;
+	PxVec2 m_healthOGSize;
+
+	GUIImage* m_energyBar;
+	PxVec2 m_energyOGSize;
+	
+	GUIImage* m_fuelBar;
+	PxVec2 m_fuelOGSize;
 
 	/// <summary>
 	/// Gets the health level of the ship.
@@ -58,11 +108,4 @@ public:
 	/// </summary>
 	/// <param name="newFuel">The new fuel.</param>
 	void setFuel(float newFuel) { m_shipStats->setFuel(newFuel); }
-
-private:
-
-	/// <summary>
-	/// The player ship stats
-	/// </summary>
-	ShipStats * m_shipStats;
 };

@@ -82,7 +82,9 @@
     <ClInclude Include="AsteroidField.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="UpdateGUi.h" />
+    <ClInclude Include="UpdateGUi.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">

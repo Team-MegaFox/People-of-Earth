@@ -8,6 +8,7 @@
 #include "EnemyFighterShipAI.h"
 #include "PassengerShipAI.h"
 #include "AsteroidField.h"
+#include "UpdateGUi.h"
 #include <PhysX/PxPhysicsAPI.h>
 using namespace physx;
 
@@ -58,7 +59,8 @@ public:
 			->addChild(portLight)
 			->addChild(rearLight)
 			->addChild(thrusterLight)
-			->addGameComponent(new ShipStats);
+			->addGameComponent(new ShipStats)
+			->addGameComponent(new UpdateGUI);
 
 		// The human fighter ship and camera
 		GameObject* camera =
@@ -98,14 +100,27 @@ public:
 private:
 	void addGUI()
 	{
-		float barWidth = 0.5f;
-		float barHeight = 0.05f;
+		float barXPos = 0.02f;
+		float barWidth = 0.25f;
+		float barHeight = 0.1f;
 
-		addToRoot((new GameObject("Health Bar"))
-			->addGUIComponent(new GUIImage(PxVec4(0.85f, 0.05f, barWidth, barHeight), PxVec4(0.0f), "Images/healthbar.png", barWidth / barHeight)));
+		addToRoot((new GameObject("Health Bar Background"))
+			->addGUIComponent(new GUIImage(PxVec4(barXPos, 0.05f, barWidth, barHeight), PxVec4(0.0f), "Images/BarBackground.png", 287.0f / 20.0f))
+			->addChild((new GameObject("Health Bar"))
+			->addGUIComponent(new GUIImage(PxVec4(0.05f, 0.18f, 12.7f, 0.62f), PxVec4(0.0f), "Images/healthbar.png"))));
+
+		addToRoot((new GameObject("Energy Bar Background"))
+			->addGUIComponent(new GUIImage(PxVec4(barXPos, 0.09f, barWidth, barHeight), PxVec4(0.0f), "Images/BarBackground.png", 287.0f / 20.0f))
+			->addChild((new GameObject("Energy Bar"))
+			->addGUIComponent(new GUIImage(PxVec4(0.05f, 0.18f, 12.7f, 0.62f), PxVec4(0.0f), "Images/energybar.png"))));
+
+		addToRoot((new GameObject("Fuel Bar Background"))
+			->addGUIComponent(new GUIImage(PxVec4(barXPos, 0.13f, barWidth, barHeight), PxVec4(0.0f), "Images/BarBackground.png", 287.0f / 20.0f))
+			->addChild((new GameObject("Fuel Bar"))
+			->addGUIComponent(new GUIImage(PxVec4(0.05f, 0.18f, 12.7f, 0.62f), PxVec4(0.0f), "Images/fuelbar.png"))));
 	
-		addToRoot((new GameObject("MiniMap"))
-			->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.3f, 0.3f), PxVec4(0.0f), "Images/fuelbar.png")));
+		//addToRoot((new GameObject("MiniMap"))
+		//	->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.3f, 0.3f), PxVec4(0.0f), "Images/fuelbar.png")));
 
 	}
 
