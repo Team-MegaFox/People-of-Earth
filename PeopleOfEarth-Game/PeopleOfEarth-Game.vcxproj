@@ -105,6 +105,7 @@
     <ClInclude Include="ShowPauseComp.h" />
     <ClInclude Include="SteeringBehaviour.h" />
     <ClInclude Include="TextLerpAlpha.h" />
+    <ClInclude Include="UpdateGUi.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

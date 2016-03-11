@@ -196,6 +196,7 @@ public:
 	/// Renders the model.
 	/// </summary>
 	void render() const;
+
 protected:
 private:
 	MeshData(MeshData& other) {}
