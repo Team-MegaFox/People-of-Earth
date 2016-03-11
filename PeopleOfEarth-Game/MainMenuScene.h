@@ -53,14 +53,10 @@ public:
 		addToRoot((new GameObject("Main Menu Manager"))
 			->addGameComponent(new MainMenuManager));
 
-		float healthWid = 0.5f;
-		float healthHeight = 0.05f;
-		addToRoot((new GameObject("test bar"))
-			->addGUIComponent(new GUIImage(PxVec4(0.05f, 0.7f, healthWid, healthHeight), PxVec4(0.0f), "Images/healthbar.png", healthWid / healthHeight)));
-
 		BGM->play(true);
 	}
 
+private:
 	bool clickPlayButton(const GameObject& game)
 	{
 		getCoreEngine()->getSceneManager()->push(new MissionSelectScene);

@@ -82,8 +82,6 @@ public:
 			->addGameComponent(new ShipStats)
 			);
 
-		addToRoot((new GameObject("MiniMap"))
-			->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.3f, 0.3f), PxVec4(0.0f), "Images/fuelbar.png")));
 
 		//addToRoot((new GameObject("GameOver"))
 		//	->addGUIComponent(new GUIButton(PxVec4(0.35f, 0.5f, 0.3f, 0.05f), PxVec4(0.0f), "Return To Mission Select",
@@ -93,6 +91,22 @@ public:
 		addArea1OfMission1();
 
 		//addArea2OfMission1();
+
+		addGUI();
+	}
+
+private:
+	void addGUI()
+	{
+		float barWidth = 0.5f;
+		float barHeight = 0.05f;
+
+		addToRoot((new GameObject("Health Bar"))
+			->addGUIComponent(new GUIImage(PxVec4(0.85f, 0.05f, barWidth, barHeight), PxVec4(0.0f), "Images/healthbar.png", barWidth / barHeight)));
+	
+		addToRoot((new GameObject("MiniMap"))
+			->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.3f, 0.3f), PxVec4(0.0f), "Images/fuelbar.png")));
+
 	}
 
 	void addArea1OfMission1()
