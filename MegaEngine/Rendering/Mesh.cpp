@@ -237,7 +237,7 @@ Mesh::Mesh(const std::string& fileName, float scale /*= 1.0f*/) :
 m_fileName(fileName),
 m_meshData(0)
 {
-	std::map<std::string, MeshData*>::const_iterator it = s_resourceMap.find(fileName);
+	auto it = s_resourceMap.find(fileName);
 	if (it != s_resourceMap.end())
 	{
 		m_meshData = it->second;
@@ -291,7 +291,7 @@ m_meshData(0)
 		}
 
 		m_meshData = new MeshData(IndexedModel(indices, positions, texCoords, normals, tangents));
-		s_resourceMap.insert(std::pair<std::string, MeshData*>(fileName, m_meshData));
+		s_resourceMap.insert(std::make_pair(fileName, m_meshData));
 	}
 }
 
