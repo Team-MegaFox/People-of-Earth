@@ -3,7 +3,7 @@
 // Created          : 02-28-2016
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 02-29-2016
+// Last Modified On : 03-11-2016
 // ***********************************************************************
 // <copyright file="Projectile.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -81,7 +81,7 @@ struct Projectile : public GameComponent
 				//No collision along its path so delay this collision check by 0.25 sec
 				if (m_lifeTime > 0)
 				{
-					m_delay = 0.25f;
+					m_delay = 0.5f;
 				}
 			}
 			else

@@ -1,5 +1,7 @@
 #include "Utility.h"
 #include <SDL2\SDL.h>
+#include <random>
+#include <ctime>
 
 void Utility::sleep(int milliseconds)
 {
@@ -200,3 +202,11 @@ PxQuat Utility::slerp(PxQuat q1, PxQuat q2, float t)
 	return result;
 }
 
+float Utility::getRandomNumber(float timestep, int min, int max)
+{
+	static std::mt19937 randomEngine((unsigned int)time(nullptr));
+
+	std::uniform_int_distribution<int> randDir(min, max);
+
+	return randDir(randomEngine);
+}

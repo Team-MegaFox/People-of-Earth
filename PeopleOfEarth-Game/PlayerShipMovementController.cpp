@@ -3,7 +3,7 @@
 // Created          : 09-17-2015
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 03-04-2016
+// Last Modified On : 03-11-2016
 // ***********************************************************************
 // <copyright file="PlayerShipMovementController.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -85,12 +85,12 @@ void PlayerShipMovementController::processInput(const InputManager& input, float
 			getParent()->getGameComponent<ShipStats>()->setHealth(0.0f);
 			//m_gameOverButton->setEnabled(true);
 		}
-		collidedObjects = m_rigidBody->checkCollision(getGameObjectsByName("passengerShip"));
-		if (collidedObjects.size() > 0)
-		{
-			getParent()->getGameComponent<ShipStats>()->setHealth(0.0f);
-			//m_gameOverButton->setEnabled(true);
-		}
+		//collidedObjects = m_rigidBody->checkCollision(getGameObjectsByName("passengerShip"));
+		//if (collidedObjects.size() > 0)
+		//{
+		//	getParent()->getGameComponent<ShipStats>()->setHealth(0.0f);
+		//	//m_gameOverButton->setEnabled(true);
+		//}
 	}
 }
 
@@ -215,6 +215,14 @@ void PlayerShipMovementController::movement(const InputManager& input, float del
 		//Rotates the camera view
 		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Z_AXIS(0.025f));
 		showVisualShipRotation();
+	}
+	if (input.PadButtonDown(SDL_CONTROLLER_BUTTON_A))
+	{
+		m_velocityValue = 130.0f;
+	}
+	else if (input.PadButtonUp(SDL_CONTROLLER_BUTTON_A))
+	{
+		m_velocityValue = 30.0f;
 	}
 
 }
