@@ -83,6 +83,9 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="UpdateGUi.h">
+	  <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniMap.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
