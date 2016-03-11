@@ -82,6 +82,9 @@ public:
 			->addGameComponent(new ShipStats)
 			);
 
+		addToRoot((new GameObject("MiniMap"))
+			->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.3f, 0.3f), PxVec4(0.0f), "Images/fuelbar.png")));
+
 		//addToRoot((new GameObject("GameOver"))
 		//	->addGUIComponent(new GUIButton(PxVec4(0.35f, 0.5f, 0.3f, 0.05f), PxVec4(0.0f), "Return To Mission Select",
 		//	std::bind(&MissionOneScene::onRetryClick, this, std::placeholders::_1)))
@@ -89,7 +92,7 @@ public:
 
 		addArea1OfMission1();
 
-		addArea2OfMission1();
+		//addArea2OfMission1();
 	}
 
 	void addArea1OfMission1()
