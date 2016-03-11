@@ -160,7 +160,7 @@ public:
 						else
 						{
 							m_wayPoints.push_back(collidableGameObjects[i]->getGameComponent<RigidBody>()->getPosition() +
-								PxVec3((float)RandomNumber(100, -100), (float)RandomNumber(100, -100), 0.0f) /*multiply by scale*/);
+								PxVec3(Utility::getRandomNumber(timestep, 100, -100), Utility::getRandomNumber(100, -100), 0.0f) /*multiply by scale*/);
 							m_delayCheckInFront = 1.0f;
 							break;
 						}
