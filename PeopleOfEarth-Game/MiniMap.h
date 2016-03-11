@@ -21,7 +21,7 @@ using namespace physx;
 class MiniMap : public GameComponent
 {
 public: 
-	MiniMap(PxVec2 miniMapCenterPosition = PxVec2(0), float miniMapRadius = 5000.0f) :
+	MiniMap(PxVec2 miniMapCenterPosition = PxVec2(0), float miniMapRadius = 1000.0f) :
 		m_miniMapCenterPosition(miniMapCenterPosition),
 		m_miniMapRadius(miniMapRadius) {}
 
@@ -34,13 +34,13 @@ public:
 		playerPosition = PxVec3(0);
 		getParent()->addChild(
 			(new GameObject(m_playerGameObject->getName() + "_GUI"))
-			->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.3f, 0.3f), PxVec4(0.0f), "Images/healthbar.png"))
+			->addGUIComponent(new GUIImage(PxVec4(1.0f, 1.0f, 0.1f, 0.1f), PxVec4(0.0f), "Images/minimap_graphics/player_marker.png"))
 			);
 		//Adding Passenger Ship
 		m_passengerGameObject = getGameObjectByName("passengerShip");
 		getParent()->addChild(
 			(new GameObject(m_passengerGameObject->getName() + "_GUI"))
-			->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.3f, 0.3f), PxVec4(0.0f), "Images/energybar.png"))
+			->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.1f, 0.1f), PxVec4(0.0f), "Images/minimap_graphics/passenger_ship_marker.png"))
 			);
 		//Adding Enemy Fighter Ship
 		m_allEnemyGameObjects = getGameObjectsByName("enemyFighter");
@@ -48,7 +48,7 @@ public:
 		{
 			getParent()->addChild(
 				(new GameObject(m_allEnemyGameObjects[i]->getName() + "_GUI"))
-				->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.3f, 0.3f), PxVec4(0.0f), "Images/space.png"))
+				->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.1f, 0.1f), PxVec4(0.0f), "Images/minimap_graphics/enemy_marker.png"))
 				);
 		}
 
@@ -128,13 +128,6 @@ public:
 		for (size_t i = 0; i < getParent()->getAllChildren().size(); i++)
 		{
 			distance = Utility::getDistance(playerPosition, *getParent()->getAllChildren()[i]->getTransform()->getPosition());
-			if (getParent()->getAllChildren()[i]->getName() == m_passengerGameObject->getName() + "_GUI")
-			{
-				printf("%f\t%f\t%f\n", getParent()->getAllChildren()[i]->getTransform()->getPosition()->x,
-					getParent()->getAllChildren()[i]->getTransform()->getPosition()->y,
-					getParent()->getAllChildren()[i]->getTransform()->getPosition()->z);
-			}
-			
 			//Distance check
 			if (distance < m_miniMapRadius)
 			{
@@ -142,11 +135,13 @@ public:
 				PxVec3 direction = *getParent()->getAllChildren()[i]->getTransform()->getPosition() - playerPosition;
 				direction.normalize();
 				direction *= distance / m_miniMapRadius;
+				direction.z *= -1.0f;
 
 				//Update on the GUI Image
 				getParent()->getAllChildren()[i]->getGUIComponent<GUIImage>()->setPercentPosition(
-					m_miniMapCenterPosition + PxVec2(direction.x, direction.z) + 
-					getParent()->getAllChildren()[i]->getGUIComponent<GUIImage>()->getPercentSize() / 2);
+					PxVec2(0.5f, 0.5f) +
+					PxVec2(direction.x, direction.z)
+					- getParent()->getAllChildren()[i]->getGUIComponent<GUIImage>()->getPercentSize() / 2);
 			}
 			else
 			{

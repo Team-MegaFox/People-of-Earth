@@ -128,8 +128,8 @@ private:
 		//	->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.3f, 0.3f), PxVec4(0.0f), "Images/fuelbar.png")));
 =======
 		addToRoot((new GameObject("MiniMap"))
-			->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.3f, 0.3f), PxVec4(0.0f), "Images/fuelbar.png"))
-			->addGameComponent(new MiniMap(PxVec2(0.15f, 0.15f), 200.0f))
+			->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.3f, 0.3f), PxVec4(0.0f), "Images/minimap_graphics/GUI_MiniMap.png"))
+			->addGameComponent(new MiniMap(PxVec2(0.15f, 0.15f), 3000.0f))
 			);
 >>>>>>> origin/develop
 
