@@ -92,6 +92,18 @@ public:
 	PxVec2 getPixelPosition() { return PxVec2(m_widget->getPosition().d_x.d_offset, m_widget->getPosition().d_y.d_offset); }
 
 	/// <summary>
+	/// Gets the relative size of the window.
+	/// </summary>
+	/// <returns>A vector 2D of the relative position.</returns>
+	PxVec2 getPercentSize() { return PxVec2(m_widget->getSize().d_width.d_scale, m_widget->getSize().d_height.d_scale); }
+
+	/// <summary>
+	/// Gets the absolute pixel size of the window.
+	/// </summary>
+	/// <returns>A vector 2D of the absolute pixel position.</returns>
+	PxVec2 getPixelSize() { return PxVec2(m_widget->getSize().d_width.d_offset, m_widget->getSize().d_height.d_offset); }
+
+	/// <summary>
 	/// Sets the parent GameObject.
 	/// </summary>
 	/// <param name="parent">The GameObject to be attached to.</param>
@@ -108,6 +120,18 @@ public:
 	/// </summary>
 	/// <param name="pos">The position in pixels to the window.</param>
 	void setPixelPosition(const PxVec2& pos) { m_widget->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f, pos.x), CEGUI::UDim(0.0f, pos.y))); }
+
+	/// <summary>
+	/// Sets the relative size to the parent GUI Component.
+	/// </summary>
+	/// <param name="pos">The size in percentage relative to the window.</param>
+	void setPercentSize(const PxVec2& size) const { m_widget->setSize(CEGUI::USize(CEGUI::UDim(size.x, m_widget->getSize().d_width.d_offset), CEGUI::UDim(size.y, m_widget->getSize().d_height.d_offset))); }
+
+	/// <summary>
+	/// Sets the absolute pixel size.
+	/// </summary>
+	/// <param name="pos">The size in pixels to the window.</param>
+	void setPixelSize(const PxVec2& size) const { m_widget->setSize(CEGUI::USize(CEGUI::UDim(m_widget->getSize().d_width.d_scale, size.x), CEGUI::UDim(m_widget->getSize().d_height.d_scale, size.y))); }
 
 	/// <summary>
 	/// Activates the widget so it accepts input.
