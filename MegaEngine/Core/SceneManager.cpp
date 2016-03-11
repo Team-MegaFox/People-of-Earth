@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 02-29-2016
+// Last Modified On : 03-11-2016
 // ***********************************************************************
 // <copyright file="SceneManager.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -110,7 +110,7 @@ void SceneManager::pop()
 		throw std::runtime_error("Attempted to pop from an empty game state stack");
 	}
 
-	auto go = m_activeList.back().first->getAllGameObjects();
+	//auto go = m_activeList.back().first->getAllGameObjects();
 
 	delete m_activeList.back().first;
 	m_activeList.pop_back();

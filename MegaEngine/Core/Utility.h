@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
+// Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 03-01-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 03-11-2016
 // ***********************************************************************
 // <copyright file="Utility.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -177,4 +177,6 @@ namespace Utility
 	}
 
 	PxQuat slerp(PxQuat q1, PxQuat q2, float t);
+
+	float getRandomNumber(float timestep, int min = 0, int max = 1);
 }

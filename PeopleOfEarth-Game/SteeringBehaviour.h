@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 02-23-2016
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 03-11-2016
 // ***********************************************************************
 // <copyright file="SteeringBehaviour.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -122,12 +122,6 @@ public:
 		RotateShip(timestep);
 	}
 
-	int RandomNumber(int max, int min)
-	{
-		int randnum = (rand() % (PxAbs(max) + PxAbs(min))) - ((PxAbs(max) + PxAbs(min)) / 2);
-		return randnum;
-	}
-
 	//Check if anything is in front of the ship
 	void CheckPath(float timestep)
 	{
@@ -193,9 +187,9 @@ public:
 		{
 			//Change the position of the waypoint (random number between -100 to 100)
 			m_targetPoint = *getTransform()->getPosition() + PxVec3(
-				(float)RandomNumber(100, -100),
-				(float)RandomNumber(100, -100),
-				(float)RandomNumber(100, -100));
+				Utility::getRandomNumber(timestep, -100, 100),
+				Utility::getRandomNumber(timestep, -100, 100),
+				Utility::getRandomNumber(timestep, -100, 100));
 		}
 
 		//Seek to the waypoint

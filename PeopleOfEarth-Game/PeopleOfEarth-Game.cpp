@@ -9,6 +9,7 @@
 
 int main(int argc, char** argv)
 {
+	//1366, 768 window size large
 	Viewport window("People of Earth", 1024, 576, 0);
 	GUIEngine guiEngine("Assets/GUI");
 	RenderingEngine renderingEngine(window);

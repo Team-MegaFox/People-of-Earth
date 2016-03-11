@@ -3,7 +3,7 @@
 // Created          : 02-23-2016
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 03-04-2016
+// Last Modified On : 03-11-2016
 // ***********************************************************************
 // <copyright file="EnemyFighterShipAI.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -197,6 +197,7 @@ public:
 			//5 Sec delay 
 			m_delayAttacking = 5.0f;
 			numberOfLaserShot = 0;
+			m_targetPoint = *getTransform()->getPosition();
 		}
 		else
 		{
