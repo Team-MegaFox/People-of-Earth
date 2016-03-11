@@ -24,9 +24,6 @@ public:
 		{
 			m_buttons[m_focusButton]->getParent()->addGameComponent(new TextLerpAlpha, true);
 		}
-
-		m_testbar = getGameObjectByName("test bar")->getGUIComponent<GUIImage>();
-		m_barOGSize = m_testbar->getPercentSize();
 	}
 
 	/// <summary>
@@ -89,7 +86,7 @@ public:
 	/// Virtual function for custom update functionality.
 	/// </summary>
 	/// <param name="delta">The frame time delta.</param>
-	virtual void update(float delta) 
+	/*virtual void update(float delta) 
 	{
 		if (m_barPercent > 0.0f)
 		{
@@ -98,7 +95,7 @@ public:
 			m_testbar->setPercentSize(PxVec2((m_barPercent / 100.0f) * m_barOGSize.x, m_barOGSize.y));
 			m_testbar->setAspectRatio(((m_barPercent / 100.0f) * m_barOGSize.x) / m_barOGSize.y);
 		}
-	}
+	}*/
 
 private:
 	bool m_showSplash = true;
@@ -112,11 +109,5 @@ private:
 	std::vector<GUIButton*> m_buttons;
 
 	size_t m_focusButton;
-
-	GUIImage* m_testbar;
-
-	PxVec2 m_barOGSize;
-
-	float m_barPercent = 100.0f;
 
 };

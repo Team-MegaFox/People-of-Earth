@@ -90,6 +90,18 @@ public:
 		addArea1OfMission1();
 
 		addArea2OfMission1();
+
+		addGUI();
+	}
+
+private:
+	void addGUI()
+	{
+		float barWidth = 0.5f;
+		float barHeight = 0.05f;
+
+		addToRoot((new GameObject("Health Bar"))
+			->addGUIComponent(new GUIImage(PxVec4(0.85f, 0.05f, barWidth, barHeight), PxVec4(0.0f), "Images/healthbar.png", barWidth / barHeight)));
 	}
 
 	void addArea1OfMission1()
