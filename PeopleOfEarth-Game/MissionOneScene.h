@@ -8,11 +8,8 @@
 #include "EnemyFighterShipAI.h"
 #include "PassengerShipAI.h"
 #include "AsteroidField.h"
-<<<<<<< HEAD
 #include "UpdateGUi.h"
-=======
 #include "MiniMap.h"
->>>>>>> origin/develop
 #include <PhysX/PxPhysicsAPI.h>
 using namespace physx;
 
@@ -123,16 +120,11 @@ private:
 			->addChild((new GameObject("Fuel Bar"))
 			->addGUIComponent(new GUIImage(PxVec4(0.05f, 0.18f, 12.7f, 0.62f), PxVec4(0.0f), "Images/fuelbar.png"))));
 	
-<<<<<<< HEAD
-		//addToRoot((new GameObject("MiniMap"))
-		//	->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.3f, 0.3f), PxVec4(0.0f), "Images/fuelbar.png")));
-=======
+
 		addToRoot((new GameObject("MiniMap"))
 			->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.3f, 0.3f), PxVec4(0.0f), "Images/minimap_graphics/GUI_MiniMap.png"))
 			->addGameComponent(new MiniMap(PxVec2(0.15f, 0.15f), 3000.0f))
 			);
->>>>>>> origin/develop
-
 	}
 
 	void addArea1OfMission1()
