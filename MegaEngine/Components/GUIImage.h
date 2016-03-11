@@ -34,7 +34,7 @@ public:
 		m_numImage = s_numImages;
 		if (aspectRatio == -1.0f)
 		{
-			m_aspectRatio = destRectPerc.y / destRectPerc.x;
+			m_aspectRatio = destRectPerc.w / destRectPerc.z;
 		}
 	}
 	/// <summary>
