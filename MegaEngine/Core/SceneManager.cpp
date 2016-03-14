@@ -165,10 +165,7 @@ Scene* SceneManager::switchScene(Scene* scene, Modality modality /*= Modality::E
 
 void SceneManager::update(float delta)
 {
-	for (size_t i = m_exclusiveScene; i < m_activeList.size(); i++)
-	{
-		m_activeList[i].first->update(delta);
-	}
+	m_activeList.back().first->update(delta);
 }
 
 void SceneManager::render(RenderingEngine* renderingEngine)
