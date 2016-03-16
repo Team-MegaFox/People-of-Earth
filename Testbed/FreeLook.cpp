@@ -1,4 +1,4 @@
-#include "freeLook.h"
+#include "FreeLook.h"
 #include <Core\Utility.h>
 #include <Core\SceneManager.h>
 #include "PopupMenuScene.h"

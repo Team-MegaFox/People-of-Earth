@@ -1,5 +1,4 @@
 #pragma once
-
 #include <Components\GameComponents.h>
 #include <SDL2\SDL.h>
 #include <PhysX/PxPhysicsAPI.h>
