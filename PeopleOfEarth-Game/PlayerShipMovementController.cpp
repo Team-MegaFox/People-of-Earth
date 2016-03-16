@@ -224,7 +224,6 @@ void PlayerShipMovementController::movement(const InputManager& input, float del
 	{
 		m_velocityValue = 30.0f;
 	}
-
 }
 
 void PlayerShipMovementController::returnToActualRotation()

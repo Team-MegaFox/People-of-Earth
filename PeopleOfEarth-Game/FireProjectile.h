@@ -3,7 +3,7 @@
 // Created          : 02-18-2015
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 02-29-2016
+// Last Modified On : 03-15-2016
 // ***********************************************************************
 // <copyright file="FireProjectile.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -59,7 +59,7 @@ public:
 				instantiate(
 					(new GameObject("Laser", *getTransform()->getPosition()
 					, *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
-					->addGameComponent(new Projectile)
+					->addGameComponent(new Projectile(0.1f, AGENT::PLAYER_SIDE))
 					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("laser")))
 					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
 					Utility::getForward(*getTransform()->getRotation()) * 15.0f +
@@ -76,7 +76,7 @@ public:
 				instantiate(
 					(new GameObject("Laser", *getTransform()->getPosition()
 					, *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
-					->addGameComponent(new Projectile)
+					->addGameComponent(new Projectile(0.1f, AGENT::PLAYER_SIDE))
 					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("laser")))
 					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
 					Utility::getForward(*getTransform()->getRotation()) * 15.0f +

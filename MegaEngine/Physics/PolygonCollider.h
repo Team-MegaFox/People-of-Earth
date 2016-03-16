@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 03-13-2016
 // ***********************************************************************
 // <copyright file="PolygonCollider.h" company="">
 //     Copyright (c) . All rights reserved.
@@ -82,6 +82,14 @@ public:
 	virtual bool checkCollision(Collider* collidableObject) override;
 
 	/// <summary>
+	/// Check the collision with this Polygon Collider with the ray
+	/// </summary>
+	/// <param name="rayPosition">Ray Position.</param>
+	/// <param name = "rayDirection">Ray Direction.</param>
+	/// <returns>Return bool flag to determine this Polygon Collider collided with the ray</returns>
+	virtual bool checkCollision(PxVec3 rayPosition, PxVec3 rayDirection, float &timeOfCollision) override;
+
+	/// <summary>
 	/// Check the collision with this Polygon Collider with the other Polygon Collider using Separating Axis Theorm.
 	/// </summary>
 	/// <param name="collidableObject">Collider this collider will be checking.</param>
@@ -111,6 +119,10 @@ public:
 		PxVec3 upDirection2, 
 		PxVec3 forwardDirection2, 
 		PolygonCollider* collidableObject);
+
+	bool checkRayAxisCollision(PxVec3 rayDirection, PxVec3 axis, PxVec3 delta, float &timeOfCollision);
+
+	bool checkDistance(PolygonCollider* collidableObject);
 
 	/// <summary>
 	/// Convert the quaternion to a vector format in the x axis rotation.

@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 03-13-2016
 // ***********************************************************************
 // <copyright file="PolygonCollider.cpp" company="">
 //     Copyright (c) . All rights reserved.
@@ -196,6 +196,45 @@ bool PolygonCollider::checkCollision(Collider* collidableObject)
 	return false;
 }
 
+bool PolygonCollider::checkCollision(PxVec3 rayPosition, PxVec3 rayDirection, float &timeOfCollision)
+{
+	//Used the tutorial to help code the collision
+	//http://www.opengl-tutorial.org/miscellaneous/clicking-on-objects/picking-with-custom-ray-obb-function/
+
+	PxVec3 delta = m_position - rayPosition;
+	PxVec3 xaxis = m_rotation.rotate(PxVec3(1, 0, 0));
+	PxVec3 yaxis = m_rotation.rotate(PxVec3(0, 1, 0));
+	PxVec3 zaxis = m_rotation.rotate(PxVec3(0, 0, 1));
+	float axisCollision = 0.0f;
+
+	if (!checkRayAxisCollision(rayDirection, xaxis, delta, axisCollision))
+	{
+		return false;
+	}
+	if (axisCollision != 0.0f)
+		timeOfCollision = axisCollision;
+
+	if (!checkRayAxisCollision(rayDirection, yaxis, delta, axisCollision))
+	{
+		return false;
+	}
+	if (axisCollision > timeOfCollision && axisCollision != 0.0f)
+	{
+		timeOfCollision = axisCollision;
+	}
+
+	if (!checkRayAxisCollision(rayDirection, zaxis, delta, axisCollision))
+	{
+		return false;
+	}
+	if (axisCollision > timeOfCollision && axisCollision != 0.0f)
+	{
+		timeOfCollision = axisCollision;
+	}
+
+	return true;
+}
+
 bool PolygonCollider::checkSATCollision(PolygonCollider* collidableObject)
 {
 	//Check collision with Seperating Axis Theorm
@@ -371,3 +410,79 @@ bool PolygonCollider::checkAxisCollision(
 	return true;
 }
 
+bool PolygonCollider::checkRayAxisCollision(PxVec3 rayDirection, PxVec3 axis, PxVec3 delta, float &timeOfCollision)
+{
+	float tMin = 0.0f;
+	float tMax = 100000.0f;
+	PxVec3 aabb_min(-1.0f, -1.0f, -1.0f);
+	aabb_min = PxVec3(aabb_min.x * axis.x, aabb_min.y * axis.y, aabb_min.z * axis.z);
+	PxVec3 aabb_max(1.0f, 1.0f, 1.0f);
+	aabb_max = PxVec3(aabb_max.x * axis.x, aabb_max.y * axis.y, aabb_max.z * axis.z);
+
+	float e = axis.dot(delta);
+	float f = rayDirection.dot(axis);
+
+	if (f > 0)
+	{
+		// Beware, don't do the division if f is near 0 ! See full source code for details.
+		float t1;
+		if (aabb_min.x != 0)
+		{
+			t1 = (e + aabb_min.x) / f; // Intersection with the "left" plane
+		}
+		else if (aabb_min.y != 0)
+		{
+			t1 = (e + aabb_min.y) / f; // Intersection with the "left" plane
+		}
+		else
+		{
+			t1 = (e + aabb_min.z) / f; // Intersection with the "left" plane
+		}
+		float t2;
+		if (aabb_max.x != 0)
+		{
+			t2 = (e + aabb_max.x) / f; // Intersection with the "right" plane
+		}
+		else if (aabb_max.y != 0)
+		{
+			t2 = (e + aabb_max.y) / f; // Intersection with the "left" plane
+		}
+		else
+		{
+			t2 = (e + aabb_max.z) / f; // Intersection with the "left" plane
+		}
+
+		// if wrong order
+		if (t1>t2)
+		{ 
+			float w = t1; t1 = t2; t2 = w; // swap t1 and t2
+		}
+
+		// tMax is the nearest "far" intersection (amongst the X,Y and Z planes pairs)
+		if (t2 < tMax)
+		{
+			tMax = t2;
+		}
+		// tMin is the farthest "near" intersection (amongst the X,Y and Z planes pairs)
+		if (t1 > tMin)
+		{
+			tMin = t1;
+		}
+		
+		if (tMax < tMin)
+		{
+			return false;
+		}
+		
+	}
+
+	timeOfCollision = tMin;
+	return true;
+}
+
+bool PolygonCollider::checkDistance(PolygonCollider* collidableObject)
+{
+	PxVec3 directionToCollider = collidableObject->getPosition() - m_position;
+
+	return false;
+}

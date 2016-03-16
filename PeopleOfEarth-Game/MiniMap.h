@@ -3,7 +3,7 @@
 // Created          : 03-11-2016
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 03-11-2016
+// Last Modified On : 03-15-2016
 // ***********************************************************************
 // <copyright file="MiniMap.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -121,6 +121,23 @@ public:
 				getParent()->getAllChildren().erase(getParent()->getAllChildren().begin() + i);
 			}
 		}
+		setMiniMapPosition();
+	}
+
+	virtual void processInput(const InputManager& input, float delta) override
+	{
+		if (input.GetThumbRPosition().x > 0.3f)
+		{
+			m_angleRotation += 0.025f;
+		}
+		if (input.GetThumbRPosition().x < -0.3f)
+		{
+			m_angleRotation -= 0.025f;
+		}
+	}
+
+	void setMiniMapPosition()
+	{
 		//Get the origin of the map in the scene
 		playerPosition = *getParent()->getAllChildren()[0]->getTransform()->getPosition();
 		//Checks to see if the GUI component needs to be rendered
@@ -136,6 +153,12 @@ public:
 				direction.normalize();
 				direction *= distance / m_miniMapRadius;
 				direction.z *= -1.0f;
+
+				//Rotate the direction according to the identidy forward
+				PxVec3 tempDirection = direction;
+				direction.z = tempDirection.z * cos(m_angleRotation) - tempDirection.x * sin(m_angleRotation);
+				direction.x = tempDirection.z * sin(m_angleRotation) + tempDirection.x * cos(m_angleRotation);
+
 
 				//Update on the GUI Image
 				getParent()->getAllChildren()[i]->getGUIComponent<GUIImage>()->setPercentPosition(
@@ -159,4 +182,6 @@ private:
 	PxVec3 playerPosition;
 	float m_miniMapRadius;
 	PxVec2 m_miniMapCenterPosition;
+
+	float m_angleRotation = 0.0f;
 };
