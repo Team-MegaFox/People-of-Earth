@@ -68,18 +68,21 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 
 	if (modality == Modality::Exclusive)
 	{
+		// Get the second top most scene, gets the scene underneath the top most scene
 		for (int i = m_activeList.size() - 2; i >= 0; i--)
 		{
 			if (m_activeList[i].second == Modality::Exclusive)
 			{
+				// get all game objects in that exclusive scene
 				auto go = m_activeList[i].first->getAllGameObjects();
 
+				// loop through all those game objects and if they have a Audio Component pause that audio
 				for (size_t j = 0; j < go.size(); j++)
 				{
 					Audio * audio = go[j]->getGameComponent<Audio>();
 					if (audio != nullptr)
 					{
-						// stop music
+						// pause music
 						audio->pause(true);
 					}
 				}
@@ -100,6 +103,17 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 		}
 	}
 
+	auto go = peek()->getAllGameObjects();
+	for (size_t i = 0; i < go.size(); i++)
+	{
+		Audio * audio = go[i]->getGameComponent<Audio>();
+		if (audio != nullptr)
+		{
+			// un-pause music
+			audio->pause(false);
+		}
+	}
+
 	updateExclusiveScene();	
 }
 
@@ -109,8 +123,6 @@ void SceneManager::pop()
 	{
 		throw std::runtime_error("Attempted to pop from an empty game state stack");
 	}
-
-	//auto go = m_activeList.back().first->getAllGameObjects();
 
 	delete m_activeList.back().first;
 	m_activeList.pop_back();
@@ -131,12 +143,13 @@ void SceneManager::pop()
 			Audio * audio = go[i]->getGameComponent<Audio>();
 			if (audio != nullptr)
 			{
-				audio->pause(false);
+				if (go[i]->isEnabled())
+				{
+					audio->pause(false);
+				}
 			}
 		}
 	}
-
-	//auto go = m_activeList[m_exclusiveScene].first->getAllGameObjects();
 }
 
 void SceneManager::popTo(Uint8 popIndex)
