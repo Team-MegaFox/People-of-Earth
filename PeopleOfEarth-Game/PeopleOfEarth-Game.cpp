@@ -1,4 +1,3 @@
-#include <iostream>
 #include <MegaEngine.h>
 #include <Rendering\RenderingEngine.h>
 #include <Core\SceneManager.h>
@@ -9,8 +8,7 @@
 
 int main(int argc, char** argv)
 {
-	//1366, 768 window size large
-	Viewport window("People of Earth", 1024, 576, 0);
+	Viewport window("People of Earth", 1280, 720, 0);
 	GUIEngine guiEngine("Assets/GUI");
 	RenderingEngine renderingEngine(window);
 	SceneManager sceneManager(&window);
