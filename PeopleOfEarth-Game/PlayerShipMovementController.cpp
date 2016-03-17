@@ -51,8 +51,6 @@ void PlayerShipMovementController::onStart()
 	m_distance = Utility::getDistance(m_rigidBody->getPosition(), *m_camera->getTransform()->getPosition());
 	m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 	m_upDirection = Utility::getUp(m_rigidBody->getRotation());
-	//m_gameOverButton = getGameObjectByName("GameOver");
-	//m_gameOverButton->setEnabled(false);
 }
 
 void PlayerShipMovementController::processInput(const InputManager& input, float delta)
@@ -83,13 +81,11 @@ void PlayerShipMovementController::processInput(const InputManager& input, float
 		if (collidedObjects.size() > 0)
 		{
 			getParent()->getGameComponent<ShipStats>()->setHealth(0.0f);
-			//m_gameOverButton->setEnabled(true);
 		}
 		//collidedObjects = m_rigidBody->checkCollision(getGameObjectsByName("passengerShip"));
 		//if (collidedObjects.size() > 0)
 		//{
 		//	getParent()->getGameComponent<ShipStats>()->setHealth(0.0f);
-		//	//m_gameOverButton->setEnabled(true);
 		//}
 	}
 }
