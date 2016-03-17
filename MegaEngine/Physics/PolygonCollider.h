@@ -87,7 +87,7 @@ public:
 	/// <param name="rayPosition">Ray Position.</param>
 	/// <param name = "rayDirection">Ray Direction.</param>
 	/// <returns>Return bool flag to determine this Polygon Collider collided with the ray</returns>
-	virtual bool checkCollision(PxVec3 rayPosition, PxVec3 rayDirection, float &timeOfCollision) override;
+	//virtual bool checkCollision(PxVec3 rayPosition, PxVec3 rayDirection, float &timeOfCollision) override;
 
 	/// <summary>
 	/// Check the collision with this Polygon Collider with the other Polygon Collider using Separating Axis Theorm.

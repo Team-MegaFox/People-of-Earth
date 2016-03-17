@@ -196,44 +196,44 @@ bool PolygonCollider::checkCollision(Collider* collidableObject)
 	return false;
 }
 
-bool PolygonCollider::checkCollision(PxVec3 rayPosition, PxVec3 rayDirection, float &timeOfCollision)
-{
-	//Used the tutorial to help code the collision
-	//http://www.opengl-tutorial.org/miscellaneous/clicking-on-objects/picking-with-custom-ray-obb-function/
-
-	PxVec3 delta = m_position - rayPosition;
-	PxVec3 xaxis = m_rotation.rotate(PxVec3(1, 0, 0));
-	PxVec3 yaxis = m_rotation.rotate(PxVec3(0, 1, 0));
-	PxVec3 zaxis = m_rotation.rotate(PxVec3(0, 0, 1));
-	float axisCollision = 0.0f;
-
-	if (!checkRayAxisCollision(rayDirection, xaxis, delta, axisCollision))
-	{
-		return false;
-	}
-	if (axisCollision != 0.0f)
-		timeOfCollision = axisCollision;
-
-	if (!checkRayAxisCollision(rayDirection, yaxis, delta, axisCollision))
-	{
-		return false;
-	}
-	if (axisCollision > timeOfCollision && axisCollision != 0.0f)
-	{
-		timeOfCollision = axisCollision;
-	}
-
-	if (!checkRayAxisCollision(rayDirection, zaxis, delta, axisCollision))
-	{
-		return false;
-	}
-	if (axisCollision > timeOfCollision && axisCollision != 0.0f)
-	{
-		timeOfCollision = axisCollision;
-	}
-
-	return true;
-}
+//bool PolygonCollider::checkCollision(PxVec3 rayPosition, PxVec3 rayDirection, float &timeOfCollision)
+//{
+//	//Used the tutorial to help code the collision
+//	//http://www.opengl-tutorial.org/miscellaneous/clicking-on-objects/picking-with-custom-ray-obb-function/
+//
+//	PxVec3 delta = m_position - rayPosition;
+//	PxVec3 xaxis = m_rotation.rotate(PxVec3(1, 0, 0));
+//	PxVec3 yaxis = m_rotation.rotate(PxVec3(0, 1, 0));
+//	PxVec3 zaxis = m_rotation.rotate(PxVec3(0, 0, 1));
+//	float axisCollision = 0.0f;
+//
+//	if (!checkRayAxisCollision(rayDirection, xaxis, delta, axisCollision))
+//	{
+//		return false;
+//	}
+//	if (axisCollision != 0.0f)
+//		timeOfCollision = axisCollision;
+//
+//	if (!checkRayAxisCollision(rayDirection, yaxis, delta, axisCollision))
+//	{
+//		return false;
+//	}
+//	if (axisCollision > timeOfCollision && axisCollision != 0.0f)
+//	{
+//		timeOfCollision = axisCollision;
+//	}
+//
+//	if (!checkRayAxisCollision(rayDirection, zaxis, delta, axisCollision))
+//	{
+//		return false;
+//	}
+//	if (axisCollision > timeOfCollision && axisCollision != 0.0f)
+//	{
+//		timeOfCollision = axisCollision;
+//	}
+//
+//	return true;
+//}
 
 bool PolygonCollider::checkSATCollision(PolygonCollider* collidableObject)
 {
