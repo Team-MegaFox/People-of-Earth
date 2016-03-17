@@ -11,6 +11,8 @@ public:
 
 	virtual void onStart() override
 	{
+		m_missionSelectObject = getGameObjectByName("Mission Select Menu");
+		m_missionSelectObject->setEnabled(false);
 		for (size_t i = 1; i <= m_numMissions; i++)
 		{
 			m_missionWidgets.push_back(getGameObjectByName("Mission " + std::to_string(i))->getGUIComponent<GUIContainer>());
@@ -26,47 +28,57 @@ public:
 	/// <param name="delta">The frame time delta.</param>
 	virtual void processInput(const InputManager& input, float delta) override
 	{
-		if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B))
+		if (m_missionSelectObject->isEnabled())
 		{
-			getCoreEngine()->getSceneManager()->pop();
-		}
-
-		if (!m_move)
-		{
-			if (input.KeyPress(SDLK_d) || input.GetThumbLPosition().x > 0.2f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_RIGHT))
+			if (m_checkInput)
 			{
-				if (m_focusMission != m_missionWidgets.back())
+				if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B))
 				{
-					m_focusMissionIndex++;
-					m_focusMission = m_missionWidgets[m_focusMissionIndex];
-
-					m_move = true;
-					m_moveLeft = false;
+					getCoreEngine()->getSceneManager()->pop();
 				}
-				else
+
+				if (!m_move)
 				{
-					m_focusMission = m_missionWidgets.back();
+					if (input.KeyPress(SDLK_d) || input.GetThumbLPosition().x > 0.2f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_RIGHT))
+					{
+						if (m_focusMission != m_missionWidgets.back())
+						{
+							m_focusMissionIndex++;
+							m_focusMission = m_missionWidgets[m_focusMissionIndex];
+
+							m_move = true;
+							m_moveLeft = false;
+						}
+						else
+						{
+							m_focusMission = m_missionWidgets.back();
+						}
+					}
+					else if (input.KeyPress(SDLK_a) || input.GetThumbLPosition().x < -0.2f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_LEFT))
+					{
+						if (m_focusMission != m_missionWidgets.front())
+						{
+							m_focusMissionIndex--;
+							m_focusMission = m_missionWidgets[m_focusMissionIndex];
+
+							m_move = true;
+							m_moveLeft = true;
+						}
+						else
+						{
+							m_focusMission = m_missionWidgets.front();
+						}
+					}
+
+					if (input.KeyPress(SDLK_RETURN) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_A))
+					{
+						m_missionWidgets[m_focusMissionIndex]->getParent()->getAllChildren()[0]->getGUIComponent<GUIButton>()->click();
+					}
 				}
 			}
-			else if (input.KeyPress(SDLK_a) || input.GetThumbLPosition().x < -0.2f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_LEFT))
+			else if (input.KeyUp(SDLK_RETURN))
 			{
-				if (m_focusMission != m_missionWidgets.front())
-				{
-					m_focusMissionIndex--;
-					m_focusMission = m_missionWidgets[m_focusMissionIndex];
-
-					m_move = true;
-					m_moveLeft = true;
-				}
-				else
-				{
-					m_focusMission = m_missionWidgets.front();
-				}
-			}
-
-			if (input.KeyPress(SDLK_RETURN) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_A))
-			{
-				m_missionWidgets[m_focusMissionIndex]->getParent()->getAllChildren()[0]->getGUIComponent<GUIButton>()->click();
+				m_checkInput = true;
 			}
 		}
 	}
@@ -103,7 +115,11 @@ public:
 		}
 	}
 
+	void setCheckInput(bool value) { m_checkInput = value; }
+
 private:
+	GameObject* m_missionSelectObject;
+
 	std::vector<GUIContainer*> m_missionWidgets;
 
 	GUIContainer* m_focusMission;
@@ -117,5 +133,7 @@ private:
 	float m_movePosition = 0.0f;
 
 	float m_moveSpeed = 2.0f;
+
+	bool m_checkInput = false;
 
 };

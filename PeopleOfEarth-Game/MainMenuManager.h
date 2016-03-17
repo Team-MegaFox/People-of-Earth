@@ -12,9 +12,11 @@ public:
 
 	virtual void onStart() override
 	{
+		m_logo = getGameObjectByName("Logo");
 		m_splashScreen = getGameObjectByName("Splash");
 		m_mainMenuScreen = getGameObjectByName("Main Menu");
 		m_mainMenuScreen->setEnabled(false);
+		m_missionSelectScreen = getGameObjectByName("Mission Select Menu");
 
 		m_buttons.push_back(getGameObjectByName("Play Button")->getGUIComponent<GUIButton>());
 		m_buttons.push_back(getGameObjectByName("Options Button")->getGUIComponent<GUIButton>());
@@ -53,7 +55,7 @@ public:
 				m_showSplash = false;
 			}
 		}
-		else
+		else if (m_mainMenuScreen->isEnabled())
 		{
 			if (input.KeyPress(SDLK_w) || input.GetThumbLPosition().y > 0.1f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_UP))
 			{
@@ -102,9 +104,13 @@ private:
 
 	bool m_usingMouse = false;
 
+	GameObject* m_logo;
+
 	GameObject* m_splashScreen;
 
 	GameObject* m_mainMenuScreen;
+
+	GameObject* m_missionSelectScreen;
 
 	std::vector<GUIButton*> m_buttons;
 

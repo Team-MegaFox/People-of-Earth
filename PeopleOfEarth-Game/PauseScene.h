@@ -45,7 +45,7 @@ private:
 
 	bool onMissionSelectClick(const GameObject& gameobject)
 	{
-		getCoreEngine()->getSceneManager()->popTo(1);
+		getCoreEngine()->getSceneManager()->popTo(0);
 		return true;
 	}
 
