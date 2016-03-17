@@ -25,7 +25,7 @@ struct Projectile : public GameComponent
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Laser"/> class.
 	/// </summary>
-	Projectile(float damageValue, AGENT agentType) : m_lifeTime(2.0f), m_delay(0.0f), m_damageValue(0.1f), m_agentType(agentType) {}
+	Projectile(float damageValue, AGENT agentType) : m_lifeTime(2.0f), m_delay(0.0f), m_damageValue(damageValue), m_agentType(agentType) {}
 	/// <summary>
 	/// Finalizes an instance of the <see cref="Laser"/> class.
 	/// </summary>
