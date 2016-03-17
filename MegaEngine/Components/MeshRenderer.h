@@ -2,7 +2,7 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
+// Last Modified By : Christopher Maeda
 // Last Modified On : 03-17-2016
 // ***********************************************************************
 // <copyright file="MeshRenderer.h" company="Team MegaFox">
@@ -41,15 +41,11 @@ public:
 	virtual void render(const Shader & shader, const RenderingEngine & renderingEngine, const Camera3D & camera) const
 	{
 		EnclosureType inside = camera.isInisde(getTransform().getTransformedPos(), m_mesh.getBoundingRadius());
-		if (inside == EnclosureType::INSIDE || inside == EnclosureType::OVERLAP)
+		if (inside != EnclosureType::OUTSIDE)
 		{
 			shader.bind();
 			shader.updateUniforms(getTransform(), m_material, renderingEngine, camera);
 			m_mesh.render();
-		}
-		else
-		{
-			std::cout << "GameObject name: " << getParent().getName() << std::endl;
 		}
 	}
 

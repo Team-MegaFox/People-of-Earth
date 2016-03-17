@@ -1,8 +1,8 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
+// Author           : Pavan Jakhu, Jesse Derochie, and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
+// Last Modified By : Christopher Maeda
 // Last Modified On : 03-17-2016
 // ***********************************************************************
 // <copyright file="Camera3D.cpp" company="Team MegaFox">
@@ -22,7 +22,7 @@ EnclosureType Camera3D::isInisde(const PxVec3& centre, const float radius) const
 
 	for (size_t i = 0; i < m_frustum.size(); i++)
 	{
-		distance = PxAbs(m_frustum[i].distance(centre));
+		distance = (m_frustum[i].distance(centre));
 		if (distance < -radius) return EnclosureType::OUTSIDE;
 		else if (distance < radius) result = EnclosureType::OVERLAP;
 	}
@@ -56,9 +56,10 @@ void Camera3D::setFrustum()
 	PxReal farHt = m_far * tang;
 	PxReal farWd = farHt * m_aspect;
 
-	PxVec3 viewDirection = Utility::getForward(getTransform()->getTransformedRot());
-	PxVec3 rightDirection = Utility::getRight(getTransform()->getTransformedRot());
-	PxVec3 upDirection = Utility::getUp(getTransform()->getTransformedRot());
+	//Our view of the game is backward which is why we are rotating 180
+	PxVec3 viewDirection = Utility::getForward(getTransform()->getTransformedRot() * PxQuat(PxSin(0.5f * ToRadians(180.0f)), 0, 0, PxCos(0.5f * ToRadians(180.0f))));
+	PxVec3 rightDirection = Utility::getRight(getTransform()->getTransformedRot() * PxQuat(PxSin(0.5f * ToRadians(180.0f)), 0, 0, PxCos(0.5f * ToRadians(180.0f))));
+	PxVec3 upDirection = Utility::getUp(getTransform()->getTransformedRot() * PxQuat(PxSin(0.5f * ToRadians(180.0f)), 0, 0, PxCos(0.5f * ToRadians(180.0f))));
 
 	PxVec3 nearCentre = getTransform()->getTransformedPos() - (viewDirection * m_near);
 	PxVec3 farCentre = getTransform()->getTransformedPos() - (viewDirection * m_far);
@@ -73,12 +74,12 @@ void Camera3D::setFrustum()
 	PxVec3 fbl = farCentre - upDirection * farHt - rightDirection * farWd;
 	PxVec3 fbr = farCentre - upDirection * farHt + rightDirection * farWd;
 
-	m_frustum[0] = PxPlane(ntr, ntl, ftl);
-	m_frustum[1] = PxPlane(nbl, nbr, fbr);
-	m_frustum[2] = PxPlane(ntl, nbl, fbl);
-	m_frustum[3] = PxPlane(nbr, ntr, fbr);
-	m_frustum[4] = PxPlane(ntl, ntr, nbr);
-	m_frustum[5] = PxPlane(ftr, ftl, fbl);
+	m_frustum[0] = PxPlane(ntl, ntr, nbr);
+	m_frustum[1] = PxPlane(ftr, ftl, fbl);
+	m_frustum[2] = PxPlane(ntr, ntl, ftl);
+	m_frustum[3] = PxPlane(nbl, nbr, fbr);
+	m_frustum[4] = PxPlane(ntl, nbl, fbl);
+	m_frustum[5] = PxPlane(nbr, ntr, fbr);
 }
 
 void CameraComponent::addToEngine(CoreEngine* engine) const

@@ -1,8 +1,8 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
+// Author           : Pavan Jakhu, Jesse Derochie, and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
+// Last Modified By : Christopher Maeda
 // Last Modified On : 03-17-2016
 // ***********************************************************************
 // <copyright file="Camera3D.h" company="Team MegaFox">
@@ -83,7 +83,10 @@ public:
 	/// Sets the transform.
 	/// </summary>
 	/// <param name="transform">The transform.</param>
-	inline void setTransform(Transform* transform)        { m_transform = transform; setFrustum(); }
+	inline void setTransform(Transform* transform)        { m_transform = transform; }
+
+	void updateFrustum() { setFrustum(); }
+
 protected:
 private:
 	/// <summary>
@@ -123,6 +126,9 @@ public:
 	/// </summary>
 	CameraComponent(const PxReal& fov, const PxReal& aspect, const PxReal& near, const PxReal& far) :
 		m_camera(fov, aspect, near, far, 0) {}
+
+
+	virtual void update(float delta) override { m_camera.updateFrustum(); }
 
 	/// <summary>
 	/// Adds to engine.

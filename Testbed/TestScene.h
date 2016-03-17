@@ -104,13 +104,17 @@ public:
 		addToRoot(fighterShip);
 		addToRoot(camera);
 
-		addToRoot((new GameObject("earth", PxVec3(-1000.0f, 0.0f, 0.0f)))
+		/*addToRoot((new GameObject("earth", PxVec3(-1000.0f, 0.0f, 0.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 100.0f), Material("earth")))
+			);*/
+
+		addToRoot((new GameObject("earth", PxVec3(0, 0.0f, -1000.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 100.0f), Material("earth")))
 			);
 
-		addToRoot((new GameObject("mars", PxVec3(7500.0f, 0.0f, 7500.0f)))
+		/*addToRoot((new GameObject("mars", PxVec3(7500.0f, 0.0f, 7500.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 35.0f), Material("mars")))
-			);
+			);*/
 
 		addToRoot((new GameObject("jupiter", PxVec3(0.0f, 0.0f, 10000.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 250.0f), Material("jupiter")))
@@ -121,9 +125,9 @@ public:
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 32.0f), Material("moon")))
 			);
 
-		addToRoot((new GameObject("sun", PxVec3(20000.0f, 5000.0f, 20000.0f)))
+		/*addToRoot((new GameObject("sun", PxVec3(20000.0f, 5000.0f, 20000.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 600.0f), Material("sun")))
-			);
+			);*/
 
 
 		//// the alien fighter ship
