@@ -165,6 +165,15 @@ PxMat44 Utility::initOrthographic(float left, float right, float bottom, float t
 	return m;
 }
 
+unsigned int Utility::classifyPoint(PxPlane plane, PxVec3 point)
+{
+	float d = plane.n.x * point.x + plane.n.y * point.y + plane.n.z * point.z + plane.d;
+
+	if (d < 0) return -1;
+	if (d > 0) return 1;
+	return 0;
+}
+
 PxQuat Utility::slerp(PxQuat q1, PxQuat q2, float t)
 {
 	PxQuat result;

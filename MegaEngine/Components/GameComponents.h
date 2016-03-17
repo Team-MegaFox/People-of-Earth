@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 02-29-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 03-17-2016
 // ***********************************************************************
 // <copyright file="GameComponents.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -95,13 +95,18 @@ protected:
 	/// <summary>
 	/// Gets the core engine.
 	/// </summary>
-	/// <returns></returns>
+	/// <returns>The Core Engine.</returns>
 	CoreEngine * getCoreEngine() { return m_parent->getCoreEngine(); }
 	/// <summary>
 	/// Gets the parent.
 	/// </summary>
-	/// <returns></returns>
+	/// <returns>The parent GameObject.</returns>
 	GameObject * getParent() { return m_parent; }
+	/// <summary>
+	/// Gets the parent.
+	/// </summary>
+	/// <returns>The parent GameObject.</returns>
+	const GameObject& getParent() const { return *m_parent; }
 
 	/// <summary>
 	/// Gets the game object from the top most scene by name.

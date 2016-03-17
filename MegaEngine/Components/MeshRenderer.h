@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified On : 03-17-2016
 // ***********************************************************************
 // <copyright file="MeshRenderer.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -15,6 +15,7 @@
 #include "..\Rendering\Material.h"
 #include "..\Rendering\Mesh.h"
 #include "..\Rendering\Shader.h"
+#include "..\Core\Utility.h"
 
 
 /// <summary>
@@ -39,9 +40,17 @@ public:
 	/// <param name="camera">The main active camera.</param>
 	virtual void render(const Shader & shader, const RenderingEngine & renderingEngine, const Camera3D & camera) const
 	{
-		shader.bind();
-		shader.updateUniforms(getTransform(), m_material, renderingEngine, camera);
-		m_mesh.render();
+		EnclosureType inside = camera.isInisde(getTransform().getTransformedPos(), m_mesh.getBoundingRadius());
+		if (inside == EnclosureType::INSIDE || inside == EnclosureType::OVERLAP)
+		{
+			shader.bind();
+			shader.updateUniforms(getTransform(), m_material, renderingEngine, camera);
+			m_mesh.render();
+		}
+		else
+		{
+			std::cout << "GameObject name: " << getParent().getName() << std::endl;
+		}
 	}
 
 private:

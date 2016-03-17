@@ -24,7 +24,7 @@ public:
 			->addGameComponent(new SkyboxRenderer("Skybox/orbital/orbital.tga")));
 
 		addToRoot((new GameObject("Camera"))
-			->addGameComponent(new CameraComponent(Utility::initPerspective(ToRadians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
+			->addGameComponent(new CameraComponent(ToRadians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f))
 			->addGameComponent(new FreeLook(window.getCenter()))
 			->addGameComponent(BGM)
 			//->addGameComponent(new FreeMove)

@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 03-17-2016
 // ***********************************************************************
 // <copyright file="Camera3D.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -14,6 +14,20 @@
 #include "RenderingEngine.h"
 #include "..\Core\CoreEngine.h"
 #include "..\Physics\PhysicsEngine.h"
+
+EnclosureType Camera3D::isInisde(const PxVec3& centre, const float radius) const
+{
+	float distance;
+	EnclosureType result = EnclosureType::INSIDE;
+
+	for (size_t i = 0; i < m_frustum.size(); i++)
+	{
+		distance = PxAbs(m_frustum[i].distance(centre));
+		if (distance < -radius) return EnclosureType::OUTSIDE;
+		else if (distance < radius) result = EnclosureType::OVERLAP;
+	}
+	return result;
+}
 
 PxMat44 Camera3D::getViewProjection() const
 {
@@ -32,6 +46,39 @@ PxMat44 Camera3D::getViewProjection() const
 PxMat44 Camera3D::getView() const
 {
 	return m_projection * PxMat44(getTransform().getTransformedRot().getConjugate());
+}
+
+void Camera3D::setFrustum()
+{
+	PxReal tang = tanf(m_fov * 0.5f);
+	PxReal nearHt = m_near * tang;
+	PxReal nearWd = nearHt * m_aspect;
+	PxReal farHt = m_far * tang;
+	PxReal farWd = farHt * m_aspect;
+
+	PxVec3 viewDirection = Utility::getForward(getTransform()->getTransformedRot());
+	PxVec3 rightDirection = Utility::getRight(getTransform()->getTransformedRot());
+	PxVec3 upDirection = Utility::getUp(getTransform()->getTransformedRot());
+
+	PxVec3 nearCentre = getTransform()->getTransformedPos() - (viewDirection * m_near);
+	PxVec3 farCentre = getTransform()->getTransformedPos() - (viewDirection * m_far);
+
+	PxVec3 ntl = nearCentre + upDirection * nearHt - rightDirection * nearWd;
+	PxVec3 ntr = nearCentre + upDirection * nearHt + rightDirection * nearWd;
+	PxVec3 nbl = nearCentre - upDirection * nearHt - rightDirection * nearWd;
+	PxVec3 nbr = nearCentre - upDirection * nearHt + rightDirection * nearWd;
+
+	PxVec3 ftl = farCentre + upDirection * farHt - rightDirection * farWd;
+	PxVec3 ftr = farCentre + upDirection * farHt + rightDirection * farWd;
+	PxVec3 fbl = farCentre - upDirection * farHt - rightDirection * farWd;
+	PxVec3 fbr = farCentre - upDirection * farHt + rightDirection * farWd;
+
+	m_frustum[0] = PxPlane(ntr, ntl, ftl);
+	m_frustum[1] = PxPlane(nbl, nbr, fbr);
+	m_frustum[2] = PxPlane(ntl, nbl, fbl);
+	m_frustum[3] = PxPlane(nbr, ntr, fbr);
+	m_frustum[4] = PxPlane(ntl, ntr, nbr);
+	m_frustum[5] = PxPlane(ftr, ftl, fbl);
 }
 
 void CameraComponent::addToEngine(CoreEngine* engine) const

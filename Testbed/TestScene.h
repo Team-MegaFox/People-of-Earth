@@ -99,17 +99,10 @@ public:
 			(new GameObject("camera",
 			*fighterShip->getTransform()->getPosition() - Utility::getForward(*fighterShip->getTransform()->getRotation()) * 30.0f
 			+ PxVec3(0.0f, 5.0f, 0.0f)))
-			->addGameComponent(new CameraComponent(Utility::initPerspective(ToRadians(75.0f), window.getAspectRatio(), 0.1f, 200000.0f)))
+			->addGameComponent(new CameraComponent(ToRadians(75.0f), window.getAspectRatio(), 0.1f, 200000.0f))
 			->addGameComponent(new Listener());
 		addToRoot(fighterShip);
 		addToRoot(camera);
-
-		addToRoot((new GameObject("Asteroid Field1", PxVec3(0.0f, 0.0f, 9000.0f)))
-			->addGameComponent(new AsteroidField())
-			);
-		addToRoot((new GameObject("Asteroid Field2", PxVec3(150.0f, 0.0f, 9000.0f)))
-			->addGameComponent(new AsteroidField())
-			);
 
 		addToRoot((new GameObject("earth", PxVec3(-1000.0f, 0.0f, 0.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 100.0f), Material("earth")))

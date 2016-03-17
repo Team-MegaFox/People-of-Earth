@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Pavan Jakhu
-// Last Modified On : 03-01-2016
+// Last Modified On : 03-17-2016
 // ***********************************************************************
 // <copyright file="Mesh.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -19,6 +19,8 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+
+#include "..\Core\Utility.h"
 
 std::map<std::string, MeshData*> Mesh::s_resourceMap;
 
@@ -162,7 +164,8 @@ void IndexedModel::calcTangents()
 
 MeshData::MeshData(const IndexedModel& model) :
 ReferenceCounter(),
-m_drawCount(model.getIndices().size())
+m_drawCount(model.getIndices().size()),
+m_boundingRadius(0)
 {
 	if (!model.isValid())
 	{
@@ -200,6 +203,16 @@ m_drawCount(model.getIndices().size())
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_vertexArrayBuffers[INDEX_VB]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, model.getIndices().size() * sizeof(model.getIndices()[0]), &model.getIndices()[0], GL_STATIC_DRAW);
+
+	auto verts = model.getPositions();
+	for (size_t i = 0; i < verts.size(); i++)
+	{
+		float distance = verts[i].magnitude();
+		if (distance > m_boundingRadius)
+		{
+			m_boundingRadius = distance;
+		}
+	}
 
 }
 

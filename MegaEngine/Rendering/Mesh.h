@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Pavan Jakhu
-// Last Modified On : 03-01-2016
+// Last Modified On : 03-17-2016
 // ***********************************************************************
 // <copyright file="Mesh.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -193,6 +193,12 @@ public:
 	virtual ~MeshData();
 
 	/// <summary>
+	/// Gets the bounding radius of the mesh.
+	/// </summary>
+	/// <returns>The bounding radius of the mesh.</returns>
+	float getBoundingRadius() const { return m_boundingRadius; }
+
+	/// <summary>
 	/// Renders the model.
 	/// </summary>
 	void render() const;
@@ -229,6 +235,10 @@ private:
 	/// The draw count.
 	/// </summary>
 	int m_drawCount;
+	/// <summary>
+	/// The bounding radius.
+	/// </summary>
+	float m_boundingRadius;
 };
 
 /// <summary>
@@ -259,6 +269,12 @@ public:
 	/// Finalizes an instance of the <see cref="Mesh"/> class.
 	/// </summary>
 	virtual ~Mesh();
+
+	/// <summary>
+	/// Gets the bounding radius of the mesh.
+	/// </summary>
+	/// <returns>The bounding radius of the mesh.</returns>
+	float getBoundingRadius() const { return m_meshData->getBoundingRadius(); }
 
 	/// <summary>
 	/// Renders the mesh.

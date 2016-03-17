@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 03-11-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 03-17-2016
 // ***********************************************************************
 // <copyright file="Utility.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -175,6 +175,8 @@ namespace Utility
 		else if (a > max) return max;
 		else return a;
 	}
+
+	unsigned int classifyPoint(PxPlane plane, PxVec3 point);
 
 	PxQuat slerp(PxQuat q1, PxQuat q2, float t);
 
