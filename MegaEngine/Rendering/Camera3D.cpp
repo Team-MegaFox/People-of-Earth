@@ -15,7 +15,7 @@
 #include "..\Core\CoreEngine.h"
 #include "..\Physics\PhysicsEngine.h"
 
-EnclosureType Camera3D::isInisde(const PxVec3& centre, const float radius) const
+EnclosureType Camera3D::isInside(const PxVec3& centre, const float radius) const
 {
 	float distance;
 	EnclosureType result = EnclosureType::INSIDE;

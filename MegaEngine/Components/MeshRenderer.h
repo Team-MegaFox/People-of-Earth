@@ -40,7 +40,7 @@ public:
 	/// <param name="camera">The main active camera.</param>
 	virtual void render(const Shader & shader, const RenderingEngine & renderingEngine, const Camera3D & camera) const
 	{
-		EnclosureType inside = camera.isInisde(getTransform().getTransformedPos(), m_mesh.getBoundingRadius());
+		EnclosureType inside = camera.isInside(getTransform().getTransformedPos(), m_mesh.getBoundingRadius());
 		if (inside != EnclosureType::OUTSIDE)
 		{
 			shader.bind();

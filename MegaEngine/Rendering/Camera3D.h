@@ -44,7 +44,7 @@ public:
 		m_transform(transform),
 		m_frustum(6) { }
 
-	EnclosureType isInisde(const PxVec3& centre, const float radius) const;
+	EnclosureType isInside(const PxVec3& centre, const float radius) const;
 
 	/// <summary>
 	/// This is the primary function of the camera. Multiplying a point by the returned matrix
