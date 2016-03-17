@@ -53,7 +53,7 @@ public:
 		addToRoot((new GameObject("Main Menu Manager"))
 			->addGameComponent(new MainMenuManager));
 
-		BGM->play(true);
+		BGM->pause(true);
 	}
 
 private:

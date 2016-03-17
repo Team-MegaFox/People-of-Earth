@@ -21,7 +21,6 @@ public:
 
 	virtual void init(const Viewport& window) override
 	{
-		//Material humanShip("human_ship", 1.0f, 10, Texture("Ships/Eric/HumanShip.png"));
 		Material ship1("ship1", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_White.png"), Texture("Ships/AF-SS01/AF-SS01_Normalmap.png"));
 		Material alienShip("alien_ship", 5.0f, 4,
 			Texture("Ships/Alien/astra_elements2_c.png"),

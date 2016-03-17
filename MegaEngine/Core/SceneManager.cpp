@@ -66,6 +66,8 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 
 	m_activeList.push_back(std::make_pair(scene, modality));
 
+	// Pause the BGM if there is one for the scene 
+	// that was previously on top of the stack
 	if (modality == Modality::Exclusive)
 	{
 		// Get the second top most scene, gets the scene underneath the top most scene
@@ -103,6 +105,8 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 		}
 	}
 
+	// If the scene has been pushed onto the stack unpause the BGM
+	// if there is one to unpause
 	auto go = peek()->getAllGameObjects();
 	for (size_t i = 0; i < go.size(); i++)
 	{

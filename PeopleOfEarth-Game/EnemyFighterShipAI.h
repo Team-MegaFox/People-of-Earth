@@ -31,7 +31,8 @@ class EnemyFighterShipAI : public SteeringBehaviour
 {
 
 public:
-	EnemyFighterShipAI() {}
+	EnemyFighterShipAI() :
+		m_laserMaterial("enemyLaser", 10.0f, 100, Texture("laserGreen.png")){}
 
 	~EnemyFighterShipAI() { }
 
@@ -46,7 +47,6 @@ public:
 		m_delayObjectSearch = -1.0f;
 		getClosestObject(SHIP_CLASS::ALL_ENEMY_SHIP);
 		m_passengerShip = getGameObjectByName("passengerShip");
-		m_laserMaterial = new Material("enemyLaser", 10.0f, 100, Texture("laserGreen.png"));
 	}
 
 	virtual std::vector<GameObject*> getAllEnemyObject() override
@@ -211,6 +211,6 @@ private:
 	int numberOfLaserShot;
 	float m_delayObjectSearch;
 	GameObject* m_passengerShip;
-	Material * m_laserMaterial;
+	Material m_laserMaterial;
 };
 
