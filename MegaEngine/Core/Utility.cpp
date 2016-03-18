@@ -211,11 +211,11 @@ PxQuat Utility::slerp(PxQuat q1, PxQuat q2, float t)
 	return result;
 }
 
-float Utility::getRandomNumber(float timestep, int min, int max)
+float Utility::getRandomNumber(float timestep, float min, float max)
 {
 	static std::mt19937 randomEngine((unsigned int)time(nullptr));
 
-	std::uniform_int_distribution<int> randDir(min, max);
+	std::uniform_real_distribution<float> randDir(min, max);
 
 	return randDir(randomEngine);
 }

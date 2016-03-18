@@ -34,6 +34,6 @@ void PhysicsEngine::setMainCamera(const Camera3D& camera)
 
 void PhysicsEngine::updatePhysicsEngine(float timeStep)
 {
-	m_physicsWorld->setPosition(m_mainCamera->getTransform().getTransformedPos());
+	//m_physicsWorld->setPosition(m_mainCamera->getTransform().getTransformedPos());
 	m_physicsWorld->update(timeStep);
 }

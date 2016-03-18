@@ -13,9 +13,8 @@
 // ***********************************************************************
 
 #pragma once
-#include <Components\GameComponents.h>
-#include <Core\GameObject.h>
 #include <PhysX/PxPhysicsAPI.h>
+#include <MegaEngine.h>
 using namespace physx;
 
 class SteeringBehaviour : public GameComponent {

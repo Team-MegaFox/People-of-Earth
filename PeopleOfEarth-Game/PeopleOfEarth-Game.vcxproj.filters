@@ -46,22 +46,13 @@
     <ClInclude Include="ControlsScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyFighterShipAI.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="FireProjectile.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PassengerShipAI.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Projectile.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="ShipStats.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="SteeringBehaviour.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="MainMenuManager.h">
@@ -83,10 +74,22 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="UpdateGUi.h">
-	  <Filter>Components</Filter>
+      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="MiniMap.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyFighterShipAI.h">
+      <Filter>Components\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="PassengerShipAI.h">
+      <Filter>Components\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="SteeringBehaviour.h">
+      <Filter>Components\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="RogueAsteroid.h">
+      <Filter>Components\AI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +101,9 @@
     </Filter>
     <Filter Include="Components\Menu Managers">
       <UniqueIdentifier>{f28c829b-4281-4c3d-b34e-007a6cbe186e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\AI">
+      <UniqueIdentifier>{736a7f27-299c-477d-9f54-0a3f9bae157a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

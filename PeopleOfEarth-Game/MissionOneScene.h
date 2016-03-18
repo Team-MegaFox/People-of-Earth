@@ -10,6 +10,7 @@
 #include "AsteroidField.h"
 #include "UpdateGUi.h"
 #include "MiniMap.h"
+#include "RogueAsteroid.h"
 #include <PhysX/PxPhysicsAPI.h>
 using namespace physx;
 
@@ -33,6 +34,8 @@ public:
 		Material jupiter("jupiter", 1.0f, 10, Texture("Planets/jupiter.jpg"));
 		Material sun("sun", 10.0f, 100, Texture("Planets/sun.jpg"));
 		Material moon("moon", 1.0f, 10, Texture("Planets/moon.jpg"));
+
+		Material asteroid("asteroid", 1.0f, 1.0f, Texture("Asteroids/AM1.jpg"));
 
 		addToRoot((new GameObject("Skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/Starfield/starfield.tga")));
@@ -84,6 +87,11 @@ public:
 			->addGameComponent(new ShipStats)
 			);
 
+
+		addToRoot((new GameObject("Asteroid", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
+			->addGameComponent(new MeshRenderer(Mesh("Asteroids/Asteroid_C.obj", 50.0f), Material("asteroid")))
+			->addGameComponent(new RigidBody(PxVec3(0), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), 1.0f, 1.0f))
+			->addGameComponent(new RogueAsteroid(10.0f, 0.005f)));
 
 		//addToRoot((new GameObject("GameOver"))
 		//	->addGUIComponent(new GUIButton(PxVec4(0.35f, 0.5f, 0.3f, 0.05f), PxVec4(0.0f), "Return To Mission Select",

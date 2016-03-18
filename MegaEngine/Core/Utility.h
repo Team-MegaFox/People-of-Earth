@@ -180,5 +180,5 @@ namespace Utility
 
 	PxQuat slerp(PxQuat q1, PxQuat q2, float t);
 
-	float getRandomNumber(float timestep, int min = 0, int max = 1);
+	float getRandomNumber(float timestep, float min = 0.0f, float max = 1.0f);
 }

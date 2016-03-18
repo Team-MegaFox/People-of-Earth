@@ -104,6 +104,7 @@
     <ClInclude Include="PauseScene.h" />
     <ClInclude Include="PlayerShipMovementController.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="RogueAsteroid.h" />
     <ClInclude Include="ShipStats.h" />
     <ClInclude Include="ShowPauseComp.h" />
     <ClInclude Include="SteeringBehaviour.h" />
