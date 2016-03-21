@@ -82,7 +82,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Audio\AudioEngine.cpp" />
+    <ClCompile Include="Audio\Sound.cpp" />
+    <ClCompile Include="Audio\Stream.cpp" />
+    <ClCompile Include="Components\AudioSource.cpp" />
     <ClCompile Include="Components\GUIComponent.cpp" />
+    <ClCompile Include="Components\GUIImage.cpp" />
     <ClCompile Include="Core\CoreEngine.cpp" />
     <ClCompile Include="Core\ErrorLog.cpp" />
     <ClCompile Include="Core\GameObject.cpp" />
@@ -116,18 +120,23 @@
     <ClInclude Include="Audio\AudioListener.h" />
     <ClInclude Include="Audio\Sound.h" />
     <ClInclude Include="Audio\Stream.h" />
+    <ClInclude Include="Components\Audio.h" />
     <ClInclude Include="Components\AudioSource.h" />
     <ClInclude Include="Components\GameComponents.h" />
     <ClInclude Include="Components\GUIButton.h" />
     <ClInclude Include="Components\GUIComponent.h" />
     <ClInclude Include="Components\GUIContainer.h" />
+    <ClInclude Include="Components\GUIImage.h" />
     <ClInclude Include="Components\GUILabel.h" />
     <ClInclude Include="Components\GUIProgressBar.h" />
     <ClInclude Include="Components\GUISlider.h" />
     <ClInclude Include="Components\GUITextBox.h" />
+    <ClInclude Include="Components\Listener.h" />
     <ClInclude Include="Components\MeshRenderer.h" />
+    <ClInclude Include="Components\RigidBody.h" />
     <ClInclude Include="Core\CoreEngine.h" />
     <ClInclude Include="Core\ErrorLog.h" />
+    <ClInclude Include="Core\Game.h" />
     <ClInclude Include="Core\GameObject.h" />
     <ClInclude Include="Core\InputManager.h" />
     <ClInclude Include="Core\MappedValues.h" />

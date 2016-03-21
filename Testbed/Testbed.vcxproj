@@ -52,11 +52,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>MegaEngine.lib;assimp.lib;fmodex_vc.lib;fmodexL_vc.lib;glew32.lib;glew32s.lib;opengl32.lib;SDL2.lib;SDL2main.lib;CEGUIBase-0_d.lib;CEGUIOpenGLRenderer-0_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>LowLevelClothDEBUG.lib;LowLevelDEBUG.lib;PhysX3CharacterKinematicDEBUG_x86.lib;PhysX3CommonDEBUG_x86.lib;PhysX3CookingDEBUG_x86.lib;PhysX3DEBUG_x86.lib;PhysX3ExtensionsDEBUG.lib;PhysX3GpuDEBUG_x86.lib;PhysX3VehicleDEBUG.lib;PhysXProfileSDKDEBUG.lib;PhysXVisualDebuggerSDKDEBUG.lib;PvdRuntimeDEBUG.lib;PxTaskDEBUG.lib;SceneQueryDEBUG.lib;SimulationControllerDEBUG.lib;MegaEngine.lib;assimp.lib;fmodex_vc.lib;fmodexL_vc.lib;glew32.lib;glew32s.lib;opengl32.lib;SDL2.lib;SDL2main.lib;CEGUIBase-0_d.lib;CEGUIOpenGLRenderer-0_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -67,27 +68,36 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>MegaEngine.lib;assimp.lib;fmodex_vc.lib;fmodexL_vc.lib;glew32.lib;glew32s.lib;opengl32.lib;SDL2.lib;SDL2main.lib;CEGUIBase-0.lib;CEGUIOpenGLRenderer-0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>LowLevelCloth.lib;LowLevel.lib;PhysX3CharacterKinematic_x86.lib;PhysX3Common_x86.lib;PhysX3Cooking_x86.lib;PhysX3_x86.lib;PhysX3Extensions.lib;PhysX3Gpu_x86.lib;PhysX3Vehicle.lib;PhysXProfileSDK.lib;PhysXVisualDebuggerSDK.lib;PvdRuntime.lib;PxTask.lib;SceneQuery.lib;SimulationController.lib;MegaEngine.lib;assimp.lib;fmodex_vc.lib;fmodexL_vc.lib;glew32.lib;glew32s.lib;opengl32.lib;SDL2.lib;SDL2main.lib;CEGUIBase-0.lib;CEGUIOpenGLRenderer-0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="FreeLook.cpp" />
     <ClCompile Include="FreeMove.cpp" />
+    <ClCompile Include="PlayerShipMovementController.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Audio.h" />
+    <ClInclude Include="AsteroidField.h" />
+    <ClInclude Include="EnemyFighterShipAI.h" />
+    <ClInclude Include="FireProjectile.h" />
     <ClInclude Include="FreeLook.h" />
     <ClInclude Include="FreeMove.h" />
+    <ClInclude Include="PassengerShipAI.h" />
     <ClInclude Include="PlanetSpin.h" />
+    <ClInclude Include="PlayerShipMovementController.h" />
+    <ClInclude Include="PopMenu2Scene.h" />
+    <ClInclude Include="PopupMenuScene.h" />
+    <ClInclude Include="Projectile.h" />
+    <ClInclude Include="SteeringBehaviour.h" />
     <ClInclude Include="TestScene.h" />
-    <ClInclude Include="Listener.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
+// Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 02-29-2016
 // ***********************************************************************
 // <copyright file="SceneManager.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -12,98 +12,142 @@
 // ***********************************************************************
 #pragma once
 #include <string>
-#include <unordered_map>
+#include <vector>
+#include <cstdint>
 
 class Scene;
-class CoreEngine;
+class Viewport;
 class RenderingEngine;
 class InputManager;
+class CoreEngine;
+class GameObject;
 
 /// <summary>
-/// Holds a map of scenes to manage.
+/// Enum used to determine what scene it is.
 /// </summary>
+enum class Modality
+{
+	Exclusive,
+	Popup
+};
+
 class SceneManager
 {
 public:
 	/// <summary>
 	/// Initializes a new instance of the <see cref="SceneManager"/> class.
 	/// </summary>
-	SceneManager();
+	/// <param name="viewport">The viewport.</param>
+	SceneManager(Viewport* viewport);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="SceneManager"/> class.
 	/// </summary>
 	~SceneManager();
 
 	/// <summary>
-	/// Adds the scene to the manager.
+	/// Returns the top most scene from the scene manager
 	/// </summary>
-	/// <param name="scene">The scene.</param>
-	void addScene(Scene* scene);
-	/// <summary>
-	/// Removes the scene from the manager.
-	/// </summary>
-	/// <param name="scene">The scene.</param>
-	/// <returns>If the scene was removed successfully.</returns>
-	bool removeScene(Scene* scene);
-	/// <summary>
-	/// Removes the scene from the manager by name.
-	/// </summary>
-	/// <param name="name">The name.</param>
-	/// <returns>If the scene was removed successfully.</returns>
-	bool removeScene(std::string name);
-	/// <summary>
-	/// Switches the scene.
-	/// </summary>
-	/// <param name="scene">The scene.</param>
-	void switchScene(Scene* scene);
-	/// <summary>
-	/// Switches the scene by name.
-	/// </summary>
-	/// <param name="name">The name.</param>
-	void switchScene(std::string name);
+	/// <returns></returns>
+	Scene* peek();
 
 	/// <summary>
-	/// Updates the current scene.
+	/// Pushes the specified scene onto the scene stack.
 	/// </summary>
-	/// <param name="delta">The frame time delta.</param>
-	void update(float delta);
+	/// <param name="scene">The scene.</param>
+	/// <param name="modality">The modality.</param>
+	void push(Scene* scene, Modality modality = Modality::Exclusive);
+
 	/// <summary>
-	/// Renders the the current scene.
+	/// Pops the top most scene off the scene stack.
+	/// </summary>
+	void pop();
+
+	/// <summary>
+	/// Pops the scene stack to the specified index.
+	/// </summary>
+	/// <param name="scene">The scene index to pop to.</param>
+	void popTo(uint8_t popIndex);
+
+	/// <summary>
+	/// Removes the top most scene and replaces it with the a new scene
+	/// </summary>
+	/// <param name="scene">The scene.</param>
+	/// <param name="modality">The modality.</param>
+	/// <returns></returns>
+	Scene* switchScene(Scene* scene, Modality modality = Modality::Exclusive);
+
+	/// <summary>
+	/// Updates the scene stack up to the top most exclusive scene.
+	/// </summary>
+	/// <param name="delta">The delta.</param>
+	void update(float delta);
+
+	/// <summary>
+	/// Renders the scene stack up to the top most exclusive scene.
 	/// </summary>
 	/// <param name="renderingEngine">The rendering engine.</param>
 	void render(RenderingEngine* renderingEngine);
+
 	/// <summary>
-	/// Processes the input for the current scene.
+	/// Process the input for the top most scene
 	/// </summary>
 	/// <param name="input">The input.</param>
-	/// <param name="delta">The frame time delta.</param>
+	/// <param name="delta">The delta.</param>
 	void processInput(const InputManager& input, float delta);
 
 	/// <summary>
-	/// Gets the current scene.
-	/// </summary>
-	/// <returns>A pointer to the current scene.</returns>
-	Scene* getCurrentScene() { return m_scenes[m_currentScene]; }
-	/// <summary>
-	/// Sets the Core Engine for all scenes.
+	/// Sets the scene for all the scenes in the stack
 	/// </summary>
 	/// <param name="engine">The engine.</param>
 	void setEngine(CoreEngine* engine);
 
-private:
 	/// <summary>
-	/// The current scene.
+	/// Removes a gameobject from the top most scene using its name to find it in the scene graph
 	/// </summary>
-	std::string m_currentScene;
-	/// <summary>
-	/// The map of scenes.
-	/// </summary>
-	std::unordered_map<std::string, Scene*> m_scenes;
+	/// <param name="name">The name.</param>
+	/// <returns>if the GameObject was removed.</returns>
+	bool removeGameObjectByName(const std::string& name);
 
 	/// <summary>
-	/// A pointer to the Core Engine.
+	/// Gets a gameobject from the top most scene using its name to find it in the scene graph
+	/// </summary>
+	/// <param name="name">The name.</param>
+	/// <returns>A pointer to the GameObject.</returns>
+	GameObject* getGameObjectByName(const std::string& name);
+
+	/// <summary>
+	/// Gets a gameobjects from the top most scene using its name to find it in the scene graph
+	/// </summary>
+	/// <param name="name">The name.</param>
+	/// <returns>A vector of the GameObjects.</returns>
+	std::vector<GameObject*> getGameObjectsByName(const std::string& name);
+
+private:
+	/// <summary>
+	/// Updates the exclusive scene.
+	/// </summary>
+	void updateExclusiveScene();
+
+	typedef std::pair<Scene*, Modality> SceneModalityPair;
+
+	/// <summary>
+	/// The scene stack
+	/// </summary>
+	std::vector<SceneModalityPair> m_activeList;
+
+	/// <summary>
+	/// The exclusive scene
+	/// </summary>
+	size_t m_exclusiveScene;
+
+	/// <summary>
+	/// The viewport
+	/// </summary>
+	Viewport* m_viewport;
+
+	/// <summary>
+	/// The core engine
 	/// </summary>
 	CoreEngine* m_coreEngine;
 
 };
-

@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="Texture.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -11,65 +11,41 @@
 // <summary></summary>
 // ***********************************************************************
 #include "Texture.h"
-#include <cassert>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb\stb_image.h>
-#include <glm\glm.hpp>
 #include <iostream>
+#include <cassert>
+#include <cstring>
+#include <PhysX\PxPhysicsAPI.h>
+using namespace physx;
+
 #include "..\Core\Utility.h"
 
 std::map<std::string, TextureData*> Texture::s_resourceMap;
 
-TextureData::TextureData(GLenum textureTarget, int width, int height, int numTextures,
-	unsigned char** data, GLfloat* filters, GLenum* internalFormat,
-	GLenum* format, bool clamp, GLenum* attachments) :
-m_textureTarget(textureTarget),
-m_numTextures(numTextures),
-m_width(width),
-m_height(height),
-m_frameBuffer(0),
-m_renderBuffer(0)
+TextureData::TextureData(GLenum textureTarget, int width, int height, int numTextures, unsigned char** data, GLfloat* filters, GLenum* internalFormat, GLenum* format, bool clamp, GLenum* attachments)
 {
 	m_textureID = new GLuint[numTextures];
+	m_textureTarget = textureTarget;
+	m_numTextures = numTextures;
+	m_width = width;
+	m_height = height;
+	m_frameBuffer = 0;
+	m_renderBuffer = 0;
 
 	initTextures(data, filters, internalFormat, format, clamp);
-	initRenderTarget(attachments);
+	initRenderTargets(attachments);
 }
 
 TextureData::~TextureData()
 {
-	if (*m_textureID)
-	{
-		glDeleteTextures(m_numTextures, m_textureID);
-	}
-	if (m_frameBuffer)
-	{
-		glDeleteFramebuffers(1, &m_frameBuffer);
-	}
-	if (m_renderBuffer)
-	{
-		glDeleteRenderbuffers(1, &m_renderBuffer);
-	}
-	if (m_textureID)
-	{
-		delete[] m_textureID;
-	}
+	if (*m_textureID) glDeleteTextures(m_numTextures, m_textureID);
+	if (m_frameBuffer) glDeleteFramebuffers(1, &m_frameBuffer);
+	if (m_renderBuffer) glDeleteRenderbuffers(1, &m_renderBuffer);
+	if (m_textureID) delete[] m_textureID;
 }
 
-void TextureData::bind(int textureNum) const
-{
-	glBindTexture(m_textureTarget, m_textureID[textureNum]);
-}
-
-void TextureData::bindToRenderTarget() const
-{
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
-	glViewport(0, 0, m_width, m_height);
-}
-
-void TextureData::initTextures(unsigned char** data, GLfloat* filters, GLenum* internalFormat,
-	GLenum* format, bool clamp)
+void TextureData::initTextures(unsigned char** data, GLfloat* filters, GLenum* internalFormat, GLenum* format, bool clamp)
 {
 	glGenTextures(m_numTextures, m_textureID);
 	for (int i = 0; i < m_numTextures; i++)
@@ -110,7 +86,7 @@ void TextureData::initTextures(unsigned char** data, GLfloat* filters, GLenum* i
 			glGenerateMipmap(m_textureTarget);
 			GLfloat maxAnisotropy;
 			glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAnisotropy);
-			glTexParameterf(m_textureTarget, GL_TEXTURE_MAX_ANISOTROPY_EXT, glm::clamp(0.0f, 0.8f, maxAnisotropy));
+			glTexParameterf(m_textureTarget, GL_TEXTURE_MAX_ANISOTROPY_EXT, Utility::clamp(0.0f, 8.0f, maxAnisotropy));
 		}
 		else if (m_textureTarget != GL_TEXTURE_CUBE_MAP)
 		{
@@ -119,15 +95,14 @@ void TextureData::initTextures(unsigned char** data, GLfloat* filters, GLenum* i
 		}
 	}
 }
-void TextureData::initRenderTarget(GLenum* attachments)
+
+void TextureData::initRenderTargets(GLenum* attachments)
 {
 	if (attachments == 0)
-	{
 		return;
-	}
 
-	GLenum drawBuffers[32];
-	assert(m_numTextures <= 32);
+	GLenum drawBuffers[32];      //32 is the max number of bound textures in OpenGL
+	assert(m_numTextures <= 32); //Assert to be sure no buffer overrun should occur
 
 	bool hasDepth = false;
 	for (int i = 0; i < m_numTextures; i++)
@@ -138,14 +113,10 @@ void TextureData::initRenderTarget(GLenum* attachments)
 			hasDepth = true;
 		}
 		else
-		{
 			drawBuffers[i] = attachments[i];
-		}
 
 		if (attachments[i] == GL_NONE)
-		{
 			continue;
-		}
 
 		if (m_frameBuffer == 0)
 		{
@@ -157,9 +128,7 @@ void TextureData::initRenderTarget(GLenum* attachments)
 	}
 
 	if (m_frameBuffer == 0)
-	{
 		return;
-	}
 
 	if (!hasDepth)
 	{
@@ -171,21 +140,35 @@ void TextureData::initRenderTarget(GLenum* attachments)
 
 	glDrawBuffers(m_numTextures, drawBuffers);
 
+	//glDrawBuffer(GL_NONE);
+	//glReadBuffer(GL_NONE);
+
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
-		//error check
+		std::cerr << "Framebuffer creation failed!" << std::endl;
 		assert(false);
 	}
-	
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-Texture::Texture(const std::string& fileName, GLenum textureTarget /*= GL_TEXTURE_2D*/,
-	GLfloat filter /*= GL_LINEAR_MIPMAP_LINEAR*/, GLenum internalFormat /*= GL_RGBA*/,
-	GLenum format /*= GL_RGBA*/, bool clamp /*= false*/, GLenum attachment /*= GL_NONE*/) :
-m_fileName(fileName)
+void TextureData::bind(int textureNum) const
 {
-	auto it = s_resourceMap.find(fileName);
+	glBindTexture(m_textureTarget, m_textureID[textureNum]);
+}
+
+void TextureData::bindAsRenderTarget() const
+{
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
+	glViewport(0, 0, m_width, m_height);
+}
+
+Texture::Texture(const std::string& fileName, GLenum textureTarget, GLfloat filter, GLenum internalFormat, GLenum format, bool clamp, GLenum attachment)
+{
+	m_fileName = fileName;
+
+	std::map<std::string, TextureData*>::const_iterator it = s_resourceMap.find(fileName);
 	if (it != s_resourceMap.end())
 	{
 		m_textureData = it->second;
@@ -214,7 +197,7 @@ m_fileName(fileName)
 			{
 				std::string file = Utility::split(filePath, '.')[0] + std::to_string(i) + "." + Utility::split(filePath, '.')[1];
 				unsigned char* data = stbi_load(file.c_str(), &x, &y, &bytesPerPixel, 4);
-				dataArr[i] = data;	
+				dataArr[i] = data;
 
 				if (dataArr[i] == nullptr)
 				{
@@ -228,18 +211,16 @@ m_fileName(fileName)
 			{
 				stbi_image_free(dataArr[i]);
 			}
+			delete[] dataArr;
 		}
 
 		s_resourceMap.insert(std::make_pair(fileName, m_textureData));
 	}
 }
 
-Texture::Texture(int width /*= 0*/, int height /*= 0*/, unsigned char* data /*= 0*/,
-	GLenum textureTarget /*= GL_TEXTURE_2D*/, GLfloat filter /*= GL_LINEAR_MIPMAP_LINEAR*/,
-	GLenum internalFormat /*= GL_RGBA*/, GLenum format /*= GL_RGBA*/, bool clamp /*= false*/,
-	GLenum attachment /*= GL_NONE*/) :
-m_fileName("")
+Texture::Texture(int width, int height, unsigned char* data, GLenum textureTarget, GLfloat filter, GLenum internalFormat, GLenum format, bool clamp, GLenum attachment)
 {
+	m_fileName = "";
 	m_textureData = new TextureData(textureTarget, width, height, 1, &data, &filter, &internalFormat, &format, clamp, &attachment);
 }
 
@@ -250,35 +231,33 @@ m_fileName(texture.m_fileName)
 	m_textureData->addReference();
 }
 
+void Texture::operator=(Texture texture)
+{
+	char* temp[sizeof(Texture) / sizeof(char)];
+	memcpy(temp, this, sizeof(Texture));
+	memcpy(this, &texture, sizeof(Texture));
+	memcpy(&texture, temp, sizeof(Texture));
+}
+
 Texture::~Texture()
 {
 	if (m_textureData && m_textureData->removeReference())
 	{
 		if (m_fileName.length() > 0)
-		{
 			s_resourceMap.erase(m_fileName);
-		}
 
 		delete m_textureData;
 	}
 }
 
-void Texture::operator=(Texture other)
-{
-	char* temp[sizeof(Texture) / sizeof(char)];
-	memcpy(temp, this, sizeof(Texture));
-	memcpy(this, &other, sizeof(Texture));
-	memcpy(&other, temp, sizeof(Texture));
-}
-
-void Texture::bind(unsigned int unit /*= 0*/) const
+void Texture::bind(unsigned int unit) const
 {
 	assert(unit >= 0 && unit <= 31);
 	glActiveTexture(GL_TEXTURE0 + unit);
 	m_textureData->bind(0);
 }
 
-void Texture::bindRenderTarget() const
+void Texture::bindAsRenderTarget() const
 {
-	m_textureData->bindToRenderTarget();
+	m_textureData->bindAsRenderTarget();
 }

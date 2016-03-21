@@ -1,29 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Core">
-      <UniqueIdentifier>{6f3e8fe0-4614-4355-a886-74f892cd2ba5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Rendering">
-      <UniqueIdentifier>{b16bdcaf-e860-43d1-9563-5644251d9c76}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Audio">
-      <UniqueIdentifier>{f8b3fd9d-cb86-4b7d-8370-116016db6099}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Physics">
-      <UniqueIdentifier>{5d110be3-58be-4dd5-b11e-12d67a8f00c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components">
-      <UniqueIdentifier>{ca988ba0-ab57-4901-b9cc-4f1b1002a170}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUI">
-      <UniqueIdentifier>{eb0cef64-39c0-4890-ba6c-c343969a1809}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="Core\CoreEngine.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
     <ClCompile Include="Core\GameObject.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -45,17 +25,17 @@
     <ClCompile Include="Core\Transform.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Utility.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
     <ClCompile Include="Audio\AudioEngine.cpp">
       <Filter>Audio</Filter>
     </ClCompile>
+    <ClCompile Include="Components\GUIComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
     <ClCompile Include="GUI\GUIEngine.cpp">
       <Filter>GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Physics\Collider.cpp">
-      <Filter>Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="Physics\MultiCollider.cpp">
-      <Filter>Physics</Filter>
     </ClCompile>
     <ClCompile Include="Physics\PhysicsEngine.cpp">
       <Filter>Physics</Filter>
@@ -66,10 +46,19 @@
     <ClCompile Include="Physics\SphereCollider.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
+    <ClCompile Include="Physics\MultiCollider.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
     <ClCompile Include="Physics\World.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
+    <ClCompile Include="Physics\Collider.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
     <ClCompile Include="Rendering\Camera3D.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Lighting.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\Material.cpp">
@@ -90,15 +79,6 @@
     <ClCompile Include="Rendering\Viewport.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\Lighting.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\CoreEngine.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Utility.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Core\ErrorLog.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -111,8 +91,21 @@
     <ClCompile Include="Rendering\ParticleSystem.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
+	<ClCompile Include="Components\GUIImage.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\Sound.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\Stream.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\AudioSource.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MegaEngine.h" />
     <ClInclude Include="Core\CoreEngine.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -146,7 +139,40 @@
     <ClInclude Include="Audio\AudioEngine.h">
       <Filter>Audio</Filter>
     </ClInclude>
+    <ClInclude Include="Audio\AudioListener.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\Sound.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\Stream.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\AudioSource.h">
+      <Filter>Components</Filter>
+    </ClInclude>
     <ClInclude Include="Components\GameComponents.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUIButton.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUIComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUIContainer.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUILabel.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUIProgressBar.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUISlider.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUITextBox.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Components\MeshRenderer.h">
@@ -154,12 +180,6 @@
     </ClInclude>
     <ClInclude Include="GUI\GUIEngine.h">
       <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics\Collider.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics\MultiCollider.h">
-      <Filter>Physics</Filter>
     </ClInclude>
     <ClInclude Include="Physics\PhysicsEngine.h">
       <Filter>Physics</Filter>
@@ -170,10 +190,19 @@
     <ClInclude Include="Physics\SphereCollider.h">
       <Filter>Physics</Filter>
     </ClInclude>
+    <ClInclude Include="Physics\MultiCollider.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
     <ClInclude Include="Physics\World.h">
       <Filter>Physics</Filter>
     </ClInclude>
+    <ClInclude Include="Physics\Collider.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
     <ClInclude Include="Rendering\Camera3D.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Lighting.h">
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\Material.h">
@@ -194,15 +223,11 @@
     <ClInclude Include="Rendering\Viewport.h">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="MegaEngine.h" />
-    <ClInclude Include="Rendering\Lighting.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\AudioSource.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="Core\ErrorLog.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\RigidBody.h">
+      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Audio\AudioListener.h">
       <Filter>Audio</Filter>
@@ -240,5 +265,40 @@
     <ClInclude Include="Rendering\ParticleSystem.h">
       <Filter>Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="Components\Audio.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Game.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GUIImage.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\Listener.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{01ea19f5-a55f-4a88-84e0-975c463e5020}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{8507233b-287b-4cde-a26e-31e0701e41dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{e16d3f07-4180-4f81-bc51-8efba7945e78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{880052ed-c5a5-43ab-9e7d-eba603a68c0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{99dd9bdb-2876-4d8f-9451-25bf289dfd87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{0509e296-7499-4167-8c67-12305be5a87e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

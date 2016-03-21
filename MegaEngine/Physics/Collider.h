@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="Collider.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -17,17 +17,17 @@
 // </summary>
 // ***********************************************************************
 #pragma once
-#include <glm/glm.hpp>
-#include <glm/gtx/quaternion.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+
 #include <string>
 #include <vector>
+
+#include <PhysX/PxPhysicsAPI.h>
+using namespace physx;
 
 //Enum of what shape the collider is.
 enum ShapeCollider{
 	QUAD,
 	SPHERE,
-	CYLINDER,
 	OTHER
 };	
 
@@ -66,12 +66,12 @@ public:
 	/// <param name="acceleration">Starting Acceleration of the Collider.</param>
 	/// <param name="id">The identifier of the Collider.</param>
 	void init(
-		glm::vec3 position,
-		glm::quat rotation,
+		PxVec3 position,
+		PxQuat rotation,
 		float scale,
 		float mass,
-		glm::vec3 velocity,
-		glm::vec3 acceleration,
+		PxVec3 velocity,
+		PxVec3 acceleration,
         int id = 0
     );
 
@@ -79,19 +79,19 @@ public:
 	/// Rotate the Collider.
 	/// </summary>
 	/// <param name="rotation">Quaternion value of how much to rotate the Collider.</param>
-	virtual void applyRotation(glm::quat rotation);
+	virtual void applyRotation(PxQuat rotation);
 
 	/// <summary>
 	/// Update force value of the Collider.
 	/// </summary>
 	/// <param name="force">A Force value of how much force is being applied to the Collider.</param>
-	virtual void applyForce(glm::vec3 force);
+	virtual void applyForce(PxVec3 force);
 
 	/// <summary>
 	/// Update acceleration value of the Collider.
 	/// </summary>
 	/// <param name="accel">An acceleation value of how much acceleration is being applied to the Collider.</param>
-	virtual void applyAcceleration(glm::vec3 accel);
+	virtual void applyAcceleration(PxVec3 accel);
 
 	/// <summary>
 	/// Check the collision with this Collider with the vector of Colliders.
@@ -99,6 +99,10 @@ public:
 	/// <param name="collidableObjects">Vectors of Colliders this collider will be checking.</param>
 	/// <returns>Vector of Collider this collider collided with.</returns>
 	virtual std::vector<Collider*> checkCollision(std::vector<Collider*> collidableObjects) = 0;
+
+	virtual bool checkCollision(Collider* collidableObject) = 0;
+
+	virtual bool checkCollision(PxVec3 rayPosition, PxVec3 rayDirection, float &timeOfCollision) { return false; }
 
 	/// <summary>
 	/// Create an ID value for this collider.
@@ -134,7 +138,7 @@ public:
 	/// Gets the position.
 	/// </summary>
 	/// <returns>The position vector.</returns>
-	glm::vec3 getPosition()
+	PxVec3 getPosition()
 	{
 		return m_position;
 	}
@@ -143,7 +147,7 @@ public:
 	/// Gets the rotation.
 	/// </summary>
 	/// <returns>The rotation quaternion.</returns>
-	glm::quat getRotation()
+	PxQuat getRotation()
 	{
 		return m_rotation;
 	}
@@ -179,7 +183,7 @@ public:
 	/// Gets the velocity.
 	/// </summary>
 	/// <returns>The velocity vector.</returns>
-	glm::vec3 getVelocity()
+	PxVec3 getVelocity()
 	{
 		return m_velocity;
 	}
@@ -188,7 +192,7 @@ public:
 	/// Gets the acceleration.
 	/// </summary>
 	/// <returns>The acceleration vector.</returns>
-	glm::vec3 getAcceleration()
+	PxVec3 getAcceleration()
 	{
 		return m_acceleration;
 	}
@@ -203,6 +207,50 @@ public:
 	}
 
     //Properties Setters
+	/// <summary>
+	/// Sets the radius of the sphere.
+	/// </summary>
+	/// <param name="id">The radius sphere.</param>
+	void setRadiusSphere(float radiusSphere)
+	{
+		m_radiusSphere = radiusSphere;
+	}
+
+	/// <summary>
+	/// Sets the position.
+	/// </summary>
+	/// <param name="id">The position.</param>
+	void setPosition(PxVec3 position)
+	{
+		m_position = position;
+	}
+
+	/// <summary>
+	/// Sets the rotation.
+	/// </summary>
+	/// <param name="id">The rotation.</param>
+	void setRotation(PxQuat rotation)
+	{
+		m_rotation = rotation;
+	}
+
+	/// <summary>
+	/// Sets the scale.
+	/// </summary>
+	/// <param name="id">The scale.</param>
+	void setScale(float scale)
+	{
+		m_scale = scale;
+	}
+
+	/// <summary>
+	/// Sets the mass.
+	/// </summary>
+	/// <param name="id">The mass.</param>
+	void setMass(float mass)
+	{
+		m_mass = mass;
+	}
 
 	/// <summary>
 	/// Sets the identifier.
@@ -211,6 +259,24 @@ public:
 	void setID(int id)
 	{
 		m_id = id;
+	}
+
+	/// <summary>
+	/// Sets the velocity.
+	/// </summary>
+	/// <param name="id">The velocity.</param>
+	void setVelocity(PxVec3 velocity)
+	{
+		m_velocity = velocity;
+	}
+
+	/// <summary>
+	/// Sets the acceleration.
+	/// </summary>
+	/// <param name="id">The acceleration.</param>
+	void setAcceleration(PxVec3 acceleration)
+	{
+		m_acceleration = acceleration;
 	}
 
 protected:
@@ -225,11 +291,11 @@ protected:
 	/// <summary>
 	/// The position vector.
 	/// </summary>
-	glm::vec3 m_position;
+	PxVec3 m_position;
 	/// <summary>
 	/// The rotation vector.
 	/// </summary>
-	glm::quat m_rotation;
+	PxQuat m_rotation;
 	/// <summary>
 	/// The scale.
 	/// </summary>
@@ -245,11 +311,11 @@ protected:
 	/// <summary>
 	/// The velocity vector.
 	/// </summary>
-	glm::vec3 m_velocity;
+	PxVec3 m_velocity;
 	/// <summary>
 	/// The acceleration vector.
 	/// </summary>
-	glm::vec3 m_acceleration;
+	PxVec3 m_acceleration;
 	/// <summary>
 	/// if it has collided.
 	/// </summary>

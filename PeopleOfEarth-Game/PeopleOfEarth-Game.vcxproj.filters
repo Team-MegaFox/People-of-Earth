@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="PeopleOfEarth-Game.cpp" />
+    <ClCompile Include="FreeLook.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeMove.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerShipMovementController.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TextLerpAlpha.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeLook.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeMove.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DetailsScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="MissionSelectScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="MissionOneScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="ShowPauseComp.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionsScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlsScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="FireProjectile.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ShipStats.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuManager.h">
+      <Filter>Components\Menu Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="MissionSelectManager.h">
+      <Filter>Components\Menu Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionsMenuManager.h">
+      <Filter>Components\Menu Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseMenuManager.h">
+      <Filter>Components\Menu Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerShipMovementController.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AsteroidField.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateGUi.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniMap.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyFighterShipAI.h">
+      <Filter>Components\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="PassengerShipAI.h">
+      <Filter>Components\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="SteeringBehaviour.h">
+      <Filter>Components\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="RogueAsteroid.h">
+      <Filter>Components\AI</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Components">
+      <UniqueIdentifier>{61ef89e9-79e5-4214-afd1-fefaddd700cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{88a6fc09-1a8a-4c24-b7ac-ee8e6a726665}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Menu Managers">
+      <UniqueIdentifier>{f28c829b-4281-4c3d-b34e-007a6cbe186e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\AI">
+      <UniqueIdentifier>{736a7f27-299c-477d-9f54-0a3f9bae157a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

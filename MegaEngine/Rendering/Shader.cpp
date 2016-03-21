@@ -2,33 +2,32 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 02-08-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 03-01-2016
 // ***********************************************************************
 // <copyright file="Shader.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-#include "Shader.h"
+#include "shader.h"
 #include <cassert>
 #include <fstream>
 #include <iostream>
-#include <glew/glew.h>
+#include <glew\glew.h>
 #include <cstdlib>
 #include <cstring>
 #include <sstream>
 
-#include "..\Core\Utility.h"
 #include "Lighting.h"
 #include "RenderingEngine.h"
+#include "..\Core\Utility.h"
 
+//--------------------------------------------------------------------------------
+// Variable Initializations
+//--------------------------------------------------------------------------------
 std::map<std::string, ShaderData*> Shader::s_resourceMap;
-/// <summary>
-/// The s_supported open gl level{CC2D43FA-BBC4-448A-9D0B-7B57ADF2655C}
-/// </summary>
-/// / Gets the uniform names.
-int ShaderData::s_supportedOpenGLLevel = 0;
+int ShaderData::s_supportedOpenGLLevel  = 0;
 
 //--------------------------------------------------------------------------------
 // Forward declarations
@@ -55,7 +54,7 @@ ShaderData::ShaderData(const std::string& fileName)
 		assert(false);
 	}
 
-	if (s_supportedOpenGLLevel == 0)
+	if (s_supportedOpenGLLevel  == 0)
 	{
 		int majorVersion;
 		int minorVersion;
@@ -63,13 +62,13 @@ ShaderData::ShaderData(const std::string& fileName)
 		glGetIntegerv(GL_MAJOR_VERSION, &majorVersion);
 		glGetIntegerv(GL_MINOR_VERSION, &minorVersion);
 
-		s_supportedOpenGLLevel = majorVersion * 100 + minorVersion * 10;
+		s_supportedOpenGLLevel  = majorVersion * 100 + minorVersion * 10;
 	}
 
 	std::string vertexShaderText = loadShader(fileName + ".vs");
 	std::string fragmentShaderText = loadShader(fileName + ".fs");
 
-	if (s_supportedOpenGLLevel >= 320)
+	if (s_supportedOpenGLLevel  >= 320)
 	{
 		convertVertexShaderToGLSL150(&vertexShaderText);
 		convertFragmentShaderToGLSL150(&fragmentShaderText);
@@ -142,9 +141,9 @@ void Shader::bind() const
 
 void Shader::updateUniforms(const Transform& transform, const Material& material, const RenderingEngine& renderingEngine, const Camera3D& camera) const
 {
-	glm::mat4 worldMatrix = transform.getTransformation();
-	glm::mat4 projectedMatrix = camera.getViewProjection();
-	glm::mat4 viewMatrix = camera.getView();
+	PxMat44 worldMatrix = transform.getTransformation();
+	PxMat44 projectedMatrix = camera.getViewProjection();
+	PxMat44 viewMatrix = camera.getView();
 
 	for (unsigned int i = 0; i < m_shaderData->getUniformNames().size(); i++)
 	{
@@ -156,7 +155,7 @@ void Shader::updateUniforms(const Transform& transform, const Material& material
 			std::string unprefixedName = uniformName.substr(2, uniformName.length());
 
 			if (unprefixedName == "lightMatrix")
-				setUniformMat4(uniformName, renderingEngine.getLightMatrix() * worldMatrix);
+				setUniformPxMat44(uniformName, renderingEngine.getLightMatrix() * worldMatrix);
 			else if (uniformType == "sampler2D")
 			{
 				int samplerSlot = renderingEngine.getSamplerSlot(unprefixedName);
@@ -164,7 +163,7 @@ void Shader::updateUniforms(const Transform& transform, const Material& material
 				setUniformi(uniformName, samplerSlot);
 			}
 			else if (uniformType == "vec3")
-				setUniformVec3(uniformName, renderingEngine.getVec3(unprefixedName));
+				setUniformPxVec3(uniformName, renderingEngine.getVec3(unprefixedName));
 			else if (uniformType == "float")
 				setUniformf(uniformName, renderingEngine.getFloat(unprefixedName));
 			else if (uniformType == "DirectionalLight")
@@ -191,11 +190,11 @@ void Shader::updateUniforms(const Transform& transform, const Material& material
 		else if (uniformName.substr(0, 2) == "T_")
 		{
 			if (uniformName == "T_MVP")
-				setUniformMat4(uniformName, projectedMatrix * worldMatrix);
+				setUniformPxMat44(uniformName, projectedMatrix * worldMatrix);
 			else if (uniformName == "T_VP")
-				setUniformMat4(uniformName, viewMatrix);
+				setUniformPxMat44(uniformName, viewMatrix);
 			else if (uniformName == "T_model")
-				setUniformMat4(uniformName, worldMatrix);
+				setUniformPxMat44(uniformName, worldMatrix);
 			else
 				throw "Invalid Transform Uniform: " + uniformName;
 		}
@@ -213,7 +212,7 @@ void Shader::updateUniforms(const Transform& transform, const Material& material
 		else
 		{
 			if (uniformType == "vec3")
-				setUniformVec3(uniformName, material.getVec3(uniformName));
+				setUniformPxVec3(uniformName, material.getVec3(uniformName));
 			else if (uniformType == "float")
 				setUniformf(uniformName, material.getFloat(uniformName));
 			else
@@ -232,44 +231,44 @@ void Shader::setUniformf(const std::string& uniformName, float value) const
 	glUniform1f(m_shaderData->getUniformMap().at(uniformName), value);
 }
 
-void Shader::setUniformVec3(const std::string& uniformName, const glm::vec3 & value) const
+void Shader::setUniformPxVec3(const std::string& uniformName, const PxVec3& value) const
 {
 	glUniform3f(m_shaderData->getUniformMap().at(uniformName), value.x, value.y, value.z);
 }
 
-void Shader::setUniformMat4(const std::string& uniformName, const glm::mat4 & value) const
+void Shader::setUniformPxMat44(const std::string& uniformName, const PxMat44& value) const
 {
 	glUniformMatrix4fv(m_shaderData->getUniformMap().at(uniformName), 1, GL_FALSE, &(value[0][0]));
 }
 
 void Shader::setUniformDirectionalLight(const std::string& uniformName, const DirectionalLight& directionalLight) const
 {
-	setUniformVec3(uniformName + ".direction", Utility::getForward(directionalLight.getTransform().getTransformedRot()));
-	setUniformVec3(uniformName + ".base.color", directionalLight.getColor());
+	setUniformPxVec3(uniformName + ".direction", Utility::getForward(directionalLight.getTransform().getTransformedRot()));
+	setUniformPxVec3(uniformName + ".base.color", directionalLight.getColor());
 	setUniformf(uniformName + ".base.intensity", directionalLight.getIntensity());
 }
 
 void Shader::setUniformPointLight(const std::string& uniformName, const PointLight& pointLight) const
 {
-	setUniformVec3(uniformName + ".base.color", pointLight.getColor());
+	setUniformPxVec3(uniformName + ".base.color", pointLight.getColor());
 	setUniformf(uniformName + ".base.intensity", pointLight.getIntensity());
 	setUniformf(uniformName + ".atten.constant", pointLight.getAttenuation().getConstant());
 	setUniformf(uniformName + ".atten.linear", pointLight.getAttenuation().getLinear());
 	setUniformf(uniformName + ".atten.exponent", pointLight.getAttenuation().getExponent());
-	setUniformVec3(uniformName + ".position", pointLight.getTransform().getTransformedPos());
+	setUniformPxVec3(uniformName + ".position", pointLight.getTransform().getTransformedPos());
 	setUniformf(uniformName + ".range", pointLight.getRange());
 }
 
 void Shader::setUniformSpotLight(const std::string& uniformName, const SpotLight& spotLight) const
 {
-	setUniformVec3(uniformName + ".pointLight.base.color", spotLight.getColor());
+	setUniformPxVec3(uniformName + ".pointLight.base.color", spotLight.getColor());
 	setUniformf(uniformName + ".pointLight.base.intensity", spotLight.getIntensity());
 	setUniformf(uniformName + ".pointLight.atten.constant", spotLight.getAttenuation().getConstant());
 	setUniformf(uniformName + ".pointLight.atten.linear", spotLight.getAttenuation().getLinear());
 	setUniformf(uniformName + ".pointLight.atten.exponent", spotLight.getAttenuation().getExponent());
-	setUniformVec3(uniformName + ".pointLight.position", spotLight.getTransform().getTransformedPos());
+	setUniformPxVec3(uniformName + ".pointLight.position", spotLight.getTransform().getTransformedPos());
 	setUniformf(uniformName + ".pointLight.range", spotLight.getRange());
-	setUniformVec3(uniformName + ".direction", Utility::getForward(spotLight.getTransform().getTransformedRot()));
+	setUniformPxVec3(uniformName + ".direction", Utility::getForward(spotLight.getTransform().getTransformedRot()));
 	setUniformf(uniformName + ".cutoff", spotLight.getCutoff());
 }
 
@@ -478,7 +477,6 @@ static void checkShaderError(int shader, int flag, bool isProgram, const std::st
 			glGetShaderInfoLog(shader, sizeof(error), NULL, error);
 
 		fprintf(stderr, "%s: '%s'\n", errorMessage.c_str(), error);
-		assert(0 != 0);
 	}
 }
 
@@ -511,7 +509,6 @@ static std::string loadShader(const std::string& fileName)
 	else
 	{
 		std::cerr << "Unable to load shader: " << fileName << std::endl;
-		assert(0 != 0);
 	}
 
 	return output;

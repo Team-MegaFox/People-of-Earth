@@ -11,10 +11,12 @@
 [Dd]ebug/*
 [Mm]egaEngine/[Dd]ebug/*
 [Tt]estbed/[Dd]ebug/*
+[Pp]eopleOfEarth-Game/[Dd]ebug/*
 [Dd]ebugPublic/*
 [Rr]elease/*
 [Mm]egaEngine/[Rr]elease/*
 [Tt]estbed/[Rr]elease/*
+[Pp]eopleOfEarth-Game/[Rr]elease/*
 [Rr]eleases/*
 x64/
 x86/
@@ -87,6 +89,7 @@ $tf/
 
 # GhostDoc
 PeopleOfEarth.sln.GhostDoc.xml
+PeopleOfEarth.sln.GhostDoc.user.dic
 
 # ReSharper is a .NET coding add-in
 _ReSharper*/

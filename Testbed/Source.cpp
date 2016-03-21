@@ -7,20 +7,20 @@
 #include <GUI\GUIEngine.h>
 #include "TestScene.h"
 
+
 int main(int argc, char** argv)
 {
-	Viewport window("Some demo", 800, 600, 0);
+	Viewport window("The People of Earth TestBed ***Demo***", 800, 600/*1920, 1080*/, 0);
 	GUIEngine guiEngine("Assets/GUI");
-	RenderingEngine renderingEngine(window, guiEngine);
-	SceneManager sceneManager;
-	TestScene testscene;
+	RenderingEngine renderingEngine(window);
+	SceneManager sceneManager(&window);
 	PhysicsEngine physicsEngine;
+	physicsEngine.getPhysicsWorld()->init(PxVec3(0.0f, 0.0f, 0.0f), 20000.0f);
 	AudioEngine audioEngine;
 
-	sceneManager.addScene(&testscene);
-	sceneManager.switchScene(testscene.getName());
-
 	CoreEngine core(60.0, &window, &renderingEngine, &physicsEngine, &audioEngine, &guiEngine, &sceneManager);
+
+	sceneManager.push(new TestScene, Modality::Exclusive);
 
 	core.start();
 

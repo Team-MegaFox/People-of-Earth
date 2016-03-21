@@ -4,13 +4,21 @@
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="FreeLook.cpp" />
     <ClCompile Include="FreeMove.cpp" />
+    <ClCompile Include="PlayerShipMovementController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="FreeLook.h" />
     <ClInclude Include="FreeMove.h" />
     <ClInclude Include="PlanetSpin.h" />
-    <ClInclude Include="Listener.h" />
-    <ClInclude Include="Audio.h" />
+    <ClInclude Include="PopupMenuScene.h" />
+    <ClInclude Include="PopMenu2Scene.h" />
+    <ClInclude Include="FireProjectile.h" />
+    <ClInclude Include="SteeringBehaviour.h" />
+    <ClInclude Include="EnemyFighterShipAI.h" />
+    <ClInclude Include="PassengerShipAI.h" />
+    <ClInclude Include="Projectile.h" />
+    <ClInclude Include="AsteroidField.h" />
+    <ClInclude Include="PlayerShipMovementController.h" />
   </ItemGroup>
 </Project>

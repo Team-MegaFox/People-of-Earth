@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
+// Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
 // Last Modified By : Pavan Jakhu
-// Last Modified On : 01-24-2016
+// Last Modified On : 02-23-2016
 // ***********************************************************************
 // <copyright file="GameObject.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -15,42 +15,85 @@
 #include "..\Components\GUIComponent.h"
 #include <algorithm>
 
+GameObject::~GameObject()
+{
+	for (size_t i = 0; i < m_gameComponents.size(); i++)
+	{
+		delete m_gameComponents[i];
+	}
+	m_gameComponents.clear();
+
+	for (size_t i = 0; i < m_guiComponents.size(); i++)
+	{
+		delete m_guiComponents[i];
+	}
+	m_guiComponents.clear();
+
+	for (size_t i = 0; i < m_children.size(); i++)
+	{
+		delete m_children[i];
+	}
+	m_children.clear();
+}
 
 void GameObject::updateAll(float delta)
 {
-	updateGameComponents(delta);
-	updateGUIComponents(delta);
-
-	for (size_t go = 0; go < m_children.size(); go++)
+	if (m_enabled)
 	{
-		m_children[go]->updateAll(delta);
+		updateGameComponents(delta);
+		updateGUIComponents(delta);
+
+		for (size_t go = 0; go < m_children.size(); go++)
+		{
+			m_children[go]->updateAll(delta);
+		}
 	}
 }
 
 
-void GameObject::renderAll(const Shader& shader, const GUIEngine& guiEngine, const RenderingEngine& renderingEngine, const Camera3D& camera)
+void GameObject::renderAll(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D& camera) const
 {
-	renderGameComponents(shader, renderingEngine, camera);
-	renderGUIComponents(guiEngine, camera);
-
-	for (size_t go = 0; go < m_children.size(); go++)
+	if (m_enabled)
 	{
-		m_children[go]->renderAll(shader, guiEngine, renderingEngine, camera);
+		renderGameComponents(shader, renderingEngine, camera);
+
+		for (size_t go = 0; go < m_children.size(); go++)
+		{
+			m_children[go]->renderAll(shader, renderingEngine, camera);
+		}
 	}
 }
 
 
 void GameObject::processAll(const InputManager& input, float delta)
 {
-	processInputGameComponents(input, delta);
-	processInputGUIComponents(input, delta);
-
-	for (size_t go = 0; go < m_children.size(); go++)
+	if (m_enabled)
 	{
-		m_children[go]->processAll(input, delta);
+		processInputGameComponents(input, delta);
+		processInputGUIComponents(input, delta);
+
+		for (size_t go = 0; go < m_children.size(); go++)
+		{
+			m_children[go]->processAll(input, delta);
+		}
 	}
 }
 
+void GameObject::activate()
+{
+	for (size_t i = 0; i < m_guiComponents.size(); i++)
+	{
+		m_guiComponents[i]->activate();
+	}
+}
+
+void GameObject::deactivate()
+{
+	for (size_t i = 0; i < m_guiComponents.size(); i++)
+	{
+		m_guiComponents[i]->deactivate();
+	}
+}
 
 GameObject* GameObject::addChild(GameObject* child)
 {
@@ -61,10 +104,14 @@ GameObject* GameObject::addChild(GameObject* child)
 }
 
 
-GameObject* GameObject::addGameComponent(GameComponent* component)
+GameObject* GameObject::addGameComponent(GameComponent* component, bool callOnStart /*= false*/)
 {
 	m_gameComponents.push_back(component);
 	component->setParent(this);
+	if (callOnStart)
+	{
+		component->onStart();
+	}
 	return this;
 }
 
@@ -85,9 +132,8 @@ bool GameObject::removeChild(GameObject* child)
 	{
 		if (m_children[go] == child)
 		{
-			child->setEngine(nullptr);
-			child->getTransform()->setParent(nullptr);
-			m_children.erase(std::remove(m_children.begin(), m_children.end(), m_children[go]), m_children.end());
+			m_children.erase(m_children.begin() + go);
+			delete child;
 			removed = true;
 		}
 	}
@@ -104,8 +150,8 @@ bool GameObject::removeGameComponent(GameComponent* component)
 	{
 		if (m_gameComponents[gc] == component)
 		{
-			component->setParent(nullptr);
-			m_gameComponents.erase(std::remove(m_gameComponents.begin(), m_gameComponents.end(), m_gameComponents[gc]), m_gameComponents.end());
+			m_gameComponents.erase(m_gameComponents.begin() + gc);
+			delete component;
 			removed = true;
 		}
 	}
@@ -140,6 +186,10 @@ std::vector<GameObject*> GameObject::getAllChildren()
 	return m_children;
 }
 
+std::vector<GameComponent*> GameObject::getAllGameComponents() const
+{
+	return m_gameComponents;
+}
 
 void GameObject::setEngine(CoreEngine* engine)
 {
@@ -174,7 +224,7 @@ void GameObject::updateGameComponents(float delta)
 }
 
 
-void GameObject::renderGameComponents(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D& camera)
+void GameObject::renderGameComponents(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D& camera) const
 {
 	for (size_t gc = 0; gc < m_gameComponents.size(); gc++)
 	{
@@ -202,15 +252,34 @@ void GameObject::updateGUIComponents(float delta)
 	}
 }
 
-
-void GameObject::renderGUIComponents(const GUIEngine& guiEngine, const Camera3D& camera)
-{
-}
-
 void GameObject::processInputGUIComponents(const InputManager& input, float delta)
 {
 	for (size_t i = 0; i < m_guiComponents.size(); i++)
 	{
 		m_guiComponents[i]->processInput(input, delta);
+	}
+}
+
+void GameObject::setEnabled(const bool enabled)
+{
+	m_enabled = enabled;
+	if (m_enabled)
+	{
+		for (size_t i = 0; i < m_guiComponents.size(); i++)
+		{
+			m_guiComponents[i]->enable();
+		}
+	}
+	else
+	{
+		for (size_t i = 0; i < m_guiComponents.size(); i++)
+		{
+			m_guiComponents[i]->disable();
+		}
+	}
+
+	for (size_t i = 0; i < m_children.size(); i++)
+	{
+		m_children[i]->setEnabled(enabled);
 	}
 }

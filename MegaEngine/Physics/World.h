@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan
-// Last Modified On : 01-24-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 03-07-2016
 // ***********************************************************************
 // <copyright file="World.h" company="">
 //     Copyright (c) . All rights reserved.
@@ -38,7 +38,7 @@ public:
 	/// </summary>
 	/// <param name="position">Position of the World.</param>
 	/// <param name="radius">Radius of the World (Sphere World).</param>
-	void init(glm::vec3 position, float radius);
+	void init(PxVec3 position, float radius);
 
 	/// <summary>
 	/// Update all the Colliders in the World.
@@ -60,6 +60,12 @@ public:
 	void addCollidableObject(Collider* collidableObject);
 
 	/// <summary>
+	/// Remove the specific collider to the World.
+	/// </summary>
+	/// <param name="collidableObject">The collider that will be added to the World.</param>
+	void removeCollidableObject(Collider* collidableObject);
+
+	/// <summary>
 	/// Apply a rebound acceleration to the first Collider object from the 2 Colliders colliding.
 	/// </summary>
 	/// <param name="obj1">The first collider object of the 2 Colliders colliding.</param>
@@ -72,7 +78,7 @@ public:
 	/// Gets the position vector.
 	/// </summary>
 	/// <returns>The position vector.</returns>
-	glm::vec3 getPosition()
+	PxVec3 getPosition()
 	{
 		return m_position;
 	}
@@ -101,7 +107,7 @@ public:
 	/// Sets the position vector.
 	/// </summary>
 	/// <param name="newPosition">The new position.</param>
-	void setPosition(glm::vec3& newPosition)
+	void setPosition(const PxVec3& newPosition)
 	{
 		m_position = newPosition;
 	}
@@ -124,11 +130,16 @@ private:
 	/// <summary>
 	/// The position vector.
 	/// </summary>
-	glm::vec3 m_position;
+	PxVec3 m_position;
 
 	/// <summary>
 	/// The radius.
 	/// </summary>
 	float m_radius;
+	
+	/// <summary>
+	/// The collision delay check.
+	/// </summary>
+	float m_delayCollisionCheck;
 };
 

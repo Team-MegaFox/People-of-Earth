@@ -1,13 +1,17 @@
 #pragma once
 #include <MegaEngine.h>
-#include <glm\glm.hpp>
 #include <iostream>
 
 #include "FreeLook.h"
 #include "FreeMove.h"
 #include "PlanetSpin.h"
-#include "Listener.h"
-#include "Audio.h"
+#include "FireProjectile.h"
+#include "EnemyFighterShipAI.h"
+#include "PassengerShipAI.h"
+#include "AsteroidField.h"
+
+#include <PhysX/PxPhysicsAPI.h>
+using namespace physx;
 
 class TestScene : public Scene
 {
@@ -29,71 +33,100 @@ public:
 		Material particleMat("particleMat", 0.5f, 4.0f, Texture("colourTest.png"));
 
 		addToRoot((new GameObject("skybox"))
-			->addGameComponent(new SkyboxRenderer("Skybox/sky.jpg")));
+			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
 
-		// The human fighter ship and camera
-		GameObject* camera = 
-			(new GameObject("camera", glm::vec3(0.0f, 0.0f, 5.0f)))
-			->addGameComponent(new CameraComponent(glm::perspective(glm::radians(60.0f), window.getAspectRatio(), 0.1f, 1000.0f)))
-			->addGameComponent(new FreeLook(window.getCenter()))
-			->addGameComponent(new FreeMove(50.0f))
+		//GameObject* pointlight =
+		//	(new GameObject("pointLight", PxVec3(0.0f, 1.0f, 0.0f)))
+		//	->addGameComponent(new PointLight(PxVec3(1.0f, 0.0f, 0.0f), 0.4f))
+		//	;
+
+		//GameObject* plane =
+		//	(new GameObject("plane", PxVec3(10.0f, 10.0f, 10.0f)))
+		//	->addGameComponent(new MeshRenderer(Mesh("Environment/plane.obj", 100.0f), Material("bricks")))
+		//	->addGameComponent(new PlanetSpin())
+
+		//	;
+
+		//addToRoot(plane);
+
+		GameObject * starBoardLight = new GameObject("starBoardPointLight", PxVec3(7.0f, 1.0f, -3.5f));
+		starBoardLight->addGameComponent(new PointLight(PxVec3(0.0f, 1.0f, 0.0f), 0.5f));
+
+		GameObject * portLight = new GameObject("portPointLight", PxVec3(-7.0f, 1.0f, -3.5f));
+		portLight->addGameComponent(new PointLight(PxVec3(1.0f, 0.0f, 0.0f), 0.5f));
+
+		GameObject * rearLight = new GameObject("rearPointLight", PxVec3(0.0f, 1.0f, -6.0f));
+		rearLight->addGameComponent(new PointLight(PxVec3(0.1f, 0.1f, 0.1f), 0.5f));
+
+		GameObject * thrusterLight = new GameObject("thrusdterPointLight", PxVec3(0.0f, 0.0f, -8.0f));
+		thrusterLight->addGameComponent(new PointLight(PxVec3(1.0f, 0.75f, 0.0f), 0.5f));
+
+		GameObject* fighterShip =
+			(new GameObject("Fighter Ship", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f))))
+			->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj", 1.0f), Material("ship1")))
+			->addGameComponent(new RigidBody(PxVec3(1.0f, 1.0f, 1.0f), PxQuat(PxIdentity), 1.0f, 7.0f, 1.0f, 5.0f))
+			->addGameComponent(new FireProjectile("268168__shaun105__laser.wav"))
+			->addGameComponent(new PlayerShipMovementController("camera", 50.0f))
+			->addChild(starBoardLight)
+			->addChild(portLight)
+			->addChild(rearLight)
+			->addChild(thrusterLight)
+			;
+
+		GameObject* camera =
+			(new GameObject("camera",
+			*fighterShip->getTransform()->getPosition() - Utility::getForward(*fighterShip->getTransform()->getRotation()) * 30.0f
+			+ PxVec3(0.0f, 5.0f, 0.0f)))
+			->addGameComponent(new CameraComponent(ToRadians(75.0f), window.getAspectRatio(), 0.1f, 200000.0f))
 			->addGameComponent(new Listener());
-		GameObject* fighterShip = 
-			(new GameObject("Fighter Ship", glm::vec3(-2.0f, -4.0f, -10.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship")));
-
-		//theListener->setAsListener();
-		//camera->addChild(fighterShip);
+		addToRoot(fighterShip);
 		addToRoot(camera);
 
-		Audio * stream = new Audio("./Assets/Music/music.ogg", AudioType::STREAM);
+		/*addToRoot((new GameObject("earth", PxVec3(-1000.0f, 0.0f, 0.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 100.0f), Material("earth")))
+			);*/
 
-		// the alien fighter ship
-		addToRoot((new GameObject("Arrdvark",glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("AlienFighter_FINAL.obj", 0.1f), Material("alien_ship")))
-			->addGameComponent(stream));
+		addToRoot((new GameObject("earth", PxVec3(0, 0.0f, -1000.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 100.0f), Material("earth")))
+			);
 
-		// the second human fighter ship
-		//addToRoot((new GameObject(glm::vec3(0.0f, 15.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4.0f)))
-		//	->addGameComponent(new MeshRenderer(Mesh("HumanFighter_Final.obj", 0.1f), Material("human_ship"))));
+		/*addToRoot((new GameObject("mars", PxVec3(7500.0f, 0.0f, 7500.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 35.0f), Material("mars")))
+			);*/
 
-		// The skysphere
-		/*addToRoot((new GameObject("Skysphere", glm::vec3(0.0f, -5.0f, 80.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(4000.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("sphere2.obj", 0.1f), Material("skySphereTexture")))
-			->addGameComponent(new FreeMove()));*/
+		addToRoot((new GameObject("jupiter", PxVec3(0.0f, 0.0f, 10000.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 250.0f), Material("jupiter")))
+			);
 
-		// The Earth
-		addToRoot((new GameObject("Earth", glm::vec3(0.0f, -5.0f, 550.0f), glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(400.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("sphere.obj", 0.1f), Material("earthTexture")))
-			->addGameComponent(new PlanetSpin));
 
-		//addToRoot((new GameObject(glm::vec3(0.0f, -5.0f, 4550.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(150.0f)))
-		//	->addGameComponent(new MeshRenderer(Mesh("sphere.obj", 0.1f), Material("moonTexture"))));
+		addToRoot((new GameObject("moon", PxVec3(1000.0f, 0.0f, 1000.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 32.0f), Material("moon")))
+			);
 
-		// The Sun
-		//addToRoot((new GameObject(glm::vec3(0.0f, -5.0f, -55000.0f), glm::quat(1.0f, 0.0f, 0.0f, 0.0f), glm::vec3(1000.0f)))
-		//	->addGameComponent(new MeshRenderer(Mesh("sphere.obj", 0.1f), Material("sunTexture"))));
+		/*addToRoot((new GameObject("sun", PxVec3(20000.0f, 5000.0f, 20000.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 600.0f), Material("sun")))
+			);*/
 
-		addToRoot((new GameObject("DrLight", glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
-			->addGameComponent(new DirectionalLight(glm::vec3(1.0f), 0.02f, 7, 8.0f, 1.0f)));
 
-		stream->setPosition(glm::vec3(0.0f, -5.0f, 550.0f));
-		stream->play(true);
+		//// the alien fighter ship
+		//addToRoot((new GameObject("enemyFighter", PxVec3(0.0f, -5.0f, 80.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
+		//	->addGameComponent(new MeshRenderer(Mesh("Ships/AlienFighter_FINAL.obj", 0.5f), Material("alien_ship")))
+		//	->addGameComponent(BGM)
+		//	->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 6.0f, 24.0f))
+		//	->addGameComponent(new EnemyFighterShipAI)
+		//	->addGameComponent(new ShipStats)
+		//	);
 
-		CameraComponent* cc = camera->getGameComponent<CameraComponent>();
-		if (cc != nullptr)
-		{
-			std::cout << "There is a camera component!" << std::endl;
-		}
+		//// the passenger ship
+		//addToRoot((new GameObject("passengerShip", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
+		//	->addGameComponent(new MeshRenderer(Mesh("Ships/MotherShip.obj", 50.0f), Material("motherShip")))
+		//	->addGameComponent(new RigidBody(PxVec3(0.0f, 0.0f, 0.0f), PxQuat(PxIdentity), 1.0f, 25.0f, 60.0f, 50.0f))
+		//	->addGameComponent(new PassengerShipAI)
+		//	->addGameComponent(new ShipStats)
+		//	);
 
 		addToRoot((new GameObject("particles"))
 			->addGameComponent(new ParticleSystem(Material("particleMat"))));
-	}
-	
-	bool onButtonClick(const GameObject& obj)
-	{
-		obj.getGUIComponent<GUILabel>()->setText("[colour='FF00FF00']I clicked");
-		return true;
 	}
 };
 
