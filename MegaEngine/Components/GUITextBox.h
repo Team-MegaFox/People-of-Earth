@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu
 // Created          : 02-03-2016
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 02-03-2016
 // ***********************************************************************
 // <copyright file="GUITextBox.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -28,31 +28,15 @@ public:
 	/// <param name="destRectPix">The size of the widget in pixels.</param>
 	/// <param name="text">The text at the start of the text box.</param>
 	/// <param name="maxLength">The maximum text length can input in the text box.</param>
-	GUITextBox(PxVec4& destRectPerc, const PxVec4& destRectPix,
+	GUITextBox(glm::vec4& destRectPerc, const glm::vec4& destRectPix,
 		const std::string& text = "", int maxLength = -1) : 
-	GUIComponent(destRectPerc, destRectPix), m_text(text), m_maxLength(maxLength), m_textChanged(false) { }
+	GUIComponent(destRectPerc, destRectPix), m_text(text), m_maxLength(maxLength) { }
 	/// <summary>
 	/// Finalizes an instance of the <see cref="GUITextBox"/> class.
 	/// </summary>
 	~GUITextBox() { }
 
-	/// <summary>
-	/// Virtual function for custom update functionality.
-	/// </summary>
-	/// <param name="delta">The frame time delta.</param>
-	virtual void update(float delta) 
-	{
-		if (m_textChanged)
-		{
-			m_textChanged = false;
-			/*m_timeToChangeText -= delta;
-			if (m_timeToChangeText <= 0.0f)
-			{
-				
-				m_timeToChangeText = 0.5f;
-			}*/
-		}
-	}
+
 	/// <summary>
 	/// Adds to Core Engine.
 	/// </summary>
@@ -66,7 +50,6 @@ public:
 		{
 			m_editbox->setMaxTextLength(m_maxLength);
 		}
-		m_editbox->subscribeEvent(CEGUI::Editbox::EventTextChanged, CEGUI::Event::Subscriber(&GUITextBox::onTextChanged, this));
 	}
 
 	/// <summary>
@@ -79,11 +62,6 @@ public:
 	/// </summary>
 	/// <returns>The maximum character length.</returns>
 	int getMaxLength() const { return m_maxLength; }
-	/// <summary>
-	/// if the text in the text box has changed.
-	/// </summary>
-	/// <returns>Weather the text in the box has changed.</returns>
-	bool textChanged() const { return m_textChanged; }
 
 	/// <summary>
 	/// Sets the text in the text box.
@@ -104,12 +82,6 @@ public:
 	}
 
 private:
-	bool onTextChanged(const CEGUI::EventArgs& e)
-	{
-		m_textChanged = true;
-		return true;
-	}
-
 	/// <summary>
 	/// The CEGUI edit box widget.
 	/// </summary>
@@ -124,12 +96,5 @@ private:
 	/// The text box's maximum character length.
 	/// </summary>
 	int m_maxLength;
-
-	/// <summary>
-	/// If the text has changed.
-	/// </summary>
-	bool m_textChanged;
-
-	float m_timeToChangeText = 0.5f;
 
 };

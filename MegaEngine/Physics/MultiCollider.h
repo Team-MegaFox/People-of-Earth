@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 01-24-2016
 // ***********************************************************************
 // <copyright file="MultiCollider.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -52,12 +52,12 @@ public:
 	/// <param name="acceleration">Starting Acceleration of the Multi Collider.</param>
 	/// <param name="id">The identifier of the Multi Collider.</param>
 	void init(
-		PxVec3 position,
-		PxQuat rotation,
+		glm::vec3 position,
+		glm::quat rotation,
 		float scale,
 		float mass,
-		PxVec3 velocity,
-		PxVec3 acceleration,
+		glm::vec3 velocity,
+		glm::vec3 acceleration,
         int id = 0
     );
 
@@ -75,13 +75,6 @@ public:
 	virtual std::vector<Collider*> checkCollision(std::vector<Collider*> collidableObjects) override;
 
 	/// <summary>
-	/// Check the collision with this Multi Collider with the Collider
-	/// </summary>
-	/// <param name="collidableObjects">Collider this Multi Collider will be checking.</param>
-	/// <returns>Return bool flag to determine this Multi Collider collided with the Collider</returns>
-	virtual bool checkCollision(Collider* collidableObject) override;
-
-	/// <summary>
 	/// Check the collision with the specific Collider in the Multi Collider with the other Multi Collider Object (Different Multi Collider objects).
 	/// </summary>
 	/// <param name="mulitSpecficCollider">Specific Collider in the Multi Collider.</param>
@@ -93,19 +86,19 @@ public:
 	/// Rotate the Multi Collider and the collider in the Multi Collider.
 	/// </summary>
 	/// <param name="rotation">Quaternion value of how much to rotate the Colliders.</param>
-	virtual void applyRotation(PxQuat rotation) override;
+	virtual void applyRotation(glm::quat rotation) override;
 
 	/// <summary>
 	/// Update force value of the Multi Collider and the collider in the Multi Collider.
 	/// </summary>
 	/// <param name="force">A Force value of how much force is being applied to the Colliders.</param>
-	virtual void applyForce(PxVec3 force) override;
+	virtual void applyForce(glm::vec3 force) override;
 
 	/// <summary>
 	/// Update acceleration value of the Multi Collider and the collider in the Multi Collider.
 	/// </summary>
 	/// <param name="accel">A Acceleation value of how much acceleration is being applied to the Colliders.</param>
-	virtual void applyAcceleration(PxVec3 accel) override;
+	virtual void applyAcceleration(glm::vec3 accel) override;
 
 	/// <summary>
 	/// Update the values of the Multi Collider and the collider in the Multi Collider.
@@ -128,9 +121,5 @@ private:
 	/// The multiple collider.
 	/// </summary>
 	std::vector<Collider*> m_multipleCollider;
-	/// <summary>
-	/// The distance this collider is from the center of gravity
-	/// </summary>
-	std::vector<PxVec3> m_distanceColliderFromCenterOfGravity;
 };
 

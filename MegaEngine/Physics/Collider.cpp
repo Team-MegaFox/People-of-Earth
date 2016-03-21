@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 03-18-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 01-24-2016
 // ***********************************************************************
 // <copyright file="Collider.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -38,12 +38,12 @@ Collider::~Collider()
 }
 
 void Collider::init(
-		PxVec3 position,
-		PxQuat rotation,
+		glm::vec3 position,
+		glm::quat rotation,
 		float scale,
 		float mass,
-		PxVec3 velocity,
-		PxVec3 acceleration,
+		glm::vec3 velocity,
+		glm::vec3 acceleration,
         int id
 		) 
 {
@@ -63,13 +63,12 @@ void Collider::init(
 	}
 }
 
-void Collider::applyRotation(PxQuat rotation)
+void Collider::applyRotation(glm::quat rotation)
 {
     m_rotation *= rotation;
-	m_rotation = m_rotation.getNormalized();
 }
 
-void Collider::applyForce(PxVec3 force)
+void Collider::applyForce(glm::vec3 force)
 {
 	//Newton's Second Law
 	//Force = mass * acceleration 
@@ -78,7 +77,7 @@ void Collider::applyForce(PxVec3 force)
 	m_acceleration += force / m_mass;
 }
 
-void Collider::applyAcceleration(PxVec3 accel)
+void Collider::applyAcceleration(glm::vec3 accel)
 {
 	m_acceleration += accel;
 }
@@ -96,7 +95,7 @@ void Collider::createUniqueID()
 void Collider::update(float timeStep)
 {
     //Displacement formula (Kinematic formula) split into 2 part because of loss of memory and number
-	PxVec3 displacement = m_velocity * timeStep + 0.5f * m_acceleration * timeStep * timeStep;
+	glm::vec3 displacement = m_velocity * timeStep + 0.5f * m_acceleration * timeStep * timeStep;
 
     //Velocity formula (Kinematic formula)
 	m_velocity += m_acceleration * timeStep;
@@ -106,7 +105,7 @@ void Collider::update(float timeStep)
 
 	//Have it update the position a frame more
 	//This is to prevent it so the object does not collide again because position did not move so be stuck in one spot (loop)
-	if (m_acceleration != PxVec3(0) && displacement.magnitude() == 0)
+	if (m_acceleration != glm::vec3(0) && glm::length(displacement) == 0)
 	{
 		displacement = m_velocity * timeStep + 0.5f * m_acceleration * timeStep * timeStep;
 	}
@@ -115,6 +114,5 @@ void Collider::update(float timeStep)
 	m_position += displacement;
 
 	//Reset the accleration
-	m_acceleration = PxVec3(0.0f, 0.0f, 0.0f);
-	//m_velocity = PxVec3(0);
+	m_acceleration = glm::vec3(0);
 }

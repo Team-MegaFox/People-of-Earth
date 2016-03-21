@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 01-24-2016
 // ***********************************************************************
 // <copyright file="GUIEngine.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -20,7 +20,8 @@
 
 GUIEngine::GUIEngine(const std::string& resDir, 
 	const std::string& schemeFile /*= "TaharezLook.scheme"*/,
-	const std::string& mouseImageFile /*= "TaharezLook/MouseArrow"*/)
+	const std::string& mouseImageFile /*= "TaharezLook/MouseArrow"*/,
+	const std::string& fontFile /*= "DejaVuSans-10"*/)
 {
 	if (m_renderer == nullptr)
 	{
@@ -46,7 +47,7 @@ GUIEngine::GUIEngine(const std::string& resDir,
 	m_context->setRootWindow(m_root);
 
 	loadScheme(schemeFile);
-	addFont(m_defaultFontName, m_defaultFontSize);
+	setFont(fontFile);
 	if (mouseImageFile != "")
 	{
 		setMouseCursor(mouseImageFile);
@@ -58,9 +59,6 @@ GUIEngine::GUIEngine(const std::string& resDir,
 GUIEngine::~GUIEngine()
 {
 	CEGUI::System::getSingleton().destroyGUIContext(*m_context);
-	CEGUI::WindowManager::getSingleton().destroyWindow(m_root);
-	m_context = nullptr;
-	m_root = nullptr;
 }
 
 CEGUI::Key::Scan SDLKeyToCEGUIKey(SDL_Keycode key) {
@@ -225,9 +223,7 @@ void GUIEngine::update()
 
 void GUIEngine::render()
 {
-	glDisable(GL_DEPTH_CLAMP);
 	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE);
 
 	m_renderer->beginRendering();
 	m_context->draw();
@@ -241,9 +237,7 @@ void GUIEngine::render()
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_DEPTH_CLAMP);
 }
 
 void GUIEngine::setMouseCursor(const std::string& imageFile)
@@ -270,22 +264,13 @@ void GUIEngine::loadScheme(const std::string& schemeFile)
 	m_schemeStyle = sp[0];
 }
 
-void GUIEngine::addFont(const std::string& fontName, Uint8 size)
+void GUIEngine::setFont(const std::string& fontFile)
 {
-	m_defaultFontName = fontName;
-	m_defaultFontSize = size;
-	CEGUI::FontManager::getSingleton().createFromFile(m_defaultFontName + "-" + std::to_string(m_defaultFontSize) + ".font");
-	m_context->setDefaultFont(m_defaultFontName + "-" + std::to_string(m_defaultFontSize));
+	CEGUI::FontManager::getSingleton().createFromFile(fontFile + ".font");
+	m_context->setDefaultFont(fontFile);
 }
 
-void GUIEngine::setFontSize(Uint8 size /*= 10*/)
-{
-	m_defaultFontSize = size;
-	CEGUI::FontManager::getSingleton().createFromFile(m_defaultFontName + "-" + std::to_string(m_defaultFontSize) + ".font");
-	m_context->setDefaultFont(m_defaultFontName + "-" + std::to_string(m_defaultFontSize));
-}
-
-CEGUI::Window* GUIEngine::addWidget(const std::string& type, const PxVec4& destRectPerc, const PxVec4& destRectPix, const std::string& name/* = ""*/)
+CEGUI::Window* GUIEngine::addWidget(const std::string& type, const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& name/* = ""*/)
 {
 	CEGUI::Window* newWindow = CEGUI::WindowManager::getSingleton().createWindow(type, name);
 	m_root->addChild(newWindow);
@@ -293,7 +278,7 @@ CEGUI::Window* GUIEngine::addWidget(const std::string& type, const PxVec4& destR
 	return newWindow;
 }
 
-CEGUI::Window* GUIEngine::addWidget(CEGUI::Window* parent, const std::string& type, const PxVec4& destRectPerc, const PxVec4& destRectPix, const std::string& name/* = ""*/)
+CEGUI::Window* GUIEngine::addWidget(CEGUI::Window* parent, const std::string& type, const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& name/* = ""*/)
 {
 	CEGUI::Window* newWindow = CEGUI::WindowManager::getSingleton().createWindow(type, name);
 	parent->addChild(newWindow);
@@ -301,7 +286,7 @@ CEGUI::Window* GUIEngine::addWidget(CEGUI::Window* parent, const std::string& ty
 	return newWindow;
 }
 
-void GUIEngine::setWidgetDestRect(CEGUI::Window* widget, const PxVec4& destRectPerc, const PxVec4& destRectPix)
+void GUIEngine::setWidgetDestRect(CEGUI::Window* widget, const glm::vec4& destRectPerc, const glm::vec4& destRectPix)
 {
 	widget->setPosition(CEGUI::UVector2(CEGUI::UDim(destRectPerc.x, destRectPix.x), CEGUI::UDim(destRectPerc.y, destRectPix.y)));
 	widget->setSize(CEGUI::USize(CEGUI::UDim(destRectPerc.z, destRectPix.z), CEGUI::UDim(destRectPerc.w, destRectPix.w)));

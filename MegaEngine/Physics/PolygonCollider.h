@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 03-13-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 01-24-2016
 // ***********************************************************************
 // <copyright file="PolygonCollider.h" company="">
 //     Copyright (c) . All rights reserved.
@@ -55,12 +55,12 @@ public:
 	/// <param name="halfDepth">Half depth of the Polygon Collider.</param>
 	/// <param name="id">The identifier of the Polygon Collider.</param>
 	void init(
-		PxVec3 position,
-		PxQuat rotation,
+		glm::vec3 position,
+		glm::quat rotation,
 		float scale,
 		float mass,
-		PxVec3 velocity,
-		PxVec3 acceleration,
+		glm::vec3 velocity,
+		glm::vec3 acceleration,
 		float halfWidth,
         float halfHeight,
         float halfDepth,
@@ -73,21 +73,6 @@ public:
 	/// <param name="collidableObjects">Vectors of Colliders this Polygon Collider will be checking.</param>
 	/// <returns>Vector of Collider this Polygon Collider collided with.</returns>
 	virtual std::vector<Collider*> checkCollision(std::vector<Collider*> collidableObjects) override;
-
-	/// <summary>
-	/// Check the collision with this Polygon Collider with the Collider
-	/// </summary>
-	/// <param name="collidableObjects">Collider this Polygon Collider will be checking.</param>
-	/// <returns>Return bool flag to determine this Polygon Collider collided with the Collider</returns>
-	virtual bool checkCollision(Collider* collidableObject) override;
-
-	/// <summary>
-	/// Check the collision with this Polygon Collider with the ray
-	/// </summary>
-	/// <param name="rayPosition">Ray Position.</param>
-	/// <param name = "rayDirection">Ray Direction.</param>
-	/// <returns>Return bool flag to determine this Polygon Collider collided with the ray</returns>
-	//virtual bool checkCollision(PxVec3 rayPosition, PxVec3 rayDirection, float &timeOfCollision) override;
 
 	/// <summary>
 	/// Check the collision with this Polygon Collider with the other Polygon Collider using Separating Axis Theorm.
@@ -109,29 +94,17 @@ public:
 	/// <param name="forwardDirection2">Forward Direction of the other Polygon Collider.</param>
 	/// <param name="collidableObject">Other Polygon Collider (Collider to check with).</param>
 	/// <returns>Boolean telling if this axis collided with the other collider.</returns>
-	bool checkAxisCollision(
-		PxVec3 tPosition, 
-		PxVec3 axis, 
-		PxVec3 rightDirection1, 
-		PxVec3 upDirection1, 
-		PxVec3 forwardDirection1,
-		PxVec3 rightDirection2, 
-		PxVec3 upDirection2, 
-		PxVec3 forwardDirection2, 
-		PolygonCollider* collidableObject);
-
-	bool checkRayAxisCollision(PxVec3 rayDirection, PxVec3 axis, PxVec3 delta, float &timeOfCollision);
-
-	bool checkDistance(PolygonCollider* collidableObject);
+	bool checkAxisCollision(glm::vec3 tPosition, glm::vec3 axis, glm::vec3 rightDirection1, glm::vec3 upDirection1, glm::vec3 forwardDirection1,
+		glm::vec3 rightDirection2, glm::vec3 upDirection2, glm::vec3 forwardDirection2, PolygonCollider* collidableObject);
 
 	/// <summary>
 	/// Convert the quaternion to a vector format in the x axis rotation.
 	/// </summary>
 	/// <param name="quat">Quaternion value to convert to vectors.</param>
 	/// <returns>Vector of the x axis rotation.</returns>
-	PxVec3 GetRightVector(PxQuat quat)
+	glm::vec3 GetRightVector(glm::quat quat)
     {
-		return PxVec3(1 - 2 * (quat.y * quat.y - quat.z * quat.z),
+        return glm::vec3( 1 - 2 * (quat.y * quat.y - quat.z * quat.z),
                         2 * (quat.x * quat.y - quat.w * quat.z),
                         2 * (quat.x * quat.z + quat.w * quat.y));
     }
@@ -141,9 +114,9 @@ public:
 	/// </summary>
 	/// <param name="quat">Quaternion value to convert to vectors.</param>
 	/// <returns>Vector of the y axis rotation.</returns>
-	PxVec3 GetUpVector(PxQuat quat)
+	glm::vec3 GetUpVector(glm::quat quat)
     {
-		return PxVec3(2 * (quat.x * quat.y + quat.w * quat.z),
+	    return glm::vec3( 2 * (quat.x * quat.y + quat.w * quat.z), 
                         1 - 2 * (quat.x * quat.x + quat.z * quat.z),
                         2 * (quat.y * quat.z - quat.w * quat.x));
     }
@@ -153,9 +126,9 @@ public:
 	/// </summary>
 	/// <param name="quat">Quaternion value to convert to vectors.</param>
 	/// <returns>Vector of the z axis rotation.</returns>
-	PxVec3 GetForwardVector(PxQuat quat)
+	glm::vec3 GetForwardVector(glm::quat quat)
     {
-		return PxVec3(2 * (quat.x * quat.z - quat.w * quat.y),
+	    return glm::vec3( 2 * (quat.x * quat.z - quat.w * quat.y), 
                         2 * (quat.y * quat.z + quat.w * quat.x),
                         1 - 2 * (quat.x * quat.x + quat.y * quat.y));
     }

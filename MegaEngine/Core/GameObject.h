@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
+// Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 01-24-2016
 // ***********************************************************************
 // <copyright file="GameObject.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -13,11 +13,9 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <glm\glm.hpp>
 #include "Transform.h"
 #include "InputManager.h"
-#include <PhysX/PxPhysicsAPI.h>
-using namespace physx;
-
 class Camera3D;
 class CoreEngine;
 class GameComponent;
@@ -41,12 +39,8 @@ public:
 	/// <param name="pos">The position of the GameObject.</param>
 	/// <param name="rot">The rotation of the GameObject.</param>
 	/// <param name="scale">The scale of the GameObject.</param>
-	GameObject(
-		const std::string& name, 
-		const PxVec3& pos = PxVec3(0.0f, 0.0f, 0.0f), 
-		const PxQuat& rot = PxQuat(PxIdentity),
-		const PxVec3& scale = PxVec3(1.0f, 1.0f, 1.0f))
-		: m_name(name), m_enabled(true), m_transform(pos, rot, scale), m_coreEngine(nullptr) 
+	GameObject(const std::string& name, const glm::vec3& pos = glm::vec3(0.0f), const glm::quat& rot = glm::quat(1.0f, 0.0f, 0.0f, 0.0f), const glm::vec3& scale = glm::vec3(1.0f))
+		: m_name(name), m_transform(pos, rot, scale), m_coreEngine(nullptr) 
 	{
 		m_transform.setAttachedGameObject(this);
 	}
@@ -55,7 +49,7 @@ public:
 	/// <summary>
 	/// Finalizes an instance of the <see cref="GameObject" /> class.
 	/// </summary>
-	~GameObject();
+	~GameObject() { }
 
 	/// <summary>
 	/// Updates all children GameObjects, Game Components and GUI Components.
@@ -69,23 +63,13 @@ public:
 	/// <param name="guiEngine">The GUI Engine object.</param>
 	/// <param name="renderingEngine">The Rendering Engine object.</param>
 	/// <param name="camera">The main active camera.</param>
-	void renderAll(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D& camera) const;
+	void renderAll(const Shader& shader, const GUIEngine& guiEngine, const RenderingEngine& renderingEngine, const Camera3D& camera);
 	/// <summary>
 	/// Processes all inputs for the children GameObjects, Game Components and GUI Components.
 	/// </summary>
 	/// <param name="input">The manager to get inputs from the viewport.</param>
 	/// <param name="delta">The delta time between frames.</param>
 	void processAll(const InputManager& input, float delta);
-
-	/// <summary>
-	/// Activates this game object (used for GUI Components)
-	/// </summary>
-	void activate();
-
-	/// <summary>
-	/// Deactivates this game object (used for GUI Components)
-	/// </summary>
-	void deactivate();
 
 	/// <summary>
 	/// Adds a child GameObject then returns the child GameObject.
@@ -97,10 +81,8 @@ public:
 	/// Attaches a Game Component to the GameObject.
 	/// </summary>
 	/// <param name="component">The Game Component to attach.</param>
-	/// <param name="callOnStart">Wheather or no the onStart method is called. 
-	/// DO NOT set to true if adding in the scene init function.</param>
 	/// <returns>Returns the GameObject the component is attached too.</returns>
-	GameObject* addGameComponent(GameComponent* component, bool callOnStart = false);
+	GameObject* addGameComponent(GameComponent* component);
 	/// <summary>
 	/// Attaches a GUI Component to the GameObject.
 	/// </summary>
@@ -179,8 +161,6 @@ public:
 	/// <returns>All immediate children stored in a vector.</returns>
 	std::vector<GameObject*> getAllChildren();
 
-	std::vector<GameComponent*> getAllGameComponents() const;
-
 	/// <summary>
 	/// Gets the core engine.
 	/// </summary>
@@ -197,31 +177,13 @@ public:
 	/// Gets the name of the GameObject.
 	/// </summary>
 	/// <returns>The string value of the GameObject name.</returns>
-	std::string getName() const { return m_name; }
-
-	/// <summary>
-	/// Checks if the gameobject is enabled.
-	/// </summary>
-	/// <returns>Whether the gameobject is enabled.</returns>
-	bool isEnabled() const { return m_enabled; }
+	std::string getName() { return m_name; }
 	
 	/// <summary>
 	/// Sets the Core Engine so the GameObject can access the different systems.
 	/// </summary>
 	/// <param name="engine">The pointer to the Core Engine object.</param>
 	void setEngine(CoreEngine* engine);
-
-	/// <summary>
-	/// Sets the name of this game object.
-	/// </summary>
-	/// <param name="name">The name.</param>
-	void setName(const std::string& name) { m_name = name; }
-
-	/// <summary>
-	/// Sets the gameobject to be enabled or not.
-	/// </summary>
-	/// <param name="enabled">If the gameobject and its children is enabled.</param>
-	void setEnabled(const bool enabled);
 
 private:
 	/// <summary>
@@ -235,7 +197,7 @@ private:
 	/// <param name="shader">The shader program.</param>
 	/// <param name="renderingEngine">The Rendering Engine object.</param>
 	/// <param name="camera">The main active camera.</param>
-	void renderGameComponents(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D& camera) const;
+	void renderGameComponents(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D& camera);
 	/// <summary>
 	/// Processes all inputs for the Game Components.
 	/// </summary>
@@ -249,6 +211,12 @@ private:
 	/// <param name="delta">The delta time between frames.</param>
 	void updateGUIComponents(float delta);
 	/// <summary>
+	/// Renders the GUI components.
+	/// </summary>
+	/// <param name="guiEngine">The GUI engine.</param>
+	/// <param name="camera">The camera.</param>
+	void renderGUIComponents(const GUIEngine& guiEngine, const Camera3D& camera);
+	/// <summary>
 	/// Processes all inputs for the GUI Components.
 	/// </summary>
 	/// <param name="input">The manager to get inputs from the viewport.</param>
@@ -259,10 +227,6 @@ private:
 	/// The name of the GameObject.
 	/// </summary>
 	std::string m_name;
-	/// <summary>
-	/// If the game object, it's components and children are accepting input, updating and rendering.
-	/// </summary>
-	bool m_enabled;
 	/// <summary>
 	/// The vector of child GameObjects.
 	/// </summary>

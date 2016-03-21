@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 02-27-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 01-24-2016
 // ***********************************************************************
 // <copyright file="SphereCollider.h" company="">
 //     Copyright (c) . All rights reserved.
@@ -51,12 +51,12 @@ public:
 	/// <param name="radiusSphere">Radius of the Sphere Collider.</param>
 	/// <param name="id">The identifier of the Sphere Collider.</param>
 	void init(
-		PxVec3 position,
-		PxQuat rotation,
+		glm::vec3 position,
+		glm::quat rotation,
 		float scale,
 		float mass,
-		PxVec3 velocity,
-		PxVec3 acceleration,
+		glm::vec3 velocity,
+		glm::vec3 acceleration,
 		float radiusSphere,
 		int id = 0
 		);  
@@ -67,21 +67,6 @@ public:
 	/// <param name="collidableObjects">Vectors of Colliders this Sphere Collider will be checking.</param>
 	/// <returns>Vector of Collider this Sphere Collider collided with.</returns>
 	virtual std::vector<Collider*> checkCollision(std::vector<Collider*> collidableObjects);
-
-	/// <summary>
-	/// Check the collision with this Sphere Collider with the Collider
-	/// </summary>
-	/// <param name="collidableObjects">Collider this Sphere Collider will be checking.</param>
-	/// <returns>Return bool flag to determine this Sphere Collider collided with the Collider</returns>
-	virtual bool checkCollision(Collider* collidableObject) override;
-
-	/// <summary>
-	/// Check the collision with this Sphere Collider with the ray
-	/// </summary>
-	/// <param name="rayPosition">Ray Position.</param>
-	/// <param name = "rayDirection">Ray Direction.</param>
-	/// <returns>Return bool flag to determine this Sphere Collider collided with the ray</returns>
-	virtual bool checkCollision(PxVec3 rayPosition, PxVec3 rayDirection, float &timeOfCollision) override;
 
 };
 

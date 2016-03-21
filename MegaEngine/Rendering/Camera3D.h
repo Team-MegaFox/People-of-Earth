@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu, Jesse Derochie, and Christopher Maeda
+// Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 03-17-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 02-08-2016
 // ***********************************************************************
 // <copyright file="Camera3D.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -11,53 +11,45 @@
 // <summary></summary>
 // ***********************************************************************
 #pragma once
-#include <PhysX/PxPhysicsAPI.h>
-using namespace physx;
+#include <GLM/glm.hpp>
 
+#include "..\Core\Transform.h"
 #include "..\Components\GameComponents.h"
-#include "..\Core\Utility.h"
-
-enum class EnclosureType
-{
-	INSIDE, OUTSIDE, OVERLAP
-};
 
 /// <summary>
-/// Cameras represent a location, orientation, and projection from
-/// which the scene can be rendered.
+/// A camera class that holds the projection matrix and its Transform.
 /// </summary>
 class Camera3D
 {
 public:
 	/// <summary>
-	/// Transform is passed in so the Camera doesn't need to be attached to a game object.
-	/// That's useful for places such as the rendering engine which can use cameras
-	/// without creating placeholder game objects.
+	/// Initializes a new instance of the <see cref="Camera3D"/> class.
 	/// </summary>
-	Camera3D(const PxReal& fov, const PxReal& aspect, const PxReal& near, const PxReal& far, Transform* transform) :
-		m_projection(Utility::initPerspective(fov, aspect, near, far)),
-		m_fov(fov), m_aspect(aspect), m_near(near), m_far(far),
-		m_transform(transform),
-		m_frustum(6) { }
-	Camera3D(const PxMat44& projection, Transform* transform) :
-		m_projection(projection),
-		m_transform(transform),
-		m_frustum(6) { }
-
-	EnclosureType isInside(const PxVec3& centre, const float radius) const;
+	Camera3D() { }
+	/// <summary>
+	/// Initializes a new instance of the <see cref="Camera3D"/> class.
+	/// </summary>
+	/// <param name="projection">The projection matrix.</param>
+	/// <param name="transform">The transform object.</param>
+	Camera3D(const glm::mat4& projection, Transform * transform) :
+		m_projection(projection), m_transform(transform) { }
+	/// <summary>
+	/// Finalizes an instance of the <see cref="Camera3D"/> class.
+	/// </summary>
+	~Camera3D() { }
 
 	/// <summary>
-	/// This is the primary function of the camera. Multiplying a point by the returned matrix
-	/// will transform the point into it's location on the screen, where -1 represents the bottom/left
-	/// of the screen, and 1 represents the top/right of the screen.
+	/// Gets the view projection matrix.
 	/// </summary>
 	/// <returns>The view projection matrix.</returns>
-	PxMat44 getViewProjection() const;
+	glm::mat4 getViewProjection() const;
+
 	/// <summary>
-	/// Gets the view with the rotation of the camera.
+	/// Gets the view.
 	/// </summary>
-	/// <returns>The view matrix.</returns>
-	PxMat44 getView() const;
+	/// <returns></returns>
+	glm::mat4 getView() const;
+
 	/// <summary>
 	/// Gets the transform.
 	/// </summary>
@@ -68,104 +60,75 @@ public:
 	/// </summary>
 	/// <returns>A const reference to the Transform object.</returns>
 	inline const Transform& getTransform() const { return *m_transform; }
-	/// <summary>
-	/// Gets frustum of the camera.
-	/// </summary>
-	/// <returns>A const reference to the Planes of the frustum.</returns>
-	inline const std::vector<PxPlane> getFrustum() const { return m_frustum; }
 
 	/// <summary>
 	/// Sets the projection matrix.
 	/// </summary>
 	/// <param name="projection">The projection matrix.</param>
-	inline void setProjection(const PxMat44& projection) { m_projection = projection; setFrustum(); }
+	inline void setProjection(const glm::mat4& projection) { m_projection = projection; }
 	/// <summary>
 	/// Sets the transform.
 	/// </summary>
 	/// <param name="transform">The transform.</param>
-	inline void setTransform(Transform* transform)        { m_transform = transform; }
+	inline void setTransform(Transform * transform) { m_transform = transform; }
 
-	void updateFrustum() { setFrustum(); }
-
-protected:
 private:
 	/// <summary>
-	/// The projection with which the camera sees the world (i.e. perspective, orthographic, identity, etc.)
+	/// The projection view matrix.
 	/// </summary>
-	PxMat44 m_projection;
+	glm::mat4 m_projection;
 	/// <summary>
-	/// The components of the camera.
+	/// The transform object.
 	/// </summary>
-	PxReal m_fov, m_aspect, m_near, m_far;
-	/// <summary>
-	/// The transform representing the position and orientation of the camera.
-	/// </summary>
-	Transform* m_transform;
-	/// <summary>
-	/// The 6 frustum planes.
-	/// </summary>
-	std::vector<PxPlane> m_frustum;
-	
-	/// <summary>
-	/// Calculates the frustum planes and sets it to the member variable.
-	/// </summary>
-	void setFrustum();
+	Transform * m_transform;
+
 };
 
 /// <summary>
-/// CameraComponents are an easy way to use a camera as a component
-/// on a game object.
+/// Class CameraComponent.
 /// </summary>
+/// <seealso cref="GameComponent" />
 class CameraComponent : public GameComponent
 {
 public:
 	/// <summary>
-	/// The camera's transform is initialized to 0 (null) because
-	/// at construction, this isn't attached to a game object,
-	/// and therefore doesn't have access to a valid transform.
+	/// Initializes a new instance of the <see cref="CameraComponent"/> class.
 	/// </summary>
-	CameraComponent(const PxReal& fov, const PxReal& aspect, const PxReal& near, const PxReal& far) :
-		m_camera(fov, aspect, near, far, 0) {}
-
-
-	virtual void update(float delta) override { m_camera.updateFrustum(); }
+	/// <param name="projection">The projection.</param>
+	CameraComponent(const glm::mat4 & projection) :
+		m_camera(projection, nullptr) { }
+	/// <summary>
+	/// Finalizes an instance of the <see cref="CameraComponent"/> class.
+	/// </summary>
+	~CameraComponent() { }
 
 	/// <summary>
 	/// Adds to engine.
 	/// </summary>
 	/// <param name="engine">The engine.</param>
-	virtual void addToEngine(CoreEngine* engine) const;
+	virtual void addToEngine(CoreEngine * engine) const;
 
-	/// <summary>
-	/// Gets a reference to the camera object stored in the component.
-	/// </summary>
-	/// <returns>The reference to the camera object.</returns>
-	inline Camera3D* getCamera3D() { return &m_camera; }
 	/// <summary>
 	/// Gets the view projection.
 	/// </summary>
-	/// <returns>The view projection of of the camera.</returns>
-	inline PxMat44 getViewProjection() const { return m_camera.getViewProjection(); }
-	/// <summary>
-	/// Gets frustum of the camera.
-	/// </summary>
-	/// <returns>A const reference to the Planes of the frustum.</returns>
-	inline std::vector<PxPlane> getFrustum() const { return m_camera.getFrustum(); }
+	/// <returns>glm.mat4.</returns>
+	inline glm::mat4 getViewProjection() const { m_camera.getViewProjection(); }
 
 	/// <summary>
 	/// Sets the projection.
 	/// </summary>
 	/// <param name="projection">The projection.</param>
-	inline void setProjection(const PxMat44& projection) { m_camera.setProjection(projection); }
+	inline void setProjection(const glm::mat4& projection) { m_camera.setProjection(projection); }
 	/// <summary>
 	/// Sets the parent.
 	/// </summary>
 	/// <param name="parent">The parent.</param>
 	virtual void setParent(GameObject* parent);
-protected:
+
 private:
 	/// <summary>
-	/// The camera that's being used like a componentt.
+	/// The m_camera
 	/// </summary>
 	Camera3D m_camera;
+
 };

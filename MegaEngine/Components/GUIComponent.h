@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu
 // Created          : 01-28-2016
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 02-02-2016
 // ***********************************************************************
 // <copyright file="GUIComponent.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -32,17 +32,13 @@ public:
 	/// </summary>
 	/// <param name="destRectPerc">The size of the widget relative the parent widget.</param>
 	/// <param name="destRectPix">The size of the widget in pixels.</param>
-	GUIComponent(const PxVec4& destRectPerc, const PxVec4& destRectPix) :
+	GUIComponent(const glm::vec4& destRectPerc, const glm::vec4& destRectPix) :
 		m_parent(nullptr), m_widget(nullptr), m_destRectPerc(destRectPerc), m_destRectPix(destRectPix) { }
 
 	/// <summary>
 	/// Finalizes an instance of the <see cref="GUIComponent"/> class.
 	/// </summary>
-	virtual ~GUIComponent() 
-	{
-		//m_widget->removeAllEvents();
-		CEGUI::WindowManager::getSingleton().destroyWindow(m_widget);
-	}
+	virtual ~GUIComponent() { }
 	/// <summary>
 	/// Virtual function for custom input processing.
 	/// </summary>
@@ -74,86 +70,17 @@ public:
 	}
 
 	/// <summary>
-	/// Gets the parented gameobject.
-	/// </summary>
-	/// <returns>A pointer to the parented gameobject.</returns>
-	GameObject* getParent() { return m_parent; }
-
-	/// <summary>
-	/// Gets the relative position to the window.
-	/// </summary>
-	/// <returns>A vector 2D of the relative position.</returns>
-	PxVec2 getPercentPosition() { return PxVec2(m_widget->getPosition().d_x.d_scale, m_widget->getPosition().d_y.d_scale); }
-
-	/// <summary>
-	/// Gets the absolute pixel position to the window.
-	/// </summary>
-	/// <returns>A vector 2D of the absolute pixel position.</returns>
-	PxVec2 getPixelPosition() { return PxVec2(m_widget->getPosition().d_x.d_offset, m_widget->getPosition().d_y.d_offset); }
-
-	/// <summary>
-	/// Gets the relative size of the window.
-	/// </summary>
-	/// <returns>A vector 2D of the relative position.</returns>
-	PxVec2 getPercentSize() { return PxVec2(m_widget->getSize().d_width.d_scale, m_widget->getSize().d_height.d_scale); }
-
-	/// <summary>
-	/// Gets the absolute pixel size of the window.
-	/// </summary>
-	/// <returns>A vector 2D of the absolute pixel position.</returns>
-	PxVec2 getPixelSize() { return PxVec2(m_widget->getSize().d_width.d_offset, m_widget->getSize().d_height.d_offset); }
-
-	/// <summary>
 	/// Sets the parent GameObject.
 	/// </summary>
 	/// <param name="parent">The GameObject to be attached to.</param>
 	virtual void setParent(GameObject* parent) { m_parent = parent; }
 
-	/// <summary>
-	/// Sets the relative position.
-	/// </summary>
-	/// <param name="pos">The position in percentage relative to the window.</param>
-	void setPercentPosition(const PxVec2& pos) { m_widget->setPosition(CEGUI::UVector2(CEGUI::UDim(pos.x, 0.0f), CEGUI::UDim(pos.y, 0.0f))); }
-	
-	/// <summary>
-	/// Sets the absolute pixel position.
-	/// </summary>
-	/// <param name="pos">The position in pixels to the window.</param>
-	void setPixelPosition(const PxVec2& pos) { m_widget->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f, pos.x), CEGUI::UDim(0.0f, pos.y))); }
-
-	/// <summary>
-	/// Sets the relative size to the parent GUI Component.
-	/// </summary>
-	/// <param name="pos">The size in percentage relative to the window.</param>
-	void setPercentSize(const PxVec2& size) const { m_widget->setSize(CEGUI::USize(CEGUI::UDim(size.x, m_widget->getSize().d_width.d_offset), CEGUI::UDim(size.y, m_widget->getSize().d_height.d_offset))); }
-
-	/// <summary>
-	/// Sets the absolute pixel size.
-	/// </summary>
-	/// <param name="pos">The size in pixels to the window.</param>
-	void setPixelSize(const PxVec2& size) const { m_widget->setSize(CEGUI::USize(CEGUI::UDim(m_widget->getSize().d_width.d_scale, size.x), CEGUI::UDim(m_widget->getSize().d_height.d_scale, size.y))); }
-
-	/// <summary>
-	/// Activates the widget so it accepts input.
-	/// </summary>
-	void activate() { m_widget->enable(); }
-
-	/// <summary>
-	/// Deactivates the widget so it doesn't accept input.
-	/// </summary>
-	void deactivate() { m_widget->disable(); }
-
-	/// <summary>
-	/// Renders the widget.
-	/// </summary>
-	void enable() { m_widget->show(); }
-
-	/// <summary>
-	/// Stops rendering the widget.
-	/// </summary>
-	void disable() { m_widget->hide(); }
-
 protected:	
+	/// <summary>
+	/// Gets the parented gameobject.
+	/// </summary>
+	/// <returns>A pointer to the parented gameobject.</returns>
+	GameObject* getParent() { return m_parent; }
 
 	/// <summary>
 	/// Gets the core engine.
@@ -171,7 +98,7 @@ protected:
 	/// Gets the widget.
 	/// </summary>
 	/// <returns>CEGUI.Window *.</returns>
-	CEGUI::Window* getWidget() const { return m_widget; }
+	CEGUI::Window* getWidget() { return m_widget; }
 
 	/// <summary>
 	/// Creates a widget.
@@ -188,7 +115,6 @@ protected:
 		{
 			m_widget = m_parent->getCoreEngine()->getGUIEngine()->addWidget(m_parentWidget->getWidget(), widgetType, m_destRectPerc, m_destRectPix, m_parent->getName() + std::to_string(s_numWidgets));
 		}
-		m_widget->moveToFront();
 		s_numWidgets++;
 		return m_widget;
 	}
@@ -212,14 +138,14 @@ private:
 	CEGUI::Window* m_widget;
 
 	/// <summary>
-	/// The destestion rectangle in percent relative to the parent window.
+	/// The m_dest rect perc
 	/// </summary>
-	PxVec4 m_destRectPerc;
+	glm::vec4 m_destRectPerc;
 
 	/// <summary>
-	/// The destestion rectangle in pixels.
+	/// The m_dest rect pix
 	/// </summary>
-	PxVec4 m_destRectPix;
+	glm::vec4 m_destRectPix;
 
 	/// Initializes a new instance of the <see cref="GameComponent" /> class.
 	/// </summary>

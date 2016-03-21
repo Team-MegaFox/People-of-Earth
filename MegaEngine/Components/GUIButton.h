@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified On : 01-28-2016
 // ***********************************************************************
 // <copyright file="GameComponents.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -14,6 +14,14 @@
 #include "GUILabel.h"
 #include <iostream>
 #include <functional>
+
+/// <summary>
+/// Some sort of event thing for the engine. Haven't decided what to do with it yet.
+/// </summary>
+struct MegaEvents
+{
+
+};
 
 /// <summary>
 /// The class GUIBUtton is the button widget for click events.
@@ -29,14 +37,14 @@ public:
 	/// <param name="destRectPix">The size of the widget in pixels.</param>
 	/// <param name="text">The text in the button.</param>
 	/// <param name="pfcn">The function to call when the button is clicked.</param>
-	GUIButton(const PxVec4& destRectPerc,
-		const PxVec4& destRectPix, const std::string& text,
-		std::function<bool(const GameObject&)> pfcn = nullptr, Uint8 size = 10) :
-		GUILabel(destRectPerc, destRectPix, text, size), f_clicked(pfcn) { }
+	GUIButton(const glm::vec4& destRectPerc,
+		const glm::vec4& destRectPix, const std::string& text,
+		std::function<bool(const GameObject&)> pfcn = nullptr) :
+		GUILabel(destRectPerc, destRectPix, text), f_clicked(pfcn) { }
 	/// <summary>
 	/// Finalizes an instance of the <see cref="GUIButton"/> class.
 	/// </summary>
-	~GUIButton() {  }
+	~GUIButton() { }
 
 	/// <summary>
 	/// Creates the widget, sets the text and subscribes the event to the button.
@@ -47,9 +55,7 @@ public:
 		GUIComponent::addToEngine(engine);
 		auto wi = createWidget(engine->getGUIEngine()->getSchemeStyle() + "/Button");
 		wi->setText(getText());
-		wi->subscribeEvent(CEGUI::PushButton::EventClicked.c_str(), CEGUI::Event::Subscriber(&GUIButton::pushButton, this));
-		engine->getGUIEngine()->addFont(engine->getGUIEngine()->getDefaultFontName(), getTextSize());
-		wi->setFont(engine->getGUIEngine()->getDefaultFontName() + "-" + std::to_string(getTextSize()));
+		wi->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&GUIButton::pushButton, this));
 	}
 	
 	/// <summary>
@@ -59,12 +65,6 @@ public:
 	void setOnClick(std::function<bool(const GameObject&)> pfcn)
 	{
 		f_clicked = pfcn;
-	}
-
-	void click()
-	{
-		CEGUI::EventArgs args;
-		getWidget()->fireEvent(CEGUI::PushButton::EventClicked, args);
 	}
 
 private:
@@ -86,4 +86,9 @@ private:
 	/// The function to call when the button is clicked.
 	/// </summary>
 	std::function<bool(const GameObject&)> f_clicked;
+
+	/// <summary>
+	/// The mega events
+	/// </summary>
+	MegaEvents megaEvents;
 };

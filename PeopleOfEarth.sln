@@ -10,11 +10,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Testbed", "Testbed\Testbed.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MegaEngine", "MegaEngine\MegaEngine.vcxproj", "{65D70634-8D2D-40B3-B39B-AA2B0EE6F6A5}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PeopleOfEarth-Game", "PeopleOfEarth-Game\PeopleOfEarth-Game.vcxproj", "{3D0DA6C7-7451-4D48-9E9A-1E951E9D305A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{65D70634-8D2D-40B3-B39B-AA2B0EE6F6A5} = {65D70634-8D2D-40B3-B39B-AA2B0EE6F6A5}
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -29,10 +24,6 @@ Global
 		{65D70634-8D2D-40B3-B39B-AA2B0EE6F6A5}.Debug|Win32.Build.0 = Debug|Win32
 		{65D70634-8D2D-40B3-B39B-AA2B0EE6F6A5}.Release|Win32.ActiveCfg = Release|Win32
 		{65D70634-8D2D-40B3-B39B-AA2B0EE6F6A5}.Release|Win32.Build.0 = Release|Win32
-		{3D0DA6C7-7451-4D48-9E9A-1E951E9D305A}.Debug|Win32.ActiveCfg = Debug|Win32
-		{3D0DA6C7-7451-4D48-9E9A-1E951E9D305A}.Debug|Win32.Build.0 = Debug|Win32
-		{3D0DA6C7-7451-4D48-9E9A-1E951E9D305A}.Release|Win32.ActiveCfg = Release|Win32
-		{3D0DA6C7-7451-4D48-9E9A-1E951E9D305A}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Pavan Jakhu
-// Last Modified On : 03-01-2016
+// Last Modified On : 01-24-2016
 // ***********************************************************************
 // <copyright file="Lighting.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -11,10 +11,10 @@
 // <summary></summary>
 // ***********************************************************************
 #pragma once
+
 #include "..\Components\GameComponents.h"
 #include "Shader.h"
-#include <PhysX\PxPhysicsAPI.h>
-using namespace physx;
+#include <glm/glm.hpp>
 
 class CoreEngine;
 
@@ -29,29 +29,30 @@ public:
 	/// </summary>
 	/// <param name="pos">The position.</param>
 	/// <param name="rot">The rot.</param>
-	ShadowCameraTransform(const PxVec3& pos, const PxQuat& rot) :
+	ShadowCameraTransform(const glm::vec3 & pos, const glm::quat & rot) :
 		m_pos(pos),
 		m_rot(rot) {}
 
 	/// <summary>
 	/// Gets the position.
 	/// </summary>
-	/// <returns>The position vector.</returns>
-	inline const PxVec3& getPosition()   const { return m_pos; }
+	/// <returns>const glm.vec3 &.</returns>
+	inline const glm::vec3 & getPos()   const { return m_pos; }
 	/// <summary>
 	/// Gets the rot.
 	/// </summary>
-	/// <returns>The rotation.</returns>
-	inline const PxQuat& GetRotation() const { return m_rot; }
+	/// <returns>const glm.quat &.</returns>
+	inline const glm::quat & getRot() const { return m_rot; }
 private:
 	/// <summary>
 	/// The position vector of the shadow from the camera.
 	/// </summary>
-	PxVec3 m_pos;
+	glm::vec3 m_pos;
 	/// <summary>
 	/// The rotation quaternion of the shadow from the camera.
-	/// </summary
-	PxQuat m_rot;
+	/// </summary>
+	glm::quat m_rot;
+	
 };
 
 /// <summary>
@@ -69,8 +70,7 @@ public:
 	/// <param name="shadowSoftness">The shadow softness.</param>
 	/// <param name="lightBleedReductionAmount">The light bleed reduction amount.</param>
 	/// <param name="minVariance">The minimum variance.</param>
-
-	ShadowInfo(const PxMat44& projection = PxMat44(PxVec4(1,1,1,1)), bool flipFaces = false, int shadowMapSizeAsPowerOf2 = 0, float shadowSoftness = 1.0f, float lightBleedReductionAmount = 0.2f, float minVariance = 0.00002f) :
+	ShadowInfo(const glm::mat4 & projection = glm::mat4(1.0f), bool flipFaces = false, int shadowMapSizeAsPowerOf2 = 0, float shadowSoftness = 1.0f, float lightBleedReductionAmount = 0.2f, float minVariance = 0.00002f) :
 		m_projection(projection),
 		m_flipFaces(flipFaces),
 		m_shadowMapSizeAsPowerOf2(shadowMapSizeAsPowerOf2),
@@ -82,7 +82,7 @@ public:
 	/// Gets the projection.
 	/// </summary>
 	/// <returns>A const refernce to the projection view matrix of the shadow.</returns>
-	inline const PxMat44& getProjection()       const { return m_projection; }
+	inline const glm::mat4 & getProjection()      const { return m_projection; }
 	/// <summary>
 	/// Gets the flip faces.
 	/// </summary>
@@ -113,9 +113,9 @@ private:
 	/// <summary>
 	/// The projection view matrix of the shadow.
 	/// </summary>
-	PxMat44 m_projection;
+	glm::mat4 m_projection;
 	/// <summary>
-	/// Wheather to flip faces.
+	/// Flip face.
 	/// </summary>
 	bool m_flipFaces;
 	/// <summary>
@@ -141,7 +141,8 @@ private:
 /// It also inherits <see cref="GameComponent"/> so the lights can be attached to a GameObject and added to a scene.
 /// </summary>
 /// <seealso cref="GameComponent" />
-class BaseLight : public GameComponent
+class BaseLight
+	: public GameComponent
 {
 public:
 	/// <summary>
@@ -150,12 +151,11 @@ public:
 	/// <param name="color">The color.</param>
 	/// <param name="intensity">The intensity.</param>
 	/// <param name="shader">The current shader.</param>
-	BaseLight(const PxVec3& color, float intensity, const Shader& shader) :
+	BaseLight(const glm::vec3 & color, float intensity, const Shader & shader) :
 		m_color(color),
 		m_intensity(intensity),
 		m_shader(shader),
 		m_shadowInfo(ShadowInfo()) {}
-	~BaseLight();
 
 	/// <summary>
 	/// A virtual function to be implemented differently based on the type of light.
@@ -163,19 +163,19 @@ public:
 	/// </summary>
 	/// <param name="mainCameraPos">The main camera position.</param>
 	/// <param name="mainCameraRot">The main camera rotation.</param>
-	/// <returns>The resulting transform of the shadow.</returns>
-	virtual ShadowCameraTransform calcShadowCameraTransform(const PxVec3& mainCameraPos, const PxQuat& mainCameraRot) const;
+	/// <returns>ShadowCameraTransform.</returns>
+	virtual ShadowCameraTransform calcShadowCameraTransform(const glm::vec3 & mainCameraPos, const glm::quat & mainCameraRot) const;
 	/// <summary>
 	/// Adds to Core Engine.
 	/// </summary>
 	/// <param name="engine">The Core Engine.</param>
-	virtual void addToEngine(CoreEngine* engine) const;
+	virtual void addToEngine(CoreEngine * engine) const;
 
 	/// <summary>
 	/// Gets the color.
 	/// </summary>
 	/// <returns>A const reference of the colour RBG values.</returns>
-	inline const PxVec3& getColor()          const { return m_color; }
+	inline const glm::vec3 & getColor()        const { return m_color; }
 	/// <summary>
 	/// Gets the intensity.
 	/// </summary>
@@ -185,35 +185,34 @@ public:
 	/// Gets the current shader.
 	/// </summary>
 	/// <returns>A const reference to the current shader program.</returns>
-	inline const Shader& getShader()         const { return m_shader; }
+	inline const Shader & getShader()         const { return m_shader; }
 	/// <summary>
 	/// Gets the shadow information.
 	/// </summary>
 	/// <returns>A const reference to the shadow information.</returns>
-	inline const ShadowInfo& getShadowInfo() const { return m_shadowInfo; }
+	inline const ShadowInfo & getShadowInfo() const { return m_shadowInfo; }
 protected:
 	/// <summary>
 	/// Sets the shadow information.
 	/// </summary>
-	/// <param name="shadowInfo">The shadow information of this light.</param>
-	inline void setShadowInfo(const ShadowInfo& shadowInfo) { m_shadowInfo = shadowInfo; }
+	/// <param name="shadowInfo">The shadow information.</param>
+	inline void setShadowInfo(const ShadowInfo & shadowInfo) { m_shadowInfo = shadowInfo; }
 private:
 	/// <summary>
 	/// The color RBG values.
 	/// </summary>
-	PxVec3      m_color;
+	glm::vec3    m_color;
 	/// <summary>
 	/// The light intensity.
 	/// </summary>
 	float       m_intensity;
 	/// <summary>
-	/// The current shader program for this light.
+	/// The current shader program.
 	/// </summary>
 	Shader      m_shader;
 	/// <summary>
 	/// The light's shadow information.
 	/// </summary>
-
 	ShadowInfo  m_shadowInfo;
 };
 
@@ -223,7 +222,8 @@ private:
 /// It inherits <see cref="BaseLight"/>.
 /// </summary>
 /// <seealso cref="BaseLight" />
-class DirectionalLight : public BaseLight
+class DirectionalLight
+	: public BaseLight
 {
 public:
 	/// <summary>
@@ -236,7 +236,7 @@ public:
 	/// <param name="shadowSoftness">The amount of shadow softness.</param>
 	/// <param name="lightBleedReductionAmount">The light bleed reduction amount.</param>
 	/// <param name="minVariance">The minimum variance amount.</param>
-	DirectionalLight(const PxVec3& color = PxVec3(0, 0, 0), float intensity = 0, int shadowMapSizeAsPowerOf2 = 0,
+	DirectionalLight(const glm::vec3 & color = glm::vec3(0.0f), float intensity = 0, int shadowMapSizeAsPowerOf2 = 0,
 		float shadowArea = 80.0f, float shadowSoftness = 1.0f, float lightBleedReductionAmount = 0.2f, float minVariance = 0.00002f);
 
 	/// <summary>
@@ -245,8 +245,8 @@ public:
 	/// </summary>
 	/// <param name="mainCameraPos">The main camera position.</param>
 	/// <param name="mainCameraRot">The main camera rotation.</param>
-	/// <returns>The transform of the shadow from the Directional Light's point of view.</returns>
-	virtual ShadowCameraTransform calcShadowCameraTransform(const PxVec3& mainCameraPos, const PxQuat& mainCameraRot) const;
+	/// <returns>The transform of the shadow from the camera's point of view.</returns>
+	virtual ShadowCameraTransform calcShadowCameraTransform(const glm::vec3 & mainCameraPos, const glm::quat & mainCameraRot) const;
 
 	/// <summary>
 	/// Gets the half shadow area.
@@ -255,13 +255,13 @@ public:
 	inline float getHalfShadowArea() const { return m_halfShadowArea; }
 private:
 	/// <summary>
-	/// The area where the directional light will cast shadows in.
+	/// The half shadow area.
 	/// </summary>
 	float m_halfShadowArea;
 };
 
 /// <summary>
-/// The Attenuation of a light. Used for <see cref="SpotLight"/> and <see cref="PointLight"/>.
+/// Class Attenuation.
 /// </summary>
 class Attenuation
 {
@@ -310,8 +310,9 @@ private:
 /// <summary>
 /// A traditional Point Light where light is emitted from all directions from a point in space.
 /// </summary>
-/// <seealso cref="BaseLight" /
-class PointLight : public BaseLight
+/// <seealso cref="BaseLight" />
+class PointLight
+	: public BaseLight
 {
 public:
 	/// <summary>
@@ -321,14 +322,14 @@ public:
 	/// <param name="intensity">The light intensity. Defaults to 0.</param>
 	/// <param name="atten">The attenuation. Defaults to a constant and linear of 0 and exponent of 1.</param>
 	/// <param name="shader">The current shader. Defaults to forward-point shader.</param>
-	PointLight(const PxVec3& color = PxVec3(0, 0, 0), float intensity = 0, const Attenuation& atten = Attenuation(),
+	PointLight(const glm::vec3 & color = glm::vec3(0.0f), float intensity = 0, const Attenuation & atten = Attenuation(),
 		const Shader& shader = Shader("forward-point"));
 
 	/// <summary>
-	/// Gets the attenuation information of the point light.
+	/// Gets the attenuation of the point light.
 	/// </summary>
-	/// <returns>A reference to the attenuation object.</returns>
-	inline const Attenuation& getAttenuation() const { return m_attenuation; }
+	/// <returns>A const reference to the attenuation object.</returns>
+	inline const Attenuation & getAttenuation() const { return m_attenuation; }
 	/// <summary>
 	/// Gets the light range.
 	/// </summary>
@@ -340,7 +341,7 @@ private:
 	/// </summary>
 	Attenuation m_attenuation;
 	/// <summary>
-	/// The light's reach distance.
+	/// The light's range.
 	/// </summary>
 	float m_range;
 };
@@ -363,7 +364,7 @@ public:
 	/// <param name="shadowSoftness">The shadow softness. Defualts to 1.</param>
 	/// <param name="lightBleedReductionAmount">The light bleed reduction amount. Defaults to 0.2.</param>
 	/// <param name="minVariance">The amount of minimum variance. Defaults to 0.00002.</param>
-	SpotLight(const PxVec3& color = PxVec3(0, 0, 0), float intensity = 0, const Attenuation& atten = Attenuation(), float viewAngle = ToRadians(170.0f),
+	SpotLight(const glm::vec3 & color = glm::vec3(0.0f), float intensity = 0, const Attenuation& atten = Attenuation(), float viewAngle = glm::radians(170.0f),
 		int shadowMapSizeAsPowerOf2 = 0, float shadowSoftness = 1.0f, float lightBleedReductionAmount = 0.2f, float minVariance = 0.00002f);
 
 	/// <summary>

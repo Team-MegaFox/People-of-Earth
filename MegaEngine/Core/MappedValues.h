@@ -13,9 +13,8 @@
 #pragma once
 
 #include <map>
+#include <glm/glm.hpp>
 #include <iostream>
-#include <PhysX\PxPhysicsAPI.h>
-using namespace physx;
 
 #include "..\Rendering\Texture.h"
 
@@ -31,7 +30,7 @@ public:
 	/// </summary>
 	MappedValues() :
 		m_defaultTexture(Texture("defaultTexture.png")),
-		m_defaultVector3f(PxVec3(0.0f)) { }
+		m_defaultVector3f(glm::vec3(0.0f)) { }
 	~MappedValues() { }
 
 	/// <summary>
@@ -39,7 +38,7 @@ public:
 	/// </summary>
 	/// <param name='name'>The name of the float vector.</param>
 	/// <param name='value'>The value of the vector to store in the map.</param>
-	inline void setVec3(const std::string& name, const PxVec3& value) { m_vector3fMap[name] = value; }
+	inline void setVec3(const std::string& name, const glm::vec3& value) { m_vector3fMap[name] = value; }
 	/// <summary>
 	/// Adds a float to the map.
 	/// </summary>
@@ -57,7 +56,7 @@ public:
 	/// Gets a vector by name from the map.
 	/// </summary>
 	/// <returns>The vector by name from the map.</returns>
-	const PxVec3 & getVec3(const std::string & name) const;
+	const glm::vec3 & getVec3(const std::string & name) const;
 	/// <summary>
 	/// Gets a float by name from the map.
 	/// </summary>
@@ -73,7 +72,7 @@ private:
 	/// <summary>
 	/// A map of vectors.
 	/// </summary>
-	std::map<std::string, PxVec3> m_vector3fMap;
+	std::map<std::string, glm::vec3> m_vector3fMap;
 	/// <summary>
 	/// A map of floats.
 	/// </summary>
@@ -90,5 +89,5 @@ private:
 	/// <summary>
 	/// The default 3d vector.
 	/// </summary>
-	PxVec3 m_defaultVector3f;
+	glm::vec3 m_defaultVector3f;
 };

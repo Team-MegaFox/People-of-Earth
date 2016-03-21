@@ -13,7 +13,6 @@
 // ***********************************************************************
 #pragma once
 #include "World.h"
-class Camera3D;
 
 /// <summary>
 /// The Physics Engine class that updates the physics world.
@@ -40,26 +39,15 @@ public:
 	/// Gets the physics world.
 	/// </summary>
 	/// <returns>World *.</returns>
-	static World* getPhysicsWorld()
+	World* getPhysicsWorld()
 	{
 		return m_physicsWorld;
 	}
-
-	/// <summary>
-	/// Sets the main camera in the scene using this physics world.
-	/// </summary>
-	/// <param name="camera">The camera.</param>
-	void setMainCamera(const Camera3D& camera);
 
 private:
 	/// <summary>
 	/// The physics world.
 	/// </summary>
-	static World *m_physicsWorld;
-
-	/// <summary>
-	/// The main camera in this physics world
-	/// </summary>
-	const Camera3D* m_mainCamera;
+	World *m_physicsWorld;
 };
 

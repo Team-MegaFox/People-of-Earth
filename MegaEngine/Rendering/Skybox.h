@@ -91,19 +91,13 @@ public:
 	/// <summary>
 	/// Finalizes an instance of the <see cref="SkyboxRenderer"/> class.
 	/// </summary>
-	~SkyboxRenderer();
+	~SkyboxRenderer() { }
 
 	/// <summary>
 	/// Adds the skybox to the Rendering Engine.
 	/// </summary>
 	/// <param name="engine">A pointer to the Core Engine.</param>
 	virtual void addToEngine(CoreEngine* engine) const;
-	
-	/// <summary>
-	/// Gets a reference to the skybox object.
-	/// </summary>
-	/// <returns>A reference to the skybox object.</returns>
-	Skybox* getSkybox() { return &m_skybox; }
 
 private:
 	/// <summary>

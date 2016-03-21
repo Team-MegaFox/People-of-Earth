@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 01-24-2016
 // ***********************************************************************
 // <copyright file="InputManager.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -89,10 +89,10 @@ bool InputManager::Update(SDL_Event& _inputEvent)
 			mousePos.y = (float)_inputEvent.motion.y;
 			break;
 		case SDL_CONTROLLERBUTTONDOWN:
-			currPadButtonStates[_inputEvent.cbutton.button] = true;
+			currPadButtonStates[_inputEvent.cbutton.button - 1] = true;
 			break;
 		case SDL_CONTROLLERBUTTONUP:
-			currPadButtonStates[_inputEvent.cbutton.button] = false;
+			currPadButtonStates[_inputEvent.cbutton.button - 1] = false;
 			break;
 			//sets the thumbstick motion to true and then finds the position of the thumbstick movement.
 			//does this also for the triggers
@@ -105,9 +105,6 @@ bool InputManager::Update(SDL_Event& _inputEvent)
 			thumbRPos.y = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_RIGHTY) / -32767.0f;
 			rightTrigger = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) / 32767.0f;
 			leftTrigger = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_TRIGGERLEFT) / 32767.0f;
-			break;
-		case SDL_CONTROLLERDEVICEADDED:
-			controller = SDL_GameControllerOpen(0);
 			break;
 		case SDL_TEXTINPUT:
 			text = _inputEvent.text.text;
@@ -197,7 +194,7 @@ const bool InputManager::MouseMoved() const
 	return mouseMoved;
 }
 
-const PxVec2 InputManager::GetMousePosition() const
+const glm::vec2 InputManager::GetMousePosition() const
 {
 	return mousePos;
 }
@@ -212,7 +209,7 @@ void InputManager::SetCursor(bool visible) const
 
 }
 
-void InputManager::SetMousePosition(const PxVec2& pos) const
+void InputManager::SetMousePosition(const glm::vec2& pos) const
 {
 	SDL_WarpMouseInWindow(m_window->getWindow(), (int)pos.x, (int)pos.y);
 }
@@ -220,28 +217,21 @@ void InputManager::SetMousePosition(const PxVec2& pos) const
 const bool InputManager::PadButtonDown(Uint8 _button) const
 {
 	if (!currPadButtonStates.empty())
-		if (currPadButtonStates.find(_button) != currPadButtonStates.end())
-			return currPadButtonStates.at(_button);
-		else return false;
+		return currPadButtonStates.at(_button - 1);
 	else return false;
 }
 
 const bool InputManager::PadButtonUp(Uint8 _button) const
 {
 	if (!currPadButtonStates.empty())
-		if (currPadButtonStates.find(_button) != currPadButtonStates.end())
-			return !currPadButtonStates.at(_button);
-		else return false;
+		return !currPadButtonStates.at(_button - 1);
 	else return false;
 }
 
 const bool InputManager::PadButtonPress(Uint8 _button) const
 {
-
 	if (!currPadButtonStates.empty() && !prevPadButtonStates.empty())
-		if (currPadButtonStates.find(_button) != currPadButtonStates.end() && prevPadButtonStates.find(_button) != prevPadButtonStates.end())
-			return prevPadButtonStates.at(_button) && !currPadButtonStates.at(_button);
-		else return false;
+		return prevPadButtonStates.at(_button - 1) && !currPadButtonStates.at(_button - 1);
 	else return false;
 }
 
@@ -250,7 +240,7 @@ const bool InputManager::ThumbLMoved() const
 	return thumbLMoved;
 }
 
-const PxVec2 InputManager::GetThumbLPosition() const
+const glm::vec2 InputManager::GetThumbLPosition() const
 {
 	return thumbLPos;
 }
@@ -260,7 +250,7 @@ const bool InputManager::ThumbRMoved() const
 	return thumbRMoved;
 }
 
-const PxVec2 InputManager::GetThumbRPosition() const
+const glm::vec2 InputManager::GetThumbRPosition() const
 {
 	return thumbRPos;
 }
