@@ -28,6 +28,9 @@ public:
 
 		addToRoot((new GameObject("Pause Menu Manager"))
 			->addGameComponent(new PauseMenuManager));
+
+		// TODO: Add sound effects for hovering
+		// TODO: Add Sound effect for buttons selected
 	}
 
 private:

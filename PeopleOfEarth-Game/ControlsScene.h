@@ -31,6 +31,9 @@ public:
 
 		addToRoot((new GameObject("Options Menu Manager"))
 			->addGameComponent(new ControlsMenuManager));
+
+		// TODO: Add sound effects for hovering
+		// TODO: Add Sound effect for buttons selected
 	}
 
 private:

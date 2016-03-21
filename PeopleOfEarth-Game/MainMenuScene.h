@@ -85,6 +85,9 @@ public:
 		m_missionSelectManagerObject = (new GameObject("Mission Select Manager"))
 			->addGameComponent(new MissionSelectManager(3));
 		addToRoot(m_missionSelectManagerObject);
+
+		// TODO: Add sound effects for hovering
+		// TODO: Add Sound effect for buttons selected
 	}
 
 private:
