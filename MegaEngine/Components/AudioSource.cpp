@@ -19,7 +19,8 @@ make it so that anything we could foresee being useful was obtainable->
 
 #include "AudioSource.h"
 
-AudioSource::AudioSource(const std::string & fileName, AudioType type, bool TwoD /*= false*/)
+AudioSource::AudioSource(const std::string & fileName, AudioType type, bool TwoD /*= false*/, bool deleteOnEnd /*=false*/) :
+m_deleteOnEnd(deleteOnEnd)
 {
 	if (type == SOUND)
 	{
@@ -33,6 +34,7 @@ AudioSource::AudioSource(const std::string & fileName, AudioType type, bool TwoD
 
 AudioSource::~AudioSource()
 {
+	getCoreEngine()->getAudioEngine()->removeAudioComp(this);
 	if (m_soundSource != nullptr)
 	{
 		delete m_soundSource;
@@ -43,20 +45,32 @@ AudioSource::~AudioSource()
 	}
 }
 
+void AudioSource::onStart()
+{
+	getCoreEngine()->getAudioEngine()->addAudioComp(this);
+	updateVolume();
+}
+
+void AudioSource::update(float delta)
+{
+	if (m_deleteOnEnd && !isPlaying())
+	{
+		removeGameObjectByName(getParent()->getName());
+	}
+}
+
 bool AudioSource::isStream()
 {
-	if (m_soundSource != nullptr)
-	{
-		return false;
-	}
-	else if (m_streamSource != nullptr)
+	if (m_streamSource != nullptr)
 	{
 		return true;
 	}
+	return false;
 }
 
 void AudioSource::play(bool looping /*= false*/) 
 { 
+	updateVolume();
 	if (m_soundSource != nullptr)
 	{
 		m_soundSource->playSound();
@@ -95,17 +109,11 @@ bool AudioSource::isPlaying()
 {
 	if (m_soundSource != nullptr)
 	{
-		if (m_soundSource->isSoundPlaying())
-			return true;
-		else
-			return false;
+		return m_soundSource->isSoundPlaying();
 	}
 	else
 	{
-		if (m_streamSource->isStreamPlaying())
-			return true;
-		else
-			return false;
+		return m_streamSource->isStreamPlaying();
 	}
 }
 
@@ -122,31 +130,31 @@ float AudioSource::getVolume()
 }
 
 void AudioSource::setVolume(float volume) 
-{ 
-	m_volumeRatioValue = volume;
+{
+	m_originalVolume = volume;
 	if (m_soundSource != nullptr)
 	{
 		m_soundSource->setSoundEffectVolume(
-			m_volumeRatioValue * getCoreEngine()->getAudioEngine()->getSoundVolume());
+			m_originalVolume * getCoreEngine()->getAudioEngine()->getSoundVolume());
 	}
 	else
 	{
-		m_streamSource->setStreamEffectVolume(
-			m_volumeRatioValue * getCoreEngine()->getAudioEngine()->getStreamVolume());
+		m_soundSource->setSoundEffectVolume(
+			m_originalVolume * getCoreEngine()->getAudioEngine()->getStreamVolume());
 	}
 }
 
-void AudioSource::setNewVolume()
+void AudioSource::updateVolume()
 {
 	if (m_soundSource != nullptr)
 	{
 		m_soundSource->setSoundEffectVolume(
-			m_volumeRatioValue * getCoreEngine()->getAudioEngine()->getStreamVolume());
+			m_originalVolume * getCoreEngine()->getAudioEngine()->getSoundVolume());
 	}
 	else
 	{
 		m_streamSource->setStreamEffectVolume(
-			m_volumeRatioValue * getCoreEngine()->getAudioEngine()->getSoundVolume());
+			m_originalVolume * getCoreEngine()->getAudioEngine()->getStreamVolume());
 	}
 }
 

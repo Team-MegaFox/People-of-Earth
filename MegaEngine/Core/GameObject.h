@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 03-21-2016
 // ***********************************************************************
 // <copyright file="GameObject.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -119,7 +119,7 @@ public:
 	/// </summary>
 	/// <param name="component">The Game Component to remove.</param>
 	/// <returns>If the Game Component was removed successfully.</returns>
-	bool removeGameComponent(GameComponent* component);
+	bool removeGameComponent(GameComponent* component, bool del = true);
 	/// <summary>
 	/// Removes the specified GUI Components.
 	/// </summary>

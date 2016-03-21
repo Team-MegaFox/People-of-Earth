@@ -43,11 +43,15 @@ public:
 	/// Initializes a new instance of the <see cref="AudioSource"/> class.
 	/// </summary>
 	/// <param name="sound">The sound.</param>
-	AudioSource(const std::string & fileName, AudioType type, bool TwoD = false);
+	AudioSource(const std::string & fileName, AudioType type, bool TwoD = false, bool deleteOnEnd = false);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="AudioSource"/> class.
 	/// </summary>
 	~AudioSource();
+
+	virtual void onStart() override;
+
+	virtual void update(float delta) override;
 
 	/// <summary>
 	/// Checks if the Audio Source is a stream sound.
@@ -88,7 +92,7 @@ public:
 	/// <summary>
 	/// Sets the new volume.
 	/// </summary>
-	void setNewVolume();
+	void updateVolume();
 
 	/// <summary>
 	/// Sets the sound position and vel.
@@ -146,5 +150,10 @@ protected:
 	/// <summary>
 	/// The volume ratio value
 	/// </summary>
-	float m_volumeRatioValue;
+	float m_originalVolume = 1.0f;
+
+	/// <summary>
+	/// Weather to delete the Audio Source and attached GameObject when the audio is finished playing.
+	/// </summary>
+	bool m_deleteOnEnd;
 };

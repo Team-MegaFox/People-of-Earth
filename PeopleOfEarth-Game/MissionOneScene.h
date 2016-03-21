@@ -64,7 +64,7 @@ public:
 			(new GameObject("Fighter Ship", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f))))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj", 1.0f), Material("ship1")))
 			->addGameComponent(new RigidBody(PxVec3(1.0f, 1.0f, 1.0f), PxQuat(PxIdentity), 1.0f, 7.0f, 1.0f, 5.0f))
-			->addGameComponent(new FireProjectile("(laser_fired)268168__shaun105__laser.wav"))
+			->addGameComponent(new FireProjectile)
 			->addGameComponent(new PlayerShipMovementController("camera", 50.0f))
 			->addChild(starBoardLight_Fighter)
 			->addChild(portLight_Fighter)

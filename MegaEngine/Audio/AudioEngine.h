@@ -32,9 +32,9 @@ using namespace physx;
 
 #include <vector>
 #include <algorithm>
-
-
 #include <string>
+
+#include "..\Core\CoreEngine.h"
 
 const int MAX_NUM_CHANNELS = 100;
 
@@ -60,6 +60,12 @@ public:
 	/// </summary>
 	/// <param name="">The .</param>
 	AudioEngine(const AudioEngine&) = delete;
+
+	/// <summary>
+	/// Sets the Core Engine to be avaliable to the Audio Engine.
+	/// </summary>
+	/// <param name="engine">The Core Engine.</param>
+	void setEngine(CoreEngine* engine) { m_coreEngine = engine; }
 
 	/// <summary>
 	/// Disposes the specified sound list.
@@ -162,5 +168,10 @@ private:
 	/// The audio components vector
 	/// </summary>
 	std::vector<AudioSource *> m_audioComp;
+
+	/// <summary>
+	/// The Core Engine
+	/// </summary>
+	CoreEngine* m_coreEngine;
 };
 

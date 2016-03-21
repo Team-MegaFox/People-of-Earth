@@ -143,7 +143,7 @@ void AudioEngine::setSoundVolume(float volume)
 	{
 		if (!audio->isStream())
 		{
-			audio->setNewVolume();
+			audio->updateVolume();
 		}
 	}
 }
@@ -155,7 +155,7 @@ void AudioEngine::setStreamVolume(float volume)
 	{
 		if (audio->isStream())
 		{
-			audio->setNewVolume();
+			audio->updateVolume();
 		}
 	}
 }

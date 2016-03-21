@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Pavan Jakhu
-// Last Modified On : 02-23-2016
+// Last Modified On : 03-21-2016
 // ***********************************************************************
 // <copyright file="GameObject.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -142,7 +142,7 @@ bool GameObject::removeChild(GameObject* child)
 }
 
 
-bool GameObject::removeGameComponent(GameComponent* component)
+bool GameObject::removeGameComponent(GameComponent* component, bool del /*= true*/)
 {
 	bool removed = false;
 
@@ -151,7 +151,10 @@ bool GameObject::removeGameComponent(GameComponent* component)
 		if (m_gameComponents[gc] == component)
 		{
 			m_gameComponents.erase(m_gameComponents.begin() + gc);
-			delete component;
+			if (del)
+			{
+				delete component;
+			}
 			removed = true;
 		}
 	}

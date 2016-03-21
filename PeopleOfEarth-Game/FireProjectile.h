@@ -28,21 +28,18 @@ public:
 	/// <summary>
 	/// Initializes a new instance of the <see cref="FireProjectile"/> class.
 	/// </summary>
-	FireProjectile(const std::string fileName) : 
-		m_material(
-		"laser", 10.0f, 100, Texture("laserGreen.png")),
-		m_fileName(fileName){}
+	FireProjectile() : 
+		m_material("laser", 10.0f, 100, Texture("laserGreen.png")) { }
 	/// <summary>
 	/// Finalizes an instance of the <see cref="FireProjectile"/> class.
 	/// </summary>
-	~FireProjectile() { delete m_audioComponent; }
+	~FireProjectile() { }
 
 	/// <summary>
 	/// Is called when this game component is created
 	/// </summary>
 	virtual void onStart() override
 	{
-		m_audioComponent = new AudioSource(m_fileName, AudioType::SOUND, true);
 	}
 
 	/// <summary>
@@ -67,8 +64,11 @@ public:
 					, *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f,
 					Utility::getForward(*getTransform()->getRotation()) * 200.0f))					
 					);
-
-				m_audioComponent->play();
+				
+				AudioSource* laserSound = new AudioSource("(laser_fired)268168__shaun105__laser.wav", AudioType::SOUND, true, true);
+				instantiate((new GameObject("Laser Sound"))
+					->addGameComponent(laserSound));
+				laserSound->play();
 
 				m_delay = 0.0f;
 			}
@@ -86,8 +86,10 @@ public:
 					Utility::getForward(*getTransform()->getRotation()) * 200.0f))
 					);
 
-				m_audioComponent->play();
-
+				AudioSource* laserSound = new AudioSource("(laser_fired)268168__shaun105__laser.wav", AudioType::SOUND, true, true);
+				instantiate((new GameObject("Laser Sound"))
+					->addGameComponent(laserSound));
+				laserSound->play();
 				m_delay = 0.0f;
 			}
 		}
@@ -103,13 +105,5 @@ private:
 	/// The delay between shots
 	/// </summary>
 	float m_delay = 0.2f;
-	/// <summary>
-	/// The file name of the sound to use
-	/// </summary>
-	std::string m_fileName;
-	/// <summary>
-	/// The audio component this game component will use for sound
-	/// </summary>
-	AudioSource * m_audioComponent;
 	Material m_material;
 };

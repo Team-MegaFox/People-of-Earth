@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 02-17-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 03-21-2016
 // ***********************************************************************
 // <copyright file="Scene.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -97,6 +97,12 @@ public:
 	/// <param name="name">The name.</param>
 	/// <returns></returns>
 	Uint16 getNameCounter(const std::string& name);
+
+	/// <summary>
+	/// Creates the specified game object and adds it to the root
+	/// </summary>
+	/// <param name="gameObject">The game object to create.</param>
+	void instantiate(GameObject* gameObject);
 
 	/// <summary>
 	/// Sets the Core Engine.

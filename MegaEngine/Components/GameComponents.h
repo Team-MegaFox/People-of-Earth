@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Pavan Jakhu
-// Last Modified On : 03-17-2016
+// Last Modified On : 03-21-2016
 // ***********************************************************************
 // <copyright file="GameComponents.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -143,12 +143,7 @@ protected:
 	/// <param name="gameObject">The game object to create.</param>
 	void instantiate(GameObject* gameObject)
 	{
-		auto gameComponents = gameObject->getAllGameComponents();
-		for (size_t j = 0; j < gameComponents.size(); j++)
-		{
-			gameComponents[j]->onStart();
-		}
-		getCoreEngine()->getSceneManager()->peek()->addToRoot(gameObject);
+		getCoreEngine()->getSceneManager()->peek()->instantiate(gameObject);
 	}
 
 private:
