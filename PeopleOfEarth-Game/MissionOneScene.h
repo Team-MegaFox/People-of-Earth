@@ -12,6 +12,7 @@
 #include "MiniMap.h"
 #include "RogueAsteroid.h"
 #include <PhysX/PxPhysicsAPI.h>
+#include "QuatRotator.h"
 using namespace physx;
 
 class MissionOneScene : public Scene
@@ -40,17 +41,21 @@ public:
 		addToRoot((new GameObject("Skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/Starfield/starfield.tga")));
 
-		GameObject * starBoardLight = new GameObject("starBoardPointLight", PxVec3(7.0f, 1.0f, -3.5f));
-		starBoardLight->addGameComponent(new PointLight(PxVec3(0.0f, 1.0f, 0.0f), 0.5f));
+		GameObject * starBoardLight_Fighter = new GameObject("starBoardPointLight_Fighter", PxVec3(7.0f, 1.0f, -3.5f));
+		starBoardLight_Fighter->addGameComponent(new PointLight(PxVec3(0.0f, 1.0f, 0.0f), 0.5f));
 
-		GameObject * portLight = new GameObject("portPointLight", PxVec3(-7.0f, 1.0f, -3.5f));
-		portLight->addGameComponent(new PointLight(PxVec3(1.0f, 0.0f, 0.0f), 0.5f));
+		GameObject * portLight_Fighter = new GameObject("portPointLight_Fighter", PxVec3(-7.0f, 1.0f, -3.5f));
+		portLight_Fighter->addGameComponent(new PointLight(PxVec3(1.0f, 0.0f, 0.0f), 0.5f));
 
-		GameObject * rearLight = new GameObject("rearPointLight", PxVec3(0.0f, 1.0f, -6.0f));
-		rearLight->addGameComponent(new PointLight(PxVec3(0.1f, 0.1f, 0.1f), 0.5f));
+		GameObject * rearLight_Fighter = new GameObject("rearPointLight_Fighter", PxVec3(0.0f, 1.0f, -6.0f));
+		rearLight_Fighter->addGameComponent(new PointLight(PxVec3(0.1f, 0.1f, 0.1f), 0.5f));
 
-		GameObject * thrusterLight = new GameObject("thrusterPointLight", PxVec3(0.0f, 0.0f, -8.0f));
-		thrusterLight->addGameComponent(new PointLight(PxVec3(1.0f, 0.75f, 0.0f), 0.5f));
+		GameObject * thrusterLight_Fighter = new GameObject("thrusterPointLight_Fighter", PxVec3(0.0f, 0.0f, -8.0f));
+		thrusterLight_Fighter->addGameComponent(new PointLight(PxVec3(1.0f, 0.75f, 0.0f), 0.5f));
+
+		GameObject * spotLight_Fighter = new GameObject("spotLight_Fighter", PxVec3(0.0f, 0.0f, 8.0f), PxQuat(ToRadians(1.0f), PxVec3(0.0f, 1.0f, 0.0f)));
+
+		spotLight_Fighter->addGameComponent(new SpotLight(PxVec3(1.0f), 150.0f, Attenuation(1.0f, 1.0f, 0.0f)));
 
 		GameObject* fighterShip =
 			(new GameObject("Fighter Ship", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f))))
@@ -58,10 +63,11 @@ public:
 			->addGameComponent(new RigidBody(PxVec3(1.0f, 1.0f, 1.0f), PxQuat(PxIdentity), 1.0f, 7.0f, 1.0f, 5.0f))
 			->addGameComponent(new FireProjectile("(laser_fired)268168__shaun105__laser.wav"))
 			->addGameComponent(new PlayerShipMovementController("camera", 50.0f))
-			->addChild(starBoardLight)
-			->addChild(portLight)
-			->addChild(rearLight)
-			->addChild(thrusterLight)
+			->addChild(starBoardLight_Fighter)
+			->addChild(portLight_Fighter)
+			->addChild(rearLight_Fighter)
+			->addChild(thrusterLight_Fighter)
+			->addChild(spotLight_Fighter)
 			->addGameComponent(new ShipStats)
 			->addGameComponent(new UpdateGUI);
 
@@ -79,14 +85,137 @@ public:
 		addToRoot((new GameObject("DirectionalLight", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
 			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 1.0f, 1.0f), 0.6f, 8)));
 
+		// PassengerShip Lights
+
+		// Tower North Bottom East
+		GameObject * spotLight1_Passenger = 
+			new GameObject("starBoardPointLight_Passenger", 
+			PxVec3(17.0f, 0.0f, -50.0f),
+			PxQuat(ToRadians(45.0f), PxVec3(0.0f, 1.0f, 0.0f)));
+		spotLight1_Passenger->addGameComponent(
+			new SpotLight(
+			PxVec3(1.0f), 100.0f, Attenuation(1.0f, 1.0f, 0.0f)));
+		spotLight1_Passenger->addGameComponent(new PointLight(
+			PxVec3(1.0f), 100.0f));
+
+		// Tower North Bottom West
+		GameObject * spotLight2_Passenger =
+			new GameObject("starBoardPointLight_Passenger",
+			PxVec3(-17.0f, 0.0f, -50.0f),
+			PxQuat(ToRadians(-45.0f), PxVec3(0.0f, 1.0f, 0.0f)));
+		spotLight2_Passenger->addGameComponent(
+			new SpotLight(
+			PxVec3(1.0f), 100.0f, Attenuation(1.0f, 1.0f, 0.0f)));
+		spotLight2_Passenger->addGameComponent(new PointLight(
+			PxVec3(1.0f), 100.0f));
+
+		// Tower South Bottom West
+		GameObject * spotLight3_Passenger =
+			new GameObject("starBoardPointLight_Passenger",
+			PxVec3(-17.0f, 0.0f, -140.0f),
+			PxQuat(ToRadians(-135.0f), PxVec3(0.0f, 1.0f, 0.0f)));
+		spotLight3_Passenger->addGameComponent(
+			new SpotLight(
+			PxVec3(1.0f), 100.0f, Attenuation(1.0f, 1.0f, 0.0f)));
+		spotLight3_Passenger->addGameComponent(new PointLight(
+			PxVec3(1.0f), 100.0f));
+
+		// Tower South Bottom East
+		GameObject * spotLight4_Passenger =
+			new GameObject("starBoardPointLight_Passenger",
+			PxVec3(17.0f, 0.0f, -140.0f),
+			PxQuat(ToRadians(135.0f), PxVec3(0.0f, 1.0f, 0.0f)));
+		spotLight4_Passenger->addGameComponent(
+			new SpotLight(
+			PxVec3(1.0f), 100.0f, Attenuation(1.0f, 1.0f, 0.0f)));
+		spotLight4_Passenger->addGameComponent(new PointLight(
+			PxVec3(1.0f), 100.0f));
+
+		// Tower North Top West
+		GameObject * spotLight5_Passenger =
+			new GameObject("starBoardPointLight_Passenger",
+			PxVec3(17.0f, 45.0f, -62.0f),
+			PxQuat(ToRadians(45.0f), PxVec3(0.0f, 1.0f, 0.0f)));
+		spotLight5_Passenger->addGameComponent(
+			new SpotLight(
+			PxVec3(1.0f), 100.0f, Attenuation(1.0f, 1.0f, 0.0f)));
+		spotLight5_Passenger->addGameComponent(new PointLight(
+			PxVec3(1.0f), 100.0f));
+
+		// Tower North Top East
+		GameObject * spotLight6_Passenger =
+			new GameObject("starBoardPointLight_Passenger",
+			PxVec3(-17.0f, 45.0f, -62.0f),
+			PxQuat(ToRadians(-45.0f), PxVec3(0.0f, 1.0f, 0.0f)));
+		spotLight6_Passenger->addGameComponent(
+			new SpotLight(
+			PxVec3(1.0f), 100.0f, Attenuation(1.0f, 1.0f, 0.0f)));
+		spotLight6_Passenger->addGameComponent(new PointLight(
+			PxVec3(1.0f), 100.0f));
+
+		// Off North of Ship to the West 
+		GameObject * spotLight7_Passenger =
+			new GameObject("spotLight7_Passenger",
+			PxVec3(100.0f, 0.0f, 370.0f),
+			PxQuat(ToRadians(-135.0f), PxVec3(0.0f, 1.0f, 0.0f)));
+		spotLight7_Passenger->addGameComponent(
+			new SpotLight(
+			PxVec3(1.0f), 150.0f, Attenuation(1.0f, 1.0f, 0.0f)));
+
+		// Off North of Ship to the East
+		GameObject * spotLight8_Passenger =
+			new GameObject("spotLight8_Passenger",
+			PxVec3(-100.0f, 0.0f, 370.0f),
+			PxQuat(ToRadians(135.0f), PxVec3(0.0f, 1.0f, 0.0f)));
+		spotLight8_Passenger->addGameComponent(
+			new SpotLight(
+			PxVec3(1.0f), 100.0f, Attenuation(1.0f, 1.0f, 0.0f)));
+
+		// Thruster South Bottom East
+		PxVec3 thruster1(53.0f, -40.0f, -84.0f);
+		GameObject * passenger_Thruster1 =
+			new GameObject("passenger_Thruster1",
+			thruster1,
+			PxQuat(ToRadians(-45.0f), PxVec3(0.0f, 1.0f, 0.0f)));
+		passenger_Thruster1->addGameComponent(new QuatRotator(thruster1));
+		passenger_Thruster1->addGameComponent(
+			new PointLight(
+			PxVec3(1.0f, 0.5f, 0.0f), 150.0f));
+		passenger_Thruster1->addGameComponent(
+			new SpotLight(
+			PxVec3(1.0f, 0.5f, 0.0f), 150.0f));
+
+		// Thruster South Bottom West
+		PxVec3 thruster2(-53.0f, -40.0f, -84.0f);
+		GameObject * passenger_Thruster2 =
+			new GameObject("passenger_Thruster2",
+			thruster2,
+			PxQuat(ToRadians(-45.0f), PxVec3(0.0f, 1.0f, 0.0f)));
+		passenger_Thruster2->addGameComponent(new QuatRotator(thruster2));
+		passenger_Thruster2->addGameComponent(
+			new PointLight(
+			PxVec3(1.0f, 0.5f, 0.0f), 150.0f));
+		passenger_Thruster2->addGameComponent(
+			new SpotLight(
+			PxVec3(1.0f, 0.5f, 0.0f), 150.0f));
+
 		// the passenger ship
 		addToRoot((new GameObject("passengerShip", PxVec3(0.0f, 0.0f, 300.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/MotherShip.obj", 50.0f), Material("passengerShip")))
 			->addGameComponent(new RigidBody(PxVec3(0.0f, 0.0f, 300.0f), PxQuat(PxIdentity), 1.0f, 50.0f, 40.0f, 275.0f))
 			->addGameComponent(new PassengerShipAI)
 			->addGameComponent(new ShipStats)
+			->addChild(spotLight1_Passenger)
+			->addChild(spotLight2_Passenger)
+			->addChild(spotLight3_Passenger)
+			->addChild(spotLight4_Passenger)
+			->addChild(spotLight5_Passenger)
+			->addChild(spotLight6_Passenger)
+			->addChild(spotLight7_Passenger)
+			->addChild(spotLight8_Passenger)
+			->addChild(passenger_Thruster1)
+			->addChild(passenger_Thruster2)
 			);
-
 
 		addToRoot((new GameObject("Asteroid", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
 			->addGameComponent(new MeshRenderer(Mesh("Asteroids/Asteroid_C.obj", 50.0f), Material("asteroid")))

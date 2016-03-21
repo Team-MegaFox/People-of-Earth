@@ -10,9 +10,9 @@
 
 int main(int argc, char** argv)
 {
-	Viewport window("The People of Earth", 1024, 576, 0);
+	//Viewport window("The People of Earth", 1024, 576, 0);
 	//Viewport window("The People of Earth", 1366, 768, 0);
-	//Viewport window("The People of Earth", 1920, 1080, BORDERLESS);
+	Viewport window("The People of Earth", 1920, 1080, BORDERLESS);
 	GUIEngine guiEngine("Assets/GUI");
 	RenderingEngine renderingEngine(window);
 	SceneManager sceneManager(&window);
@@ -22,7 +22,7 @@ int main(int argc, char** argv)
 
 	CoreEngine core(60.0, &window, &renderingEngine, &physicsEngine, &audioEngine, &guiEngine, &sceneManager);
 
-	sceneManager.push(new MainMenuScene, Modality::Exclusive);
+	sceneManager.push(new MissionOneScene, Modality::Exclusive);
 
 	core.start();
 

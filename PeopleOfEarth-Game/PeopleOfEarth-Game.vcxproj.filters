@@ -91,6 +91,7 @@
     <ClInclude Include="RogueAsteroid.h">
       <Filter>Components\AI</Filter>
     </ClInclude>
+    <ClInclude Include="QuatRotator.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">
