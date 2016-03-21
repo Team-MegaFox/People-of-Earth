@@ -28,9 +28,6 @@
     <ClInclude Include="MainMenuScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="MissionSelectScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="PauseScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>

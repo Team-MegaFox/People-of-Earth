@@ -2,8 +2,8 @@
 // Author           : Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 03-21-2016
 // ***********************************************************************
 // <copyright file="AudioEngine.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -38,7 +38,7 @@ using namespace physx;
 
 const int MAX_NUM_CHANNELS = 100;
 
-class Audio;
+class AudioSource;
 
 /// <summary>
 /// Class AudioEngine.
@@ -120,12 +120,12 @@ public:
 	/// Adds the audio comp.
 	/// </summary>
 	/// <param name="audio">The audio.</param>
-	void addAudioComp(Audio * audio) { m_audioComp.push_back(audio); }
+	void addAudioComp(AudioSource * audio) { m_audioComp.push_back(audio); }
 	/// <summary>
 	/// Removes the audio comp.
 	/// </summary>
 	/// <param name="audio">The audio.</param>
-	void removeAudioComp(Audio * audio) { 
+	void removeAudioComp(AudioSource * audio) {
 		m_audioComp.erase(std::find(m_audioComp.begin(), m_audioComp.end(), audio));
 	}
 
@@ -161,6 +161,6 @@ private:
 	/// <summary>
 	/// The audio components vector
 	/// </summary>
-	std::vector<Audio *> m_audioComp;
+	std::vector<AudioSource *> m_audioComp;
 };
 

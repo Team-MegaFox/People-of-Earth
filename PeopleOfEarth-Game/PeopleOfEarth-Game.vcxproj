@@ -96,7 +96,6 @@
     <ClInclude Include="MiniMap.h" />
     <ClInclude Include="MissionOneScene.h" />
     <ClInclude Include="MissionSelectManager.h" />
-    <ClInclude Include="MissionSelectScene.h" />
     <ClInclude Include="OptionsMenuManager.h" />
     <ClInclude Include="OptionsScene.h" />
     <ClInclude Include="PassengerShipAI.h" />

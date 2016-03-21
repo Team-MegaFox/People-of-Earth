@@ -51,7 +51,7 @@ public:
 		//Material nebulaTex("nebula1", 0.5f, 4, Texture("NebulaeAndGalaxies/Nebula_A.png"));
 		//Material GalaxyTex("galaxy1", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_White - Copy.png"));
 
-		Audio * BGM = new Audio("music.mp3", AudioType::STREAM, true);
+		AudioSource * BGM = new AudioSource("music.mp3", AudioType::STREAM, true);
 
 		addToRoot((new GameObject("skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));

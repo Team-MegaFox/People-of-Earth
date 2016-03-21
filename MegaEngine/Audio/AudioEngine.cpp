@@ -2,8 +2,8 @@
 // Author           : Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 03-21-2016
 // ***********************************************************************
 // <copyright file="AudioEngine.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -22,7 +22,7 @@
 // </summary>
 // ***********************************************************************
 #include "AudioEngine.h"
-#include "../Components/Audio.h"
+#include "..\Components\AudioSource.h"
 
 
 FMOD::System * AudioEngine::m_system = nullptr;
@@ -139,9 +139,9 @@ void AudioEngine::update()
 void AudioEngine::setSoundVolume(float volume) 
 { 
 	m_soundVolume = volume; 
-	for each (Audio * audio in m_audioComp)
+	for each (AudioSource * audio in m_audioComp)
 	{
-		if (audio->getType() == SOUND)
+		if (!audio->isStream())
 		{
 			audio->setNewVolume();
 		}
@@ -151,9 +151,9 @@ void AudioEngine::setSoundVolume(float volume)
 void AudioEngine::setStreamVolume(float volume) 
 { 
 	m_streamVolume = volume; 
-	for each (Audio * audio in m_audioComp)
+	for each (AudioSource * audio in m_audioComp)
 	{
-		if (audio->getType() == STREAM)
+		if (audio->isStream())
 		{
 			audio->setNewVolume();
 		}
