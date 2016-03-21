@@ -64,7 +64,8 @@ public:
 					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
 					Utility::getForward(*getTransform()->getRotation()) * 15.0f +
 					Utility::getRight(*getTransform()->getRotation()) * 2.5f					
-					, *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))
+					, *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f,
+					Utility::getForward(*getTransform()->getRotation()) * 200.0f))					
 					);
 
 				m_audioComponent->play();
@@ -80,7 +81,9 @@ public:
 					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("laser")))
 					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
 					Utility::getForward(*getTransform()->getRotation()) * 15.0f +
-					Utility::getLeft(*getTransform()->getRotation()) * 3.5f, *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))
+					Utility::getLeft(*getTransform()->getRotation()) * 3.5f,
+					*getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f,
+					Utility::getForward(*getTransform()->getRotation()) * 200.0f))
 					);
 
 				m_audioComponent->play();

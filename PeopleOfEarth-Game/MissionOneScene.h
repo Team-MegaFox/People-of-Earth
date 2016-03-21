@@ -11,6 +11,7 @@
 #include "UpdateGUi.h"
 #include "MiniMap.h"
 #include "RogueAsteroid.h"
+#include "CrossHair.h"
 #include <PhysX/PxPhysicsAPI.h>
 using namespace physx;
 
@@ -36,6 +37,8 @@ public:
 		Material moon("moon", 1.0f, 10, Texture("Planets/moon.jpg"));
 
 		Material asteroid("asteroid", 1.0f, 1.0f, Texture("Asteroids/AM1.jpg"));
+
+		Material crossHairMaterial("crossHairMaterial", 1.0f, 1.0f, Texture("MegaFox.png"));
 
 		addToRoot((new GameObject("Skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/Starfield/starfield.tga")));
@@ -64,6 +67,11 @@ public:
 			->addChild(thrusterLight)
 			->addGameComponent(new ShipStats)
 			->addGameComponent(new UpdateGUI);
+
+		GameObject * crossHair = new GameObject("CrossHair");
+		crossHair->addGameComponent(new MeshRenderer(Mesh("Environment/Plane.obj", 5.0f), Material("crossHairMaterial")));
+		crossHair->addGameComponent(new CrossHair(100.0f));
+		fighterShip->addChild(crossHair);
 
 		// The human fighter ship and camera
 		GameObject* camera =

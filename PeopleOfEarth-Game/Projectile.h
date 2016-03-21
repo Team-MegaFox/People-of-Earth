@@ -136,9 +136,10 @@ struct Projectile : public GameComponent
 		//}
 
 		PxVec3 displacement = m_velocity * delta;
+
 		//Update the position
 		getTransform()->setPosition(*getTransform()->getPosition() + displacement);
-
+		
 
 		if (m_lifeTime < 0)
 		{

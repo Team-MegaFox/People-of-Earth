@@ -89,7 +89,10 @@
       <Filter>Components\AI</Filter>
     </ClInclude>
     <ClInclude Include="RogueAsteroid.h">
-      <Filter>Components\AI</Filter>
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CrossHair.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
