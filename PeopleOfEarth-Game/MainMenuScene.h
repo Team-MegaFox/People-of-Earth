@@ -18,7 +18,7 @@ public:
 
 	virtual void init(const Viewport& window) override
 	{
-		Audio * BGM = new Audio("In Game Music 1.wav", AudioType::STREAM, true);
+		AudioSource * BGM = new AudioSource("In Game Music 1.wav", AudioType::STREAM, true);
 		//BGM->pause(true);
 
 		addToRoot((new GameObject("Skybox"))
@@ -85,6 +85,9 @@ public:
 		m_missionSelectManagerObject = (new GameObject("Mission Select Manager"))
 			->addGameComponent(new MissionSelectManager(3));
 		addToRoot(m_missionSelectManagerObject);
+
+		// TODO: Add sound effects for hovering
+		// TODO: Add Sound effect for buttons selected
 	}
 
 private:

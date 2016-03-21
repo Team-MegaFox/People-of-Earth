@@ -97,7 +97,6 @@
     <ClInclude Include="MiniMap.h" />
     <ClInclude Include="MissionOneScene.h" />
     <ClInclude Include="MissionSelectManager.h" />
-    <ClInclude Include="MissionSelectScene.h" />
     <ClInclude Include="OptionsMenuManager.h" />
     <ClInclude Include="OptionsScene.h" />
     <ClInclude Include="PassengerShipAI.h" />
@@ -105,6 +104,7 @@
     <ClInclude Include="PauseScene.h" />
     <ClInclude Include="PlayerShipMovementController.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="QuatRotator.h" />
     <ClInclude Include="RogueAsteroid.h" />
     <ClInclude Include="ShipStats.h" />
     <ClInclude Include="ShowPauseComp.h" />

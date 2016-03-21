@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 03-11-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 03-21-2016
 // ***********************************************************************
 // <copyright file="SceneManager.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -15,7 +15,7 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "..\Components\GameComponents.h"
-#include"..\Components\Audio.h"
+#include "..\Components\AudioSource.h"
 #include "..\Rendering\RenderingEngine.h"
 #include "..\Rendering\Camera3D.h"
 #include "..\Physics\PhysicsEngine.h"
@@ -81,7 +81,7 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 				// loop through all those game objects and if they have a Audio Component pause that audio
 				for (size_t j = 0; j < go.size(); j++)
 				{
-					Audio * audio = go[j]->getGameComponent<Audio>();
+					AudioSource * audio = go[j]->getGameComponent<AudioSource>();
 					if (audio != nullptr)
 					{
 						// pause music
@@ -110,7 +110,7 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 	auto go = peek()->getAllGameObjects();
 	for (size_t i = 0; i < go.size(); i++)
 	{
-		Audio * audio = go[i]->getGameComponent<Audio>();
+		AudioSource * audio = go[i]->getGameComponent<AudioSource>();
 		if (audio != nullptr)
 		{
 			// un-pause music
@@ -144,7 +144,7 @@ void SceneManager::pop()
 
 		for (size_t i = 0; i < go.size(); i++)
 		{
-			Audio * audio = go[i]->getGameComponent<Audio>();
+			AudioSource * audio = go[i]->getGameComponent<AudioSource>();
 			if (audio != nullptr)
 			{
 				if (go[i]->isEnabled())

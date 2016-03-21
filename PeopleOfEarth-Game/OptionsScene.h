@@ -50,6 +50,9 @@ public:
 
 		addToRoot((new GameObject("Options Menu Manager"))
 			->addGameComponent(new OptionsMenuManager(effectsSlider, effectsVolume, bgmSlider, bgmVolume, backButton, controlsButton)));
+	
+		// TODO: Add sound effects for hovering
+		// TODO: Add Sound effect for buttons selected
 	}
 
 private:
