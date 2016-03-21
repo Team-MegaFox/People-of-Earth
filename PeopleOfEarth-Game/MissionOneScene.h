@@ -246,16 +246,28 @@ private:
 			->addChild((new GameObject("Health Bar"))
 			->addGUIComponent(new GUIImage(PxVec4(0.05f, 0.18f, 12.7f, 0.62f), PxVec4(0.0f), "Images/healthbar.png"))));
 
+		// Health Bar Label
+		addToRoot(((new GameObject("Health Bar Label")))
+			->addGUIComponent(new GUIImage(PxVec4(0.005f, 0.04f, 0.04f, 0.04f), PxVec4(0.0f), "Images/HealthMarker.png")));
+
 		addToRoot((new GameObject("Energy Bar Background"))
 			->addGUIComponent(new GUIImage(PxVec4(barXPos, 0.09f, barWidth, barHeight), PxVec4(0.0f), "Images/BarBackground.png", 287.0f / 20.0f))
 			->addChild((new GameObject("Energy Bar"))
 			->addGUIComponent(new GUIImage(PxVec4(0.05f, 0.18f, 12.7f, 0.62f), PxVec4(0.0f), "Images/energybar.png"))));
+
+		// Energy Bar Label
+		addToRoot(((new GameObject("Energy Bar Label")))
+			->addGUIComponent(new GUIImage(PxVec4(0.005f, 0.08f, 0.04f, 0.04f), PxVec4(0.0f), "Images/EnergyMarker.png")));
 
 		addToRoot((new GameObject("Fuel Bar Background"))
 			->addGUIComponent(new GUIImage(PxVec4(barXPos, 0.13f, barWidth, barHeight), PxVec4(0.0f), "Images/BarBackground.png", 287.0f / 20.0f))
 			->addChild((new GameObject("Fuel Bar"))
 			->addGUIComponent(new GUIImage(PxVec4(0.05f, 0.18f, 12.7f, 0.62f), PxVec4(0.0f), "Images/fuelbar.png"))));
 	
+		// Fuel Bar Label
+		addToRoot(((new GameObject("Fuel Bar Label")))
+			->addGUIComponent(new GUIImage(PxVec4(0.005f, 0.12f, 0.04f, 0.04f), PxVec4(0.0f), "Images/FuelMarker.png")));
+		
 		addToRoot((new GameObject("MiniMap"))
 			->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.3f, 0.3f), PxVec4(0.0f), "Images/minimap_graphics/GUI_MiniMap.png"))
 			->addGameComponent(new MiniMap(PxVec2(0.15f, 0.15f), 3000.0f))
