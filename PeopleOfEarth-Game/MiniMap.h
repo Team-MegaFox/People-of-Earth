@@ -81,46 +81,69 @@ public:
 
 	virtual void update(float delta) override
 	{
-		//Updates all the GUI Gameobject in the scene from the Scene GameObjects
+		//Updates all the GUI Gameobjects in the scene from the Scene GameObjects
 		bool dead;
+
+		// for all the game objects in the scene 
 		for (size_t i = 0; i < getParent()->getAllChildren().size(); i++)
 		{
+			// label all game objects as dead
 			dead = true;
+			// if the game object is the player game object
 			if (getParent()->getAllChildren()[i]->getName() == m_playerGameObject->getName() + "_GUI")
 			{
+				// set the position of the parent of this map to be centered on the player
 				getParent()->getAllChildren()[i]->getTransform()->setPosition(*m_playerGameObject->getTransform()->getPosition());
 				getParent()->getAllChildren()[i]->getTransform()->setRotation(*m_playerGameObject->getTransform()->getRotation());
+				// label the player ship as not dead
 				dead = false;
 			}
+
+			// if the game object is still labelled as dead
 			if (dead)
 			{
+				// if the gameobject is the passenger ship
 				if (getParent()->getAllChildren()[i]->getName() == m_passengerGameObject->getName() + "_GUI")
 				{
+					// set the position of this game object on the map to be realted to the position of the assenger ship in the world
 					getParent()->getAllChildren()[i]->getTransform()->setPosition(*m_passengerGameObject->getTransform()->getPosition());
 					getParent()->getAllChildren()[i]->getTransform()->setRotation(*m_passengerGameObject->getTransform()->getRotation());
+					// label the passenger ship as not dead
 					dead = false;
 				}
 			}
+
+			// if the game object is still labelled as dead
 			if (dead)
 			{
+				// we assume the game objects remaining are enemy fighter ships
 				for (size_t j = 0; j < m_allEnemyGameObjects.size(); j++)
 				{
-					if (getParent()->getAllChildren()[i]->getName() == m_allEnemyGameObjects[j]->getName() + "_GUI")
+					if (m_allEnemyGameObjects[j] != nullptr)
 					{
-						getParent()->getAllChildren()[i]->getTransform()->setPosition(*m_allEnemyGameObjects[j]->getTransform()->getPosition());
-						getParent()->getAllChildren()[i]->getTransform()->setRotation(*m_allEnemyGameObjects[j]->getTransform()->getRotation());
-						dead = false;
-						break;
+						// if they are 
+						if (getParent()->getAllChildren()[i]->getName() == m_allEnemyGameObjects[j]->getName() + "_GUI")
+						{
+							// set the position of these gameobjects on the minimap to be related to their position in the world
+							getParent()->getAllChildren()[i]->getTransform()->setPosition(*m_allEnemyGameObjects[j]->getTransform()->getPosition());
+							getParent()->getAllChildren()[i]->getTransform()->setRotation(*m_allEnemyGameObjects[j]->getTransform()->getRotation());
+							// label the game object as not dead
+							dead = false;
+							break;
+						}
 					}
 				}
 			}
-			//if the gameobject is dead in the scene then
+			//if the gameobject is still labelled as dead in the scene then
 			if (dead)
 			{
+				//getParent()->getAllChildren()[i]->setEnabled(false);
 				delete getParent()->getAllChildren()[i];
 				getParent()->getAllChildren().erase(getParent()->getAllChildren().begin() + i);
 			}
 		}
+
+		// set the positions gathered with this method onto the minimap
 		setMiniMapPosition();
 	}
 
@@ -142,10 +165,13 @@ public:
 		playerPosition = *getParent()->getAllChildren()[0]->getTransform()->getPosition();
 		//Checks to see if the GUI component needs to be rendered
 		float distance;
+
+		// For all the gameobjects added to this map
 		for (size_t i = 0; i < getParent()->getAllChildren().size(); i++)
 		{
+			// get their distance from the player
 			distance = Utility::getDistance(playerPosition, *getParent()->getAllChildren()[i]->getTransform()->getPosition());
-			//Distance check
+			// do a distance check
 			if (distance < m_miniMapRadius)
 			{
 				//Get the direction
@@ -154,7 +180,7 @@ public:
 				direction *= distance / m_miniMapRadius;
 				direction.z *= -1.0f;
 
-				//Rotate the direction according to the identidy forward
+				//Rotate the direction according to the identity forward
 				PxVec3 tempDirection = direction;
 				direction.z = tempDirection.z * cos(m_angleRotation) - tempDirection.x * sin(m_angleRotation);
 				direction.x = tempDirection.z * sin(m_angleRotation) + tempDirection.x * cos(m_angleRotation);

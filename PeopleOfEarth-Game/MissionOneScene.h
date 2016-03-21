@@ -41,16 +41,16 @@ public:
 		addToRoot((new GameObject("Skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/Starfield/starfield.tga")));
 
-		GameObject * starBoardLight_Fighter = new GameObject("starBoardPointLight_Fighter", PxVec3(7.0f, 1.0f, -3.5f));
+		GameObject * starBoardLight_Fighter = new GameObject("starBoardLight_Fighter", PxVec3(7.0f, 1.0f, -3.5f));
 		starBoardLight_Fighter->addGameComponent(new PointLight(PxVec3(0.0f, 1.0f, 0.0f), 0.5f));
 
-		GameObject * portLight_Fighter = new GameObject("portPointLight_Fighter", PxVec3(-7.0f, 1.0f, -3.5f));
+		GameObject * portLight_Fighter = new GameObject("portLight_Fighter", PxVec3(-7.0f, 1.0f, -3.5f));
 		portLight_Fighter->addGameComponent(new PointLight(PxVec3(1.0f, 0.0f, 0.0f), 0.5f));
 
-		GameObject * rearLight_Fighter = new GameObject("rearPointLight_Fighter", PxVec3(0.0f, 1.0f, -6.0f));
+		GameObject * rearLight_Fighter = new GameObject("rearLight_Fighter", PxVec3(0.0f, 1.0f, -6.0f));
 		rearLight_Fighter->addGameComponent(new PointLight(PxVec3(0.1f, 0.1f, 0.1f), 0.5f));
 
-		GameObject * thrusterLight_Fighter = new GameObject("thrusterPointLight_Fighter", PxVec3(0.0f, 0.0f, -8.0f));
+		GameObject * thrusterLight_Fighter = new GameObject("thrusterLight_Fighter", PxVec3(0.0f, 0.0f, -8.0f));
 		thrusterLight_Fighter->addGameComponent(new PointLight(PxVec3(1.0f, 0.75f, 0.0f), 0.5f));
 
 		GameObject * spotLight_Fighter = new GameObject("spotLight_Fighter", PxVec3(0.0f, 0.0f, 8.0f), PxQuat(ToRadians(1.0f), PxVec3(0.0f, 1.0f, 0.0f)));
@@ -89,7 +89,7 @@ public:
 
 		// Tower North Bottom East
 		GameObject * spotLight1_Passenger = 
-			new GameObject("starBoardPointLight_Passenger", 
+			new GameObject("spotLight1_Passenger", 
 			PxVec3(17.0f, 0.0f, -50.0f),
 			PxQuat(ToRadians(45.0f), PxVec3(0.0f, 1.0f, 0.0f)));
 		spotLight1_Passenger->addGameComponent(
@@ -100,7 +100,7 @@ public:
 
 		// Tower North Bottom West
 		GameObject * spotLight2_Passenger =
-			new GameObject("starBoardPointLight_Passenger",
+			new GameObject("spotLight2_Passenger",
 			PxVec3(-17.0f, 0.0f, -50.0f),
 			PxQuat(ToRadians(-45.0f), PxVec3(0.0f, 1.0f, 0.0f)));
 		spotLight2_Passenger->addGameComponent(
@@ -111,7 +111,7 @@ public:
 
 		// Tower South Bottom West
 		GameObject * spotLight3_Passenger =
-			new GameObject("starBoardPointLight_Passenger",
+			new GameObject("spotLight3_Passenger",
 			PxVec3(-17.0f, 0.0f, -140.0f),
 			PxQuat(ToRadians(-135.0f), PxVec3(0.0f, 1.0f, 0.0f)));
 		spotLight3_Passenger->addGameComponent(
@@ -122,7 +122,7 @@ public:
 
 		// Tower South Bottom East
 		GameObject * spotLight4_Passenger =
-			new GameObject("starBoardPointLight_Passenger",
+			new GameObject("spotLight4_Passenger",
 			PxVec3(17.0f, 0.0f, -140.0f),
 			PxQuat(ToRadians(135.0f), PxVec3(0.0f, 1.0f, 0.0f)));
 		spotLight4_Passenger->addGameComponent(
@@ -133,7 +133,7 @@ public:
 
 		// Tower North Top West
 		GameObject * spotLight5_Passenger =
-			new GameObject("starBoardPointLight_Passenger",
+			new GameObject("spotLight5_Passenger",
 			PxVec3(17.0f, 45.0f, -62.0f),
 			PxQuat(ToRadians(45.0f), PxVec3(0.0f, 1.0f, 0.0f)));
 		spotLight5_Passenger->addGameComponent(
@@ -144,7 +144,7 @@ public:
 
 		// Tower North Top East
 		GameObject * spotLight6_Passenger =
-			new GameObject("starBoardPointLight_Passenger",
+			new GameObject("spotLight6_Passenger",
 			PxVec3(-17.0f, 45.0f, -62.0f),
 			PxQuat(ToRadians(-45.0f), PxVec3(0.0f, 1.0f, 0.0f)));
 		spotLight6_Passenger->addGameComponent(
@@ -256,7 +256,6 @@ private:
 			->addChild((new GameObject("Fuel Bar"))
 			->addGUIComponent(new GUIImage(PxVec4(0.05f, 0.18f, 12.7f, 0.62f), PxVec4(0.0f), "Images/fuelbar.png"))));
 	
-
 		addToRoot((new GameObject("MiniMap"))
 			->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.3f, 0.3f), PxVec4(0.0f), "Images/minimap_graphics/GUI_MiniMap.png"))
 			->addGameComponent(new MiniMap(PxVec2(0.15f, 0.15f), 3000.0f))
