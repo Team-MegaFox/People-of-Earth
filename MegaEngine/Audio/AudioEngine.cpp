@@ -26,6 +26,7 @@
 
 
 FMOD::System * AudioEngine::m_system = nullptr;
+float AudioEngine::m_soundVolume = 1.0f;
 
 AudioEngine::AudioEngine()
 {

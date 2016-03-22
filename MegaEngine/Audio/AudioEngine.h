@@ -104,7 +104,7 @@ public:
 	/// Gets the sound volume.
 	/// </summary>
 	/// <returns></returns>
-	inline float getSoundVolume() const { return m_soundVolume; }
+	static float getSoundVolume() { return m_soundVolume; }
 	/// <summary>
 	/// Gets the stream volume.
 	/// </summary>
@@ -162,7 +162,7 @@ private:
 	/// <summary>
 	/// The sound volume
 	/// </summary>
-	float m_soundVolume = 1.0f;
+	static float m_soundVolume;
 
 	/// <summary>
 	/// The audio components vector
