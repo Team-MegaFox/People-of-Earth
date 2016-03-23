@@ -65,6 +65,8 @@ m_altCamera(glm::mat4(1.0f), &m_altCameraTransform)
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_DEPTH_CLAMP);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	m_filterPlaneTransform.setScale(glm::vec3(1.0f));
 	m_filterPlaneTransform.rotate(glm::quat(glm::angleAxis(glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f))));

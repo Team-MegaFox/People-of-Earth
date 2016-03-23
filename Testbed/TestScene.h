@@ -75,7 +75,7 @@ public:
 		//	->addGameComponent(new MeshRenderer(Mesh("sphere.obj", 0.1f), Material("sunTexture"))));
 
 		addToRoot((new GameObject("DrLight", glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(45.0f), glm::vec3(1, 0, 0)))))
-			->addGameComponent(new DirectionalLight(glm::vec3(1.0f), 0.02f, 7, 8.0f, 1.0f)));
+			->addGameComponent(new DirectionalLight(glm::vec3(0.0f, 1.0f, 0.0f), 0.02f, 7, 8.0f, 1.0f)));
 
 		stream->setPosition(glm::vec3(0.0f, -5.0f, 550.0f));
 		stream->play(true);
@@ -88,6 +88,9 @@ public:
 
 		addToRoot((new GameObject("particles"))
 			->addGameComponent(new ParticleSystem(Material("particleMat"))));
+
+		addToRoot((new GameObject("test plane", glm::vec3(0.0f, -10.0f, 0.0f), glm::quat(), glm::vec3(100.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("plane.obj"), Material("particleMat"))));
 	}
 	
 	bool onButtonClick(const GameObject& obj)
