@@ -34,7 +34,7 @@ m_deleteOnEnd(deleteOnEnd)
 
 AudioSource::~AudioSource()
 {
-	getCoreEngine()->getAudioEngine()->removeAudioComp(this);
+	//getCoreEngine()->getAudioEngine()->removeAudioComp(this);
 	if (m_soundSource != nullptr)
 	{
 		delete m_soundSource;

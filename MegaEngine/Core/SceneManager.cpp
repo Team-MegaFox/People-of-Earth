@@ -128,6 +128,12 @@ void SceneManager::pop()
 		throw std::runtime_error("Attempted to pop from an empty game state stack");
 	}
 
+	bool poppingExclusive = false;
+	if (m_activeList.back().second == Modality::Exclusive)
+	{
+		poppingExclusive = true;
+	}
+
 	delete m_activeList.back().first;
 	m_activeList.pop_back();
 
@@ -139,7 +145,10 @@ void SceneManager::pop()
 		for (size_t i = 0; i < go.size(); i++)
 		{
 			go[i]->activate();
-			go[i]->setEnabled(true);
+			if (poppingExclusive)
+			{
+				go[i]->setEnabled(true);
+			}
 		}
 
 		for (size_t i = 0; i < go.size(); i++)
