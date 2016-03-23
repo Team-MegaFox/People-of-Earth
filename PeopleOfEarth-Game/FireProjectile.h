@@ -68,8 +68,6 @@ public:
 				AudioSource* laserSound = new AudioSource("(laser_fired)268168__shaun105__laser.wav", AudioType::SOUND, true, true);
 				instantiate((new GameObject("Laser Sound"))
 					->addGameComponent(laserSound));
-				laserSound->play();
-
 				m_delay = 0.0f;
 			}
 			if (input.GetLeftTrigger() != 0)
@@ -89,7 +87,6 @@ public:
 				AudioSource* laserSound = new AudioSource("(laser_fired)268168__shaun105__laser.wav", AudioType::SOUND, true, true);
 				instantiate((new GameObject("Laser Sound"))
 					->addGameComponent(laserSound));
-				laserSound->play();
 				m_delay = 0.0f;
 			}
 		}

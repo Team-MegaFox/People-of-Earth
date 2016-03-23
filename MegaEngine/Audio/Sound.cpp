@@ -37,7 +37,7 @@ void Sound::setSound()
 		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->createSound(m_fileName.c_str(), m_threeDimensional, 0, &m_soundPair.first));
 		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX::FMOD_CHANNEL_REUSE, m_soundPair.first, false, &m_soundPair.second));
 	}
-	setSoundEffectVolume(AudioEngine::getSoundVolume());
+	//setSoundEffectVolume(AudioEngine::getSoundVolume());
 }
 
 void Sound::playSound()
