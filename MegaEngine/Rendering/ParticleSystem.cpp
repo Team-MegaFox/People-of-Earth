@@ -46,7 +46,7 @@ void ParticleEmitter::update(float deltaTime)
 {
 	if (m_updateEmitter)
 	{
-		int newparticles = (int)(deltaTime*1000.0);
+		int newparticles = (int)(deltaTime * 100.0);
 
 		for (int i = 0; i < newparticles; i++)
 		{
@@ -55,7 +55,7 @@ void ParticleEmitter::update(float deltaTime)
 			m_particles[particleIndex].pos = glm::vec3(0.0f, 0.0f, 0.0f);
 
 			float spread = 1.5f;
-			glm::vec3 maindir = glm::vec3(0.0f, 10.0f, 0.0f);
+			glm::vec3 maindir = glm::vec3(0.0f, 0.0f, -10.0f);
 			glm::vec3 randomdir = glm::vec3(
 				(rand() % 2000 - 1000.0f) / 1000.0f,
 				(rand() % 2000 - 1000.0f) / 1000.0f,
@@ -88,7 +88,7 @@ void ParticleEmitter::update(float deltaTime)
 				if (p->life > 0.0f)
 				{
 					// Simulate simple physics : gravity only, no collisions
-					p->speed += glm::vec3(0.0f, -9.81f, 0.0f) * deltaTime * 0.5f;
+					p->speed += glm::vec3(0.0f, 0.0f, 0.0f) * deltaTime * 0.5f;
 					p->pos += p->speed * deltaTime;
 					//p->cameraDistance = glm::length2(p->pos - CameraPosition);
 					//ParticlesContainer[i].pos += glm::vec3(0.0f,10.0f, 0.0f) * (float)delta;
