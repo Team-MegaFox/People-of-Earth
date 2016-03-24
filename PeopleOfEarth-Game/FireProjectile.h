@@ -17,6 +17,7 @@
 #include <Components\MeshRenderer.h>
 #include "ShipStats.h"
 #include "Projectile.h"
+#include "MissileAI.h"
 #include <PhysX/PxPhysicsAPI.h>
 using namespace physx;
 
@@ -29,7 +30,8 @@ public:
 	/// Initializes a new instance of the <see cref="FireProjectile"/> class.
 	/// </summary>
 	FireProjectile() : 
-		m_material("laser", 10.0f, 100, Texture("laserGreen.png")) { }
+		m_laserMaterial("laser", 10.0f, 100, Texture("laserGreen.png")),
+		m_missileMaterial("missile", 10.0f, 100, Texture("bricks_normal.jpg")){ }
 	/// <summary>
 	/// Finalizes an instance of the <see cref="FireProjectile"/> class.
 	/// </summary>
@@ -89,12 +91,30 @@ public:
 					->addGameComponent(laserSound));
 				m_delay = 0.0f;
 			}
+			if (input.PadButtonDown(SDL_CONTROLLER_BUTTON_B))
+			{
+				//Shoot missle
+				instantiate(
+					(new GameObject("Missile", *getTransform()->getPosition()
+					, *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
+					->addGameComponent(new MissileAI())
+					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("missile")))
+					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
+					Utility::getForward(*getTransform()->getRotation()) * 15.0f +
+					Utility::getLeft(*getTransform()->getRotation()) * 3.5f,
+					*getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f,
+					Utility::getForward(*getTransform()->getRotation()) * 200.0f))
+					);
+				m_delay = 0.0f;
+			}
 		}
-
 		else
 		{
 			m_delay += delta;
 		}
+
+
+		
 	}
 
 private:
@@ -102,5 +122,6 @@ private:
 	/// The delay between shots
 	/// </summary>
 	float m_delay = 0.2f;
-	Material m_material;
+	Material m_laserMaterial;
+	Material m_missileMaterial;
 };

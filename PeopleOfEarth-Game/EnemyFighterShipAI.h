@@ -3,7 +3,7 @@
 // Created          : 02-23-2016
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 03-15-2016
+// Last Modified On : 03-24-2016
 // ***********************************************************************
 // <copyright file="EnemyFighterShipAI.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -41,7 +41,7 @@ public:
 		m_forwardDirection = PxVec3(0.0f, 0.0f, 0.0f);
 		m_direction = PxVec3(0.0f, 0.0f, 0.0f);
 		m_targetPoint = *getTransform()->getPosition();
-		m_velocityValue = 100.0f; 
+		m_velocityValue = 50.0f; 
 		//In game code:
 		m_shipStats = getParent()->getGameComponent<ShipStats>();
 		m_delayObjectSearch = -1.0f;

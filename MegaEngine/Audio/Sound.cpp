@@ -2,8 +2,8 @@
 // Author           : Jesse Derochie
 // Created          : 02-01-2016
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 03-23-2016
 // ***********************************************************************
 // <copyright file="Sound.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -37,7 +37,6 @@ void Sound::setSound()
 		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->createSound(m_fileName.c_str(), m_threeDimensional, 0, &m_soundPair.first));
 		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX::FMOD_CHANNEL_REUSE, m_soundPair.first, false, &m_soundPair.second));
 	}
-	//setSoundEffectVolume(AudioEngine::getSoundVolume());
 }
 
 void Sound::playSound()

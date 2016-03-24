@@ -3,7 +3,7 @@
 // Created          : 02-23-2016
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 03-11-2016
+// Last Modified On : 03-24-2016
 // ***********************************************************************
 // <copyright file="SteeringBehaviour.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -22,7 +22,7 @@ class SteeringBehaviour : public GameComponent {
 public:
 
 	SteeringBehaviour() : m_forwardDirection(PxVec3(0.0f, 0.0f, 0.0f)), m_direction(PxVec3(0.0f, 0.0f, 0.0f)),
-		m_targetObject(nullptr), m_targetPoint(PxVec3(0.0f, 0.0f, 0.0f))
+		m_targetObject(nullptr), m_targetPoint(PxVec3(0.0f, 0.0f, 0.0f)), m_alive(true)
 	{}
 
 	~SteeringBehaviour()
@@ -30,11 +30,11 @@ public:
 
 	virtual void onStart()
 	{
-		init();
-
 		m_rigidBody = getParent()->getGameComponent<RigidBody>();
 		m_rigidBody->setPosition(*getTransform()->getPosition());
 		m_rigidBody->setRotation(*getTransform()->getRotation());
+	
+		init();
 	}
 
 	//Initialize
@@ -253,10 +253,17 @@ public:
 
 		UpdateAI(timestep);
 
-		//Get the forward direction
-		m_forwardDirection = Utility::getForward(*getTransform()->getRotation());
+		if (m_alive)
+		{
+			//Get the forward direction
+			m_forwardDirection = Utility::getForward(*getTransform()->getRotation());
 
-		m_rigidBody->updateVelocity(m_forwardDirection * m_velocityValue);
+			m_rigidBody->updateVelocity(m_forwardDirection * m_velocityValue);
+		}
+		else
+		{
+			destroy(getParent());
+		}
 
 		//Update the position
 		/*getTransform()->setPosition(*getTransform()->getPosition() 
@@ -284,4 +291,7 @@ protected:
 	//Physics
 	RigidBody* m_rigidBody;
 	float m_velocityValue;
+
+	//Destroy GameObject
+	bool m_alive;
 };

@@ -95,6 +95,7 @@
     <ClInclude Include="MainMenuManager.h" />
     <ClInclude Include="MainMenuScene.h" />
     <ClInclude Include="MiniMap.h" />
+    <ClInclude Include="MissileAI.h" />
     <ClInclude Include="MissionOneScene.h" />
     <ClInclude Include="MissionSelectManager.h" />
     <ClInclude Include="OptionsMenuManager.h" />
