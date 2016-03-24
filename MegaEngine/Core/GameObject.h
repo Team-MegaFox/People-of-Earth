@@ -185,7 +185,7 @@ public:
 	/// Gets the core engine.
 	/// </summary>
 	/// <returns>CoreEngine *.</returns>
-	CoreEngine* getCoreEngine() { return m_coreEngine; }
+	CoreEngine* getCoreEngine() const { return m_coreEngine; }
 
 	/// <summary>
 	/// Gets the Transform object of this GameObject.
