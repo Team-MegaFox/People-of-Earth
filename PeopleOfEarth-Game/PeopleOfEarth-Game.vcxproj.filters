@@ -97,6 +97,9 @@
     <ClInclude Include="MissileAI.h">
       <Filter>Components\AI</Filter>
     </ClInclude>
+    <ClInclude Include="MotherShipAI.h">
+      <Filter>Components\AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">
