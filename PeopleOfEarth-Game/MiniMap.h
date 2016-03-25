@@ -20,7 +20,7 @@ using namespace physx;
 
 class MiniMap : public GameComponent
 {
-public: 
+public:
 	MiniMap(PxVec2 miniMapCenterPosition = PxVec2(0), float miniMapRadius = 1000.0f) :
 		m_miniMapCenterPosition(miniMapCenterPosition),
 		m_miniMapRadius(miniMapRadius) {}
@@ -84,6 +84,8 @@ public:
 		//Updates all the GUI Gameobjects in the scene from the Scene GameObjects
 		bool dead;
 
+		m_allEnemyGameObjects = getGameObjectsByName("enemyFighter");
+
 		// for all the game objects in the scene 
 		for (size_t i = 0; i < getParent()->getAllChildren().size(); i++)
 		{
@@ -98,23 +100,16 @@ public:
 				// label the player ship as not dead
 				dead = false;
 			}
-
-			// if the game object is still labelled as dead
-			if (dead)
+			// if the gameobject is the passenger ship
+			else if (getParent()->getAllChildren()[i]->getName() == m_passengerGameObject->getName() + "_GUI")
 			{
-				// if the gameobject is the passenger ship
-				if (getParent()->getAllChildren()[i]->getName() == m_passengerGameObject->getName() + "_GUI")
-				{
-					// set the position of this game object on the map to be realted to the position of the assenger ship in the world
-					getParent()->getAllChildren()[i]->getTransform()->setPosition(*m_passengerGameObject->getTransform()->getPosition());
-					getParent()->getAllChildren()[i]->getTransform()->setRotation(*m_passengerGameObject->getTransform()->getRotation());
-					// label the passenger ship as not dead
-					dead = false;
-				}
+				// set the position of this game object on the map to be realted to the position of the assenger ship in the world
+				getParent()->getAllChildren()[i]->getTransform()->setPosition(*m_passengerGameObject->getTransform()->getPosition());
+				getParent()->getAllChildren()[i]->getTransform()->setRotation(*m_passengerGameObject->getTransform()->getRotation());
+				// label the passenger ship as not dead
+				dead = false;
 			}
-
-			// if the game object is still labelled as dead
-			if (dead)
+			else
 			{
 				// we assume the game objects remaining are enemy fighter ships
 				for (size_t j = 0; j < m_allEnemyGameObjects.size(); j++)
@@ -138,8 +133,9 @@ public:
 			if (dead)
 			{
 				//getParent()->getAllChildren()[i]->setEnabled(false);
-				delete getParent()->getAllChildren()[i];
-				getParent()->getAllChildren().erase(getParent()->getAllChildren().begin() + i);
+				//delete getParent()->getAllChildren()[i];
+				destroy(getParent()->getAllChildren()[i]);
+				//getParent()->getAllChildren().erase(getParent()->getAllChildren().begin() + i);
 			}
 		}
 
@@ -197,7 +193,7 @@ public:
 			{
 				m_angleRotationX += 0.025f;
 			}
-			checkToFlipMapDirection();	
+			checkToFlipMapDirection();
 			checkToResetCalculations();
 		}
 		if (input.GetThumbRPosition().y < -0.3f)
@@ -273,22 +269,22 @@ public:
 		}
 		/*if (absRotationZValue > 1.57f && absRotationZValue < 4.71f)
 		{
-			m_flipDirection = true;
+		m_flipDirection = true;
 		}
 		else if (absRotationZValue > 4.71f && absRotationZValue < 6.28f)
 		{
-			m_flipDirection = false;
+		m_flipDirection = false;
 		}
 		else if (absRotationZValue > 6.28f)
 		{
-			if (m_angleRotationZ > 0)
-			{
-				m_angleRotationZ -= 6.28f;
-			}
-			else
-			{
-				m_angleRotationZ += 6.28f;
-			}
+		if (m_angleRotationZ > 0)
+		{
+		m_angleRotationZ -= 6.28f;
+		}
+		else
+		{
+		m_angleRotationZ += 6.28f;
+		}
 		}*/
 	}
 
@@ -316,12 +312,12 @@ public:
 				playerDir.y = 0.0f;
 				playerDir.normalize();
 
-					/*PxVec3(Utility::getRight(*m_playerGameObject->getTransform()->getRotation()).x, 0.0f,
-					Utility::getForward(*m_playerGameObject->getTransform()->getRotation()).z);*/
+				/*PxVec3(Utility::getRight(*m_playerGameObject->getTransform()->getRotation()).x, 0.0f,
+				Utility::getForward(*m_playerGameObject->getTransform()->getRotation()).z);*/
 				//playerDir.normalize();
 
 				float angle = PxAcos(playerDir.dot(PxVec3(0.0f, 0.0f, 1.0f)));
-				
+
 				if ((playerDir.x > 0.0f && playerDir.z < 0.0f) || (playerDir.x > 0.0f && playerDir.z > 0.0f))
 				{
 					angle = ToRadians(360.0f) - angle;
