@@ -108,6 +108,10 @@ void ParticleEmitter::update(float deltaTime)
 
 void ParticleEmitter::render(const Camera3D & camera)
 {
+	//glDepthMask(GL_FALSE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	m_updateEmitter = true;
 
 	for (size_t i = 0; i < m_particles.size(); i++)
@@ -172,7 +176,9 @@ void ParticleEmitter::render(const Camera3D & camera)
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
 
-	//glDisable(GL_BLEND);
+	//glDepthMask(GL_TRUE);
+	//glBlendFunc(GL_ONE, GL_ONE);
+	glDisable(GL_BLEND);
 }
 
 int ParticleEmitter::findUnusedParticle()
