@@ -43,8 +43,6 @@ public:
 		m_crosshairImage->setPixelPosition(PxVec2(screen.x - viewport.x / 4.0f, screen.y - viewport.y / 4.0f));
 	}
 
-	
-
 private:
 	float m_distanceOfCrossHair = 0.0f;
 
