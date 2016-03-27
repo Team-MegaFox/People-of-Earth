@@ -92,10 +92,10 @@ void CameraComponent::addToEngine(CoreEngine* engine) const
 
 PxVec3 CameraComponent::worldToScreenPoint(const PxVec3& position) const
 {
-	PxVec4 clip = m_camera.getViewProjection().rotate(PxVec4(position, 1.0));
+	PxVec4 clip = m_camera.getViewProjection().transform(PxVec4(position, 1.0));
 	PxVec3 ndc(clip.x / clip.w, clip.y / clip.w, clip.z / clip.w);
 	PxVec2 screenDim(getCoreEngine()->getViewport()->getScreenWidth(), getCoreEngine()->getViewport()->getScreenHeight());
-	return PxVec3((screenDim.x / 2.0f) * ndc.x + (screenDim.x / 2.0f), (screenDim.y / 2.0f) * ndc.y + (screenDim.y / 2.0f), 0.0f);
+	return PxVec3((screenDim.x / 2.0f) * ndc.x + (screenDim.x / 2.0f), screenDim.y - ((screenDim.y / 2.0f) * ndc.y + (screenDim.y / 2.0f)), 0.0f);
 }
 
 PxVec3 CameraComponent::screenToWorldPoint(const PxVec2& position) const

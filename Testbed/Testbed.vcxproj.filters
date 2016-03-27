@@ -5,6 +5,7 @@
     <ClCompile Include="FreeLook.cpp" />
     <ClCompile Include="FreeMove.cpp" />
     <ClCompile Include="PlayerShipMovementController.cpp" />
+    <ClCompile Include="GUIOnCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestScene.h" />
@@ -20,5 +21,6 @@
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="AsteroidField.h" />
     <ClInclude Include="PlayerShipMovementController.h" />
+    <ClInclude Include="GUIOnCamera.h" />
   </ItemGroup>
 </Project>
