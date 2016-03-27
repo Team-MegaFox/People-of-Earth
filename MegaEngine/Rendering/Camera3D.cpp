@@ -90,6 +90,21 @@ void CameraComponent::addToEngine(CoreEngine* engine) const
 	engine->getPhysicsEngine()->setMainCamera(m_camera);
 }
 
+PxVec3 CameraComponent::worldToScreenPoint(const PxVec3& position) const
+{
+	PxVec4 clip = m_camera.getViewProjection().transform(PxVec4(position, 1.0));
+	PxVec3 ndc(clip.x / clip.w, clip.y / clip.w, clip.z / clip.w);
+	PxVec2 screenDim(getCoreEngine()->getViewport()->getScreenWidth(), getCoreEngine()->getViewport()->getScreenHeight());
+	return PxVec3((screenDim.x / 2.0f) * ndc.x + (screenDim.x / 2.0f), screenDim.y - ((screenDim.y / 2.0f) * ndc.y + (screenDim.y / 2.0f)), 0.0f);
+}
+
+PxVec3 CameraComponent::screenToWorldPoint(const PxVec2& position) const
+{
+	PxVec2 screenDim(getCoreEngine()->getViewport()->getScreenWidth(), getCoreEngine()->getViewport()->getScreenHeight());
+	PxVec3 point3D(2.0 * position.x / screenDim.x - 1.0, -2.0 * position.y / screenDim.y + 1.0, getTransform().getPosition().z);
+	return m_camera.getViewProjection().inverseRT().rotate(point3D);
+}
+
 void CameraComponent::setParent(GameObject* parent)
 {
 	GameComponent::setParent(parent);

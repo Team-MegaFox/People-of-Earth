@@ -52,7 +52,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -81,6 +81,7 @@
   <ItemGroup>
     <ClCompile Include="FreeLook.cpp" />
     <ClCompile Include="FreeMove.cpp" />
+    <ClCompile Include="GUIOnCamera.cpp" />
     <ClCompile Include="PlayerShipMovementController.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
@@ -90,6 +91,7 @@
     <ClInclude Include="FireProjectile.h" />
     <ClInclude Include="FreeLook.h" />
     <ClInclude Include="FreeMove.h" />
+    <ClInclude Include="GUIOnCamera.h" />
     <ClInclude Include="PassengerShipAI.h" />
     <ClInclude Include="PlanetSpin.h" />
     <ClInclude Include="PlayerShipMovementController.h" />

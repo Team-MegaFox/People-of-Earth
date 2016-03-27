@@ -44,6 +44,12 @@ public:
 		m_transform(transform),
 		m_frustum(6) { }
 
+	/// <summary>
+	/// Checks wheather the point with a radius (a sphere) is inside the camera's frustum view.
+	/// </summary>
+	/// <param name="centre">The centre of the sphere.</param>
+	/// <param name="radius">The radius of the sphere.</param>
+	/// <returns>Wheather the sphere is inside, overlapping or outside the frustum.</returns>
 	EnclosureType isInside(const PxVec3& centre, const float radius) const;
 
 	/// <summary>
@@ -135,6 +141,22 @@ public:
 	/// </summary>
 	/// <param name="engine">The engine.</param>
 	virtual void addToEngine(CoreEngine* engine) const;
+
+	/// <summary>
+	/// Gets the screen point of a point in 3D space.
+	/// Screen space is where the top-left is (0, 0) and bottom-right is (width, height).
+	/// The z-value is the distance from the camera to the point in 3D space.
+	/// </summary>
+	/// <param name="position">The position to transform to screen space.</param>
+	/// <returns>The screen coordinates of a point in 3D space.</returns>
+	PxVec3 worldToScreenPoint(const PxVec3& position) const;
+
+	/// <summary>
+	/// Gets the world point from the screen point.
+	/// </summary>
+	/// <param name="position">The position to transform to world space.</param>
+	/// <returns>The world coordinates of a point in 3D space.</returns>
+	PxVec3 screenToWorldPoint(const PxVec2& position) const;
 
 	/// <summary>
 	/// Gets a reference to the camera object stored in the component.

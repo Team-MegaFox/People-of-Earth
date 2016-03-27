@@ -75,7 +75,7 @@ public:
 			->addGameComponent(new UpdateGUI);
 
 		GameObject * crossHair = new GameObject("CrossHair");
-		crossHair->addGameComponent(new MeshRenderer(Mesh("Environment/Plane.obj", 5.0f), Material("crossHairMaterial")));
+		//crossHair->addGameComponent(new MeshRenderer(Mesh("Environment/Plane.obj", 5.0f), Material("crossHairMaterial")));
 		crossHair->addGameComponent(new CrossHair(100.0f));
 		fighterShip->addChild(crossHair);
 

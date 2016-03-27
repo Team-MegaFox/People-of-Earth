@@ -96,7 +96,7 @@ protected:
 	/// Gets the core engine.
 	/// </summary>
 	/// <returns>The Core Engine.</returns>
-	CoreEngine * getCoreEngine() { return m_parent->getCoreEngine(); }
+	CoreEngine * getCoreEngine() const { return m_parent->getCoreEngine(); }
 	/// <summary>
 	/// Gets the parent.
 	/// </summary>
