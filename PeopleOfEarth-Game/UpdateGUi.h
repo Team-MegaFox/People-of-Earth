@@ -21,7 +21,7 @@ public:
 	/// </summary>
 	virtual void onStart() override
 	{
-		m_shipStats = getGameObjectByName("Fighter Ship")->getGameComponent<ShipStats>();
+		m_shipStats = getGameObjectByName("player")->getGameComponent<ShipStats>();
 
 		m_healthBar = getGameObjectByName("Health Bar")->getGUIComponent<GUIImage>();
 		m_healthOGSize = m_healthBar->getPercentSize();

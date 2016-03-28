@@ -26,7 +26,7 @@ public:
 
 	virtual void onStart() override
 	{
-		m_fighterShip = getGameObjectByName("Fighter Ship")->getGameComponent<RigidBody>();
+		m_fighterShip = getGameObjectByName("player")->getGameComponent<RigidBody>();
 
 		m_mainCamera = getGameObjectByName("camera")->getGameComponent<CameraComponent>();
 		

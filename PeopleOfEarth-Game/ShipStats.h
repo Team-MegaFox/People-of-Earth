@@ -13,7 +13,8 @@
 // *********
 
 #pragma once
-#include <Components\GameComponents.h>
+#include <MegaEngine.h>
+#include "MiniMap.h"
 
 class ShipStats : public GameComponent
 {
@@ -40,6 +41,10 @@ public:
 	{
 		if (m_health <= 0.0f)
 		{
+			//MiniMap * map;
+			map = getGameObjectByName("MiniMap")->getGameComponent<MiniMap>();
+			map->deleteMapMarker(getParent()->getName());
+
 			destroy(getParent());
 		}
 	}
@@ -78,4 +83,5 @@ private:
 	float m_health = 1.0f;
 	float m_fuel = 1.0f;
 	float m_energy = 1.0f;
+	MiniMap * map;
 };

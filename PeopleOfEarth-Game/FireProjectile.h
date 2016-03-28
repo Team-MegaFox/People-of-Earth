@@ -20,6 +20,7 @@
 #include "MissileAI.h"
 #include <PhysX/PxPhysicsAPI.h>
 using namespace physx;
+#include "DialogueBox.h"
 
 class FireProjectile : public GameComponent
 {
@@ -42,6 +43,7 @@ public:
 	/// </summary>
 	virtual void onStart() override
 	{
+		box = getGameObjectByName("DialogueBox")->getGameComponent<DialogueBox>();
 	}
 
 	/// <summary>
@@ -55,6 +57,7 @@ public:
 		{
 			if (input.GetRightTrigger() != 0)
 			{
+				box->setMessage(";alkhdfg;asdhfg;asdhfa;opsdfalkjsd;nvalkjsnva;ksdnvk;anvkj;anfv;kjashf");
 				instantiate(
 					(new GameObject("Laser", *getTransform()->getPosition()
 					, *getTransform()->getRotation(), m_laserScale))
@@ -74,6 +77,7 @@ public:
 			}
 			if (input.GetLeftTrigger() != 0)
 			{
+				box->setMessage("Man I love you guys!!! <3");
 				instantiate(
 					(new GameObject("Laser", *getTransform()->getPosition()
 					, *getTransform()->getRotation(), m_laserScale))
@@ -126,4 +130,5 @@ private:
 	Material m_missileMaterial;
 	PxVec3 m_missileScale = PxVec3(0.005f);
 	PxVec3 m_laserScale = PxVec3(1.0f);
+	DialogueBox * box;
 };

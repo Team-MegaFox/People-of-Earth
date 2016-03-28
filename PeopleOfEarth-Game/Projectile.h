@@ -155,7 +155,7 @@ struct Projectile : public GameComponent
 		std::vector<GameObject*> gameObjects;
 		if (m_agentType == ENEMY_SIDE)
 		{
-			gameObjects = getGameObjectsByName("Fighter Ship");
+			gameObjects = getGameObjectsByName("player");
 			for (size_t i = 0; i < gameObjects.size(); i++)
 			{
 				collisionCheckObject.push_back(gameObjects[i]);

@@ -30,7 +30,7 @@ public:
 	virtual void onStart()
 	{
 		//Adding Figher Ships
-		m_playerGameObject = getGameObjectByName("Fighter Ship");
+		m_playerGameObject = getGameObjectByName("player");
 		playerPosition = PxVec3(0);
 		getParent()->addChild(
 			(new GameObject(m_playerGameObject->getName() + "_GUI"))
@@ -77,6 +77,45 @@ public:
 		//			);
 		//	}
 		//}
+	}
+
+	void deleteMapMarker(const std::string & objectName)
+	{
+		if (objectName == "player1")
+		{
+			// remove map marker for player
+			getParent()->removeChild(getParent()->getAllChildren()[0]);
+			// remove reference to the player object
+			m_playerGameObject = nullptr;
+		}
+		else if (objectName == "passengerShip1")
+		{
+			// remove map marker for passenger
+			getParent()->removeChild(getParent()->getAllChildren()[1]);
+			// remove reference to the passenger object
+			m_passengerGameObject = nullptr;
+		}
+		//else if (objectName == "EnemyMother1")
+		//{
+		//	// remove map marker for Enemy Mother
+		//	getParent()->removeChild(getParent()->getAllChildren()[2]);
+		//	// remove reference to the Enemy Mother object
+		//	m_enemyMotherGameObject = nullptr;
+		//}
+		else
+		{
+			for (size_t i = 0; i < m_allEnemyGameObjects.size(); i++)
+			{
+				if (objectName == "enemyFighter" + i)
+				{
+					getParent()->removeChild(getParent()->getAllChildren()[i + 1]);
+					m_allEnemyGameObjects[i] = nullptr;
+					m_allEnemyGameObjects.erase(m_allEnemyGameObjects.begin() + i);
+					break;
+				}
+			}
+		}
+
 	}
 
 	virtual void update(float delta) override
@@ -366,6 +405,7 @@ public:
 private:
 	GameObject* m_playerGameObject;
 	GameObject* m_passengerGameObject;
+	GameObject * m_enemyMotherGameObject;
 	std::vector<GameObject*> m_allEnemyGameObjects;
 	PxVec3 playerPosition;
 	float m_miniMapRadius;

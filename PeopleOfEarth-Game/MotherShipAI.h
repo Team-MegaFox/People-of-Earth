@@ -55,7 +55,7 @@ public:
 
 		// the passenger ship is less than x distance away 
 		// from the mother ship the mother ship can fire
-		if (m_direction.magnitude() <= 2500.0f)
+		if (Utility::getDistance(*m_targetObject->getTransform()->getPosition(), *getTransform()->getPosition()) <= 2500.0f)
 		{
 			if (m_delayAttacking <= 0.0f && m_shipStats->getHealth() > 0.0f)
 			{

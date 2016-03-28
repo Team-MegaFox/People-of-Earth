@@ -51,7 +51,7 @@ public:
 		//m_distanceToChangeWayPoint = 150.0f;
 
 		//In game code:
-		m_targetObject = getGameObjectByName("Fighter Ship1");
+		m_targetObject = getGameObjectByName("player1");
 		m_shipStats = getParent()->getGameComponent<ShipStats>();
 	}
 
@@ -59,7 +59,7 @@ public:
 	{
 		std::vector<GameObject*> collisionCheckObject;
 		std::vector<GameObject*> gameObjects;
-		gameObjects = getGameObjectsByName("Fighter Ship");
+		gameObjects = getGameObjectsByName("player");
 		for (size_t i = 0; i < gameObjects.size(); i++)
 		{
 			collisionCheckObject.push_back(gameObjects[i]);
@@ -132,7 +132,7 @@ public:
 			int counter = 1;
 			if (shipType == SHIP_CLASS::ALL_SHIP || shipType == SHIP_CLASS::FIGHTER_SHIP)
 			{
-				gameObjects = getGameObjectsByName("Fighter Ship");
+				gameObjects = getGameObjectsByName("player");
 				for (size_t i = 0; i < gameObjects.size(); i++)
 				{
 					allEnemyObject.push_back(gameObjects[i]);

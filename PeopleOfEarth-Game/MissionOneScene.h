@@ -19,12 +19,15 @@
 using namespace physx;
 
 // TODO: More asteroids, more distant decorations
-// TODO: Music in game
-// TODO: Mission Select can't be selected by controller
-// TODO: Sound Effects for buttons
-// TODO: Messaging that periodically sends dialogue to dialogue window
+// TODO: *Music in game
+// TODO: *Sound Effects for buttons
+// TODO: *Messaging that periodically sends dialogue to dialogue window
 		// based on being attacked, destroying an enemy, achieving mission parameter etc..
-// TODO: Controller Scheme, Controls Window layout etc..
+// TODO: *Controller Scheme, Controls Window layout etc..
+// TODO: *Rays
+// TODO: *Fuel and Energy reserve needs to be implemented
+// TODO: *Deleteing gameobjects ie. MiniMap
+// TODO: *markers on edge of mini map
 
 
 class MissionOneScene : public Scene
@@ -76,7 +79,7 @@ public:
 		spotLight_Fighter->addGameComponent(new SpotLight(PxVec3(1.0f), 150.0f, Attenuation(1.0f, 1.0f, 0.0f)));
 
 		GameObject* fighterShip =
-			(new GameObject("Fighter Ship", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f))))
+			(new GameObject("player", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f))))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj", 1.0f), Material("ship1")))
 			->addGameComponent(new RigidBody(PxVec3(1.0f, 1.0f, 1.0f), PxQuat(PxIdentity), 1.0f, 7.0f, 1.0f, 5.0f))
 			->addGameComponent(new FireProjectile)
