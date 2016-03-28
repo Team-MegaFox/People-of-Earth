@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-17-2015
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 03-03-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-28-2016
 // ***********************************************************************
 // <copyright file="PlayerShipMovementController.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -17,6 +17,7 @@
 #pragma once
 #include <MegaEngine.h>
 #include <PhysX/PxPhysicsAPI.h>
+#include "ShipStats.h"
 using namespace physx;
 
 class PlayerShipMovementController : public GameComponent
@@ -81,6 +82,7 @@ public:
 	void lerp();
 
 private:
+	ShipStats * m_shipStats;
 	/// <summary>
 	/// The rigid body of the player
 	/// </summary>
@@ -126,6 +128,7 @@ private:
 	/// </summary>
 	PxVec3 m_upDirection = PxVec3(0.0f, 0.0f, 0.0f);
 
+	bool m_canMoveForward = false;
 	//GameObject * m_gameOverButton;
 
 };

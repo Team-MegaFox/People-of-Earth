@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-17-2015
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 03-11-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-28-2016
 // ***********************************************************************
 // <copyright file="PlayerShipMovementController.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -51,6 +51,7 @@ void PlayerShipMovementController::onStart()
 	m_distance = Utility::getDistance(m_rigidBody->getPosition(), *m_camera->getTransform()->getPosition());
 	m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 	m_upDirection = Utility::getUp(m_rigidBody->getRotation());
+	m_shipStats = getGameObjectByName("player")->getGameComponent<ShipStats>();
 }
 
 void PlayerShipMovementController::processInput(const InputManager& input, float delta)
@@ -183,15 +184,15 @@ void PlayerShipMovementController::movement(const InputManager& input, float del
 {
 	m_rigidBody->updateVelocity(PxVec3(0.0f, 0.0f, 0.0f));
 
-	//Controller inputs
-	if (input.GetThumbLPosition().y > 0.3f)
+	if (m_canMoveForward)
 	{
 		m_rigidBody->updateVelocity(m_forwardDirection * m_velocityValue);
 	}
-	if (input.GetThumbLPosition().y < -0.3f)
+	if (input.PadButtonDown(SDL_CONTROLLER_BUTTON_X) && !m_canMoveForward)
 	{
-		m_rigidBody->updateVelocity(-m_forwardDirection * m_velocityValue);
+		m_canMoveForward = true;
 	}
+
 	if (input.PadButtonDown(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER))
 	{
 		returnToActualRotation();
@@ -215,10 +216,12 @@ void PlayerShipMovementController::movement(const InputManager& input, float del
 	if (input.PadButtonDown(SDL_CONTROLLER_BUTTON_A))
 	{
 		m_velocityValue = 130.0f;
+		m_shipStats->updateFuel(-0.0075f / 60.0f);
 	}
 	else if (input.PadButtonUp(SDL_CONTROLLER_BUTTON_A))
 	{
 		m_velocityValue = 30.0f;
+		m_shipStats->updateFuel(-0.001f / 60.0f);
 	}
 }
 
