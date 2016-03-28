@@ -88,6 +88,7 @@
     <ClInclude Include="ControlsScene.h" />
     <ClInclude Include="CrossHair.h" />
     <ClInclude Include="DetailsScene.h" />
+    <ClInclude Include="DialogueBox.h" />
     <ClInclude Include="EnemyFighterShipAI.h" />
     <ClInclude Include="FireProjectile.h" />
     <ClInclude Include="FreeLook.h" />

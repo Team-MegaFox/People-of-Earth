@@ -1,0 +1,15 @@
+<Imageset autoScaled="vertical" imagefile="ThePeopleOfEarth.png" name="ThePeopleOfEarth" nativeHorzRes="800" nativeVertRes="600" version="2">
+    <Image height="132" name="crosshair" width="132" xPos="7" yPos="296" />
+    <Image height="108" name="shipmarker" width="118" xPos="16" yPos="166" />
+    <Image height="62" name="passengermarker" width="62" xPos="76" yPos="75" />
+    <Image height="61" name="enemymother" width="61" xPos="424" yPos="4" />
+    <Image height="61" name="enemyfighter" width="61" xPos="352" yPos="3" />
+    <Image height="59" name="missionobjective" width="59" xPos="286" yPos="3" />
+    <Image height="62" name="healthmarker" width="62" xPos="214" yPos="3" />
+    <Image height="61" name="fuelmarker" width="62" xPos="144" yPos="4" />
+    <Image height="62" name="energymarker" width="62" xPos="75" yPos="3" />
+    <Image height="12" name="energybar" width="12" xPos="48" yPos="8" />
+    <Image height="12" name="fuelbar" width="12" xPos="47" yPos="24" />
+    <Image height="12" name="healthbar" width="12" xPos="47" yPos="40" />
+    <Image height="512" name="minimap" width="510" xPos="284" yPos="84" />
+</Imageset>

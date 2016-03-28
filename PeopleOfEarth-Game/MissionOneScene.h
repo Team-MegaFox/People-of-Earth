@@ -15,13 +15,13 @@
 #include <PhysX/PxPhysicsAPI.h>
 #include "QuatRotator.h"
 #include "MotherShipAI.h"
+#include "DialogueBox.h"
 using namespace physx;
 
 // TODO: More asteroids, more distant decorations
 // TODO: Music in game
 // TODO: Mission Select can't be selected by controller
 // TODO: Sound Effects for buttons
-// TODO: Dialogue box in upper in game window
 // TODO: Messaging that periodically sends dialogue to dialogue window
 		// based on being attacked, destroying an enemy, achieving mission parameter etc..
 // TODO: Controller Scheme, Controls Window layout etc..
@@ -301,6 +301,11 @@ private:
 			->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.3f, 0.3f), PxVec4(0.0f), "Images/minimap_graphics/GUI_MiniMap.png"))
 			->addGameComponent(new MiniMap(PxVec2(0.15f, 0.15f), 3000.0f))
 			);
+
+		// DialogueBox
+		addToRoot((new GameObject("DialogueBox"))
+			->addGUIComponent(new GUILabel(PxVec4(0.75f, 0.03f, 0.25f, 0.125f), PxVec4(PxZero), ""))
+			->addGameComponent(new DialogueBox));
 	}
 
 	void addArea1OfMission1()
