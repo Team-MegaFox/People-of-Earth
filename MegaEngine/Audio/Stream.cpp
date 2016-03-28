@@ -14,29 +14,22 @@
 
 #include "Stream.h"
 
-Stream::Stream(const std::string& fileName, bool TwoD /* = false*/) :
-m_twoDimensionalSound(TwoD)
+Stream::Stream(const std::string& fileName, bool TwoD /* = false*/)
 {
 	m_fileName = "Assets/Music/" + fileName;
 
 	m_streamPair.first = nullptr;
 	m_streamPair.second = nullptr;
 
-	setStream();
-}
-
-void Stream::setStream()
-{
-	if (m_twoDimensionalSound)
+	if (TwoD)
 	{
 		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->createSound(m_fileName.c_str(), m_twoDimensional, 0, &m_streamPair.first));
-		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX::FMOD_CHANNEL_REUSE, m_streamPair.first, true, &m_streamPair.second));
 	}
 	else
 	{
 		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->createSound(m_fileName.c_str(), m_threeDimensional, 0, &m_streamPair.first));
-		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX::FMOD_CHANNEL_REUSE, m_streamPair.first, true, &m_streamPair.second));
 	}
+	AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX::FMOD_CHANNEL_REUSE, m_streamPair.first, true, &m_streamPair.second));
 }
 
 void Stream::playStream(bool looping)

@@ -18,7 +18,7 @@ public:
 
 	virtual void init(const Viewport& window) override
 	{
-		AudioSource * BGM = new AudioSource("In Game Music 1.wav", AudioType::STREAM, true);
+		AudioSource * BGM = new AudioSource("Title Music.wav", AudioType::STREAM, true);
 		//BGM->pause(true);
 
 		addToRoot((new GameObject("Skybox"))
@@ -78,6 +78,11 @@ public:
 			->addGUIComponent(new GUIButton(PxVec4(0.45f, 0.95f, 0.1f, 0.05f), PxVec4(0.0f), "Back",
 			std::bind(&MainMenuScene::clickBackButton, this, std::placeholders::_1))));
 		addToRoot(m_missionSelectMenuObject);
+
+		addToRoot((new GameObject("Moved button sound"))
+			->addGameComponent(new AudioSource("(hover_beep)185828__lloydevans09__little-thing.wav", AudioType::SOUND, true)));
+		addToRoot((new GameObject("Selected button sound"))
+			->addGameComponent(new AudioSource("(select_beep)319200__18hiltc__pixel-game-beep.wav", AudioType::SOUND, true)));
 
 		addToRoot((new GameObject("Main Menu Manager"))
 			->addGameComponent(new MainMenuManager(3)));

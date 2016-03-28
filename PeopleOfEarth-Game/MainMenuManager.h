@@ -34,8 +34,10 @@ public:
 			m_missionWidgets.push_back(getGameObjectByName("Mission " + std::to_string(i))->getGUIComponent<GUIContainer>());
 		}
 		m_focusMission = m_missionWidgets[m_focusMissionIndex];
-
 		m_backButton = getGameObjectByName("Back Button")->getGUIComponent<GUIButton>();
+
+		m_moveSound = getGameObjectByName("Moved button sound")->getGameComponent<AudioSource>();
+		m_selectedSound = getGameObjectByName("Selected button sound")->getGameComponent<AudioSource>();
 	}
 
 	virtual void processInput(const InputManager& input, float delta) override
@@ -72,6 +74,8 @@ public:
 					else m_focusButton = 0;
 
 					m_buttons[m_focusButton]->getParent()->addGameComponent(new TextLerpAlpha, true);
+
+					m_moveSound->play();
 				}
 
 				if (input.KeyPress(SDLK_s) || input.GetThumbLPosition().y < -0.1f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_DOWN))
@@ -82,6 +86,8 @@ public:
 					else m_focusButton = m_buttons.size() - 1;
 
 					m_buttons[m_focusButton]->getParent()->addGameComponent(new TextLerpAlpha, true);
+
+					m_moveSound->play();
 				}
 
 				if (input.KeyPress(SDLK_RETURN) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_A))
@@ -91,6 +97,8 @@ public:
 						m_showMainMenu = false;
 					}
 					m_buttons[m_focusButton]->click();
+
+					m_selectedSound->play();
 				}
 			}
 		}
@@ -100,7 +108,8 @@ public:
 			{
 				m_backButton->click();
 				m_showMainMenu = true;
-				//getCoreEngine()->getSceneManager()->pop();
+
+				m_selectedSound->play();
 			}
 
 			if (!m_move)
@@ -119,6 +128,8 @@ public:
 					{
 						m_focusMission = m_missionWidgets.back();
 					}
+
+					m_moveSound->play();
 				}
 				else if (input.KeyPress(SDLK_a) || input.GetThumbLPosition().x < -0.2f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_LEFT))
 				{
@@ -134,11 +145,15 @@ public:
 					{
 						m_focusMission = m_missionWidgets.front();
 					}
+
+					m_moveSound->play();
 				}
 
 				if (input.KeyPress(SDLK_RETURN) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_A))
 				{
 					m_missionWidgets[m_focusMissionIndex]->getParent()->getAllChildren()[0]->getGUIComponent<GUIButton>()->click();
+
+					m_selectedSound->play();
 				}
 			}
 		}
@@ -207,5 +222,10 @@ private:
 	float m_movePosition = 0.0f;
 
 	float m_moveSpeed = 2.0f;
+
+	//Sounds
+	AudioSource* m_moveSound;
+
+	AudioSource* m_selectedSound;
 
 };

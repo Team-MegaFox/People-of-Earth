@@ -14,29 +14,24 @@
 
 #include "Sound.h"
 
-Sound::Sound(const std::string& fileName, bool TwoD /* = false */) :
-m_twoDimensionalSound(TwoD)
+Sound::Sound(const std::string& fileName, bool TwoD /* = false */)
 {
 	m_fileName = "Assets/Music/" + fileName;
 
 	m_soundPair.first = nullptr;
 	m_soundPair.second = nullptr;
 
-	setSound();
-}
-
-void Sound::setSound()
-{
-	if (m_twoDimensionalSound)
+	if (TwoD)
 	{
 		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->createSound(m_fileName.c_str(), m_twoDimensional, 0, &m_soundPair.first));
-		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX::FMOD_CHANNEL_REUSE, m_soundPair.first, false, &m_soundPair.second));
 	}
 	else
 	{
 		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->createSound(m_fileName.c_str(), m_threeDimensional, 0, &m_soundPair.first));
-		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX::FMOD_CHANNEL_REUSE, m_soundPair.first, false, &m_soundPair.second));
 	}
+	AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX::FMOD_CHANNEL_REUSE, m_soundPair.first, false, &m_soundPair.second));
+
+	pauseSound(false);
 }
 
 void Sound::playSound()
@@ -66,7 +61,7 @@ bool Sound::isSoundPlaying()
 
 void Sound::setSoundEffectVolume(float volumeLevel)
 {
-	AudioEngine::FMODVerifyResult(m_soundPair.second->setVolume(volumeLevel));
+	m_soundPair.second->setVolume(volumeLevel);
 }
 
 float & Sound::getSoundVolume()
