@@ -55,9 +55,6 @@
     <ClInclude Include="MainMenuManager.h">
       <Filter>Components\Menu Managers</Filter>
     </ClInclude>
-    <ClInclude Include="MissionSelectManager.h">
-      <Filter>Components\Menu Managers</Filter>
-    </ClInclude>
     <ClInclude Include="OptionsMenuManager.h">
       <Filter>Components\Menu Managers</Filter>
     </ClInclude>

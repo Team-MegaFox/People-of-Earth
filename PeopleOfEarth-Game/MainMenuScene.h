@@ -7,7 +7,7 @@
 #include "FreeMove.h"
 #include "TextLerpAlpha.h"
 #include "MainMenuManager.h"
-#include "MissionSelectManager.h"
+#include "MissionOneScene.h"
 #include "OptionsScene.h"
 
 class MainMenuScene : public Scene
@@ -52,9 +52,6 @@ public:
 			std::bind(&MainMenuScene::clickExitButton, this, std::placeholders::_1), 16)));
 		addToRoot(m_mainMenuObject);
 
-		addToRoot((new GameObject("Main Menu Manager"))
-			->addGameComponent(new MainMenuManager));
-
 		m_missionSelectMenuObject = new GameObject("Mission Select Menu");
 		m_missionSelectMenuObject->addChild((new GameObject("Mission 1"))
 			->addGUIComponent(new GUIContainer(PxVec4(0.1f, 0.1f, 0.8f, 0.8f), PxVec4(0.0f)))
@@ -82,9 +79,8 @@ public:
 			std::bind(&MainMenuScene::clickBackButton, this, std::placeholders::_1))));
 		addToRoot(m_missionSelectMenuObject);
 
-		m_missionSelectManagerObject = (new GameObject("Mission Select Manager"))
-			->addGameComponent(new MissionSelectManager(3));
-		addToRoot(m_missionSelectManagerObject);
+		addToRoot((new GameObject("Main Menu Manager"))
+			->addGameComponent(new MainMenuManager(3)));
 
 		// TODO: Add sound effects for hovering
 		// TODO: Add Sound effect for buttons selected
@@ -101,7 +97,7 @@ private:
 		m_logo->setEnabled(false);
 		m_mainMenuObject->setEnabled(false);
 		m_missionSelectMenuObject->setEnabled(true);
-		m_missionSelectManagerObject->getGameComponent<MissionSelectManager>()->setCheckInput(false);
+		//m_missionSelectManagerObject->getGameComponent<MissionSelectManager>()->setCheckInput(false);
 		return true;
 	}
 
@@ -117,12 +113,13 @@ private:
 		return true;
 	}
 
+	//Mission Select
 	bool clickBackButton(const GameObject& gameobject)
 	{
 		m_logo->setEnabled(true);
 		m_mainMenuObject->setEnabled(true);
 		m_missionSelectMenuObject->setEnabled(false);
-		m_missionSelectManagerObject->getGameComponent<MissionSelectManager>()->setCheckInput(false);
+		//m_missionSelectManagerObject->getGameComponent<MissionSelectManager>()->setCheckInput(false);
 		return true;
 	}
 

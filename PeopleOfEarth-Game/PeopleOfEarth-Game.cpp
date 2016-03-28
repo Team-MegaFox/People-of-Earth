@@ -22,7 +22,7 @@ int main(int argc, char** argv)
 
 	CoreEngine core(60.0, &window, &renderingEngine, &physicsEngine, &audioEngine, &guiEngine, &sceneManager);
 
-	sceneManager.push(new MissionOneScene, Modality::Exclusive);
+	sceneManager.push(new MainMenuScene);
 
 	core.start();
 
