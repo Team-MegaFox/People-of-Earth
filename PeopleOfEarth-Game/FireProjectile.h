@@ -2,7 +2,7 @@
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 02-18-2015
 //
-// Last Modified By : Christopher Maeda
+// Last Modified By : Jesse Derochie
 // Last Modified On : 03-15-2016
 // ***********************************************************************
 // <copyright file="FireProjectile.h" company="Team MegaFox">
@@ -31,7 +31,7 @@ public:
 	/// </summary>
 	FireProjectile() : 
 		m_laserMaterial("laser", 10.0f, 100, Texture("laserGreen.png")),
-		m_missileMaterial("missile", 10.0f, 100, Texture("bricks_normal.jpg")){ }
+		m_missileMaterial("missile", 10.0f, 100, Texture("Air Missile diffuse.jpg")){ }
 	/// <summary>
 	/// Finalizes an instance of the <see cref="FireProjectile"/> class.
 	/// </summary>
@@ -57,9 +57,9 @@ public:
 			{
 				instantiate(
 					(new GameObject("Laser", *getTransform()->getPosition()
-					, *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
+					, *getTransform()->getRotation(), m_laserScale))
 					->addGameComponent(new Projectile(0.1f, AGENT::PLAYER_SIDE))
-					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("laser")))
+					->addGameComponent(new MeshRenderer(Mesh("Ships/Missiles/qutank_Mesh.obj"), Material("laser")))
 					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
 					Utility::getForward(*getTransform()->getRotation()) * 15.0f +
 					Utility::getRight(*getTransform()->getRotation()) * 2.5f					
@@ -76,9 +76,9 @@ public:
 			{
 				instantiate(
 					(new GameObject("Laser", *getTransform()->getPosition()
-					, *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
+					, *getTransform()->getRotation(), m_laserScale))
 					->addGameComponent(new Projectile(0.1f, AGENT::PLAYER_SIDE))
-					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("laser")))
+					->addGameComponent(new MeshRenderer(Mesh("Ships/Missiles/qutank_Mesh.obj"), Material("laser")))
 					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
 					Utility::getForward(*getTransform()->getRotation()) * 15.0f +
 					Utility::getLeft(*getTransform()->getRotation()) * 3.5f,
@@ -96,9 +96,9 @@ public:
 				//Shoot missle
 				instantiate(
 					(new GameObject("Missile", *getTransform()->getPosition()
-					, *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
+					, *getTransform()->getRotation(), m_missileScale))
 					->addGameComponent(new MissileAI())
-					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("missile")))
+					->addGameComponent(new MeshRenderer(Mesh("Ships/Missiles/missile.obj"), Material("missile")))
 					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
 					Utility::getForward(*getTransform()->getRotation()) * 15.0f +
 					Utility::getLeft(*getTransform()->getRotation()) * 3.5f,
@@ -124,4 +124,6 @@ private:
 	float m_delay = 0.2f;
 	Material m_laserMaterial;
 	Material m_missileMaterial;
+	PxVec3 m_missileScale = PxVec3(0.005f);
+	PxVec3 m_laserScale = PxVec3(1.0f);
 };

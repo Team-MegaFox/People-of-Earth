@@ -1,8 +1,8 @@
 // ***********************************************************************
-// Author           : Christopher Maeda
+// Author           : Christopher Maeda & Jesse Derochie
 // Created          : 02-28-2016
 //
-// Last Modified By : Christopher Maeda
+// Last Modified By : Jesse Derochie
 // Last Modified On : 03-11-2016
 // ***********************************************************************
 // <copyright file="Projectile.h" company="Team MegaFox">
@@ -25,7 +25,7 @@ struct Projectile : public GameComponent
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Laser"/> class.
 	/// </summary>
-	Projectile(float damageValue, AGENT agentType) : m_lifeTime(2.0f), m_delay(0.0f), m_damageValue(damageValue), m_agentType(agentType) {}
+	Projectile(float damageValue, AGENT agentType) : m_lifeTime(7.0f), m_delay(0.0f), m_damageValue(damageValue), m_agentType(agentType) {}
 	/// <summary>
 	/// Finalizes an instance of the <see cref="Laser"/> class.
 	/// </summary>
@@ -65,13 +65,14 @@ struct Projectile : public GameComponent
 		getParent()->removeGameComponent(m_rigidBody);
 	}
 
-
 	/// <summary>
 	/// Updates this GameComponent using delta time.
 	/// </summary>
 	/// <param name="delta">The delta.</param>
 	virtual void update(float delta) override
 	{
+		PxVec3 displacement;
+
 		m_lifeTime -= delta;
 
 		if (onlyOnce)
@@ -79,6 +80,9 @@ struct Projectile : public GameComponent
 			runOnce();
 			onlyOnce = false;
 		}
+
+		// Determine Displacement
+		displacement = m_velocity * delta;
 
 		//if (m_rigidBody->getCollided())
 		//{
@@ -135,11 +139,8 @@ struct Projectile : public GameComponent
 		//	m_lifeTime = -1.0f;
 		//}
 
-		PxVec3 displacement = m_velocity * delta;
-
 		//Update the position
 		getTransform()->setPosition(*getTransform()->getPosition() + displacement);
-		
 
 		if (m_lifeTime < 0)
 		{
@@ -168,6 +169,7 @@ struct Projectile : public GameComponent
 				collisionCheckObject.push_back(gameObjects[i]);
 			}
 		}
+
 		return collisionCheckObject;
 	}
 

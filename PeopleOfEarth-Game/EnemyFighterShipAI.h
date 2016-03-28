@@ -32,7 +32,7 @@ class EnemyFighterShipAI : public SteeringBehaviour
 
 public:
 	EnemyFighterShipAI() :
-		m_laserMaterial("enemyLaser", 10.0f, 100, Texture("laserGreen.png")){}
+		m_laserMaterial("enemyLaser", 10.0f, 100, Texture("laserPurple.png")){}
 
 	~EnemyFighterShipAI() { }
 
