@@ -19,8 +19,7 @@
 #include "InGameMusic.h"
 using namespace physx;
 
-// TODO: More asteroids, more distant decorations9
-// TODO: *Sound Effects for buttons
+// TODO: More asteroids, more distant decorations
 // TODO: *Messaging that periodically sends dialogue to dialogue window
 		// based on being attacked, destroying an enemy, achieving mission parameter etc..
 // TODO: *Rays

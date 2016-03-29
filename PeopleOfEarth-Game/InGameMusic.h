@@ -33,22 +33,6 @@ public:
 	virtual void onStart() override
 	{
 		// required handles
-
-		//m_Intro = getGameObjectByName("intro")->getGameComponent<AudioSource>();
-		//m_Music1 = getGameObjectByName("music1")->getGameComponent<AudioSource>();
-		//m_Music2 = getGameObjectByName("music2")->getGameComponent<AudioSource>();
-		//m_Danger1 = getGameObjectByName("danger1")->getGameComponent<AudioSource>();
-		//m_Danger2 = getGameObjectByName("danger2")->getGameComponent<AudioSource>();
-		//m_Transition = getGameObjectByName("transition")->getGameComponent<AudioSource>();
-
-		// Load the AudioSources instead (But it doesn't seem to work)
-		//m_Intro = new AudioSource("In Game Music Intro.wav", AudioType::STREAM, true);
-		//m_Music1 = new AudioSource("In Game Music 1.wav", AudioType::STREAM, true);
-		//m_Music2 = new AudioSource("In Game Music 2.wav", AudioType::STREAM, true);
-		//m_Danger1 = new AudioSource("In Game Music Danger.wav", AudioType::STREAM, true);
-		//m_Danger2 = new AudioSource("In Game Music Danger 2.wav", AudioType::STREAM, true);
-		//m_Transition = new AudioSource("In Game Music Transition 1.wav", AudioType::STREAM, true);
-
 		m_Intro = new AudioSource("In Game Music Intro.wav", AudioType::STREAM, true);
 		instantiate((new GameObject("m_Intro"))
 			->addGameComponent(m_Intro));
@@ -194,7 +178,7 @@ public:
 					m_music1Played = false;
 					m_transitionPlayed = false;
 				}
-				// if we transitioned here from either danger music
+				// if we transitioned here from either of the danger musics
 				if (((m_danger1Played && m_transitionPlayed) || (m_danger2Played && m_transitionPlayed))
 					&&((!m_Danger1->isPlaying()) && (!m_Transition->isPlaying()) && (!m_Danger2->isPlaying())))
 				{
