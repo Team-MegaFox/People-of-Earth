@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Christopher Maeda
+// Author           : Christopher Maeda & Jesse Derochie
 // Created          : 02-25-2016
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 02-25-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-29-2016
 // ***********************************************************************
 // <copyright file="ShipStats.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -15,12 +15,19 @@
 #pragma once
 #include <MegaEngine.h>
 #include "MiniMap.h"
+#include "DialogueBox.h"
 
 class ShipStats : public GameComponent
 {
 public: 
 	ShipStats() : m_health(1.0f), m_fuel(1.0f), m_energy(1.0f) {}
 	~ShipStats() {}
+
+	virtual void onStart() override
+	{
+		m_passengerShip = getGameObjectByName("passengerShip")->getGameComponent<RigidBody>();
+		m_dialogueBox = getGameObjectByName("DialogueBox")->getGameComponent<DialogueBox>();
+	}
 
 	void updateHealth(float health)
 	{
@@ -46,6 +53,62 @@ public:
 			map->deleteMapMarker(getParent()->getName());
 
 			destroy(getParent());
+		}
+		if (Utility::getDistance(m_passengerShip->getPosition(), *getTransform()->getPosition()) <= 500.0f)
+		{
+			if (m_health < 1.0f)
+			{
+				updateHealth(0.0005f);
+				if (!m_healing)
+				{
+					m_dialogueMessage += "Health Regenerating... \n";
+					m_messageChanged = true;
+					m_healing = true;
+				}
+			}
+			else
+			{
+				m_healing = false;
+				m_messageChanged = false;
+			}
+
+			if (m_energy < 1.0f)
+			{
+				updateEnergy(0.0005f);
+				if (!m_energizing)
+				{
+					m_dialogueMessage += "Energy Regenerating... \n";
+					m_messageChanged = true;
+					m_energizing = true;
+				}
+			}
+			else
+			{
+				m_energizing = false;
+				m_messageChanged = false;
+			}
+
+			if (m_fuel < 1.0f)
+			{
+				updateFuel(0.0005f);
+				if (!m_fueling)
+				{
+					m_dialogueMessage += "Fuel Replenishing... \n";
+					m_messageChanged = true;
+					m_fueling = true;
+				}
+			}
+			else
+			{
+				m_fueling = false;
+				m_messageChanged = false;
+			}
+			if (m_messageChanged)
+			{
+				m_dialogueBox->sendMessage(m_dialogueMessage, Importance::LOW);
+				m_dialogueMessage = "";
+				m_messageChanged = false;
+			}
 		}
 	}
 
@@ -84,4 +147,11 @@ private:
 	float m_fuel = 1.0f;
 	float m_energy = 1.0f;
 	MiniMap * map;
+	RigidBody * m_passengerShip;
+	std::string m_dialogueMessage = "";
+	DialogueBox * m_dialogueBox;
+	bool m_healing = false; 
+	bool m_energizing = false; 
+	bool m_fueling = false; 
+	bool m_messageChanged = false;
 };

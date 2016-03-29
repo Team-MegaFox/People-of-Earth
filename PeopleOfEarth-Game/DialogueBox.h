@@ -3,7 +3,7 @@
 // Created          : 03-28-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 03-28-2016
+// Last Modified On : 03-29-2016
 // ***********************************************************************
 // <copyright file="DialogueBox.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -12,6 +12,21 @@
 // ***********************************************************************
 #pragma once
 #include "MegaEngine.h"
+/// <summary>
+/// The importance of a message determines whether or not this message
+/// will be displayed. If this message is critically important to the 
+/// player, it will be displayed instead of something less critical
+/// ie. "Health is dangerously low!! Return to passenger ship for repairs!"
+/// is more important than, "Ship is undergoing repairs..."
+/// </summary>
+enum Importance
+{
+	DEFAULT,
+	LOW,
+	MEDIUM,
+	HIGH,
+	CRITICAL
+};
 
 class DialogueBox : public GameComponent
 {
@@ -19,7 +34,7 @@ public:
 	/// <summary>
 	/// Initializes a new instance of the <see cref="DialogueBox"/> class.
 	/// </summary>
-	DialogueBox() {}
+	DialogueBox() : m_counter(1200) {}
 	/// <summary>
 	/// Finalizes an instance of the <see cref="DialogueBox"/> class.
 	/// </summary>
@@ -31,20 +46,28 @@ public:
 	void onStart()
 	{
 		m_guiLabel = getParent()->getGUIComponent<GUILabel>();
-		setMessage(m_message);
+		sendMessage(m_message + "!");
 	}
 
 	/// <summary>
 	/// Sets the Message to display.
 	/// </summary>
 	/// <param name="newText">The new message.</param>
-	void setMessage(const std::string& newMessage)
+	void sendMessage(const std::string& newMessage, Importance importanceOfMessage = Importance::DEFAULT)
 	{
-		m_message = newMessage;
-
-		if (m_message.length() > 25)
+		if (m_message != newMessage)
 		{
-			multiLineTool(25, m_message);
+			if (m_importanceLevel <= importanceOfMessage)
+			{
+				m_messageReceived = true;
+				m_message = newMessage;
+
+				if (m_message.length() > 25)
+				{
+					multiLineTool(25, m_message);
+				}
+				m_importanceLevel = importanceOfMessage;
+			}
 		}
 	}
 
@@ -62,6 +85,24 @@ public:
 	virtual void update(float deltaTime) override
 	{
 		m_guiLabel->setText(m_textSettings + m_message);
+		if (m_messageReceived)
+		{
+			if (m_counter > 0)
+			{
+				m_counter--;
+			}
+			else if (m_counter <= 600)
+			{
+				m_importanceLevel = Importance::DEFAULT;
+			}
+			else if (m_counter == 0)
+			{
+				sendMessage(m_defaultMessage);
+				m_messageReceived = false;
+				m_counter = 1200;
+			}
+
+		}
 	}
 
 	/// <summary>
@@ -106,6 +147,7 @@ public:
 	}
 
 private:
+
 	/// <summary>
 	/// The text settings for the message to display
 	/// <code> [font='DejaVuSans-12'][padding='l:5 t:0 r:5 b:0'] </code>
@@ -115,10 +157,14 @@ private:
 	/// The message to display
 	/// </summary>
 	std::string m_message = "Hello! Welcome to The People of Earth Demo! We hope you enjoy your time with us. Feel free to ask us any questions you have.";
-
+	std::string m_defaultMessage = "Hello! Welcome to The People of Earth Demo! We hope you enjoy your time with us. Feel free to ask us any questions you have.";
 	/// <summary>
 	/// The gui label
 	/// </summary>
 	GUILabel * m_guiLabel;
+	int m_counter;
+	bool m_messageReceived = false;
+	Importance m_importanceLevel = Importance::DEFAULT;
+
 };
 

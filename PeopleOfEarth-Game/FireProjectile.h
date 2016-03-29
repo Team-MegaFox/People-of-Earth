@@ -3,7 +3,7 @@
 // Created          : 02-18-2015
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 03-28-2016
+// Last Modified On : 03-29-2016
 // ***********************************************************************
 // <copyright file="FireProjectile.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -74,8 +74,9 @@ public:
 					AudioSource* laserSound = new AudioSource("(laser_fired)268168__shaun105__laser.wav", AudioType::SOUND, true, true);
 					instantiate((new GameObject("Laser Sound"))
 						->addGameComponent(laserSound));
+
 					m_delay = 0.0f;
-					m_shipStats->updateEnergy(-0.001f / 60.0f);
+					m_shipStats->updateEnergy(-0.001f);
 				}
 				if (input.GetLeftTrigger() != 0)
 				{
@@ -91,11 +92,13 @@ public:
 						Utility::getForward(*getTransform()->getRotation()) * 200.0f))
 						);
 
+
 					AudioSource* laserSound = new AudioSource("(laser_fired)268168__shaun105__laser.wav", AudioType::SOUND, true, true);
 					instantiate((new GameObject("Laser Sound"))
 						->addGameComponent(laserSound));
+
 					m_delay = 0.0f;
-					m_shipStats->updateEnergy(-0.001f / 60.0f);
+					m_shipStats->updateEnergy(-0.001f);
 				}
 			}
 			if (input.PadButtonDown(SDL_CONTROLLER_BUTTON_B))

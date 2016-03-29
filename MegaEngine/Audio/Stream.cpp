@@ -3,7 +3,7 @@
 // Created          : 02-01-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified On : 03-29-2016
 // ***********************************************************************
 // <copyright file="Stream.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -29,7 +29,9 @@ Stream::Stream(const std::string& fileName, bool TwoD /* = false*/)
 	{
 		AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->createSound(m_fileName.c_str(), m_threeDimensional, 0, &m_streamPair.first));
 	}
-	AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX::FMOD_CHANNEL_REUSE, m_streamPair.first, true, &m_streamPair.second));
+	AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX::FMOD_CHANNEL_REUSE, m_streamPair.first, false, &m_streamPair.second));
+
+	pauseStream(false);
 }
 
 void Stream::playStream(bool looping)
@@ -39,6 +41,7 @@ void Stream::playStream(bool looping)
 		AudioEngine::FMODVerifyResult(m_streamPair.second->setMode(FMOD_LOOP_NORMAL));
 		AudioEngine::FMODVerifyResult(m_streamPair.second->setLoopCount(-1));
 	}
+	AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX::FMOD_CHANNEL_REUSE, m_streamPair.first, true, &m_streamPair.second));
 	AudioEngine::FMODVerifyResult(m_streamPair.second->setPaused(false));
 }
 

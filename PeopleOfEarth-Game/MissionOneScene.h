@@ -16,16 +16,14 @@
 #include "QuatRotator.h"
 #include "MotherShipAI.h"
 #include "DialogueBox.h"
+#include "InGameMusic.h"
 using namespace physx;
 
-// TODO: More asteroids, more distant decorations
-// TODO: *Music in game
+// TODO: More asteroids, more distant decorations9
 // TODO: *Sound Effects for buttons
 // TODO: *Messaging that periodically sends dialogue to dialogue window
 		// based on being attacked, destroying an enemy, achieving mission parameter etc..
-// TODO: *Controller Scheme, Controls Window layout etc..
 // TODO: *Rays
-// TODO: *Fuel and Energy reserve needs to be implemented
 // TODO: *Deleteing gameobjects ie. MiniMap
 // TODO: *markers on edge of mini map
 
@@ -84,11 +82,12 @@ public:
 			->addGameComponent(new RigidBody(PxVec3(1.0f, 1.0f, 1.0f), PxQuat(PxIdentity), 1.0f, 7.0f, 1.0f, 5.0f))
 			->addGameComponent(new FireProjectile)
 			->addGameComponent(new PlayerShipMovementController("camera", 50.0f))
+			->addGameComponent(new InGameMusic)
 			->addChild(starBoardLight_Fighter)
 			->addChild(portLight_Fighter)
 			->addChild(rearLight_Fighter)
 			->addChild(thrusterLight_Fighter)
-			//->addChild(spotLight_Fighter)
+			->addChild(spotLight_Fighter)
 			->addGameComponent(new ShipStats)
 			->addGameComponent(new UpdateGUI);
 
@@ -107,7 +106,10 @@ public:
 		addToRoot(camera);
 
 
-		addToRoot((new GameObject("DirectionalLight", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
+		addToRoot((new GameObject("DirectionalLight1", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
+			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 1.0f, 1.0f), 0.6f, 8)));
+
+		addToRoot((new GameObject("DirectionalLight2", PxVec3(0.0f, 0.0f, 10000.0f), PxQuat(ToRadians(-180.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
 			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 1.0f, 1.0f), 0.6f, 8)));
 
 		// PassengerShip Lights

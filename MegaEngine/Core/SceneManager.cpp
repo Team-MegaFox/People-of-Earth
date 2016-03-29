@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 03-21-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-29-2016
 // ***********************************************************************
 // <copyright file="SceneManager.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -85,7 +85,10 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 					if (audio != nullptr)
 					{
 						// pause music
-						audio->pause(true);
+						if (audio->isStream())
+						{
+							audio->pause(true);
+						}
 					}
 				}
 				break;
@@ -114,7 +117,11 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 		if (audio != nullptr)
 		{
 			// un-pause music
-			audio->pause(false);
+			if (audio->isStream())
+			{
+				audio->pause(false);
+			}
+
 		}
 	}
 
