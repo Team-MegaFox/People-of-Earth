@@ -85,7 +85,7 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 					if (audio != nullptr)
 					{
 						// pause music
-						audio->pause(true);
+						//audio->setPaused(true);
 					}
 				}
 				break;
@@ -114,7 +114,7 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 		if (audio != nullptr)
 		{
 			// un-pause music
-			audio->pause(false);
+			//audio->setPaused(false);
 		}
 	}
 
@@ -158,7 +158,7 @@ void SceneManager::pop()
 			{
 				if (go[i]->isEnabled())
 				{
-					audio->pause(false);
+					//audio->setPaused(false);
 				}
 			}
 		}

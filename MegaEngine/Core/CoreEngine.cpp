@@ -37,7 +37,7 @@ m_sceneManager(sceneManager)
 	m_game = new Game;
 	if (m_sceneManager)
 	{
-		m_audioEngine->setEngine(this);
+		//m_audioEngine->setEngine(this);
 
 		m_sceneManager->setEngine(this);
 	}

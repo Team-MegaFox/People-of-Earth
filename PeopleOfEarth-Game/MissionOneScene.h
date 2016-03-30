@@ -101,8 +101,8 @@ public:
 			(new GameObject("camera",
 			*fighterShip->getTransform()->getPosition() - Utility::getForward(*fighterShip->getTransform()->getRotation()) * 30.0f
 			+ PxVec3(0.0f, 5.0f, 0.0f)))
-			->addGameComponent(new CameraComponent(ToRadians(75.0f), window.getAspectRatio(), 0.1f, 200000.0f))
-			->addGameComponent(new Listener());
+			->addGameComponent(new CameraComponent(ToRadians(75.0f), window.getAspectRatio(), 0.1f, 200000.0f));
+			//->addGameComponent(new Listener());
 		addToRoot(fighterShip);
 		addToRoot(camera);
 
