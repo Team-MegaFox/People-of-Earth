@@ -15,6 +15,7 @@
 #pragma once
 #include <MegaEngine.h>
 #include "MiniMap.h"
+#include "MissileAI.h"
 #include "DialogueBox.h"
 
 class ShipStats : public GameComponent
@@ -191,6 +192,11 @@ public:
 			map->deleteMapMarker(getParent()->getName());
 
 			//Remove the homing missile target of this gameobject
+			std::vector<GameObject*> missiles = getGameObjectsByName("Missile");
+			for (size_t i = 0; i < missiles.size(); i++)
+			{
+				missiles[i]->getGameComponent<MissileAI>()->removeTarget(getParent()->getName());
+			}
 
 			destroy(getParent());
 		}
