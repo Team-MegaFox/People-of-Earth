@@ -3,7 +3,7 @@
 // Created          : 09-17-2015
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 03-28-2016
+// Last Modified On : 03-30-2016
 // ***********************************************************************
 // <copyright file="PlayerShipMovementController.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -52,6 +52,7 @@ void PlayerShipMovementController::onStart()
 	m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 	m_upDirection = Utility::getUp(m_rigidBody->getRotation());
 	m_shipStats = getGameObjectByName("player")->getGameComponent<ShipStats>();
+	m_welcomeLabel = getGameObjectByName("WelcomeLabel")->getGameComponent<DialogueBox>();
 }
 
 void PlayerShipMovementController::processInput(const InputManager& input, float delta)
@@ -93,91 +94,207 @@ void PlayerShipMovementController::processInput(const InputManager& input, float
 
 void PlayerShipMovementController::lookAround(const InputManager& input)
 {
-	if (input.GetThumbRPosition().x > 0.3f)
+	if (!m_invertXAxis)
 	{
-		returnToActualRotation();
-
-		m_rigidBody->updateRotation(ROTATE_X_AXIS(0.025f));
-
-		m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
-
-		m_upDirection = Utility::getUp(m_rigidBody->getRotation());
-
-		//Rotates the camera view
-		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_X_AXIS(0.025f));
-
-		if (m_shipsVisualRotation.y < 50.0f)
+		if (input.GetThumbLPosition().x > 0.3f)
 		{
-			m_shipsVisualRotation.y++;
+			returnToActualRotation();
+
+			m_rigidBody->updateRotation(ROTATE_X_AXIS(0.025f));
+
+			m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
+
+			m_upDirection = Utility::getUp(m_rigidBody->getRotation());
+
+			//Rotates the camera view
+			m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_X_AXIS(0.025f));
+
+			if (m_shipsVisualRotation.y < 50.0f)
+			{
+				m_shipsVisualRotation.y++;
+			}
+
+			showVisualShipRotation();
+
+			m_lerp_Y_Axis_Ship = false;
 		}
 
-		showVisualShipRotation();
-
-		m_lerp_Y_Axis_Ship = false;
-	}
-
-	if (input.GetThumbRPosition().x < -0.3f)
-	{
-		returnToActualRotation();
-		m_rigidBody->updateRotation(ROTATE_X_AXIS(-0.025f));
-
-		m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
-
-		m_upDirection = Utility::getUp(m_rigidBody->getRotation());
-
-		//Rotates the camera view
-		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_X_AXIS(-0.025f));
-		
-		if (m_shipsVisualRotation.y > -50.0f)
+		if (input.GetThumbLPosition().x < -0.3f)
 		{
-			m_shipsVisualRotation.y--;
+			returnToActualRotation();
+			m_rigidBody->updateRotation(ROTATE_X_AXIS(-0.025f));
+
+			m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
+
+			m_upDirection = Utility::getUp(m_rigidBody->getRotation());
+
+			//Rotates the camera view
+			m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_X_AXIS(-0.025f));
+
+			if (m_shipsVisualRotation.y > -50.0f)
+			{
+				m_shipsVisualRotation.y--;
+			}
+			showVisualShipRotation();
+			m_lerp_Y_Axis_Ship = false;
 		}
-		showVisualShipRotation();
-		m_lerp_Y_Axis_Ship = false;
 	}
-
-	if (input.GetThumbRPosition().y > 0.3f)
+	else if (m_invertXAxis)
 	{
-		returnToActualRotation();
-
-		m_rigidBody->updateRotation(ROTATE_Y_AXIS(-0.025f));
-
-		m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
-
-		m_upDirection = Utility::getUp(m_rigidBody->getRotation());
-
-		//Rotates the camera view
-		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Y_AXIS(-0.025f));
-		
-		if (m_shipsVisualRotation.x > -50.0f)
+		if (input.GetThumbLPosition().x < -0.3f)
 		{
-			m_shipsVisualRotation.x--;
-		}
-		showVisualShipRotation();
-		m_lerp_X_Axis_Ship = false;
-	}
+			returnToActualRotation();
 
-	if (input.GetThumbRPosition().y < -0.3f)
-	{
-		returnToActualRotation();
+			m_rigidBody->updateRotation(ROTATE_X_AXIS(0.025f));
 
-		m_rigidBody->updateRotation(ROTATE_Y_AXIS(0.025f));
+			m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 
-		m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
+			m_upDirection = Utility::getUp(m_rigidBody->getRotation());
 
-		m_upDirection = Utility::getUp(m_rigidBody->getRotation());
+			//Rotates the camera view
+			m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_X_AXIS(0.025f));
 
-		//Rotates the camera view
-		m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Y_AXIS(0.025f));
+			if (m_shipsVisualRotation.y < 50.0f)
+			{
+				m_shipsVisualRotation.y++;
+			}
 
-		if (m_shipsVisualRotation.x < 50.0f)
-		{
-			m_shipsVisualRotation.x++;
+			showVisualShipRotation();
+
+			m_lerp_Y_Axis_Ship = false;
 		}
 
-		showVisualShipRotation();
-		m_lerp_X_Axis_Ship = false;
+		if (input.GetThumbLPosition().x > 0.3f)
+		{
+			returnToActualRotation();
+			m_rigidBody->updateRotation(ROTATE_X_AXIS(-0.025f));
+
+			m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
+
+			m_upDirection = Utility::getUp(m_rigidBody->getRotation());
+
+			//Rotates the camera view
+			m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_X_AXIS(-0.025f));
+
+			if (m_shipsVisualRotation.y > -50.0f)
+			{
+				m_shipsVisualRotation.y--;
+			}
+			showVisualShipRotation();
+			m_lerp_Y_Axis_Ship = false;
+		}
 	}
+
+	if (!m_invertYAxis)
+	{
+		if (input.GetThumbLPosition().y > 0.3f)
+		{
+			returnToActualRotation();
+
+			m_rigidBody->updateRotation(ROTATE_Y_AXIS(-0.025f));
+
+			m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
+
+			m_upDirection = Utility::getUp(m_rigidBody->getRotation());
+
+			//Rotates the camera view
+			m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Y_AXIS(-0.025f));
+
+			if (m_shipsVisualRotation.x > -50.0f)
+			{
+				m_shipsVisualRotation.x--;
+			}
+			showVisualShipRotation();
+			m_lerp_X_Axis_Ship = false;
+		}
+
+		if (input.GetThumbLPosition().y < -0.3f)
+		{
+			returnToActualRotation();
+
+			m_rigidBody->updateRotation(ROTATE_Y_AXIS(0.025f));
+
+			m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
+
+			m_upDirection = Utility::getUp(m_rigidBody->getRotation());
+
+			//Rotates the camera view
+			m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Y_AXIS(0.025f));
+
+			if (m_shipsVisualRotation.x < 50.0f)
+			{
+				m_shipsVisualRotation.x++;
+			}
+
+			showVisualShipRotation();
+			m_lerp_X_Axis_Ship = false;
+		}
+	}
+	else if (m_invertYAxis)
+	{
+		if (input.GetThumbLPosition().y < -0.3f)
+		{
+			returnToActualRotation();
+
+			m_rigidBody->updateRotation(ROTATE_Y_AXIS(-0.025f));
+
+			m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
+
+			m_upDirection = Utility::getUp(m_rigidBody->getRotation());
+
+			//Rotates the camera view
+			m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Y_AXIS(-0.025f));
+
+			if (m_shipsVisualRotation.x > -50.0f)
+			{
+				m_shipsVisualRotation.x--;
+			}
+			showVisualShipRotation();
+			m_lerp_X_Axis_Ship = false;
+		}
+
+		if (input.GetThumbLPosition().y > 0.3f)
+		{
+			returnToActualRotation();
+
+			m_rigidBody->updateRotation(ROTATE_Y_AXIS(0.025f));
+
+			m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
+
+			m_upDirection = Utility::getUp(m_rigidBody->getRotation());
+
+			//Rotates the camera view
+			m_camera->getTransform()->setRotation(*m_camera->getTransform()->getRotation() * ROTATE_Y_AXIS(0.025f));
+
+			if (m_shipsVisualRotation.x < 50.0f)
+			{
+				m_shipsVisualRotation.x++;
+			}
+
+			showVisualShipRotation();
+			m_lerp_X_Axis_Ship = false;
+		}
+	}
+
+	////Ray collision check code
+	//if (input.PadButtonDown(SDL_CONTROLLER_BUTTON_X))
+	//{
+	//	GameObject* passengerShip = getGameObjectByName("passengerShip");
+	//	RigidBody* psRigidBody = passengerShip->getGameComponent<RigidBody>();
+	//	psRigidBody->setDebugDraw(true);
+	//	float timeOfCollision = 0.0f;
+	//	if (psRigidBody->getCollider()->checkCollision(
+	//		m_rigidBody->getPosition(),
+	//		Utility::getForward(m_rigidBody->getRotation()),
+	//		timeOfCollision))
+	//	{
+	//		printf("Collision \t%f\n", timeOfCollision);
+	//	}
+	//	else
+	//	{
+	//		printf("No Collision\n");
+	//	}
+	//}
 }
 
 void PlayerShipMovementController::movement(const InputManager& input, float delta)
@@ -191,6 +308,7 @@ void PlayerShipMovementController::movement(const InputManager& input, float del
 	if (input.PadButtonDown(SDL_CONTROLLER_BUTTON_X) && !m_canMoveForward)
 	{
 		m_canMoveForward = true;
+		m_welcomeLabel->sendLastingMessage("[colour='FFFFFFFF'][font='SaucerBB-16'][padding='l:5 t:0 r:5 b:0']Press Start for Options Menu", Importance::HIGH, false);
 	}
 
 	if (input.PadButtonDown(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER))
@@ -242,7 +360,7 @@ void PlayerShipMovementController::showVisualShipRotation()
 
 void PlayerShipMovementController::checkLerp(const InputManager& input)
 {
-	if ((input.GetThumbRPosition().y > 0.3f) || (input.GetThumbRPosition().y < -0.3f))
+	if ((input.GetThumbLPosition().y > 0.3f) || (input.GetThumbLPosition().y < -0.3f))
 	{
 		m_lerp_X_Axis_Ship = false;
 	}
@@ -251,7 +369,7 @@ void PlayerShipMovementController::checkLerp(const InputManager& input)
 		m_lerp_X_Axis_Ship = true;
 	}
 
-	if ((input.GetThumbRPosition().x > 0.3f) || (input.GetThumbRPosition().x < -0.3f))
+	if ((input.GetThumbLPosition().x > 0.3f) || (input.GetThumbLPosition().x < -0.3f))
 	{
 		m_lerp_Y_Axis_Ship = false;
 	}

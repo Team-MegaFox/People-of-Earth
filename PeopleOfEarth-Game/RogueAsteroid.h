@@ -63,7 +63,6 @@ public:
 			* m_velocityValue);
 		//Pick a random axis to rotate
 		m_axisOfRotation = PxVec3(Utility::getRandomNumber(0, -1, 1), Utility::getRandomNumber(0, -1, 1), Utility::getRandomNumber(0, -1, 1));
-
 	}
 
 	PxVec3 pickPoint()

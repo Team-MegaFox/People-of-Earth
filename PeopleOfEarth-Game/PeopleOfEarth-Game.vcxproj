@@ -93,6 +93,7 @@
     <ClInclude Include="FireProjectile.h" />
     <ClInclude Include="FreeLook.h" />
     <ClInclude Include="FreeMove.h" />
+    <ClInclude Include="InGameMusic.h" />
     <ClInclude Include="MainMenuManager.h" />
     <ClInclude Include="MainMenuScene.h" />
     <ClInclude Include="MiniMap.h" />

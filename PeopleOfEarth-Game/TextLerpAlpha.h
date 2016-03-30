@@ -7,13 +7,13 @@ public:
 	TextLerpAlpha() { }
 	~TextLerpAlpha() 
 	{
-		m_label->setText(m_orginalText);
+		m_label->setText(m_originalText);
 	}
 
 	virtual void onStart() 
 	{
 		m_label = getParent()->getGUIComponent<GUILabel>();
-		m_orginalText = m_label->getText();
+		m_originalText = m_label->getText();
 	}
 
 	/// <summary>
@@ -43,7 +43,7 @@ public:
 		std::stringstream ss;
 		ss << "[colour='" << std::hex << alphaV << "FFFFFF']";
 		std::string stringstream = ss.str();
-		m_label->setText(ss.str() + m_orginalText);
+		m_label->setText(ss.str() + m_originalText);
 	}
 
 private:
@@ -53,6 +53,5 @@ private:
 
 	bool fadeOut = true;
 
-	std::string m_orginalText;
-
+	std::string m_originalText;
 };

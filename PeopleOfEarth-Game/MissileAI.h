@@ -87,6 +87,14 @@ public:
 		}
 	}
 
+	void removeTarget(std::string name)
+	{
+		if (name == getParent()->getName())
+		{
+			m_targetObject = nullptr;
+		}
+	}
+
 private:
 	float m_lifeTime;
 	RigidBody* m_targetRigidBody;

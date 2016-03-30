@@ -196,43 +196,151 @@ bool PolygonCollider::checkCollision(Collider* collidableObject)
 	return false;
 }
 
+/*bool PolygonCollider::checkCollision(PxVec3 rayPosition, PxVec3 rayDirection, float &timeOfCollision)
+{
+	//Used the tutorial to help code the collision
+	//http://www.opengl-tutorial.org/miscellaneous/clicking-on-objects/picking-with-custom-ray-obb-function/
+
+	PxVec3 delta = m_position - rayPosition;
+	PxVec3 xaxis = m_rotation.rotate(PxVec3(1, 0, 0));
+	PxVec3 yaxis = m_rotation.rotate(PxVec3(0, 1, 0));
+	PxVec3 zaxis = m_rotation.rotate(PxVec3(0, 0, 1));
+	float axisCollision = 0.0f;
+	timeOfCollision = 999999.0f;
+
+	if (!checkRayAxisCollision(rayDirection, xaxis, -m_halfWidth, m_halfWidth, delta, axisCollision))
+	{
+		return false;
+	}
+	else if (axisCollision != 0.0f)
+	{
+		timeOfCollision = axisCollision;
+	}
+
+	axisCollision = 0.0f;
+	if (!checkRayAxisCollision(rayDirection, yaxis, -m_halfHeight, m_halfHeight, delta, axisCollision))
+	{
+		return false;
+	}
+	else if (axisCollision < timeOfCollision && axisCollision != 0.0f)
+	{
+		timeOfCollision = axisCollision;
+	}
+
+	axisCollision = 0.0f;
+	if (!checkRayAxisCollision(rayDirection, zaxis, -m_halfDepth, m_halfDepth, delta, axisCollision))
+	{
+		return false;
+	}
+	else if (axisCollision < timeOfCollision && axisCollision != 0.0f)
+	{
+		timeOfCollision = axisCollision;
+	}
+
+	return true;
+}
+*/
+
 //bool PolygonCollider::checkCollision(PxVec3 rayPosition, PxVec3 rayDirection, float &timeOfCollision)
 //{
-//	//Used the tutorial to help code the collision
-//	//http://www.opengl-tutorial.org/miscellaneous/clicking-on-objects/picking-with-custom-ray-obb-function/
+//	//Tutorial from:
+//	//http://www.cs.utah.edu/~awilliam/box/box.pdf
 //
-//	PxVec3 delta = m_position - rayPosition;
-//	PxVec3 xaxis = m_rotation.rotate(PxVec3(1, 0, 0));
-//	PxVec3 yaxis = m_rotation.rotate(PxVec3(0, 1, 0));
-//	PxVec3 zaxis = m_rotation.rotate(PxVec3(0, 0, 1));
-//	float axisCollision = 0.0f;
+//	float tmin, tmax, tymin, tymax, tzmin, tzmax;
+//	PxVec3 minPoint, maxPoint;
+//	minPoint.x = m_position.x + (GetRightVector(m_rotation) * -m_halfWidth).x;
+//	minPoint.y = m_position.y + (GetUpVector(m_rotation) * -m_halfHeight).y;
+//	minPoint.z = m_position.z + (GetForwardVector(m_rotation) * -m_halfDepth).z;
+//	maxPoint.x = m_position.x + (GetRightVector(m_rotation) * m_halfWidth).x;
+//	maxPoint.y = m_position.y + (GetUpVector(m_rotation) * m_halfHeight).y;
+//	maxPoint.z = m_position.z + (GetForwardVector(m_rotation) * m_halfDepth).z;
 //
-//	if (!checkRayAxisCollision(rayDirection, xaxis, delta, axisCollision))
-//	{
+//	float divider = 0.0f;
+//	divider = 1 / rayDirection.x;
+//	if (divider >= 0) {
+//		tmin = (minPoint.x - rayPosition.x) * divider;
+//		tmax = (maxPoint.x - rayPosition.x) * divider;
+//	}										
+//	else {									
+//		tmin = (maxPoint.x - rayPosition.x) * divider;
+//		tmax = (minPoint.x - rayPosition.x) * divider;
+//	}
+//	divider = 1 / rayDirection.y;
+//	if (divider >= 0) {
+//		tymin = (minPoint.y - rayPosition.y) * divider;
+//		tymax = (maxPoint.y - rayPosition.y) * divider;
+//	}
+//	else {
+//		tymin = (maxPoint.y - rayPosition.y) * divider;
+//		tymax = (minPoint.y - rayPosition.y) * divider;
+//	}
+//	if ((tmin > tymax) || (tymin > tmax))
 //		return false;
-//	}
-//	if (axisCollision != 0.0f)
-//		timeOfCollision = axisCollision;
 //
-//	if (!checkRayAxisCollision(rayDirection, yaxis, delta, axisCollision))
-//	{
+//	if (tymin > tmin)
+//		tmin = tymin;
+//	if (tymax < tmax)
+//		tmax = tymax;
+//	divider = 1 / rayDirection.z;
+//	if (rayDirection.z >= 0) {
+//		tzmin = (minPoint.z - rayPosition.z) * divider;
+//		tzmax = (maxPoint.z - rayPosition.z) * divider;
+//	}										 
+//	else {									 
+//		tzmin = (maxPoint.z - rayPosition.z) * divider;
+//		tzmax = (minPoint.z - rayPosition.z) * divider;
+//	}
+//
+//	/*if (rayDirection.x >= 0) {
+//		tmin = (minPoint.x - rayPosition.x) / rayDirection.x;
+//		tmax = (maxPoint.x - rayPosition.x) / rayDirection.x;
+//	}
+//	else {
+//		tmin = (maxPoint.x - rayPosition.x) / rayDirection.x;
+//		tmax = (minPoint.x - rayPosition.x) / rayDirection.x;
+//	}
+//	if (rayDirection.y >= 0) {
+//		tymin = (minPoint.y - rayPosition.y) / rayDirection.y;
+//		tymax = (maxPoint.y - rayPosition.y) / rayDirection.y;
+//	}
+//	else {
+//		tymin = (maxPoint.y - rayPosition.y) / rayDirection.y;
+//		tymax = (minPoint.y - rayPosition.y) / rayDirection.y;
+//	}
+//	if ((tmin > tymax) || (tymin > tmax))
 //		return false;
+//	
+//	if (tymin > tmin)
+//		tmin = tymin;
+//	if (tymax < tmax)
+//		tmax = tymax;
+//	if (rayDirection.z >= 0) {
+//		tzmin = (minPoint.z - rayPosition.z) / rayDirection.z;
+//		tzmax = (maxPoint.z - rayPosition.z) / rayDirection.z;
 //	}
-//	if (axisCollision > timeOfCollision && axisCollision != 0.0f)
-//	{
-//		timeOfCollision = axisCollision;
-//	}
-//
-//	if (!checkRayAxisCollision(rayDirection, zaxis, delta, axisCollision))
-//	{
+//	else {
+//		tzmin = (maxPoint.z - rayPosition.z) / rayDirection.z;
+//		tzmax = (minPoint.z - rayPosition.z) / rayDirection.z;
+//	}*/
+//	if ((tmin > tzmax) || (tzmin > tmax))
 //		return false;
-//	}
-//	if (axisCollision > timeOfCollision && axisCollision != 0.0f)
+//	if (tzmin > tmin)
+//		tmin = tzmin;
+//	if (tzmax < tmax)
+//		tmax = tzmax;
+//	
+//	if (tmin > 0.0f)
 //	{
-//		timeOfCollision = axisCollision;
+//		timeOfCollision = tmin;
+//		return true;
+//	}
+//	else if (tmax < 10000.0f)
+//	{
+//		timeOfCollision = tmax; //0.0f
+//		return true;
 //	}
 //
-//	return true;
+//	return false;
 //}
 
 bool PolygonCollider::checkSATCollision(PolygonCollider* collidableObject)
@@ -410,47 +518,20 @@ bool PolygonCollider::checkAxisCollision(
 	return true;
 }
 
-bool PolygonCollider::checkRayAxisCollision(PxVec3 rayDirection, PxVec3 axis, PxVec3 delta, float &timeOfCollision)
+bool PolygonCollider::checkRayAxisCollision(PxVec3 rayDirection, PxVec3 axis, 
+	float aabbmin, float aabbmax, PxVec3 delta, float &timeOfCollision)
 {
 	float tMin = 0.0f;
 	float tMax = 100000.0f;
-	PxVec3 aabb_min(-1.0f, -1.0f, -1.0f);
-	aabb_min = PxVec3(aabb_min.x * axis.x, aabb_min.y * axis.y, aabb_min.z * axis.z);
-	PxVec3 aabb_max(1.0f, 1.0f, 1.0f);
-	aabb_max = PxVec3(aabb_max.x * axis.x, aabb_max.y * axis.y, aabb_max.z * axis.z);
 
 	float e = axis.dot(delta);
 	float f = rayDirection.dot(axis);
 
 	if (f > 0)
 	{
-		// Beware, don't do the division if f is near 0 ! See full source code for details.
-		float t1;
-		if (aabb_min.x != 0)
-		{
-			t1 = (e + aabb_min.x) / f; // Intersection with the "left" plane
-		}
-		else if (aabb_min.y != 0)
-		{
-			t1 = (e + aabb_min.y) / f; // Intersection with the "left" plane
-		}
-		else
-		{
-			t1 = (e + aabb_min.z) / f; // Intersection with the "left" plane
-		}
-		float t2;
-		if (aabb_max.x != 0)
-		{
-			t2 = (e + aabb_max.x) / f; // Intersection with the "right" plane
-		}
-		else if (aabb_max.y != 0)
-		{
-			t2 = (e + aabb_max.y) / f; // Intersection with the "left" plane
-		}
-		else
-		{
-			t2 = (e + aabb_max.z) / f; // Intersection with the "left" plane
-		}
+
+		float t1 = (e + aabbmin) / f; // Intersection with the "near" plane
+		float t2 = (e + aabbmax) / f; // Intersection with the "far" plane
 
 		// if wrong order
 		if (t1>t2)
@@ -468,12 +549,24 @@ bool PolygonCollider::checkRayAxisCollision(PxVec3 rayDirection, PxVec3 axis, Px
 		{
 			tMin = t1;
 		}
-		
+
+		/*tMax = t2;
+		tMin = t1;
+
+		if (tMin < 0.0f)
+		{
+			tMin *= -1.0f;
+		}*/
+
 		if (tMax < tMin)
 		{
 			return false;
 		}
 		
+	}
+	else{ // Rare case : the ray is almost parallel to the planes, so they don't have any "intersection"
+		if (-e + aabbmin > 0.0f || -e + aabbmax < 0.0f)
+			return false;
 	}
 
 	timeOfCollision = tMin;

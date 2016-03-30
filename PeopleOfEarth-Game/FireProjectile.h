@@ -3,7 +3,7 @@
 // Created          : 02-18-2015
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 03-28-2016
+// Last Modified On : 03-30-2016
 // ***********************************************************************
 // <copyright file="FireProjectile.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -20,7 +20,6 @@
 #include "MissileAI.h"
 #include <PhysX/PxPhysicsAPI.h>
 using namespace physx;
-#include "DialogueBox.h"
 
 class FireProjectile : public GameComponent
 {
@@ -74,8 +73,9 @@ public:
 					AudioSource* laserSound = new AudioSource("Music/(laser_fired)268168__shaun105__laser.wav", AudioType::SOUND);
 					instantiate((new GameObject("Laser Sound"))
 						->addGameComponent(laserSound));
+
 					m_delay = 0.0f;
-					m_shipStats->updateEnergy(-0.001f / 60.0f);
+					m_shipStats->updateEnergy(-0.001f);
 				}
 				if (input.GetLeftTrigger() != 0)
 				{
@@ -94,8 +94,9 @@ public:
 					AudioSource* laserSound = new AudioSource("Music/(laser_fired)268168__shaun105__laser.wav", AudioType::SOUND);
 					instantiate((new GameObject("Laser Sound"))
 						->addGameComponent(laserSound));
+
 					m_delay = 0.0f;
-					m_shipStats->updateEnergy(-0.001f / 60.0f);
+					m_shipStats->updateEnergy(-0.001f);
 				}
 			}
 			if (input.PadButtonDown(SDL_CONTROLLER_BUTTON_B))

@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 03-21-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-29-2016
 // ***********************************************************************
 // <copyright file="SceneManager.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.

@@ -38,8 +38,19 @@ public:
 
 	virtual std::vector<GameObject*> getAllEnemyObject() override
 	{
-		//Return nothing
-		return std::vector<GameObject*>();
+		std::vector<GameObject*> collisionCheckObject;
+		std::vector<GameObject*> gameObjects;
+		gameObjects = getGameObjectsByName("player");
+		for (size_t i = 0; i < gameObjects.size(); i++)
+		{
+			collisionCheckObject.push_back(gameObjects[i]);
+		}
+		gameObjects = getGameObjectsByName("Passenger Ship");
+		for (size_t i = 0; i < gameObjects.size(); i++)
+		{
+			collisionCheckObject.push_back(gameObjects[i]);
+		}
+		return collisionCheckObject;
 	}
 
 	virtual void UpdateAI(float timestep) override
