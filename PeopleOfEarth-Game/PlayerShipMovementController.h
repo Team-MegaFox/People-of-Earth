@@ -3,7 +3,7 @@
 // Created          : 09-17-2015
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 03-29-2016
+// Last Modified On : 03-30-2016
 // ***********************************************************************
 // <copyright file="PlayerShipMovementController.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -18,6 +18,7 @@
 #include <MegaEngine.h>
 #include <PhysX/PxPhysicsAPI.h>
 #include "ShipStats.h"
+#include "DialogueBox.h"
 using namespace physx;
 
 class PlayerShipMovementController : public GameComponent
@@ -136,5 +137,7 @@ private:
 
 	bool m_invertXAxis = false;
 	bool m_invertYAxis = true;
+
+	DialogueBox * m_welcomeLabel;
 };
 

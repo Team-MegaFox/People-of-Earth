@@ -3,7 +3,7 @@
 // Created          : 02-18-2015
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 03-29-2016
+// Last Modified On : 03-30-2016
 // ***********************************************************************
 // <copyright file="FireProjectile.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -20,7 +20,6 @@
 #include "MissileAI.h"
 #include <PhysX/PxPhysicsAPI.h>
 using namespace physx;
-#include "DialogueBox.h"
 
 class FireProjectile : public GameComponent
 {

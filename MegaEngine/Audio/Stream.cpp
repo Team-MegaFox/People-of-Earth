@@ -3,7 +3,7 @@
 // Created          : 02-01-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 03-29-2016
+// Last Modified On : 03-30-2016
 // ***********************************************************************
 // <copyright file="Stream.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -31,7 +31,7 @@ Stream::Stream(const std::string& fileName, bool TwoD /* = false*/)
 	}
 	AudioEngine::FMODVerifyResult(AudioEngine::getSystem()->playSound(FMOD_CHANNELINDEX::FMOD_CHANNEL_REUSE, m_streamPair.first, false, &m_streamPair.second));
 
-	pauseStream(false);
+	pauseStream(true);
 }
 
 void Stream::playStream(bool looping)

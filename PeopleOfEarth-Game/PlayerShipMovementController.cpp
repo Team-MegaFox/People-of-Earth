@@ -3,7 +3,7 @@
 // Created          : 09-17-2015
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 03-29-2016
+// Last Modified On : 03-30-2016
 // ***********************************************************************
 // <copyright file="PlayerShipMovementController.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -52,6 +52,7 @@ void PlayerShipMovementController::onStart()
 	m_forwardDirection = Utility::getForward(m_rigidBody->getRotation());
 	m_upDirection = Utility::getUp(m_rigidBody->getRotation());
 	m_shipStats = getGameObjectByName("player")->getGameComponent<ShipStats>();
+	m_welcomeLabel = getGameObjectByName("WelcomeLabel")->getGameComponent<DialogueBox>();
 }
 
 void PlayerShipMovementController::processInput(const InputManager& input, float delta)
@@ -287,6 +288,7 @@ void PlayerShipMovementController::movement(const InputManager& input, float del
 	if (input.PadButtonDown(SDL_CONTROLLER_BUTTON_X) && !m_canMoveForward)
 	{
 		m_canMoveForward = true;
+		m_welcomeLabel->sendLastingMessage("[colour='FFFFFFFF'][font='SaucerBB-16'][padding='l:5 t:0 r:5 b:0']Press Start for Options Menu", Importance::HIGH, false);
 	}
 
 	if (input.PadButtonDown(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER))

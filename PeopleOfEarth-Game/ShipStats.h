@@ -3,12 +3,12 @@
 // Created          : 02-25-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 03-29-2016
+// Last Modified On : 03-30-2016
 // ***********************************************************************
 // <copyright file="ShipStats.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
 // </copyright>
-// <summary>
+// <summary> yellow [colour='FFFFFF00'] red [colour='FFFF0000'] green [colour='FF00FF00'] blue [colour='FF0000FF']
 //</summary>
 // *********
 
@@ -31,17 +31,91 @@ public:
 
 	void updateHealth(float health)
 	{
+		if (health < 0.0f)
+		{
+			// if this ship is the player, warn the player they are taking damage
+			if (getParent()->getName() == "player1")
+			{
+				m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFF0000']You're taking damage, be careful out there!", Importance::MEDIUM, false);
+			}
+
+			// if the passenger is taking damage from the enemy mother ship
+			if (health == -0.7f)
+			{
+				m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FF0000FF']We're taking heavy damage!! Where's our support!!", Importance::HIGH, false);
+			}
+		}
+
 		m_health += health;
+
+		// if this ship is the player, warn the player they are low on health
+		if (getParent()->getName() == "player1")
+		{
+			if (m_health < m_dangerlevel && !m_healthWarnOnce)
+			{
+				m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFF0000']Our systems indicate your[colour='FF00FF00']HEALTH[colour='FFFF0000']\nreserves are[colour='FF0000FF']dangerously low[colour='FF0000FF']!!!", Importance::HIGH, false);
+				m_healthWarnOnce = true;
+			}
+		}
+
+		// if this ship is the passenger ship and its low on health
+		// warn the player only once
+		if (getParent()->getName() == "passengerShip1")
+		{
+			if (!m_warnOnce && m_health < (m_dangerlevel * 2))
+			{
+				m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFF0000']We're not going to make survive unless\nyou can disable that[colour='FF00FF00']Mother Ship", Importance::CRITICAL, false);
+				m_warnOnce = true;
+			}
+		}
+
+		// if an enemy ship has been destroyed
+		if (getParent()->getName() == "enemyFighter")
+		{
+			if (m_health <= 0.0f)
+			{
+				m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFFA500']That ought to teach him!\nWay to go Fighter 1!!", Importance::CRITICAL, false);
+			}
+		}
+
+		// if the enemy mother has been destroyed
+		if (getParent()->getName() == "EnemyMother")
+		{
+			if (m_health <= 0.0f)
+			{
+				m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFFA500']That ought to teach him!\nWay to go Fighter 1!!", Importance::CRITICAL, false);
+			}
+		}
 	}
 
 	void updateFuel(float fuel)
 	{
 		m_fuel += fuel;
+
+		// if this ship is the player, warn the player they are low on fuel
+		if (getParent()->getName() == "player1")
+		{
+			if (m_fuel < m_dangerlevel && !m_fuelWarnOnce)
+			{
+				m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFF0000']Our systems indicate your[colour='FFFFFF00']FUEL[colour='FFFF0000']\n reserves are [colour='FF0000FF']dangerously low[colour='FF0000FF']!!!", Importance::HIGH, false);
+				m_fuelWarnOnce = true;
+			}
+		}
 	}
 
 	void updateEnergy(float energy)
 	{
 		m_energy += energy;
+
+		// if this ship is the player, warn the player they are low on energy
+		if (getParent()->getName() == "player1")
+		{
+			if (m_energy < m_dangerlevel && !m_energyWarnOnce)
+			{
+				m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFF0000']Our systems indicate your[colour='FF0000FF']ENERGY[colour='FFFF0000']\n reserves are [colour='FF0000FF']dangerously low[colour='FF0000FF']!!!", Importance::HIGH, false);
+				m_energyWarnOnce = true;
+			}
+		}
 	}
 
 	virtual void update(float timestep) override
@@ -54,60 +128,66 @@ public:
 
 			destroy(getParent());
 		}
-		if (Utility::getDistance(m_passengerShip->getPosition(), *getTransform()->getPosition()) <= 500.0f)
+
+		// If this ship is the player ship and it is within proximity of the passenger ship
+		// if its health, energy or fuel are low, begin replenishing and let the player know
+		// they are being replenished
+		if (getParent()->getName() == "player1")
 		{
-			if (m_health < 1.0f)
+			if (Utility::getDistance(m_passengerShip->getPosition(), *getTransform()->getPosition()) <= 500.0f)
 			{
-				updateHealth(0.0005f);
-				if (!m_healing)
-				{
-					m_dialogueMessage += "Health Regenerating... \n";
-					m_messageChanged = true;
-					m_healing = true;
-				}
-			}
-			else
-			{
-				m_healing = false;
-				m_messageChanged = false;
-			}
+				m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFFFFFF']Stay close,\n we'll replenish your reserves.", Importance::LOW, false);
 
-			if (m_energy < 1.0f)
-			{
-				updateEnergy(0.0005f);
-				if (!m_energizing)
+				if (m_health < 1.0f)
 				{
-					m_dialogueMessage += "Energy Regenerating... \n";
-					m_messageChanged = true;
-					m_energizing = true;
+					updateHealth(0.0005f);
+					if (!m_healing)
+					{
+						m_healing = true;
+						if (m_health > m_dangerlevel)
+						{
+							m_healthWarnOnce = false;
+						}
+					}
 				}
-			}
-			else
-			{
-				m_energizing = false;
-				m_messageChanged = false;
-			}
+				else
+				{
+					m_healing = false;
+				}
 
-			if (m_fuel < 1.0f)
-			{
-				updateFuel(0.0005f);
-				if (!m_fueling)
+				if (m_energy < 1.0f)
 				{
-					m_dialogueMessage += "Fuel Replenishing... \n";
-					m_messageChanged = true;
-					m_fueling = true;
+					updateEnergy(0.0005f);
+					if (!m_energizing)
+					{
+						m_energizing = true;
+						if (m_energy > m_dangerlevel)
+						{
+							m_energyWarnOnce = false;
+						}
+					}
 				}
-			}
-			else
-			{
-				m_fueling = false;
-				m_messageChanged = false;
-			}
-			if (m_messageChanged)
-			{
-				m_dialogueBox->sendMessage(m_dialogueMessage, Importance::LOW);
-				m_dialogueMessage = "";
-				m_messageChanged = false;
+				else
+				{
+					m_energizing = false;
+				}
+
+				if (m_fuel < 1.0f)
+				{
+					updateFuel(0.0005f);
+					if (!m_fueling)
+					{
+						m_fueling = true;
+						if (m_fuel > m_dangerlevel)
+						{
+							m_fuelWarnOnce = false;
+						}
+					}
+				}
+				else
+				{
+					m_fueling = false;
+				}
 			}
 		}
 	}
@@ -148,10 +228,13 @@ private:
 	float m_energy = 1.0f;
 	MiniMap * map;
 	RigidBody * m_passengerShip;
-	std::string m_dialogueMessage = "";
 	DialogueBox * m_dialogueBox;
 	bool m_healing = false; 
 	bool m_energizing = false; 
 	bool m_fueling = false; 
-	bool m_messageChanged = false;
+	bool m_warnOnce = false;
+	bool m_healthWarnOnce = false;
+	bool m_energyWarnOnce = false;
+	bool m_fuelWarnOnce = false;
+	float m_dangerlevel = 0.3f;
 };

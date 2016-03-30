@@ -310,6 +310,16 @@ private:
 		addToRoot((new GameObject("DialogueBox"))
 			->addGUIComponent(new GUILabel(PxVec4(0.75f, 0.03f, 0.25f, 0.125f), PxVec4(PxZero), ""))
 			->addGameComponent(new DialogueBox));
+
+		DialogueBox * welcomeLabel = new DialogueBox();
+		welcomeLabel->sendLastingMessage("[colour='FFFFFFFF'][font='SaucerBB-16'][padding='l:5 t:0 r:5 b:0']Hello! Welcome to[colour='FF00FF00']The People of Earth Demo!\n[colour='FFFFFFFF']We hope you enjoy your time with us.\n[colour='FFFFAF00']Feel free to ask us any questions you have.",
+			Importance::LOW, false);
+		// Welcome label
+		addToRoot((new GameObject("WelcomeLabel"))
+			->addGUIComponent(new GUILabel(PxVec4(0.05f, 0.85f, 0.90f, 0.125f), 
+			PxVec4(PxZero), ""))
+			->addGameComponent(welcomeLabel));
+	
 	}
 
 	void addArea1OfMission1()

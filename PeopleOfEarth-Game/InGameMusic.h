@@ -3,7 +3,7 @@
 // Created          : 03-28-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 03-29-2016
+// Last Modified On : 03-30-2016
 // ***********************************************************************
 // <copyright file="InGameMusic.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -33,29 +33,14 @@ public:
 	virtual void onStart() override
 	{
 		// required handles
+		// Needed simply to be able to check if they are currently playing
 		m_Intro = new AudioSource("In Game Music Intro.wav", AudioType::STREAM, true);
-		instantiate((new GameObject("m_Intro"))
-			->addGameComponent(m_Intro));
-
 		m_Transition = new AudioSource("In Game Music Transition 1.wav", AudioType::STREAM, true);
-		instantiate((new GameObject("m_Transition"))
-			->addGameComponent(m_Transition));
-
 		m_Music1 = new AudioSource("In Game Music 1.wav", AudioType::STREAM, true);
-		instantiate((new GameObject("m_Music1"))
-			->addGameComponent(m_Music1));
-
 		m_Music2 = new AudioSource("In Game Music 2.wav", AudioType::STREAM, true);
-		instantiate((new GameObject("m_Music2"))
-			->addGameComponent(m_Music2));
-
 		m_Danger1 = new AudioSource("In Game Music Danger.wav", AudioType::STREAM, true);
-		instantiate((new GameObject("m_Danger1"))
-			->addGameComponent(m_Danger1));
-
 		m_Danger2 = new AudioSource("In Game Music Danger 2.wav", AudioType::STREAM, true);
-		instantiate((new GameObject("m_Danger2"))
-			->addGameComponent(m_Danger2));
+
 
 		// Nothing has played yet
 		m_introPlayed = false;
@@ -108,6 +93,7 @@ public:
 			m_Intro = new AudioSource("In Game Music Intro.wav", AudioType::STREAM, true);
 			instantiate((new GameObject("m_Intro"))
 				->addGameComponent(m_Intro));
+			m_Intro->pause(false);
 			m_introPlayed = true;
 			m_firstTimeOnly = false;
 		}
@@ -129,17 +115,12 @@ public:
 				|| (m_music1Played && !m_transitionPlayed)
 				|| (m_music2Played && !m_transitionPlayed)
 				|| (m_danger1Played && !m_transitionPlayed)
-				|| (m_danger2Played && !m_transitionPlayed))
-				&& ((!m_Intro->isPlaying()) 
-				&& (!m_Music1->isPlaying()) 
-				&& (!m_Music2->isPlaying()) 
-				&& (!m_Danger1->isPlaying()) 
-				&& (!m_Danger2->isPlaying())
-				&& (!m_Transition->isPlaying())))
+				|| (m_danger2Played && !m_transitionPlayed)))
 			{
 				m_Transition = new AudioSource("In Game Music Transition 1.wav", AudioType::STREAM, true);
 				instantiate((new GameObject("m_Transition"))
 					->addGameComponent(m_Transition));
+				m_Transition->pause(false);
 				// reset booleans
 				m_transitionPlayed = true;
 			}
@@ -154,6 +135,7 @@ public:
 					m_Music1 = new AudioSource("In Game Music 1.wav", AudioType::STREAM, true);
 					instantiate((new GameObject("m_Music1"))
 						->addGameComponent(m_Music1));
+					m_Music1->pause(false);
 					// reset booleans
 					m_music1Played = true;
 					m_transitionPlayed = false;
@@ -173,6 +155,7 @@ public:
 					m_Music2 = new AudioSource("In Game Music 2.wav", AudioType::STREAM, true);
 					instantiate((new GameObject("m_Music2"))
 						->addGameComponent(m_Music2));
+					m_Music2->pause(false);
 					// reset booleans
 					m_music2Played = true;
 					m_music1Played = false;
@@ -185,6 +168,7 @@ public:
 					m_Music1 = new AudioSource("In Game Music 1.wav", AudioType::STREAM, true);
 					instantiate((new GameObject("m_Music1"))
 						->addGameComponent(m_Music1));
+					m_Music1->pause(false);
 					// reset booleans
 					m_music1Played = true;
 					m_transitionPlayed = false;
@@ -216,6 +200,7 @@ public:
 					m_Danger1 = new AudioSource("In Game Music Danger.wav", AudioType::STREAM, true);
 					instantiate((new GameObject("m_Danger1"))
 						->addGameComponent(m_Danger1));
+					m_Danger1->pause(false);
 					// reset booleans
 					m_danger1Played = true;
 					m_transitionPlayed = false;
@@ -243,6 +228,7 @@ public:
 					m_Danger2 = new AudioSource("In Game Music Danger 2.wav", AudioType::STREAM, true);
 					instantiate((new GameObject("m_Danger2"))
 						->addGameComponent(m_Danger2)); 
+					m_Danger2->pause(false);
 					m_danger2Played = true;
 					m_transitionPlayed = false;
 					m_danger1Played = false;

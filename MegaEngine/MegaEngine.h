@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu 
+// Author           : Pavan Jakhu & Jesse Derochie
 // Created          : 01-23-2016
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 03-21-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-30-2016
 // ***********************************************************************
 // <copyright file="MegaEngine.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -13,6 +13,7 @@
 
 #pragma once
 
+#include "Core\Time.h"
 #include "Core\Transform.h"
 #include "Core\GameObject.h"
 #include "Core\CoreEngine.h"
