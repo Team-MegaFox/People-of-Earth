@@ -120,15 +120,6 @@ public:
 
 	virtual void update(float timestep) override
 	{
-		if (m_health <= 0.0f)
-		{
-			//MiniMap * map;
-			map = getGameObjectByName("MiniMap")->getGameComponent<MiniMap>();
-			map->deleteMapMarker(getParent()->getName());
-
-			destroy(getParent());
-		}
-
 		// If this ship is the player ship and it is within proximity of the passenger ship
 		// if its health, energy or fuel are low, begin replenishing and let the player know
 		// they are being replenished
@@ -190,6 +181,19 @@ public:
 				}
 			}
 		}
+
+
+		if (m_health <= 0.0f)
+		{
+			//Remove gameobject from the minimap
+			MiniMap * map;
+			map = getGameObjectByName("MiniMap")->getGameComponent<MiniMap>();
+			map->deleteMapMarker(getParent()->getName());
+
+			//Remove the homing missile target of this gameobject
+
+			destroy(getParent());
+		}
 	}
 
 	float getHealth()
@@ -226,7 +230,7 @@ private:
 	float m_health = 1.0f;
 	float m_fuel = 1.0f;
 	float m_energy = 1.0f;
-	MiniMap * map;
+	//MiniMap * map;
 	RigidBody * m_passengerShip;
 	DialogueBox * m_dialogueBox;
 	bool m_healing = false; 

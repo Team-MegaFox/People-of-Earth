@@ -104,9 +104,9 @@ public:
 		//}
 		else
 		{
-			for (size_t i = 0; i < m_allEnemyGameObjects.size(); i++)
+			for (size_t i = 1; i < m_allEnemyGameObjects.size() + 1; i++)
 			{
-				if (objectName == "enemyFighter" + i)
+				if (objectName == "enemyFighter" + std::to_string(i))
 				{
 					getParent()->removeChild(getParent()->getAllChildren()[i + 1]);
 					m_allEnemyGameObjects[i] = nullptr;

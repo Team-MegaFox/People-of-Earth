@@ -20,8 +20,6 @@
 using namespace physx;
 
 // TODO: More asteroids, more distant decorations
-// TODO: *Messaging that periodically sends dialogue to dialogue window
-		// based on being attacked, destroying an enemy, achieving mission parameter etc..
 // TODO: *Rays
 // TODO: *Deleteing gameobjects ie. MiniMap
 // TODO: *markers on edge of mini map
@@ -111,11 +109,84 @@ public:
 		addToRoot((new GameObject("DirectionalLight2", PxVec3(0.0f, 0.0f, 10000.0f), PxQuat(ToRadians(-180.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
 			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 1.0f, 1.0f), 0.6f, 8)));
 
+		addPassengerShip();		
+
+		addToRoot((new GameObject("Asteroid", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
+			->addGameComponent(new MeshRenderer(Mesh("Asteroids/Asteroid_C.obj", 50.0f), Material("asteroid")))
+			->addGameComponent(new RigidBody(PxVec3(0), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), 1.0f, 1.0f))
+			->addGameComponent(new RogueAsteroid(10.0f, 0.005f)));
+
+		addToRoot((new GameObject("EnemyMother", PxVec3(-1500.0f, 0.0f, 5000.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Ships/enemy_HeavyCruiser.obj", 100.0f), Material("enemyMother")))
+			->addGameComponent(new RigidBody(PxVec3(-1500.0f, 0.0f, 5000.0f), PxQuat(PxIdentity), 1.0f, 50.0f, 40.0f, 275.0f))
+			->addGameComponent(new MotherShipAI)
+			->addGameComponent(new ShipStats)
+			);
+
+		//addToRoot((new GameObject("GameOver"))
+		//	->addGUIComponent(new GUIButton(PxVec4(0.35f, 0.5f, 0.3f, 0.05f), PxVec4(0.0f), "Return To Mission Select",
+		//	std::bind(&MissionOneScene::onRetryClick, this, std::placeholders::_1)))
+		//	);
+
+		addArea1OfMission1();
+
+		//addArea2OfMission1();
+
+		addGUI();
+	}
+
+private:
+	void addGUI()
+	{
+		float barXPos = 0.02f;
+		float barWidth = 0.25f;
+		float barHeight = 0.1f;
+
+		addToRoot((new GameObject("Health Bar Background"))
+			->addGUIComponent(new GUIImage(PxVec4(barXPos, 0.05f, barWidth, barHeight), PxVec4(0.0f), "Images/BarBackground.png", 287.0f / 20.0f))
+			->addChild((new GameObject("Health Bar"))
+			->addGUIComponent(new GUIImage(PxVec4(0.05f, 0.18f, 12.7f, 0.62f), PxVec4(0.0f), "Images/healthbar.png"))));
+
+		// Health Bar Label
+		addToRoot(((new GameObject("Health Bar Label")))
+			->addGUIComponent(new GUIImage(PxVec4(0.005f, 0.04f, 0.04f, 0.04f), PxVec4(0.0f), "Images/HealthMarker.png")));
+
+		addToRoot((new GameObject("Energy Bar Background"))
+			->addGUIComponent(new GUIImage(PxVec4(barXPos, 0.09f, barWidth, barHeight), PxVec4(0.0f), "Images/BarBackground.png", 287.0f / 20.0f))
+			->addChild((new GameObject("Energy Bar"))
+			->addGUIComponent(new GUIImage(PxVec4(0.05f, 0.18f, 12.7f, 0.62f), PxVec4(0.0f), "Images/energybar.png"))));
+
+		// Energy Bar Label
+		addToRoot(((new GameObject("Energy Bar Label")))
+			->addGUIComponent(new GUIImage(PxVec4(0.005f, 0.08f, 0.04f, 0.04f), PxVec4(0.0f), "Images/EnergyMarker.png")));
+
+		addToRoot((new GameObject("Fuel Bar Background"))
+			->addGUIComponent(new GUIImage(PxVec4(barXPos, 0.13f, barWidth, barHeight), PxVec4(0.0f), "Images/BarBackground.png", 287.0f / 20.0f))
+			->addChild((new GameObject("Fuel Bar"))
+			->addGUIComponent(new GUIImage(PxVec4(0.05f, 0.18f, 12.7f, 0.62f), PxVec4(0.0f), "Images/fuelbar.png"))));
+	
+		// Fuel Bar Label
+		addToRoot(((new GameObject("Fuel Bar Label")))
+			->addGUIComponent(new GUIImage(PxVec4(0.005f, 0.12f, 0.04f, 0.04f), PxVec4(0.0f), "Images/FuelMarker.png")));
+		
+		addToRoot((new GameObject("MiniMap"))
+			->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.3f, 0.3f), PxVec4(0.0f), "Images/minimap_graphics/GUI_MiniMap.png"))
+			->addGameComponent(new MiniMap(PxVec2(0.15f, 0.15f), 3000.0f))
+			);
+
+		// DialogueBox
+		addToRoot((new GameObject("DialogueBox"))
+			->addGUIComponent(new GUILabel(PxVec4(0.75f, 0.03f, 0.25f, 0.125f), PxVec4(PxZero), ""))
+			->addGameComponent(new DialogueBox));
+	}
+
+	void addPassengerShip()
+	{
 		// PassengerShip Lights
 
 		// Tower North Bottom East
-		GameObject * spotLight1_Passenger = 
-			new GameObject("spotLight1_Passenger", 
+		GameObject * spotLight1_Passenger =
+			new GameObject("spotLight1_Passenger",
 			PxVec3(17.0f, 0.0f, -50.0f),
 			PxQuat(ToRadians(45.0f), PxVec3(0.0f, 1.0f, 0.0f)));
 		spotLight1_Passenger->addGameComponent(
@@ -319,7 +390,6 @@ private:
 			->addGUIComponent(new GUILabel(PxVec4(0.05f, 0.85f, 0.90f, 0.125f), 
 			PxVec4(PxZero), ""))
 			->addGameComponent(welcomeLabel));
-	
 	}
 
 	void addArea1OfMission1()
@@ -338,20 +408,20 @@ private:
 			->addGameComponent(new EnemyFighterShipAI)
 			->addGameComponent(new ShipStats)
 			);
-		 //the alien fighter ship
-		addToRoot((new GameObject("enemyFighter", PxVec3(0.0f, 20.0f, 1000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
-			->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 6.0f, 24.0f))
-			->addGameComponent(new ShipStats)
-			->addGameComponent(new EnemyFighterShipAI)
-			);
-		//// the alien fighter ship
-		addToRoot((new GameObject("enemyFighter", PxVec3(0.0f, -20.0f, 3000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
-			->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 6.0f, 24.0f))
-			->addGameComponent(new EnemyFighterShipAI)
-			->addGameComponent(new ShipStats)
-			);
+		// //the alien fighter ship
+		//addToRoot((new GameObject("enemyFighter", PxVec3(0.0f, 20.0f, 1000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
+		//	->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
+		//	->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 6.0f, 24.0f))
+		//	->addGameComponent(new ShipStats)
+		//	->addGameComponent(new EnemyFighterShipAI)
+		//	);
+		////// the alien fighter ship
+		//addToRoot((new GameObject("enemyFighter", PxVec3(0.0f, -20.0f, 3000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
+		//	->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
+		//	->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 6.0f, 24.0f))
+		//	->addGameComponent(new EnemyFighterShipAI)
+		//	->addGameComponent(new ShipStats)
+		//	);
 
 		//// Planets and Moons
 		addToRoot((new GameObject("moon", PxVec3(1000.0f, 0.0f, 1000.0f)))

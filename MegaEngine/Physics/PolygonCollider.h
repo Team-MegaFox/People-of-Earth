@@ -120,7 +120,7 @@ public:
 		PxVec3 forwardDirection2, 
 		PolygonCollider* collidableObject);
 
-	bool checkRayAxisCollision(PxVec3 rayDirection, PxVec3 axis, PxVec3 delta, float &timeOfCollision);
+	bool checkRayAxisCollision(PxVec3 rayDirection, PxVec3 axis, float aabbmin, float aabbmax, PxVec3 delta, float &timeOfCollision);
 
 	bool checkDistance(PolygonCollider* collidableObject);
 
