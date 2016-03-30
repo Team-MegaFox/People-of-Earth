@@ -46,14 +46,7 @@ public:
 
 	virtual void update(float timestep) override
 	{
-		if (m_health <= 0.0f)
-		{
-			//MiniMap * map;
-			map = getGameObjectByName("MiniMap")->getGameComponent<MiniMap>();
-			map->deleteMapMarker(getParent()->getName());
-
-			destroy(getParent());
-		}
+		
 		if (Utility::getDistance(m_passengerShip->getPosition(), *getTransform()->getPosition()) <= 500.0f)
 		{
 			if (m_health < 1.0f)
@@ -110,6 +103,19 @@ public:
 				m_messageChanged = false;
 			}
 		}
+
+
+		if (m_health <= 0.0f)
+		{
+			//Remove gameobject from the minimap
+			MiniMap * map;
+			map = getGameObjectByName("MiniMap")->getGameComponent<MiniMap>();
+			map->deleteMapMarker(getParent()->getName());
+
+			//Remove the homing missile target of this gameobject
+
+			destroy(getParent());
+		}
 	}
 
 	float getHealth()
@@ -146,7 +152,7 @@ private:
 	float m_health = 1.0f;
 	float m_fuel = 1.0f;
 	float m_energy = 1.0f;
-	MiniMap * map;
+	//MiniMap * map;
 	RigidBody * m_passengerShip;
 	std::string m_dialogueMessage = "";
 	DialogueBox * m_dialogueBox;

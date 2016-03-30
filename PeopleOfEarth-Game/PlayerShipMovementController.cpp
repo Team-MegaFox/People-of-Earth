@@ -274,6 +274,26 @@ void PlayerShipMovementController::lookAround(const InputManager& input)
 			m_lerp_X_Axis_Ship = false;
 		}
 	}
+
+	////Ray collision check code
+	//if (input.PadButtonDown(SDL_CONTROLLER_BUTTON_X))
+	//{
+	//	GameObject* passengerShip = getGameObjectByName("passengerShip");
+	//	RigidBody* psRigidBody = passengerShip->getGameComponent<RigidBody>();
+	//	psRigidBody->setDebugDraw(true);
+	//	float timeOfCollision = 0.0f;
+	//	if (psRigidBody->getCollider()->checkCollision(
+	//		m_rigidBody->getPosition(),
+	//		Utility::getForward(m_rigidBody->getRotation()),
+	//		timeOfCollision))
+	//	{
+	//		printf("Collision \t%f\n", timeOfCollision);
+	//	}
+	//	else
+	//	{
+	//		printf("No Collision\n");
+	//	}
+	//}
 }
 
 void PlayerShipMovementController::movement(const InputManager& input, float delta)
