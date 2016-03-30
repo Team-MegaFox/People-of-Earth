@@ -3,8 +3,10 @@
 #include <string>
 #include <FMOD\fmod.hpp>
 
-void ERRCHECK_fn(FMOD_RESULT result, const char *file, int line);
-#define ERRCHECK(_result) ERRCHECK_fn(_result, __FILE__, __LINE__)
+void ERRCHECK_ok(FMOD_RESULT result, const char *file, int line);
+void ERRCHECK_invalid(FMOD_RESULT result, const char *file, int line);
+#define ERRCHECK_OK(_result) ERRCHECK_ok(_result, __FILE__, __LINE__)
+#define ERRCHECK_INVALID(_result) ERRCHECK_invalid(_result, __FILE__, __LINE__)
 
 class AudioEngine
 {

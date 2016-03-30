@@ -4,7 +4,7 @@
 
 AudioEngine::AudioEngine()
 {
-	ERRCHECK(FMOD::System_Create(&m_system));
+	ERRCHECK_OK(FMOD::System_Create(&m_system));
 
 	unsigned int version;
 	m_system->getVersion(&version);
@@ -15,17 +15,17 @@ AudioEngine::AudioEngine()
 	}
 
 	void* extradriverdata = 0;
-	ERRCHECK(m_system->init(32, FMOD_INIT_NORMAL, extradriverdata));
+	ERRCHECK_OK(m_system->init(32, FMOD_INIT_NORMAL, extradriverdata));
 
-	ERRCHECK(m_system->createChannelGroup("Sounds", &m_sounds));
-	ERRCHECK(m_system->createChannelGroup("Streams", &m_streams));
+	ERRCHECK_OK(m_system->createChannelGroup("Sounds", &m_sounds));
+	ERRCHECK_OK(m_system->createChannelGroup("Streams", &m_streams));
 
-	ERRCHECK(m_system->getMasterChannelGroup(&m_masterGroup));
+	ERRCHECK_OK(m_system->getMasterChannelGroup(&m_masterGroup));
 
-	ERRCHECK(m_masterGroup->addGroup(m_sounds));
-	ERRCHECK(m_masterGroup->addGroup(m_streams));
+	ERRCHECK_OK(m_masterGroup->addGroup(m_sounds));
+	ERRCHECK_OK(m_masterGroup->addGroup(m_streams));
 
-	ERRCHECK(m_system->set3DSettings(1.0, 100.0f, 1.0f));
+	ERRCHECK_OK(m_system->set3DSettings(1.0, 100.0f, 1.0f));
 }
 
 AudioEngine::~AudioEngine()
@@ -41,31 +41,39 @@ void AudioEngine::update()
 
 float AudioEngine::getSoundVolume() const
 {
-	float volume;
-	ERRCHECK(m_sounds->getVolume(&volume));
+	float volume = -1.0f;
+	ERRCHECK_OK(m_sounds->getVolume(&volume));
 	return volume;
 }
 
 float AudioEngine::getStreamVolume() const
 {
-	float volume;
-	ERRCHECK(m_streams->getVolume(&volume));
+	float volume = -1.0f;
+	ERRCHECK_OK(m_streams->getVolume(&volume));
 	return volume;
 }
 
 void AudioEngine::setSoundVolume(float volume)
 {
-	ERRCHECK(m_sounds->setVolume(volume));
+	ERRCHECK_OK(m_sounds->setVolume(volume));
 }
 
 void AudioEngine::setStreamVolume(float volume)
 {
-	ERRCHECK(m_streams->setVolume(volume));
+	ERRCHECK_OK(m_streams->setVolume(volume));
 }
 
-void ERRCHECK_fn(FMOD_RESULT result, const char *file, int line)
+void ERRCHECK_ok(FMOD_RESULT result, const char *file, int line)
 {
 	if (result != FMOD_OK)
+	{
+		printf("%s(%d): FMOD error %d - %s\n", file, line, result, FMOD_ErrorString(result));
+	}
+}
+
+void ERRCHECK_invalid(FMOD_RESULT result, const char *file, int line)
+{
+	if ((result != FMOD_OK) && (result != FMOD_ERR_INVALID_HANDLE) && (result != FMOD_ERR_CHANNEL_STOLEN))
 	{
 		printf("%s(%d): FMOD error %d - %s\n", file, line, result, FMOD_ErrorString(result));
 	}

@@ -60,6 +60,16 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 			if (modality == Modality::Exclusive)
 			{
 				go[i]->setEnabled(false);
+
+				AudioSource * audio = go[i]->getGameComponent<AudioSource>();
+				if (audio != nullptr)
+				{
+					if (audio->getType() == AudioType::STREAM)
+					{
+						// pause music
+						audio->stop();
+					}
+				}
 			}
 		}
 	}
@@ -85,7 +95,7 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 					if (audio != nullptr)
 					{
 						// pause music
-						//audio->setPaused(true);
+						//audio->stop();
 					}
 				}
 				break;
@@ -151,14 +161,15 @@ void SceneManager::pop()
 			}
 		}
 
+		go = m_activeList[m_exclusiveScene].first->getAllGameObjects();
 		for (size_t i = 0; i < go.size(); i++)
 		{
 			AudioSource * audio = go[i]->getGameComponent<AudioSource>();
 			if (audio != nullptr)
 			{
-				if (go[i]->isEnabled())
+				if (audio->getType() == AudioType::STREAM)
 				{
-					//audio->setPaused(false);
+					audio->play();
 				}
 			}
 		}
