@@ -99,23 +99,25 @@ public:
 					m_delay = 0.0f;
 					m_shipStats->updateEnergy(-0.001f);
 				}
+				if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B))
+				{
+					//Shoot missile
+					instantiate(
+						(new GameObject("Missile", *getTransform()->getPosition()
+						, *getTransform()->getRotation(), m_missileScale))
+						->addGameComponent(new MissileAI())
+						->addGameComponent(new MeshRenderer(Mesh("Ships/Missiles/missile.obj"), Material("missile")))
+						->addGameComponent(new RigidBody(*getTransform()->getPosition() +
+						Utility::getForward(*getTransform()->getRotation()) * 15.0f +
+						Utility::getLeft(*getTransform()->getRotation()) * 3.5f,
+						*getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f,
+						Utility::getForward(*getTransform()->getRotation()) * 200.0f))
+						);
+					m_delay = 0.0f;
+					m_shipStats->updateEnergy(-0.001f);
+				}
 			}
-			if (input.PadButtonDown(SDL_CONTROLLER_BUTTON_B))
-			{
-				//Shoot missile
-				instantiate(
-					(new GameObject("Missile", *getTransform()->getPosition()
-					, *getTransform()->getRotation(), m_missileScale))
-					->addGameComponent(new MissileAI())
-					->addGameComponent(new MeshRenderer(Mesh("Ships/Missiles/missile.obj"), Material("missile")))
-					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
-					Utility::getForward(*getTransform()->getRotation()) * 15.0f +
-					Utility::getLeft(*getTransform()->getRotation()) * 3.5f,
-					*getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f,
-					Utility::getForward(*getTransform()->getRotation()) * 200.0f))
-					);
-				m_delay = 0.0f;
-			}
+			
 			else
 			{
 				m_delay += delta;

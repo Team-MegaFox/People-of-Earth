@@ -11,6 +11,12 @@
     <ClCompile Include="PlayerShipMovementController.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="ShipStats.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="MissileAI.cpp">
+      <Filter>Components\AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TextLerpAlpha.h">
