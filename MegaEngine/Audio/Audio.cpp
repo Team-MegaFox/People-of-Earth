@@ -1,5 +1,16 @@
+// ***********************************************************************
+// Author           : Pavan Jakhu and Jesse Derochie
+// Created          : 03-30-2016
+//
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 03-30-2016
+// ***********************************************************************
+// <copyright file="MegaEngine.h" company="Team MegaFox">
+//     Copyright (c) Team MegaFox. All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
 #include "Audio.h"
-
 
 Audio::Audio(AudioEngine* audioEngine) :
 m_audioEngine(audioEngine)
