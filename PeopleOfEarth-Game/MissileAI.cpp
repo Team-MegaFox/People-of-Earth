@@ -38,6 +38,7 @@ void MissileAI::init()
 			{
 				m_targetObject = enemyGameObjects[i];
 				m_targetRigidBody = m_targetObject->getGameComponent<RigidBody>();
+				shortestDistance = distance;
 			}
 		}
 	}
@@ -78,6 +79,7 @@ void MissileAI::UpdateAI(float timestep)
 				else
 				{
 					m_velocityValue = 50.0f;
+					RotateShip(timestep * 2);
 				}
 			}
 			//Just need to move fast to its target
