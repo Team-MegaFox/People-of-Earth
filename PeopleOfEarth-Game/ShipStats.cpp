@@ -39,8 +39,11 @@ void ShipStats::updateHealth(float health)
 			m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FF0000FF']We're taking heavy damage!! Where's our support!!", Importance::HIGH, false);
 		}
 	}
-
-	m_health += health;
+	
+	if (m_health > 0.0f)
+	{
+		m_health += health;
+	}
 
 	// if this ship is the player, warn the player they are low on health
 	if (getParent()->getName() == "player1")
@@ -84,7 +87,10 @@ void ShipStats::updateHealth(float health)
 
 void ShipStats::updateFuel(float fuel)
 {
-	m_fuel += fuel;
+	if (m_fuel > 0.0f)
+	{
+		m_fuel += fuel;
+	}
 
 	// if this ship is the player, warn the player they are low on fuel
 	if (getParent()->getName() == "player1")
@@ -99,7 +105,10 @@ void ShipStats::updateFuel(float fuel)
 
 void ShipStats::updateEnergy(float energy)
 {
-	m_energy += energy;
+	if (m_energy > 0.0f)
+	{
+		m_energy += energy;
+	}
 
 	// if this ship is the player, warn the player they are low on energy
 	if (getParent()->getName() == "player1")
