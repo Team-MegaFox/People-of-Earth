@@ -42,11 +42,9 @@ void MissileAI::init()
 			}
 		}
 	}
-
-	if (m_targetObject != nullptr)
-	{
-		m_velocityValue = 100.0f;
-	}
+	
+	m_velocityValue = 100.0f;
+	
 }
 
 std::vector<GameObject*> MissileAI::getAllEnemyObject()
@@ -67,8 +65,8 @@ void MissileAI::UpdateAI(float timestep)
 		}
 		else
 		{
-			if (Utility::getDistance(m_targetRigidBody->getPosition(), m_rigidBody->getPosition()) < 100.0f)
-			{
+			//if (Utility::getDistance(m_targetRigidBody->getPosition(), m_rigidBody->getPosition()) < 100.0f)
+			//{
 				float timeOfCollision = 0.0f;
 				//In front
 				if (m_targetRigidBody->getCollider()->checkCollision(m_rigidBody->getPosition(), m_rigidBody->getVelocity(), timeOfCollision))
@@ -81,12 +79,12 @@ void MissileAI::UpdateAI(float timestep)
 					m_velocityValue = 50.0f;
 					RotateShip(timestep * 2);
 				}
-			}
-			//Just need to move fast to its target
-			else
-			{
-				m_velocityValue = 100.0f;
-			}
+			//}
+			////Just need to move fast to its target
+			//else
+			//{
+			//	m_velocityValue = 100.0f;
+			//}
 			SeekToPoint(m_targetRigidBody->getPosition() + (m_targetRigidBody->getVelocity() * timestep), timestep);
 		}
 	}
