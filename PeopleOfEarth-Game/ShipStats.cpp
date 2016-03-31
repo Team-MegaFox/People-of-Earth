@@ -195,10 +195,22 @@ void ShipStats::update(float timestep)
 
 		//Remove the homing missile target of this gameobject
 		std::vector<GameObject*> missiles = getGameObjectsByName("Missile");
+		//MissileAI* missileAIComponent;
 		for (size_t i = 0; i < missiles.size(); i++)
 		{
-			MissileAI* missileAI = missiles[i]->getGameComponent<MissileAI>();
-			missileAI->removeTarget(getParent()->getName());
+			/*for (size_t j = 0; j < missiles[i]->getAllGameComponents().size(); j++)
+			{
+				missileAIComponent = dynamic_cast<MissileAI*>(missiles[j]->getAllGameComponents()[j]);
+				if (missileAIComponent != nullptr)
+				{
+					missileAIComponent->removeTarget(getParent()->getName());
+					break;
+				}
+			}*/
+			//MissileAI* missileAI = missiles[i]->getGameComponent<MissileAI>();
+			//missileAI->removeTarget(getParent()->getName());
+
+			missiles[i]->getGameComponent<MissileAI>()->removeTarget(getParent()->getName());
 		}
 
 		destroy(getParent());
