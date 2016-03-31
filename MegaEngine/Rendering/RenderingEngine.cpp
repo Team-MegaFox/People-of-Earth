@@ -52,7 +52,7 @@ m_altCamera(PxMat44(PxIdentity), &m_altCameraTransform)
 
 	setSamplerSlot("filterTexture", 0);
 
-	setVec3("ambient", PxVec3(0.2f, 0.2f, 0.2f));
+	setVec3("ambient", PxVec3(0.5f, 0.5f, 0.5f));
 
 	setFloat("fxaaSpanMax", 8.0f);
 	setFloat("fxaaReduceMin", 1.0f / 128.0f);

@@ -3,7 +3,7 @@
 // Created          : 03-30-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 03-24-2016
+// Last Modified On : 03-31-2016
 // ***********************************************************************
 // <copyright file="MissileAI.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -66,7 +66,26 @@ void MissileAI::UpdateAI(float timestep)
 		}
 		else
 		{
-			SeekToTarget(timestep);
+			if (Utility::getDistance(m_targetRigidBody->getPosition(), m_rigidBody->getPosition()) < 100.0f)
+			{
+				float timeOfCollision = 0.0f;
+				//In front
+				if (m_targetRigidBody->getCollider()->checkCollision(m_rigidBody->getPosition(), m_rigidBody->getVelocity(), timeOfCollision))
+				{
+					m_velocityValue = 100.0f;
+				}
+				//Slow it down to turn
+				else
+				{
+					m_velocityValue = 50.0f;
+				}
+			}
+			//Just need to move fast to its target
+			else
+			{
+				m_velocityValue = 100.0f;
+			}
+			SeekToPoint(m_targetRigidBody->getPosition() + (m_targetRigidBody->getVelocity() * timestep), timestep);
 		}
 	}
 	m_lifeTime -= timestep;
