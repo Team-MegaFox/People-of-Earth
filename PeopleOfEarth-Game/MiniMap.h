@@ -108,9 +108,9 @@ public:
 			{
 				if (objectName == "enemyFighter" + std::to_string(i))
 				{
-					getParent()->removeChild(getParent()->getAllChildren()[i + 1]);
-					m_allEnemyGameObjects[i] = nullptr;
-					m_allEnemyGameObjects.erase(m_allEnemyGameObjects.begin() + i);
+					getParent()->removeChild(getParent()->getAllChildren()[i /*+ 1 for mothership added*/]);
+					m_allEnemyGameObjects[i - 1] = nullptr;
+					m_allEnemyGameObjects.erase(m_allEnemyGameObjects.begin() + (i - 1));
 					break;
 				}
 			}

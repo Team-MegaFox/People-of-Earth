@@ -79,7 +79,7 @@ void MissileAI::UpdateAI(float timestep)
 
 void MissileAI::removeTarget(const std::string & name)
 {
-	if (name == m_targetObject->getName())
+	if (m_targetObject!= nullptr && name == m_targetObject->getName())
 	{
 		m_targetObject = nullptr;
 	}
