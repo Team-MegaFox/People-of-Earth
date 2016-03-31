@@ -3,7 +3,7 @@
 // Created          : 01-23-2016
 //
 // Last Modified By : Jesse Derochie
-// Last Modified On : 03-30-2016
+// Last Modified On : 03-31-2016
 // ***********************************************************************
 // <copyright file="MegaEngine.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -25,6 +25,7 @@
 #include "Rendering\Skybox.h"
 #include "Rendering\Lighting.h"
 #include "Rendering\Viewport.h"
+#include "Rendering\Texture.h"
 #include "Components\GameComponents.h"
 #include "Components\MeshRenderer.h"
 #include "Components\GUILabel.h"

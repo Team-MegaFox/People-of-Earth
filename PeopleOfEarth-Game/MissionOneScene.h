@@ -103,11 +103,11 @@ public:
 		addToRoot(camera);
 
 
-		addToRoot((new GameObject("DirectionalLight1", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
-			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 1.0f, 1.0f), 0.6f, 8)));
+		addToRoot((new GameObject("DirectionalLight1", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(45.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
+			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 0.65f, 0.0f), 0.6f, 8)));
 
-		addToRoot((new GameObject("DirectionalLight2", PxVec3(0.0f, 0.0f, 10000.0f), PxQuat(ToRadians(-180.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
-			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 1.0f, 1.0f), 0.6f, 8)));
+		//addToRoot((new GameObject("DirectionalLight2", PxVec3(0.0f, 0.0f, 10000.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
+		//	->addGameComponent(new DirectionalLight(PxVec3(1.0f, 1.0f, 1.0f), 0.6f, 8)));
 
 		addPassengerShip();		
 
@@ -130,7 +130,7 @@ public:
 
 		addArea1OfMission1();
 
-		//addArea2OfMission1();
+		addArea2OfMission1();
 
 		addGUI();
 	}
@@ -372,25 +372,16 @@ private:
 
 	void addArea2OfMission1()
 	{
-		// TODO : Optimize AsteroidField class
 
-		// Asteroids
-		//addToRoot((new GameObject("Asteroid Field", PxVec3(0.0f, 0.0f, 4000.0f)))
-		//	->addGameComponent(new AsteroidField())
-		//	);
-		//addToRoot((new GameObject("Asteroid Field", PxVec3(0.0f, 5.0f, 4500.0f)))
-		//	->addGameComponent(new AsteroidField())
-		//	);
-
-		addToRoot((new GameObject("jupiterMoon1", PxVec3(1000.0f, 0.0f, 10300.0f)))
+		addToRoot((new GameObject("jupiterMoon1", PxVec3(1500.0f, 0.0f, 11300.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_D.obj", 75.0f), Material("moon")))
 			);
 
-		addToRoot((new GameObject("jupiterMoon2", PxVec3(-900.0f, 0.0f, 9800.0f)))
+		addToRoot((new GameObject("jupiterMoon2", PxVec3(-900.0f, 0.0f, 9200.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_E.obj", 20.0f), Material("mars")))
 			);
 
-		addToRoot((new GameObject("jupiterMoon3", PxVec3(-800.0f, 0.0f, 11000.0f)))
+		addToRoot((new GameObject("jupiterMoon3", PxVec3(-800.0f, 0.0f, 11500.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_F.obj", 32.0f), Material("moon")))
 			);
 
@@ -399,7 +390,7 @@ private:
 			);
 
 		addToRoot((new GameObject("sun", PxVec3(20000.0f, 5000.0f, 20000.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 400.0f), Material("sun")))
+			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 9000.0f), Material("sun")))
 			);
 	}
 

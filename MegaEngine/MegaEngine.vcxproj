@@ -104,6 +104,7 @@
     <ClCompile Include="Physics\PolygonCollider.cpp" />
     <ClCompile Include="Physics\SphereCollider.cpp" />
     <ClCompile Include="Physics\World.cpp" />
+    <ClCompile Include="Rendering\BloomObject.cpp" />
     <ClCompile Include="Rendering\Lighting.cpp" />
     <ClCompile Include="Rendering\Camera3D.cpp" />
     <ClCompile Include="Rendering\Material.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="Physics\PolygonCollider.h" />
     <ClInclude Include="Physics\SphereCollider.h" />
     <ClInclude Include="Physics\World.h" />
+    <ClInclude Include="Rendering\BloomObject.h" />
     <ClInclude Include="Rendering\Lighting.h" />
     <ClInclude Include="Rendering\Camera3D.h" />
     <ClInclude Include="Rendering\Material.h" />
