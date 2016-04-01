@@ -1,47 +1,28 @@
 // ***********************************************************************
-// Author           : Jesse Derochie
-// Created          : 09-15-2015
+// Author           : Pavan Jakhu and Jesse Derochie
+// Created          : 03-30-2016
 //
 // Last Modified By : Pavan Jakhu
-// Last Modified On : 03-21-2016
+// Last Modified On : 03-30-2016
 // ***********************************************************************
-// <copyright file="AudioEngine.h" company="Team MegaFox">
+// <copyright file="MegaEngine.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
 // </copyright>
-// <summary>
-/*	
-	This AudioEngine class is a wrapper around some of FMOD's methods and abilities, 
-	The goal of this engine was simply to allow for 3D sound and music to
-	be used in any game built with MegaEngine. On behalf of TeamMegaFox I 
-	would like to thank the developers of FMOD for their engine, and for 
-	making it available to students like us. 
-	You can learn more about FMOD by going to there website here : http://www.fmod.org/
-	or if the link is for some reason dead feel free to look them up 
-	using "The Great and Powerful God" Google.
-*/
-// </summary>
+// <summary></summary>
 // ***********************************************************************
 #pragma once
-#include <iostream>
-#include <FMOD\fmod.h>
-#include <FMOD\fmod.hpp>
-#include <FMOD\fmod_errors.h>
-
-#include <PhysX/PxPhysicsAPI.h>
-using namespace physx;
-
-#include <vector>
-#include <algorithm>
+#include <unordered_map>
 #include <string>
+#include <FMOD\fmod.hpp>
 
-#include "..\Core\CoreEngine.h"
-
-const int MAX_NUM_CHANNELS = 100;
-
-class AudioSource;
+void ERRCHECK_ok(FMOD_RESULT result, const char *file, int line);
+void ERRCHECK_invalid(FMOD_RESULT result, const char *file, int line);
+#define ERRCHECK_OK(_result) ERRCHECK_ok(_result, __FILE__, __LINE__)
+#define ERRCHECK_INVALID(_result) ERRCHECK_invalid(_result, __FILE__, __LINE__)
 
 /// <summary>
-/// Class AudioEngine.
+/// The Audio Engine that holds audio settings such as the sound and stream
+/// volume and the FMOD system.
 /// </summary>
 class AudioEngine
 {
@@ -53,63 +34,38 @@ public:
 	/// <summary>
 	/// Finalizes an instance of the <see cref="AudioEngine"/> class.
 	/// </summary>
-	~AudioEngine() {}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="AudioEngine"/> class.
-	/// Nullify the copy constructor
-	/// </summary>
-	/// <param name="">The .</param>
-	AudioEngine(const AudioEngine&) = delete;
+	~AudioEngine();
 
 	/// <summary>
-	/// Sets the Core Engine to be avaliable to the Audio Engine.
-	/// </summary>
-	/// <param name="engine">The Core Engine.</param>
-	void setEngine(CoreEngine* engine) { m_coreEngine = engine; }
-
-	/// <summary>
-	/// Disposes the specified sound list.
-	/// </summary>
-	void dispose();
-
-	/// <summary>
-	/// Gets the system.
-	/// </summary>
-	/// <returns></returns>
-	static FMOD::System * getSystem() { return m_system; }
-
-	/// <summary>
-	/// Updates the system object
-	/// (should be called every frame)
+	/// Updates the FMOD system. This is used for updating the 3D portions.
 	/// </summary>
 	void update();
 
 	/// <summary>
-	/// Verifies that each step of the initialization 
-	/// was properly initalized.
-	/// </summary>
-	/// <param name="result">The result.</param>
-	static void FMODVerifyResult(FMOD_RESULT result);
-
-	/// <summary>
-	/// Converts PxVec3's to FMOD_VECTOR's
-	/// for use in FMOD's positioning of the listener
-	/// and sound / stream positioning
-	/// </summary>
-	/// <param name="vector">The vector.</param>
-	/// <returns></returns>
-	static FMOD_VECTOR physxToFMOD(PxVec3 vector);
-
-	/// <summary>
 	/// Gets the sound volume.
 	/// </summary>
-	/// <returns></returns>
-	inline float getSoundVolume() { return m_soundVolume; }
+	/// <returns>The sound group volume.</returns>
+	float getSoundVolume() const;
 	/// <summary>
 	/// Gets the stream volume.
 	/// </summary>
-	/// <returns></returns>
-	inline float getStreamVolume() const { return m_streamVolume; }
+	/// <returns>The sound group volume.</returns>
+	float getStreamVolume() const;
+	/// <summary>
+	/// Gets the sound group.
+	/// </summary>
+	/// <returns>The sound group.</returns>
+	FMOD::ChannelGroup* getSoundGroup() const { return m_sounds; }
+	/// <summary>
+	/// Gets the stream group.
+	/// </summary>
+	/// <returns>The stream group.</returns>
+	FMOD::ChannelGroup* getStreamGroup() const { return m_streams; }
+	/// <summary>
+	/// Gets the FMOD system.
+	/// </summary>
+	/// <returns>The FMOD system</returns>
+	FMOD::System* getSystem() const { return m_system; }
 
 	/// <summary>
 	/// Sets the sound volume.
@@ -122,56 +78,26 @@ public:
 	/// <param name="volume">The volume.</param>
 	void setStreamVolume(float volume);
 
-	/// <summary>
-	/// Adds the audio comp.
-	/// </summary>
-	/// <param name="audio">The audio.</param>
-	void addAudioComp(AudioSource * audio) { m_audioComp.push_back(audio); }
-	/// <summary>
-	/// Removes the audio comp.
-	/// </summary>
-	/// <param name="audio">The audio.</param>
-	void removeAudioComp(AudioSource * audio) {
-		m_audioComp.erase(std::find(m_audioComp.begin(), m_audioComp.end(), audio));
-	}
-
 private:
-	
-	/// <summary>
-	/// Initializes FMOD
-	/// called automatically when the
-	/// AudioEngine instance is created.
-	/// </summary>
-	void init();
-
-	// FMOD requirements
 	/// <summary>
 	/// The FMOD system.
 	/// </summary>
-	static FMOD::System * m_system;
+	FMOD::System* m_system;
 
 	/// <summary>
-	/// The FMOD result.
+	/// The sound channel group.
 	/// </summary>
-	FMOD_RESULT m_result;
+	FMOD::ChannelGroup* m_sounds;
 
 	/// <summary>
-	/// The stream volume
+	/// The stream channel group.
 	/// </summary>
-	float m_streamVolume = 1.0f;
-	/// <summary>
-	/// The sound volume
-	/// </summary>
-	float m_soundVolume = 1.0f;
+	FMOD::ChannelGroup* m_streams;
 
 	/// <summary>
-	/// The audio components vector
+	/// The master channel group. Has all the other channels and sounds.
 	/// </summary>
-	std::vector<AudioSource *> m_audioComp;
+	FMOD::ChannelGroup* m_masterGroup;
 
-	/// <summary>
-	/// The Core Engine
-	/// </summary>
-	CoreEngine* m_coreEngine;
 };
 

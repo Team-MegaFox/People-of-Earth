@@ -42,7 +42,7 @@ public:
 	/// </summary>
 	virtual void onStart() override
 	{
-		m_audioComponent = new AudioSource(m_fileName, AudioType::SOUND, true);
+		m_audioComponent = new AudioSource(m_fileName, AudioType::SOUND);
 	}
 
 	/// <summary>

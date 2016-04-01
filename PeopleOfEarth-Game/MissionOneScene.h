@@ -82,7 +82,7 @@ public:
 			->addGameComponent(new RigidBody(PxVec3(1.0f, 1.0f, 1.0f), PxQuat(PxIdentity), 1.0f, 7.0f, 1.0f, 5.0f))
 			->addGameComponent(new FireProjectile)
 			->addGameComponent(new PlayerShipMovementController("camera", 50.0f))
-			//->addGameComponent(new InGameMusic)
+			->addGameComponent(new InGameMusic)
 			->addChild(starBoardLight_Fighter)
 			->addChild(portLight_Fighter)
 			->addChild(rearLight_Fighter)
@@ -100,8 +100,8 @@ public:
 			(new GameObject("camera",
 			*fighterShip->getTransform()->getPosition() - Utility::getForward(*fighterShip->getTransform()->getRotation()) * 30.0f
 			+ PxVec3(0.0f, 5.0f, 0.0f)))
-			->addGameComponent(new CameraComponent(ToRadians(75.0f), window.getAspectRatio(), 0.1f, 200000.0f))
-			->addGameComponent(new Listener());
+			->addGameComponent(new CameraComponent(ToRadians(75.0f), window.getAspectRatio(), 0.1f, 200000.0f));
+			//->addGameComponent(new Listener());
 		addToRoot(fighterShip);
 		addToRoot(camera);
 

@@ -12,6 +12,7 @@ public:
 
 	virtual void onStart() override
 	{
+		//Main menu
 		m_logo = getGameObjectByName("Logo");
 		m_splashScreen = getGameObjectByName("Splash");
 		m_mainMenuScreen = getGameObjectByName("Main Menu");
@@ -42,19 +43,25 @@ public:
 
 	virtual void processInput(const InputManager& input, float delta) override
 	{
+		//If the player uses the mouse turn off the alpha lerping for text.
 		if (!m_usingMouse && input.MouseButtonPress(SDL_BUTTON_LEFT))
 		{
 			m_usingMouse = true;
 			m_buttons[m_focusButton]->getParent()->removeGameComponent(m_buttons[m_focusButton]->getParent()->getGameComponent<TextLerpAlpha>());
+			m_focusMission->getParent()->getAllChildren()[0]->removeGameComponent(m_focusMission->getParent()->getAllChildren()[0]->getGameComponent<TextLerpAlpha>());
 		}
-		else if (m_usingMouse && (input.KeyPress(SDLK_w) || input.KeyPress(SDLK_s) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_A) || input.ThumbLMoved()))
+		//Put the text lerping back if uses key or anything
+		else if (m_usingMouse && (input.KeyPress(SDLK_w) || input.KeyPress(SDLK_a) || input.KeyPress(SDLK_s) || input.KeyPress(SDLK_d) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_A) || input.ThumbLMoved()))
 		{
 			m_usingMouse = false;
 			m_buttons[m_focusButton]->getParent()->addGameComponent(new TextLerpAlpha, true);
+			m_focusMission->getParent()->getAllChildren()[0]->addGameComponent(new TextLerpAlpha, true);
 		}
 
+		//If the main menu is showing
 		if (m_showMainMenu)
 		{
+			//If the splash is showing
 			if (m_showSplash)
 			{
 				if (input.KeyPress(SDLK_SPACE) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_START) || input.MouseButtonPress(SDL_BUTTON_LEFT))
@@ -64,8 +71,10 @@ public:
 					m_showSplash = false;
 				}
 			}
+			//If the main menu is showing
 			else
 			{
+				//Go UP, take out text alpha lerp from focused button, decrement focus button, add text alpha lerp to new focus button and play audio.
 				if (input.KeyPress(SDLK_w) || input.GetThumbLPosition().y > 0.1f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_UP))
 				{
 					m_buttons[m_focusButton]->getParent()->removeGameComponent(m_buttons[m_focusButton]->getParent()->getGameComponent<TextLerpAlpha>());
@@ -78,6 +87,7 @@ public:
 					m_moveSound->play();
 				}
 
+				//Go DOWN, take out text alpha lerp from focused button, decrement focus button, add text alpha lerp to new focus button and play audio.
 				if (input.KeyPress(SDLK_s) || input.GetThumbLPosition().y < -0.1f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_DOWN))
 				{
 					m_buttons[m_focusButton]->getParent()->removeGameComponent(m_buttons[m_focusButton]->getParent()->getGameComponent<TextLerpAlpha>());
@@ -90,11 +100,14 @@ public:
 					m_moveSound->play();
 				}
 
+				//If the focus button is selected, show mission select menu if it is the play button, click the button and play audio.
 				if (input.KeyPress(SDLK_RETURN) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_A))
 				{
 					if (m_focusButton == 0)
 					{
 						m_showMainMenu = false;
+
+						m_focusMission->getParent()->getAllChildren()[0]->addGameComponent(new TextLerpAlpha, true);
 					}
 					m_buttons[m_focusButton]->click();
 
@@ -102,8 +115,10 @@ public:
 				}
 			}
 		}
+		//If the mission select menu is showing.
 		else
 		{
+			//If the B button is pressed then press back button, show main menu and play audio.
 			if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B))
 			{
 				m_backButton->click();
@@ -112,10 +127,35 @@ public:
 				m_selectedSound->play();
 			}
 
+			//Go UP, select focused mission screen, remove text alpha lerp from back button.
+			if (input.KeyPress(SDLK_w) || input.GetThumbLPosition().y > 0.1f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_UP))
+			{
+				m_onBackButton = false;
+				m_backButton->getParent()->removeGameComponent(m_backButton->getParent()->getGameComponent<TextLerpAlpha>());
+
+				m_focusMission->getParent()->getAllChildren()[0]->addGameComponent(new TextLerpAlpha, true);
+
+				m_moveSound->play();
+			}
+			//Go DOWN, select back button, remove text alpha lerp from focus mission.
+			else if (input.KeyPress(SDLK_s) || input.GetThumbLPosition().y < -0.1f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_DOWN))
+			{
+				m_onBackButton = true;
+				m_focusMission->getParent()->getAllChildren()[0]->removeGameComponent(m_focusMission->getParent()->getAllChildren()[0]->getGameComponent<TextLerpAlpha>());
+
+				m_backButton->getParent()->addGameComponent(new TextLerpAlpha, true);
+
+				m_moveSound->play();
+			}
+
+			//If the mission menus aren't moving.
 			if (!m_move)
 			{
+				//Go RIGHT, remove text alpha lerp from focus mission, if the focus mission isn't the last then incrase focus mission otherwise keep selecting back mission, add text alpha lerp and play sound.
 				if (input.KeyPress(SDLK_d) || input.GetThumbLPosition().x > 0.2f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_RIGHT))
 				{
+					m_focusMission->getParent()->getAllChildren()[0]->removeGameComponent(m_focusMission->getParent()->getAllChildren()[0]->getGameComponent<TextLerpAlpha>());
+
 					if (m_focusMission != m_missionWidgets.back())
 					{
 						m_focusMissionIndex++;
@@ -129,10 +169,15 @@ public:
 						m_focusMission = m_missionWidgets.back();
 					}
 
+					m_focusMission->getParent()->getAllChildren()[0]->addGameComponent(new TextLerpAlpha, true);
+
 					m_moveSound->play();
 				}
+				//Go LEFT, remove text alpha lerp from focus mission, if the focus mission isn't the first then incrase focus mission otherwise keep selecting back mission, add text alpha lerp and play sound.
 				else if (input.KeyPress(SDLK_a) || input.GetThumbLPosition().x < -0.2f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_LEFT))
 				{
+					m_focusMission->getParent()->getAllChildren()[0]->removeGameComponent(m_focusMission->getParent()->getAllChildren()[0]->getGameComponent<TextLerpAlpha>());
+
 					if (m_focusMission != m_missionWidgets.front())
 					{
 						m_focusMissionIndex--;
@@ -146,12 +191,23 @@ public:
 						m_focusMission = m_missionWidgets.front();
 					}
 
+					m_focusMission->getParent()->getAllChildren()[0]->addGameComponent(new TextLerpAlpha, true);
+
 					m_moveSound->play();
 				}
 
+				//If enter is pressed, if the focus is on back button, then click and show main menu otherwise click the focus mission and play sound.
 				if (input.KeyPress(SDLK_RETURN) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_A))
 				{
-					m_missionWidgets[m_focusMissionIndex]->getParent()->getAllChildren()[0]->getGUIComponent<GUIButton>()->click();
+					if (m_onBackButton)
+					{
+						m_backButton->click();
+						m_showMainMenu = true;
+					}
+					else
+					{
+						m_missionWidgets[m_focusMissionIndex]->getParent()->getAllChildren()[0]->getGUIComponent<GUIButton>()->click();
+					}
 
 					m_selectedSound->play();
 				}
@@ -159,6 +215,11 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Virtual function for custom update functionality.
+	/// Moves the focus mission when the player goes left or right between the menus.
+	/// </summary>
+	/// <param name="delta">The frame time delta.</param>
 	virtual void update(float delta)
 	{
 		if (m_move)
@@ -188,6 +249,7 @@ public:
 	}
 
 private:
+	//Main menu
 	bool m_showMainMenu = true;
 
 	bool m_showSplash = true;
@@ -216,6 +278,8 @@ private:
 	Uint8 m_focusMissionIndex = 0;
 
 	Uint8 m_numMissions = 0;
+
+	bool m_onBackButton = false;
 
 	bool m_moveLeft = false, m_move = false;
 

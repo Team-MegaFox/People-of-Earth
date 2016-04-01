@@ -52,7 +52,7 @@ public:
 		//Material nebulaTex("nebula1", 0.5f, 4, Texture("NebulaeAndGalaxies/Nebula_A.png"));
 		//Material GalaxyTex("galaxy1", 0.5f, 4, Texture("Ships/AF-SS01/AF-SS01_White - Copy.png"));
 
-		AudioSource * BGM = new AudioSource("music.mp3", AudioType::STREAM, true);
+		AudioSource * BGM = new AudioSource("music.mp3", AudioType::STREAM);
 
 		addToRoot((new GameObject("skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
@@ -103,8 +103,8 @@ public:
 			//+ PxVec3(0.0f, 5.0f, 0.0f)))
 			->addGameComponent(new FreeMove)
 			->addGameComponent(new FreeLook(window.getCenter()))
-			->addGameComponent(new CameraComponent(ToRadians(75.0f), window.getAspectRatio(), 0.1f, 200000.0f))
-			->addGameComponent(new Listener());
+			->addGameComponent(new CameraComponent(ToRadians(75.0f), window.getAspectRatio(), 0.1f, 200000.0f));
+			//->addGameComponent(new Listener());
 		addToRoot(camera);
 
 		/*addToRoot((new GameObject("earth", PxVec3(-1000.0f, 0.0f, 0.0f)))

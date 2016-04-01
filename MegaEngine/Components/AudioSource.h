@@ -1,159 +1,186 @@
 // ***********************************************************************
 // Author           : Pavan Jakhu and Jesse Derochie
-// Created          : 09-15-2015
+// Created          : 03-30-2016
 //
 // Last Modified By : Pavan Jakhu
-// Last Modified On : 03-21-2016
+// Last Modified On : 03-30-2016
 // ***********************************************************************
-// <copyright file="AudioSource.h" company="Team MegaFox">
+// <copyright file="MegaEngine.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
 // </copyright>
-// <summary>
-/*	
-	This AudioSource.h file was created to allow users to interface with
-	the AudioEngine in MegaEngine, the methods available within this class
-	make it so that anything we could foresee being useful was obtainable.
-*/
-// </summary>
+// <summary></summary>
 // ***********************************************************************
-
 #pragma once
 #include "GameComponents.h"
-#include <string>
-#include "../Core/CoreEngine.h"
-#include "../Core/GameObject.h"
+#include "..\Audio\Audio.h"
 
-#include "../Audio/Sound.h"
-#include "../Audio/Stream.h"
+/// <summary>
+/// Whether the type of audio is a sound or stream.
+/// Can add to this later.
+/// </summary>
+enum class AudioType { SOUND, STREAM };
 
-enum AudioType
-{
-	STREAM,
-	SOUND
-};
-
+/// <summary>
+/// The source of audio to play. It can be a sound or stream (long/big files).
+/// </summary>
+/// <seealso cref="GameComponent" />
 class AudioSource : public GameComponent
 {
 public:
 	/// <summary>
 	/// Initializes a new instance of the <see cref="AudioSource"/> class.
 	/// </summary>
-	AudioSource() {}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="AudioSource"/> class.
-	/// </summary>
-	/// <param name="sound">The sound.</param>
-	AudioSource(const std::string & fileName, AudioType type, bool TwoD = false, bool deleteOnEnd = false);
+	/// <param name="fileName">Name of the file.</param>
+	/// <param name="audioType">Type of the audio.</param>
+	/// <param name="playOnStart">Whether the audio should play on start.</param>
+	/// <param name="audioDim">The audio dimension  (2D or 3D).</param>
+	AudioSource(const std::string& fileName, AudioType audioType, bool playOnStart = true, AudioDimension audioDim = AudioDimension::TWOD) :
+		m_fileName(fileName), m_type(audioType), m_playOnStart(playOnStart), m_dim(audioDim) { }
 	/// <summary>
 	/// Finalizes an instance of the <see cref="AudioSource"/> class.
 	/// </summary>
-	~AudioSource();
+	~AudioSource() { delete m_audio; }
 
-	virtual void onStart() override;
+	// The reason for doing this onStart is because we do not have access to
+	// the Audio Engine when contructing this object to load audio.
+	/// <summary>
+	/// An initialization method for game components that is called
+	/// when game components are added to the scene.
+	/// Creates the sound based on what type of audio is and plays it
+	/// if play on start is enabled.
+	/// </summary>
+	virtual void onStart() override
+	{
+		if (m_type == AudioType::SOUND)
+		{
+			m_audio = new Sound(getCoreEngine()->getAudioEngine(), m_fileName, m_dim);
+		}
+		else if (m_type == AudioType::STREAM)
+		{
+			m_audio = new Stream(getCoreEngine()->getAudioEngine(), m_fileName, m_dim);
+		}
 
-	virtual void update(float delta) override;
-
-	/// <summary>
-	/// Checks if the Audio Source is a stream sound.
-	/// </summary>
-	/// <returns>Weather the object is a stream.</returns>
-	bool isStream();
-
-	/// <summary>
-	/// Plays the sound.
-	/// </summary>
-	void play(bool looping = false);
-	/// <summary>
-	/// Stops all sounds.
-	/// </summary>
-	void stop();
-	/// <summary>
-	/// Pauses the sound.
-	/// </summary>
-	/// <param name="paused">if set to <c>true</c> [paused].</param>
-	void pause(bool paused);
-	/// <summary>
-	/// Determines whether [is sound playing].
-	/// </summary>
-	/// <returns></returns>
-	bool isPlaying();
+		if (m_playOnStart)
+		{
+			m_audio->play();
+		}
+	}
 
 	/// <summary>
-	/// Gets global sound volume.
+	/// Virtual function for custom update functionality.
+	/// Updates the position of the audio is the type is 3D.
 	/// </summary>
-	/// <returns></returns>
-	float getVolume();
+	/// <param name="delta">The frame time delta.</param>
+	virtual void update(float delta) override
+	{
+		if (m_dim == AudioDimension::THREED)
+		{
+			m_audio->setPosition(*getTransform()->getPosition(), PxVec3(0.0f));
+		}
+	}
 
 	/// <summary>
-	/// Sets this sounds volume.
+	/// Plays the audio.
 	/// </summary>
-	/// <param name="volume">The volume level.</param>
-	void setVolume(float volume);
+	void play() const { m_audio->play(); }
 	/// <summary>
-	/// Sets the new volume.
+	/// Stops the audio.
 	/// </summary>
-	void updateVolume();
+	void stop() const { m_audio->stop(); }
 
 	/// <summary>
-	/// Sets the sound position and vel.
+	/// Sets the roll of distance from the listener.
 	/// </summary>
-	/// <param name="pos">The position of this sound.</param>
-	void setPosition(PxVec3 pos);
+	/// <param name="min">The minimum distance where how audible the music is one-to-one to the channel's volume.</param>
+	/// <param name="max">The maximum distance where how audible the music is completely muted.</param>
+	void set3DDistance(float min, float max) { m_audio->set3DDistance(min, max); }
+	/// <summary>
+	/// Sets whether the audio was playing when the scene was pushed onto the stack.
+	/// </summary>
+	/// <param name="paused">Whether the audio was playing.</param>
+	void setWasPlaying(bool wasPlaying) { m_wasPlaying = wasPlaying; }
+	/// <summary>
+	/// Sets the audio to be paused.
+	/// </summary>
+	/// <param name="paused">Whether the audio is paused.</param>
+	void setPaused(bool paused) { m_audio->setPaused(paused); }
+	/// <summary>
+	/// Sets the volume.
+	/// </summary>
+	/// <param name="volume">The volume.</param>
+	void setVolume(float volume) { m_audio->setVolume(volume); }
+	/// <summary>
+	/// Sets if the audio is looping and how many times.
+	/// </summary>
+	/// <param name="looping">Whether the audio is looping.</param>
+	/// <param name="amount">The amount of times to loop. 0 = oneshot, 1 = loop once then stop, -1 = loop forever and default = -1.</param>
+	void setLooping(bool looping, int amount = 0) { m_audio->setLooping(looping, amount); }
 
 	/// <summary>
-	/// Sets the panning of this sound.
+	/// Gets the type of audio.
 	/// </summary>
-	/// <param name="pan">The pan.</param>
-	void setPan(float pan);
+	/// <returns>The type of audio (sound or stream).</returns>
+	AudioType getType() const { return m_type; }
+	/// <summary>
+	/// Gets the audio's dimension.
+	/// </summary>
+	/// <returns>The audio's demnsion (2D or 3D).</returns>
+	AudioDimension getDimension() const { return m_dim; }
+	/// <summary>
+	/// Whether the audio was playing when a scene was pushed onto the stack.
+	/// </summary>
+	/// <returns>If the audio was playing.</returns>
+	bool wasPlaying() const { return m_wasPlaying; }
+	/// <summary>
+	/// Determines whether this audio is paused.
+	/// </summary>
+	/// <returns>Whether the audio is paused.</returns>
+	bool isPaused() const { return m_audio->isPaused(); }
+	/// <summary>
+	/// Determines whether this audio is playing.
+	/// </summary>
+	/// <returns>Whether the audio is playing.</returns>
+	bool isPlaying() const { return m_audio->isPlaying(); }
+	/// <summary>
+	/// Gets the volume.
+	/// </summary>
+	/// <returns>The volume.</returns>
+	float getVolume() const { return m_audio->getVolume(); }
+	/// <summary>
+	/// If the audio is looping.
+	/// </summary>
+	/// <returns>Whether the audio is looping.</returns>
+	bool getLooping() const { return m_audio->getLooping(); }
+
+private:
+	/// <summary>
+	/// The audio data.
+	/// </summary>
+	Audio* m_audio;
 
 	/// <summary>
-	/// Sets this sounds doppler level.
+	/// The file name
 	/// </summary>
-	/// <param name="dop">The dop.</param>
-	void setDoppler(float dop);
+	std::string m_fileName;
 
 	/// <summary>
-	/// Sets up the sound cone.
+	/// The type of audio (sound or stream).
 	/// </summary>
-	/// <param name="orient">The orientation.</param>
-	/// <param name="iCA">The inside Cone Angle.</param>
-	/// <param name="oCA">The outside cone angle.</param>
-	/// <param name="oVol">The outside volume (the level of volume outside the cone).</param>
-	void setupCone(PxVec3 orient, float iCA, float oCA, float oVol);
+	AudioType m_type;
 
 	/// <summary>
-	/// Sets the sound distance filter.
+	/// The dimension (2D or 3D).
 	/// </summary>
-	/// <param name="custom">if set to <c>true</c> [custom].</param>
-	/// <param name="customLevel">if set to <c>true</c> [custom level].</param>
-	/// <param name="centreFreq">The centre freq.</param>
-	void setDistanceFilter(bool custom, bool customLevel, float centerFreq);
+	AudioDimension m_dim;
 
 	/// <summary>
-	/// Sets the sound 3D minimum distance for attenuation.
+	/// Whether the audio plays on start.
 	/// </summary>
-	/// <param name="min">The minimum.</param>
-	void set3DMinDist(float min, float max = NULL);
-
-protected:
-	 
-	/// <summary>
-	/// The sound source handle
-	/// </summary>
-	Sound * m_soundSource;
+	bool m_playOnStart;
 
 	/// <summary>
-	/// The stream source handle
+	/// Whether the audio was playing when a scene got pushed onto the stack.
 	/// </summary>
-	Stream * m_streamSource;
+	bool m_wasPlaying;
 
-	/// <summary>
-	/// The volume ratio value
-	/// </summary>
-	float m_originalVolume = 1.0f;
-
-	/// <summary>
-	/// Weather to delete the Audio Source and attached GameObject when the audio is finished playing.
-	/// </summary>
-	bool m_deleteOnEnd;
 };

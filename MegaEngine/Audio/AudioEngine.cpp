@@ -1,181 +1,96 @@
 // ***********************************************************************
-// Author           : Jesse Derochie
-// Created          : 09-15-2015
+// Author           : Pavan Jakhu and Jesse Derochie
+// Created          : 03-30-2016
 //
 // Last Modified By : Pavan Jakhu
-// Last Modified On : 03-21-2016
+// Last Modified On : 03-30-2016
 // ***********************************************************************
-// <copyright file="AudioEngine.cpp" company="Team MegaFox">
+// <copyright file="MegaEngine.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
 // </copyright>
-// <summary>
-/*
-	This AudioEngine class is a wrapper around some of FMOD's methods and abilities,
-	The goal of this engine was simply to allow for 3D sound and music to
-	be used in any game built with MegaEngine. On behalf of TeamMegaFox I
-	would like to thank the developers of FMOD for their engine, and for
-	making it available to students like us.
-	You can learn more about FMOD by going to there website here : http://www.fmod.org/
-	or if the link is for some reason dead feel free to look them up
-	using "The Great and Powerful God" Google.
-*/
-// </summary>
+// <summary></summary>
 // ***********************************************************************
 #include "AudioEngine.h"
-#include "..\Components\AudioSource.h"
-
-
-FMOD::System * AudioEngine::m_system = nullptr;
-//float AudioEngine::m_soundVolume = 1.0f;
+#include <iostream>
+#include <FMOD\fmod_errors.h>
 
 AudioEngine::AudioEngine()
 {
-	// Create FMOD system object
-	m_result = FMOD::System_Create(&m_system);
-	FMODVerifyResult(m_result);
+	ERRCHECK_OK(FMOD::System_Create(&m_system));
 
-	init();
-}
-
-void AudioEngine::init()
-{
 	unsigned int version;
-	int numDrivers;
-	FMOD_SPEAKERMODE speakerMode;
-	FMOD_CAPS caps;
-	char name[256];
-
-	// Get version of FMOD
-	m_result = m_system->getVersion(&version);
-	FMODVerifyResult(m_result);
+	m_system->getVersion(&version);
 
 	if (version < FMOD_VERSION)
 	{
-		std::cout << "You're using an old version of FMOD." << std::endl;
-		return;
+		printf("FMOD lib version %08x doesn't match header version %08x", version, FMOD_VERSION);
 	}
 
-	m_result = m_system->getNumDrivers(&numDrivers);
-	FMODVerifyResult(m_result);
+	void* extradriverdata = 0;
+	ERRCHECK_OK(m_system->init(32, FMOD_INIT_NORMAL, extradriverdata));
 
-	if (numDrivers == 0)
-	{
-		m_result = m_system->setOutput(FMOD_OUTPUTTYPE_NOSOUND);
-		FMODVerifyResult(m_result);
-	}
-	else
-	{
-		m_result = m_system->getDriverCaps(0, &caps, 0, &speakerMode);
-		FMODVerifyResult(m_result);
+	ERRCHECK_OK(m_system->createChannelGroup("Sounds", &m_sounds));
+	ERRCHECK_OK(m_system->createChannelGroup("Streams", &m_streams));
 
-		/*
+	ERRCHECK_OK(m_system->getMasterChannelGroup(&m_masterGroup));
 
-		Set the user selected speaker mode
+	ERRCHECK_OK(m_masterGroup->addGroup(m_sounds));
+	ERRCHECK_OK(m_masterGroup->addGroup(m_streams));
 
-		*/
-		m_result = m_system->setSpeakerMode(speakerMode);
-		FMODVerifyResult(m_result);
-
-		if (caps & FMOD_CAPS_HARDWARE_EMULATED)
-		{
-			/*
-
-			The user has the 'Acceleration slider set to off!
-			This is really bad for latency, warn the user about this.
-
-			*/
-			std::cout << "Acceleration is not activated, please activate accleration\nto reduce latency." << std::endl;
-
-			m_result = m_system->setDSPBufferSize(1024, 10);
-			FMODVerifyResult(m_result);
-		}
-
-		if (strstr(name, "SigmaTel"))
-		{
-			/*
-
-			SigmaTel sound devices crackle for some reason if the format is PCM 16bit
-			PCM floating point output seems to solve it
-
-			*/
-			m_result = m_system->setSoftwareFormat(48000, FMOD_SOUND_FORMAT_PCMFLOAT, 0, 0, FMOD_DSP_RESAMPLER_LINEAR);
-			FMODVerifyResult(m_result);
-		}
-	}
-
-	m_result = m_system->init(MAX_NUM_CHANNELS, FMOD_INIT_NORMAL, 0);
-
-	if (m_result == FMOD_ERR_OUTPUT_CREATEBUFFER)
-	{
-		/*
-
-		If the speaker mode selected isn't compatible with
-		this sound card, switch the speaker mode to stereo instead
-
-		*/
-
-		m_result = m_system->setSpeakerMode(FMOD_SPEAKERMODE_STEREO);
-		FMODVerifyResult(m_result);
-
-		m_result = m_system->init(MAX_NUM_CHANNELS, FMOD_INIT_NORMAL, 0);
-	}
-
-	FMODVerifyResult(m_result);
+	ERRCHECK_OK(m_system->set3DSettings(1.0, 100.0f, 1.0f));
 }
 
-void AudioEngine::dispose()
+AudioEngine::~AudioEngine()
 {
-	// Clean up the System Object
-	if (m_system != nullptr)
-	{
-		m_system->release();
-	}
+	m_system->close();
+	m_system->release();
 }
 
 void AudioEngine::update()
 {
-	FMODVerifyResult(m_system->update());
+	m_system->update();
 }
 
-void AudioEngine::setSoundVolume(float volume) 
-{ 
-	m_soundVolume = volume; 
-	for each (AudioSource * audio in m_audioComp)
-	{
-		if (!audio->isStream())
-		{
-			audio->updateVolume();
-		}
-	}
-}
-
-void AudioEngine::setStreamVolume(float volume) 
-{ 
-	m_streamVolume = volume; 
-	for each (AudioSource * audio in m_audioComp)
-	{
-		if (audio->isStream())
-		{
-			audio->updateVolume();
-		}
-	}
-}
-
-FMOD_VECTOR AudioEngine::physxToFMOD(PxVec3 vector)
+float AudioEngine::getSoundVolume() const
 {
-	FMOD_VECTOR Temp;
-
-	Temp.x = vector.x;
-	Temp.y = vector.y;
-	Temp.z = vector.z;
-
-	return Temp;
+	float volume = -1.0f;
+	ERRCHECK_OK(m_sounds->getVolume(&volume));
+	return volume;
 }
 
-void AudioEngine::FMODVerifyResult(FMOD_RESULT result)
+float AudioEngine::getStreamVolume() const
 {
+	float volume = -1.0f;
+	ERRCHECK_OK(m_streams->getVolume(&volume));
+	return volume;
+}
+
+void AudioEngine::setSoundVolume(float volume)
+{
+	ERRCHECK_OK(m_sounds->setVolume(volume));
+}
+
+void AudioEngine::setStreamVolume(float volume)
+{
+	ERRCHECK_OK(m_streams->setVolume(volume));
+}
+
+void ERRCHECK_ok(FMOD_RESULT result, const char *file, int line)
+{
+#if defined(_DEBUG)
 	if (result != FMOD_OK)
 	{
-		std::cout << "FMOD error! (" << result << ") " << FMOD_ErrorString(result) << std::endl;
+		printf("%s(%d): FMOD error %d - %s\n", file, line, result, FMOD_ErrorString(result));
 	}
+#endif
+}
+
+void ERRCHECK_invalid(FMOD_RESULT result, const char *file, int line)
+{
+#if defined(_DEBUG)
+	if ((result != FMOD_OK) && (result != FMOD_ERR_INVALID_HANDLE) && (result != FMOD_ERR_CHANNEL_STOLEN))
+	{
+		printf("%s(%d): FMOD error %d - %s\n", file, line, result, FMOD_ErrorString(result));
+	}
+#endif
 }

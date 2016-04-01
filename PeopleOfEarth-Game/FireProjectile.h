@@ -70,7 +70,7 @@ public:
 						Utility::getForward(*getTransform()->getRotation()) * 200.0f))
 						);
 
-					AudioSource* laserSound = new AudioSource("(laser_fired)268168__shaun105__laser.wav", AudioType::SOUND, true, true);
+					AudioSource* laserSound = new AudioSource("Music/(laser_fired)268168__shaun105__laser.wav", AudioType::SOUND);
 					instantiate((new GameObject("Laser Sound"))
 						->addGameComponent(laserSound));
 
@@ -91,8 +91,7 @@ public:
 						Utility::getForward(*getTransform()->getRotation()) * 200.0f))
 						);
 
-
-					AudioSource* laserSound = new AudioSource("(laser_fired)268168__shaun105__laser.wav", AudioType::SOUND, true, true);
+					AudioSource* laserSound = new AudioSource("Music/(laser_fired)268168__shaun105__laser.wav", AudioType::SOUND);
 					instantiate((new GameObject("Laser Sound"))
 						->addGameComponent(laserSound));
 

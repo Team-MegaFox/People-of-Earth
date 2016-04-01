@@ -81,10 +81,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Audio\Audio.cpp" />
     <ClCompile Include="Audio\AudioEngine.cpp" />
-    <ClCompile Include="Audio\Sound.cpp" />
-    <ClCompile Include="Audio\Stream.cpp" />
-    <ClCompile Include="Components\AudioSource.cpp" />
     <ClCompile Include="Components\GUIComponent.cpp" />
     <ClCompile Include="Components\GUIImage.cpp" />
     <ClCompile Include="Core\CoreEngine.cpp" />
@@ -116,10 +114,8 @@
     <ClCompile Include="Rendering\Viewport.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Audio\Audio.h" />
     <ClInclude Include="Audio\AudioEngine.h" />
-    <ClInclude Include="Audio\AudioListener.h" />
-    <ClInclude Include="Audio\Sound.h" />
-    <ClInclude Include="Audio\Stream.h" />
     <ClInclude Include="Components\AudioSource.h" />
     <ClInclude Include="Components\GameComponents.h" />
     <ClInclude Include="Components\GUIButton.h" />
@@ -130,7 +126,6 @@
     <ClInclude Include="Components\GUIProgressBar.h" />
     <ClInclude Include="Components\GUISlider.h" />
     <ClInclude Include="Components\GUITextBox.h" />
-    <ClInclude Include="Components\Listener.h" />
     <ClInclude Include="Components\MeshRenderer.h" />
     <ClInclude Include="Components\RigidBody.h" />
     <ClInclude Include="Core\CoreEngine.h" />
