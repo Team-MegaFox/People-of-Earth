@@ -277,11 +277,11 @@ void PlayerShipMovementController::lookAround(const InputManager& input)
 	}
 
 	////Ray collision check code
-	//if (input.PadButtonDown(SDL_CONTROLLER_BUTTON_X))
+	//if (input.PadButtonDown(SDL_CONTROLLER_BUTTON_Y))
 	//{
 	//	GameObject* passengerShip = getGameObjectByName("passengerShip");
 	//	RigidBody* psRigidBody = passengerShip->getGameComponent<RigidBody>();
-	//	psRigidBody->setDebugDraw(true);
+	//	//psRigidBody->setDebugDraw(true);
 	//	float timeOfCollision = 0.0f;
 	//	if (psRigidBody->getCollider()->checkCollision(
 	//		m_rigidBody->getPosition(),
