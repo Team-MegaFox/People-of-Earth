@@ -134,6 +134,8 @@ public:
 				m_backButton->getParent()->removeGameComponent(m_backButton->getParent()->getGameComponent<TextLerpAlpha>());
 
 				m_focusMission->getParent()->getAllChildren()[0]->addGameComponent(new TextLerpAlpha, true);
+
+				m_moveSound->play();
 			}
 			//Go DOWN, select back button, remove text alpha lerp from focus mission.
 			else if (input.KeyPress(SDLK_s) || input.GetThumbLPosition().y < -0.1f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_DOWN))
@@ -142,6 +144,8 @@ public:
 				m_focusMission->getParent()->getAllChildren()[0]->removeGameComponent(m_focusMission->getParent()->getAllChildren()[0]->getGameComponent<TextLerpAlpha>());
 
 				m_backButton->getParent()->addGameComponent(new TextLerpAlpha, true);
+
+				m_moveSound->play();
 			}
 
 			//If the mission menus aren't moving.

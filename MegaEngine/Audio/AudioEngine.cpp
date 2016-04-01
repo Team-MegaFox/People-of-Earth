@@ -77,16 +77,20 @@ void AudioEngine::setStreamVolume(float volume)
 
 void ERRCHECK_ok(FMOD_RESULT result, const char *file, int line)
 {
+#if defined(_DEBUG)
 	if (result != FMOD_OK)
 	{
 		printf("%s(%d): FMOD error %d - %s\n", file, line, result, FMOD_ErrorString(result));
 	}
+#endif
 }
 
 void ERRCHECK_invalid(FMOD_RESULT result, const char *file, int line)
 {
+#if defined(_DEBUG)
 	if ((result != FMOD_OK) && (result != FMOD_ERR_INVALID_HANDLE) && (result != FMOD_ERR_CHANNEL_STOLEN))
 	{
 		printf("%s(%d): FMOD error %d - %s\n", file, line, result, FMOD_ErrorString(result));
 	}
+#endif
 }

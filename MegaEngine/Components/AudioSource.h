@@ -95,6 +95,11 @@ public:
 	/// <param name="max">The maximum distance where how audible the music is completely muted.</param>
 	void set3DDistance(float min, float max) { m_audio->set3DDistance(min, max); }
 	/// <summary>
+	/// Sets whether the audio was playing when the scene was pushed onto the stack.
+	/// </summary>
+	/// <param name="paused">Whether the audio was playing.</param>
+	void setWasPlaying(bool wasPlaying) { m_wasPlaying = wasPlaying; }
+	/// <summary>
 	/// Sets the audio to be paused.
 	/// </summary>
 	/// <param name="paused">Whether the audio is paused.</param>
@@ -121,6 +126,11 @@ public:
 	/// </summary>
 	/// <returns>The audio's demnsion (2D or 3D).</returns>
 	AudioDimension getDimension() const { return m_dim; }
+	/// <summary>
+	/// Whether the audio was playing when a scene was pushed onto the stack.
+	/// </summary>
+	/// <returns>If the audio was playing.</returns>
+	bool wasPlaying() const { return m_wasPlaying; }
 	/// <summary>
 	/// Determines whether this audio is paused.
 	/// </summary>
@@ -167,5 +177,10 @@ private:
 	/// Whether the audio plays on start.
 	/// </summary>
 	bool m_playOnStart;
+
+	/// <summary>
+	/// Whether the audio was playing when a scene got pushed onto the stack.
+	/// </summary>
+	bool m_wasPlaying;
 
 };

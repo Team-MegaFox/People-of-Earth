@@ -39,14 +39,12 @@ SceneManager::~SceneManager()
 
 Scene* SceneManager::peek()
 {
-	if (m_activeList.empty())
+	Scene* result = nullptr;
+	if (!m_activeList.empty())
 	{
-		return nullptr;
+		result = m_activeList.back().first;
 	}
-	else
-	{
-		return m_activeList.back().first;
-	}
+	return result;
 }
 
 void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*/)
@@ -66,6 +64,7 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 				{
 					if (audio->getType() == AudioType::STREAM)
 					{
+						audio->setWasPlaying(audio->isPlaying());
 						// pause music
 						audio->stop();
 					}
@@ -76,33 +75,6 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 
 	m_activeList.push_back(std::make_pair(scene, modality));
 
-	// Pause the BGM if there is one for the scene 
-	// that was previously on top of the stack
-	if (modality == Modality::Exclusive)
-	{
-		// Get the second top most scene, gets the scene underneath the top most scene
-		for (int i = m_activeList.size() - 2; i >= 0; i--)
-		{
-			if (m_activeList[i].second == Modality::Exclusive)
-			{
-				// get all game objects in that exclusive scene
-				auto go = m_activeList[i].first->getAllGameObjects();
-
-				// loop through all those game objects and if they have a Audio Component pause that audio
-				for (size_t j = 0; j < go.size(); j++)
-				{
-					AudioSource * audio = go[j]->getGameComponent<AudioSource>();
-					if (audio != nullptr)
-					{
-						// pause music
-						//audio->stop();
-					}
-				}
-				break;
-			}
-		}
-	}
-
 	scene->init(*m_viewport);
 	scene->setEngine(m_coreEngine);
 	auto attachedToRoot = scene->getRoot()->getAllAttached();
@@ -112,19 +84,6 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 		for (size_t j = 0; j < gameComponents.size(); j++)
 		{
 			gameComponents[j]->onStart();
-		}
-	}
-
-	// If the scene has been pushed onto the stack unpause the BGM
-	// if there is one to unpause
-	auto go = peek()->getAllGameObjects();
-	for (size_t i = 0; i < go.size(); i++)
-	{
-		AudioSource * audio = go[i]->getGameComponent<AudioSource>();
-		if (audio != nullptr)
-		{
-			// un-pause music
-			//audio->setPaused(false);
 		}
 	}
 
@@ -167,7 +126,7 @@ void SceneManager::pop()
 			AudioSource * audio = go[i]->getGameComponent<AudioSource>();
 			if (audio != nullptr)
 			{
-				if (audio->getType() == AudioType::STREAM)
+				if (audio->getType() == AudioType::STREAM && audio->wasPlaying())
 				{
 					audio->play();
 				}

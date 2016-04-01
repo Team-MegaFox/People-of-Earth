@@ -34,39 +34,26 @@ public:
 	{
 		// required handles
 		// Needed simply to be able to check if they are currently playing
-		m_Intro = new AudioSource("In Game Music Intro.wav", AudioType::STREAM, true);
-		m_Transition = new AudioSource("In Game Music Transition 1.wav", AudioType::STREAM, true);
-		m_Music1 = new AudioSource("In Game Music 1.wav", AudioType::STREAM, true);
-		m_Music2 = new AudioSource("In Game Music 2.wav", AudioType::STREAM, true);
-		m_Danger1 = new AudioSource("In Game Music Danger.wav", AudioType::STREAM, true);
-		m_Danger2 = new AudioSource("In Game Music Danger 2.wav", AudioType::STREAM, true);
-
+		m_Intro = new AudioSource("Music/In Game Music Intro.wav", AudioType::STREAM, false);
+		instantiate((new GameObject("Intro"))->addGameComponent(m_Intro));
+		m_Transition = new AudioSource("Music/In Game Music Transition 1.wav", AudioType::STREAM, false);
+		instantiate((new GameObject("Transition"))->addGameComponent(m_Transition));
+		m_Music1 = new AudioSource("Music/In Game Music 1.wav", AudioType::STREAM, false);
+		instantiate((new GameObject("Music 1"))->addGameComponent(m_Music1));
+		m_Music2 = new AudioSource("Music/In Game Music 2.wav", AudioType::STREAM, false);
+		instantiate((new GameObject("Music 2"))->addGameComponent(m_Music2));
+		m_Danger1 = new AudioSource("Music/In Game Music Danger.wav", AudioType::STREAM, false);
+		instantiate((new GameObject("Danger 1"))->addGameComponent(m_Danger1));
+		m_Danger2 = new AudioSource("Music/In Game Music Danger 2.wav", AudioType::STREAM, false);
+		instantiate((new GameObject("Danger 2"))->addGameComponent(m_Danger2));
 
 		// Nothing has played yet
-		m_introPlayed = false;
-		m_music1Played = false;
-		m_music2Played = false;
-		m_transitionPlayed = false;
-		m_danger1Played = false;
-		m_danger2Played = false;
+		m_introPlayed = m_music1Played = m_music2Played = m_transitionPlayed = m_danger1Played = m_danger2Played = false;
 
 		m_playerStats = getGameObjectByName("player")->getGameComponent<ShipStats>();
-
-		// Nothing should play yet
-		m_Intro->stop();
-		m_Music1->stop();
-		m_Music2->stop();
-		m_Danger1->stop();
-		m_Danger2->stop();
-		m_Transition->stop();
 	}
 
-	/// <summary>
-	/// Processes input.
-	/// </summary>
-	/// <param name="input">The input.</param>
-	/// <param name="delta">The delta.</param>
-	virtual void processInput(const InputManager& input, float delta) override
+	virtual void update(float delta) override
 	{
 		if ((m_playerStats->getHealth() <= 0.6f) || (m_playerStats->getEnergy() <= 0.6f) || (m_playerStats->getFuel() <= 0.6f))
 		{
@@ -90,10 +77,7 @@ public:
 	{
 		if (m_firstTimeOnly)
 		{
-			m_Intro = new AudioSource("In Game Music Intro.wav", AudioType::STREAM, true);
-			instantiate((new GameObject("m_Intro"))
-				->addGameComponent(m_Intro));
-			m_Intro->pause(false);
+			m_Intro->play();
 			m_introPlayed = true;
 			m_firstTimeOnly = false;
 		}
@@ -117,10 +101,7 @@ public:
 				|| (m_danger1Played && !m_transitionPlayed)
 				|| (m_danger2Played && !m_transitionPlayed)))
 			{
-				m_Transition = new AudioSource("In Game Music Transition 1.wav", AudioType::STREAM, true);
-				instantiate((new GameObject("m_Transition"))
-					->addGameComponent(m_Transition));
-				m_Transition->pause(false);
+				m_Transition->play();
 				// reset booleans
 				m_transitionPlayed = true;
 			}
@@ -132,10 +113,7 @@ public:
 				if (((m_introPlayed && m_transitionPlayed) || (m_music2Played && m_transitionPlayed))
 					&& ((!m_Transition->isPlaying()) && (!m_Music2->isPlaying()) && (!m_Intro->isPlaying())))
 				{
-					m_Music1 = new AudioSource("In Game Music 1.wav", AudioType::STREAM, true);
-					instantiate((new GameObject("m_Music1"))
-						->addGameComponent(m_Music1));
-					m_Music1->pause(false);
+					m_Music1->play();
 					// reset booleans
 					m_music1Played = true;
 					m_transitionPlayed = false;
@@ -152,10 +130,7 @@ public:
 				if ((m_music1Played && m_transitionPlayed)
 					&& ((!m_Music1->isPlaying()) && (!m_Transition->isPlaying())))
 				{
-					m_Music2 = new AudioSource("In Game Music 2.wav", AudioType::STREAM, true);
-					instantiate((new GameObject("m_Music2"))
-						->addGameComponent(m_Music2));
-					m_Music2->pause(false);
+					m_Music2->play();
 					// reset booleans
 					m_music2Played = true;
 					m_music1Played = false;
@@ -165,10 +140,7 @@ public:
 				if (((m_danger1Played && m_transitionPlayed) || (m_danger2Played && m_transitionPlayed))
 					&&((!m_Danger1->isPlaying()) && (!m_Transition->isPlaying()) && (!m_Danger2->isPlaying())))
 				{
-					m_Music1 = new AudioSource("In Game Music 1.wav", AudioType::STREAM, true);
-					instantiate((new GameObject("m_Music1"))
-						->addGameComponent(m_Music1));
-					m_Music1->pause(false);
+					m_Music1->play();
 					// reset booleans
 					m_music1Played = true;
 					m_transitionPlayed = false;
@@ -197,10 +169,7 @@ public:
 					&& (!m_Music2->isPlaying()) 
 					&& (!m_Transition->isPlaying())))
 				{
-					m_Danger1 = new AudioSource("In Game Music Danger.wav", AudioType::STREAM, true);
-					instantiate((new GameObject("m_Danger1"))
-						->addGameComponent(m_Danger1));
-					m_Danger1->pause(false);
+					m_Danger1->play();
 					// reset booleans
 					m_danger1Played = true;
 					m_transitionPlayed = false;
@@ -225,10 +194,7 @@ public:
 				if ((m_danger1Played && m_transitionPlayed)
 					&& ((!m_Danger1->isPlaying()) && (!m_Transition->isPlaying())))
 				{
-					m_Danger2 = new AudioSource("In Game Music Danger 2.wav", AudioType::STREAM, true);
-					instantiate((new GameObject("m_Danger2"))
-						->addGameComponent(m_Danger2)); 
-					m_Danger2->pause(false);
+					m_Danger2->play();
 					m_danger2Played = true;
 					m_transitionPlayed = false;
 					m_danger1Played = false;
