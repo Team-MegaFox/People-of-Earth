@@ -94,6 +94,12 @@
     <ClCompile Include="Audio\Audio.cpp">
       <Filter>Audio</Filter>
     </ClCompile>
+    <ClCompile Include="Components\AudioSource.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\BloomObject.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MegaEngine.h" />
@@ -243,6 +249,9 @@
     </ClInclude>
     <ClInclude Include="Components\AudioSource.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\BloomObject.h">
+      <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

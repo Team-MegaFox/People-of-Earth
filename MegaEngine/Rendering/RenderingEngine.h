@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 03-01-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-31-2016
 // ***********************************************************************
 // <copyright file="RenderingEngine.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -17,6 +17,7 @@
 #include "Material.h"
 #include "Mesh.h"
 #include "Skybox.h"
+#include "BloomObject.h"
 #include "..\Core\MappedValues.h"
 #include <vector>
 #include <map>
@@ -65,6 +66,10 @@ public:
 	/// </summary>
 	/// <param name="skybox">The skybox.</param>
 	inline void setSkybox(const Skybox& skybox) { m_skybox = &skybox; }
+
+	inline void setBloomObjects(const BloomObject& bObject) { m_bloomObjects.push_back(&bObject); }
+
+	inline void removeBloomObject(int index) { m_bloomObjects.erase(m_bloomObjects.begin() + index); }
 
 	/// <summary>
 	/// Removes a light.
@@ -210,6 +215,11 @@ private:
 	/// A pointer to the Skybox in the current scene.
 	/// </summary>
 	const Skybox*						m_skybox;
+
+	/// <summary>
+	/// Vector of pointers to all the bloom objects in the current scene
+	/// </summary>
+	std::vector<const BloomObject *>			m_bloomObjects;
 
 	/// <summary>
 	/// Blurs the shadow map.

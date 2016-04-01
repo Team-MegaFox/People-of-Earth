@@ -80,8 +80,10 @@
   <ItemGroup>
     <ClCompile Include="FreeLook.cpp" />
     <ClCompile Include="FreeMove.cpp" />
+    <ClCompile Include="MissileAI.cpp" />
     <ClCompile Include="PeopleOfEarth-Game.cpp" />
     <ClCompile Include="PlayerShipMovementController.cpp" />
+    <ClCompile Include="ShipStats.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AsteroidField.h" />

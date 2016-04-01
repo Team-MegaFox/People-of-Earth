@@ -108,9 +108,9 @@ public:
 			{
 				if (objectName == "enemyFighter" + std::to_string(i))
 				{
-					getParent()->removeChild(getParent()->getAllChildren()[i + 1]);
-					m_allEnemyGameObjects[i] = nullptr;
-					m_allEnemyGameObjects.erase(m_allEnemyGameObjects.begin() + i);
+					getParent()->removeChild(getParent()->getAllChildren()[i + 1 /* + 1 for mothership added*/]);
+					m_allEnemyGameObjects[i - 1] = nullptr;
+					m_allEnemyGameObjects.erase(m_allEnemyGameObjects.begin() + (i - 1));
 					break;
 				}
 			}
@@ -337,67 +337,53 @@ public:
 		// For all the gameobjects added to this map
 		for (size_t i = 0; i < getParent()->getAllChildren().size(); i++)
 		{
+			
+			//Get the direction
+			PxVec3 direction = *getParent()->getAllChildren()[i]->getTransform()->getPosition() - playerPosition;
+			direction.y = 0.0f;
+			direction.normalize();
+
+			PxVec3 playerDir = Utility::getForward(*m_playerGameObject->getTransform()->getRotation());
+			playerDir.y = 0.0f;
+			playerDir.normalize();
+
+			float angle = PxAcos(playerDir.dot(PxVec3(0.0f, 0.0f, 1.0f)));
+
+			if ((playerDir.x > 0.0f && playerDir.z < 0.0f) || (playerDir.x > 0.0f && playerDir.z > 0.0f))
+			{
+				angle = ToRadians(360.0f) - angle;
+			}
+
+			//Rotate
+			PxVec3 tempDirection = direction;
+			direction.z = tempDirection.z * cos(angle) - tempDirection.x * sin(angle);
+			direction.x = tempDirection.z * sin(angle) + tempDirection.x * cos(angle);
+			
 			// get their distance from the player
 			distance = Utility::getDistance(playerPosition, *getParent()->getAllChildren()[i]->getTransform()->getPosition());
+
 			// do a distance check
 			if (distance < m_miniMapRadius)
 			{
-				//Get the direction
-				PxVec3 direction = *getParent()->getAllChildren()[i]->getTransform()->getPosition() - playerPosition;
-				direction.y = 0.0f;
-				direction.normalize();
-
-				PxVec3 playerDir = Utility::getForward(*m_playerGameObject->getTransform()->getRotation());
-				playerDir.y = 0.0f;
-				playerDir.normalize();
-
-				/*PxVec3(Utility::getRight(*m_playerGameObject->getTransform()->getRotation()).x, 0.0f,
-				Utility::getForward(*m_playerGameObject->getTransform()->getRotation()).z);*/
-				//playerDir.normalize();
-
-				float angle = PxAcos(playerDir.dot(PxVec3(0.0f, 0.0f, 1.0f)));
-
-				if ((playerDir.x > 0.0f && playerDir.z < 0.0f) || (playerDir.x > 0.0f && playerDir.z > 0.0f))
-				{
-					angle = ToRadians(360.0f) - angle;
-				}
-
-				//Rotate
-				//Rotate the direction according to the identity forward
-				PxVec3 tempDirection = direction;
-				direction.z = tempDirection.z * cos(angle) - tempDirection.x * sin(angle);
-				direction.x = tempDirection.z * sin(angle) + tempDirection.x * cos(angle);
-
-				/*PxQuat pureQuat = PxQuat(direction.x, direction.y, direction.z, 0);
-				PxQuat playerQuat = *m_playerGameObject->getTransform()->getRotation();
-				PxQuat finalRot = playerQuat * pureQuat * playerQuat.getConjugate();
-				direction = PxVec3(finalRot.x, finalRot.y, finalRot.z);
-				direction *= -1;*/
-
-
-				direction *= distance / m_miniMapRadius;
+				direction *= distance / (2 * m_miniMapRadius);
 				direction.z *= -1;
-
-				//Rotate the direction according to the identidy forward
-				//PxVec3 tempDirection = direction;
-				//direction.z = tempDirection.z * cos(m_angleRotationY) - tempDirection.x * sin(m_angleRotationY);
-				//direction.x = tempDirection.z * sin(m_angleRotationY) + tempDirection.x * cos(m_angleRotationY);
-				//if (m_flipDirection)
-				//{
-				//	direction.z *= -1.0f;
-				//}
-
-				//Update on the GUI Image
-				getParent()->getAllChildren()[i]->getGUIComponent<GUIImage>()->setPercentPosition(
-					PxVec2(0.5f, 0.5f) +
-					PxVec2(direction.x, direction.z)
-					- getParent()->getAllChildren()[i]->getGUIComponent<GUIImage>()->getPercentSize() / 2);
 			}
 			else
 			{
 				//Off the minimap
-				getParent()->getAllChildren()[i]->setEnabled(false);
+				direction.z *= -1;
+				direction *= 0.5f;
+				//getParent()->getAllChildren()[i]->setEnabled(false);
 			}
+
+			//To make it inside the circle of the minimap
+			direction *= 0.9f;
+
+			//Update on the GUI Image
+			getParent()->getAllChildren()[i]->getGUIComponent<GUIImage>()->setPercentPosition(
+				PxVec2(0.5f, 0.5f) +
+				PxVec2(direction.x, direction.z)
+				- getParent()->getAllChildren()[i]->getGUIComponent<GUIImage>()->getPercentSize() / 2);
 
 		}
 	}

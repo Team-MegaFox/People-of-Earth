@@ -53,6 +53,9 @@ public:
 
 		Material asteroid("asteroid", 1.0f, 1.0f, Texture("Asteroids/AM1.jpg"));
 
+
+		Material testCol("testCol", 0.5f, 4, Texture("laserGreen.png"));
+
 		addToRoot((new GameObject("Skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/Starfield/starfield.tga")));
 			//->addGameComponent(new SkyboxRenderer("Skybox/sky/sky.jpg")));
@@ -103,11 +106,11 @@ public:
 		addToRoot(camera);
 
 
-		addToRoot((new GameObject("DirectionalLight1", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
-			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 1.0f, 1.0f), 0.6f, 8)));
+		addToRoot((new GameObject("DirectionalLight1", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(45.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
+			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 0.65f, 0.0f), 0.6f, 8)));
 
-		addToRoot((new GameObject("DirectionalLight2", PxVec3(0.0f, 0.0f, 10000.0f), PxQuat(ToRadians(-180.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
-			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 1.0f, 1.0f), 0.6f, 8)));
+		//addToRoot((new GameObject("DirectionalLight2", PxVec3(0.0f, 0.0f, 10000.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
+		//	->addGameComponent(new DirectionalLight(PxVec3(1.0f, 1.0f, 1.0f), 0.6f, 8)));
 
 		addPassengerShip();		
 
@@ -130,7 +133,7 @@ public:
 
 		addArea1OfMission1();
 
-		//addArea2OfMission1();
+		addArea2OfMission1();
 
 		addGUI();
 	}
@@ -178,6 +181,15 @@ private:
 		addToRoot((new GameObject("DialogueBox"))
 			->addGUIComponent(new GUILabel(PxVec4(0.75f, 0.03f, 0.25f, 0.125f), PxVec4(PxZero), ""))
 			->addGameComponent(new DialogueBox));
+
+		DialogueBox * welcomeLabel = new DialogueBox();
+		welcomeLabel->sendLastingMessage("[colour='FFFFFFFF'][font='SaucerBB-16'][padding='l:5 t:0 r:5 b:0']Hello! Welcome to[colour='FF00FF00']The People of Earth Demo!\n[colour='FFFFFFFF']We hope you enjoy your time with us.\n[colour='FFFFAF00']Feel free to ask us any questions you have.",
+			Importance::LOW, false);
+		// Welcome label
+		addToRoot((new GameObject("WelcomeLabel"))
+			->addGUIComponent(new GUILabel(PxVec4(0.05f, 0.85f, 0.90f, 0.125f),
+			PxVec4(PxZero), ""))
+			->addGameComponent(welcomeLabel));
 	}
 
 	void addPassengerShip()
@@ -325,19 +337,19 @@ private:
 			->addGameComponent(new EnemyFighterShipAI)
 			);
 		// //the alien fighter ship
-		addToRoot((new GameObject("enemyFighter", PxVec3(-20.0f, 0.0f, 3000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
-			->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 6.0f, 24.0f))
-			->addGameComponent(new EnemyFighterShipAI)
-			->addGameComponent(new ShipStats)
-			);
-		// //the alien fighter ship
-		//addToRoot((new GameObject("enemyFighter", PxVec3(0.0f, 20.0f, 1000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
+		//addToRoot((new GameObject("enemyFighter", PxVec3(-20.0f, 0.0f, 3000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
 		//	->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
 		//	->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 6.0f, 24.0f))
 		//	->addGameComponent(new ShipStats)
 		//	->addGameComponent(new EnemyFighterShipAI)
 		//	);
+		 //the alien fighter ship
+		addToRoot((new GameObject("enemyFighter", PxVec3(0.0f, 20.0f, 1000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("testCol")))
+			->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 6.0f, 24.0f))
+			->addGameComponent(new ShipStats)
+			->addGameComponent(new EnemyFighterShipAI)
+			);
 		////// the alien fighter ship
 		//addToRoot((new GameObject("enemyFighter", PxVec3(0.0f, -20.0f, 3000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
 		//	->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
@@ -363,25 +375,16 @@ private:
 
 	void addArea2OfMission1()
 	{
-		// TODO : Optimize AsteroidField class
 
-		// Asteroids
-		//addToRoot((new GameObject("Asteroid Field", PxVec3(0.0f, 0.0f, 4000.0f)))
-		//	->addGameComponent(new AsteroidField())
-		//	);
-		//addToRoot((new GameObject("Asteroid Field", PxVec3(0.0f, 5.0f, 4500.0f)))
-		//	->addGameComponent(new AsteroidField())
-		//	);
-
-		addToRoot((new GameObject("jupiterMoon1", PxVec3(1000.0f, 0.0f, 10300.0f)))
+		addToRoot((new GameObject("jupiterMoon1", PxVec3(1500.0f, 0.0f, 11300.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_D.obj", 75.0f), Material("moon")))
 			);
 
-		addToRoot((new GameObject("jupiterMoon2", PxVec3(-900.0f, 0.0f, 9800.0f)))
+		addToRoot((new GameObject("jupiterMoon2", PxVec3(-900.0f, 0.0f, 9200.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_E.obj", 20.0f), Material("mars")))
 			);
 
-		addToRoot((new GameObject("jupiterMoon3", PxVec3(-800.0f, 0.0f, 11000.0f)))
+		addToRoot((new GameObject("jupiterMoon3", PxVec3(-800.0f, 0.0f, 11500.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_F.obj", 32.0f), Material("moon")))
 			);
 
@@ -390,11 +393,9 @@ private:
 			);
 
 		addToRoot((new GameObject("sun", PxVec3(20000.0f, 5000.0f, 20000.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 400.0f), Material("sun")))
+			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 9000.0f), Material("sun")))
 			);
 	}
-
-private:
 
 	//bool onRetryClick(const GameObject& go)
 	//{

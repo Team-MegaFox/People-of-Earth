@@ -1,9 +1,9 @@
-// ***********************************************************************
+ //***********************************************************************
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 03-01-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-31-2016
 // ***********************************************************************
 // <copyright file="RenderingEngine.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -52,7 +52,7 @@ m_altCamera(PxMat44(PxIdentity), &m_altCameraTransform)
 
 	setSamplerSlot("filterTexture", 0);
 
-	setVec3("ambient", PxVec3(0.2f, 0.2f, 0.2f));
+	setVec3("ambient", PxVec3(0.5f, 0.5f, 0.5f));
 
 	setFloat("fxaaSpanMax", 8.0f);
 	setFloat("fxaaReduceMin", 1.0f / 128.0f);
@@ -210,6 +210,14 @@ void RenderingEngine::render(const GameObject& object)
 		m_skybox->render(*this, *m_mainCamera);
 
 		glDepthFunc(GL_LESS);
+	}
+
+	if (m_bloomObjects.size() >= 1)
+	{
+		for (size_t i = 0; i < m_bloomObjects.size(); i++)
+		{
+			m_bloomObjects[i]->render(*this, *m_mainCamera);
+		}
 	}
 
 	setVec3("inverseFilterTextureSize", PxVec3(1.0f / getTexture("displayTexture").getWidth(), 1.0f / getTexture("displayTexture").getHeight(), 0.0f));
