@@ -38,6 +38,7 @@ m_shadowMapShader("shadowMapGenerator"),
 m_nullFilter("filter-null"),
 m_gausBlurFilter("filter-gausBlur7x1"),
 m_fxaaFilter("filter-fxaa"),
+m_particleShader("particle"),
 m_altCameraTransform(glm::vec3(0.0f), glm::quat(glm::angleAxis(glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)))),
 m_altCamera(glm::mat4(1.0f), &m_altCameraTransform)
 {
@@ -48,7 +49,7 @@ m_altCamera(glm::mat4(1.0f), &m_altCameraTransform)
 
 	setSamplerSlot("filterTexture", 0);
 
-	setVec3("ambient", glm::vec3(0.4f, 0.4f, 0.4f));
+	setVec4("ambient", glm::vec4(0.4f, 0.4f, 0.4f, 1.0f));
 
 	setFloat("fxaaSpanMax", 8.0f);
 	setFloat("fxaaReduceMin", 1.0f / 128.0f);
@@ -91,7 +92,7 @@ void RenderingEngine::render(GameObject & gameObject)
 	//getTexture("displayTexture").bindRenderTarget();
 	m_viewport->bindRenderTarget();
 
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(0.0f, 0.0f, 1.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	gameObject.renderAll(m_defaultShader, *m_guiEngine, *this, *m_mainCamera);
@@ -109,7 +110,7 @@ void RenderingEngine::render(GameObject & gameObject)
 
 		setTexture("shadowMap", m_shadowMaps[shadowMapIndex]);
 		m_shadowMaps[shadowMapIndex].bindRenderTarget();
-		glClearColor(1.0f, 1.0f, 0.0f, 0.0f);
+		glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
 		if (shadowInfo.getShadowMapSizeAsPowerOf2() != 0)
@@ -154,7 +155,7 @@ void RenderingEngine::render(GameObject & gameObject)
 		//getTexture("displayTexture").bindRenderTarget();
 		m_viewport->bindRenderTarget();
 
-		glEnable(GL_BLEND);
+		//glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
 		glDepthFunc(GL_EQUAL);
@@ -163,7 +164,7 @@ void RenderingEngine::render(GameObject & gameObject)
 
 		glDepthMask(GL_TRUE);
 		glDepthFunc(GL_LESS);
-		glDisable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	}
 
@@ -174,6 +175,14 @@ void RenderingEngine::render(GameObject & gameObject)
 		m_skybox->render(*this, *m_mainCamera);
 
 		glDepthFunc(GL_LESS);
+	}
+
+	for (size_t i = 0; i < m_particleSystems.size(); i++)
+	{
+		if (m_particleSystems[i] != nullptr)
+		{
+			m_particleSystems[i]->renderParticles(m_particleShader, *this, *m_mainCamera);
+		}
 	}
 
 	setVec3("inverseFilterTextureSize", glm::vec3(1.0f / getTexture("displayTexture").getWidth(), 1.0f / getTexture("displayTexture").getHeight(), 0.0f));

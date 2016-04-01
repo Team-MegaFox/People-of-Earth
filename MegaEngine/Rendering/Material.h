@@ -86,6 +86,12 @@ public:
 	/// <param name="value">The vector value.</param>
 	inline void setVector3f(const std::string & name, const glm::vec3 & value) { m_materialData->setVec3(name, value); }
 	/// <summary>
+	/// Sets the 4D vector with a name to the material data map.
+	/// </summary>
+	/// <param name="name">The name.</param>
+	/// <param name="value">The vector value.</param>
+	inline void setVector4f(const std::string & name, const glm::vec4 & value) { m_materialData->setVec4(name, value); }
+	/// <summary>
 	/// Sets the float with a name to the material data map.
 	/// </summary>
 	/// <param name="name">The name.</param>
@@ -104,6 +110,12 @@ public:
 	/// <param name="name">The name.</param>
 	/// <returns>A const reference to the 3D vector from the material data map.</returns>
 	inline const glm::vec3 & getVec3(const std::string & name) const { return m_materialData->getVec3(name); }
+	/// <summary>
+	/// Gets the 4D vector value by name from the material data map.
+	/// </summary>
+	/// <param name="name">The name.</param>
+	/// <returns>A const reference to the 3D vector from the material data map.</returns>
+	inline const glm::vec4 & getVec4(const std::string & name) const { return m_materialData->getVec4(name); }
 	/// <summary>
 	/// Gets the float value by name from the material data map.
 	/// </summary>

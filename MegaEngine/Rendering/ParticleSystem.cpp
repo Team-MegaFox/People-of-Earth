@@ -3,7 +3,9 @@
 #include <glm\gtx\norm.hpp>
 #include <algorithm>
 #include <random>
+#include "..\Core\CoreEngine.h"
 #include "Camera3D.h"
+#include "RenderingEngine.h"
 
 ParticleEmitter::ParticleEmitter(int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/) :
 m_maxParticles(maxParticles),
@@ -65,9 +67,9 @@ void ParticleEmitter::update(float deltaTime)
 			m_particles[particleIndex].speed = maindir + randomdir*spread;
 
 			// Very bad way to generate a random color
-			m_particles[particleIndex].colour.r = 255.0f / 255.0f/*(float)(rand() % 256)*/;
-			m_particles[particleIndex].colour.g = 255.0f / 255.0f/*(float)(rand() % 256)*/;
-			m_particles[particleIndex].colour.b = 255.0f / 255.0f/*(float)(rand() % 256)*/;
+			m_particles[particleIndex].colour.r = 1.0f/*(float)(rand() % 256)*/;
+			m_particles[particleIndex].colour.g = 1.0f/*(float)(rand() % 256)*/;
+			m_particles[particleIndex].colour.b = 1.0f/*(float)(rand() % 256)*/;
 			m_particles[particleIndex].colour.a = 1.0f/*(rand() % 256) / 3.0f*/;
 
 			m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
@@ -109,8 +111,8 @@ void ParticleEmitter::update(float deltaTime)
 void ParticleEmitter::render(const Camera3D & camera)
 {
 	//glDepthMask(GL_FALSE);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	m_updateEmitter = true;
 
@@ -178,7 +180,7 @@ void ParticleEmitter::render(const Camera3D & camera)
 
 	//glDepthMask(GL_TRUE);
 	//glBlendFunc(GL_ONE, GL_ONE);
-	glDisable(GL_BLEND);
+	//glDisable(GL_BLEND);
 }
 
 int ParticleEmitter::findUnusedParticle()
@@ -226,11 +228,16 @@ void ParticleSystem::update(float delta)
 	m_particleEmitter->update(delta);
 }
 
-void ParticleSystem::render(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D & camera) const
+void ParticleSystem::renderParticles(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D & camera) const
 {
 	//shader.bind();
 	//shader.updateUniforms(getTransform(), m_particleMat, renderingEngine, camera);
-	m_particleShader.bind();
-	m_particleShader.updateUniforms(getTransform(), m_particleMat, renderingEngine, camera);
+	shader.bind();
+	shader.updateUniforms(getTransform(), m_particleMat, renderingEngine, camera);
 	m_particleEmitter->render(camera);
+}
+
+void ParticleSystem::addToEngine(CoreEngine* engine) const
+{
+	engine->getRenderingEngine()->addParticleSystem(*this);
 }

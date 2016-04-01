@@ -82,14 +82,20 @@ public:
 	/// Virtual function for custom update functionality.
 	/// </summary>
 	/// <param name="delta">The frame time delta.</param>
-	virtual void update(float delta);
+	virtual void update(float delta) override;
 	/// <summary>
 	/// Virtual function for custom rendering functionality.
 	/// </summary>
 	/// <param name="shader">The shader.</param>
 	/// <param name="renderingEngine">The rendering engine.</param>
 	/// <param name="camera">The camera.</param>
-	virtual void render(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D & camera) const;
+	void renderParticles(const Shader& shader, const RenderingEngine& renderingEngine, const Camera3D & camera) const;
+
+	/// <summary>
+	/// Adds the particle system to the Rendering Engine so it can be rendered.
+	/// </summary>
+	/// <param name="engine">The Core Engine.</param>
+	virtual void addToEngine(CoreEngine* engine) const override;
 
 private:
 	ParticleEmitter* m_particleEmitter;

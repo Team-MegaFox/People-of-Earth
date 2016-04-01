@@ -25,6 +25,7 @@
 #include "Camera3D.h"
 #include "Mesh.h"
 #include "Skybox.h"
+#include "ParticleSystem.h"
 
 class GameObject;
 class BaseLight;
@@ -63,6 +64,7 @@ public:
 	/// </summary>
 	/// <param name="light">The light.</param>
 	inline void addLight(const BaseLight & light) { m_lights.push_back(&light); }
+	inline void addParticleSystem(const ParticleSystem& particles) { m_particleSystems.push_back(&particles); }
 	/// <summary>
 	/// Sets the main camera.
 	/// </summary>
@@ -209,6 +211,9 @@ private:
 	/// A pointer to the Skybox in the current scene.
 	/// </summary>
 	const Skybox* m_skybox;
+	
+	Shader m_particleShader;
+	std::vector<const ParticleSystem*> m_particleSystems;
 
 	/// <summary>
 	/// Applies the filter.

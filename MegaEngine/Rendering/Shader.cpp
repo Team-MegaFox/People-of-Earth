@@ -165,6 +165,8 @@ void Shader::updateUniforms(const Transform& transform, const Material& material
 			}
 			else if (uniformType == "vec3")
 				setUniformVec3(uniformName, renderingEngine.getVec3(unprefixedName));
+			else if (uniformType == "vec4")
+				setUniformVec4(uniformName, renderingEngine.getVec4(unprefixedName));
 			else if (uniformType == "float")
 				setUniformf(uniformName, renderingEngine.getFloat(unprefixedName));
 			else if (uniformType == "DirectionalLight")
@@ -214,6 +216,8 @@ void Shader::updateUniforms(const Transform& transform, const Material& material
 		{
 			if (uniformType == "vec3")
 				setUniformVec3(uniformName, material.getVec3(uniformName));
+			else if (uniformType == "vec4")
+				setUniformVec4(uniformName, material.getVec4(uniformName));
 			else if (uniformType == "float")
 				setUniformf(uniformName, material.getFloat(uniformName));
 			else
@@ -235,6 +239,11 @@ void Shader::setUniformf(const std::string& uniformName, float value) const
 void Shader::setUniformVec3(const std::string& uniformName, const glm::vec3 & value) const
 {
 	glUniform3f(m_shaderData->getUniformMap().at(uniformName), value.x, value.y, value.z);
+}
+
+void Shader::setUniformVec4(const std::string& uniformName, const glm::vec4 & value) const
+{
+	glUniform4f(m_shaderData->getUniformMap().at(uniformName), value.x, value.y, value.z, value.w);
 }
 
 void Shader::setUniformMat4(const std::string& uniformName, const glm::mat4 & value) const

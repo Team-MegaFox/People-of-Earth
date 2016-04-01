@@ -294,6 +294,12 @@ public:
 	/// <param name="uniformName">Name of the uniform.</param>
 	/// <param name="value">The value of the uniform.</param>
 	void setUniformVec3(const std::string & uniformName, const glm::vec3 & value) const;
+	/// <summary>
+	/// Sets the 4D vector uniform.
+	/// </summary>
+	/// <param name="uniformName">Name of the uniform.</param>
+	/// <param name="value">The value of the uniform.</param>
+	void setUniformVec4(const std::string & uniformName, const glm::vec4 & value) const;
 protected:
 private:
 	/// <summary>The map of every <see cref="ShaderData"/>.</summary>

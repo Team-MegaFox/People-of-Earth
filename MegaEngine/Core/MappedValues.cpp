@@ -23,6 +23,17 @@ const glm::vec3& MappedValues::getVec3(const std::string& name) const
 	return m_defaultVector3f;
 }
 
+const glm::vec4 & MappedValues::getVec4(const std::string & name) const
+{
+	auto it = m_vector4fMap.find(name);
+	if (it != m_vector4fMap.end())
+	{
+		return it->second;
+	}
+
+	return m_defaultVector4f;
+}
+
 float MappedValues::getFloat(const std::string& name) const
 {
 	auto it = m_floatMap.find(name);

@@ -30,15 +30,22 @@ public:
 	/// </summary>
 	MappedValues() :
 		m_defaultTexture(Texture("defaultTexture.png")),
-		m_defaultVector3f(glm::vec3(0.0f)) { }
+		m_defaultVector3f(glm::vec3(0.0f)),
+		m_defaultVector4f(glm::vec4(0.0f)) { }
 	~MappedValues() { }
 
 	/// <summary>
-	/// Adds a vector to the map.
+	/// Adds a 3D vector to the map.
 	/// </summary>
 	/// <param name='name'>The name of the float vector.</param>
 	/// <param name='value'>The value of the vector to store in the map.</param>
 	inline void setVec3(const std::string& name, const glm::vec3& value) { m_vector3fMap[name] = value; }
+	/// <summary>
+	/// Adds a 4D vector to the map.
+	/// </summary>
+	/// <param name='name'>The name of the float vector.</param>
+	/// <param name='value'>The value of the vector to store in the map.</param>
+	inline void setVec4(const std::string& name, const glm::vec4& value) { m_vector4fMap[name] = value; }
 	/// <summary>
 	/// Adds a float to the map.
 	/// </summary>
@@ -53,10 +60,15 @@ public:
 	inline void setTexture(const std::string& name, const Texture& value){ m_textureMap[name] = value; }
 
 	/// <summary>
-	/// Gets a vector by name from the map.
+	/// Gets a 3D vector by name from the map.
 	/// </summary>
 	/// <returns>The vector by name from the map.</returns>
 	const glm::vec3 & getVec3(const std::string & name) const;
+	/// <summary>
+	/// Gets a 4D vector by name from the map.
+	/// </summary>
+	/// <returns>The vector by name from the map.</returns>
+	const glm::vec4 & getVec4(const std::string & name) const;
 	/// <summary>
 	/// Gets a float by name from the map.
 	/// </summary>
@@ -70,9 +82,13 @@ public:
 protected:
 private:
 	/// <summary>
-	/// A map of vectors.
+	/// A map of 3D vectors.
 	/// </summary>
 	std::map<std::string, glm::vec3> m_vector3fMap;
+	/// <summary>
+	/// A map of 4D vectors.
+	/// </summary>
+	std::map<std::string, glm::vec4> m_vector4fMap;
 	/// <summary>
 	/// A map of floats.
 	/// </summary>
@@ -90,4 +106,8 @@ private:
 	/// The default 3d vector.
 	/// </summary>
 	glm::vec3 m_defaultVector3f;
+	/// <summary>
+	/// The default 4d vector.
+	/// </summary>
+	glm::vec4 m_defaultVector4f;
 };
