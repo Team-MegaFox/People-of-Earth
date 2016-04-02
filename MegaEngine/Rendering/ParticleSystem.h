@@ -100,8 +100,6 @@ public:
 private:
 	ParticleEmitter* m_particleEmitter;
 
-	Shader m_particleShader;
-
 	Material m_particleMat;
 
 };

@@ -212,7 +212,6 @@ void ParticleEmitter::sortParticles()
 }
 
 ParticleSystem::ParticleSystem(Material material, float spawnRate /*= 5.0f*/, int maxParticles /*= 10000.0f*/) :
-m_particleShader("particle-testing"),
 m_particleMat(material)
 {
 	m_particleEmitter = new ParticleEmitter;
