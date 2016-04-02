@@ -16,13 +16,14 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "Mesh.h"
+#include "..\Components\MeshRenderer.h"
 #include "..\Core\Transform.h"
 #include "..\Components\GameComponents.h"
 
 class BloomObject
 {
 public:
-	BloomObject(const std::string& fileName, const Texture & diffuse);
+	BloomObject(const Mesh & mesh, const Texture & diffuse);
 	~BloomObject();
 
 	/// <summary>
@@ -47,7 +48,7 @@ private:
 	/// <summary>
 	/// The bloomObject's cube mesh.
 	/// </summary>
-	Mesh* m_objectMesh;
+	const Mesh* m_objectMesh;
 
 	/// <summary>
 	/// The bloomObject's transform. Which is just the default Transform.
@@ -65,7 +66,8 @@ public:
 	/// <summary>
 	/// Initializes a new instance of the <see cref="BloomObjectRenderer"/> class.
 	/// </summary>
-	BloomObjectRenderer(const std::string& fileName);
+	BloomObjectRenderer(const Mesh mesh, const Texture & diffuse) :
+		m_bloomObject(mesh, diffuse) { }
 	/// <summary>
 	/// Finalizes an instance of the <see cref="BloomObjectRenderer"/> class.
 	/// </summary>

@@ -56,6 +56,11 @@ public:
 
 		Material testCol("testCol", 0.5f, 4, Texture("laserGreen.png"));
 
+
+		addToRoot((new GameObject("BloomObject", PxVec3(0.0f, 0.0f, 0.0f)))
+			->addGameComponent(new BloomObjectRenderer(Mesh("Asteroids/Asteroid_D.obj", 10.0f), Texture("Planets/sun.jpg"))));
+
+
 		addToRoot((new GameObject("Skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/Starfield/starfield.tga")));
 			//->addGameComponent(new SkyboxRenderer("Skybox/sky/sky.jpg")));

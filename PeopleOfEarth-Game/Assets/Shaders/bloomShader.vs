@@ -1,23 +1,22 @@
-#version 400
+#version 320
 
-layout (location = 0) in vec3 VertexPosition;
-layout (location = 1) in vec3 VertexNormal;
-layout (location = 2) in vec2 VertexTexCoord;
+in vec3 position0;
+in vec2 texCoord0;
+in vec3 normal0;
 
 out vec3 Position;
 out vec3 Normal;
 out vec2 TexCoord;
 
-uniform mat4 ModelViewMatrix;
-uniform mat3 NormalMatrix;
-uniform mat4 ProjectionMatrix;
-uniform mat4 MVP;
+uniform mat4 T_model;
+uniform mat4 T_VP;
+uniform mat4 T_MVP;
 
 void main()
 {
-	TexCoord = VertexTexCoord;
-	Normal = normalize( NormalMatrix * VertexNormal );
-	Position = vec3( ModelViewMatrix *
-	vec4( VertexPosition, 1.0) );
-	gl_Position = MVP * vec4( VertexPosition, 1.0 );
+	mat3 NormalMatrix = transpose( inverse ( mat3( T_VP * T_model ) ) );
+	TexCoord = texCoord0;
+	Normal = normalize( NormalMatrix * normal0 );
+	Position = vec3( T_model * vec4( position0, 1.0) );
+	gl_Position = T_MVP * vec4( position0, 1.0 );
 }

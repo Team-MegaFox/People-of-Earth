@@ -49,6 +49,7 @@ m_altCamera(PxMat44(PxIdentity), &m_altCameraTransform)
 	setSamplerSlot("normalMap", 1);
 	setSamplerSlot("dispMap", 2);
 	setSamplerSlot("shadowMap", 3);
+	setSamplerSlot("blurTex", 1);
 
 	setSamplerSlot("filterTexture", 0);
 
