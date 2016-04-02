@@ -5,6 +5,15 @@
 #include "..\Components\GameComponents.h"
 #include "Shader.h"
 
+enum EmitterType
+{
+	AMBIENT,
+	EXPLOSION,
+	FOUNTAIN,
+	CONE,
+	RAY
+};
+
 struct Particle
 {
 	glm::vec3 pos;
@@ -25,13 +34,14 @@ typedef std::vector<Particle> Particles;
 class ParticleEmitter
 {
 public:
-	ParticleEmitter(int maxParticles = 10000.0f, float spawnRate = 5.0f);
-	~ParticleEmitter();
+	ParticleEmitter() {}
+	virtual ~ParticleEmitter() {}
 
-	void update(float deltaTime);
-	void render(const Camera3D & camera);
+	virtual void update(float deltaTime) = 0;
+	virtual void render(const Camera3D & camera) = 0;
 
-private:
+protected:
+
 	Particles m_particles;
 
 	bool m_updateEmitter;
@@ -44,9 +54,13 @@ private:
 
 	int m_particleCount;
 
+	int m_lifeTime;
+
 	std::vector<glm::vec4> m_positionData;
 
 	std::vector<glm::vec4> m_colourData;
+
+	glm::vec4 m_colour;
 
 	enum
 	{
@@ -66,16 +80,103 @@ private:
 	/// </summary>
 	GLuint m_vertexArrayBuffers[NUM_BUFFERS];
 
-	int findUnusedParticle();
+	virtual int findUnusedParticle() = 0;
 
-	void sortParticles();
+	virtual void sortParticles() = 0;
 
+};
+
+class AmbientEmitter : public ParticleEmitter
+{
+public:
+	AmbientEmitter(glm::vec4 & colour, float lifeTime, int maxParticles = 10000.0f, float spawnRate = 5.0f);
+	~AmbientEmitter();
+
+	virtual void update(float deltaTime) override;
+	virtual void render(const Camera3D & camera) override;
+
+protected:
+
+	virtual int findUnusedParticle() override;
+
+	virtual void sortParticles() override;
+};
+
+class ExplosionEmitter : public ParticleEmitter
+{
+public:
+	ExplosionEmitter(glm::vec4 & colour, float lifeTime, int maxParticles = 10000.0f, float spawnRate = 5.0f);
+	~ExplosionEmitter();
+
+	virtual void update(float deltaTime) override;
+	virtual void render(const Camera3D & camera) override;
+
+protected:
+
+	virtual int findUnusedParticle() override;
+
+	virtual void sortParticles() override;
+
+	bool m_runOnce = false;
+	int m_timesThrough = 0;
+};
+
+class FountainEmitter : public ParticleEmitter
+{
+public:
+	FountainEmitter(glm::vec4 & colour, float lifeTime, int maxParticles = 10000.0f, float spawnRate = 5.0f);
+	~FountainEmitter();
+
+	virtual void update(float deltaTime) override;
+	virtual void render(const Camera3D & camera) override;
+
+protected:
+
+	virtual int findUnusedParticle() override;
+
+	virtual void sortParticles() override;
+
+};
+
+class ConeEmitter : public ParticleEmitter
+{
+public:
+	ConeEmitter(glm::vec3& endPoint, glm::vec4 & colour, float lifeTime, int maxParticles = 10000.0f, float spawnRate = 5.0f);
+	~ConeEmitter();
+
+	virtual void update(float deltaTime) override;
+	virtual void render(const Camera3D & camera) override;
+
+protected:
+
+	virtual int findUnusedParticle() override;
+
+	virtual void sortParticles() override;
+};
+
+class RayEmitter : public ParticleEmitter
+{
+public:
+	RayEmitter(glm::vec3& endPoint, glm::vec4 & colour, float lifeTime, int maxParticles = 10000.0f, float spawnRate = 5.0f);
+	~RayEmitter();
+
+	virtual void update(float deltaTime) override;
+	virtual void render(const Camera3D & camera) override;
+
+protected:
+
+	virtual int findUnusedParticle() override;
+
+	virtual void sortParticles() override;
 };
 
 class ParticleSystem : public GameComponent
 {
 public:
-	ParticleSystem(Material material, float spawnRate = 5.0f, int maxParticles = 10000.0f);
+	// FountainEmitter, AmbientEmitter, ExplosionEmitter
+	ParticleSystem(Material material, EmitterType eType = EmitterType::AMBIENT, glm::vec4 & colour = glm::vec4(0.0f), float lifeTime = 4.0f, float spawnRate = 5.0f, int maxParticles = 10000.0f);
+	// ConeEmitter, RayEmitter
+	ParticleSystem(Material material, glm::vec3 & endPoint, EmitterType eType = EmitterType::CONE, glm::vec4 & colour = glm::vec4(0.0f), float lifeTime = 1.0f, float spawnRate = 5.0f, int maxParticles = 10000.0f);
 	~ParticleSystem();
 
 	/// <summary>
@@ -102,4 +203,5 @@ private:
 
 	Material m_particleMat;
 
+	EmitterType m_emitterType;
 };
