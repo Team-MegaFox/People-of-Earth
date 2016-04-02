@@ -14,6 +14,8 @@
 #include <unordered_map>
 #include <string>
 #include <FMOD\fmod.hpp>
+#include <PhysX\PxPhysicsAPI.h>
+using namespace physx;
 
 void ERRCHECK_ok(FMOD_RESULT result, const char *file, int line);
 void ERRCHECK_invalid(FMOD_RESULT result, const char *file, int line);
@@ -77,6 +79,13 @@ public:
 	/// </summary>
 	/// <param name="volume">The volume.</param>
 	void setStreamVolume(float volume);
+	/// <summary>
+	/// Sets listener's position in world space.
+	/// </summary>
+	/// <param name="volume">The position of the listener.</param>
+	/// <param name="forward">The forward vector of the listener.</param>
+	/// <param name="up">The up vector the listener.</param>
+	void setListenerPosition(const PxVec3& pos, const PxVec3& forward, const PxVec3& up);
 
 private:
 	/// <summary>

@@ -38,6 +38,7 @@ AudioEngine::AudioEngine()
 	ERRCHECK_OK(m_masterGroup->addGroup(m_streams));
 
 	ERRCHECK_OK(m_system->set3DSettings(1.0, 100.0f, 1.0f));
+	ERRCHECK_OK(m_system->set3DNumListeners(1));
 }
 
 AudioEngine::~AudioEngine()
@@ -73,6 +74,15 @@ void AudioEngine::setSoundVolume(float volume)
 void AudioEngine::setStreamVolume(float volume)
 {
 	ERRCHECK_OK(m_streams->setVolume(volume));
+}
+
+void AudioEngine::setListenerPosition(const PxVec3& pos, const PxVec3& forward, const PxVec3& up)
+{
+	FMOD_VECTOR posF = { pos.x, pos.y, pos.z };
+	FMOD_VECTOR forwardF = { forward.x, forward.y, forward.z };
+	FMOD_VECTOR upF = { up.x, up.y, up.z };
+
+	m_system->set3DListenerAttributes(0, &posF, nullptr, &forwardF, &upF);
 }
 
 void ERRCHECK_ok(FMOD_RESULT result, const char *file, int line)
