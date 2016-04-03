@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-17-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-30-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 04-03-2016
 // ***********************************************************************
 // <copyright file="PlayerShipMovementController.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -275,6 +275,29 @@ void PlayerShipMovementController::lookAround(const InputManager& input)
 			m_lerp_X_Axis_Ship = false;
 		}
 	}
+
+	/*GameObject* passengerShip = getGameObjectByName("passengerShip");
+	RigidBody* psRigidBody = passengerShip->getGameComponent<RigidBody>();
+	psRigidBody->setDebugDraw(true);
+	m_rigidBody->setDebugDraw(true);
+	if (psRigidBody->getCollider()->checkCollision(m_rigidBody->getCollider()))
+	{
+		printf("Collision\n");
+	}
+	else
+	{
+		printf("No Collision\n");
+	}*/
+
+
+	/*if (m_rigidBody->getCollided())
+	{
+		printf("Collided\n");
+	}
+	else
+	{
+		printf("No Collision\n");
+	}*/
 
 	////Ray collision check code
 	//if (input.PadButtonDown(SDL_CONTROLLER_BUTTON_Y))

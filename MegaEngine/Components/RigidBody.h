@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda and Jesse Derochie
 // Created          : 02-04-2016
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 04-03-2016
 // ***********************************************************************
 // <copyright file="RigidBody.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -324,7 +324,30 @@ public:
 			{
 				//Draw the polygon collider
 				glPushMatrix();
-				glVertex3f(m_polyCollider->getHalfWidth(), m_polyCollider->getHalfHeight(), m_polyCollider->getHalfDepth());
+
+				PxVec3 dirVector = PxVec3(Utility::getRight(m_polyCollider->getRotation()).x, Utility::getUp(m_polyCollider->getRotation()).y, Utility::getForward(m_polyCollider->getRotation()).z);
+
+				//Top Far Right
+				glVertex3f(dirVector.x * m_polyCollider->getHalfWidth(), dirVector.y * m_polyCollider->getHalfHeight(), dirVector.z * m_polyCollider->getHalfDepth());
+				//Bottom Far Right
+				glVertex3f(dirVector.x * m_polyCollider->getHalfWidth(), -dirVector.y * m_polyCollider->getHalfHeight(), dirVector.z * m_polyCollider->getHalfDepth());
+
+				//Top Close Right
+				glVertex3f(dirVector.x * m_polyCollider->getHalfWidth(), dirVector.y * m_polyCollider->getHalfHeight(), -dirVector.z * m_polyCollider->getHalfDepth());
+				//Bottom Close Right
+				glVertex3f(dirVector.x * m_polyCollider->getHalfWidth(), -dirVector.y * m_polyCollider->getHalfHeight(), -dirVector.z * m_polyCollider->getHalfDepth());
+
+				//Top Close Left
+				glVertex3f(-dirVector.x * m_polyCollider->getHalfWidth(), dirVector.y * m_polyCollider->getHalfHeight(), -dirVector.z * m_polyCollider->getHalfDepth());
+				//Bottom Close Left
+				glVertex3f(-dirVector.x * m_polyCollider->getHalfWidth(), -dirVector.y * m_polyCollider->getHalfHeight(), -dirVector.z * m_polyCollider->getHalfDepth());
+
+				//Top Far Left
+				glVertex3f(-dirVector.x * m_polyCollider->getHalfWidth(), dirVector.y * m_polyCollider->getHalfHeight(), dirVector.z * m_polyCollider->getHalfDepth());
+				//Bottom Far Left
+				glVertex3f(-dirVector.x * m_polyCollider->getHalfWidth(), -dirVector.y * m_polyCollider->getHalfHeight(), dirVector.z * m_polyCollider->getHalfDepth());
+
+				/*glVertex3f(m_polyCollider->getHalfWidth(), m_polyCollider->getHalfHeight(), m_polyCollider->getHalfDepth());
 				glVertex3f(m_polyCollider->getHalfWidth(), -m_polyCollider->getHalfHeight(), m_polyCollider->getHalfDepth());
 
 				glVertex3f(-m_polyCollider->getHalfWidth(), m_polyCollider->getHalfHeight(), m_polyCollider->getHalfDepth());
@@ -332,27 +355,121 @@ public:
 				glVertex3f(m_polyCollider->getHalfWidth(), m_polyCollider->getHalfHeight(), -m_polyCollider->getHalfDepth());
 				glVertex3f(m_polyCollider->getHalfWidth(), -m_polyCollider->getHalfHeight(), -m_polyCollider->getHalfDepth());
 				glVertex3f(-m_polyCollider->getHalfWidth(), m_polyCollider->getHalfHeight(), -m_polyCollider->getHalfDepth());
-				glVertex3f(-m_polyCollider->getHalfWidth(), -m_polyCollider->getHalfHeight(), -m_polyCollider->getHalfDepth());
+				glVertex3f(-m_polyCollider->getHalfWidth(), -m_polyCollider->getHalfHeight(), -m_polyCollider->getHalfDepth());*/
 				glPopMatrix();
 
-				//Draw the sphere collider of the polygon
-				for (float height = 0.0f; height < 180.0f; height += 1.0f)
-				{
-					for (float theta = 0.0f; theta < 180.0f; theta += 1.0f)
-					{
-						glPushMatrix();
-						glVertex3f(
-							m_polyCollider->getRadiusSphere() * cosf(height) * cosf(theta * 2 * 3.14159625f / 180.0f),
-							m_polyCollider->getRadiusSphere() * sinf(height),
-							m_polyCollider->getRadiusSphere()  * cosf(height) * sinf(theta * 2 * 3.14159625f / 180.0f));
-						glPopMatrix();
-					}
-				}
+				////Draw the sphere collider of the polygon
+				//for (float height = 0.0f; height < 180.0f; height += 1.0f)
+				//{
+				//	for (float theta = 0.0f; theta < 180.0f; theta += 1.0f)
+				//	{
+				//		glPushMatrix();
+				//		glVertex3f(
+				//			m_polyCollider->getRadiusSphere() * cosf(height) * cosf(theta * 2 * 3.14159625f / 180.0f),
+				//			m_polyCollider->getRadiusSphere() * sinf(height),
+				//			m_polyCollider->getRadiusSphere()  * cosf(height) * sinf(theta * 2 * 3.14159625f / 180.0f));
+				//		glPopMatrix();
+				//	}
+				//}
 			}
 			else if (m_multiCollider != nullptr)
 			{
 				//m_multiCollider;
+				for (size_t i = 0; i < m_multiCollider->getMultiCollider().size(); i++)
+				{
+					if (ShapeCollider::SPHERE == m_multiCollider->getMultiCollider()[i]->getShapeCollider())
+					{
+						//Draw the sphere collider
+						for (float height = 0.0f; height < 180.0f; height += 1.0f)
+						{
+							for (float theta = 0.0f; theta < 180.0f; theta += 1.0f)
+							{
+								glPushMatrix();
+								glVertex3f(
+									m_multiCollider->getMultiCollider()[i]->getRadiusSphere() * cosf(height) * cosf(theta * 2 * 3.14159625f / 180.0f),
+									m_multiCollider->getMultiCollider()[i]->getRadiusSphere() * sinf(height),
+									m_multiCollider->getMultiCollider()[i]->getRadiusSphere()  * cosf(height) * sinf(theta * 2 * 3.14159625f / 180.0f));
+								glPopMatrix();
+							}
+						}
+					}
+					else if(ShapeCollider::QUAD == m_multiCollider->getMultiCollider()[i]->getShapeCollider())
+					{
+						PolygonCollider* polygonCollider = dynamic_cast<PolygonCollider*>(m_multiCollider->getMultiCollider()[i]);
+						PxVec3 positionOffSet = m_multiCollider->getPositionOffSet()[i];
+						PxVec3 dirVector = PxVec3(Utility::getRight(m_multiCollider->getRotation()).x, Utility::getUp(m_multiCollider->getRotation()).y, Utility::getForward(m_multiCollider->getRotation()).z);
+						glPushMatrix();
+
+						//Top Far Right
+						glVertex3f(dirVector.x * positionOffSet.x + dirVector.x * polygonCollider->getHalfWidth()
+								, dirVector.y * positionOffSet.y + dirVector.y * polygonCollider->getHalfHeight()
+								, dirVector.z * positionOffSet.z + dirVector.z * polygonCollider->getHalfDepth());
+						//Bottom Far Right
+						glVertex3f(dirVector.x * positionOffSet.x + dirVector.x * polygonCollider->getHalfWidth()
+								, dirVector.y * positionOffSet.y + -dirVector.y * polygonCollider->getHalfHeight()
+								, dirVector.z * positionOffSet.z + dirVector.z * polygonCollider->getHalfDepth());
+
+						//Top Close Right
+						glVertex3f(dirVector.x * positionOffSet.x + dirVector.x * polygonCollider->getHalfWidth()
+								, dirVector.y * positionOffSet.y + dirVector.y * polygonCollider->getHalfHeight()
+								, dirVector.z * positionOffSet.z + -dirVector.z * polygonCollider->getHalfDepth());
+						//Bottom Close Right
+						glVertex3f(dirVector.x * positionOffSet.x + dirVector.x * polygonCollider->getHalfWidth()
+								, dirVector.y * positionOffSet.y + -dirVector.y * polygonCollider->getHalfHeight()
+								, dirVector.z * positionOffSet.z + -dirVector.z * polygonCollider->getHalfDepth());
+
+						//Top Close Left
+						glVertex3f(dirVector.x * positionOffSet.x + -dirVector.x * polygonCollider->getHalfWidth()
+							, dirVector.y * positionOffSet.y + dirVector.y * polygonCollider->getHalfHeight()
+							, dirVector.z * positionOffSet.z + -dirVector.z * polygonCollider->getHalfDepth());
+						//Bottom Close Left
+						glVertex3f(dirVector.x * positionOffSet.x + -dirVector.x * polygonCollider->getHalfWidth()
+							, dirVector.y * positionOffSet.y + -dirVector.y * polygonCollider->getHalfHeight()
+							, dirVector.z * positionOffSet.z + -dirVector.z * polygonCollider->getHalfDepth());
+
+						//Top Far Left
+						glVertex3f(dirVector.x * positionOffSet.x + -dirVector.x * polygonCollider->getHalfWidth()
+							, dirVector.y * positionOffSet.y + dirVector.y * polygonCollider->getHalfHeight()
+							, dirVector.z * positionOffSet.z + dirVector.z * polygonCollider->getHalfDepth());
+						//Bottom Far Left
+						glVertex3f(dirVector.x * positionOffSet.x + -dirVector.x * polygonCollider->getHalfWidth()
+							, dirVector.y * positionOffSet.y + -dirVector.y * polygonCollider->getHalfHeight()
+							, dirVector.z * positionOffSet.z + dirVector.z * polygonCollider->getHalfDepth());
+
+							/*glVertex3f(dirVector.x * positionOffSet.x + dirVector.x * polygonCollider->getHalfWidth(), dirVector.y * positionOffSet.y + dirVector.y * polygonCollider->getHalfHeight(), dirVector.z * positionOffSet.z + dirVector.z * polygonCollider->getHalfDepth());
+							glVertex3f(dirVector.x * positionOffSet.x + dirVector.x * polygonCollider->getHalfWidth(), dirVector.y * positionOffSet.y + dirVector.y * -polygonCollider->getHalfHeight(), dirVector.z * positionOffSet.z + dirVector.z * polygonCollider->getHalfDepth());
+							glVertex3f(dirVector.x * positionOffSet.x + dirVector.x * -polygonCollider->getHalfWidth(), dirVector.y * positionOffSet.y + dirVector.y * polygonCollider->getHalfHeight(), dirVector.z * positionOffSet.z + dirVector.z * polygonCollider->getHalfDepth());
+							glVertex3f(dirVector.x * positionOffSet.x + dirVector.x * -polygonCollider->getHalfWidth(), dirVector.y * positionOffSet.y + dirVector.y * -polygonCollider->getHalfHeight(), dirVector.z * positionOffSet.z + dirVector.z * polygonCollider->getHalfDepth());
+							glVertex3f(dirVector.x * positionOffSet.x + dirVector.x * polygonCollider->getHalfWidth(), dirVector.y * positionOffSet.y + dirVector.y * polygonCollider->getHalfHeight(), dirVector.z * positionOffSet.z + dirVector.z * -polygonCollider->getHalfDepth());
+							glVertex3f(dirVector.x * positionOffSet.x + dirVector.x * polygonCollider->getHalfWidth(), dirVector.y * positionOffSet.y + dirVector.y * -polygonCollider->getHalfHeight(), dirVector.z * positionOffSet.z + dirVector.z * -polygonCollider->getHalfDepth());
+							glVertex3f(dirVector.x * positionOffSet.x + dirVector.x * -polygonCollider->getHalfWidth(), dirVector.y *  positionOffSet.y + dirVector.y * polygonCollider->getHalfHeight(), dirVector.z * positionOffSet.z + dirVector.z * -polygonCollider->getHalfDepth());
+							glVertex3f(dirVector.x * positionOffSet.x + dirVector.x * -polygonCollider->getHalfWidth(), dirVector.y * positionOffSet.y + dirVector.y * -polygonCollider->getHalfHeight(), dirVector.z * positionOffSet.z + dirVector.z * -polygonCollider->getHalfDepth());*/
+							/*glVertex3f(polygonCollider->getHalfWidth(), polygonCollider->getHalfHeight(), polygonCollider->getHalfDepth());
+							glVertex3f(polygonCollider->getHalfWidth(), -polygonCollider->getHalfHeight(), polygonCollider->getHalfDepth());
+							glVertex3f(-polygonCollider->getHalfWidth(), polygonCollider->getHalfHeight(), polygonCollider->getHalfDepth());
+							glVertex3f(-polygonCollider->getHalfWidth(), -polygonCollider->getHalfHeight(), polygonCollider->getHalfDepth());
+							glVertex3f(polygonCollider->getHalfWidth(), polygonCollider->getHalfHeight(), -polygonCollider->getHalfDepth());
+							glVertex3f(polygonCollider->getHalfWidth(), -polygonCollider->getHalfHeight(), -polygonCollider->getHalfDepth());
+							glVertex3f(-polygonCollider->getHalfWidth(), polygonCollider->getHalfHeight(), -polygonCollider->getHalfDepth());
+							glVertex3f(-polygonCollider->getHalfWidth(), -polygonCollider->getHalfHeight(), -polygonCollider->getHalfDepth());*/
+						glPopMatrix();
+					}
+				}
 			}
+			////Draw the multi collider
+			//for (float height = 0.0f; height < 180.0f; height += 1.0f)
+			//{
+			//	for (float theta = 0.0f; theta < 180.0f; theta += 1.0f)
+			//	{
+			//		glPushMatrix();
+			//		glVertex3f(
+			//			m_multiCollider->getRadiusSphere() * cosf(height) * cosf(theta * 2 * 3.14159625f / 180.0f),
+			//			m_multiCollider->getRadiusSphere() * sinf(height),
+			//			m_multiCollider->getRadiusSphere()  * cosf(height) * sinf(theta * 2 * 3.14159625f / 180.0f));
+			//		glPopMatrix();
+			//	}
+			//}
+
 			glEnd();
 		}
 	}
@@ -490,15 +607,15 @@ public:
 	{
 		if (m_sphereCollider != nullptr)
 		{
-			return m_sphereCollider->setPosition(position);
+			m_sphereCollider->setPosition(position);
 		}
 		else if (m_polyCollider != nullptr)
 		{
-			return m_polyCollider->setPosition(position);
+			m_polyCollider->setPosition(position);
 		}
 		else if (m_multiCollider != nullptr)
 		{
-			return m_multiCollider->setPosition(position);
+			m_multiCollider->setPosition(position);
 		}
 	}
 

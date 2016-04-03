@@ -313,10 +313,25 @@ private:
 			new SpotLight(
 			PxVec3(1.0f, 0.5f, 0.0f), 150.0f));
 
+		//Passenger RigidBody
+		RigidBody* passengerShipRigidBody = new RigidBody(PxVec3(0.0f, 0.0f, 300.0f), PxQuat(PxIdentity), 1.0f);
+		PolygonCollider* baseShip = new PolygonCollider();
+		baseShip->init(PxVec3(0.0f, -20.0f, 300.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), 1.0f, 1.0f, PxVec3(0), PxVec3(0), 
+			50.0f, 20.0f, 275.0f);
+		passengerShipRigidBody->addCollider(*baseShip);
+
+		PolygonCollider* cockpitShip = new PolygonCollider();
+		cockpitShip->init(PxVec3(0.0f, 30.0f, 200.0f), PxQuat(PxIdentity), 1.0f, 1.0f, PxVec3(0), PxVec3(0),
+			35.0f, 30.0f, 25.0f);
+		passengerShipRigidBody->addCollider(*cockpitShip);
+
+		//passengerShipRigidBody->setDebugDraw(true);
+
 		// the passenger ship
-		addToRoot((new GameObject("passengerShip", PxVec3(0.0f, 0.0f, 300.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
+		addToRoot((new GameObject("passengerShip", PxVec3(0.0f, 0.0f, 300.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/MotherShip.obj", 50.0f), Material("passengerShip")))
-			->addGameComponent(new RigidBody(PxVec3(0.0f, 0.0f, 300.0f), PxQuat(PxIdentity), 1.0f, 50.0f, 40.0f, 275.0f))
+			//->addGameComponent(new RigidBody(PxVec3(0.0f, 0.0f, 300.0f), PxQuat(PxIdentity), 1.0f, 50.0f, 40.0f, 275.0f))
+			->addGameComponent(passengerShipRigidBody)			
 			->addGameComponent(new PassengerShipAI)
 			->addGameComponent(new ShipStats)
 			->addGameComponent(new AudioSource("Music/sci-fi_spaceship_background_room_tone_hum_loop_03.WAV", AudioType::SOUND, true, 1.0f, false, true, AudioDimension::THREED))

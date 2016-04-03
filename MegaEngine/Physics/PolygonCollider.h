@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 03-31-2016
+// Last Modified On : 04-03-2016
 // ***********************************************************************
 // <copyright file="PolygonCollider.h" company="">
 //     Copyright (c) . All rights reserved.
@@ -131,9 +131,10 @@ public:
 	/// <returns>Vector of the x axis rotation.</returns>
 	PxVec3 GetRightVector(PxQuat quat)
     {
-		return PxVec3(1 - 2 * (quat.y * quat.y - quat.z * quat.z),
+		/*return PxVec3(1 - 2 * (quat.y * quat.y - quat.z * quat.z),
                         2 * (quat.x * quat.y - quat.w * quat.z),
-                        2 * (quat.x * quat.z + quat.w * quat.y));
+                        2 * (quat.x * quat.z + quat.w * quat.y));*/
+		return quat.rotate(PxVec3(1, 0, 0));
     }
 
 	/// <summary>
@@ -143,9 +144,10 @@ public:
 	/// <returns>Vector of the y axis rotation.</returns>
 	PxVec3 GetUpVector(PxQuat quat)
     {
-		return PxVec3(2 * (quat.x * quat.y + quat.w * quat.z),
+		/*return PxVec3(2 * (quat.x * quat.y + quat.w * quat.z),
                         1 - 2 * (quat.x * quat.x + quat.z * quat.z),
-                        2 * (quat.y * quat.z - quat.w * quat.x));
+                        2 * (quat.y * quat.z - quat.w * quat.x));*/
+		return quat.rotate(PxVec3(0, 1, 0));
     }
 
 	/// <summary>
@@ -155,9 +157,10 @@ public:
 	/// <returns>Vector of the z axis rotation.</returns>
 	PxVec3 GetForwardVector(PxQuat quat)
     {
-		return PxVec3(2 * (quat.x * quat.z - quat.w * quat.y),
+		/*return PxVec3(2 * (quat.x * quat.z - quat.w * quat.y),
                         2 * (quat.y * quat.z + quat.w * quat.x),
-                        1 - 2 * (quat.x * quat.x + quat.y * quat.y));
+                        1 - 2 * (quat.x * quat.x + quat.y * quat.y));*/
+		return quat.rotate(PxVec3(0, 0, 1));
     }
  
 

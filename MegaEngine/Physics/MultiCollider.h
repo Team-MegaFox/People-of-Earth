@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 04-03-2016
 // ***********************************************************************
 // <copyright file="MultiCollider.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -123,6 +123,47 @@ public:
         return m_multipleCollider;
     }
 
+	std::vector<PxVec3> getPositionOffSet()
+	{
+		return m_distanceColliderFromCenterOfGravity;
+	}
+
+	//Properties Setters
+	virtual void setPosition(PxVec3 position) override
+	{
+		for (size_t i = 0; i < m_multipleCollider.size(); i++)
+		{
+			m_multipleCollider[i]->setPosition(position 
+				+ PxVec3(GetRightVector(m_rotation) * m_distanceColliderFromCenterOfGravity[i].x)
+				+ PxVec3(GetUpVector(m_rotation) * m_distanceColliderFromCenterOfGravity[i].y)
+				+ PxVec3(GetForwardVector(m_rotation) * m_distanceColliderFromCenterOfGravity[i].z)
+				);
+		}
+		m_position = position;
+	}
+
+	virtual void setRotation(PxQuat rotation) override
+	{
+		for (size_t i = 0; i < m_multipleCollider.size(); i++)
+		{
+			m_multipleCollider[i]->setRotation(rotation * m_offsetRotationFromMultiCollider[i]);
+			/*printf("Multi Collider %i X: %f\tY: %f\tZ: %f\n", i, m_multipleCollider[i]->getRotation().x,
+				m_multipleCollider[i]->getRotation().y, m_multipleCollider[i]->getRotation().z);*/
+		}
+		m_rotation = rotation;
+		setPosition(m_position);
+		//printf("Multi Collider X: %f\tY: %f\tZ: %f\n", m_rotation.x, m_rotation.y, m_rotation.z);
+	}
+
+	virtual void setVelocity(PxVec3 velocity) override
+	{
+		for (size_t i = 0; i < m_multipleCollider.size(); i++)
+		{
+			m_multipleCollider[i]->setVelocity(velocity);
+		}
+		m_velocity = velocity;
+	}
+
 private:
 	/// <summary>
 	/// The multiple collider.
@@ -132,5 +173,7 @@ private:
 	/// The distance this collider is from the center of gravity
 	/// </summary>
 	std::vector<PxVec3> m_distanceColliderFromCenterOfGravity;
+
+	std::vector<PxQuat> m_offsetRotationFromMultiCollider;
 };
 

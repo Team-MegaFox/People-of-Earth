@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 02-25-2016
+// Last Modified On : 04-03-2016
 // ***********************************************************************
 // <copyright file="MultiCollider.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -53,6 +53,7 @@ void MultiCollider::init(
 
 void MultiCollider::addColliderToObject(Collider* collider)
 {
+	/*
     //Set the collider id so it is part of the Multi Collider 
     collider->setID(m_id);
     m_multipleCollider.push_back(collider);
@@ -83,7 +84,27 @@ void MultiCollider::addColliderToObject(Collider* collider)
 	{
 		m_distanceColliderFromCenterOfGravity[i] = m_multipleCollider[i]->getPosition() - m_position;
 	}
-    
+    */
+
+	//Set the collider id so it is part of the Multi Collider 
+	collider->setID(m_id);
+	m_multipleCollider.push_back(collider);
+	m_distanceColliderFromCenterOfGravity.push_back(collider->getPosition() - m_position);
+	m_offsetRotationFromMultiCollider.push_back(collider->getRotation() * m_rotation.getConjugate());
+
+	//Calculate the highest radius of the multiple collider object
+	m_radiusSphere = 0.0f;
+	float distance = 0.0f;
+	for (size_t i = 0; i < m_multipleCollider.size(); i++)
+	{
+		distance = (m_multipleCollider[i]->getPosition() - m_position).magnitude() + m_multipleCollider[i]->getRadiusSphere();
+		//if the current radius sphere is smaller then the specific collider disance from Multi Collider position and specific collider radius then
+		if (m_radiusSphere < distance)
+		{
+			//Update the value of the radius
+			m_radiusSphere = distance;
+		}
+	}
 }
 
 std::vector<Collider*> MultiCollider::checkCollision( std::vector<Collider*> collidableObjects ) 
