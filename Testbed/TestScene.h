@@ -91,7 +91,7 @@ public:
 			->addGameComponent(new ParticleSystem(Material("particleMatB"), EXPLOSION)));
 
 		addToRoot((new GameObject("particlesB", glm::vec3(0.0f, 0.0f, 0.0f)))
-			->addGameComponent(new ParticleSystem(Material("particleMatA"), AMBIENT)));
+			->addGameComponent(new ParticleSystem(Material("particleMatA"), glm::vec3(0.0f, 0.0f, -1.0f), CONE, 0.1f)));
 
 		addToRoot((new GameObject("plane", glm::vec3(0.0f, -10.0f, 0.0f), glm::quat(), glm::vec3(100.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("plane.obj"), Material("bricks"))));

@@ -1,3 +1,17 @@
+// ***********************************************************************
+// Author           : Pavan Jakhu & Jesse Derochie
+// Created          : 03-02-2016
+//
+// Last Modified By : Jesse Derochie
+// Last Modified On : 04-02-2016
+// ***********************************************************************
+// <copyright file="ParticleSystem.cpp" company="Team MegaFox">
+//     Copyright (c) Team MegaFox. All rights reserved.
+// </copyright>
+// <summary>
+// </summary>
+// ***********************************************************************
+
 #include "ParticleSystem.h"
 #include <glew\glew.h>
 #include <glm\gtx\norm.hpp>
@@ -7,7 +21,113 @@
 #include "Camera3D.h"
 #include "RenderingEngine.h"
 
-// Ambient Emitter
+// Particle Emitter Methods
+
+void ParticleEmitter::render(const Camera3D & camera)
+{
+	//glDepthMask(GL_FALSE);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	m_updateEmitter = true;
+
+	for (size_t i = 0; i < m_particles.size(); i++)
+	{
+		Particle* p = &m_particles[i];
+
+		if (p->life > 0.0f)
+		{
+			p->cameraDistance = glm::length2(p->pos - camera.getTransform().getPosition());
+		}
+		else
+		{
+			p->cameraDistance = -1.0f;
+		}
+	}
+	sortParticles();
+
+	glBindVertexArray(m_vertexArrayObject);
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
+	glBufferData(GL_ARRAY_BUFFER, m_positionData.size() * sizeof(m_positionData[0]), NULL, GL_STREAM_DRAW); // Buffer orphaning, a common way to improve streaming perf. See above link for details.
+	glBufferSubData(GL_ARRAY_BUFFER, 0, m_particleCount * sizeof(m_positionData[0]), &m_positionData[0]);
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[COLOUR_VB]);
+	glBufferData(GL_ARRAY_BUFFER, m_colourData.size() * sizeof(m_colourData[0]), NULL, GL_STREAM_DRAW); // Buffer orphaning, a common way to improve streaming perf. See above link for details.
+	glBufferSubData(GL_ARRAY_BUFFER, 0, m_particleCount * sizeof(m_colourData[0]), &m_colourData[0]);
+
+	//The actually rendering
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[BILLBOARD_VB]);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+	// 2nd attribute buffer : positions of particles' centers
+	glEnableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
+
+	// 3rd attribute buffer : particles' colors
+	glEnableVertexAttribArray(2);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[COLOUR_VB]);
+	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 0, 0);
+
+	// These functions are specific to glDrawArrays*Instanced*.
+	// The first parameter is the attribute buffer we're talking about.
+	// The second parameter is the "rate at which generic vertex attributes advance when rendering multiple instances"
+	// http://www.opengl.org/sdk/docs/man/xhtml/glVertexAttribDivisor.xml
+	glVertexAttribDivisor(0, 0); // particles vertices : always reuse the same 4 vertices -> 0
+	glVertexAttribDivisor(1, 1); // positions : one per quad (its center)                 -> 1
+	glVertexAttribDivisor(2, 1); // color : one per quad                                  -> 1
+
+	// Draw the particles !
+	// This draws many times a small triangle_strip (which looks like a quad).
+	// This is equivalent to :
+	// for(i in ParticlesCount) : glDrawArrays(GL_TRIANGLE_STRIP, 0, 4), 
+	// but faster.
+	glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, m_particleCount);
+
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+
+	//glDepthMask(GL_TRUE);
+	//glBlendFunc(GL_ONE, GL_ONE);
+	//glDisable(GL_BLEND);
+}
+
+int ParticleEmitter::findUnusedParticle()
+{
+	for (size_t i = m_lastUsedParticle; i < m_particles.size(); i++)
+	{
+		if (m_particles[i].life <= 0.0f)
+		{
+			m_lastUsedParticle = i;
+			return i;
+		}
+	}
+
+	for (int i = 0; i < m_lastUsedParticle; i++)
+	{
+		if (m_particles[i].life <= 0.0f)
+		{
+			m_lastUsedParticle = i;
+			return i;
+		}
+	}
+
+	return 0;
+}
+
+void ParticleEmitter::sortParticles()
+{
+	std::sort(&m_particles[0], &m_particles[m_particles.size() - 1]);
+}
+
+
+// Ambient Emitter Constructors and Methods
 
 AmbientEmitter::AmbientEmitter(glm::vec4 & colour, float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
 {
@@ -78,21 +198,6 @@ void AmbientEmitter::update(float deltaTime)
 
 			m_particles[particleIndex].speed = maindir + randomdir*spread;
 
-			//if (m_colour.w == 0.0f)
-			//{
-			//	// Very bad way to generate a random color
-			//	m_particles[particleIndex].colour.r = 1.0f/*(float)(rand() % 256)*/;
-			//	m_particles[particleIndex].colour.g = 1.0f/*(float)(rand() % 256)*/;
-			//	m_particles[particleIndex].colour.b = 1.0f/*(float)(rand() % 256)*/;
-			//	m_particles[particleIndex].colour.a = 1.0f/*(rand() % 256) / 3.0f*/;
-
-			//	m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
-			//}
-			//else
-			//{
-			//	m_particles[particleIndex].colour = m_colour;
-			//}
-
 		}
 
 		m_particleCount = 0;
@@ -127,111 +232,8 @@ void AmbientEmitter::update(float deltaTime)
 	}
 }
 
-void AmbientEmitter::render(const Camera3D & camera)
-{
-	//glDepthMask(GL_FALSE);
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	m_updateEmitter = true;
-
-	for (size_t i = 0; i < m_particles.size(); i++)
-	{
-		Particle* p = &m_particles[i];
-
-		if (p->life > 0.0f)
-		{
-			p->cameraDistance = glm::length2(p->pos - camera.getTransform().getPosition());
-		}
-		else
-		{
-			p->cameraDistance = -1.0f;
-		}
-	}
-	sortParticles();
-
-	glBindVertexArray(m_vertexArrayObject);
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
-	glBufferData(GL_ARRAY_BUFFER, m_positionData.size() * sizeof(m_positionData[0]), NULL, GL_STREAM_DRAW); // Buffer orphaning, a common way to improve streaming perf. See above link for details.
-	glBufferSubData(GL_ARRAY_BUFFER, 0, m_particleCount * sizeof(m_positionData[0]), &m_positionData[0]);
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[COLOUR_VB]);
-	glBufferData(GL_ARRAY_BUFFER, m_colourData.size() * sizeof(m_colourData[0]), NULL, GL_STREAM_DRAW); // Buffer orphaning, a common way to improve streaming perf. See above link for details.
-	glBufferSubData(GL_ARRAY_BUFFER, 0, m_particleCount * sizeof(m_colourData[0]), &m_colourData[0]);
-
-	//The actually rendering
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[BILLBOARD_VB]);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	// 2nd attribute buffer : positions of particles' centers
-	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
-
-	// 3rd attribute buffer : particles' colors
-	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[COLOUR_VB]);
-	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 0, 0);
-
-	// These functions are specific to glDrawArrays*Instanced*.
-	// The first parameter is the attribute buffer we're talking about.
-	// The second parameter is the "rate at which generic vertex attributes advance when rendering multiple instances"
-	// http://www.opengl.org/sdk/docs/man/xhtml/glVertexAttribDivisor.xml
-	glVertexAttribDivisor(0, 0); // particles vertices : always reuse the same 4 vertices -> 0
-	glVertexAttribDivisor(1, 1); // positions : one per quad (its center)                 -> 1
-	glVertexAttribDivisor(2, 1); // color : one per quad                                  -> 1
-
-	// Draw the particles !
-	// This draws many times a small triangle_strip (which looks like a quad).
-	// This is equivalent to :
-	// for(i in ParticlesCount) : glDrawArrays(GL_TRIANGLE_STRIP, 0, 4), 
-	// but faster.
-	glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, m_particleCount);
-
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(2);
-
-	//glDepthMask(GL_TRUE);
-	//glBlendFunc(GL_ONE, GL_ONE);
-	//glDisable(GL_BLEND);
-}
-
-int AmbientEmitter::findUnusedParticle()
-{
-	for (size_t i = m_lastUsedParticle; i < m_particles.size(); i++)
-	{
-		if (m_particles[i].life <= 0.0f)
-		{
-			m_lastUsedParticle = i;
-			return i;
-		}
-	}
-
-	for (int i = 0; i < m_lastUsedParticle; i++)
-	{
-		if (m_particles[i].life <= 0.0f)
-		{
-			m_lastUsedParticle = i;
-			return i;
-		}
-	}
-
-	return 0;
-}
-
-void AmbientEmitter::sortParticles()
-{
-	std::sort(&m_particles[0], &m_particles[m_particles.size() - 1]);
-}
-
-
-// Explosion Emitter
+// Explosion Emitter Constructors and Methods
 
 ExplosionEmitter::ExplosionEmitter(glm::vec4 & colour, float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
 {
@@ -299,21 +301,6 @@ void ExplosionEmitter::update(float deltaTime)
 
 				m_particles[particleIndex].speed = randomdir * spread;
 
-				//if (m_colour.w == 0.0f)
-				//{
-				//	// Very bad way to generate a random color
-				//	m_particles[particleIndex].colour.r = 1.0f/*(float)(rand() % 256)*/;
-				//	m_particles[particleIndex].colour.g = 1.0f/*(float)(rand() % 256)*/;
-				//	m_particles[particleIndex].colour.b = 1.0f/*(float)(rand() % 256)*/;
-				//	m_particles[particleIndex].colour.a = 1.0f/*(rand() % 256) / 3.0f*/;
-
-				//	m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
-				//}
-				//else
-				//{
-				//	m_particles[particleIndex].colour = m_colour;
-				//}
-
 				m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
 
 			}
@@ -352,111 +339,8 @@ void ExplosionEmitter::update(float deltaTime)
 	m_timesThrough++;
 }
 
-void ExplosionEmitter::render(const Camera3D & camera)
-{
-	//glDepthMask(GL_FALSE);
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	m_updateEmitter = true;
-
-	for (size_t i = 0; i < m_particles.size(); i++)
-	{
-		Particle* p = &m_particles[i];
-
-		if (p->life > 0.0f)
-		{
-			p->cameraDistance = glm::length2(p->pos - camera.getTransform().getPosition());
-		}
-		else
-		{
-			p->cameraDistance = -1.0f;
-		}
-	}
-	sortParticles();
-
-	glBindVertexArray(m_vertexArrayObject);
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
-	glBufferData(GL_ARRAY_BUFFER, m_positionData.size() * sizeof(m_positionData[0]), NULL, GL_STREAM_DRAW); // Buffer orphaning, a common way to improve streaming perf. See above link for details.
-	glBufferSubData(GL_ARRAY_BUFFER, 0, m_particleCount * sizeof(m_positionData[0]), &m_positionData[0]);
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[COLOUR_VB]);
-	glBufferData(GL_ARRAY_BUFFER, m_colourData.size() * sizeof(m_colourData[0]), NULL, GL_STREAM_DRAW); // Buffer orphaning, a common way to improve streaming perf. See above link for details.
-	glBufferSubData(GL_ARRAY_BUFFER, 0, m_particleCount * sizeof(m_colourData[0]), &m_colourData[0]);
-
-	//The actually rendering
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[BILLBOARD_VB]);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	// 2nd attribute buffer : positions of particles' centers
-	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
-
-	// 3rd attribute buffer : particles' colors
-	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[COLOUR_VB]);
-	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 0, 0);
-
-	// These functions are specific to glDrawArrays*Instanced*.
-	// The first parameter is the attribute buffer we're talking about.
-	// The second parameter is the "rate at which generic vertex attributes advance when rendering multiple instances"
-	// http://www.opengl.org/sdk/docs/man/xhtml/glVertexAttribDivisor.xml
-	glVertexAttribDivisor(0, 0); // particles vertices : always reuse the same 4 vertices -> 0
-	glVertexAttribDivisor(1, 1); // positions : one per quad (its center)                 -> 1
-	glVertexAttribDivisor(2, 1); // color : one per quad                                  -> 1
-
-	// Draw the particles !
-	// This draws many times a small triangle_strip (which looks like a quad).
-	// This is equivalent to :
-	// for(i in ParticlesCount) : glDrawArrays(GL_TRIANGLE_STRIP, 0, 4), 
-	// but faster.
-	glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, m_particleCount);
-
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(2);
-
-	//glDepthMask(GL_TRUE);
-	//glBlendFunc(GL_ONE, GL_ONE);
-	//glDisable(GL_BLEND);
-}
-
-int ExplosionEmitter::findUnusedParticle()
-{
-	for (size_t i = m_lastUsedParticle; i < m_particles.size(); i++)
-	{
-		if (m_particles[i].life <= 0.0f)
-		{
-			m_lastUsedParticle = i;
-			return i;
-		}
-	}
-
-	for (int i = 0; i < m_lastUsedParticle; i++)
-	{
-		if (m_particles[i].life <= 0.0f)
-		{
-			m_lastUsedParticle = i;
-			return i;
-		}
-	}
-
-	return 0;
-}
-
-void ExplosionEmitter::sortParticles()
-{
-	std::sort(&m_particles[0], &m_particles[m_particles.size() - 1]);
-}
-
-
-// Fountain Emitter
+// Fountain Emitter Constructors and Methods
 
 FountainEmitter::FountainEmitter(glm::vec4 & colour, float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
 {
@@ -520,21 +404,6 @@ void FountainEmitter::update(float deltaTime)
 
 			m_particles[particleIndex].speed = maindir + randomdir*spread;
 
-			//if (m_colour.w == 0.0f)
-			//{
-			//	// Very bad way to generate a random color
-			//	m_particles[particleIndex].colour.r = 1.0f/*(float)(rand() % 256)*/;
-			//	m_particles[particleIndex].colour.g = 1.0f/*(float)(rand() % 256)*/;
-			//	m_particles[particleIndex].colour.b = 1.0f/*(float)(rand() % 256)*/;
-			//	m_particles[particleIndex].colour.a = 1.0f/*(rand() % 256) / 3.0f*/;
-
-			//	m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
-			//}
-			//else
-			//{
-			//	m_particles[particleIndex].colour = m_colour;
-			//}
-
 		}
 
 		m_particleCount = 0;
@@ -569,111 +438,8 @@ void FountainEmitter::update(float deltaTime)
 	}
 }
 
-void FountainEmitter::render(const Camera3D & camera)
-{
-	//glDepthMask(GL_FALSE);
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	m_updateEmitter = true;
-
-	for (size_t i = 0; i < m_particles.size(); i++)
-	{
-		Particle* p = &m_particles[i];
-
-		if (p->life > 0.0f)
-		{
-			p->cameraDistance = glm::length2(p->pos - camera.getTransform().getPosition());
-		}
-		else
-		{
-			p->cameraDistance = -1.0f;
-		}
-	}
-	sortParticles();
-
-	glBindVertexArray(m_vertexArrayObject);
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
-	glBufferData(GL_ARRAY_BUFFER, m_positionData.size() * sizeof(m_positionData[0]), NULL, GL_STREAM_DRAW); // Buffer orphaning, a common way to improve streaming perf. See above link for details.
-	glBufferSubData(GL_ARRAY_BUFFER, 0, m_particleCount * sizeof(m_positionData[0]), &m_positionData[0]);
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[COLOUR_VB]);
-	glBufferData(GL_ARRAY_BUFFER, m_colourData.size() * sizeof(m_colourData[0]), NULL, GL_STREAM_DRAW); // Buffer orphaning, a common way to improve streaming perf. See above link for details.
-	glBufferSubData(GL_ARRAY_BUFFER, 0, m_particleCount * sizeof(m_colourData[0]), &m_colourData[0]);
-
-	//The actually rendering
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[BILLBOARD_VB]);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	// 2nd attribute buffer : positions of particles' centers
-	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
-
-	// 3rd attribute buffer : particles' colors
-	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[COLOUR_VB]);
-	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 0, 0);
-
-	// These functions are specific to glDrawArrays*Instanced*.
-	// The first parameter is the attribute buffer we're talking about.
-	// The second parameter is the "rate at which generic vertex attributes advance when rendering multiple instances"
-	// http://www.opengl.org/sdk/docs/man/xhtml/glVertexAttribDivisor.xml
-	glVertexAttribDivisor(0, 0); // particles vertices : always reuse the same 4 vertices -> 0
-	glVertexAttribDivisor(1, 1); // positions : one per quad (its center)                 -> 1
-	glVertexAttribDivisor(2, 1); // color : one per quad                                  -> 1
-
-	// Draw the particles !
-	// This draws many times a small triangle_strip (which looks like a quad).
-	// This is equivalent to :
-	// for(i in ParticlesCount) : glDrawArrays(GL_TRIANGLE_STRIP, 0, 4), 
-	// but faster.
-	glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, m_particleCount);
-
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(2);
-
-	//glDepthMask(GL_TRUE);
-	//glBlendFunc(GL_ONE, GL_ONE);
-	//glDisable(GL_BLEND);
-}
-
-int FountainEmitter::findUnusedParticle()
-{
-	for (size_t i = m_lastUsedParticle; i < m_particles.size(); i++)
-	{
-		if (m_particles[i].life <= 0.0f)
-		{
-			m_lastUsedParticle = i;
-			return i;
-		}
-	}
-
-	for (int i = 0; i < m_lastUsedParticle; i++)
-	{
-		if (m_particles[i].life <= 0.0f)
-		{
-			m_lastUsedParticle = i;
-			return i;
-		}
-	}
-
-	return 0;
-}
-
-void FountainEmitter::sortParticles()
-{
-	std::sort(&m_particles[0], &m_particles[m_particles.size() - 1]);
-}
-
-
-// Cone Emitter
+// Cone Emitter Constructors and Methods
 
 ConeEmitter::ConeEmitter(glm::vec3 & endPoint, glm::vec4 & colour, float radius, float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
 {
@@ -694,10 +460,10 @@ ConeEmitter::ConeEmitter(glm::vec3 & endPoint, glm::vec4 & colour, float radius,
 	glGenBuffers(NUM_BUFFERS, m_vertexArrayBuffers);
 
 	static const GLfloat g_vertex_buffer_data[] = {
-		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		-0.5f, 0.5f, 0.0f,
-		0.5f, 0.5f, 0.0f
+		-0.1f, -0.1f, 0.0f,
+		0.1f, -0.1f, 0.0f,
+		-0.1f, 0.1f, 0.0f,
+		0.1f, 0.1f, 0.0f
 	};
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[BILLBOARD_VB]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
@@ -736,21 +502,6 @@ void ConeEmitter::update(float deltaTime)
 
 			m_particles[particleIndex].speed = direction;
 
-			//if (m_colour.w == 0.0f)
-			//{
-			//	// Very bad way to generate a random color
-			//	m_particles[particleIndex].colour.r = 1.0f/*(float)(rand() % 256)*/;
-			//	m_particles[particleIndex].colour.g = 1.0f/*(float)(rand() % 256)*/;
-			//	m_particles[particleIndex].colour.b = 1.0f/*(float)(rand() % 256)*/;
-			//	m_particles[particleIndex].colour.a = 1.0f/*(rand() % 256) / 3.0f*/;
-
-			//	m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
-			//}
-			//else
-			//{
-			//	m_particles[particleIndex].colour = m_colour;
-			//}
-
 			m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
 
 		}
@@ -787,111 +538,8 @@ void ConeEmitter::update(float deltaTime)
 	}
 }
 
-void ConeEmitter::render(const Camera3D & camera)
-{
-	//glDepthMask(GL_FALSE);
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	m_updateEmitter = true;
-
-	for (size_t i = 0; i < m_particles.size(); i++)
-	{
-		Particle* p = &m_particles[i];
-
-		if (p->life > 0.0f)
-		{
-			p->cameraDistance = glm::length2(p->pos - camera.getTransform().getPosition());
-		}
-		else
-		{
-			p->cameraDistance = -1.0f;
-		}
-	}
-	sortParticles();
-
-	glBindVertexArray(m_vertexArrayObject);
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
-	glBufferData(GL_ARRAY_BUFFER, m_positionData.size() * sizeof(m_positionData[0]), NULL, GL_STREAM_DRAW); // Buffer orphaning, a common way to improve streaming perf. See above link for details.
-	glBufferSubData(GL_ARRAY_BUFFER, 0, m_particleCount * sizeof(m_positionData[0]), &m_positionData[0]);
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[COLOUR_VB]);
-	glBufferData(GL_ARRAY_BUFFER, m_colourData.size() * sizeof(m_colourData[0]), NULL, GL_STREAM_DRAW); // Buffer orphaning, a common way to improve streaming perf. See above link for details.
-	glBufferSubData(GL_ARRAY_BUFFER, 0, m_particleCount * sizeof(m_colourData[0]), &m_colourData[0]);
-
-	//The actually rendering
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[BILLBOARD_VB]);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	// 2nd attribute buffer : positions of particles' centers
-	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
-
-	// 3rd attribute buffer : particles' colors
-	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[COLOUR_VB]);
-	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 0, 0);
-
-	// These functions are specific to glDrawArrays*Instanced*.
-	// The first parameter is the attribute buffer we're talking about.
-	// The second parameter is the "rate at which generic vertex attributes advance when rendering multiple instances"
-	// http://www.opengl.org/sdk/docs/man/xhtml/glVertexAttribDivisor.xml
-	glVertexAttribDivisor(0, 0); // particles vertices : always reuse the same 4 vertices -> 0
-	glVertexAttribDivisor(1, 1); // positions : one per quad (its center)                 -> 1
-	glVertexAttribDivisor(2, 1); // color : one per quad                                  -> 1
-
-	// Draw the particles !
-	// This draws many times a small triangle_strip (which looks like a quad).
-	// This is equivalent to :
-	// for(i in ParticlesCount) : glDrawArrays(GL_TRIANGLE_STRIP, 0, 4), 
-	// but faster.
-	glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, m_particleCount);
-
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(2);
-
-	//glDepthMask(GL_TRUE);
-	//glBlendFunc(GL_ONE, GL_ONE);
-	//glDisable(GL_BLEND);
-}
-
-int ConeEmitter::findUnusedParticle()
-{
-	for (size_t i = m_lastUsedParticle; i < m_particles.size(); i++)
-	{
-		if (m_particles[i].life <= 0.0f)
-		{
-			m_lastUsedParticle = i;
-			return i;
-		}
-	}
-
-	for (int i = 0; i < m_lastUsedParticle; i++)
-	{
-		if (m_particles[i].life <= 0.0f)
-		{
-			m_lastUsedParticle = i;
-			return i;
-		}
-	}
-
-	return 0;
-}
-
-void ConeEmitter::sortParticles()
-{
-	std::sort(&m_particles[0], &m_particles[m_particles.size() - 1]);
-}
-
-
-// Ray Emitter
+// Ray Emitter Constructors and Methods
 
 RayEmitter::RayEmitter(glm::vec3 & endPoint, glm::vec4 & colour, float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
 {
@@ -954,21 +602,6 @@ void RayEmitter::update(float deltaTime)
 
 			m_particles[particleIndex].speed = randomdir * spread;
 
-			//if (m_colour.w == 0.0f)
-			//{
-			//	// Very bad way to generate a random color
-			//	m_particles[particleIndex].colour.r = 1.0f/*(float)(rand() % 256)*/;
-			//	m_particles[particleIndex].colour.g = 1.0f/*(float)(rand() % 256)*/;
-			//	m_particles[particleIndex].colour.b = 1.0f/*(float)(rand() % 256)*/;
-			//	m_particles[particleIndex].colour.a = 1.0f/*(rand() % 256) / 3.0f*/;
-
-			//	m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
-			//}
-			//else
-			//{
-			//	m_particles[particleIndex].colour = m_colour;
-			//}
-
 			m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
 
 		}
@@ -1005,111 +638,8 @@ void RayEmitter::update(float deltaTime)
 	}
 }
 
-void RayEmitter::render(const Camera3D & camera)
-{
-	//glDepthMask(GL_FALSE);
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	m_updateEmitter = true;
-
-	for (size_t i = 0; i < m_particles.size(); i++)
-	{
-		Particle* p = &m_particles[i];
-
-		if (p->life > 0.0f)
-		{
-			p->cameraDistance = glm::length2(p->pos - camera.getTransform().getPosition());
-		}
-		else
-		{
-			p->cameraDistance = -1.0f;
-		}
-	}
-	sortParticles();
-
-	glBindVertexArray(m_vertexArrayObject);
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
-	glBufferData(GL_ARRAY_BUFFER, m_positionData.size() * sizeof(m_positionData[0]), NULL, GL_STREAM_DRAW); // Buffer orphaning, a common way to improve streaming perf. See above link for details.
-	glBufferSubData(GL_ARRAY_BUFFER, 0, m_particleCount * sizeof(m_positionData[0]), &m_positionData[0]);
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[COLOUR_VB]);
-	glBufferData(GL_ARRAY_BUFFER, m_colourData.size() * sizeof(m_colourData[0]), NULL, GL_STREAM_DRAW); // Buffer orphaning, a common way to improve streaming perf. See above link for details.
-	glBufferSubData(GL_ARRAY_BUFFER, 0, m_particleCount * sizeof(m_colourData[0]), &m_colourData[0]);
-
-	//The actually rendering
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[BILLBOARD_VB]);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	// 2nd attribute buffer : positions of particles' centers
-	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
-
-	// 3rd attribute buffer : particles' colors
-	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[COLOUR_VB]);
-	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 0, 0);
-
-	// These functions are specific to glDrawArrays*Instanced*.
-	// The first parameter is the attribute buffer we're talking about.
-	// The second parameter is the "rate at which generic vertex attributes advance when rendering multiple instances"
-	// http://www.opengl.org/sdk/docs/man/xhtml/glVertexAttribDivisor.xml
-	glVertexAttribDivisor(0, 0); // particles vertices : always reuse the same 4 vertices -> 0
-	glVertexAttribDivisor(1, 1); // positions : one per quad (its center)                 -> 1
-	glVertexAttribDivisor(2, 1); // color : one per quad                                  -> 1
-
-	// Draw the particles !
-	// This draws many times a small triangle_strip (which looks like a quad).
-	// This is equivalent to :
-	// for(i in ParticlesCount) : glDrawArrays(GL_TRIANGLE_STRIP, 0, 4), 
-	// but faster.
-	glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, m_particleCount);
-
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(2);
-
-	//glDepthMask(GL_TRUE);
-	//glBlendFunc(GL_ONE, GL_ONE);
-	//glDisable(GL_BLEND);
-}
-
-int RayEmitter::findUnusedParticle()
-{
-	for (size_t i = m_lastUsedParticle; i < m_particles.size(); i++)
-	{
-		if (m_particles[i].life <= 0.0f)
-		{
-			m_lastUsedParticle = i;
-			return i;
-		}
-	}
-
-	for (int i = 0; i < m_lastUsedParticle; i++)
-	{
-		if (m_particles[i].life <= 0.0f)
-		{
-			m_lastUsedParticle = i;
-			return i;
-		}
-	}
-
-	return 0;
-}
-
-void RayEmitter::sortParticles()
-{
-	std::sort(&m_particles[0], &m_particles[m_particles.size() - 1]);
-}
-
-
-//Particle System
+//Particle System Constructors and Methods
 
 ParticleSystem::ParticleSystem(
 	Material material, 

@@ -12,10 +12,26 @@ uniform vec3 C_right;
 
 void main()
 {
+	if(vertex.x > 0)
+	{
+		texCoord0.x = 1.0;
+	}
+	else
+	{
+		texCoord0.x = 0.0;
+	}
+	if(vertex.y > 0)
+	{
+		texCoord0.y = 1.0;
+	}
+	else
+	{
+		texCoord0.y = 0.0;
+	}
+	
 	float size = particlePosition.w;
 	vec3 finalVertexPos = particlePosition.xyz + C_right * vertex.x * size + C_up * vertex.y * size;
 
     gl_Position = T_MVP * vec4(finalVertexPos, 1.0);
-    texCoord0 = vertex.xy + vec2(0.5, 0.5);
 	color0 = color;
 }
