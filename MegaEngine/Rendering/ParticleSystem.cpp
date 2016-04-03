@@ -25,9 +25,9 @@
 
 void ParticleEmitter::render(const Camera3D & camera)
 {
-	//glDepthMask(GL_FALSE);
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDepthMask(GL_FALSE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	m_updateEmitter = true;
 
@@ -35,7 +35,7 @@ void ParticleEmitter::render(const Camera3D & camera)
 	{
 		Particle* p = &m_particles[i];
 
-		if (p->life > 0.0f)
+		if (p->life >= 0.0f)
 		{
 			p->cameraDistance = glm::length2(p->pos - camera.getTransform().getPosition());
 		}
@@ -44,7 +44,6 @@ void ParticleEmitter::render(const Camera3D & camera)
 			p->cameraDistance = -1.0f;
 		}
 	}
-	sortParticles();
 
 	glBindVertexArray(m_vertexArrayObject);
 
@@ -93,9 +92,9 @@ void ParticleEmitter::render(const Camera3D & camera)
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
 
-	//glDepthMask(GL_TRUE);
-	//glBlendFunc(GL_ONE, GL_ONE);
-	//glDisable(GL_BLEND);
+	glDepthMask(GL_TRUE);
+	glBlendFunc(GL_ONE, GL_ONE);
+	glDisable(GL_BLEND);
 }
 
 int ParticleEmitter::findUnusedParticle()
@@ -123,18 +122,17 @@ int ParticleEmitter::findUnusedParticle()
 
 void ParticleEmitter::sortParticles()
 {
-	std::sort(&m_particles[0], &m_particles[m_particles.size() - 1]);
+	std::sort(&m_particles[0], &m_particles[m_particles.size()]);
 }
 
 
 // Ambient Emitter Constructors and Methods
 
-AmbientEmitter::AmbientEmitter(glm::vec4 & colour, float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
+AmbientEmitter::AmbientEmitter(float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
 {
 	m_maxParticles = maxParticles;
 	m_spawnRate = spawnRate;
 	m_updateEmitter = true;
-	m_colour = colour;
 	m_lifeTime = lifeTime;
 
 	m_particles.resize(m_maxParticles, Particle());
@@ -173,17 +171,17 @@ void AmbientEmitter::update(float deltaTime)
 {
 	if (m_updateEmitter)
 	{
-		int newparticles = (int)(deltaTime * 100.0);
-
-		for (int i = 0; i < newparticles; i++)
+		for (int i = 0; i < (int)(deltaTime * 100.0); i++)
 		{
 			int particleIndex = findUnusedParticle();
 			m_particles[particleIndex].life = m_lifeTime;
 
+			//TODO: Should supply a value for density here from the constructor
+
 			glm::vec3 randomPos = glm::vec3(
-				(rand() % 20000 - 10000.0f) / 10.0f,
-				(rand() % 20000 - 10000.0f) / 10.0f,
-				(rand() % 20000 - 10000.0f) / 10.0f
+				(rand() % 10000 - 5000) / 10.0f,
+				(rand() % 10000 - 5000) / 10.0f,
+				(rand() % 10000 - 5000) / 10.0f
 				);
 
 			m_particles[particleIndex].pos = randomPos;
@@ -197,6 +195,8 @@ void AmbientEmitter::update(float deltaTime)
 				);
 
 			m_particles[particleIndex].speed = maindir + randomdir*spread;
+
+			m_particles[particleIndex].size = ((((rand() % ((int)(0.9f * 2000.0f))) / 2000.0f) + 0.1f) * 100.0f);
 
 		}
 
@@ -235,12 +235,11 @@ void AmbientEmitter::update(float deltaTime)
 
 // Explosion Emitter Constructors and Methods
 
-ExplosionEmitter::ExplosionEmitter(glm::vec4 & colour, float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
+ExplosionEmitter::ExplosionEmitter(float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
 {
 	m_maxParticles = maxParticles;
 	m_spawnRate = spawnRate;
 	m_updateEmitter = true;
-	m_colour = colour;
 	m_lifeTime = lifeTime;
 
 	m_particles.resize(m_maxParticles, Particle());
@@ -301,7 +300,7 @@ void ExplosionEmitter::update(float deltaTime)
 
 				m_particles[particleIndex].speed = randomdir * spread;
 
-				m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
+				m_particles[particleIndex].size = (rand() % ((int)(0.9f * 2000.0f))) / 2000.0f + 0.1f;
 
 			}
 		}
@@ -342,12 +341,11 @@ void ExplosionEmitter::update(float deltaTime)
 
 // Fountain Emitter Constructors and Methods
 
-FountainEmitter::FountainEmitter(glm::vec4 & colour, float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
+FountainEmitter::FountainEmitter(float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
 {
 	m_maxParticles = maxParticles;
 	m_spawnRate = spawnRate;
 	m_updateEmitter = true;
-	m_colour = colour;
 	m_lifeTime = lifeTime;
 
 	m_particles.resize(m_maxParticles, Particle());
@@ -441,12 +439,11 @@ void FountainEmitter::update(float deltaTime)
 
 // Cone Emitter Constructors and Methods
 
-ConeEmitter::ConeEmitter(glm::vec3 & endPoint, glm::vec4 & colour, float radius, float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
+ConeEmitter::ConeEmitter(glm::vec3 & endPoint, float radius, float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
 {
 	m_maxParticles = maxParticles;
 	m_spawnRate = spawnRate;
 	m_updateEmitter = true;
-	m_colour = colour;
 	m_lifeTime = lifeTime;
 	m_radius = radius;
 	m_endPoint = endPoint;
@@ -538,16 +535,15 @@ void ConeEmitter::update(float deltaTime)
 	}
 }
 
-
 // Ray Emitter Constructors and Methods
 
-RayEmitter::RayEmitter(glm::vec3 & endPoint, glm::vec4 & colour, float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
+RayEmitter::RayEmitter(glm::vec3 & endPoint, float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
 {
 	m_maxParticles = maxParticles;
 	m_spawnRate = spawnRate;
 	m_updateEmitter = true;
-	m_colour = colour;
 	m_lifeTime = lifeTime;
+	m_endPoint = endPoint;
 
 	m_particles.resize(m_maxParticles, Particle());
 	m_positionData.resize(m_maxParticles);
@@ -585,22 +581,17 @@ void RayEmitter::update(float deltaTime)
 {
 	if (m_updateEmitter)
 	{
-		int newparticles = (int)(deltaTime * 100.0);
 
-		for (int i = 0; i < newparticles; i++)
+		for (int i = 0; i < (int)(deltaTime * 100.0); i++)
 		{
 			int particleIndex = findUnusedParticle();
 			m_particles[particleIndex].life = m_lifeTime;
 			m_particles[particleIndex].pos = glm::vec3(0.0f, 0.0f, 0.0f);
 
-			float spread = 1.5f;
-			glm::vec3 randomdir = glm::vec3(
-				(rand() % 2000 - 1000.0f) / 1000.0f,
-				(rand() % 2000 - 1000.0f) / 1000.0f,
-				(rand() % 2000 - 1000.0f) / 1000.0f
-				);
+			glm::vec3 direction = m_endPoint - m_particles[particleIndex].pos;
 
-			m_particles[particleIndex].speed = randomdir * spread;
+			float spread = 1.5f;
+			m_particles[particleIndex].speed = direction * spread;
 
 			m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
 
@@ -644,7 +635,6 @@ void RayEmitter::update(float deltaTime)
 ParticleSystem::ParticleSystem(
 	Material material, 
 	EmitterType eType/* = EmitterType::AMBIENT */, 
-	glm::vec4 & colour/*  = glm::vec4(0.0f) */, 
 	float lifeTime/* = 4.0f*/, 
 	float spawnRate /*= 5.0f*/, 
 	int maxParticles /*= 10000.0f*/) :
@@ -654,13 +644,13 @@ m_emitterType(eType)
 	switch (eType)
 	{
 	case AMBIENT:
-		m_particleEmitter = new AmbientEmitter(colour, lifeTime, maxParticles, spawnRate);
+		m_particleEmitter = new AmbientEmitter(lifeTime, maxParticles, spawnRate);
 		break;
 	case EXPLOSION:
-		m_particleEmitter = new ExplosionEmitter(colour, lifeTime, maxParticles, spawnRate);
+		m_particleEmitter = new ExplosionEmitter(lifeTime, maxParticles, spawnRate);
 		break;
 	case FOUNTAIN:
-		m_particleEmitter = new FountainEmitter(colour, lifeTime, maxParticles, spawnRate);
+		m_particleEmitter = new FountainEmitter(lifeTime, maxParticles, spawnRate);
 		break;
 	default:
 		throw "ParticleSystem instantiation with wrong constructor.\nAmbient Emitter, Explosion emitter or Fountain Emitter only.\n";
@@ -673,7 +663,6 @@ ParticleSystem::ParticleSystem(
 	glm::vec3 & endPoint, 
 	EmitterType eType/* = EmitterType::CONE */, 
 	float radius/* = 1.0f */,
-	glm::vec4 & colour/*  = glm::vec4(0.0f) */, 
 	float lifeTime/* = 1.0f*/, 
 	float spawnRate/* = 5.0f */, 
 	int maxParticles/* = 10000.0f */) :
@@ -683,10 +672,10 @@ m_emitterType(eType)
 	switch (eType)
 	{
 	case CONE:
-		m_particleEmitter = new ConeEmitter(endPoint, colour, radius, lifeTime, maxParticles, spawnRate);
+		m_particleEmitter = new ConeEmitter(endPoint, radius, lifeTime, maxParticles, spawnRate);
 		break;
 	case RAY:
-		m_particleEmitter = new RayEmitter(endPoint, colour, lifeTime, maxParticles, spawnRate);
+		m_particleEmitter = new RayEmitter(endPoint, lifeTime, maxParticles, spawnRate);
 		break;
 	default:
 		throw "ParticleSystem instantiation with wrong constructor.\nJet Emitter or Ray Emitter only.\n";

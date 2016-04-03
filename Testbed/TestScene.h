@@ -26,8 +26,10 @@ public:
 		Material sunTex("sunTexture", 0.5f, 4, Texture("sun.jpg"));
 		Material moonTex("moonTexture", 0.5f, 4, Texture("moon.jpg"));
 		Material fireTex("fireTexture", 0.5f, 4, Texture("fireTexture1.png"));
-		Material particleMatA("particleMatA", 0.5f, 4.0f, Texture("fireTexture.png"));
-		Material particleMatB("particleMatB", 0.5f, 4.0f, Texture("snowflake.png"));
+		Material particleMatA("particleMatA", 0.5f, 4.0f, Texture("defaultParticleTexture.png"));
+		Material particleMatB("particleMatB", 0.5f, 4.0f, Texture("fireTexture.png"));
+		Material particleMatC("particleMatC", 0.5f, 4.0f, Texture("fireTexture.png"));
+		Material particleMatD("particleMatD", 0.5f, 4.0f, Texture("star.png"));
 
 		//addToRoot((new GameObject("skybox"))
 		//	->addGameComponent(new SkyboxRenderer("Skybox/sky.jpg")));
@@ -88,10 +90,14 @@ public:
 		}
 
 		addToRoot((new GameObject("particlesA", glm::vec3(0.0f, 0.0f, 0.0f)))
-			->addGameComponent(new ParticleSystem(Material("particleMatB"), EXPLOSION)));
-
+			->addGameComponent(new ParticleSystem(Material("particleMatA"), EXPLOSION)));
 		addToRoot((new GameObject("particlesB", glm::vec3(0.0f, 0.0f, 0.0f)))
-			->addGameComponent(new ParticleSystem(Material("particleMatA"), glm::vec3(0.0f, 0.0f, -1.0f), CONE, 0.1f)));
+			->addGameComponent(new ParticleSystem(Material("particleMatB"), EXPLOSION)));
+		addToRoot((new GameObject("particlesC", glm::vec3(0.0f, 0.0f, 0.0f)))
+			->addGameComponent(new ParticleSystem(Material("particleMatC"), EXPLOSION)));
+
+		addToRoot((new GameObject("particlesD", glm::vec3(0.0f, 0.0f, 0.0f)))
+			->addGameComponent(new ParticleSystem(Material("particleMatD"), AMBIENT)));
 
 		addToRoot((new GameObject("plane", glm::vec3(0.0f, -10.0f, 0.0f), glm::quat(), glm::vec3(100.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("plane.obj"), Material("bricks"))));

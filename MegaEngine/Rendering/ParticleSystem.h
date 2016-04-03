@@ -68,7 +68,7 @@ struct Particle
 	/// <summary>
 	/// Overload of the less than operator
 	/// </summary>
-	/// <param name="part">the particle</param>
+	/// <param name="part">the other particle</param>
 	/// <returns></returns>
 	bool operator<(const Particle& part) const {
 		// Sort in reverse order : far particles drawn first.
@@ -187,11 +187,10 @@ public:
 	/// <summary>
 	/// Initializes a new instance of the <see cref="AmbientEmitter"/> class.
 	/// </summary>
-	/// <param name="colour">The colour.</param>
 	/// <param name="lifeTime">The life time.</param>
 	/// <param name="maxParticles">The maximum particles.</param>
 	/// <param name="spawnRate">The spawn rate.</param>
-	AmbientEmitter(glm::vec4 & colour, float lifeTime, int maxParticles = 10000.0f, float spawnRate = 5.0f);
+	AmbientEmitter(float lifeTime, int maxParticles = 10000.0f, float spawnRate = 5.0f);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="AmbientEmitter"/> class.
 	/// </summary>
@@ -215,11 +214,10 @@ public:
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ExplosionEmitter"/> class.
 	/// </summary>
-	/// <param name="colour">The colour.</param>
 	/// <param name="lifeTime">The life time.</param>
 	/// <param name="maxParticles">The maximum particles.</param>
 	/// <param name="spawnRate">The spawn rate.</param>
-	ExplosionEmitter(glm::vec4 & colour, float lifeTime, int maxParticles = 10000.0f, float spawnRate = 5.0f);
+	ExplosionEmitter(float lifeTime, int maxParticles = 10000.0f, float spawnRate = 5.0f);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="ExplosionEmitter"/> class.
 	/// </summary>
@@ -255,11 +253,10 @@ public:
 	/// <summary>
 	/// Initializes a new instance of the <see cref="FountainEmitter"/> class.
 	/// </summary>
-	/// <param name="colour">The colour.</param>
 	/// <param name="lifeTime">The life time.</param>
 	/// <param name="maxParticles">The maximum particles.</param>
 	/// <param name="spawnRate">The spawn rate.</param>
-	FountainEmitter(glm::vec4 & colour, float lifeTime, int maxParticles = 10000.0f, float spawnRate = 5.0f);
+	FountainEmitter(float lifeTime, int maxParticles = 10000.0f, float spawnRate = 5.0f);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="FountainEmitter"/> class.
 	/// </summary>
@@ -284,12 +281,11 @@ public:
 	/// Initializes a new instance of the <see cref="ConeEmitter"/> class.
 	/// </summary>
 	/// <param name="endPoint">The end point.</param>
-	/// <param name="colour">The colour.</param>
 	/// <param name="radius">The radius.</param>
 	/// <param name="lifeTime">The life time.</param>
 	/// <param name="maxParticles">The maximum particles.</param>
 	/// <param name="spawnRate">The spawn rate.</param>
-	ConeEmitter(glm::vec3& endPoint, glm::vec4 & colour, float radius, float lifeTime, int maxParticles = 10000.0f, float spawnRate = 5.0f);
+	ConeEmitter(glm::vec3& endPoint, float radius, float lifeTime, int maxParticles = 10000.0f, float spawnRate = 5.0f);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="ConeEmitter"/> class.
 	/// </summary>
@@ -326,11 +322,10 @@ public:
 	/// Initializes a new instance of the <see cref="RayEmitter"/> class.
 	/// </summary>
 	/// <param name="endPoint">The end point.</param>
-	/// <param name="colour">The colour.</param>
 	/// <param name="lifeTime">The life time.</param>
 	/// <param name="maxParticles">The maximum particles.</param>
 	/// <param name="spawnRate">The spawn rate.</param>
-	RayEmitter(glm::vec3& endPoint, glm::vec4 & colour, float lifeTime, int maxParticles = 10000.0f, float spawnRate = 5.0f);
+	RayEmitter(glm::vec3& endPoint, float lifeTime, int maxParticles = 10000.0f, float spawnRate = 5.0f);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="RayEmitter"/> class.
 	/// </summary>
@@ -341,6 +336,9 @@ public:
 	/// </summary>
 	/// <param name="deltaTime">The delta time.</param>
 	virtual void update(float deltaTime) override;
+
+protected:
+	glm::vec3 m_endPoint;
 };
 
 /// <summary>
@@ -361,7 +359,7 @@ public:
 	/// <param name="lifeTime">The life time.</param>
 	/// <param name="spawnRate">The spawn rate.</param>
 	/// <param name="maxParticles">The maximum particles.</param>
-	ParticleSystem(Material material, EmitterType eType = EmitterType::AMBIENT, glm::vec4 & colour = glm::vec4(0.0f), float lifeTime = 4.0f, float spawnRate = 5.0f, int maxParticles = 10000.0f);
+	ParticleSystem(Material material, EmitterType eType = EmitterType::AMBIENT, float lifeTime = 4.0f, float spawnRate = 5.0f, int maxParticles = 10000.0f);
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ParticleSystem"/> class.
 	/// Only use with ConeEmitter, RayEmitter
@@ -374,7 +372,7 @@ public:
 	/// <param name="lifeTime">The life time.</param>
 	/// <param name="spawnRate">The spawn rate.</param>
 	/// <param name="maxParticles">The maximum particles.</param>
-	ParticleSystem(Material material, glm::vec3 & endPoint, EmitterType eType = EmitterType::CONE, float radius = 1.0f, glm::vec4 & colour = glm::vec4(0.0f), float lifeTime = 1.0f, float spawnRate = 10.0f, int maxParticles = 10000.0f);
+	ParticleSystem(Material material, glm::vec3 & endPoint, EmitterType eType = EmitterType::CONE, float radius = 1.0f, float lifeTime = 1.0f, float spawnRate = 10.0f, int maxParticles = 10000.0f);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="ParticleSystem"/> class.
 	/// </summary>
