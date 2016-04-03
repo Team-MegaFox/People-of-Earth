@@ -87,27 +87,25 @@ public:
 			->addGameComponent(new RigidBody(PxVec3(1.0f, 1.0f, 1.0f), PxQuat(PxIdentity), 1.0f, 7.0f, 1.0f, 5.0f))
 			->addGameComponent(new FireProjectile)
 			->addGameComponent(new PlayerShipMovementController("camera", 50.0f))
-			->addGameComponent(new InGameMusic)
+			//->addGameComponent(new InGameMusic)
+			->addGameComponent(new ShipStats)
+			->addGameComponent(new UpdateGUI)
 			->addChild(starBoardLight_Fighter)
 			->addChild(portLight_Fighter)
 			->addChild(rearLight_Fighter)
 			->addChild(thrusterLight_Fighter)
 			->addChild(spotLight_Fighter)
-			->addGameComponent(new ShipStats)
-			->addGameComponent(new UpdateGUI);
-
-		GameObject * crossHair = new GameObject("CrossHair");
-		crossHair->addGameComponent(new CrossHair(100.0f));
-		fighterShip->addChild(crossHair);
+			->addChild((new GameObject("CrossHair"))
+			->addGameComponent(new CrossHair(100.0f)));
+		addToRoot(fighterShip);
 
 		// The human fighter ship and camera
 		GameObject* camera =
 			(new GameObject("camera",
 			*fighterShip->getTransform()->getPosition() - Utility::getForward(*fighterShip->getTransform()->getRotation()) * 30.0f
 			+ PxVec3(0.0f, 5.0f, 0.0f)))
-			->addGameComponent(new CameraComponent(ToRadians(75.0f), window.getAspectRatio(), 0.1f, 200000.0f));
-			//->addGameComponent(new Listener());
-		addToRoot(fighterShip);
+			->addGameComponent(new CameraComponent(ToRadians(75.0f), window.getAspectRatio(), 0.1f, 200000.0f))
+			->addGameComponent(new AudioListener);
 		addToRoot(camera);
 
 
@@ -141,6 +139,8 @@ public:
 		addArea2OfMission1();
 
 		addGUI();
+
+		addAudio();
 	}
 
 private:
@@ -319,6 +319,7 @@ private:
 			->addGameComponent(new RigidBody(PxVec3(0.0f, 0.0f, 300.0f), PxQuat(PxIdentity), 1.0f, 50.0f, 40.0f, 275.0f))
 			->addGameComponent(new PassengerShipAI)
 			->addGameComponent(new ShipStats)
+			->addGameComponent(new AudioSource("Music/sci-fi_spaceship_background_room_tone_hum_loop_03.WAV", AudioType::SOUND, true, 1.0f, false, true, AudioDimension::THREED))
 			->addChild(spotLight1_Passenger)
 			->addChild(spotLight2_Passenger)
 			->addChild(spotLight3_Passenger)
@@ -402,9 +403,9 @@ private:
 			);
 	}
 
-	//bool onRetryClick(const GameObject& go)
-	//{
-	//	getCoreEngine()->getSceneManager()->pop();
-	//	return true;
-	//}
+	void addAudio()
+	{
+		addToRoot((new GameObject("Recharge sound"))
+			->addGameComponent(new AudioSource("Music/sci-fi_power_up_10.WAV", AudioType::SOUND, false, 0.1f)));
+	}
 };

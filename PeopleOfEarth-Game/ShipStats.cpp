@@ -21,6 +21,7 @@ void ShipStats::onStart()
 {
 	m_passengerShip = getGameObjectByName("passengerShip")->getGameComponent<RigidBody>();
 	m_dialogueBox = getGameObjectByName("DialogueBox")->getGameComponent<DialogueBox>();
+	m_rechargeSound = getGameObjectByName("Recharge sound")->getGameComponent<AudioSource>();
 }
 
 void ShipStats::updateHealth(float health)
@@ -132,6 +133,12 @@ void ShipStats::update(float timestep)
 		{
 			m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFFFFFF']Stay close,\n we'll replenish your reserves.", Importance::LOW, false);
 
+			if (m_playRechargeSound)
+			{
+				m_rechargeSound->play();
+				m_playRechargeSound = false;
+			}
+
 			if (m_health < 1.0f)
 			{
 				updateHealth(0.0005f);
@@ -182,6 +189,10 @@ void ShipStats::update(float timestep)
 			{
 				m_fueling = false;
 			}
+		}
+		else
+		{
+			m_playRechargeSound = true;
 		}
 	}
 

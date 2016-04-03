@@ -22,7 +22,7 @@ class MissileAI;
 class ShipStats : public GameComponent
 {
 public: 
-	ShipStats() : m_health(1.0f), m_fuel(1.0f), m_energy(1.0f) {}
+	ShipStats() : m_health(1.0f), m_fuel(1.0f), m_energy(1.0f), m_playRechargeSound(false) {}
 	~ShipStats() {}
 
 	virtual void onStart() override;
@@ -51,4 +51,7 @@ private:
 	bool m_energyWarnOnce = false;
 	bool m_fuelWarnOnce = false;
 	float m_dangerlevel = 0.3f;
+
+	bool m_playRechargeSound;
+	AudioSource* m_rechargeSound;
 };

@@ -50,6 +50,11 @@ public:
 
 		addToRoot((new GameObject("Options Menu Manager"))
 			->addGameComponent(new OptionsMenuManager(effectsSlider, effectsVolume, bgmSlider, bgmVolume, backButton, controlsButton)));
+
+		addToRoot((new GameObject("Moved button sound"))
+			->addGameComponent(new AudioSource("Music/(hover_beep)185828__lloydevans09__little-thing.wav", AudioType::SOUND, false)));
+		addToRoot((new GameObject("Selected button sound"))
+			->addGameComponent(new AudioSource("Music/(select_beep)319200__18hiltc__pixel-game-beep.wav", AudioType::SOUND, false)));
 	
 		// TODO: Add sound effects for hovering
 		// TODO: Add Sound effect for buttons selected

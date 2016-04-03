@@ -13,6 +13,7 @@
 #pragma once
 #include "GameComponents.h"
 #include "..\Audio\Audio.h"
+#include <iostream>
 
 /// <summary>
 /// Whether the type of audio is a sound or stream.
@@ -34,8 +35,8 @@ public:
 	/// <param name="audioType">Type of the audio.</param>
 	/// <param name="playOnStart">Whether the audio should play on start.</param>
 	/// <param name="audioDim">The audio dimension  (2D or 3D).</param>
-	AudioSource(const std::string& fileName, AudioType audioType, bool playOnStart = true, AudioDimension audioDim = AudioDimension::TWOD) :
-		m_fileName(fileName), m_type(audioType), m_playOnStart(playOnStart), m_dim(audioDim) { }
+	AudioSource(const std::string& fileName, AudioType audioType, bool playOnStart = true, float volume = 1.0f, bool destroyAtEnd = false, bool looping = false, AudioDimension audioDim = AudioDimension::TWOD) :
+		m_fileName(fileName), m_type(audioType), m_playOnStart(playOnStart), m_volume(volume), m_destroyAtEnd(destroyAtEnd), m_loopOnStart(looping), m_dim(audioDim), m_played(false) { }
 	/// <summary>
 	/// Finalizes an instance of the <see cref="AudioSource"/> class.
 	/// </summary>
@@ -64,6 +65,12 @@ public:
 		{
 			m_audio->play();
 		}
+		else
+		{
+			setVolume(m_volume);
+		}
+
+		setLooping(m_loopOnStart, -1);
 	}
 
 	/// <summary>
@@ -77,12 +84,22 @@ public:
 		{
 			m_audio->setPosition(*getTransform()->getPosition(), PxVec3(0.0f));
 		}
+
+		if (m_destroyAtEnd && m_played && !isPlaying())
+		{
+			destroy(getParent());
+		}
 	}
 
 	/// <summary>
 	/// Plays the audio.
 	/// </summary>
-	void play() const { m_audio->play(); }
+	void play() 
+	{ 
+		m_audio->play(); 
+		setVolume(m_volume);
+		m_played = true; 
+	}
 	/// <summary>
 	/// Stops the audio.
 	/// </summary>
@@ -174,13 +191,33 @@ private:
 	AudioDimension m_dim;
 
 	/// <summary>
+	/// The starting volume of the audio.
+	/// </summary>
+	float m_volume;
+
+	/// <summary>
 	/// Whether the audio plays on start.
 	/// </summary>
 	bool m_playOnStart;
 
 	/// <summary>
+	/// Whether the audio loops on start.
+	/// </summary>
+	bool m_loopOnStart;
+
+	/// <summary>
 	/// Whether the audio was playing when a scene got pushed onto the stack.
 	/// </summary>
 	bool m_wasPlaying;
+
+	/// <summary>
+	/// Whether the audio should be destroyed once the audio has finished playing.
+	/// </summary>
+	bool m_destroyAtEnd;
+
+	/// <summary>
+	/// Whether the audio was played at least once.
+	/// </summary>
+	bool m_played;
 
 };

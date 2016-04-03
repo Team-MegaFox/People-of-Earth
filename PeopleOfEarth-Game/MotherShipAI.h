@@ -95,6 +95,7 @@ public:
 			m_scaleOfProjectile.x / 2.0f, 
 			m_scaleOfProjectile.y / 2.0f, 
 			m_scaleOfProjectile.z / 2.0f, Utility::getForward(*getTransform()->getRotation()) * 800.0f))
+			->addGameComponent(new AudioSource("Music/sci-fi_weapon_blaster_laser_boom_02.WAV", AudioType::SOUND, true, 1.0f, true, false, AudioDimension::THREED))
 			);
 	}
 

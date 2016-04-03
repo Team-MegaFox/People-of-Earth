@@ -29,6 +29,9 @@ public:
 		m_effectsBox->setText(std::to_string((int)(m_effectsSlider->getThumbPosition() * 100.0f)));
 		m_bgmSlider->setThumbPosition(getCoreEngine()->getAudioEngine()->getStreamVolume());
 		m_bgmBox->setText(std::to_string((int)(m_bgmSlider->getThumbPosition() * 100.0f)));
+
+		m_moveSound = getGameObjectByName("Moved button sound")->getGameComponent<AudioSource>();
+		m_selectedSound = getGameObjectByName("Selected button sound")->getGameComponent<AudioSource>();
 	}
 
 	/// <summary>
@@ -40,6 +43,8 @@ public:
 	{
 		if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B))
 		{
+			m_selectedSound->play();
+
 			getCoreEngine()->getSceneManager()->pop();
 		}
 
@@ -62,6 +67,8 @@ public:
 			else m_focusButton = 0;
 
 			m_buttons[m_focusButton]->getParent()->addGameComponent(new TextLerpAlpha, true);
+
+			m_moveSound->play();
 		}
 
 		if (input.KeyPress(SDLK_d) || input.GetThumbLPosition().x > 0.1f || input.PadButtonPress(SDL_CONTROLLER_BUTTON_DPAD_RIGHT))
@@ -72,10 +79,14 @@ public:
 			else m_focusButton = m_buttons.size() - 1;
 
 			m_buttons[m_focusButton]->getParent()->addGameComponent(new TextLerpAlpha, true);
+
+			m_moveSound->play();
 		}
 
 		if (input.KeyPress(SDLK_RETURN) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_A))
 		{
+			m_selectedSound->play();
+
 			m_buttons[m_focusButton]->click();
 		}
 	}
@@ -104,5 +115,9 @@ private:
 	bool m_usingMouse = false;
 	std::vector<GUIButton*> m_buttons;
 	size_t m_focusButton;
+
+	//Sounds
+	AudioSource* m_moveSound;
+	AudioSource* m_selectedSound;
 
 };
