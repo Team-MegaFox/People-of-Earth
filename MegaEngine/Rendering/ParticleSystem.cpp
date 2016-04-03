@@ -78,20 +78,20 @@ void AmbientEmitter::update(float deltaTime)
 
 			m_particles[particleIndex].speed = maindir + randomdir*spread;
 
-			if (m_colour.w == 0.0f)
-			{
-				// Very bad way to generate a random color
-				m_particles[particleIndex].colour.r = 1.0f/*(float)(rand() % 256)*/;
-				m_particles[particleIndex].colour.g = 1.0f/*(float)(rand() % 256)*/;
-				m_particles[particleIndex].colour.b = 1.0f/*(float)(rand() % 256)*/;
-				m_particles[particleIndex].colour.a = 1.0f/*(rand() % 256) / 3.0f*/;
+			//if (m_colour.w == 0.0f)
+			//{
+			//	// Very bad way to generate a random color
+			//	m_particles[particleIndex].colour.r = 1.0f/*(float)(rand() % 256)*/;
+			//	m_particles[particleIndex].colour.g = 1.0f/*(float)(rand() % 256)*/;
+			//	m_particles[particleIndex].colour.b = 1.0f/*(float)(rand() % 256)*/;
+			//	m_particles[particleIndex].colour.a = 1.0f/*(rand() % 256) / 3.0f*/;
 
-				m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
-			}
-			else
-			{
-				m_particles[particleIndex].colour = m_colour;
-			}
+			//	m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
+			//}
+			//else
+			//{
+			//	m_particles[particleIndex].colour = m_colour;
+			//}
 
 		}
 
@@ -299,20 +299,20 @@ void ExplosionEmitter::update(float deltaTime)
 
 				m_particles[particleIndex].speed = randomdir * spread;
 
-				if (m_colour.w == 0.0f)
-				{
-					// Very bad way to generate a random color
-					m_particles[particleIndex].colour.r = 1.0f/*(float)(rand() % 256)*/;
-					m_particles[particleIndex].colour.g = 1.0f/*(float)(rand() % 256)*/;
-					m_particles[particleIndex].colour.b = 1.0f/*(float)(rand() % 256)*/;
-					m_particles[particleIndex].colour.a = 1.0f/*(rand() % 256) / 3.0f*/;
+				//if (m_colour.w == 0.0f)
+				//{
+				//	// Very bad way to generate a random color
+				//	m_particles[particleIndex].colour.r = 1.0f/*(float)(rand() % 256)*/;
+				//	m_particles[particleIndex].colour.g = 1.0f/*(float)(rand() % 256)*/;
+				//	m_particles[particleIndex].colour.b = 1.0f/*(float)(rand() % 256)*/;
+				//	m_particles[particleIndex].colour.a = 1.0f/*(rand() % 256) / 3.0f*/;
 
-					m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
-				}
-				else
-				{
-					m_particles[particleIndex].colour = m_colour;
-				}
+				//	m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
+				//}
+				//else
+				//{
+				//	m_particles[particleIndex].colour = m_colour;
+				//}
 
 				m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
 
@@ -520,20 +520,20 @@ void FountainEmitter::update(float deltaTime)
 
 			m_particles[particleIndex].speed = maindir + randomdir*spread;
 
-			if (m_colour.w == 0.0f)
-			{
-				// Very bad way to generate a random color
-				m_particles[particleIndex].colour.r = 1.0f/*(float)(rand() % 256)*/;
-				m_particles[particleIndex].colour.g = 1.0f/*(float)(rand() % 256)*/;
-				m_particles[particleIndex].colour.b = 1.0f/*(float)(rand() % 256)*/;
-				m_particles[particleIndex].colour.a = 1.0f/*(rand() % 256) / 3.0f*/;
+			//if (m_colour.w == 0.0f)
+			//{
+			//	// Very bad way to generate a random color
+			//	m_particles[particleIndex].colour.r = 1.0f/*(float)(rand() % 256)*/;
+			//	m_particles[particleIndex].colour.g = 1.0f/*(float)(rand() % 256)*/;
+			//	m_particles[particleIndex].colour.b = 1.0f/*(float)(rand() % 256)*/;
+			//	m_particles[particleIndex].colour.a = 1.0f/*(rand() % 256) / 3.0f*/;
 
-				m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
-			}
-			else
-			{
-				m_particles[particleIndex].colour = m_colour;
-			}
+			//	m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
+			//}
+			//else
+			//{
+			//	m_particles[particleIndex].colour = m_colour;
+			//}
 
 		}
 
@@ -675,13 +675,15 @@ void FountainEmitter::sortParticles()
 
 // Cone Emitter
 
-ConeEmitter::ConeEmitter(glm::vec3 & endPoint, glm::vec4 & colour, float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
+ConeEmitter::ConeEmitter(glm::vec3 & endPoint, glm::vec4 & colour, float radius, float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
 {
 	m_maxParticles = maxParticles;
 	m_spawnRate = spawnRate;
 	m_updateEmitter = true;
 	m_colour = colour;
 	m_lifeTime = lifeTime;
+	m_radius = radius;
+	m_endPoint = endPoint;
 
 	m_particles.resize(m_maxParticles, Particle());
 	m_positionData.resize(m_maxParticles);
@@ -719,37 +721,35 @@ void ConeEmitter::update(float deltaTime)
 {
 	if (m_updateEmitter)
 	{
-		int newparticles = (int)(deltaTime * 100.0);
+		int newparticles = 360;
 
 		for (int i = 0; i < newparticles; i++)
 		{
 			int particleIndex = findUnusedParticle();
 			m_particles[particleIndex].life = m_lifeTime;
-			m_particles[particleIndex].pos = glm::vec3(0.0f, 0.0f, 0.0f);
 
-			float spread = 1.5f;
-			glm::vec3 randomdir = glm::vec3(
-				(rand() % 2000 - 1000.0f) / 1000.0f,
-				(rand() % 2000 - 1000.0f) / 1000.0f,
-				(rand() % 2000 - 1000.0f) / 1000.0f
-				);
+			// pick a location along the circumference of a circle
+			m_particles[particleIndex].pos = glm::vec3(m_radius * cos(i), m_radius * sin(i), 0.0f);
 
-			m_particles[particleIndex].speed = randomdir * spread;
+			// move towards the cone's end point
+			glm::vec3 direction = m_endPoint - m_particles[particleIndex].pos;
 
-			if (m_colour.w == 0.0f)
-			{
-				// Very bad way to generate a random color
-				m_particles[particleIndex].colour.r = 1.0f/*(float)(rand() % 256)*/;
-				m_particles[particleIndex].colour.g = 1.0f/*(float)(rand() % 256)*/;
-				m_particles[particleIndex].colour.b = 1.0f/*(float)(rand() % 256)*/;
-				m_particles[particleIndex].colour.a = 1.0f/*(rand() % 256) / 3.0f*/;
+			m_particles[particleIndex].speed = direction;
 
-				m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
-			}
-			else
-			{
-				m_particles[particleIndex].colour = m_colour;
-			}
+			//if (m_colour.w == 0.0f)
+			//{
+			//	// Very bad way to generate a random color
+			//	m_particles[particleIndex].colour.r = 1.0f/*(float)(rand() % 256)*/;
+			//	m_particles[particleIndex].colour.g = 1.0f/*(float)(rand() % 256)*/;
+			//	m_particles[particleIndex].colour.b = 1.0f/*(float)(rand() % 256)*/;
+			//	m_particles[particleIndex].colour.a = 1.0f/*(rand() % 256) / 3.0f*/;
+
+			//	m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
+			//}
+			//else
+			//{
+			//	m_particles[particleIndex].colour = m_colour;
+			//}
 
 			m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
 
@@ -954,20 +954,20 @@ void RayEmitter::update(float deltaTime)
 
 			m_particles[particleIndex].speed = randomdir * spread;
 
-			if (m_colour.w == 0.0f)
-			{
-				// Very bad way to generate a random color
-				m_particles[particleIndex].colour.r = 1.0f/*(float)(rand() % 256)*/;
-				m_particles[particleIndex].colour.g = 1.0f/*(float)(rand() % 256)*/;
-				m_particles[particleIndex].colour.b = 1.0f/*(float)(rand() % 256)*/;
-				m_particles[particleIndex].colour.a = 1.0f/*(rand() % 256) / 3.0f*/;
+			//if (m_colour.w == 0.0f)
+			//{
+			//	// Very bad way to generate a random color
+			//	m_particles[particleIndex].colour.r = 1.0f/*(float)(rand() % 256)*/;
+			//	m_particles[particleIndex].colour.g = 1.0f/*(float)(rand() % 256)*/;
+			//	m_particles[particleIndex].colour.b = 1.0f/*(float)(rand() % 256)*/;
+			//	m_particles[particleIndex].colour.a = 1.0f/*(rand() % 256) / 3.0f*/;
 
-				m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
-			}
-			else
-			{
-				m_particles[particleIndex].colour = m_colour;
-			}
+			//	m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
+			//}
+			//else
+			//{
+			//	m_particles[particleIndex].colour = m_colour;
+			//}
 
 			m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
 
@@ -1142,6 +1142,7 @@ ParticleSystem::ParticleSystem(
 	Material material, 
 	glm::vec3 & endPoint, 
 	EmitterType eType/* = EmitterType::CONE */, 
+	float radius/* = 1.0f */,
 	glm::vec4 & colour/*  = glm::vec4(0.0f) */, 
 	float lifeTime/* = 1.0f*/, 
 	float spawnRate/* = 5.0f */, 
@@ -1152,7 +1153,7 @@ m_emitterType(eType)
 	switch (eType)
 	{
 	case CONE:
-		m_particleEmitter = new ConeEmitter(endPoint, colour, lifeTime, maxParticles, spawnRate);
+		m_particleEmitter = new ConeEmitter(endPoint, colour, radius, lifeTime, maxParticles, spawnRate);
 		break;
 	case RAY:
 		m_particleEmitter = new RayEmitter(endPoint, colour, lifeTime, maxParticles, spawnRate);

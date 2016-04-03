@@ -141,7 +141,7 @@ protected:
 class ConeEmitter : public ParticleEmitter
 {
 public:
-	ConeEmitter(glm::vec3& endPoint, glm::vec4 & colour, float lifeTime, int maxParticles = 10000.0f, float spawnRate = 5.0f);
+	ConeEmitter(glm::vec3& endPoint, glm::vec4 & colour, float radius, float lifeTime, int maxParticles = 10000.0f, float spawnRate = 5.0f);
 	~ConeEmitter();
 
 	virtual void update(float deltaTime) override;
@@ -152,6 +152,9 @@ protected:
 	virtual int findUnusedParticle() override;
 
 	virtual void sortParticles() override;
+
+	glm::vec3 m_endPoint;
+	float m_radius;
 };
 
 class RayEmitter : public ParticleEmitter
@@ -176,7 +179,7 @@ public:
 	// FountainEmitter, AmbientEmitter, ExplosionEmitter
 	ParticleSystem(Material material, EmitterType eType = EmitterType::AMBIENT, glm::vec4 & colour = glm::vec4(0.0f), float lifeTime = 4.0f, float spawnRate = 5.0f, int maxParticles = 10000.0f);
 	// ConeEmitter, RayEmitter
-	ParticleSystem(Material material, glm::vec3 & endPoint, EmitterType eType = EmitterType::CONE, glm::vec4 & colour = glm::vec4(0.0f), float lifeTime = 1.0f, float spawnRate = 5.0f, int maxParticles = 10000.0f);
+	ParticleSystem(Material material, glm::vec3 & endPoint, EmitterType eType = EmitterType::CONE, float radius = 1.0f, glm::vec4 & colour = glm::vec4(0.0f), float lifeTime = 1.0f, float spawnRate = 10.0f, int maxParticles = 10000.0f);
 	~ParticleSystem();
 
 	/// <summary>

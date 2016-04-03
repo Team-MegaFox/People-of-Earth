@@ -26,10 +26,11 @@ public:
 		Material sunTex("sunTexture", 0.5f, 4, Texture("sun.jpg"));
 		Material moonTex("moonTexture", 0.5f, 4, Texture("moon.jpg"));
 		Material fireTex("fireTexture", 0.5f, 4, Texture("fireTexture1.png"));
-		Material particleMat("particleMat", 0.5f, 4.0f, Texture("fireTexture.png"));
+		Material particleMatA("particleMatA", 0.5f, 4.0f, Texture("fireTexture.png"));
+		Material particleMatB("particleMatB", 0.5f, 4.0f, Texture("snowflake.png"));
 
-		addToRoot((new GameObject("skybox"))
-			->addGameComponent(new SkyboxRenderer("Skybox/sky.jpg")));
+		//addToRoot((new GameObject("skybox"))
+		//	->addGameComponent(new SkyboxRenderer("Skybox/sky.jpg")));
 
 		// The human fighter ship and camera
 		GameObject* camera = 
@@ -86,8 +87,11 @@ public:
 			std::cout << "There is a camera component!" << std::endl;
 		}
 
-		addToRoot((new GameObject("particles", glm::vec3(0.0f, 0.0f, 0.0f)))
-			->addGameComponent(new ParticleSystem(Material("particleMat"), AMBIENT, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), 10.0f)));
+		addToRoot((new GameObject("particlesA", glm::vec3(0.0f, 0.0f, 0.0f)))
+			->addGameComponent(new ParticleSystem(Material("particleMatB"), EXPLOSION)));
+
+		addToRoot((new GameObject("particlesB", glm::vec3(0.0f, 0.0f, 0.0f)))
+			->addGameComponent(new ParticleSystem(Material("particleMatA"), AMBIENT)));
 
 		addToRoot((new GameObject("plane", glm::vec3(0.0f, -10.0f, 0.0f), glm::quat(), glm::vec3(100.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("plane.obj"), Material("bricks"))));
