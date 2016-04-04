@@ -19,10 +19,12 @@
 #include "InGameMusic.h"
 using namespace physx;
 
-// TODO: More asteroids, more distant decorations
-// TODO: *Rays
-// TODO: *Deleteing gameobjects ie. MiniMap
-// TODO: *markers on edge of mini map
+// TODO: Stop moving forward when fuel is out
+// TODO: Sounds like the we're replenishing at every message
+// TODO: Collision Logic for ships and space bodies
+// TODO: Missile GUI
+// TODO: Replenish Missile if they are low
+// TODO: Merge Particles into the develop branch
 
 
 class MissionOneScene : public Scene
@@ -48,17 +50,14 @@ public:
 		Material earth("earth", 1.0f, 10, Texture("Planets/earth.png"));
 		Material mars("mars", 1.0f, 10, Texture("Planets/mars.jpg"));
 		Material jupiter("jupiter", 1.0f, 10, Texture("Planets/jupiter.jpg"));
-		Material sun("sun", 10.0f, 100, Texture("Planets/sun.jpg"));
+		Material sun("sun", 100.0f, 1000, Texture("Planets/sun.jpg"));
 		Material moon("moon", 1.0f, 10, Texture("Planets/moon.jpg"));
 
 		Material asteroid("asteroid", 1.0f, 1.0f, Texture("Asteroids/AM1.jpg"));
 
 
-		Material testCol("testCol", 0.5f, 4, Texture("laserGreen.png"));
-
-
-		addToRoot((new GameObject("BloomObject", PxVec3(0.0f, 0.0f, 0.0f)))
-			->addGameComponent(new BloomObjectRenderer(Mesh("Asteroids/Asteroid_D.obj", 10.0f), Texture("Planets/sun.jpg"))));
+		//addToRoot((new GameObject("BloomObject", PxVec3(0.0f, 0.0f, 0.0f)))
+		//	->addGameComponent(new BloomObjectRenderer(Mesh("Asteroids/Asteroid_D.obj", 10.0f), Texture("Planets/sun.jpg"))));
 
 
 		addToRoot((new GameObject("Skybox"))
@@ -87,7 +86,7 @@ public:
 			->addGameComponent(new RigidBody(PxVec3(1.0f, 1.0f, 1.0f), PxQuat(PxIdentity), 1.0f, 7.0f, 1.0f, 5.0f))
 			->addGameComponent(new FireProjectile)
 			->addGameComponent(new PlayerShipMovementController("camera", 50.0f))
-			//->addGameComponent(new InGameMusic)
+			->addGameComponent(new InGameMusic)
 			->addGameComponent(new ShipStats)
 			->addGameComponent(new UpdateGUI)
 			->addChild(starBoardLight_Fighter)
@@ -112,9 +111,6 @@ public:
 		addToRoot((new GameObject("DirectionalLight1", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(45.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
 			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 0.65f, 0.0f), 0.6f, 8)));
 
-		//addToRoot((new GameObject("DirectionalLight2", PxVec3(0.0f, 0.0f, 10000.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
-		//	->addGameComponent(new DirectionalLight(PxVec3(1.0f, 1.0f, 1.0f), 0.6f, 8)));
-
 		addPassengerShip();		
 
 		addToRoot((new GameObject("Asteroid", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
@@ -122,9 +118,9 @@ public:
 			->addGameComponent(new RigidBody(PxVec3(0), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), 1.0f, 1.0f))
 			->addGameComponent(new RogueAsteroid(10.0f, 0.005f)));
 
-		addToRoot((new GameObject("EnemyMother", PxVec3(-1500.0f, 0.0f, 5000.0f)))
+		addToRoot((new GameObject("EnemyMother", PxVec3(-1500.0f, 0.0f, 15000.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/enemy_HeavyCruiser.obj", 100.0f), Material("enemyMother")))
-			->addGameComponent(new RigidBody(PxVec3(-1500.0f, 0.0f, 5000.0f), PxQuat(PxIdentity), 1.0f, 50.0f, 40.0f, 275.0f))
+			->addGameComponent(new RigidBody(PxVec3(-1500.0f, 0.0f, 15000.0f), PxQuat(PxIdentity), 1.0f, 50.0f, 40.0f, 275.0f))
 			->addGameComponent(new MotherShipAI)
 			->addGameComponent(new ShipStats)
 			);
@@ -357,7 +353,7 @@ private:
 			->addGameComponent(new ShipStats)
 			->addGameComponent(new EnemyFighterShipAI)
 			);
-		// //the alien fighter ship
+		//// //the alien fighter ship
 		//addToRoot((new GameObject("enemyFighter", PxVec3(-20.0f, 0.0f, 3000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
 		//	->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
 		//	->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 6.0f, 24.0f))
@@ -366,12 +362,12 @@ private:
 		//	);
 		 //the alien fighter ship
 		addToRoot((new GameObject("enemyFighter", PxVec3(0.0f, 20.0f, 1000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("testCol")))
+			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
 			->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 6.0f, 24.0f))
 			->addGameComponent(new ShipStats)
 			->addGameComponent(new EnemyFighterShipAI)
 			);
-		////// the alien fighter ship
+		//////// the alien fighter ship
 		//addToRoot((new GameObject("enemyFighter", PxVec3(0.0f, -20.0f, 3000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
 		//	->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
 		//	->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 6.0f, 24.0f))
@@ -379,17 +375,50 @@ private:
 		//	->addGameComponent(new ShipStats)
 		//	);
 
+		//// the alien fighter ship
+		//addToRoot((new GameObject("enemyFighter", PxVec3(20.0f, 0.0f, 10000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
+		//	->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
+		//	->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 6.0f, 24.0f))
+		//	->addGameComponent(new ShipStats)
+		//	->addGameComponent(new EnemyFighterShipAI)
+		//	);
+		//// //the alien fighter ship
+		//addToRoot((new GameObject("enemyFighter", PxVec3(-20.0f, 0.0f, 5000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
+		//	->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
+		//	->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 6.0f, 24.0f))
+		//	->addGameComponent(new ShipStats)
+		//	->addGameComponent(new EnemyFighterShipAI)
+		//	);
+		////the alien fighter ship
+		//addToRoot((new GameObject("enemyFighter", PxVec3(0.0f, 20.0f, 10000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
+		//	->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
+		//	->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 6.0f, 24.0f))
+		//	->addGameComponent(new ShipStats)
+		//	->addGameComponent(new EnemyFighterShipAI)
+		//	);
+		//////// the alien fighter ship
+		//addToRoot((new GameObject("enemyFighter", PxVec3(0.0f, -20.0f, 8000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
+		//	->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
+		//	->addGameComponent(new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 6.0f, 24.0f))
+		//	->addGameComponent(new EnemyFighterShipAI)
+		//	->addGameComponent(new ShipStats)
+		//	);
+
 		//// Planets and Moons
-		addToRoot((new GameObject("moon", PxVec3(1000.0f, 0.0f, 1000.0f)))
+		addToRoot((new GameObject("spaceBody", PxVec3(1000.0f, 0.0f, 1000.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 32.0f), Material("moon")))
+			->addGameComponent(new RigidBody(PxVec3(1000.0f, 0.0f, 1000.0f), PxQuat(PxIdentity), 100.0f, 32.0f))
 			);
 
-		addToRoot((new GameObject("earth", PxVec3(-1000.0f, 0.0f, 0.0f)))
+		addToRoot((new GameObject("spaceBody", PxVec3(-1000.0f, 0.0f, 0.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_B.obj", 100.0f), Material("earth")))
+
+			->addGameComponent(new RigidBody(PxVec3(-1000.0f, 0.0f, 0.0f), PxQuat(PxIdentity), 100.0f, 100.0f))
 			);
 
-		addToRoot((new GameObject("mars", PxVec3(7500.0f, 0.0f, 7500.0f)))
+		addToRoot((new GameObject("spaceBody", PxVec3(7500.0f, 0.0f, 7500.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_C.obj", 35.0f), Material("mars")))
+			->addGameComponent(new RigidBody(PxVec3(7500.0f, 0.0f, 7500.0f), PxQuat(PxIdentity), 100.0f, 35.0f))
 			);
 
 	}
@@ -397,24 +426,34 @@ private:
 	void addArea2OfMission1()
 	{
 
-		addToRoot((new GameObject("jupiterMoon1", PxVec3(1500.0f, 0.0f, 11300.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_D.obj", 75.0f), Material("moon")))
+		addToRoot((new GameObject("spaceBody", PxVec3(2800.0f, 400.0f, 33300.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_D.obj", 45.0f), Material("moon")))
+			->addGameComponent(new RigidBody(PxVec3(2800.0f, 400.0f, 33300.0f), PxQuat(PxIdentity), 100.0f, 75.0f))
 			);
 
-		addToRoot((new GameObject("jupiterMoon2", PxVec3(-900.0f, 0.0f, 9200.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_E.obj", 20.0f), Material("mars")))
+		addToRoot((new GameObject("spaceBody", PxVec3(-1900.0f, 2700.0f, 28200.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_E.obj", 10.0f), Material("mars")))
+			->addGameComponent(new RigidBody(PxVec3(-1900.0f, 2700.0f, 28200.0f), PxQuat(PxIdentity), 100.0f, 20.0f))
 			);
 
-		addToRoot((new GameObject("jupiterMoon3", PxVec3(-800.0f, 0.0f, 11500.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_F.obj", 32.0f), Material("moon")))
+		addToRoot((new GameObject("spaceBody", PxVec3(-800.0f, -1500.0f, 35500.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_F.obj", 22.0f), Material("moon")))
+			->addGameComponent(new RigidBody(PxVec3(-800.0f, -1500.0f, 35500.0f), PxQuat(PxIdentity), 100.0f, 32.0f))
 			);
 
-		addToRoot((new GameObject("jupiter", PxVec3(0.0f, 0.0f, 10000.0f)))
+		addToRoot((new GameObject("spaceBody", PxVec3(0.0f, 0.0f, 30000.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_G.obj", 200.0f), Material("jupiter")))
+			->addGameComponent(new RigidBody(PxVec3(0.0f, 0.0f, 30000.0f), PxQuat(PxIdentity), 100.0f, 200.0f))
 			);
 
-		addToRoot((new GameObject("sun", PxVec3(20000.0f, 5000.0f, 20000.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 9000.0f), Material("sun")))
+		PxVec3 positionOfSunLight(19050.0f, 0.0f, 19050.0f);
+		addToRoot((new GameObject("SunLight", positionOfSunLight, PxQuat(ToRadians(1.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
+			->addGameComponent(new SpotLight(PxVec3(1.0f, 0.71f, 0.0f), 180000.0f, Attenuation(1.0f, 1.0f, 0.0f)))
+			->addGameComponent(new QuatRotator(PxVec3(positionOfSunLight))));
+
+		addToRoot((new GameObject("spaceBody", PxVec3(50000.0f, 0.0f, 50000.0f), PxQuat(PxIdentity), PxVec3(25.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj"), Material("sun")))
+			->addGameComponent(new RigidBody(PxVec3(50000.0f, 0.0f, 50000.0f), PxQuat(PxIdentity), 100.0f, 10000.0f))
 			);
 	}
 

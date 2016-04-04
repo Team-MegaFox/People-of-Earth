@@ -213,12 +213,21 @@ void RenderingEngine::render(const GameObject& object)
 		glDepthFunc(GL_LESS);
 	}
 
-	if (m_bloomObjects.size() >= 1)
+	//if (m_bloomObjects.size() >= 1)
+	//{
+	//	for (size_t i = 0; i < m_bloomObjects.size(); i++)
+	//	{
+	//		m_bloomObjects[i]->render(*this, *m_mainCamera);
+	//	}
+	//}
+
+	if (m_bloomObject != nullptr)
 	{
-		for (size_t i = 0; i < m_bloomObjects.size(); i++)
-		{
-			m_bloomObjects[i]->render(*this, *m_mainCamera);
-		}
+		glDepthFunc(GL_LEQUAL);
+
+		m_bloomObject->render(*this, *m_mainCamera);
+
+		glDepthFunc(GL_LESS);
 	}
 
 	setVec3("inverseFilterTextureSize", PxVec3(1.0f / getTexture("displayTexture").getWidth(), 1.0f / getTexture("displayTexture").getHeight(), 0.0f));

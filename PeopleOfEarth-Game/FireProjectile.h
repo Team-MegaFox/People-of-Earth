@@ -31,7 +31,7 @@ public:
 	/// </summary>
 	FireProjectile() : 
 		m_laserMaterial("laser", 10.0f, 100, Texture("laserGreen.png")),
-		m_missileMaterial("missile", 10.0f, 100, Texture("Air Missile diffuse.jpg")){ }
+		m_missileMaterial("missile", 10.0f, 100, Texture("missileGreen.png")){ }
 	/// <summary>
 	/// Finalizes an instance of the <see cref="FireProjectile"/> class.
 	/// </summary>
@@ -129,7 +129,7 @@ private:
 	float m_delay = 0.2f;
 	Material m_laserMaterial;
 	Material m_missileMaterial;
-	PxVec3 m_missileScale = PxVec3(0.005f);
+	PxVec3 m_missileScale = PxVec3(0.0025f);
 	PxVec3 m_laserScale = PxVec3(1.0f);
 	ShipStats * m_shipStats;
 };

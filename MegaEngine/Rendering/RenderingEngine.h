@@ -67,9 +67,9 @@ public:
 	/// <param name="skybox">The skybox.</param>
 	inline void setSkybox(const Skybox& skybox) { m_skybox = &skybox; }
 
-	inline void setBloomObjects(const BloomObject& bObject) { m_bloomObjects.push_back(&bObject); }
+	inline void setBloomObject(const BloomObject& bObject) { m_bloomObject = &bObject; }
 
-	inline void removeBloomObject(int index) { m_bloomObjects.erase(m_bloomObjects.begin() + index); }
+	inline void removeBloomObject() { m_bloomObject = nullptr; }
 
 	/// <summary>
 	/// Removes a light.
@@ -217,9 +217,9 @@ private:
 	const Skybox*						m_skybox;
 
 	/// <summary>
-	/// Vector of pointers to all the bloom objects in the current scene
+	/// A pointer to the bloomObject in the current scene
 	/// </summary>
-	std::vector<const BloomObject *>			m_bloomObjects;
+	const BloomObject *				m_bloomObject;
 
 	/// <summary>
 	/// Blurs the shadow map.

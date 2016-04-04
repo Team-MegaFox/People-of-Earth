@@ -98,7 +98,7 @@ void MultiCollider::addColliderToObject(Collider* collider)
 	for (size_t i = 0; i < m_multipleCollider.size(); i++)
 	{
 		distance = (m_multipleCollider[i]->getPosition() - m_position).magnitude() + m_multipleCollider[i]->getRadiusSphere();
-		//if the current radius sphere is smaller then the specific collider disance from Multi Collider position and specific collider radius then
+		//if the current radius sphere is smaller then the specific collider distance from Multi Collider position and specific collider radius then
 		if (m_radiusSphere < distance)
 		{
 			//Update the value of the radius

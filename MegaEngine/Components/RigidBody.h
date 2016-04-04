@@ -664,11 +664,6 @@ private:
 	//glm::quat m_rotation;
 
 	/// <summary>
-	/// The zero variable
-	/// </summary>
-	PxVec3 m_zero = PxVec3(0.0f, 0.0f, 0.0f);
-
-	/// <summary>
 	/// The debug draw boolean set this to true to draw the colliders
 	/// </summary>
 	bool m_debugDraw = false;
