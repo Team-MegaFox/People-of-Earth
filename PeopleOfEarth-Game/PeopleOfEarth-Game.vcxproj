@@ -114,6 +114,7 @@
     <ClInclude Include="RogueAsteroid.h" />
     <ClInclude Include="ShipStats.h" />
     <ClInclude Include="ShowPauseComp.h" />
+    <ClInclude Include="SpaceObject.h" />
     <ClInclude Include="SteeringBehaviour.h" />
     <ClInclude Include="TextLerpAlpha.h" />
     <ClInclude Include="UpdateGUi.h" />

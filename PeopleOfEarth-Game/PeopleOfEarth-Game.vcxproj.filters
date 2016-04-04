@@ -112,6 +112,9 @@
     <ClInclude Include="MissileGUI.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="SpaceObject.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">

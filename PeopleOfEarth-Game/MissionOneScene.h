@@ -18,11 +18,10 @@
 #include "DialogueBox.h"
 #include "InGameMusic.h"
 #include "MissileGUI.h"
+#include "SpaceObject.h"
 using namespace physx;
 
-// TODO: Sounds like the one where we're replenishing at every message
 // TODO: Collision Logic for ships and space bodies
-// TODO: Missile GUI
 // TODO: Merge Particles into the develop branch
 // TODO: Create a Game Over Scene
 
@@ -115,7 +114,9 @@ public:
 		addToRoot((new GameObject("Asteroid", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
 			->addGameComponent(new MeshRenderer(Mesh("Asteroids/Asteroid_C.obj", 50.0f), Material("asteroid")))
 			->addGameComponent(new RigidBody(PxVec3(0), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), 1.0f, 1.0f))
-			->addGameComponent(new RogueAsteroid(10.0f, 0.005f)));
+			->addGameComponent(new RogueAsteroid(10.0f, 0.005f))
+			->addGameComponent(new SpaceObject())
+			);
 
 		addToRoot((new GameObject("EnemyMother", PxVec3(-1500.0f, 0.0f, 15000.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/enemy_HeavyCruiser.obj", 100.0f), Material("enemyMother")))
@@ -413,17 +414,19 @@ private:
 		addToRoot((new GameObject("spaceBody", PxVec3(1000.0f, 0.0f, 1000.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 32.0f), Material("moon")))
 			->addGameComponent(new RigidBody(PxVec3(1000.0f, 0.0f, 1000.0f), PxQuat(PxIdentity), 100.0f, 32.0f))
+			->addGameComponent(new SpaceObject())
 			);
 
 		addToRoot((new GameObject("spaceBody", PxVec3(-1000.0f, 0.0f, 0.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_B.obj", 100.0f), Material("earth")))
-
 			->addGameComponent(new RigidBody(PxVec3(-1000.0f, 0.0f, 0.0f), PxQuat(PxIdentity), 100.0f, 100.0f))
+			->addGameComponent(new SpaceObject())
 			);
 
 		addToRoot((new GameObject("spaceBody", PxVec3(7500.0f, 0.0f, 7500.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_C.obj", 35.0f), Material("mars")))
 			->addGameComponent(new RigidBody(PxVec3(7500.0f, 0.0f, 7500.0f), PxQuat(PxIdentity), 100.0f, 35.0f))
+			->addGameComponent(new SpaceObject())
 			);
 
 	}
@@ -434,21 +437,25 @@ private:
 		addToRoot((new GameObject("spaceBody", PxVec3(2800.0f, 400.0f, 33300.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_D.obj", 45.0f), Material("moon")))
 			->addGameComponent(new RigidBody(PxVec3(2800.0f, 400.0f, 33300.0f), PxQuat(PxIdentity), 100.0f, 75.0f))
+			->addGameComponent(new SpaceObject())
 			);
 
 		addToRoot((new GameObject("destinationMoon", PxVec3(-1900.0f, 2700.0f, 28200.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_E.obj", 10.0f), Material("mars")))
 			->addGameComponent(new RigidBody(PxVec3(-1900.0f, 2700.0f, 28200.0f), PxQuat(PxIdentity), 100.0f, 20.0f))
+			->addGameComponent(new SpaceObject())
 			);
 
 		addToRoot((new GameObject("spaceBody", PxVec3(-800.0f, -1500.0f, 35500.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_F.obj", 22.0f), Material("moon")))
 			->addGameComponent(new RigidBody(PxVec3(-800.0f, -1500.0f, 35500.0f), PxQuat(PxIdentity), 100.0f, 32.0f))
+			->addGameComponent(new SpaceObject())
 			);
 
 		addToRoot((new GameObject("spaceBody", PxVec3(0.0f, 0.0f, 30000.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_G.obj", 200.0f), Material("jupiter")))
 			->addGameComponent(new RigidBody(PxVec3(0.0f, 0.0f, 30000.0f), PxQuat(PxIdentity), 100.0f, 200.0f))
+			->addGameComponent(new SpaceObject())
 			);
 
 		PxVec3 positionOfSunLight(19050.0f, 0.0f, 19050.0f);
@@ -459,6 +466,7 @@ private:
 		addToRoot((new GameObject("spaceBody", PxVec3(50000.0f, 0.0f, 50000.0f), PxQuat(PxIdentity), PxVec3(25.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj"), Material("sun")))
 			->addGameComponent(new RigidBody(PxVec3(50000.0f, 0.0f, 50000.0f), PxQuat(PxIdentity), 100.0f, 10000.0f))
+			->addGameComponent(new SpaceObject())
 			);
 	}
 
