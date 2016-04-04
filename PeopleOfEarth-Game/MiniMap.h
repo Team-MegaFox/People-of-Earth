@@ -42,6 +42,18 @@ public:
 			(new GameObject(m_passengerGameObject->getName() + "_GUI"))
 			->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.1f, 0.1f), PxVec4(0.0f), "Images/minimap_graphics/passenger_ship_marker.png"))
 			);
+		//Destination Moon
+		m_destinationGameObject = getGameObjectByName("destinationMoon");
+		getParent()->addChild(
+			(new GameObject(m_destinationGameObject->getName() + "_GUI"))
+			->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.1f, 0.1f), PxVec4(0.0f), "Images/minimap_graphics/destination_marker.png"))
+			);
+		//Enemy Mother Ship
+		m_enemyMotherGameObject = getGameObjectByName("EnemyMother");
+		getParent()->addChild(
+			(new GameObject(m_enemyMotherGameObject->getName() + "_GUI"))
+			->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.1f, 0.1f), PxVec4(0.0f), "Images/minimap_graphics/enemy_mother_ship_marker.png"))
+			);
 		//Adding Enemy Fighter Ship
 		m_allEnemyGameObjects = getGameObjectsByName("enemyFighter");
 		for (size_t i = 0; i < m_allEnemyGameObjects.size(); i++)
@@ -51,7 +63,6 @@ public:
 				->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.1f, 0.1f), PxVec4(0.0f), "Images/minimap_graphics/enemy_marker.png"))
 				);
 		}
-
 		////Add child for all the GUI Components
 		//for (size_t i = 0; i < allGameObjects.size(); i++)
 		//{
@@ -95,20 +106,29 @@ public:
 			// remove reference to the passenger object
 			m_passengerGameObject = nullptr;
 		}
-		//else if (objectName == "EnemyMother1")
-		//{
-		//	// remove map marker for Enemy Mother
-		//	getParent()->removeChild(getParent()->getAllChildren()[2]);
-		//	// remove reference to the Enemy Mother object
-		//	m_enemyMotherGameObject = nullptr;
-		//}
+		else if (objectName == "EnemyMother1")
+		{
+			// remove map marker for Enemy Mother
+			getParent()->removeChild(getParent()->getAllChildren()[2]);
+			// remove reference to the Enemy Mother object
+			m_enemyMotherGameObject = nullptr;
+		}
 		else
 		{
 			for (size_t i = 1; i < m_allEnemyGameObjects.size() + 1; i++)
 			{
 				if (objectName == "enemyFighter" + std::to_string(i))
 				{
-					getParent()->removeChild(getParent()->getAllChildren()[i + 1 /* + 1 for mothership added*/]);
+					//If enemy mother ship is dead then
+					if (m_enemyMotherGameObject == nullptr)
+					{
+						getParent()->removeChild(getParent()->getAllChildren()[i + 2]);
+					}
+					//Mother ship is still alive
+					else
+					{
+						getParent()->removeChild(getParent()->getAllChildren()[i + 3]);
+					}
 					m_allEnemyGameObjects[i - 1] = nullptr;
 					m_allEnemyGameObjects.erase(m_allEnemyGameObjects.begin() + (i - 1));
 					break;
@@ -145,6 +165,24 @@ public:
 				// set the position of this game object on the map to be realted to the position of the assenger ship in the world
 				getParent()->getAllChildren()[i]->getTransform()->setPosition(*m_passengerGameObject->getTransform()->getPosition());
 				getParent()->getAllChildren()[i]->getTransform()->setRotation(*m_passengerGameObject->getTransform()->getRotation());
+				// label the passenger ship as not dead
+				dead = false;
+			}
+			// if the gameobject is the enemy mother ship
+			else if (getParent()->getAllChildren()[i]->getName() == m_destinationGameObject->getName() + "_GUI")
+			{
+				// set the position of this game object on the map to be realted to the position of the assenger ship in the world
+				getParent()->getAllChildren()[i]->getTransform()->setPosition(*m_destinationGameObject->getTransform()->getPosition());
+				getParent()->getAllChildren()[i]->getTransform()->setRotation(*m_destinationGameObject->getTransform()->getRotation());
+				// label the passenger ship as not dead
+				dead = false;
+			}
+			// if the gameobject is the enemy mother ship
+			else if (getParent()->getAllChildren()[i]->getName() == m_enemyMotherGameObject->getName() + "_GUI")
+			{
+				// set the position of this game object on the map to be realted to the position of the assenger ship in the world
+				getParent()->getAllChildren()[i]->getTransform()->setPosition(*m_enemyMotherGameObject->getTransform()->getPosition());
+				getParent()->getAllChildren()[i]->getTransform()->setRotation(*m_enemyMotherGameObject->getTransform()->getRotation());
 				// label the passenger ship as not dead
 				dead = false;
 			}
@@ -392,6 +430,7 @@ private:
 	GameObject* m_playerGameObject;
 	GameObject* m_passengerGameObject;
 	GameObject * m_enemyMotherGameObject;
+	GameObject* m_destinationGameObject;
 	std::vector<GameObject*> m_allEnemyGameObjects;
 	PxVec3 playerPosition;
 	float m_miniMapRadius;

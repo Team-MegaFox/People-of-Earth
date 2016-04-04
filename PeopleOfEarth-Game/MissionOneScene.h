@@ -190,6 +190,11 @@ private:
 			->addGUIComponent(new GUILabel(PxVec4(0.05f, 0.85f, 0.90f, 0.125f),
 			PxVec4(PxZero), ""))
 			->addGameComponent(welcomeLabel));
+
+		/*addToRoot((new GameObject("MissileGUI"))
+			->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.3f, 0.3f), PxVec4(0.0f), "Images/minimap_graphics/GUI_MiniMap.png"))
+
+			);*/
 	}
 
 	void addPassengerShip()
@@ -430,7 +435,7 @@ private:
 			->addGameComponent(new RigidBody(PxVec3(2800.0f, 400.0f, 33300.0f), PxQuat(PxIdentity), 100.0f, 75.0f))
 			);
 
-		addToRoot((new GameObject("spaceBody", PxVec3(-1900.0f, 2700.0f, 28200.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
+		addToRoot((new GameObject("destinationMoon", PxVec3(-1900.0f, 2700.0f, 28200.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_E.obj", 10.0f), Material("mars")))
 			->addGameComponent(new RigidBody(PxVec3(-1900.0f, 2700.0f, 28200.0f), PxQuat(PxIdentity), 100.0f, 20.0f))
 			);
