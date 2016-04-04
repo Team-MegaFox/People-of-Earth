@@ -22,7 +22,6 @@ using namespace physx;
 // TODO: Sounds like the one where we're replenishing at every message
 // TODO: Collision Logic for ships and space bodies
 // TODO: Missile GUI
-// TODO: Replenish Missile if they are low
 // TODO: Merge Particles into the develop branch
 // TODO: Create a Game Over Scene
 
@@ -465,5 +464,8 @@ private:
 	{
 		addToRoot((new GameObject("Recharge sound"))
 			->addGameComponent(new AudioSource("Music/sci-fi_power_up_10.WAV", AudioType::SOUND, false, 0.1f)));
+	
+		addToRoot((new GameObject("Message sound"))
+			->addGameComponent(new AudioSource("Music/sci-fi_weapon_laser_small_fun_03.WAV", AudioType::SOUND, false, 0.1f)));
 	}
 };

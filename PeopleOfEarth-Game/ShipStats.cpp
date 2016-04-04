@@ -22,6 +22,7 @@ void ShipStats::onStart()
 	m_passengerShip = getGameObjectByName("passengerShip")->getGameComponent<RigidBody>();
 	m_dialogueBox = getGameObjectByName("DialogueBox")->getGameComponent<DialogueBox>();
 	m_rechargeSound = getGameObjectByName("Recharge sound")->getGameComponent<AudioSource>();
+	m_messageReceived = getGameObjectByName("Message sound")->getGameComponent<AudioSource>();
 }
 
 void ShipStats::updateHealth(float health)
@@ -38,6 +39,11 @@ void ShipStats::updateHealth(float health)
 		if (health == -0.7f)
 		{
 			m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FF0000FF']We're taking heavy damage!! Where's our support!!", Importance::HIGH, false);
+			if (m_playMessageReceived)
+			{
+				m_messageReceived->play();
+				m_playMessageReceived = false;
+			}
 		}
 	}
 	
@@ -53,6 +59,12 @@ void ShipStats::updateHealth(float health)
 		{
 			m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFF0000']Our systems indicate your[colour='FF00FF00']HEALTH[colour='FFFF0000']\nreserves are[colour='FF0000FF']dangerously low[colour='FF0000FF']!!!", Importance::HIGH, false);
 			m_healthWarnOnce = true;
+			if (m_playMessageReceived)
+			{
+				m_messageReceived->play();
+				m_playMessageReceived = false;
+			}
+
 		}
 	}
 
@@ -64,6 +76,12 @@ void ShipStats::updateHealth(float health)
 		{
 			m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFF0000']We're not going to make survive unless\nyou can disable that[colour='FF00FF00']Mother Ship", Importance::CRITICAL, false);
 			m_warnOnce = true;
+			if (m_playMessageReceived)
+			{
+				m_messageReceived->play();
+				m_playMessageReceived = false;
+			}
+
 		}
 	}
 
@@ -73,6 +91,12 @@ void ShipStats::updateHealth(float health)
 		if (m_health <= 0.0f)
 		{
 			m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFFA500']That ought to teach him!\nWay to go Fighter 1!!", Importance::CRITICAL, false);
+			if (m_playMessageReceived)
+			{
+				m_messageReceived->play();
+				m_playMessageReceived = false;
+			}
+
 		}
 	}
 
@@ -82,6 +106,16 @@ void ShipStats::updateHealth(float health)
 		if (m_health <= 0.0f)
 		{
 			m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFFA500']That ought to teach him!\nWay to go Fighter 1!!", Importance::CRITICAL, false);
+			if (m_playMessageReceived)
+			{
+				m_messageReceived->play();
+				m_playMessageReceived = false;
+			}
+
+		}
+		else
+		{
+			m_playMessageReceived = true;
 		}
 	}
 }
@@ -100,6 +134,12 @@ void ShipStats::updateFuel(float fuel)
 		{
 			m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFF0000']Our systems indicate your[colour='FFFFFF00']FUEL[colour='FFFF0000']\n reserves are [colour='FF0000FF']dangerously low[colour='FF0000FF']!!!", Importance::HIGH, false);
 			m_fuelWarnOnce = true;
+			if (m_playMessageReceived)
+			{
+				m_messageReceived->play();
+				m_playMessageReceived = false;
+			}
+
 		}
 	}
 }
@@ -118,6 +158,12 @@ void ShipStats::updateEnergy(float energy)
 		{
 			m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFF0000']Our systems indicate your[colour='FF0000FF']ENERGY[colour='FFFF0000']\n reserves are [colour='FF0000FF']dangerously low[colour='FF0000FF']!!!", Importance::HIGH, false);
 			m_energyWarnOnce = true;
+			if (m_playMessageReceived)
+			{
+				m_messageReceived->play();
+				m_playMessageReceived = false;
+			}
+
 		}
 	}
 }
@@ -193,6 +239,7 @@ void ShipStats::update(float timestep)
 		else
 		{
 			m_playRechargeSound = true;
+			m_playMessageReceived = true;
 		}
 
 		if (m_fuel <= 0.0f)
