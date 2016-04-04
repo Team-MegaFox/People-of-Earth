@@ -89,15 +89,15 @@ public:
 			std::cout << "There is a camera component!" << std::endl;
 		}
 
-		addToRoot((new GameObject("particlesA", glm::vec3(10.0f, -10.0f, 10.0f)))
-			->addGameComponent(new ParticleSystem(Material("particleMatA"), glm::radians(25.0f), CONE, 10.0f)));
-		//addToRoot((new GameObject("particlesB", glm::vec3(0.0f, 0.0f, 0.0f)))
-		//	->addGameComponent(new ParticleSystem(Material("particleMatB"), EXPLOSION)));
+		//addToRoot((new GameObject("particlesA", glm::vec3(0.0f, 0.0f, 0.0f)))
+		//	->addGameComponent(new ParticleSystem(Material("particleMatA"), 10.0f, glm::radians(45.0f), CONE, 5.0f, 1.0f, 1000.0f)));
+		//addToRoot((new GameObject("particlesB", glm::vec3(0.0f, 0.0f, -10.0f)))
+		//	->addGameComponent(new ParticleSystem(Material("particleMatB"), EXPLOSION, 10.0f)));
 		//addToRoot((new GameObject("particlesC", glm::vec3(0.0f, 0.0f, 0.0f)))
 		//	->addGameComponent(new ParticleSystem(Material("particleMatC"), EXPLOSION)));
 
 		//addToRoot((new GameObject("particlesD", glm::vec3(0.0f, 0.0f, 0.0f)))
-		//	->addGameComponent(new ParticleSystem(Material("particleMatD"), AMBIENT, 5.0f, 1.0f)));
+		//	->addGameComponent(new ParticleSystem(Material("particleMatD"), AMBIENT)));
 
 		addToRoot((new GameObject("plane", glm::vec3(0.0f, -10.0f, 0.0f), glm::quat(), glm::vec3(100.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("plane.obj"), Material("bricks"))));
