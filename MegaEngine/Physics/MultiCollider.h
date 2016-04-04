@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 04-03-2016
+// Last Modified On : 04-04-2016
 // ***********************************************************************
 // <copyright file="MultiCollider.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -80,6 +80,13 @@ public:
 	/// <param name="collidableObjects">Collider this Multi Collider will be checking.</param>
 	/// <returns>Return bool flag to determine this Multi Collider collided with the Collider</returns>
 	virtual bool checkCollision(Collider* collidableObject) override;
+
+	/// <summary>
+	/// Check the collision with this Multi Collider with the Ray
+	/// </summary>
+	/// <param name="collidableObjects">Ray this Multi Collider will be checking.</param>
+	/// <returns>Return bool flag to determine this Multi Collider collided with the Ray</returns>
+	virtual bool checkCollision(PxVec3 rayPosition, PxVec3 rayDirection, float &timeOfCollision) override;
 
 	/// <summary>
 	/// Check the collision with the specific Collider in the Multi Collider with the other Multi Collider Object (Different Multi Collider objects).

@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 04-03-2016
+// Last Modified On : 04-04-2016
 // ***********************************************************************
 // <copyright file="MultiCollider.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -195,6 +195,36 @@ bool MultiCollider::checkCollision(Collider* collidableObject)
 		}
 	}
 	return false;
+}
+
+bool MultiCollider::checkCollision(PxVec3 rayPosition, PxVec3 rayDirection, float &timeOfCollision)
+{
+	float shortestTimeOfCollision = 9999999.0f;
+	bool collided = false;
+
+	//Check collision with the total radius collider
+	if (SphereCollider::checkCollision(rayPosition, rayDirection, timeOfCollision))
+	{
+		//Loop through all the colliders
+		for (size_t i = 0; i < m_multipleCollider.size(); i++)
+		{
+			//Check the collision with specific collider
+			if (m_multipleCollider[i]->checkCollision(rayPosition, rayDirection, timeOfCollision))
+			{
+				//Collision is true
+				collided = true;
+				//Check to see if this is the shortest distance
+				if (shortestTimeOfCollision > timeOfCollision)
+				{
+					shortestTimeOfCollision = timeOfCollision;
+				}
+			}
+		}
+	}
+	//Set the collision time (shortest distance of time)
+	timeOfCollision = shortestTimeOfCollision;
+	//Return the collision flag
+	return collided;
 }
 
 bool MultiCollider::multiMultiCollisionCheck(Collider* mulitSpecficCollider, MultiCollider* multiCollider)
