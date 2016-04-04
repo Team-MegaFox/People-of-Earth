@@ -192,7 +192,7 @@ private:
 			->addGameComponent(welcomeLabel));
 
 		addToRoot((new GameObject("MissileGUI"))
-			->addGUIComponent(new GUIImage(PxVec4(0.80f, 0.70f, 0.30f, 0.30f), PxVec4(0.0f), "Images/crosshair.png"))
+			->addGUIComponent(new GUIImage(PxVec4(0.90f, 0.925f, 0.05f, 0.05f), PxVec4(0.0f), "Images/missile.png"))
 			->addGUIComponent(new GUILabel(PxVec4(0.80f, 0.80f, 0.30f, 0.30f), PxVec4(0.0f), "10", 24))
 			->addGameComponent(new MissileGUI())
 			);

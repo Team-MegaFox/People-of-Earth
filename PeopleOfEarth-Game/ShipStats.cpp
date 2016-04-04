@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda & Jesse Derochie
 // Created          : 02-25-2016
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-30-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 04-04-2016
 // ***********************************************************************
 // <copyright file="ShipStats.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
