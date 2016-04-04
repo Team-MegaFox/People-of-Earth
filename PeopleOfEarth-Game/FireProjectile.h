@@ -19,6 +19,7 @@
 #include "Projectile.h"
 #include "MissileAI.h"
 #include <PhysX/PxPhysicsAPI.h>
+#include "DialogueBox.h"
 using namespace physx;
 
 class FireProjectile : public GameComponent
@@ -43,6 +44,8 @@ public:
 	virtual void onStart() override
 	{
 		m_shipStats = getGameObjectByName("player")->getGameComponent<ShipStats>();
+		m_dialogueBox = getGameObjectByName("DialogueBox")->getGameComponent<DialogueBox>();
+
 	}
 
 	/// <summary>
@@ -120,6 +123,11 @@ public:
 				m_delay += delta;
 			}
 		}
+
+		if (m_missileCount <= 0)
+		{
+			m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFF0000']Our systems indicate your[colour='FF00FF00']MISSILE[colour='FFFF0000']\nreserves are[colour='FF0000FF']dangerously empty[colour='FF0000FF']!!!", Importance::HIGH, false);
+		}
 	}
 
 private:
@@ -132,4 +140,7 @@ private:
 	PxVec3 m_missileScale = PxVec3(0.0025f);
 	PxVec3 m_laserScale = PxVec3(1.0f);
 	ShipStats * m_shipStats;
+	DialogueBox * m_dialogueBox;
+	int m_missileCount = 10;
+
 };

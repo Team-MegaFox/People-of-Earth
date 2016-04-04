@@ -102,4 +102,3 @@ void BloomObjectRenderer::addToEngine(CoreEngine* engine) const
 {
 	engine->getRenderingEngine()->setBloomObject(m_bloomObject);
 }
-
