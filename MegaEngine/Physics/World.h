@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 03-07-2016
+// Last Modified On : 04-04-2016
 // ***********************************************************************
 // <copyright file="World.h" company="">
 //     Copyright (c) . All rights reserved.
@@ -141,5 +141,10 @@ private:
 	/// The collision delay check.
 	/// </summary>
 	float m_delayCollisionCheck;
+
+	/// <summary>
+	/// The collision delay.
+	/// </summary>
+	const float DELAY = 0.5f;
 };
 

@@ -304,12 +304,16 @@ public:
 			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 			glBegin(GL_LINES);
 
+			float divider = 3.0f; //Value to make less vertex or more vertex
+			float maxValue = 180.0f / divider;
+			float increment = 180.0f / maxValue;
+
 			if (m_sphereCollider != nullptr)
 			{
 				//Draw the sphere collider
-				for (float height = 0.0f; height < 180.0f; height += 1.0f)
+				for (float height = 0.0f; height < maxValue; height += increment)
 				{
-					for (float theta = 0.0f; theta < 180.0f; theta += 1.0f)
+					for (float theta = 0.0f; theta < maxValue; theta += increment)
 					{
 						glPushMatrix();
 						glVertex3f(

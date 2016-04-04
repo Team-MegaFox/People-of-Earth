@@ -251,7 +251,7 @@ void ShipStats::update(float timestep)
 
 	if (m_health <= 0.0f)
 	{
-		if (getParent()->getName() != "player1")
+		if (getParent()->getName() != "player1" && getParent()->getName() != "passengerShip")
 		{
 			//Remove gameobject from the minimap
 			MiniMap * map;

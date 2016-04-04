@@ -3,7 +3,7 @@
 // Created          : 02-23-2016
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 03-24-2016
+// Last Modified On : 04-04-2016
 // ***********************************************************************
 // <copyright file="EnemyFighterShipAI.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -119,6 +119,7 @@ public:
 		}
 		else
 		{
+			Evade(*m_passengerShip, timestep);
 			Wander(timestep);
 		}
 

@@ -34,7 +34,8 @@ public:
 		{
 			if (m_rigidBody->getCollider()->checkCollision(m_playerFighterShipRigidBody->getCollider()))
 			{
-				getGameObjectByName("player")->getGameComponent<ShipStats>()->setHealth(0.0f);
+				//getGameObjectByName("player")->getGameComponent<ShipStats>()->setHealth(0.0f);
+				printf("Collision\n");
 			}
 		}
 	}

@@ -37,7 +37,7 @@ public:
 			missileText->setText(std::to_string(m_playerFireProjectile->getMissileCount()));
 			if (m_playerFireProjectile->getMissileCount() == 0)
 			{
-				m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFF0000']Our systems indicate your[colour='FF00FF00']MISSILE[colour='FFFF0000']\nreserves are[colour='FF0000FF']dangerously empty[colour='FF0000FF']!!!", Importance::HIGH, false);
+				m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFF0000']Our systems indicate your[colour='FF00FF00']MISSILE[colour='FFFF0000']\nreserves are[colour='FF0000FF']dangerously empty[colour='FF0000FF']!!!", Importance::MEDIUM, false);
 			}
 		}
 	}

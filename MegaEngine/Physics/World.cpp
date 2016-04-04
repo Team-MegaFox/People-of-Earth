@@ -3,7 +3,7 @@
 // Created          : 09-15-2015
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 03-07-2016
+// Last Modified On : 04-04-2016
 // ***********************************************************************
 // <copyright file="World.h" company="">
 //     Copyright (c) . All rights reserved.
@@ -34,7 +34,7 @@ void World::init(PxVec3 position, float radius)
 
 void World::update(float timeStep)
 {
-	if (m_delayCollisionCheck > 1.0f)
+	if (m_delayCollisionCheck > DELAY)
 	{
 		//Update all the collision
 		for (size_t i = 0; i < colliders.size(); i++)
@@ -52,7 +52,7 @@ void World::update(float timeStep)
 				}
 			}
 		}
-		m_delayCollisionCheck -= 1.0f;
+		m_delayCollisionCheck -= DELAY;
 	}
 	else
 	{

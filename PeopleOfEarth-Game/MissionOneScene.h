@@ -59,8 +59,8 @@ public:
 
 
 		addToRoot((new GameObject("Skybox"))
-			->addGameComponent(new SkyboxRenderer("Skybox/Starfield/starfield.tga")));
-			//->addGameComponent(new SkyboxRenderer("Skybox/sky/sky.jpg")));
+			//->addGameComponent(new SkyboxRenderer("Skybox/Starfield/starfield.tga")));
+			->addGameComponent(new SkyboxRenderer("Skybox/sky/sky.jpg")));
 
 		GameObject * starBoardLight_Fighter = new GameObject("starBoardLight_Fighter", PxVec3(7.0f, 1.0f, -3.5f));
 		starBoardLight_Fighter->addGameComponent(new PointLight(PxVec3(0.0f, 1.0f, 0.0f), 0.5f));
@@ -413,19 +413,19 @@ private:
 		//// Planets and Moons
 		addToRoot((new GameObject("spaceBody", PxVec3(1000.0f, 0.0f, 1000.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 32.0f), Material("moon")))
-			->addGameComponent(new RigidBody(PxVec3(1000.0f, 0.0f, 1000.0f), PxQuat(PxIdentity), 100.0f, 32.0f))
+			->addGameComponent(new RigidBody(PxVec3(1000.0f, 0.0f, 1000.0f), PxQuat(PxIdentity), 100.0f, 96.0f))
 			->addGameComponent(new SpaceObject())
 			);
 
 		addToRoot((new GameObject("spaceBody", PxVec3(-1000.0f, 0.0f, 0.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_B.obj", 100.0f), Material("earth")))
-			->addGameComponent(new RigidBody(PxVec3(-1000.0f, 0.0f, 0.0f), PxQuat(PxIdentity), 100.0f, 100.0f))
+			->addGameComponent(new RigidBody(PxVec3(-1000.0f, 0.0f, 0.0f), PxQuat(PxIdentity), 100.0f, 550.0f))
 			->addGameComponent(new SpaceObject())
 			);
 
 		addToRoot((new GameObject("spaceBody", PxVec3(7500.0f, 0.0f, 7500.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_C.obj", 35.0f), Material("mars")))
-			->addGameComponent(new RigidBody(PxVec3(7500.0f, 0.0f, 7500.0f), PxQuat(PxIdentity), 100.0f, 35.0f))
+			->addGameComponent(new RigidBody(PxVec3(7500.0f, 0.0f, 7500.0f), PxQuat(PxIdentity), 100.0f, 150.0f))
 			->addGameComponent(new SpaceObject())
 			);
 
@@ -433,12 +433,15 @@ private:
 
 	void addArea2OfMission1()
 	{
-
 		addToRoot((new GameObject("spaceBody", PxVec3(2800.0f, 400.0f, 33300.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_D.obj", 45.0f), Material("moon")))
-			->addGameComponent(new RigidBody(PxVec3(2800.0f, 400.0f, 33300.0f), PxQuat(PxIdentity), 100.0f, 75.0f))
+			->addGameComponent(new RigidBody(PxVec3(2800.0f, 400.0f, 33300.0f), PxQuat(PxIdentity), 100.0f, 150.0f))
 			->addGameComponent(new SpaceObject())
 			);
+
+		//TODO: for setting planet rigid body
+		//RigidBody* spaceBodyRB = new RigidBody(PxVec3(500.0f, 0.0f, 500.0f), PxQuat(PxIdentity), 100.0f, 150.0);
+		//spaceBodyRB->setDebugDraw(true);
 
 		addToRoot((new GameObject("destinationMoon", PxVec3(-1900.0f, 2700.0f, 28200.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_E.obj", 10.0f), Material("mars")))
