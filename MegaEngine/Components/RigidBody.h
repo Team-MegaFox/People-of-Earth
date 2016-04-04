@@ -325,27 +325,42 @@ public:
 				//Draw the polygon collider
 				glPushMatrix();
 
-				PxVec3 dirVector = PxVec3(Utility::getRight(m_polyCollider->getRotation()).x, Utility::getUp(m_polyCollider->getRotation()).y, Utility::getForward(m_polyCollider->getRotation()).z);
+				PxVec3 rightVector = Utility::getRight(m_polyCollider->getRotation());
+				PxVec3 upVector = Utility::getUp(m_polyCollider->getRotation());
+				PxVec3 forwardVector = Utility::getForward(m_polyCollider->getRotation());
+				
+				PxVec3 topFarRightCorner = rightVector * m_polyCollider->getHalfWidth() + upVector * m_polyCollider->getHalfHeight() + forwardVector * m_polyCollider->getHalfDepth();
+				PxVec3 BottomFarRightCorner = rightVector * m_polyCollider->getHalfWidth() + -upVector * m_polyCollider->getHalfHeight() + forwardVector * m_polyCollider->getHalfDepth();
+				
+				PxVec3 topCloseRightCorner = rightVector * m_polyCollider->getHalfWidth() + upVector * m_polyCollider->getHalfHeight() + -forwardVector * m_polyCollider->getHalfDepth();
+				PxVec3 bottomCloseRightCorner = rightVector * m_polyCollider->getHalfWidth() + -upVector * m_polyCollider->getHalfHeight() + -forwardVector * m_polyCollider->getHalfDepth();
+
+				PxVec3 topCloseLeftCorner = -rightVector * m_polyCollider->getHalfWidth() + upVector * m_polyCollider->getHalfHeight() + -forwardVector * m_polyCollider->getHalfDepth();
+				PxVec3 bottomCloseLeftCorner = -rightVector * m_polyCollider->getHalfWidth() + -upVector * m_polyCollider->getHalfHeight() + -forwardVector * m_polyCollider->getHalfDepth();
+
+				PxVec3 topFarLeftCorner = -rightVector * m_polyCollider->getHalfWidth() + upVector * m_polyCollider->getHalfHeight() + forwardVector * m_polyCollider->getHalfDepth();
+				PxVec3 bottomFarLeftCorner = -rightVector * m_polyCollider->getHalfWidth() + -upVector * m_polyCollider->getHalfHeight() + forwardVector * m_polyCollider->getHalfDepth();
+
 
 				//Top Far Right
-				glVertex3f(dirVector.x * m_polyCollider->getHalfWidth(), dirVector.y * m_polyCollider->getHalfHeight(), dirVector.z * m_polyCollider->getHalfDepth());
+				glVertex3f(topFarRightCorner.x, topFarRightCorner.y, topFarRightCorner.z);
 				//Bottom Far Right
-				glVertex3f(dirVector.x * m_polyCollider->getHalfWidth(), -dirVector.y * m_polyCollider->getHalfHeight(), dirVector.z * m_polyCollider->getHalfDepth());
+				glVertex3f(BottomFarRightCorner.x, BottomFarRightCorner.y, BottomFarRightCorner.z);
 
 				//Top Close Right
-				glVertex3f(dirVector.x * m_polyCollider->getHalfWidth(), dirVector.y * m_polyCollider->getHalfHeight(), -dirVector.z * m_polyCollider->getHalfDepth());
+				glVertex3f(topCloseRightCorner.x, topCloseRightCorner.y, topCloseRightCorner.z);
 				//Bottom Close Right
-				glVertex3f(dirVector.x * m_polyCollider->getHalfWidth(), -dirVector.y * m_polyCollider->getHalfHeight(), -dirVector.z * m_polyCollider->getHalfDepth());
+				glVertex3f(bottomCloseRightCorner.x, bottomCloseRightCorner.y, bottomCloseRightCorner.z);
 
 				//Top Close Left
-				glVertex3f(-dirVector.x * m_polyCollider->getHalfWidth(), dirVector.y * m_polyCollider->getHalfHeight(), -dirVector.z * m_polyCollider->getHalfDepth());
+				glVertex3f(topCloseLeftCorner.x, topCloseLeftCorner.y, topCloseLeftCorner.z);
 				//Bottom Close Left
-				glVertex3f(-dirVector.x * m_polyCollider->getHalfWidth(), -dirVector.y * m_polyCollider->getHalfHeight(), -dirVector.z * m_polyCollider->getHalfDepth());
+				glVertex3f(bottomCloseLeftCorner.x, bottomCloseLeftCorner.y, bottomCloseLeftCorner.z);
 
 				//Top Far Left
-				glVertex3f(-dirVector.x * m_polyCollider->getHalfWidth(), dirVector.y * m_polyCollider->getHalfHeight(), dirVector.z * m_polyCollider->getHalfDepth());
+				glVertex3f(topFarLeftCorner.x, topFarLeftCorner.y, topFarLeftCorner.z);
 				//Bottom Far Left
-				glVertex3f(-dirVector.x * m_polyCollider->getHalfWidth(), -dirVector.y * m_polyCollider->getHalfHeight(), dirVector.z * m_polyCollider->getHalfDepth());
+				glVertex3f(bottomFarLeftCorner.x, bottomFarLeftCorner.y, bottomFarLeftCorner.z);
 
 				/*glVertex3f(m_polyCollider->getHalfWidth(), m_polyCollider->getHalfHeight(), m_polyCollider->getHalfDepth());
 				glVertex3f(m_polyCollider->getHalfWidth(), -m_polyCollider->getHalfHeight(), m_polyCollider->getHalfDepth());

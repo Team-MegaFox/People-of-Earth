@@ -61,8 +61,8 @@ public:
 
 
 		addToRoot((new GameObject("Skybox"))
-			->addGameComponent(new SkyboxRenderer("Skybox/Starfield/starfield.tga")));
-			//->addGameComponent(new SkyboxRenderer("Skybox/sky/sky.jpg")));
+			//->addGameComponent(new SkyboxRenderer("Skybox/Starfield/starfield.tga")));
+			->addGameComponent(new SkyboxRenderer("Skybox/sky/sky.jpg")));
 
 		GameObject * starBoardLight_Fighter = new GameObject("starBoardLight_Fighter", PxVec3(7.0f, 1.0f, -3.5f));
 		starBoardLight_Fighter->addGameComponent(new PointLight(PxVec3(0.0f, 1.0f, 0.0f), 0.5f));
@@ -132,7 +132,7 @@ public:
 
 		addArea1OfMission1();
 
-		addArea2OfMission1();
+		//addArea2OfMission1();
 
 		addGUI();
 
@@ -346,6 +346,20 @@ private:
 
 	void addArea1OfMission1()
 	{
+		RigidBody* enemyRB = new RigidBody(PxVec3(0.0f, -5.0f, 60.0f), PxQuat(PxIdentity), 1.0f, 10.0f, 10.0f, 25.0f);
+		enemyRB->setDebugDraw(true);
+		// the alien fighter ship
+		addToRoot((new GameObject("enemyFighter", PxVec3(20.0f, 0.0f, 1000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
+			->addGameComponent(enemyRB)
+			->addGameComponent(new ShipStats)
+			);
+
+
+
+
+
+
 		// the alien fighter ship
 		addToRoot((new GameObject("enemyFighter", PxVec3(20.0f, 0.0f, 1000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
