@@ -290,7 +290,7 @@ public:
 	/// <param name="lifeTime">The life time.</param>
 	/// <param name="maxParticles">The maximum particles.</param>
 	/// <param name="spawnRate">The spawn rate.</param>
-	ConeEmitter(glm::vec3& endPoint, float radius, float lifeTime, int maxParticles = 10000.0f, float spawnRate = 5.0f);
+	ConeEmitter(float lifeTime, float angle = glm::radians(25.0f), float radius = 1.0f, int maxParticles = 10000.0f, float spawnRate = 5.0f);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="ConeEmitter"/> class.
 	/// </summary>
@@ -308,7 +308,7 @@ protected:
 	/// The end point that this particle will move towards
 	/// the tip of the cone
 	/// </summary>
-	glm::vec3 m_endPoint;
+	float m_angle;
 	/// <summary>
 	/// The radius of the base of the cone
 	/// </summary>
@@ -330,7 +330,7 @@ public:
 	/// <param name="lifeTime">The life time.</param>
 	/// <param name="maxParticles">The maximum particles.</param>
 	/// <param name="spawnRate">The spawn rate.</param>
-	RayEmitter(glm::vec3& endPoint, float lifeTime, int maxParticles = 10000.0f, float spawnRate = 5.0f);
+	RayEmitter(float lifeTime, float distance = 5.0f, int maxParticles = 10000.0f, float spawnRate = 5.0f);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="RayEmitter"/> class.
 	/// </summary>
@@ -343,7 +343,7 @@ public:
 	virtual void updateParticles(float deltaTime) override;
 
 protected:
-	glm::vec3 m_endPoint;
+	float m_distance;
 };
 
 /// <summary>
@@ -367,7 +367,7 @@ public:
 	ParticleSystem(Material material, EmitterType eType = EmitterType::AMBIENT, float lifeTime = 4.0f, float spawnRate = 5.0f, int maxParticles = 10000.0f);
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ParticleSystem"/> class.
-	/// Only use with ConeEmitter, RayEmitter
+	/// Only use with RayEmitter
 	/// </summary>
 	/// <param name="material">The material.</param>
 	/// <param name="endPoint">The end point.</param>
@@ -377,7 +377,20 @@ public:
 	/// <param name="lifeTime">The life time.</param>
 	/// <param name="spawnRate">The spawn rate.</param>
 	/// <param name="maxParticles">The maximum particles.</param>
-	ParticleSystem(Material material, glm::vec3 & endPoint, EmitterType eType = EmitterType::CONE, float radius = 1.0f, float lifeTime = 1.0f, float spawnRate = 10.0f, int maxParticles = 10000.0f);
+	ParticleSystem(Material material, float distance, float radius, EmitterType eType = EmitterType::RAY, float lifeTime = 1.0f, float spawnRate = 10.0f, int maxParticles = 10000.0f);
+	/// <summary>
+	/// Initializes a new instance of the <see cref="ParticleSystem"/> class.
+	/// Only use with ConeEmitter
+	/// </summary>
+	/// <param name="material">The material.</param>
+	/// <param name="endPoint">The end point.</param>
+	/// <param name="eType">Type of the e.</param>
+	/// <param name="angle">The angle.</param>
+	/// <param name="radius">The radius.</param>
+	/// <param name="lifeTime">The life time.</param>
+	/// <param name="spawnRate">The spawn rate.</param>
+	/// <param name="maxParticles">The maximum particles.</param>
+	ParticleSystem(Material material, float angle = glm::radians(25.0f), EmitterType eType = EmitterType::CONE, float radius = 1.0f, float lifeTime = 1.0f, float spawnRate = 100.0f, int maxParticles = 10000.0f);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="ParticleSystem"/> class.
 	/// </summary>

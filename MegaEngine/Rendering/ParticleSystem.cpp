@@ -16,6 +16,9 @@
 #include <glew\glew.h>
 #include <glm\gtx\norm.hpp>
 #include <algorithm>
+#include <time.h>
+#include <functional>
+#include <chrono>
 #include <random>
 #include "..\Core\CoreEngine.h"
 #include "Camera3D.h"
@@ -26,9 +29,9 @@
 ParticleEmitter::ParticleEmitter(bool updateEmitter /*= true*/, float maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/, float lifeTime /*= 5.0f*/) :
 m_updateEmitter(updateEmitter), m_maxParticles(maxParticles), m_spawnRate(spawnRate), m_lifeTime(lifeTime)
 {
-	m_particles.resize(m_maxParticles, Particle());
-	m_positionData.resize(m_maxParticles);
-	m_colourData.resize(m_maxParticles);
+	m_particles.resize(maxParticles, Particle());
+	m_positionData.resize(maxParticles);
+	m_colourData.resize(maxParticles);
 
 	glGenVertexArrays(1, &m_vertexArrayObject);
 	glBindVertexArray(m_vertexArrayObject);
@@ -59,12 +62,6 @@ void ParticleEmitter::update(float deltaTime)
 {
 	if (m_updateEmitter)
 	{
-		for (int i = 0; i < (int)(deltaTime * 100.0); i++)
-		{
-			int particleIndex = findUnusedParticle();
-			m_particles[particleIndex].life = m_lifeTime;
-		}
-
 		updateParticles(deltaTime);
 
 		m_particleCount = 0;
@@ -81,7 +78,7 @@ void ParticleEmitter::update(float deltaTime)
 				if (p->life > 0.0f)
 				{
 					// Simulate simple physics : gravity only, no collisions
-					p->speed += glm::vec3(0.0f, 0.0f, 0.0f) * deltaTime * 0.5f;
+					//p->speed += glm::vec3(0.0f, 0.0f, 0.0f) * deltaTime * 0.5f;
 					p->pos += p->speed * deltaTime;
 					//p->cameraDistance = glm::length2(p->pos - CameraPosition);
 					//ParticlesContainer[i].pos += glm::vec3(0.0f,10.0f, 0.0f) * (float)delta;
@@ -101,12 +98,13 @@ void ParticleEmitter::update(float deltaTime)
 
 void ParticleEmitter::render(const Camera3D & camera)
 {
-	glDepthMask(GL_FALSE);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glDepthMask(GL_FALSE);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	m_updateEmitter = true;
 
+	sortParticles();
 	for (size_t i = 0; i < m_particles.size(); i++)
 	{
 		Particle* p = &m_particles[i];
@@ -168,9 +166,9 @@ void ParticleEmitter::render(const Camera3D & camera)
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
 
-	glDepthMask(GL_TRUE);
-	glBlendFunc(GL_ONE, GL_ONE);
-	glDisable(GL_BLEND);
+	//glDepthMask(GL_TRUE);
+	//glBlendFunc(GL_ONE, GL_ONE);
+	//glDisable(GL_BLEND);
 }
 
 int ParticleEmitter::findUnusedParticle()
@@ -259,64 +257,31 @@ ExplosionEmitter::~ExplosionEmitter()
 
 void ExplosionEmitter::updateParticles(float deltaTime)
 {
-	if (m_updateEmitter)
+	if (!m_runOnce)
 	{
-		if (!m_runOnce)
+		if (m_timesThrough >= 250.0f)
 		{
-			if (m_timesThrough >= 250.0f)
-			{
-				m_runOnce = true;
-			}
-
-			for (int i = 0; i < (int)(deltaTime * 100.0); i++)
-			{
-				int particleIndex = findUnusedParticle();
-				m_particles[particleIndex].life = m_lifeTime;
-				m_particles[particleIndex].pos = glm::vec3(0.0f, 0.0f, 0.0f);
-
-				float spread = 1.5f;
-				glm::vec3 randomdir = glm::vec3(
-					(rand() % 2000 - 1000.0f) / 1000.0f,
-					(rand() % 2000 - 1000.0f) / 1000.0f,
-					(rand() % 2000 - 1000.0f) / 1000.0f
-					);
-
-				m_particles[particleIndex].speed = randomdir * spread;
-
-				m_particles[particleIndex].size = (rand() % ((int)(0.9f * 2000.0f))) / 2000.0f + 0.1f;
-
-			}
+			m_runOnce = true;
 		}
 
-		m_particleCount = 0;
-		for (size_t i = 0; i < m_particles.size(); i++)
+		for (int i = 0; i < (int)(deltaTime * 100.0); i++)
 		{
-			//m_positionData[i] = glm::vec4(0.0f);
-			//m_colourData[i] = glm::vec4(0.0f);
-			Particle* p = &m_particles[i];
+			int particleIndex = findUnusedParticle();
+			m_particles[particleIndex].life = m_lifeTime;
+			m_particles[particleIndex].pos = glm::vec3(0.0f, 0.0f, 0.0f);
 
-			if (p->life > 0.0f)
-			{
-				// Decrease life
-				p->life -= deltaTime;
-				if (p->life > 0.0f)
-				{
-					// Simulate simple physics : gravity only, no collisions
-					p->speed += glm::vec3(0.0f, 0.0f, 0.0f) * deltaTime * 0.5f;
-					p->pos += p->speed * 5.0f * deltaTime;
-					//p->cameraDistance = glm::length2(p->pos - CameraPosition);
-					//ParticlesContainer[i].pos += glm::vec3(0.0f,10.0f, 0.0f) * (float)delta;
+			float spread = 1.5f;
+			glm::vec3 randomdir = glm::vec3(
+				(rand() % 2000 - 1000.0f) / 1000.0f,
+				(rand() % 2000 - 1000.0f) / 1000.0f,
+				(rand() % 2000 - 1000.0f) / 1000.0f
+				);
 
-					m_positionData[i] = glm::vec4(p->pos, p->size);
-					m_colourData[i] = p->colour;
-				}
+			m_particles[particleIndex].speed = randomdir * spread;
 
-				m_particleCount++;
+			m_particles[particleIndex].size = (rand() % ((int)(0.9f * 2000.0f))) / 2000.0f + 0.1f;
 
-			}
 		}
-
-		m_updateEmitter = false;
 	}
 	m_timesThrough++;
 }
@@ -335,65 +300,32 @@ FountainEmitter::~FountainEmitter()
 
 void FountainEmitter::updateParticles(float deltaTime)
 {
-	if (m_updateEmitter)
+	int newparticles = (int)(deltaTime * 100.0);
+
+	for (int i = 0; i < newparticles; i++)
 	{
-		int newparticles = (int)(deltaTime * 100.0);
+		int particleIndex = findUnusedParticle();
+		m_particles[particleIndex].life = m_lifeTime;
+		m_particles[particleIndex].pos = glm::vec3(0.0f, 0.0f, 0.0f);
 
-		for (int i = 0; i < newparticles; i++)
-		{
-			int particleIndex = findUnusedParticle();
-			m_particles[particleIndex].life = m_lifeTime;
-			m_particles[particleIndex].pos = glm::vec3(0.0f, 0.0f, 0.0f);
+		float spread = 1.5f;
+		glm::vec3 maindir = glm::vec3(0.0f, 0.0f, -10.0f);
+		glm::vec3 randomdir = glm::vec3(
+			(rand() % 2000 - 1000.0f) / 1000.0f,
+			(rand() % 2000 - 1000.0f) / 1000.0f,
+			(rand() % 2000 - 1000.0f) / 1000.0f
+			);
 
-			float spread = 1.5f;
-			glm::vec3 maindir = glm::vec3(0.0f, 0.0f, -10.0f);
-			glm::vec3 randomdir = glm::vec3(
-				(rand() % 2000 - 1000.0f) / 1000.0f,
-				(rand() % 2000 - 1000.0f) / 1000.0f,
-				(rand() % 2000 - 1000.0f) / 1000.0f
-				);
+		m_particles[particleIndex].speed = maindir + randomdir*spread;
 
-			m_particles[particleIndex].speed = maindir + randomdir*spread;
-
-		}
-
-		m_particleCount = 0;
-		for (size_t i = 0; i < m_particles.size(); i++)
-		{
-			//m_positionData[i] = glm::vec4(0.0f);
-			//m_colourData[i] = glm::vec4(0.0f);
-			Particle* p = &m_particles[i];
-
-			if (p->life > 0.0f)
-			{
-				// Decrease life
-				p->life -= deltaTime;
-				if (p->life > 0.0f)
-				{
-					// Simulate simple physics : gravity only, no collisions
-					p->speed += glm::vec3(0.0f, 0.0f, 0.0f) * deltaTime * 0.5f;
-					p->pos += p->speed * deltaTime;
-					//p->cameraDistance = glm::length2(p->pos - CameraPosition);
-					//ParticlesContainer[i].pos += glm::vec3(0.0f,10.0f, 0.0f) * (float)delta;
-
-					m_positionData[i] = glm::vec4(p->pos, p->size);
-					m_colourData[i] = p->colour;
-				}
-
-				m_particleCount++;
-
-			}
-		}
-
-		m_updateEmitter = false;
 	}
 }
 
 
 // Cone Emitter Constructors and Methods
 
-ConeEmitter::ConeEmitter(glm::vec3 & endPoint, float radius, float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/) :
-ParticleEmitter(true, maxParticles, spawnRate, lifeTime), m_radius(radius), m_endPoint(endPoint)
+ConeEmitter::ConeEmitter(float lifeTime, float angle /*= glm::radians(25.0f)*/, float radius /*= 1.0f*/, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/) :
+ParticleEmitter(true, maxParticles, spawnRate, lifeTime), m_angle(angle), m_radius(radius)
 {
 }
 
@@ -403,63 +335,33 @@ ConeEmitter::~ConeEmitter()
 
 void ConeEmitter::updateParticles(float deltaTime)
 {
-	if (m_updateEmitter)
+	for (int i = 0; i < (int)(deltaTime * m_spawnRate); i++)
 	{
-		int newparticles = 360;
+		int particleIndex = findUnusedParticle();
+		m_particles[particleIndex].life = m_lifeTime;
 
-		for (int i = 0; i < newparticles; i++)
-		{
-			int particleIndex = findUnusedParticle();
-			m_particles[particleIndex].life = m_lifeTime;
+		// pick a random location inside the base circle
+		float twopi = glm::two_pi<float>();
+		auto angleRand = std::bind(std::uniform_real_distribution<float>(0.0f, glm::two_pi<float>()),
+			std::mt19937(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
+		auto radiusRand = std::bind(std::uniform_real_distribution<float>(0.0f, 1.0f),
+			std::mt19937(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
+		m_particles[particleIndex].pos = glm::vec3(radiusRand() * m_radius * cosf(angleRand()), 0.0f, radiusRand() * m_radius * sinf(angleRand()));
 
-			// pick a location along the circumference of a circle
-			m_particles[particleIndex].pos = glm::vec3(m_radius * cos(i), m_radius * sin(i), 0.0f);
+		//MATH HELP
+		glm::vec3 direction = glm::vec3(cosf(m_angle), sinf(m_angle), 0.0f) - m_particles[particleIndex].pos;
 
-			// move towards the cone's end point
-			glm::vec3 direction = m_endPoint - m_particles[particleIndex].pos;
+		m_particles[particleIndex].speed = glm::vec3(0.0f, 1.0f, 0.0f) * 10.0f;
 
-			m_particles[particleIndex].speed = direction;
+		m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
 
-			m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
-
-		}
-
-		m_particleCount = 0;
-		for (size_t i = 0; i < m_particles.size(); i++)
-		{
-			//m_positionData[i] = glm::vec4(0.0f);
-			//m_colourData[i] = glm::vec4(0.0f);
-			Particle* p = &m_particles[i];
-
-			if (p->life > 0.0f)
-			{
-				// Decrease life
-				p->life -= deltaTime;
-				if (p->life > 0.0f)
-				{
-					// Simulate simple physics : gravity only, no collisions
-					p->speed += glm::vec3(0.0f, 0.0f, 0.0f) * deltaTime * 0.5f;
-					p->pos += p->speed * deltaTime;
-					//p->cameraDistance = glm::length2(p->pos - CameraPosition);
-					//ParticlesContainer[i].pos += glm::vec3(0.0f,10.0f, 0.0f) * (float)delta;
-
-					m_positionData[i] = glm::vec4(p->pos, p->size);
-					m_colourData[i] = p->colour;
-				}
-
-				m_particleCount++;
-
-			}
-		}
-
-		m_updateEmitter = false;
 	}
 }
 
 // Ray Emitter Constructors and Methods
 
-RayEmitter::RayEmitter(glm::vec3 & endPoint, float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/) : 
-ParticleEmitter(true, maxParticles, spawnRate, lifeTime), m_endPoint(endPoint)
+RayEmitter::RayEmitter(float lifeTime, float distance /*= 5.0f*/, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/) :
+ParticleEmitter(true, maxParticles, spawnRate, lifeTime), m_distance(distance)
 {
 }
 
@@ -469,53 +371,20 @@ RayEmitter::~RayEmitter()
 
 void RayEmitter::updateParticles(float deltaTime)
 {
-	if (m_updateEmitter)
+	for (int i = 0; i < (int)(deltaTime * 100.0); i++)
 	{
+		int particleIndex = findUnusedParticle();
+		m_particles[particleIndex].life = m_lifeTime;
+		m_particles[particleIndex].pos = glm::vec3(0.0f, 0.0f, 0.0f);
 
-		for (int i = 0; i < (int)(deltaTime * 100.0); i++)
-		{
-			int particleIndex = findUnusedParticle();
-			m_particles[particleIndex].life = m_lifeTime;
-			m_particles[particleIndex].pos = glm::vec3(0.0f, 0.0f, 0.0f);
+		//FIX
+		glm::vec3 direction = m_particles[particleIndex].pos;
 
-			glm::vec3 direction = m_endPoint - m_particles[particleIndex].pos;
+		float spread = 1.5f;
+		m_particles[particleIndex].speed = direction * spread;
 
-			float spread = 1.5f;
-			m_particles[particleIndex].speed = direction * spread;
+		m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
 
-			m_particles[particleIndex].size = 1.0f/*(rand() % 1000) / 2000.0f + 0.1f*/;
-
-		}
-
-		m_particleCount = 0;
-		for (size_t i = 0; i < m_particles.size(); i++)
-		{
-			//m_positionData[i] = glm::vec4(0.0f);
-			//m_colourData[i] = glm::vec4(0.0f);
-			Particle* p = &m_particles[i];
-
-			if (p->life > 0.0f)
-			{
-				// Decrease life
-				p->life -= deltaTime;
-				if (p->life > 0.0f)
-				{
-					// Simulate simple physics : gravity only, no collisions
-					p->speed += glm::vec3(0.0f, 0.0f, 0.0f) * deltaTime * 0.5f;
-					p->pos += p->speed * deltaTime;
-					//p->cameraDistance = glm::length2(p->pos - CameraPosition);
-					//ParticlesContainer[i].pos += glm::vec3(0.0f,10.0f, 0.0f) * (float)delta;
-
-					m_positionData[i] = glm::vec4(p->pos, p->size);
-					m_colourData[i] = p->colour;
-				}
-
-				m_particleCount++;
-
-			}
-		}
-
-		m_updateEmitter = false;
 	}
 }
 
@@ -550,9 +419,9 @@ m_emitterType(eType)
 
 ParticleSystem::ParticleSystem(
 	Material material, 
-	glm::vec3 & endPoint, 
-	EmitterType eType/* = EmitterType::CONE */, 
-	float radius/* = 1.0f */,
+	float distance,
+	float radius,
+	EmitterType eType/* = EmitterType::RAY */,
 	float lifeTime/* = 1.0f*/, 
 	float spawnRate/* = 5.0f */, 
 	int maxParticles/* = 10000.0f */) :
@@ -561,11 +430,30 @@ m_emitterType(eType)
 {
 	switch (eType)
 	{
-	case CONE:
-		m_particleEmitter = new ConeEmitter(endPoint, radius, lifeTime, maxParticles, spawnRate);
-		break;
 	case RAY:
-		m_particleEmitter = new RayEmitter(endPoint, lifeTime, maxParticles, spawnRate);
+		m_particleEmitter = new RayEmitter(lifeTime, distance, maxParticles, spawnRate);
+		break;
+	default:
+		throw "ParticleSystem instantiation with wrong constructor.\nJet Emitter or Ray Emitter only.\n";
+		break;
+	}
+}
+
+ParticleSystem::ParticleSystem(
+	Material material, 
+	float angle /*= glm::radians(25.0f)*/, 
+	EmitterType eType /*= EmitterType::CONE*/, 
+	float radius /*= 1.0f*/, 
+	float lifeTime /*= 1.0f*/, 
+	float spawnRate /*= 10.0f*/, 
+	int maxParticles /*= 10000.0f*/) :
+m_particleMat(material),
+m_emitterType(eType)
+{
+	switch (eType)
+	{
+	case CONE:
+		m_particleEmitter = new ConeEmitter(lifeTime, angle, radius, maxParticles, spawnRate);
 		break;
 	default:
 		throw "ParticleSystem instantiation with wrong constructor.\nJet Emitter or Ray Emitter only.\n";
