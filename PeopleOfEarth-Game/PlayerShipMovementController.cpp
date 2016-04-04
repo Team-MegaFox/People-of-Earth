@@ -84,11 +84,16 @@ void PlayerShipMovementController::processInput(const InputManager& input, float
 		{
 			getParent()->getGameComponent<ShipStats>()->setHealth(0.0f);
 		}
-		//collidedObjects = m_rigidBody->checkCollision(getGameObjectsByName("passengerShip"));
-		//if (collidedObjects.size() > 0)
-		//{
-		//	getParent()->getGameComponent<ShipStats>()->setHealth(0.0f);
-		//}
+		collidedObjects = m_rigidBody->checkCollision(getGameObjectsByName("passengerShip"));
+		if (collidedObjects.size() > 0)
+		{
+			getParent()->getGameComponent<ShipStats>()->setHealth(0.0f);
+		}
+		collidedObjects = m_rigidBody->checkCollision(getGameObjectsByName("EnemyMother"));
+		if (collidedObjects.size() > 0)
+		{
+			getParent()->getGameComponent<ShipStats>()->setHealth(0.0f);
+		}
 	}
 }
 

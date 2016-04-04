@@ -52,13 +52,13 @@ public:
 	virtual void update(float delta) override
 	{
 		m_healthBar->setPercentSize(PxVec2(getHealth() * m_healthOGSize.x, m_healthOGSize.y));
-		m_healthBar->setAspectRatio((getHealth() * m_healthOGSize.x) / m_healthOGSize.y);
+		m_healthBar->setAspectRatio(((getHealth() * m_healthOGSize.x) / m_healthOGSize.y) + 0.01f);
 
 		m_energyBar->setPercentSize(PxVec2(getEnergy() * m_energyOGSize.x, m_energyOGSize.y));
-		m_energyBar->setAspectRatio((getEnergy() * m_energyOGSize.x) / m_energyOGSize.y);
+		m_energyBar->setAspectRatio(((getEnergy() * m_energyOGSize.x) / m_energyOGSize.y) + 0.01f);
 
 		m_fuelBar->setPercentSize(PxVec2(getFuel() * m_fuelOGSize.x, m_fuelOGSize.y));
-		m_fuelBar->setAspectRatio((getFuel() * m_fuelOGSize.x) / m_fuelOGSize.y);
+		m_fuelBar->setAspectRatio(((getFuel() * m_fuelOGSize.x) / m_fuelOGSize.y) + 0.01f);
 	}
 
 private:

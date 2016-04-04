@@ -85,6 +85,11 @@ public:
 	void invertXAxis(bool value) { m_invertXAxis = value; }
 	void invertYAxis(bool value) { m_invertYAxis = value; }
 
+	void setVelocity(float velocity)
+	{
+		m_velocityValue = velocity;
+	}
+
 private:
 	ShipStats * m_shipStats;
 	/// <summary>

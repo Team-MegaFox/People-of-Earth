@@ -15,7 +15,7 @@
 #pragma once
 #include "ShipStats.h"
 #include "MissileAI.h"
-
+#include "PlayerShipMovementController.h"
 	
 void ShipStats::onStart()
 {
@@ -194,37 +194,51 @@ void ShipStats::update(float timestep)
 		{
 			m_playRechargeSound = true;
 		}
+
+		if (m_fuel <= 0.0f)
+		{
+			getParent()->getGameComponent<PlayerShipMovementController>()->setVelocity(0.0f);
+		}
 	}
 
 
 	if (m_health <= 0.0f)
 	{
-		//Remove gameobject from the minimap
-		MiniMap * map;
-		map = getGameObjectByName("MiniMap")->getGameComponent<MiniMap>();
-		map->deleteMapMarker(getParent()->getName());
-
-		//Remove the homing missile target of this gameobject
-		std::vector<GameObject*> missiles = getGameObjectsByName("Missile");
-		//MissileAI* missileAIComponent;
-		for (size_t i = 0; i < missiles.size(); i++)
+		if (getParent()->getName() != "player1")
 		{
-			/*for (size_t j = 0; j < missiles[i]->getAllGameComponents().size(); j++)
+			//Remove gameobject from the minimap
+			MiniMap * map;
+			map = getGameObjectByName("MiniMap")->getGameComponent<MiniMap>();
+			map->deleteMapMarker(getParent()->getName());
+
+			//Remove the homing missile target of this gameobject
+			std::vector<GameObject*> missiles = getGameObjectsByName("Missile");
+			//MissileAI* missileAIComponent;
+			for (size_t i = 0; i < missiles.size(); i++)
 			{
+				/*for (size_t j = 0; j < missiles[i]->getAllGameComponents().size(); j++)
+				{
 				missileAIComponent = dynamic_cast<MissileAI*>(missiles[j]->getAllGameComponents()[j]);
 				if (missileAIComponent != nullptr)
 				{
-					missileAIComponent->removeTarget(getParent()->getName());
-					break;
+				missileAIComponent->removeTarget(getParent()->getName());
+				break;
 				}
-			}*/
-			//MissileAI* missileAI = missiles[i]->getGameComponent<MissileAI>();
-			//missileAI->removeTarget(getParent()->getName());
+				}*/
+				//MissileAI* missileAI = missiles[i]->getGameComponent<MissileAI>();
+				//missileAI->removeTarget(getParent()->getName());
 
-			missiles[i]->getGameComponent<MissileAI>()->removeTarget(getParent()->getName());
+				missiles[i]->getGameComponent<MissileAI>()->removeTarget(getParent()->getName());
+			}
+			destroy(getParent());
 		}
-
-		destroy(getParent());
+		else
+		{
+			getParent()->setEnabled(false);
+			//Game Over scene
+			//getCoreEngine()->getSceneManager()->push()
+		}
+		
 	}
 }
 
