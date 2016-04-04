@@ -23,6 +23,82 @@
 
 // Particle Emitter Methods
 
+ParticleEmitter::ParticleEmitter(bool updateEmitter /*= true*/, float maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/, float lifeTime /*= 5.0f*/) :
+m_updateEmitter(updateEmitter), m_maxParticles(maxParticles), m_spawnRate(spawnRate), m_lifeTime(lifeTime)
+{
+	m_particles.resize(m_maxParticles, Particle());
+	m_positionData.resize(m_maxParticles);
+	m_colourData.resize(m_maxParticles);
+
+	glGenVertexArrays(1, &m_vertexArrayObject);
+	glBindVertexArray(m_vertexArrayObject);
+	glGenBuffers(NUM_BUFFERS, m_vertexArrayBuffers);
+
+	static const GLfloat g_vertex_buffer_data[] = {
+		-0.5f, -0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f,
+		-0.5f, 0.5f, 0.0f,
+		0.5f, 0.5f, 0.0f
+	};
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[BILLBOARD_VB]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
+	glBufferData(GL_ARRAY_BUFFER, m_positionData.size() * sizeof(m_positionData[0]), NULL, GL_STREAM_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[COLOUR_VB]);
+	glBufferData(GL_ARRAY_BUFFER, m_colourData.size() * sizeof(m_colourData[0]), NULL, GL_STREAM_DRAW);
+}
+
+ParticleEmitter::~ParticleEmitter()
+{
+	glDeleteVertexArrays(1, &m_vertexArrayObject);
+}
+
+void ParticleEmitter::update(float deltaTime)
+{
+	if (m_updateEmitter)
+	{
+		for (int i = 0; i < (int)(deltaTime * 100.0); i++)
+		{
+			int particleIndex = findUnusedParticle();
+			m_particles[particleIndex].life = m_lifeTime;
+		}
+
+		updateParticles(deltaTime);
+
+		m_particleCount = 0;
+		for (size_t i = 0; i < m_particles.size(); i++)
+		{
+			//m_positionData[i] = glm::vec4(0.0f);
+			//m_colourData[i] = glm::vec4(0.0f);
+			Particle* p = &m_particles[i];
+
+			if (p->life > 0.0f)
+			{
+				// Decrease life
+				p->life -= deltaTime;
+				if (p->life > 0.0f)
+				{
+					// Simulate simple physics : gravity only, no collisions
+					p->speed += glm::vec3(0.0f, 0.0f, 0.0f) * deltaTime * 0.5f;
+					p->pos += p->speed * deltaTime;
+					//p->cameraDistance = glm::length2(p->pos - CameraPosition);
+					//ParticlesContainer[i].pos += glm::vec3(0.0f,10.0f, 0.0f) * (float)delta;
+
+					m_positionData[i] = glm::vec4(p->pos, p->size);
+					m_colourData[i] = p->colour;
+				}
+
+				m_particleCount++;
+
+			}
+		}
+
+		m_updateEmitter = false;
+	}
+}
+
 void ParticleEmitter::render(const Camera3D & camera)
 {
 	glDepthMask(GL_FALSE);
@@ -122,159 +198,66 @@ int ParticleEmitter::findUnusedParticle()
 
 void ParticleEmitter::sortParticles()
 {
-	std::sort(&m_particles[0], &m_particles[m_particles.size()]);
+	std::sort(&m_particles[0], &m_particles[m_particles.size() - 1]);
 }
 
 
 // Ambient Emitter Constructors and Methods
 
-AmbientEmitter::AmbientEmitter(float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
+AmbientEmitter::AmbientEmitter(float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/) :
+ParticleEmitter(true, maxParticles, spawnRate, lifeTime)
 {
-	m_maxParticles = maxParticles;
-	m_spawnRate = spawnRate;
-	m_updateEmitter = true;
-	m_lifeTime = lifeTime;
-
-	m_particles.resize(m_maxParticles, Particle());
-	m_positionData.resize(m_maxParticles);
-	m_colourData.resize(m_maxParticles);
-
-	glGenVertexArrays(1, &m_vertexArrayObject);
-	glBindVertexArray(m_vertexArrayObject);
-	glGenBuffers(NUM_BUFFERS, m_vertexArrayBuffers);
-
-	static const GLfloat g_vertex_buffer_data[] = {
-		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		-0.5f, 0.5f, 0.0f,
-		0.5f, 0.5f, 0.0f
-	};
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[BILLBOARD_VB]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-	std::cout << sizeof(g_vertex_buffer_data) << std::endl;
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
-	glBufferData(GL_ARRAY_BUFFER, m_positionData.size() * sizeof(m_positionData[0]), NULL, GL_STREAM_DRAW);
-	std::cout << m_positionData.size() * sizeof(m_positionData[0]) << std::endl;
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[COLOUR_VB]);
-	glBufferData(GL_ARRAY_BUFFER, m_colourData.size() * sizeof(m_colourData[0]), NULL, GL_STREAM_DRAW);
-	std::cout << m_colourData.size() * sizeof(m_colourData[0]) << std::endl;
 }
 
 AmbientEmitter::~AmbientEmitter()
-{
-	glDeleteVertexArrays(1, &m_vertexArrayObject);
+{	
 }
 
-void AmbientEmitter::update(float deltaTime)
+void AmbientEmitter::updateParticles(float deltaTime)
 {
-	if (m_updateEmitter)
+	for (int i = 0; i < (int)(deltaTime * 100.0); i++)
 	{
-		for (int i = 0; i < (int)(deltaTime * 100.0); i++)
-		{
-			int particleIndex = findUnusedParticle();
-			m_particles[particleIndex].life = m_lifeTime;
+		int particleIndex = findUnusedParticle();
+		m_particles[particleIndex].life = m_lifeTime;
 
-			//TODO: Should supply a value for density here from the constructor
+		//TODO: Should supply a value for density here from the constructor
 
-			glm::vec3 randomPos = glm::vec3(
-				(rand() % 10000 - 5000) / 10.0f,
-				(rand() % 10000 - 5000) / 10.0f,
-				(rand() % 10000 - 5000) / 10.0f
-				);
+		glm::vec3 randomPos = glm::vec3(
+			(rand() % 10000 - 5000) / 10.0f,
+			(rand() % 10000 - 5000) / 10.0f,
+			(rand() % 10000 - 5000) / 10.0f
+			);
 
-			m_particles[particleIndex].pos = randomPos;
+		m_particles[particleIndex].pos = randomPos;
 
-			float spread = 1.5f;
-			glm::vec3 maindir = glm::vec3(0.0f, 0.0f, 0.0f);
-			glm::vec3 randomdir = glm::vec3(
-				(rand() % 2000 - 1000.0f) / 1000.0f,
-				(rand() % 2000 - 1000.0f) / 1000.0f,
-				(rand() % 2000 - 1000.0f) / 1000.0f
-				);
+		float spread = 1.5f;
+		glm::vec3 maindir = glm::vec3(0.0f, 0.0f, 0.0f);
+		glm::vec3 randomdir = glm::vec3(
+			(rand() % 2000 - 1000.0f) / 1000.0f,
+			(rand() % 2000 - 1000.0f) / 1000.0f,
+			(rand() % 2000 - 1000.0f) / 1000.0f
+			);
 
-			m_particles[particleIndex].speed = maindir + randomdir*spread;
+		m_particles[particleIndex].speed = maindir + randomdir*spread;
 
-			m_particles[particleIndex].size = ((((rand() % ((int)(0.9f * 2000.0f))) / 2000.0f) + 0.1f) * 100.0f);
+		m_particles[particleIndex].size = ((((rand() % ((int)(0.9f * 2000.0f))) / 2000.0f) + 0.1f) * 100.0f);
 
-		}
-
-		m_particleCount = 0;
-		for (size_t i = 0; i < m_particles.size(); i++)
-		{
-			//m_positionData[i] = glm::vec4(0.0f);
-			//m_colourData[i] = glm::vec4(0.0f);
-			Particle* p = &m_particles[i];
-
-			if (p->life > 0.0f)
-			{
-				// Decrease life
-				p->life -= deltaTime;
-				if (p->life > 0.0f)
-				{
-					// Simulate simple physics : gravity only, no collisions
-					p->speed += glm::vec3(0.0f, 0.0f, 0.0f) * deltaTime * 0.5f;
-					p->pos += p->speed * deltaTime;
-					//p->cameraDistance = glm::length2(p->pos - CameraPosition);
-					//ParticlesContainer[i].pos += glm::vec3(0.0f,10.0f, 0.0f) * (float)delta;
-
-					m_positionData[i] = glm::vec4(p->pos, p->size);
-					m_colourData[i] = p->colour;
-				}
-
-				m_particleCount++;
-
-			}
-		}
-
-		m_updateEmitter = false;
 	}
 }
 
 
 // Explosion Emitter Constructors and Methods
 
-ExplosionEmitter::ExplosionEmitter(float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
+ExplosionEmitter::ExplosionEmitter(float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/) :
+ParticleEmitter(true, maxParticles, spawnRate, lifeTime)
 {
-	m_maxParticles = maxParticles;
-	m_spawnRate = spawnRate;
-	m_updateEmitter = true;
-	m_lifeTime = lifeTime;
-
-	m_particles.resize(m_maxParticles, Particle());
-	m_positionData.resize(m_maxParticles);
-	m_colourData.resize(m_maxParticles);
-
-	glGenVertexArrays(1, &m_vertexArrayObject);
-	glBindVertexArray(m_vertexArrayObject);
-	glGenBuffers(NUM_BUFFERS, m_vertexArrayBuffers);
-
-	static const GLfloat g_vertex_buffer_data[] = {
-		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		-0.5f, 0.5f, 0.0f,
-		0.5f, 0.5f, 0.0f
-	};
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[BILLBOARD_VB]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-	std::cout << sizeof(g_vertex_buffer_data) << std::endl;
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
-	glBufferData(GL_ARRAY_BUFFER, m_positionData.size() * sizeof(m_positionData[0]), NULL, GL_STREAM_DRAW);
-	std::cout << m_positionData.size() * sizeof(m_positionData[0]) << std::endl;
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[COLOUR_VB]);
-	glBufferData(GL_ARRAY_BUFFER, m_colourData.size() * sizeof(m_colourData[0]), NULL, GL_STREAM_DRAW);
-	std::cout << m_colourData.size() * sizeof(m_colourData[0]) << std::endl;
 }
 
 ExplosionEmitter::~ExplosionEmitter()
 {
-	glDeleteVertexArrays(1, &m_vertexArrayObject);
 }
 
-void ExplosionEmitter::update(float deltaTime)
+void ExplosionEmitter::updateParticles(float deltaTime)
 {
 	if (m_updateEmitter)
 	{
@@ -341,46 +324,16 @@ void ExplosionEmitter::update(float deltaTime)
 
 // Fountain Emitter Constructors and Methods
 
-FountainEmitter::FountainEmitter(float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
+FountainEmitter::FountainEmitter(float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/) :
+ParticleEmitter(true, maxParticles, spawnRate, lifeTime)
 {
-	m_maxParticles = maxParticles;
-	m_spawnRate = spawnRate;
-	m_updateEmitter = true;
-	m_lifeTime = lifeTime;
-
-	m_particles.resize(m_maxParticles, Particle());
-	m_positionData.resize(m_maxParticles);
-	m_colourData.resize(m_maxParticles);
-
-	glGenVertexArrays(1, &m_vertexArrayObject);
-	glBindVertexArray(m_vertexArrayObject);
-	glGenBuffers(NUM_BUFFERS, m_vertexArrayBuffers);
-
-	static const GLfloat g_vertex_buffer_data[] = {
-		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		-0.5f, 0.5f, 0.0f,
-		0.5f, 0.5f, 0.0f
-	};
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[BILLBOARD_VB]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-	std::cout << sizeof(g_vertex_buffer_data) << std::endl;
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
-	glBufferData(GL_ARRAY_BUFFER, m_positionData.size() * sizeof(m_positionData[0]), NULL, GL_STREAM_DRAW);
-	std::cout << m_positionData.size() * sizeof(m_positionData[0]) << std::endl;
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[COLOUR_VB]);
-	glBufferData(GL_ARRAY_BUFFER, m_colourData.size() * sizeof(m_colourData[0]), NULL, GL_STREAM_DRAW);
-	std::cout << m_colourData.size() * sizeof(m_colourData[0]) << std::endl;
 }
 
 FountainEmitter::~FountainEmitter()
 {
-	glDeleteVertexArrays(1, &m_vertexArrayObject);
 }
 
-void FountainEmitter::update(float deltaTime)
+void FountainEmitter::updateParticles(float deltaTime)
 {
 	if (m_updateEmitter)
 	{
@@ -439,48 +392,16 @@ void FountainEmitter::update(float deltaTime)
 
 // Cone Emitter Constructors and Methods
 
-ConeEmitter::ConeEmitter(glm::vec3 & endPoint, float radius, float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
+ConeEmitter::ConeEmitter(glm::vec3 & endPoint, float radius, float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/) :
+ParticleEmitter(true, maxParticles, spawnRate, lifeTime), m_radius(radius), m_endPoint(endPoint)
 {
-	m_maxParticles = maxParticles;
-	m_spawnRate = spawnRate;
-	m_updateEmitter = true;
-	m_lifeTime = lifeTime;
-	m_radius = radius;
-	m_endPoint = endPoint;
-
-	m_particles.resize(m_maxParticles, Particle());
-	m_positionData.resize(m_maxParticles);
-	m_colourData.resize(m_maxParticles);
-
-	glGenVertexArrays(1, &m_vertexArrayObject);
-	glBindVertexArray(m_vertexArrayObject);
-	glGenBuffers(NUM_BUFFERS, m_vertexArrayBuffers);
-
-	static const GLfloat g_vertex_buffer_data[] = {
-		-0.1f, -0.1f, 0.0f,
-		0.1f, -0.1f, 0.0f,
-		-0.1f, 0.1f, 0.0f,
-		0.1f, 0.1f, 0.0f
-	};
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[BILLBOARD_VB]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-	std::cout << sizeof(g_vertex_buffer_data) << std::endl;
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
-	glBufferData(GL_ARRAY_BUFFER, m_positionData.size() * sizeof(m_positionData[0]), NULL, GL_STREAM_DRAW);
-	std::cout << m_positionData.size() * sizeof(m_positionData[0]) << std::endl;
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[COLOUR_VB]);
-	glBufferData(GL_ARRAY_BUFFER, m_colourData.size() * sizeof(m_colourData[0]), NULL, GL_STREAM_DRAW);
-	std::cout << m_colourData.size() * sizeof(m_colourData[0]) << std::endl;
 }
 
 ConeEmitter::~ConeEmitter()
 {
-	glDeleteVertexArrays(1, &m_vertexArrayObject);
 }
 
-void ConeEmitter::update(float deltaTime)
+void ConeEmitter::updateParticles(float deltaTime)
 {
 	if (m_updateEmitter)
 	{
@@ -537,47 +458,16 @@ void ConeEmitter::update(float deltaTime)
 
 // Ray Emitter Constructors and Methods
 
-RayEmitter::RayEmitter(glm::vec3 & endPoint, float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/)
+RayEmitter::RayEmitter(glm::vec3 & endPoint, float lifeTime, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/) : 
+ParticleEmitter(true, maxParticles, spawnRate, lifeTime), m_endPoint(endPoint)
 {
-	m_maxParticles = maxParticles;
-	m_spawnRate = spawnRate;
-	m_updateEmitter = true;
-	m_lifeTime = lifeTime;
-	m_endPoint = endPoint;
-
-	m_particles.resize(m_maxParticles, Particle());
-	m_positionData.resize(m_maxParticles);
-	m_colourData.resize(m_maxParticles);
-
-	glGenVertexArrays(1, &m_vertexArrayObject);
-	glBindVertexArray(m_vertexArrayObject);
-	glGenBuffers(NUM_BUFFERS, m_vertexArrayBuffers);
-
-	static const GLfloat g_vertex_buffer_data[] = {
-		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		-0.5f, 0.5f, 0.0f,
-		0.5f, 0.5f, 0.0f
-	};
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[BILLBOARD_VB]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-	std::cout << sizeof(g_vertex_buffer_data) << std::endl;
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
-	glBufferData(GL_ARRAY_BUFFER, m_positionData.size() * sizeof(m_positionData[0]), NULL, GL_STREAM_DRAW);
-	std::cout << m_positionData.size() * sizeof(m_positionData[0]) << std::endl;
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[COLOUR_VB]);
-	glBufferData(GL_ARRAY_BUFFER, m_colourData.size() * sizeof(m_colourData[0]), NULL, GL_STREAM_DRAW);
-	std::cout << m_colourData.size() * sizeof(m_colourData[0]) << std::endl;
 }
 
 RayEmitter::~RayEmitter()
 {
-	glDeleteVertexArrays(1, &m_vertexArrayObject);
 }
 
-void RayEmitter::update(float deltaTime)
+void RayEmitter::updateParticles(float deltaTime)
 {
 	if (m_updateEmitter)
 	{

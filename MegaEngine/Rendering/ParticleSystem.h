@@ -86,22 +86,25 @@ public:
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ParticleEmitter"/> class.
 	/// </summary>
-	ParticleEmitter() {}
+	ParticleEmitter(bool updateEmitter = true, float maxParticles = 10000.0f, float spawnRate = 5.0f, float lifeTime = 5.0f);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="ParticleEmitter"/> class.
 	/// </summary>
-	virtual ~ParticleEmitter() {}
+	~ParticleEmitter();
 
 	/// <summary>
 	/// Virtual function for custom update functionality.
 	/// </summary>
 	/// <param name="deltaTime">The delta time.</param>
-	virtual void update(float deltaTime) = 0;
+	void update(float deltaTime);
+
+	virtual void updateParticles(float deltaTime) = 0;
+
 	/// <summary>
 	/// Renders the particles
 	/// </summary>
 	/// <param name="camera">The camera.</param>
-	virtual void render(const Camera3D & camera);
+	void render(const Camera3D & camera);
 
 protected:
 
@@ -146,6 +149,13 @@ protected:
 	/// </summary>
 	glm::vec4 m_colour;
 
+	/// <summary>
+	/// Finds an unused particle.
+	/// </summary>
+	/// <returns></returns>
+	int findUnusedParticle();
+
+private:
 	enum
 	{
 		BILLBOARD_VB,
@@ -165,14 +175,9 @@ protected:
 	GLuint m_vertexArrayBuffers[NUM_BUFFERS];
 
 	/// <summary>
-	/// Finds an unused particle.
-	/// </summary>
-	/// <returns></returns>
-	virtual int findUnusedParticle();
-	/// <summary>
 	/// Sorts all the particles drawing the furthest particle first
 	/// </summary>
-	virtual void sortParticles();
+	void sortParticles();
 
 };
 
@@ -200,7 +205,7 @@ public:
 	/// Updates the specified delta time.
 	/// </summary>
 	/// <param name="deltaTime">The delta time.</param>
-	virtual void update(float deltaTime) override;
+	virtual void updateParticles(float deltaTime) override;
 };
 
 
@@ -227,7 +232,7 @@ public:
 	/// Updates the specified delta time.
 	/// </summary>
 	/// <param name="deltaTime">The delta time.</param>
-	virtual void update(float deltaTime) override;
+	virtual void updateParticles(float deltaTime) override;
 
 protected:
 
@@ -266,7 +271,7 @@ public:
 	/// Updates the specified delta time.
 	/// </summary>
 	/// <param name="deltaTime">The delta time.</param>
-	virtual void update(float deltaTime) override;
+	virtual void updateParticles(float deltaTime) override;
 };
 
 /// <summary>
@@ -295,7 +300,7 @@ public:
 	/// Updates the specified delta time.
 	/// </summary>
 	/// <param name="deltaTime">The delta time.</param>
-	virtual void update(float deltaTime) override;
+	virtual void updateParticles(float deltaTime) override;
 
 protected:
 
@@ -335,7 +340,7 @@ public:
 	/// Updates the specified delta time.
 	/// </summary>
 	/// <param name="deltaTime">The delta time.</param>
-	virtual void update(float deltaTime) override;
+	virtual void updateParticles(float deltaTime) override;
 
 protected:
 	glm::vec3 m_endPoint;

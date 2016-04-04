@@ -89,12 +89,12 @@ public:
 			std::cout << "There is a camera component!" << std::endl;
 		}
 
-		addToRoot((new GameObject("particlesA", glm::vec3(0.0f, 0.0f, 0.0f)))
-			->addGameComponent(new ParticleSystem(Material("particleMatA"), EXPLOSION)));
-		addToRoot((new GameObject("particlesB", glm::vec3(0.0f, 0.0f, 0.0f)))
-			->addGameComponent(new ParticleSystem(Material("particleMatB"), EXPLOSION)));
-		addToRoot((new GameObject("particlesC", glm::vec3(0.0f, 0.0f, 0.0f)))
-			->addGameComponent(new ParticleSystem(Material("particleMatC"), EXPLOSION)));
+		//addToRoot((new GameObject("particlesA", glm::vec3(0.0f, 0.0f, 0.0f)))
+		//	->addGameComponent(new ParticleSystem(Material("particleMatA"), EXPLOSION)));
+		//addToRoot((new GameObject("particlesB", glm::vec3(0.0f, 0.0f, 0.0f)))
+		//	->addGameComponent(new ParticleSystem(Material("particleMatB"), EXPLOSION)));
+		//addToRoot((new GameObject("particlesC", glm::vec3(0.0f, 0.0f, 0.0f)))
+		//	->addGameComponent(new ParticleSystem(Material("particleMatC"), EXPLOSION)));
 
 		addToRoot((new GameObject("particlesD", glm::vec3(0.0f, 0.0f, 0.0f)))
 			->addGameComponent(new ParticleSystem(Material("particleMatD"), AMBIENT)));
