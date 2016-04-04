@@ -44,8 +44,6 @@ public:
 	virtual void onStart() override
 	{
 		m_shipStats = getGameObjectByName("player")->getGameComponent<ShipStats>();
-		m_dialogueBox = getGameObjectByName("DialogueBox")->getGameComponent<DialogueBox>();
-
 	}
 
 	/// <summary>
@@ -101,20 +99,24 @@ public:
 				}
 				if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B))
 				{
-					//Shoot missile
-					instantiate(
-						(new GameObject("Missile", *getTransform()->getPosition()
-						, *getTransform()->getRotation(), m_missileScale))
-						->addGameComponent(new MissileAI())
-						->addGameComponent(new MeshRenderer(Mesh("Ships/Missiles/missile.obj"), Material("missile")))
-						->addGameComponent(new RigidBody(*getTransform()->getPosition() +
-						Utility::getForward(*getTransform()->getRotation()) * 15.0f +
-						Utility::getLeft(*getTransform()->getRotation()) * 3.5f,
-						*getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f,
-						Utility::getForward(*getTransform()->getRotation()) * 200.0f))
-						);
-					m_delay = 0.0f;
-					m_shipStats->updateEnergy(-0.001f);
+					if (m_missileCount > 0)
+					{
+						//Shoot missile
+						instantiate(
+							(new GameObject("Missile", *getTransform()->getPosition()
+							, *getTransform()->getRotation(), m_missileScale))
+							->addGameComponent(new MissileAI())
+							->addGameComponent(new MeshRenderer(Mesh("Ships/Missiles/missile.obj"), Material("missile")))
+							->addGameComponent(new RigidBody(*getTransform()->getPosition() +
+							Utility::getForward(*getTransform()->getRotation()) * 15.0f +
+							Utility::getLeft(*getTransform()->getRotation()) * 3.5f,
+							*getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f,
+							Utility::getForward(*getTransform()->getRotation()) * 200.0f))
+							);
+						m_delay = 0.0f;
+						m_shipStats->updateEnergy(-0.001f);
+						m_missileCount--;
+					}
 				}
 				if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_LEFTSTICK))
 				{
@@ -131,11 +133,11 @@ public:
 				m_delay += delta;
 			}
 		}
+	}
 
-		if (m_missileCount <= 0)
-		{
-			m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFF0000']Our systems indicate your[colour='FF00FF00']MISSILE[colour='FFFF0000']\nreserves are[colour='FF0000FF']dangerously empty[colour='FF0000FF']!!!", Importance::HIGH, false);
-		}
+	int getMissileCount()
+	{
+		return m_missileCount;
 	}
 
 private:
@@ -148,7 +150,6 @@ private:
 	PxVec3 m_missileScale = PxVec3(0.0025f);
 	PxVec3 m_laserScale = PxVec3(1.0f);
 	ShipStats * m_shipStats;
-	DialogueBox * m_dialogueBox;
 	int m_missileCount = 10;
 
 };

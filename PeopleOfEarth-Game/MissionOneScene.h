@@ -17,6 +17,7 @@
 #include "MotherShipAI.h"
 #include "DialogueBox.h"
 #include "InGameMusic.h"
+#include "MissileGUI.h"
 using namespace physx;
 
 // TODO: Sounds like the one where we're replenishing at every message
@@ -190,10 +191,11 @@ private:
 			PxVec4(PxZero), ""))
 			->addGameComponent(welcomeLabel));
 
-		/*addToRoot((new GameObject("MissileGUI"))
-			->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.3f, 0.3f), PxVec4(0.0f), "Images/minimap_graphics/GUI_MiniMap.png"))
-
-			);*/
+		addToRoot((new GameObject("MissileGUI"))
+			->addGUIComponent(new GUIImage(PxVec4(0.80f, 0.70f, 0.30f, 0.30f), PxVec4(0.0f), "Images/crosshair.png"))
+			->addGUIComponent(new GUILabel(PxVec4(0.80f, 0.80f, 0.30f, 0.30f), PxVec4(0.0f), "10", 24))
+			->addGameComponent(new MissileGUI())
+			);
 	}
 
 	void addPassengerShip()
