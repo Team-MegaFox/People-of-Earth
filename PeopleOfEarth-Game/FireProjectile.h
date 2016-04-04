@@ -118,14 +118,6 @@ public:
 						m_missileCount--;
 					}
 				}
-				if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_LEFTSTICK))
-				{
-					m_shipStats->setFuel(0.4f);
-				}
-				if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_RIGHTSTICK))
-				{
-					m_shipStats->setFuel(1.0f);
-				}
 			}
 			
 			else
