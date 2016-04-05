@@ -413,7 +413,7 @@ private:
 		//// Planets and Moons
 		addToRoot((new GameObject("spaceBody", PxVec3(1000.0f, 0.0f, 1000.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 32.0f), Material("moon")))
-			->addGameComponent(new RigidBody(PxVec3(1000.0f, 0.0f, 1000.0f), PxQuat(PxIdentity), 100.0f, 96.0f))
+			->addGameComponent(new RigidBody(PxVec3(1000.0f, 0.0f, 1000.0f), PxQuat(PxIdentity), 100.0f, 112.0f))
 			->addGameComponent(new SpaceObject())
 			);
 
@@ -439,25 +439,21 @@ private:
 			->addGameComponent(new SpaceObject())
 			);
 
-		//TODO: for setting planet rigid body
-		//RigidBody* spaceBodyRB = new RigidBody(PxVec3(500.0f, 0.0f, 500.0f), PxQuat(PxIdentity), 100.0f, 150.0);
-		//spaceBodyRB->setDebugDraw(true);
-
 		addToRoot((new GameObject("destinationMoon", PxVec3(-1900.0f, 2700.0f, 28200.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_E.obj", 10.0f), Material("mars")))
-			->addGameComponent(new RigidBody(PxVec3(-1900.0f, 2700.0f, 28200.0f), PxQuat(PxIdentity), 100.0f, 20.0f))
+			->addGameComponent(new RigidBody(PxVec3(-1900.0f, 2700.0f, 28200.0f), PxQuat(PxIdentity), 100.0f, 100.0f))
 			->addGameComponent(new SpaceObject())
 			);
 
 		addToRoot((new GameObject("spaceBody", PxVec3(-800.0f, -1500.0f, 35500.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_F.obj", 22.0f), Material("moon")))
-			->addGameComponent(new RigidBody(PxVec3(-800.0f, -1500.0f, 35500.0f), PxQuat(PxIdentity), 100.0f, 32.0f))
+			->addGameComponent(new RigidBody(PxVec3(-800.0f, -1500.0f, 35500.0f), PxQuat(PxIdentity), 100.0f, 75.0f))
 			->addGameComponent(new SpaceObject())
 			);
 
 		addToRoot((new GameObject("spaceBody", PxVec3(0.0f, 0.0f, 30000.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_G.obj", 200.0f), Material("jupiter")))
-			->addGameComponent(new RigidBody(PxVec3(0.0f, 0.0f, 30000.0f), PxQuat(PxIdentity), 100.0f, 200.0f))
+			->addGameComponent(new RigidBody(PxVec3(0.0f, 0.0f, 30000.0f), PxQuat(PxIdentity), 100.0f, 900.0f))
 			->addGameComponent(new SpaceObject())
 			);
 
@@ -468,7 +464,7 @@ private:
 
 		addToRoot((new GameObject("spaceBody", PxVec3(50000.0f, 0.0f, 50000.0f), PxQuat(PxIdentity), PxVec3(25.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj"), Material("sun")))
-			->addGameComponent(new RigidBody(PxVec3(50000.0f, 0.0f, 50000.0f), PxQuat(PxIdentity), 100.0f, 10000.0f))
+			->addGameComponent(new RigidBody(PxVec3(50000.0f, 0.0f, 50000.0f), PxQuat(PxIdentity), 100.0f, 50000.0f))
 			->addGameComponent(new SpaceObject())
 			);
 	}
