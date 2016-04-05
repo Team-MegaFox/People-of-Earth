@@ -7,6 +7,8 @@
 #include <GUI\GUIEngine.h>
 #include "MainMenuScene.h"
 #include "MissionOneScene.h"
+#include "GameOverScene.h"
+#include "GameWonScene.h"
 
 int main(int argc, char** argv)
 {
@@ -22,7 +24,7 @@ int main(int argc, char** argv)
 
 	CoreEngine core(60.0, &window, &renderingEngine, &physicsEngine, &audioEngine, &guiEngine, &sceneManager);
 
-	sceneManager.push(new MainMenuScene);
+	sceneManager.push(new GameOverScene);
 
 	core.start();
 

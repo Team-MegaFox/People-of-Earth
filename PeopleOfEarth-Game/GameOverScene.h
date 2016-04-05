@@ -11,14 +11,19 @@ public:
 
 	virtual void init(const Viewport& window) override
 	{
-		addToRoot((new GameObject("Game Over Menu"))
-			->addGUIComponent(new GUIContainer(PxVec4(0.1f, 0.1f, 0.8f, 0.8f), PxVec4(0.0f), "Pause"))
-			->addChild((new GameObject("Mission Select Button"))
-			->addGUIComponent(new GUIButton(PxVec4(0.3f, 0.6f, 0.4f, 0.08f), PxVec4(0.0f), "Mission Select",
-			std::bind(&GameOverScene::onMissionSelectClick, this, std::placeholders::_1), 14)))
+		std::string formatting = "[colour='FFFFFFFF'][font='SaucerBB-18'][padding='l:5 t:0 r:5 b:0']";
+		std::string objectives = "Unfortunately you lose...";
+
+		addToRoot((new GameObject("label"))
+			->addGUIComponent(new GUILabel(PxVec4(0.25f, 0.35f, 0.5f, 0.3f), PxVec4(0.0f), formatting + objectives))
+			->addChild(new GameObject("Game Won Menu"))
+			->addGUIComponent(new GUIContainer(PxVec4(0.1f, 0.1f, 0.8f, 0.8f), PxVec4(0.0f), "You Lose!"))
 			->addChild((new GameObject("Exit Button"))
-			->addGUIComponent(new GUIButton(PxVec4(0.4f, 0.8f, 0.2f, 0.08f), PxVec4(0.0f), "Exit",
-			std::bind(&GameOverScene::onExitClick, this, std::placeholders::_1), 14))));
+				->addGUIComponent(new GUIButton(PxVec4(0.4f, 0.80f, 0.2f, 0.2f), PxVec4(0.0f), "Exit",
+			std::bind(&GameOverScene::onExitClick, this, std::placeholders::_1), 14)))
+			->addChild((new GameObject("Mission Select Button"))
+				->addGUIComponent(new GUIButton(PxVec4(0.3f, 0.57f, 0.4f, 0.2f), PxVec4(0.0f), "Mission Select",
+			std::bind(&GameOverScene::onMissionSelectClick, this, std::placeholders::_1), 14))));
 
 		addToRoot((new GameObject("Game Over Manager"))
 			->addGameComponent(new GameOverManager));

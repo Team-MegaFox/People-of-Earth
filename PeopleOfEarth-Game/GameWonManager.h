@@ -11,7 +11,6 @@ public:
 
 	virtual void onStart() override
 	{
-		m_buttons.push_back(getGameObjectByName("Mission Select Button")->getGUIComponent<GUIButton>());
 		m_buttons.push_back(getGameObjectByName("Exit Button")->getGUIComponent<GUIButton>());
 		m_focusButton = 0;
 		if (!m_usingMouse)

@@ -115,6 +115,18 @@
     <ClInclude Include="SpaceObject.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="GameOverScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameWonScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverManager.h">
+      <Filter>Components\Menu Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameWonManager.h">
+      <Filter>Components\Menu Managers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">

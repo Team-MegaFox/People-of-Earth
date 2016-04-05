@@ -95,6 +95,10 @@
     <ClInclude Include="FireProjectile.h" />
     <ClInclude Include="FreeLook.h" />
     <ClInclude Include="FreeMove.h" />
+    <ClInclude Include="GameOverManager.h" />
+    <ClInclude Include="GameOverScene.h" />
+    <ClInclude Include="GameWonManager.h" />
+    <ClInclude Include="GameWonScene.h" />
     <ClInclude Include="InGameMusic.h" />
     <ClInclude Include="MainMenuManager.h" />
     <ClInclude Include="MainMenuScene.h" />
