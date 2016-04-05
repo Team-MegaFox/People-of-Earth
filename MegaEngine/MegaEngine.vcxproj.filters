@@ -97,6 +97,9 @@
     <ClCompile Include="Rendering\BloomObject.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="Rendering\ParticleSystem.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MegaEngine.h" />
@@ -252,6 +255,9 @@
     </ClInclude>
     <ClInclude Include="Components\AudioListener.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\ParticleSystem.h">
+      <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

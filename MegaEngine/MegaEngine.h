@@ -26,6 +26,7 @@
 #include "Rendering\Lighting.h"
 #include "Rendering\Viewport.h"
 #include "Rendering\Texture.h"
+#include "Rendering\ParticleSystem.h"
 #include "Rendering\BloomObject.h"
 #include "Components\GameComponents.h"
 #include "Components\MeshRenderer.h"

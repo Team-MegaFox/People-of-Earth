@@ -23,6 +23,7 @@
 #include <map>
 #include <algorithm>
 class GameObject;
+class ParticleSystem;
 
 /// <summary>
 /// The Rendering Engine class where it manages all the lights and cameras. 
@@ -56,6 +57,11 @@ public:
 	/// </summary>
 	/// <param name="light">The light to add to the rendering engine.</param>
 	inline void addLight(const BaseLight& light) { m_lights.push_back(&light); }
+	/// <summary>
+	/// Adds a particle system to the rendering engine.
+	/// </summary>
+	/// <param name="light">The particle system to add to the rendering engine.</param>
+	inline void addParticleSystem(const ParticleSystem& particles) { m_particleSystems.push_back(&particles); }
 	/// <summary>
 	/// Sets the main camera.
 	/// </summary>
@@ -179,6 +185,10 @@ private:
 	/// </summary>
 	Shader                              m_fxaaFilter;
 	/// <summary>
+	/// The particle shader program.
+	/// </summary>
+	Shader								m_particleShader;
+	/// <summary>
 	/// The light matrix.
 	/// </summa
 	PxMat44                             m_lightMatrix;
@@ -220,6 +230,11 @@ private:
 	/// A pointer to the bloomObject in the current scene
 	/// </summary>
 	const BloomObject *				m_bloomObject;
+
+	/// <summary>
+	/// A vector of particle systems to render.
+	/// </summary>
+	std::vector<const ParticleSystem*> m_particleSystems;
 
 	/// <summary>
 	/// Blurs the shadow map.

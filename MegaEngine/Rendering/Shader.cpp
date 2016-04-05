@@ -202,6 +202,10 @@ void Shader::updateUniforms(const Transform& transform, const Material& material
 		{
 			if (uniformName == "C_eyePos")
 				setUniformPxVec3(uniformName, camera.getTransform().getTransformedPos());
+			else if (uniformName == "C_right")
+				setUniformPxVec3(uniformName, Utility::getRight(camera.getTransform().getTransformedRot()));
+			else if (uniformName == "C_up")
+				setUniformPxVec3(uniformName, Utility::getUp(camera.getTransform().getTransformedRot()));
 			else
 				throw "Invalid Camera Uniform: " + uniformName;
 		}
