@@ -231,8 +231,8 @@ const bool InputManager::PadButtonUp(Uint8 _button) const
 	if (!currPadButtonStates.empty())
 		if (currPadButtonStates.find(_button) != currPadButtonStates.end())
 			return !currPadButtonStates.at(_button);
-		else return false;
-	else return false;
+		else return true;
+	else return true;
 }
 
 const bool InputManager::PadButtonPress(Uint8 _button) const
