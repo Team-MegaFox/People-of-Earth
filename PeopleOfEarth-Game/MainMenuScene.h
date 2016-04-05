@@ -59,7 +59,7 @@ public:
 			->addGUIComponent(new GUIButton(PxVec4(0.425f, 0.95f, 0.15f, 0.05f), PxVec4(0.0f), "Mission 1",
 			std::bind(&MainMenuScene::clickMissionOne, this, std::placeholders::_1), 16)))
 			->addChild((new GameObject("Mission 1 Image"))
-			->addGUIComponent(new GUIImage(PxVec4(0.05f, 0.1f, 0.9f, 0.8f), PxVec4(0.0f), "Images/MissionOneImage.png"))));
+			->addGUIComponent(new GUIImage(PxVec4(0.02f, 0.1f, 0.9f, 0.8f), PxVec4(0.0f), "Images/MissionOneImage.jpg"))));
 		m_missionSelectMenuObject->addChild((new GameObject("Mission 2"))
 			->addGUIComponent(new GUIContainer(PxVec4(1.1f, 0.1f, 0.8f, 0.8f), PxVec4(0.0f)))
 			->addChild((new GameObject("Mission 2 Button"))
@@ -77,6 +77,13 @@ public:
 		m_missionSelectMenuObject->addChild((new GameObject("Back Button"))
 			->addGUIComponent(new GUIButton(PxVec4(0.45f, 0.95f, 0.1f, 0.05f), PxVec4(0.0f), "Back",
 			std::bind(&MainMenuScene::clickBackButton, this, std::placeholders::_1))));
+
+		std::string formatting = "[colour='FFFFFFFF'][font='SaucerBB-16'][padding='l:5 t:0 r:5 b:0']";
+		std::string objectives = "\t[colour='aaFF0000'][font='SaucerBB-20']Mission 1 : Into the Fire\n\n[colour='FFFFFFFF'][font='SaucerBB-16']The Terra 1 passenger ship\nwill not make it to Europa\nwithout your protection. It\nwon't be easy though, you'll\nhave to defeat a full squadron\nof alien fighters and a\nmother ship.\n\n[colour='FFFFFF00']Objectives:\n[vert-alignment='stretch'][colour='FFFFFFFF']1. Protect the Terra 1\n2. Destroy the enemy mother\nship\n\n\tGood Luck Soldier.";
+
+		m_missionSelectMenuObject->addChild((new GameObject("Objectives"))
+			->addGUIComponent(new GUILabel(PxVec4(0.51f, 0.2f, 0.4f, 0.5f), PxVec4(PxIdentity), formatting + objectives)));
+
 		addToRoot(m_missionSelectMenuObject);
 
 		addToRoot((new GameObject("Moved button sound"))
