@@ -3,7 +3,7 @@
 // Created          : 04-04-2016
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 04-04-2016
+// Last Modified On : 04-05-2016
 // ***********************************************************************
 // <copyright file="SpaceObject.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -34,8 +34,7 @@ public:
 		{
 			if (m_rigidBody->getCollider()->checkCollision(m_playerFighterShipRigidBody->getCollider()))
 			{
-				//getGameObjectByName("player")->getGameComponent<ShipStats>()->setHealth(0.0f);
-				printf("Collision\n");
+				getGameObjectByName("player")->getGameComponent<ShipStats>()->setHealth(0.0f);
 			}
 		}
 	}
