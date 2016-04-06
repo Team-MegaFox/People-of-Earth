@@ -3,7 +3,7 @@
 // Created          : 02-25-2016
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 04-04-2016
+// Last Modified On : 04-06-2016
 // ***********************************************************************
 // <copyright file="ShipStats.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -16,6 +16,7 @@
 #include "ShipStats.h"
 #include "MissileAI.h"
 #include "PlayerShipMovementController.h"
+#include "GameOverScene.h"
 	
 void ShipStats::onStart()
 {
@@ -283,7 +284,6 @@ void ShipStats::update(float timestep)
 		{
 			getParent()->setEnabled(false);
 			//Game Over scene
-			//getCoreEngine()->getSceneManager()->push()
 		}
 		
 	}
