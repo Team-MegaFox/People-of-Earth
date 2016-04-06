@@ -284,6 +284,7 @@ void ShipStats::update(float timestep)
 		{
 			getParent()->setEnabled(false);
 			//Game Over scene
+			getCoreEngine()->getSceneManager()->push(new GameOverScene(), Modality::Popup);
 		}
 		
 	}
