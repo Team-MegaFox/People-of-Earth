@@ -16,6 +16,7 @@
 #include "SteeringBehaviour.h"
 #include "ShipStats.h"
 #include "PlayerShipMovementController.h"
+#include "GameWonScene.h"
 #include <PhysX/PxPhysicsAPI.h>
 using namespace physx;
 
@@ -67,6 +68,12 @@ public:
 	virtual void UpdateAI(float timestep) override
 	{
 		WayPoint(timestep);
+
+		PxReal zPos = m_rigidBody->getPosition().z;
+		if (zPos >= 15000.0f)
+		{
+			getCoreEngine()->getSceneManager()->push(new GameWonScene, Modality::Popup);
+		}
 	}
 
 private:
