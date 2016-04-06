@@ -86,7 +86,7 @@ public:
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ParticleEmitter"/> class.
 	/// </summary>
-	ParticleEmitter(bool updateEmitter = true, float initalSpeed = 10.0f, float maxParticles = 10000.0f, float spawnRate = 5.0f, float lifeTime = 5.0f);
+	ParticleEmitter(bool updateEmitter = true, float initalSpeed = 10.0f, int maxParticles = 10000, float spawnRate = 5.0f, float lifeTime = 5.0f);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="ParticleEmitter"/> class.
 	/// </summary>
@@ -135,7 +135,7 @@ protected:
 	/// <summary>
 	/// The life time of the particle
 	/// </summary>
-	int m_lifeTime;
+	float m_lifeTime;
 	/// <summary>
 	/// The inital speed of the particle.
 	/// </summary>
@@ -199,7 +199,7 @@ public:
 	/// <param name="lifeTime">The life time.</param>
 	/// <param name="maxParticles">The maximum particles.</param>
 	/// <param name="spawnRate">The spawn rate.</param>
-	AmbientEmitter(float lifeTime, float initalSpeed = 0.0f, int maxParticles = 10000.0f, float spawnRate = 5.0f);
+	AmbientEmitter(float lifeTime, float initalSpeed = 0.0f, int maxParticles = 10000, float spawnRate = 5.0f);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="AmbientEmitter"/> class.
 	/// </summary>
@@ -226,7 +226,7 @@ public:
 	/// <param name="lifeTime">The life time.</param>
 	/// <param name="maxParticles">The maximum particles.</param>
 	/// <param name="spawnRate">The spawn rate.</param>
-	ExplosionEmitter(float lifeTime, float initalSpeed = 100.0f, int maxParticles = 10000.0f, float spawnRate = 5.0f);
+	ExplosionEmitter(float lifeTime, float initalSpeed = 100.0f, int maxParticles = 10000, float spawnRate = 5.0f);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="ExplosionEmitter"/> class.
 	/// </summary>
@@ -265,7 +265,7 @@ public:
 	/// <param name="lifeTime">The life time.</param>
 	/// <param name="maxParticles">The maximum particles.</param>
 	/// <param name="spawnRate">The spawn rate.</param>
-	FountainEmitter(float lifeTime, float initalSpeed = 10.0f, int maxParticles = 10000.0f, float spawnRate = 5.0f);
+	FountainEmitter(float lifeTime, float initalSpeed = 10.0f, int maxParticles = 10000, float spawnRate = 5.0f);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="FountainEmitter"/> class.
 	/// </summary>
@@ -294,7 +294,7 @@ public:
 	/// <param name="lifeTime">The life time.</param>
 	/// <param name="maxParticles">The maximum particles.</param>
 	/// <param name="spawnRate">The spawn rate.</param>
-	ConeEmitter(float lifeTime, float initalSpeed = 10.0f, float angle = ToRadians(25.0f), float radius = 1.0f, int maxParticles = 10000.0f, float spawnRate = 5.0f);
+	ConeEmitter(float lifeTime, float initalSpeed = 10.0f, float angle = ToRadians(25.0f), float radius = 1.0f, int maxParticles = 10000, float spawnRate = 5.0f);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="ConeEmitter"/> class.
 	/// </summary>
@@ -337,7 +337,7 @@ public:
 	/// <param name="lifeTime">The life time.</param>
 	/// <param name="spawnRate">The spawn rate.</param>
 	/// <param name="maxParticles">The maximum particles.</param>
-	ParticleSystem(Material material, EmitterType eType = EmitterType::AMBIENT, float initalSpeed = 0.0f, float lifeTime = 4.0f, float spawnRate = 100.0f, int maxParticles = 10000.0f);
+	ParticleSystem(Material material, EmitterType eType = EmitterType::AMBIENT, float initalSpeed = 0.0f, float lifeTime = 4.0f, float spawnRate = 100.0f, int maxParticles = 10000);
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ParticleSystem"/> class.
 	/// Only use with ConeEmitter
@@ -350,7 +350,7 @@ public:
 	/// <param name="lifeTime">The life time.</param>
 	/// <param name="spawnRate">The spawn rate.</param>
 	/// <param name="maxParticles">The maximum particles.</param>
-	ParticleSystem(Material material, float initalSpeed = 10.0f, float angle = ToRadians(25.0f), EmitterType eType = EmitterType::CONE, float radius = 1.0f, float lifeTime = 1.0f, float spawnRate = 100.0f, int maxParticles = 10000.0f);
+	ParticleSystem(Material material, float initalSpeed = 10.0f, float angle = ToRadians(25.0f), EmitterType eType = EmitterType::CONE, float radius = 1.0f, float lifeTime = 1.0f, float spawnRate = 100.0f, int maxParticles = 10000);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="ParticleSystem"/> class.
 	/// </summary>

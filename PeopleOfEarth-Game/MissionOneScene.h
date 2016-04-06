@@ -59,8 +59,8 @@ public:
 
 
 		addToRoot((new GameObject("Skybox"))
-			//->addGameComponent(new SkyboxRenderer("Skybox/Starfield/starfield.tga")));
-			->addGameComponent(new SkyboxRenderer("Skybox/sky/sky.jpg")));
+			->addGameComponent(new SkyboxRenderer("Skybox/Starfield/starfield.tga")));
+			//->addGameComponent(new SkyboxRenderer("Skybox/sky/sky.jpg")));
 
 		GameObject * starBoardLight_Fighter = new GameObject("starBoardLight_Fighter", PxVec3(7.0f, 1.0f, -3.5f));
 		starBoardLight_Fighter->addGameComponent(new PointLight(PxVec3(0.0f, 1.0f, 0.0f), 0.5f));

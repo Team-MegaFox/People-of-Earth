@@ -288,6 +288,7 @@ public:
 			m_multiCollider->addColliderToObject(&collider);
 			return true;
 		}
+		return false;
 	}
 
 	/// <summary>

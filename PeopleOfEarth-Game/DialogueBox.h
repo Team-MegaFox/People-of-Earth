@@ -70,7 +70,7 @@ public:
 				m_message = newMessage;
 
 				// if the message needs to be formatted using the multiLinetool
-				if ((m_message.length() > m_lineLength) && useMultiLineTool)
+				if (((int)m_message.length() > m_lineLength) && useMultiLineTool)
 				{
 					multiLineTool(m_lineLength, m_message);
 				}
@@ -98,7 +98,7 @@ public:
 				m_message = newMessage;
 
 				// if the message needs to be formatted using the multiLinetool
-				if ((m_message.length() > m_lineLength) && useMultiLineTool)
+				if (((int)m_message.length() > m_lineLength) && useMultiLineTool)
 				{
 					multiLineTool(m_lineLength, m_message);
 				}
@@ -176,7 +176,7 @@ public:
 				message[i] = '\n';
 				break;
 			}
-			else if (count >= m_lineLength - 1)
+			else if ((int)count >= m_lineLength - 1)
 			{
 				message[index] = '\n';
 				break;
@@ -188,7 +188,7 @@ public:
 		// is still greater than 25
 		// call this method again
 		// passing the index of 25 + the curent position in the string;
-		if (message.length() - i > m_lineLength)
+		if (message.length() - i > (size_t)m_lineLength)
 		{
 			multiLineTool(i + m_lineLength, message);
 		}

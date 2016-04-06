@@ -72,7 +72,7 @@ public:
 						);
 
 					instantiate((new GameObject("Laser Sound"))
-						->addGameComponent(new AudioSource("Music/sci-fi_weapon_laser_small_03.WAV", AudioType::SOUND, true, 0.2f, true)));
+						->addGameComponent(new AudioSource("Music/sci-fi_weapon_laser_small_03.WAV", AudioType::SOUND, true, 0.1f, true)));
 
 					m_delay = 0.0f;
 					m_shipStats->updateEnergy(-0.001f);
@@ -92,7 +92,7 @@ public:
 						);
 
 					instantiate((new GameObject("Laser Sound"))
-						->addGameComponent(new AudioSource("Music/sci-fi_weapon_laser_small_03.WAV", AudioType::SOUND, true, 0.2f, true)));
+						->addGameComponent(new AudioSource("Music/sci-fi_weapon_laser_small_03.WAV", AudioType::SOUND, true, 0.1f, true)));
 
 					m_delay = 0.0f;
 					m_shipStats->updateEnergy(-0.001f);

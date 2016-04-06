@@ -24,7 +24,7 @@
 
 // Particle Emitter Methods
 
-ParticleEmitter::ParticleEmitter(bool updateEmitter /*= true*/, float initalSpeed /*= 10.0f*/, float maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/, float lifeTime /*= 5.0f*/) :
+ParticleEmitter::ParticleEmitter(bool updateEmitter /*= true*/, float initalSpeed /*= 10.0f*/, int maxParticles /*= 10000*/, float spawnRate /*= 5.0f*/, float lifeTime /*= 5.0f*/) :
 m_updateEmitter(updateEmitter), m_initalSpeed(initalSpeed), m_maxParticles(maxParticles), m_spawnRate(spawnRate), m_lifeTime(lifeTime)
 {
 	m_particles.resize(maxParticles, Particle());
@@ -214,7 +214,7 @@ void AmbientEmitter::updateParticles(float deltaTime)
 	for (int i = 0; i < (int)(deltaTime * 100.0); i++)
 	{
 		int particleIndex = findUnusedParticle();
-		m_particles[particleIndex].life = m_lifeTime;
+		m_particles[particleIndex].life = (float)m_lifeTime;
 
 		//TODO: Should supply a value for density here from the constructor
 
@@ -340,9 +340,9 @@ void ConeEmitter::updateParticles(float deltaTime)
 
 		// pick a random location inside the base circle
 		auto angleRand = std::bind(std::uniform_real_distribution<float>(0.0f, PxHalfPi),
-			std::mt19937(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
+			std::mt19937((unsigned int)std::chrono::high_resolution_clock::now().time_since_epoch().count()));
 		auto radiusRand = std::bind(std::uniform_real_distribution<float>(0.0f, 1.0f),
-			std::mt19937(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
+			std::mt19937((unsigned int)std::chrono::high_resolution_clock::now().time_since_epoch().count()));
 		float randomAngle = angleRand();
 		m_particles[particleIndex].pos = PxVec3(radiusRand() * m_radius * cosf(randomAngle), 0.0f, radiusRand() * m_radius * sinf(randomAngle));
 

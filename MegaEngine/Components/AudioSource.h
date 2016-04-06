@@ -65,10 +65,7 @@ public:
 		{
 			m_audio->play();
 		}
-		else
-		{
-			setVolume(m_volume);
-		}
+		setVolume(m_volume);
 
 		setLooping(m_loopOnStart, -1);
 	}

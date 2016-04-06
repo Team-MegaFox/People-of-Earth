@@ -64,7 +64,7 @@ public:
 			->addChild((new GameObject("Mission 1 Image"))
 			->addGUIComponent(new GUIImage(PxVec4(0.02f, 0.1f, 0.9f, 0.8f), PxVec4(0.0f), "Images/MissionOneImage.jpg")))
 			->addChild((new GameObject("Objectives"))
-			->addGUIComponent(new GUILabel(PxVec4(0.6f, 0.2f, 0.4f, 0.5f), PxVec4(0.0f), formatting + objectives))));
+			->addGUIComponent(new GUILabel(PxVec4(0.54f, 0.2f, 0.45f, 0.5f), PxVec4(0.0f), formatting + objectives))));
 		m_missionSelectMenuObject->addChild((new GameObject("Mission 2"))
 			->addGUIComponent(new GUIContainer(PxVec4(1.1f, 0.1f, 0.8f, 0.8f), PxVec4(0.0f), "Mission 2"))
 			->addChild((new GameObject("Mission 2 Button"))
