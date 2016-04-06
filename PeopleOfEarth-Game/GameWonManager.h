@@ -26,6 +26,8 @@ public:
 	/// <param name="delta">The frame time delta.</param>
 	virtual void processInput(const InputManager& input, float delta) override
 	{
+		m_delayToHitButton += delta;
+
 		if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B))
 		{
 			getCoreEngine()->getSceneManager()->pop();
@@ -88,9 +90,12 @@ public:
 			m_ableToPlayMoveSound = false;
 		}
 
-		if (input.KeyPress(SDLK_RETURN) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_A))
+		if (m_delayToHitButton >= 4.5f)
 		{
-			m_buttons[m_focusButton]->click();
+			if (input.KeyPress(SDLK_RETURN) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_A))
+			{
+				m_buttons[m_focusButton]->click();
+			}
 		}
 	}
 
@@ -100,6 +105,8 @@ private:
 	bool m_usingController = false;
 
 	bool m_usingMouse = false;
+
+	float m_delayToHitButton = 0.0f;
 
 	std::vector<GUIButton*> m_buttons;
 

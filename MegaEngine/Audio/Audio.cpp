@@ -19,7 +19,8 @@ m_audioEngine(audioEngine)
 
 Audio::~Audio()
 {
-	//ERRCHECK(m_sound->release());
+	stop();
+	//ERRCHECK_OK(m_sound->release());
 }
 
 void Audio::stop() const

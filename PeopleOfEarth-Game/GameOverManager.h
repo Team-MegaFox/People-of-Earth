@@ -30,6 +30,8 @@ public:
 	/// <param name="delta">The frame time delta.</param>
 	virtual void processInput(const InputManager& input, float delta) override
 	{
+		m_delayToHitButton += delta;
+
 		if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B))
 		{
 			m_selectedSound->play();
@@ -98,11 +100,14 @@ public:
 			m_ableToPlayMoveSound = false;
 		}
 
-		if (input.KeyPress(SDLK_RETURN) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_A))
+		if (m_delayToHitButton >= 4.5f)
 		{
-			m_selectedSound->play();
+			if (input.KeyPress(SDLK_RETURN) || input.PadButtonPress(SDL_CONTROLLER_BUTTON_A))
+			{
+				m_selectedSound->play();
 
-			m_buttons[m_focusButton]->click();
+				m_buttons[m_focusButton]->click();
+			}
 		}
 	}
 
@@ -116,6 +121,8 @@ private:
 	std::vector<GUIButton*> m_buttons;
 
 	size_t m_focusButton;
+
+	float m_delayToHitButton = 0.0f;
 
 	//Sounds
 	AudioSource* m_moveSound;
