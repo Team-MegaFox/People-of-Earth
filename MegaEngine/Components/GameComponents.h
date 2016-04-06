@@ -48,6 +48,18 @@ public:
 	/// when game components are added to the scene
 	/// </summary>
 	virtual void onStart() {}
+	/// <summary>
+	/// If the game object attached becomes covered by a pop up scene
+	/// then this method is called notifying the component it is being 
+	/// covered.
+	/// </summary>
+	virtual void onCovered() {}
+	/// <summary>
+	/// If the game object attached becomes uncovered by popping a pop
+	/// up scene this method is called notifying the component it is being
+	/// uncovered.
+	/// </summary>
+	virtual void onUncovered() {}
 
 	/// <summary>
 	/// Virtual function for custom input processing.

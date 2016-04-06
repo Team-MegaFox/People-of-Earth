@@ -45,6 +45,16 @@ public:
 	/// <param name="window">The window.</param>
 	virtual void init(const Viewport& window) = 0;
 	/// <summary>
+	/// Notifies all the game objects in the scene that they
+	/// are being covered by a pop up scene.
+	/// </summary>
+	void notifyCoveredObjects();
+	/// <summary>
+	/// Notifies all the game objects in the scene that they
+	/// are being uncovered from a pop scene.
+	/// </summary>
+	void notifyUncoveredObjects();
+	/// <summary>
 	/// Updates the scene calling GameObject's update.
 	/// </summary>
 	/// <param name="delta">The frame time delta.</param>

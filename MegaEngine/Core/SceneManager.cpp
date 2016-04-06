@@ -54,10 +54,11 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 		auto go = m_activeList.back().first->getAllGameObjects();
 		for (size_t i = 0; i < go.size(); i++)
 		{
-			go[i]->deactivate();
+			//go[i]->deactivate();
 			if (modality == Modality::Exclusive)
 			{
-				go[i]->setEnabled(false);
+				go[i]->setWasEnabled(go[i]->isEnabled());
+				go[i]->setEnabled(false, false);
 
 				AudioSource * audio = go[i]->getGameComponent<AudioSource>();
 				if (audio != nullptr)
@@ -71,6 +72,11 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 				}
 			}
 		}
+	}
+
+	if (modality == Modality::Popup)
+	{
+		m_activeList.back().first->notifyCoveredObjects();
 	}
 
 	m_activeList.push_back(std::make_pair(scene, modality));
@@ -110,25 +116,33 @@ void SceneManager::pop()
 	{
 		updateExclusiveScene();
 
+		if (!poppingExclusive)
+		{
+			m_activeList.back().first->notifyUncoveredObjects();
+		}
+
 		auto go = m_activeList.back().first->getAllGameObjects();
 		for (size_t i = 0; i < go.size(); i++)
 		{
-			go[i]->activate();
+			//go[i]->activate();
 			if (poppingExclusive)
 			{
-				go[i]->setEnabled(true);
+				go[i]->setEnabled(go[i]->wasEnabled(), false);
 			}
 		}
 
-		go = m_activeList[m_exclusiveScene].first->getAllGameObjects();
-		for (size_t i = 0; i < go.size(); i++)
+		if (poppingExclusive)
 		{
-			AudioSource * audio = go[i]->getGameComponent<AudioSource>();
-			if (audio != nullptr)
+			go = m_activeList[m_exclusiveScene].first->getAllGameObjects();
+			for (size_t i = 0; i < go.size(); i++)
 			{
-				if (audio->getType() == AudioType::STREAM && audio->wasPlaying())
+				AudioSource * audio = go[i]->getGameComponent<AudioSource>();
+				if (audio != nullptr)
 				{
-					audio->play();
+					if (audio->getType() == AudioType::STREAM && audio->wasPlaying())
+					{
+						audio->play();
+					}
 				}
 			}
 		}

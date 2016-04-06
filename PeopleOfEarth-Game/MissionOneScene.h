@@ -84,7 +84,7 @@ public:
 			->addGameComponent(new RigidBody(PxVec3(1.0f, 1.0f, 1.0f), PxQuat(PxIdentity), 1.0f, 7.0f, 1.0f, 5.0f))
 			->addGameComponent(new FireProjectile)
 			->addGameComponent(new PlayerShipMovementController("camera", 50.0f))
-			//->addGameComponent(new InGameMusic)
+			->addGameComponent(new InGameMusic)
 			->addGameComponent(new ShipStats)
 			->addGameComponent(new UpdateGUI)
 			->addChild(starBoardLight_Fighter)

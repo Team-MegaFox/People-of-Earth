@@ -25,6 +25,16 @@ Scene::~Scene()
 {
 }
 
+void Scene::notifyCoveredObjects()
+{
+	m_root.notifyCoveredComponents();
+}
+
+void Scene::notifyUncoveredObjects()
+{
+	m_root.notifyUncoveredComponents();
+}
+
 void Scene::update(float delta)
 {
 	m_root.updateAll(delta);

@@ -36,6 +36,32 @@ GameObject::~GameObject()
 	m_children.clear();
 }
 
+void GameObject::notifyCoveredComponents()
+{
+	for (size_t i = 0; i < m_gameComponents.size(); i++)
+	{
+		m_gameComponents[i]->onCovered();
+	}
+
+	for (size_t i = 0; i < m_children.size(); i++)
+	{
+		m_children[i]->notifyCoveredComponents();
+	}
+}
+
+void GameObject::notifyUncoveredComponents()
+{
+	for (size_t i = 0; i < m_gameComponents.size(); i++)
+	{
+		m_gameComponents[i]->onUncovered();
+	}
+
+	for (size_t i = 0; i < m_children.size(); i++)
+	{
+		m_children[i]->notifyUncoveredComponents();
+	}
+}
+
 void GameObject::updateAll(float delta)
 {
 	if (m_enabled)
@@ -263,7 +289,7 @@ void GameObject::processInputGUIComponents(const InputManager& input, float delt
 	}
 }
 
-void GameObject::setEnabled(const bool enabled)
+void GameObject::setEnabled(const bool enabled, const bool childrenEnabled /*= true*/)
 {
 	m_enabled = enabled;
 	if (m_enabled)
@@ -281,8 +307,16 @@ void GameObject::setEnabled(const bool enabled)
 		}
 	}
 
-	for (size_t i = 0; i < m_children.size(); i++)
+	if (childrenEnabled)
 	{
-		m_children[i]->setEnabled(enabled);
+		for (size_t i = 0; i < m_children.size(); i++)
+		{
+			m_children[i]->setEnabled(enabled);
+		}
 	}
+}
+
+void GameObject::setWasEnabled(const bool enabled)
+{
+	m_wasEnabled = enabled;
 }

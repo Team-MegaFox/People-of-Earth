@@ -53,6 +53,16 @@ public:
 		m_playerStats = getGameObjectByName("player")->getGameComponent<ShipStats>();
 	}
 
+	virtual void onCovered() 
+	{
+		m_currentSource->setLooping(true, -1);
+	}
+
+	virtual void onUncovered() 
+	{
+		m_currentSource->setLooping(false);
+	}
+
 	virtual void update(float delta) override
 	{
 		if ((m_playerStats->getHealth() <= 0.6f) || (m_playerStats->getEnergy() <= 0.6f) || (m_playerStats->getFuel() <= 0.6f))
@@ -78,6 +88,7 @@ public:
 		if (m_firstTimeOnly)
 		{
 			m_Intro->play();
+			m_currentSource = m_Intro;
 			m_introPlayed = true;
 			m_firstTimeOnly = false;
 		}
@@ -102,6 +113,7 @@ public:
 				|| (m_danger2Played && !m_transitionPlayed)))
 			{
 				m_Transition->play();
+				m_currentSource = m_Transition;
 				// reset booleans
 				m_transitionPlayed = true;
 			}
@@ -114,6 +126,7 @@ public:
 					&& ((!m_Transition->isPlaying()) && (!m_Music2->isPlaying()) && (!m_Intro->isPlaying())))
 				{
 					m_Music1->play();
+					m_currentSource = m_Music1;
 					// reset booleans
 					m_music1Played = true;
 					m_transitionPlayed = false;
@@ -131,6 +144,7 @@ public:
 					&& ((!m_Music1->isPlaying()) && (!m_Transition->isPlaying())))
 				{
 					m_Music2->play();
+					m_currentSource = m_Music2;
 					// reset booleans
 					m_music2Played = true;
 					m_music1Played = false;
@@ -141,6 +155,7 @@ public:
 					&&((!m_Danger1->isPlaying()) && (!m_Transition->isPlaying()) && (!m_Danger2->isPlaying())))
 				{
 					m_Music1->play();
+					m_currentSource = m_Music1;
 					// reset booleans
 					m_music1Played = true;
 					m_transitionPlayed = false;
@@ -170,6 +185,7 @@ public:
 					&& (!m_Transition->isPlaying())))
 				{
 					m_Danger1->play();
+					m_currentSource = m_Danger1;
 					// reset booleans
 					m_danger1Played = true;
 					m_transitionPlayed = false;
@@ -195,6 +211,7 @@ public:
 					&& ((!m_Danger1->isPlaying()) && (!m_Transition->isPlaying())))
 				{
 					m_Danger2->play();
+					m_currentSource = m_Danger2;
 					m_danger2Played = true;
 					m_transitionPlayed = false;
 					m_danger1Played = false;
@@ -205,6 +222,7 @@ public:
 	}
 
 private:
+	AudioSource * m_currentSource;
 	/// <summary>
 	/// The intro music
 	/// </summary>
