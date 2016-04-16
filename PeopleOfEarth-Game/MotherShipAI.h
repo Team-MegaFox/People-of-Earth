@@ -102,6 +102,6 @@ public:
 	float m_delayAttacking = 10.0f;
 	Material m_laserMaterial;
 	ShipStats * m_shipStats;
-	float m_damageValue = 0.4f;
+	float m_damageValue = 0.1f;
 	PxVec3 m_scaleOfProjectile = PxVec3(4.0f);
 };

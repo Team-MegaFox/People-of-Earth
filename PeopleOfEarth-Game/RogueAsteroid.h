@@ -31,7 +31,7 @@ public:
 		m_rigidBody = getParent()->getGameComponent<RigidBody>();
 		//Create 2 points for the asteroid (start and end point)
 		createNewPath();
-		m_rigidBody->setPosition(PxVec3(0.0f, 0.0f, 100.0f));
+		//m_rigidBody->setPosition(PxVec3(0.0f, 0.0f, 100.0f));
 	}
 
 	// Update is called once per frame

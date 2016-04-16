@@ -142,6 +142,6 @@ private:
 	PxVec3 m_missileScale = PxVec3(0.0025f);
 	PxVec3 m_laserScale = PxVec3(1.0f);
 	ShipStats * m_shipStats;
-	int m_missileCount = 10;
+	int m_missileCount = 5;
 
 };

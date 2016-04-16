@@ -161,6 +161,14 @@ struct Projectile : public GameComponent
 				collisionCheckObject.push_back(gameObjects[i]);
 			}
 		}
+		if (m_agentType == ENEMY_SIDE)
+		{
+			gameObjects = getGameObjectsByName("passengerShip");
+			for (size_t i = 0; i < gameObjects.size(); i++)
+			{
+				collisionCheckObject.push_back(gameObjects[i]);
+			}
+		}
 		if (m_agentType == PLAYER_SIDE)
 		{
 			gameObjects = getGameObjectsByName("enemyFighter");
@@ -169,7 +177,14 @@ struct Projectile : public GameComponent
 				collisionCheckObject.push_back(gameObjects[i]);
 			}
 		}
-
+		if (m_agentType == PLAYER_SIDE)
+		{
+			gameObjects = getGameObjectsByName("EnemyMother");
+			for (size_t i = 0; i < gameObjects.size(); i++)
+			{
+				collisionCheckObject.push_back(gameObjects[i]);
+			}
+		}
 		return collisionCheckObject;
 	}
 

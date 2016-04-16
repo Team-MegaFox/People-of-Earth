@@ -70,7 +70,7 @@ public:
 		WayPoint(timestep);
 
 		PxReal zPos = m_rigidBody->getPosition().z;
-		if (zPos >= 15000.0f)
+		if (zPos >= 25000.0f)
 		{
 			getCoreEngine()->getSceneManager()->push(new GameWonScene, Modality::Popup);
 		}

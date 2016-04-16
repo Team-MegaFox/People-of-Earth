@@ -44,7 +44,7 @@ private:
 
 	bool onExitClick(const GameObject& gameobject)
 	{
-		getCoreEngine()->stop();
+		//getCoreEngine()->stop();
 		return true;
 	}
 

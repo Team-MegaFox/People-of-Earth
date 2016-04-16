@@ -58,7 +58,7 @@ public:
 		{
 			collisionCheckObject.push_back(gameObjects[i]);
 		}
-		gameObjects = getGameObjectsByName("Passenger Ship");
+		gameObjects = getGameObjectsByName("passengerShip");
 		for (size_t i = 0; i < gameObjects.size(); i++)
 		{
 			collisionCheckObject.push_back(gameObjects[i]);
@@ -173,7 +173,7 @@ public:
 		instantiate(
 			(new GameObject("Laser", *getTransform()->getPosition()
 			, *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
-			->addGameComponent(new Projectile(0.1f, AGENT::ENEMY_SIDE))
+			->addGameComponent(new Projectile(0.01f, AGENT::ENEMY_SIDE))
 			->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("enemyLaser")))
 			->addGameComponent(new RigidBody(*getTransform()->getPosition() +
 			Utility::getForward(*getTransform()->getRotation()) * 50.0f +//30.0f +
@@ -183,7 +183,7 @@ public:
 		//Left Side
 		instantiate(
 			(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
-			->addGameComponent(new Projectile(0.1f, AGENT::ENEMY_SIDE))
+			->addGameComponent(new Projectile(0.01f, AGENT::ENEMY_SIDE))
 			->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("enemyLaser")))
 			->addGameComponent(new RigidBody(*getTransform()->getPosition() +
 			Utility::getForward(*getTransform()->getRotation()) * 50.0f + //30.0f +

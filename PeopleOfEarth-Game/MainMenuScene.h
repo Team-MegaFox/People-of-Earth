@@ -18,7 +18,7 @@ public:
 
 	virtual void init(const Viewport& window) override
 	{
-		AudioSource * BGM = new AudioSource("Music/Title Music.wav", AudioType::STREAM);
+		AudioSource * BGM = new AudioSource("Music/Title Music.wav", AudioType::STREAM, true, 1.0f, false, true);
 		//BGM->play();
 
 		addToRoot((new GameObject("Skybox"))
