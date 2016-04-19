@@ -102,13 +102,20 @@ public:
 		//	;
 		//addToRoot(fighterShip);
 
+		GameObject* fighterShip =
+			(new GameObject("player", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f))))
+			->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj", 1.0f), Material("ship1")))
+			->addGameComponent(new RigidBody(PxVec3(1.0f, 1.0f, 1.0f), PxQuat(PxIdentity), 1.0f, 7.0f, 1.0f, 5.0f))
+			->addGameComponent(new PlayerShipMovementController("camera", 50.0f));
+		addToRoot(fighterShip);
+
 		// The human fighter ship and camera
 		GameObject* camera =
-			(new GameObject("camera", PxVec3(0, 0, 0)))
-			//*fighterShip->getTransform()->getPosition() - Utility::getForward(*fighterShip->getTransform()->getRotation()) * 30.0f
-			//+ PxVec3(0.0f, 5.0f, 0.0f)))
-			->addGameComponent(new FreeMove)
-			->addGameComponent(new FreeLook(window.getCenter()))
+			//(new GameObject("camera", PxVec3(0, 0, 0)))
+			(new GameObject("camera",
+			*fighterShip->getTransform()->getPosition() - Utility::getForward(*fighterShip->getTransform()->getRotation()) * 30.0f + PxVec3(0.0f, 5.0f, 0.0f)))
+			//->addGameComponent(new FreeMove)
+			//->addGameComponent(new FreeLook(window.getCenter()))
 			->addGameComponent(new CameraComponent(ToRadians(75.0f), window.getAspectRatio(), 0.1f, 200000.0f));
 			//->addGameComponent(new Listener());
 		addToRoot(camera);
@@ -117,17 +124,17 @@ public:
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 100.0f), Material("earth")))
 			);*/
 
-		addToRoot((new GameObject("earth", PxVec3(0, 0.0f, -1000.0f)))
+		/*addToRoot((new GameObject("earth", PxVec3(0, 0.0f, -1000.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 100.0f), Material("earth")))
-			);
+			);*/
 
 		/*addToRoot((new GameObject("mars", PxVec3(7500.0f, 0.0f, 7500.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 35.0f), Material("mars")))
 			);*/
 
-		addToRoot((new GameObject("jupiter", PxVec3(0.0f, 0.0f, 10000.0f)))
+		/*addToRoot((new GameObject("jupiter", PxVec3(0.0f, 0.0f, 10000.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 250.0f), Material("jupiter")))
-			);
+			);*/
 
 
 		addToRoot((new GameObject("moon", PxVec3(1000.0f, 0.0f, 1000.0f)))
@@ -175,15 +182,18 @@ public:
 		addToRoot((new GameObject("DrLight", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f))))
 			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 1.0f, 1.0f), 0.5f, 8)));
 
-		addToRoot((new GameObject("particleMatB", PxVec3(0.0f, 0.0f, 0.0f)))
-			->addGameComponent(new ParticleSystem(Material("particleMatB"), 10.0f, ToRadians(0.0f), CONE, 1.0f, 2.0f, 1000.0f)));
-		//addToRoot((new GameObject("particlesB", glm::vec3(0.0f, 0.0f, -10.0f)))
-		//	->addGameComponent(new ParticleSystem(Material("particleMatB"), EXPLOSION, 10.0f)));
-		//addToRoot((new GameObject("particlesC", glm::vec3(0.0f, 0.0f, 0.0f)))
-		//	->addGameComponent(new ParticleSystem(Material("particleMatC"), EXPLOSION)));
+		addToRoot((new GameObject("particleMatA", PxVec3(0.0f, 0.0f, 10.0f)))
+			->addGameComponent(new ParticleSystem(Material("particleMatA"), 10.0f, ToRadians(45.0f), CONE, 5.0f, 2.0f, 1000.0f)));
+		addToRoot((new GameObject("particlesB", PxVec3(10.0f, 0.0f, 0.0f)))
+			->addGameComponent(new ParticleSystem(Material("particleMatB"), EXPLOSION, 10.0f)));
+		addToRoot((new GameObject("particlesC", PxVec3(-10.0f, 0.0f, 0.0f)))
+			->addGameComponent(new ParticleSystem(Material("particleMatC"), EXPLOSION)));
 
-		//addToRoot((new GameObject("particlesD", glm::vec3(0.0f, 0.0f, 0.0f)))
-		//	->addGameComponent(new ParticleSystem(Material("particleMatD"), AMBIENT)));
+		addToRoot((new GameObject("particlesD", PxVec3(0.0f, 0.0f, -10.0f)))
+			->addGameComponent(new ParticleSystem(Material("particleMatD"), AMBIENT)));
+
+		addToRoot((new GameObject("plane", PxVec3(0.0f, -10.0f, 0.0f), PxIdentity, PxVec3(100.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Environment/plane.obj"), Material("particleMatA"))));
 
 	}
 };

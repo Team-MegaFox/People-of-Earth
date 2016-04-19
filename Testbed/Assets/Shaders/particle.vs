@@ -32,6 +32,13 @@ void main()
 	float size = particlePosition.w;
 	vec3 finalVertexPos = particlePosition.xyz + C_right * vertex.x * size + C_up * vertex.y * size;
 
-    gl_Position = T_MVP * vec4(finalVertexPos, 1.0);
+	float angle = 180.0 * 3.14159265359 / 180.0;
+	mat4 rotateToFaceYou = mat4(
+	cos(angle), 0, sin(angle), 0.0,
+	0.0, 1.0, 0.0, 0.0,
+	-sin(angle), 0.0, cos(angle), 0.0,
+	0.0, 0.0, 0.0, 1.0);
+	
+    gl_Position = T_MVP * rotateToFaceYou * vec4(finalVertexPos, 1.0);
 	color0 = color;
 }
