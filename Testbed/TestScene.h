@@ -50,6 +50,16 @@ public:
 		Material particleMatC("particleMatC", 0.5f, 4.0f, Texture("fireTexture.png"));
 		Material particleMatD("particleMatD", 0.5f, 4.0f, Texture("star.png"));
 
+		Material alienShip("alien_ship", 5.0f, 4,
+			Texture("Ships/Alien/astra_elements2_c.png"),
+			Texture("Ships/Alien/astraBattleship_Normals.png"),
+			Texture("Ships/Alien/astra_elements2_i.png"));
+
+		Material enemyMotherShip("enemyMother", 0.5f, 4,
+			Texture("Ships/Alien/astra_elements1_c.png"),
+			Texture("Ships/Alien/astraHeavyCruiser_Normals.png"),
+			Texture("Ships/Alien/astra_elements1_i.png"));
+
 		//Material planetA("plan1", 0.5f, 4, Texture("Planets/Planet_A.png"), Texture("Planets/Planet_A_NORM.png"));
 		//Material planetB("plan2", 0.5f, 4, Texture("Planets/Planet_B.png"), Texture("Planets/Planet_B_NORM.png"));
 		//Material planetC("plan3", 0.5f, 4, Texture("Planets/Planet_C.png"), Texture("Planets/Planet_C_NORM.png"));
@@ -61,7 +71,8 @@ public:
 		AudioSource * BGM = new AudioSource("music.mp3", AudioType::STREAM);
 
 		addToRoot((new GameObject("skybox"))
-			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
+			//->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
+			->addGameComponent(new SkyboxRenderer("Skybox/sky/sky.jpg")));
 
 		//GameObject* pointlight =
 		//	(new GameObject("pointLight", PxVec3(0.0f, 1.0f, 0.0f)))
@@ -102,10 +113,12 @@ public:
 		//	;
 		//addToRoot(fighterShip);
 
+		RigidBody* fighterRB = new RigidBody(PxVec3(1.0f, 1.0f, 1.0f), PxQuat(PxIdentity), 1.0f, 7.0f, 1.0f, 5.0f);
+		//fighterRB->setDebugDraw(true);
 		GameObject* fighterShip =
 			(new GameObject("player", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f))))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj", 1.0f), Material("ship1")))
-			->addGameComponent(new RigidBody(PxVec3(1.0f, 1.0f, 1.0f), PxQuat(PxIdentity), 1.0f, 7.0f, 1.0f, 5.0f))
+			->addGameComponent(fighterRB)
 			->addGameComponent(new PlayerShipMovementController("camera", 50.0f));
 		addToRoot(fighterShip);
 
@@ -179,18 +192,33 @@ public:
 		//	->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_D.obj", 10.0f), Material("plan4")))
 		//	);
 
+		//RigidBody* rigidBody = new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 15.0f, 3.0f, 10.0f);
+		//rigidBody->setDebugDraw(true);
+		//// the alien fighter ship
+		//addToRoot((new GameObject("enemyFighter_", PxVec3(0.0f, -5.0f, 80.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
+		//	->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
+		//	->addGameComponent(rigidBody)
+		//	);
+
+		RigidBody* motherShipRigidBody = new RigidBody(PxVec3(0.0f, 0.0f, 100.0f), PxQuat(PxIdentity), 1.0f, 500.0f, 500.0f, 500.0f);
+		motherShipRigidBody->setDebugDraw(true);
+		addToRoot((new GameObject("EnemyMother", PxVec3(0.0f, 0.0f, 0.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Ships/enemy_HeavyCruiser.obj", 10.0f), Material("enemyMother")))
+			->addGameComponent(motherShipRigidBody)
+			);
+
 		addToRoot((new GameObject("DrLight", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f))))
 			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 1.0f, 1.0f), 0.5f, 8)));
 
 		addToRoot((new GameObject("particleMatA", PxVec3(0.0f, 0.0f, 10.0f)))
 			->addGameComponent(new ParticleSystem(Material("particleMatA"), 10.0f, ToRadians(45.0f), CONE, 5.0f, 2.0f, 1000.0f)));
-		addToRoot((new GameObject("particlesB", PxVec3(10.0f, 0.0f, 0.0f)))
-			->addGameComponent(new ParticleSystem(Material("particleMatB"), EXPLOSION, 10.0f)));
-		addToRoot((new GameObject("particlesC", PxVec3(-10.0f, 0.0f, 0.0f)))
-			->addGameComponent(new ParticleSystem(Material("particleMatC"), EXPLOSION)));
+		//addToRoot((new GameObject("particlesB", PxVec3(10.0f, 0.0f, 0.0f)))
+		//	->addGameComponent(new ParticleSystem(Material("particleMatB"), EXPLOSION, 10.0f)));
+		//addToRoot((new GameObject("particlesC", PxVec3(-10.0f, 0.0f, 0.0f)))
+		//	->addGameComponent(new ParticleSystem(Material("particleMatC"), EXPLOSION)));
 
-		addToRoot((new GameObject("particlesD", PxVec3(0.0f, 0.0f, -10.0f)))
-			->addGameComponent(new ParticleSystem(Material("particleMatD"), AMBIENT)));
+		//addToRoot((new GameObject("particlesD", PxVec3(0.0f, 0.0f, -10.0f)))
+		//	->addGameComponent(new ParticleSystem(Material("particleMatD"), AMBIENT)));
 
 		addToRoot((new GameObject("plane", PxVec3(0.0f, -10.0f, 0.0f), PxIdentity, PxVec3(100.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Environment/plane.obj"), Material("particleMatA"))));
