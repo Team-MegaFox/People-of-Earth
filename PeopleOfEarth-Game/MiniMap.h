@@ -55,7 +55,7 @@ public:
 			->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.1f, 0.1f), PxVec4(0.0f), "Images/minimap_graphics/enemy_mother_ship_marker.png"))
 			);
 		//Adding Enemy Fighter Ship
-		m_allEnemyGameObjects = getGameObjectsByName("enemyFighter");
+		m_allEnemyGameObjects = getGameObjectsByName("enemyFighter_");
 		for (size_t i = 0; i < m_allEnemyGameObjects.size(); i++)
 		{
 			getParent()->addChild(
@@ -80,7 +80,7 @@ public:
 		//			->addGUIComponent(new GUIImage(PxVec4(0.0f, 0.70f, 0.3f, 0.3f), PxVec4(0.0f), "Images/energybar.png"))
 		//			);
 		//	}
-		//	if (allGameObjects[i]->getName() == "enemyFighter")
+		//	if (allGameObjects[i]->getName() == "enemyFighter_")
 		//	{
 		//		getParent()->addChild(
 		//			(new GameObject(allGameObjects[i]->getName() + "_GUI"))
@@ -117,7 +117,7 @@ public:
 		{
 			for (size_t i = 1; i < m_allEnemyGameObjects.size() + 1; i++)
 			{
-				if (objectName == "enemyFighter" + std::to_string(i))
+				if (objectName == "enemyFighter_" + std::to_string(i))
 				{
 					//If enemy mother ship is dead then
 					if (m_enemyMotherGameObject == nullptr)
@@ -143,7 +143,7 @@ public:
 		//Updates all the GUI Gameobjects in the scene from the Scene GameObjects
 		bool dead;
 
-		m_allEnemyGameObjects = getGameObjectsByName("enemyFighter");
+		m_allEnemyGameObjects = getGameObjectsByName("enemyFighter_");
 
 		// for all the game objects in the scene 
 		for (size_t i = 0; i < getParent()->getAllChildren().size(); i++)

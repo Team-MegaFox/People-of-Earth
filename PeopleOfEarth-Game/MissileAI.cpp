@@ -49,7 +49,7 @@ void MissileAI::init()
 
 std::vector<GameObject*> MissileAI::getAllEnemyObject()
 {
-	return getGameObjectsByName("enemyFighter");
+	return getGameObjectsByName("enemyFighter_");
 }
 
 void MissileAI::UpdateAI(float timestep)
@@ -60,6 +60,10 @@ void MissileAI::UpdateAI(float timestep)
 		//if missile collided with target then
 		if (m_rigidBody->getCollider()->checkCollision(m_targetRigidBody->getCollider()))
 		{
+			instantiate((new GameObject("explosionA", *m_targetObject->getTransform()->getPosition()))
+				->addGameComponent(new ParticleSystem(Material("explosionMat"), EXPLOSION, 10.0f, 5.0f, 500.0f)));
+			instantiate((new GameObject("explosionB", *m_targetObject->getTransform()->getPosition()))
+				->addGameComponent(new ParticleSystem(Material("explosionMat"), EXPLOSION, 10.0f, 5.0f, 500.0f)));
 			m_targetObject->getGameComponent<ShipStats>()->setHealth(0.0f);
 			m_alive = false;
 		}

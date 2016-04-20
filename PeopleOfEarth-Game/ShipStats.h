@@ -22,7 +22,13 @@ class MissileAI;
 class ShipStats : public GameComponent
 {
 public: 
-	ShipStats() : m_health(1.0f), m_fuel(1.0f), m_energy(1.0f), m_playRechargeSound(false), m_playMessageReceived(false) {}
+	ShipStats() : 
+		m_health(1.0f), 
+		m_fuel(1.0f), 
+		m_energy(1.0f), 
+		m_playRechargeSound(false), 
+		m_playMessageReceived(false), 
+		m_particleMat("explosionMat", 0.5f, 4.0f, Texture("fireTexture.png")) {}
 	~ShipStats() {}
 
 	virtual void onStart() override;
@@ -56,4 +62,5 @@ private:
 	AudioSource* m_rechargeSound;
 	bool m_playMessageReceived;
 	AudioSource* m_messageReceived;
+	Material m_particleMat;
 };

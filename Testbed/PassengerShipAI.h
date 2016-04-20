@@ -36,7 +36,7 @@ public:
 	{
 		std::vector<GameObject*> collisionCheckObject;
 		//std::vector<GameObject*> gameObjects;
-		//gameObjects = getGameObjectsByName("enemyFighter");
+		//gameObjects = getGameObjectsByName("enemyFighter_");
 		//for (size_t i = 0; i < gameObjects.size(); i++)
 		//{
 		//	collisionCheckObject.push_back(gameObjects[i]);

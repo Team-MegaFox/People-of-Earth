@@ -19,7 +19,9 @@ class MissileAI : public SteeringBehaviour
 {
 public:
 
-	MissileAI() : m_lifeTime(30.0f)
+	MissileAI() : 
+		m_lifeTime(30.0f),
+		m_particleMat("explosionMat2", 0.5f, 4.0f, Texture("fireTexture.png"))
 	{
 	}
 
@@ -36,4 +38,5 @@ public:
 private:
 	float m_lifeTime;
 	RigidBody* m_targetRigidBody;
+	Material m_particleMat;
 };

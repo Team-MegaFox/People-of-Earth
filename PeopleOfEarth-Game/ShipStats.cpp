@@ -86,23 +86,8 @@ void ShipStats::updateHealth(float health)
 		}
 	}
 
-	// if an enemy ship has been destroyed
-	if (getParent()->getName() == "enemyFighter")
-	{
-		if (m_health <= 0.0f)
-		{
-			m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFFA500']That ought to teach him!\nWay to go Fighter 1!!", Importance::CRITICAL, false);
-			if (m_playMessageReceived)
-			{
-				m_messageReceived->play();
-				m_playMessageReceived = false;
-			}
-
-		}
-	}
-
 	// if the enemy mother has been destroyed
-	if (getParent()->getName() == "EnemyMother")
+	if (getParent()->getName() == "EnemyMother1")
 	{
 		if (m_health <= 0.0f)
 		{
@@ -119,6 +104,26 @@ void ShipStats::updateHealth(float health)
 			m_playMessageReceived = true;
 		}
 	}
+
+	std::vector<std::string> thisEnemyFighter = { Utility::split(getParent()->getName(), '_') };
+	if (thisEnemyFighter.size() == 2)
+	{
+		if (m_health <= 0.0f)
+		{
+			// if an enemy ship has been destroyed
+			instantiate((new GameObject("explosionA", *getParent()->getTransform()->getPosition()))
+				->addGameComponent(new ParticleSystem(Material("explosionMat"), EXPLOSION, 10.0f, 5.0f, 500.0f)));
+			instantiate((new GameObject("explosionB", *getParent()->getTransform()->getPosition()))
+				->addGameComponent(new ParticleSystem(Material("explosionMat"), EXPLOSION, 10.0f, 5.0f, 500.0f)));
+			m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFFA500']That ought to teach him!\nWay to go Fighter 1!!", Importance::CRITICAL, false);
+			if (m_playMessageReceived)
+			{
+				m_messageReceived->play();
+				m_playMessageReceived = false;
+			}
+		}
+	}
+
 }
 
 void ShipStats::updateFuel(float fuel)

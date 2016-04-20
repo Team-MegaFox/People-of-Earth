@@ -171,7 +171,7 @@ struct Projectile : public GameComponent
 		}
 		if (m_agentType == PLAYER_SIDE)
 		{
-			gameObjects = getGameObjectsByName("enemyFighter");
+			gameObjects = getGameObjectsByName("enemyFighter_");
 			for (size_t i = 0; i < gameObjects.size(); i++)
 			{
 				collisionCheckObject.push_back(gameObjects[i]);
