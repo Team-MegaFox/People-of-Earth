@@ -425,6 +425,7 @@ m_emitterType(eType)
 ParticleSystem::~ParticleSystem()
 {
 	delete m_particleEmitter;
+	getCoreEngine()->getRenderingEngine()->removeParticleSystem(this);
 }
 
 void ParticleSystem::update(float delta)
