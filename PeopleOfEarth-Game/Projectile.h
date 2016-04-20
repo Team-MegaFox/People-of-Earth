@@ -48,10 +48,14 @@ struct Projectile : public GameComponent
 				m_collisionTime)
 				)
 			{
-				m_collisionTime /= 60.0f;
+				m_collisionTime /= 600.0f;
 				//Within the lasers life time
 				if (m_collisionTime < m_lifeTime)
 				{
+					if (collidableGameObjects[i]->getName() == "EnemyMother1")
+					{
+						m_damageValue /= 10.0f;
+					}
 					collidableGameObjects[i]->getGameComponent<ShipStats>()->updateHealth(-m_damageValue);
 					m_damageValue = 0.0f;
 					m_lifeTime = m_collisionTime;

@@ -178,7 +178,7 @@ public:
 				dead = false;
 			}
 			// if the gameobject is the enemy mother ship
-			else if (getParent()->getAllChildren()[i]->getName() == m_enemyMotherGameObject->getName() + "_GUI")
+			else if (m_enemyMotherGameObject != nullptr && getParent()->getAllChildren()[i]->getName() == m_enemyMotherGameObject->getName() + "_GUI")
 			{
 				// set the position of this game object on the map to be realted to the position of the assenger ship in the world
 				getParent()->getAllChildren()[i]->getTransform()->setPosition(*m_enemyMotherGameObject->getTransform()->getPosition());

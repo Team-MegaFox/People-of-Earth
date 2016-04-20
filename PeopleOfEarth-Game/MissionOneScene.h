@@ -127,7 +127,7 @@ private:
 	{
 		addToRoot((new GameObject("Skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/Starfield/starfield.tga")));
-		//->addGameComponent(new SkyboxRenderer("Skybox/sky/sky.jpg")));
+		//	->addGameComponent(new SkyboxRenderer("Skybox/sky/sky.jpg")));
 
 		addToRoot((new GameObject("DirectionalLight1", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(45.0f), PxVec3(0.0f, 1.0f, 0.0f).getNormalized())))
 			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 0.65f, 0.0f), 0.6f, 8)));
