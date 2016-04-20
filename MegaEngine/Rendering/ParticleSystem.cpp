@@ -200,8 +200,9 @@ void ParticleEmitter::sortParticles()
 
 // Ambient Emitter Constructors and Methods
 
-AmbientEmitter::AmbientEmitter(float lifeTime, float initalSpeed /*= 0.0f*/, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/) :
-ParticleEmitter(true, initalSpeed, maxParticles, spawnRate, lifeTime)
+AmbientEmitter::AmbientEmitter(float lifeTime, float initalSpeed /*= 0.0f*/, float radius/* = 100000.0f*/, int maxParticles /*= 10000.0f*/, float spawnRate /*= 5.0f*/) :
+ParticleEmitter(true, initalSpeed, maxParticles, spawnRate, lifeTime),
+m_radius(radius)
 {
 }
 
@@ -216,12 +217,16 @@ void AmbientEmitter::updateParticles(float deltaTime)
 		int particleIndex = findUnusedParticle();
 		m_particles[particleIndex].life = (float)m_lifeTime;
 
-		//TODO: Should supply a value for density here from the constructor
+		float x = Utility::getRandomNumber(NULL, -m_radius, m_radius);
+		float y = Utility::getRandomNumber(NULL, -m_radius, m_radius);
+		float z = Utility::getRandomNumber(NULL, -m_radius, m_radius);
 
+		
+		// mediocre attempt to not spawn near the center of the gameobject
 		PxVec3 randomPos(
-			(rand() % 10000 - 5000) / 10.0f,
-			(rand() % 10000 - 5000) / 10.0f,
-			(rand() % 10000 - 5000) / 10.0f
+			((x <= (m_radius / 10.0f) && x > 0.0f || x >= -(m_radius / 10.0f) && x < 0.0f) ? Utility::getRandomNumber(NULL, -m_radius, m_radius) : x),
+			((y <= (m_radius / 10.0f) && y > 0.0f || y >= -(m_radius / 10.0f) && y < 0.0f) ? Utility::getRandomNumber(NULL, -m_radius, m_radius) : y),
+			((z <= (m_radius / 10.0f) && z > 0.0f || z >= -(m_radius / 10.0f) && z < 0.0f) ? Utility::getRandomNumber(NULL, -m_radius, m_radius) : z)
 			);
 
 		m_particles[particleIndex].pos = randomPos;
@@ -236,7 +241,7 @@ void AmbientEmitter::updateParticles(float deltaTime)
 
 		m_particles[particleIndex].speed = maindir + randomdir * spread * m_initalSpeed;
 
-		m_particles[particleIndex].size = ((((rand() % ((int)(0.9f * 2000.0f))) / 2000.0f) + 0.1f) * 100.0f);
+		m_particles[particleIndex].size = 1000.0f;//((((rand() % ((int)(0.9f * 2000.0f))) / 2000.0f) + 0.1f) * 100.0f);
 
 	}
 }
@@ -372,6 +377,7 @@ ParticleSystem::ParticleSystem(
 	float initalSpeed/* = 0.0f*/,
 	float lifeTime/* = 4.0f*/, 
 	float spawnRate /*= 5.0f*/, 
+	float radius/* = 100000.0f*/,
 	int maxParticles /*= 10000.0f*/) :
 m_particleMat(material),
 m_emitterType(eType)
@@ -379,7 +385,7 @@ m_emitterType(eType)
 	switch (eType)
 	{
 	case AMBIENT:
-		m_particleEmitter = new AmbientEmitter(lifeTime, initalSpeed, maxParticles, spawnRate);
+		m_particleEmitter = new AmbientEmitter(lifeTime, initalSpeed, radius, maxParticles, spawnRate);
 		break;
 	case EXPLOSION:
 		m_particleEmitter = new ExplosionEmitter(lifeTime, initalSpeed, maxParticles, spawnRate);

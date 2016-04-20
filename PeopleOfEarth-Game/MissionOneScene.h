@@ -56,11 +56,6 @@ public:
 
 		Material asteroid("asteroid", 1.0f, 1.0f, Texture("Asteroids/AM1.jpg"));
 
-		addToRoot((new GameObject("particleMatA", PxVec3(0.0f, 0.0f, 10.0f)))
-			->addGameComponent(new ParticleSystem(Material("particleMatA"), 10.0f, ToRadians(45.0f), CONE, 5.0f, 2.0f, 1000.0f)));
-
-		addToRoot((new GameObject("particlesD", PxVec3(0.0f, 0.0f, -10.0f)))
-			->addGameComponent(new ParticleSystem(Material("particleMatD"), AMBIENT)));
 
 		addToRoot((new GameObject("Skybox"))
 			->addGameComponent(new SkyboxRenderer("Skybox/Starfield/starfield.tga")));
@@ -82,6 +77,12 @@ public:
 			new GameObject("spotLight_Fighter", PxVec3(0.0f, 0.0f, 7.5f), PxQuat(ToRadians(1.0f), PxVec3(0.0f, 1.0f, 0.0f)));
 		spotLight_Fighter->addGameComponent(new SpotLight(PxVec3(1.0f), 150.0f, Attenuation(1.0f, 1.0f, 0.0f)));
 
+		GameObject * WingTrailA = new GameObject("wingTrailA", PxVec3(7.0f, 0.5f, -3.0f), PxQuat(ToRadians(-90.0f), PxVec3(1.0f, 0.0f, 0.0f)));
+		WingTrailA->addGameComponent(new ParticleSystem(Material("particleMatA"), 10.0f, ToRadians(0.0f), CONE, 0.1f, 2.0f, 1000.0f));
+
+		GameObject * WingTrailB = new GameObject("wingTrailB", PxVec3(-7.0f, 0.5f, -3.0f), PxQuat(ToRadians(-90.0f), PxVec3(1.0f, 0.0f, 0.0f)));
+		WingTrailB->addGameComponent(new ParticleSystem(Material("particleMatA"), 10.0f, ToRadians(0.0f), CONE, 0.1f, 2.0f, 1000.0f));
+
 		GameObject* fighterShip =
 			(new GameObject("player", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f))))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj", 1.0f), Material("ship1")))
@@ -96,6 +97,8 @@ public:
 			->addChild(rearLight_Fighter)
 			->addChild(thrusterLight_Fighter)
 			->addChild(spotLight_Fighter)
+			->addChild(WingTrailA)
+			->addChild(WingTrailB)
 			->addChild((new GameObject("CrossHair"))
 			->addGameComponent(new CrossHair(100.0f)));
 		addToRoot(fighterShip);
@@ -328,11 +331,15 @@ private:
 
 		//passengerShipRigidBody->setDebugDraw(true);
 
+		// Ambient Particles in the scene
+		GameObject * AmbientParticles = new GameObject("particlesD", PxVec3(0.0f, 0.0f, 0.0f));
+		AmbientParticles->addGameComponent(new ParticleSystem(Material("particleMatD"), AMBIENT));
+
 		// the passenger ship
 		addToRoot((new GameObject("passengerShip", PxVec3(0.0f, 0.0f, 300.0f), PxQuat(PxIdentity), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/MotherShip.obj", 50.0f), Material("passengerShip")))
 			//->addGameComponent(new RigidBody(PxVec3(0.0f, 0.0f, 300.0f), PxQuat(PxIdentity), 1.0f, 50.0f, 40.0f, 275.0f))
-			->addGameComponent(passengerShipRigidBody)			
+			->addGameComponent(passengerShipRigidBody)
 			->addGameComponent(new PassengerShipAI)
 			->addGameComponent(new ShipStats)
 			->addGameComponent(new AudioSource("Music/sci-fi_spaceship_background_room_tone_hum_loop_03.WAV", AudioType::SOUND, true, 1.0f, false, true, AudioDimension::THREED))
@@ -346,6 +353,7 @@ private:
 			->addChild(spotLight8_Passenger)
 			->addChild(passenger_Thruster1)
 			->addChild(passenger_Thruster2)
+			->addChild(AmbientParticles)
 			);
 	}
 

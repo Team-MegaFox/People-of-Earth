@@ -199,7 +199,7 @@ public:
 	/// <param name="lifeTime">The life time.</param>
 	/// <param name="maxParticles">The maximum particles.</param>
 	/// <param name="spawnRate">The spawn rate.</param>
-	AmbientEmitter(float lifeTime, float initalSpeed = 0.0f, int maxParticles = 10000, float spawnRate = 5.0f);
+	AmbientEmitter(float lifeTime, float initalSpeed = 0.0f, float radius = 100000.0f, int maxParticles = 10000, float spawnRate = 5.0f);
 	/// <summary>
 	/// Finalizes an instance of the <see cref="AmbientEmitter"/> class.
 	/// </summary>
@@ -210,6 +210,8 @@ public:
 	/// </summary>
 	/// <param name="deltaTime">The delta time.</param>
 	virtual void updateParticles(float deltaTime) override;
+
+	float m_radius;
 };
 
 
@@ -337,7 +339,7 @@ public:
 	/// <param name="lifeTime">The life time.</param>
 	/// <param name="spawnRate">The spawn rate.</param>
 	/// <param name="maxParticles">The maximum particles.</param>
-	ParticleSystem(Material material, EmitterType eType = EmitterType::AMBIENT, float initalSpeed = 0.0f, float lifeTime = 4.0f, float spawnRate = 100.0f, int maxParticles = 10000);
+	ParticleSystem(Material material, EmitterType eType = EmitterType::AMBIENT, float initalSpeed = 0.0f, float lifeTime = 4.0f, float spawnRate = 100.0f, float radius = 100000.0f, int maxParticles = 10000);
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ParticleSystem"/> class.
 	/// Only use with ConeEmitter
