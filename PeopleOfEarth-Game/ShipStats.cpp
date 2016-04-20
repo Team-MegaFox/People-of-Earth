@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda & Jesse Derochie
 // Created          : 02-25-2016
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 04-06-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 04-20-2016
 // ***********************************************************************
 // <copyright file="ShipStats.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -58,6 +58,11 @@ void ShipStats::updateHealth(float health)
 	{
 		if (m_health < m_dangerlevel && !m_healthWarnOnce)
 		{
+			instantiate((new GameObject("explosionA", *getParent()->getTransform()->getPosition()))
+				->addGameComponent(new ParticleSystem(Material("explosionMat"), EXPLOSION, 10.0f, 5.0f, 500.0f)));
+			instantiate((new GameObject("explosionB", *getParent()->getTransform()->getPosition()))
+				->addGameComponent(new ParticleSystem(Material("explosionMat"), EXPLOSION, 10.0f, 5.0f, 500.0f)));
+
 			m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFF0000']Our systems indicate your[colour='FF00FF00']HEALTH[colour='FFFF0000']\nreserves are[colour='FF0000FF']dangerously low[colour='FF0000FF']!!!", Importance::HIGH, false);
 			m_healthWarnOnce = true;
 			if (m_playMessageReceived)
@@ -75,6 +80,14 @@ void ShipStats::updateHealth(float health)
 	{
 		if (!m_warnOnce && m_health < (m_dangerlevel * 2))
 		{
+			instantiate((new GameObject("explosionA", PxVec3(0.0f, 100.0f, 0.0f) + *getParent()->getTransform()->getPosition()))
+				->addGameComponent(new ParticleSystem(Material("explosionMat"), EXPLOSION, 10.0f, 5.0f, 500.0f)));
+			instantiate((new GameObject("explosionB", PxVec3(0.0f, 100.0f, 0.0f) - *getParent()->getTransform()->getPosition()))
+				->addGameComponent(new ParticleSystem(Material("explosionMat"), EXPLOSION, 10.0f, 5.0f, 500.0f)));
+			instantiate((new GameObject("explosionA", PxVec3(0.0f, 0.0f, 100.0f) + *getParent()->getTransform()->getPosition()))
+				->addGameComponent(new ParticleSystem(Material("explosionMat"), EXPLOSION, 10.0f, 5.0f, 500.0f)));
+			instantiate((new GameObject("explosionB", PxVec3(0.0f, 0.0f, 100.0f) - *getParent()->getTransform()->getPosition()))
+				->addGameComponent(new ParticleSystem(Material("explosionMat"), EXPLOSION, 10.0f, 5.0f, 500.0f)));
 			m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFF0000']We're not going to make survive unless\nyou can disable that[colour='FF00FF00']Mother Ship", Importance::CRITICAL, false);
 			m_warnOnce = true;
 			if (m_playMessageReceived)
@@ -89,8 +102,17 @@ void ShipStats::updateHealth(float health)
 	// if the enemy mother has been destroyed
 	if (getParent()->getName() == "EnemyMother1")
 	{
+		PxVec3(100.0f, 0.0f, 0.0f);
 		if (m_health <= 0.0f)
 		{
+			instantiate((new GameObject("explosionA", PxVec3(0.0f, 100.0f, 0.0f) + *getParent()->getTransform()->getPosition()))
+				->addGameComponent(new ParticleSystem(Material("explosionMat"), EXPLOSION, 10.0f, 5.0f, 500.0f)));
+			instantiate((new GameObject("explosionB", PxVec3(0.0f, 100.0f, 0.0f) - *getParent()->getTransform()->getPosition()))
+				->addGameComponent(new ParticleSystem(Material("explosionMat"), EXPLOSION, 10.0f, 5.0f, 500.0f)));
+			instantiate((new GameObject("explosionA", PxVec3(100.0f, 0.0f, 0.0f) + *getParent()->getTransform()->getPosition()))
+				->addGameComponent(new ParticleSystem(Material("explosionMat"), EXPLOSION, 10.0f, 5.0f, 500.0f)));
+			instantiate((new GameObject("explosionB", PxVec3(100.0f, 0.0f, 0.0f) - *getParent()->getTransform()->getPosition()))
+				->addGameComponent(new ParticleSystem(Material("explosionMat"), EXPLOSION, 10.0f, 5.0f, 500.0f)));
 			m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFFA500']That ought to teach him!\nWay to go Fighter 1!!", Importance::CRITICAL, false);
 			if (m_playMessageReceived)
 			{

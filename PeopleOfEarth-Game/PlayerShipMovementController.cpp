@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-17-2015
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 04-04-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 04-20-2016
 // ***********************************************************************
 // <copyright file="PlayerShipMovementController.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.

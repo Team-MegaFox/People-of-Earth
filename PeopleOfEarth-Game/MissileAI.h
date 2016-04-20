@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Christopher Maeda
+// Author           : Christopher Maeda & Jesse Derochie
 // Created          : 03-23-2016
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 03-24-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 04-204-2016
 // ***********************************************************************
 // <copyright file="MissileAI.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
