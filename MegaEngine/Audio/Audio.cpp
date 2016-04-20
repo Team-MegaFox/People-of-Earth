@@ -19,7 +19,7 @@ m_audioEngine(audioEngine)
 
 Audio::~Audio()
 {
-	stop();
+	//stop();
 	//ERRCHECK_OK(m_sound->release());
 }
 

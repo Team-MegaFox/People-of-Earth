@@ -83,6 +83,11 @@ public:
 	/// <param name="light">The light to remove.</param>
 	void removeLight(const BaseLight* light) { m_lights.erase(std::remove(m_lights.begin(), m_lights.end(), light), m_lights.end()); }
 	/// <summary>
+	/// Removes a particle system.
+	/// </summary>
+	/// <param name="light">The particle system to remove.</param>
+	void removeParticleSystem(const ParticleSystem* particles) { m_particleSystems.erase(std::remove(m_particleSystems.begin(), m_particleSystems.end(), particles), m_particleSystems.end()); }
+	/// <summary>
 	/// Removes the skybox from the rendering engine.
 	/// </summary>
 	inline void removeSkybox() { m_skybox = nullptr; }
