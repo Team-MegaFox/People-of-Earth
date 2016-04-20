@@ -192,20 +192,20 @@ public:
 		//	->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_D.obj", 10.0f), Material("plan4")))
 		//	);
 
-		//RigidBody* rigidBody = new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 15.0f, 3.0f, 10.0f);
-		//rigidBody->setDebugDraw(true);
-		//// the alien fighter ship
-		//addToRoot((new GameObject("enemyFighter_", PxVec3(0.0f, -5.0f, 80.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
-		//	->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
-		//	->addGameComponent(rigidBody)
-		//	);
+		RigidBody* rigidBody = new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 5.0f, 3.0f, 6.0f);
+		rigidBody->setDebugDraw(true);
+		// the alien fighter ship
+		addToRoot((new GameObject("enemyFighter_", PxVec3(0.0f, -5.0f, 80.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
+			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
+			->addGameComponent(rigidBody)
+			);
 
-		RigidBody* motherShipRigidBody = new RigidBody(PxVec3(0.0f, 0.0f, 100.0f), PxQuat(PxIdentity), 1.0f, 500.0f, 500.0f, 500.0f);
+		/*RigidBody* motherShipRigidBody = new RigidBody(PxVec3(0.0f, 0.0f, 100.0f), PxQuat(PxIdentity), 1.0f, 600.0f, 250.0f, 750.0f);
 		motherShipRigidBody->setDebugDraw(true);
 		addToRoot((new GameObject("EnemyMother", PxVec3(0.0f, 0.0f, 0.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Ships/enemy_HeavyCruiser.obj", 10.0f), Material("enemyMother")))
+			->addGameComponent(new MeshRenderer(Mesh("Ships/enemy_HeavyCruiser.obj", 100.0f), Material("enemyMother")))
 			->addGameComponent(motherShipRigidBody)
-			);
+			);*/
 
 		addToRoot((new GameObject("DrLight", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f))))
 			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 1.0f, 1.0f), 0.5f, 8)));

@@ -74,7 +74,7 @@ void PlayerShipMovementController::processInput(const InputManager& input, float
 		std::vector<GameObject*> collidedObjects = m_rigidBody->checkCollision(getGameObjectsByName("enemyFighter_"));
 		if (collidedObjects.size() > 0)
 		{
-			//getParent()->getGameComponent<ShipStats>()->setHealth(0.0f);
+			getParent()->getGameComponent<ShipStats>()->setHealth(0.0f);
 		}
 	}
 }
