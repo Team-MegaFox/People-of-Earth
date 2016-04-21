@@ -59,6 +59,8 @@ public:
 			{
 				if (input.GetRightTrigger() != 0)
 				{
+					input.SetRumble(0.5f, 120);
+
 					instantiate(
 						(new GameObject("Laser", *getTransform()->getPosition()
 						, *getTransform()->getRotation(), m_laserScale))
@@ -79,6 +81,8 @@ public:
 				}
 				if (input.GetLeftTrigger() != 0)
 				{
+					input.SetRumble(0.5f, 120);
+
 					instantiate(
 						(new GameObject("Laser", *getTransform()->getPosition()
 						, *getTransform()->getRotation(), m_laserScale))
@@ -97,26 +101,25 @@ public:
 					m_delay = 0.0f;
 					m_shipStats->updateEnergy(-0.001f);
 				}
-				if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B))
+				if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B) && m_missileCount > 0)
 				{
-					if (m_missileCount > 0)
-					{
-						//Shoot missile
-						instantiate(
-							(new GameObject("Missile", *getTransform()->getPosition()
-							, *getTransform()->getRotation(), m_missileScale))
-							->addGameComponent(new MissileAI())
-							->addGameComponent(new MeshRenderer(Mesh("Ships/Missiles/missile.obj"), Material("missile")))
-							->addGameComponent(new RigidBody(*getTransform()->getPosition() +
-							Utility::getForward(*getTransform()->getRotation()) * 15.0f +
-							Utility::getLeft(*getTransform()->getRotation()) * 3.5f,
-							*getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f,
-							Utility::getForward(*getTransform()->getRotation()) * 200.0f))
-							);
-						m_delay = 0.0f;
-						m_shipStats->updateEnergy(-0.001f);
-						m_missileCount--;
-					}
+					input.SetRumble(0.8f, 200);
+
+					//Shoot missile
+					instantiate(
+						(new GameObject("Missile", *getTransform()->getPosition()
+						, *getTransform()->getRotation(), m_missileScale))
+						->addGameComponent(new MissileAI())
+						->addGameComponent(new MeshRenderer(Mesh("Ships/Missiles/missile.obj"), Material("missile")))
+						->addGameComponent(new RigidBody(*getTransform()->getPosition() +
+						Utility::getForward(*getTransform()->getRotation()) * 15.0f +
+						Utility::getLeft(*getTransform()->getRotation()) * 3.5f,
+						*getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f,
+						Utility::getForward(*getTransform()->getRotation()) * 200.0f))
+						);
+					m_delay = 0.0f;
+					m_shipStats->updateEnergy(-0.001f);
+					m_missileCount--;
 				}
 			}
 			

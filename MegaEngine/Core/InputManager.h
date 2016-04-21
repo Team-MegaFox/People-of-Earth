@@ -173,7 +173,17 @@ public:
 	/// </summary>
 	/// <returns>he right trigger depth.</returns>
 	const float GetRightTrigger() const;
+	/// <summary>
+	/// Sets the rumble amount and duration for the controller.
+	/// </summary>
+	/// <param name='strength'>The strength of the rumblr from 0 to 1.</param>
+	/// <param name='duration'>How long the rumble should play for.</param>
+	void SetRumble(float strength, Uint32 duration) const;
 	
+	/// <summary>
+	/// Gets text input from the keyboard
+	/// </summary>
+	/// <returns>The character currently pressed.</returns>
 	char* getTextInput();
 	/// <summary>
 	/// Determines whether there is text input.
@@ -236,6 +246,10 @@ private:
 	/// The controller.
 	/// </summary>
 	SDL_GameController* controller;
+	/// <summary>
+	/// The haptic object for force feedback.
+	/// </summary>
+	SDL_Haptic* m_haptic;
 	/// <summary>
 	/// Map of the previous gamepad button states.
 	/// </summary>
