@@ -96,7 +96,7 @@ private:
 		GameObject* fighterShip =
 			(new GameObject("player", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f))))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj", 1.0f), Material("ship1")))
-			->addGameComponent(new RigidBody(PxVec3(1.0f, 1.0f, 1.0f), PxQuat(PxIdentity), 1.0f, 7.0f, 1.0f, 5.0f))
+			->addGameComponent(new RigidBody(PxVec3(1.0f, 1.0f, 1.0f), PxQuat(PxIdentity), 1.0f, 4.0f, 2.0f, 4.0f))
 			->addGameComponent(new FireProjectile)
 			->addGameComponent(new PlayerShipMovementController("camera", 50.0f))
 			->addGameComponent(new InGameMusic)
@@ -354,28 +354,28 @@ private:
 		// the alien fighter ship
 		addToRoot((new GameObject("enemyFighter_", PxVec3(20.0f, 0.0f, 4000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
-			->addGameComponent(new RigidBody(PxVec3(20.0f, 0.0f, 4000.0f), PxQuat(PxIdentity), 1.0f, 5.0f, 3.0f, 6.0f))
+			->addGameComponent(new RigidBody(PxVec3(20.0f, 0.0f, 4000.0f), PxQuat(PxIdentity), 1.0f, 7.5f, 5.5f, 7.5f))
 			->addGameComponent(new ShipStats)
 			->addGameComponent(new EnemyFighterShipAI)
 			);
 		//// //the alien fighter ship
 		addToRoot((new GameObject("enemyFighter_", PxVec3(-20.0f, 0.0f, 3000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
-			->addGameComponent(new RigidBody(PxVec3(-20.0f, 0.0f, 3000.0f), PxQuat(PxIdentity), 1.0f, 5.0f, 3.0f, 6.0f))
+			->addGameComponent(new RigidBody(PxVec3(-20.0f, 0.0f, 3000.0f), PxQuat(PxIdentity), 1.0f, 7.5f, 5.5f, 7.5f))
 			->addGameComponent(new ShipStats)
 			->addGameComponent(new EnemyFighterShipAI)
 			);
 		 //the alien fighter ship
 		addToRoot((new GameObject("enemyFighter_", PxVec3(0.0f, 20.0f, 2500.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
-			->addGameComponent(new RigidBody(PxVec3(0.0f, 20.0f, 2500.0f), PxQuat(PxIdentity), 1.0f, 5.0f, 3.0f, 6.0f))
+			->addGameComponent(new RigidBody(PxVec3(0.0f, 20.0f, 2500.0f), PxQuat(PxIdentity), 1.0f, 7.5f, 5.5f, 7.5f))
 			->addGameComponent(new ShipStats)
 			->addGameComponent(new EnemyFighterShipAI)
 			);
 		////// the alien fighter ship
 		addToRoot((new GameObject("enemyFighter_", PxVec3(0.0f, -20.0f, 3000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
-			->addGameComponent(new RigidBody(PxVec3(0.0f, -20.0f, 3000.0f), PxQuat(PxIdentity), 1.0f, 5.0f, 3.0f, 6.0f))
+			->addGameComponent(new RigidBody(PxVec3(0.0f, -20.0f, 3000.0f), PxQuat(PxIdentity), 1.0f, 7.5f, 5.5f, 7.5f))
 			->addGameComponent(new EnemyFighterShipAI)
 			->addGameComponent(new ShipStats)
 			);
@@ -383,28 +383,28 @@ private:
 		// the alien fighter ship
 		addToRoot((new GameObject("enemyFighter_", PxVec3(20.0f, 0.0f, 10000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
-			->addGameComponent(new RigidBody(PxVec3(20.0f, 0.0f, 10000.0f), PxQuat(PxIdentity), 1.0f, 5.0f, 3.0f, 6.0f))
+			->addGameComponent(new RigidBody(PxVec3(20.0f, 0.0f, 10000.0f), PxQuat(PxIdentity), 1.0f, 7.5f, 5.5f, 7.5f))
 			->addGameComponent(new ShipStats)
 			->addGameComponent(new EnemyFighterShipAI)
 			);
 		// //the alien fighter ship
 		addToRoot((new GameObject("enemyFighter_", PxVec3(-20.0f, 0.0f, 5000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
-			->addGameComponent(new RigidBody(PxVec3(-20.0f, 0.0f, 5000.0f), PxQuat(PxIdentity), 1.0f, 5.0f, 3.0f, 6.0f))
+			->addGameComponent(new RigidBody(PxVec3(-20.0f, 0.0f, 5000.0f), PxQuat(PxIdentity), 1.0f, 7.5f, 5.5f, 7.5f))
 			->addGameComponent(new ShipStats)
 			->addGameComponent(new EnemyFighterShipAI)
 			);
 		//the alien fighter ship
 		addToRoot((new GameObject("enemyFighter_", PxVec3(0.0f, 20.0f, 10000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
-			->addGameComponent(new RigidBody(PxVec3(0.0f, 20.0f, 10000.0f), PxQuat(PxIdentity), 1.0f, 5.0f, 3.0f, 6.0f))
+			->addGameComponent(new RigidBody(PxVec3(0.0f, 20.0f, 10000.0f), PxQuat(PxIdentity), 1.0f, 7.5f, 5.5f, 7.5f))
 			->addGameComponent(new ShipStats)
 			->addGameComponent(new EnemyFighterShipAI)
 			);
 		////// the alien fighter ship
 		addToRoot((new GameObject("enemyFighter_", PxVec3(0.0f, -20.0f, 8000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
-			->addGameComponent(new RigidBody(PxVec3(0.0f, -20.0f, 8000.0f), PxQuat(PxIdentity), 1.0f, 5.0f, 3.0f, 6.0f))
+			->addGameComponent(new RigidBody(PxVec3(0.0f, -20.0f, 8000.0f), PxQuat(PxIdentity), 1.0f, 7.5f, 5.5f, 7.5f))
 			->addGameComponent(new EnemyFighterShipAI)
 			->addGameComponent(new ShipStats)
 			);
@@ -412,28 +412,28 @@ private:
 		// the alien fighter ship
 		addToRoot((new GameObject("enemyFighter_", PxVec3(100.0f, -80.0f, 10000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
-			->addGameComponent(new RigidBody(PxVec3(100.0f, -80.0f, 10000.0f), PxQuat(PxIdentity), 1.0f, 5.0f, 3.0f, 6.0f))
+			->addGameComponent(new RigidBody(PxVec3(100.0f, -80.0f, 10000.0f), PxQuat(PxIdentity), 1.0f, 7.5f, 5.5f, 7.5f))
 			->addGameComponent(new ShipStats)
 			->addGameComponent(new EnemyFighterShipAI)
 			);
 		// //the alien fighter ship
 		addToRoot((new GameObject("enemyFighter_", PxVec3(-100.0f, 50.0f, 5000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
-			->addGameComponent(new RigidBody(PxVec3(-100.0f, 50.0f, 5000.0f), PxQuat(PxIdentity), 1.0f, 5.0f, 3.0f, 6.0f))
+			->addGameComponent(new RigidBody(PxVec3(-100.0f, 50.0f, 5000.0f), PxQuat(PxIdentity), 1.0f, 7.5f, 5.5f, 7.5f))
 			->addGameComponent(new ShipStats)
 			->addGameComponent(new EnemyFighterShipAI)
 			);
 		//the alien fighter ship
 		addToRoot((new GameObject("enemyFighter_", PxVec3(-80.0f, 100.0f, 10000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
-			->addGameComponent(new RigidBody(PxVec3(-80.0f, 100.0f, 10000.0f), PxQuat(PxIdentity), 1.0f, 5.0f, 3.0f, 6.0f))
+			->addGameComponent(new RigidBody(PxVec3(-80.0f, 100.0f, 10000.0f), PxQuat(PxIdentity), 1.0f, 7.5f, 5.5f, 7.5f))
 			->addGameComponent(new ShipStats)
 			->addGameComponent(new EnemyFighterShipAI)
 			);
 		////// the alien fighter ship
 		addToRoot((new GameObject("enemyFighter_", PxVec3(50.0f, -100.0f, 8000.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
-			->addGameComponent(new RigidBody(PxVec3(50.0f, -100.0f, 8000.0f), PxQuat(PxIdentity), 1.0f, 5.0f, 3.0f, 6.0f))
+			->addGameComponent(new RigidBody(PxVec3(50.0f, -100.0f, 8000.0f), PxQuat(PxIdentity), 1.0f, 7.5f, 5.5f, 7.5f))
 			->addGameComponent(new EnemyFighterShipAI)
 			->addGameComponent(new ShipStats)
 			);

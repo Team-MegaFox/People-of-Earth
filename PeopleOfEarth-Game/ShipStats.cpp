@@ -36,21 +36,33 @@ void ShipStats::updateHealth(float health)
 			m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FFFF0000']You're taking damage, be careful out there!", Importance::MEDIUM, false);
 		}
 
-		// if the passenger is taking damage from the enemy mother ship
-		if (health == -0.7f)
+		// if the passenger has taken heavy damage
+		if (getParent()->getName() == "passengerShip1")
 		{
-			m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FF0000FF']We're taking heavy damage!! Where's our support!!", Importance::HIGH, false);
-			if (m_playMessageReceived)
+			if (m_health == 0.3f)
 			{
-				m_messageReceived->play();
-				m_playMessageReceived = false;
+				m_dialogueBox->sendMessage("Message From [colour='FFFFFF00']Terra 1 :\n[colour='FF0000FF']We're taking heavy damage!! Where's our support!!", Importance::HIGH, false);
+				if (m_playMessageReceived)
+				{
+					m_messageReceived->play();
+					m_playMessageReceived = false;
+				}
 			}
 		}
 	}
 	
 	if (m_health > 0.0f)
 	{
-		m_health += health;
+		// Passenger ship is tougher than other ships 
+		// it takes only 1/8th the amount of damage from projectiles
+		if (getParent()->getName() == "passengerShip1")
+		{
+			m_health += (health / 8);
+		}
+		else
+		{
+			m_health += health;
+		}
 	}
 
 	// if this ship is the player, warn the player they are low on health
