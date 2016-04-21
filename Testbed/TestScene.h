@@ -71,8 +71,8 @@ public:
 		AudioSource * BGM = new AudioSource("music.mp3", AudioType::STREAM);
 
 		addToRoot((new GameObject("skybox"))
-			//->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
-			->addGameComponent(new SkyboxRenderer("Skybox/sky/sky.jpg")));
+			->addGameComponent(new SkyboxRenderer("Skybox/drake/drake.tga")));
+			//->addGameComponent(new SkyboxRenderer("Skybox/sky/sky.jpg")));
 
 		//GameObject* pointlight =
 		//	(new GameObject("pointLight", PxVec3(0.0f, 1.0f, 0.0f)))
@@ -117,7 +117,7 @@ public:
 		//fighterRB->setDebugDraw(true);
 		GameObject* fighterShip =
 			(new GameObject("player", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f))))
-			->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj", 1.0f), Material("ship1")))
+			//->addGameComponent(new MeshRenderer(Mesh("Ships/AF-SS01.obj", 1.0f), Material("ship1")))
 			->addGameComponent(fighterRB)
 			->addGameComponent(new PlayerShipMovementController("camera", 50.0f));
 		addToRoot(fighterShip);
@@ -192,26 +192,26 @@ public:
 		//	->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_D.obj", 10.0f), Material("plan4")))
 		//	);
 
-		RigidBody* rigidBody = new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 5.0f, 3.0f, 6.0f);
-		rigidBody->setDebugDraw(true);
-		// the alien fighter ship
-		addToRoot((new GameObject("enemyFighter_", PxVec3(0.0f, -5.0f, 80.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
-			->addGameComponent(rigidBody)
-			);
+		//RigidBody* rigidBody = new RigidBody(PxVec3(0.0f, -5.0f, 80.0f), PxQuat(PxIdentity), 1.0f, 5.0f, 3.0f, 6.0f);
+		////rigidBody->setDebugDraw(true);
+		//// the alien fighter ship
+		//addToRoot((new GameObject("enemyFighter_", PxVec3(0.0f, -5.0f, 80.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))
+		//	->addGameComponent(new MeshRenderer(Mesh("Ships/enemyBattleShip.obj", 10.0f), Material("alien_ship")))
+		//	->addGameComponent(rigidBody)
+		//	);
 
-		/*RigidBody* motherShipRigidBody = new RigidBody(PxVec3(0.0f, 0.0f, 100.0f), PxQuat(PxIdentity), 1.0f, 600.0f, 250.0f, 750.0f);
-		motherShipRigidBody->setDebugDraw(true);
+		RigidBody* motherShipRigidBody = new RigidBody(PxVec3(0.0f, 0.0f, 100.0f), PxQuat(PxIdentity), 1.0f, 600.0f, 250.0f, 750.0f);
+		//motherShipRigidBody->setDebugDraw(true);
 		addToRoot((new GameObject("EnemyMother", PxVec3(0.0f, 0.0f, 0.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Ships/enemy_HeavyCruiser.obj", 100.0f), Material("enemyMother")))
 			->addGameComponent(motherShipRigidBody)
-			);*/
+			);
 
 		addToRoot((new GameObject("DrLight", PxVec3(0.0f, 0.0f, 0.0f), PxQuat(ToRadians(180.0f), PxVec3(0.0f, 1.0f, 0.0f))))
 			->addGameComponent(new DirectionalLight(PxVec3(1.0f, 1.0f, 1.0f), 0.5f, 8)));
 
-		addToRoot((new GameObject("particleMatA", PxVec3(0.0f, 0.0f, 10.0f)))
-			->addGameComponent(new ParticleSystem(Material("particleMatA"), 10.0f, ToRadians(45.0f), CONE, 5.0f, 2.0f, 1000.0f)));
+		//addToRoot((new GameObject("particleMatA", PxVec3(0.0f, 0.0f, 10.0f)))
+		//	->addGameComponent(new ParticleSystem(Material("particleMatA"), 10.0f, ToRadians(45.0f), CONE, 5.0f, 2.0f, 1000.0f)));
 		//addToRoot((new GameObject("particlesB", PxVec3(10.0f, 0.0f, 0.0f)))
 		//	->addGameComponent(new ParticleSystem(Material("particleMatB"), EXPLOSION, 10.0f)));
 		//addToRoot((new GameObject("particlesC", PxVec3(-10.0f, 0.0f, 0.0f)))
@@ -220,8 +220,8 @@ public:
 		//addToRoot((new GameObject("particlesD", PxVec3(0.0f, 0.0f, -10.0f)))
 		//	->addGameComponent(new ParticleSystem(Material("particleMatD"), AMBIENT)));
 
-		addToRoot((new GameObject("plane", PxVec3(0.0f, -10.0f, 0.0f), PxIdentity, PxVec3(100.0f)))
-			->addGameComponent(new MeshRenderer(Mesh("Environment/plane.obj"), Material("particleMatA"))));
+		//addToRoot((new GameObject("plane", PxVec3(0.0f, -10.0f, 0.0f), PxIdentity, PxVec3(100.0f)))
+		//	->addGameComponent(new MeshRenderer(Mesh("Environment/plane.obj"), Material("particleMatA"))));
 
 	}
 };
