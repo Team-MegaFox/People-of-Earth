@@ -20,7 +20,16 @@ m_audioEngine(audioEngine)
 Audio::~Audio()
 {
 	//stop();
-	//ERRCHECK_OK(m_sound->release());
+	if (isPlaying())
+	{
+		stop();
+		m_channel = nullptr;
+	}
+	if (m_sound != nullptr)
+	{
+		ERRCHECK_OK(m_sound->release());
+		m_sound = nullptr;
+	}
 }
 
 void Audio::stop() const
