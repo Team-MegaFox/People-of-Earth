@@ -1,4 +1,4 @@
-#include "freeMove.h"
+#include "FreeMove.h"
 #include <Core\Utility.h>
 
 void FreeMove::processInput(const InputManager& input, float delta)

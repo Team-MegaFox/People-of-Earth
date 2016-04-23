@@ -1,7 +1,6 @@
 #pragma once
 #include <MegaEngine.h>
 #include <iostream>
-
 #include "FreeLook.h"
 #include "FreeMove.h"
 #include "PlanetSpin.h"
@@ -149,7 +148,6 @@ public:
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 250.0f), Material("jupiter")))
 			);*/
 
-
 		addToRoot((new GameObject("moon", PxVec3(1000.0f, 0.0f, 1000.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 32.0f), Material("moon")))
 			);
@@ -157,7 +155,6 @@ public:
 		/*addToRoot((new GameObject("sun", PxVec3(20000.0f, 5000.0f, 20000.0f)))
 			->addGameComponent(new MeshRenderer(Mesh("Planets/Planet_A.obj", 600.0f), Material("sun")))
 			);*/
-
 
 		//// the alien fighter ship
 		//addToRoot((new GameObject("enemyFighter_", PxVec3(0.0f, -5.0f, 80.0f), PxQuat(0.0f, 0.0f, 0.0f, 1.0f), PxVec3(1.0f)))

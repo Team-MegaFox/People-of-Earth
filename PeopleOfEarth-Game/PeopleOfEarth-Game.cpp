@@ -1,4 +1,3 @@
-#include <iostream>
 #include <MegaEngine.h>
 #include <Rendering\RenderingEngine.h>
 #include <Core\SceneManager.h>
