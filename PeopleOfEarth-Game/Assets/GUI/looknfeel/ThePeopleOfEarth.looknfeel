@@ -1,0 +1,92 @@
+<?xml version="1.0" ?>
+<Falagard version="7">
+	<!--
+    ***************************************************
+        ThePeopleOfEarth/StaticImage
+    ***************************************************
+    -->
+    <WidgetLook name="ThePeopleOfEarth/StaticImage">
+        <PropertyDefinition name="ImageColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" type="ColourRect"/>
+        <PropertyDefinition name="FrameColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" type="ColourRect"/>
+        <PropertyDefinition name="BackgroundColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" type="ColourRect"/>
+        <PropertyDefinition name="VertFormatting" initialValue="Stretched" redrawOnWrite="true" type="VerticalFormatting"/>
+        <PropertyDefinition name="HorzFormatting" initialValue="Stretched" redrawOnWrite="true" type="HorizontalFormatting"/>
+        <Property name="BackgroundEnabled" value="true" />
+        <Property name="FrameEnabled" value="true" />
+        <Property name="Size" value="{{0, 128}, {0, 128}}" />
+        <ImagerySection name="image_withframe">
+            <ImageryComponent>
+                <Area>
+					<Dim type="LeftEdge" ><ImageDim name="ThePeopleOfEarth/StaticLeft" dimension="Width" /></Dim>
+					<Dim type="TopEdge" ><ImageDim name="ThePeopleOfEarth/StaticTop" dimension="Height" /></Dim>
+					<Dim type="RightEdge" >
+                        <OperatorDim op="Subtract">
+    						<UnifiedDim scale="1" type="RightEdge" />
+	        				<ImageDim name="ThePeopleOfEarth/StaticRight" dimension="Width" />
+						</OperatorDim>
+					</Dim>
+					<Dim type="BottomEdge" >
+                        <OperatorDim op="Subtract">
+    						<UnifiedDim scale="1" type="BottomEdge" />
+	    					<ImageDim name="ThePeopleOfEarth/StaticBottom" dimension="Height" />
+						</OperatorDim>
+					</Dim>
+				</Area>
+                <ImageProperty name="Image" />
+                <ColourRectProperty name="ImageColours" />
+                <VertFormatProperty name="VertFormatting" />
+                <HorzFormatProperty name="HorzFormatting" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="image_noframe">
+            <ImageryComponent>
+                <ImageProperty name="Image" />
+                <ColourRectProperty name="ImageColours" />
+                <VertFormatProperty name="VertFormatting" />
+                <HorzFormatProperty name="HorzFormatting" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled" />
+        <StateImagery name="Disabled" />
+        <StateImagery name="EnabledFrame">
+            <Layer>
+                <Section look="ThePeopleOfEarth/StaticShared" section="frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledFrame">
+            <Layer>
+                <Section look="ThePeopleOfEarth/StaticShared" section="frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="WithFrameEnabledBackground">
+            <Layer>
+                <Section look="ThePeopleOfEarth/StaticShared" section="background" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="WithFrameDisabledBackground">
+            <Layer>
+                <Section look="ThePeopleOfEarth/StaticShared" section="background" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="NoFrameEnabledBackground">
+            <Layer>
+                <Section look="ThePeopleOfEarth/StaticShared" section="background_noframe" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="NoFrameDisabledBackground">
+            <Layer>
+                <Section look="ThePeopleOfEarth/StaticShared" section="background_noframe" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="WithFrameImage">
+            <Layer>
+                <Section section="image_withframe" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="NoFrameImage">
+            <Layer>
+                <Section section="image_noframe" />
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+</Falagard>

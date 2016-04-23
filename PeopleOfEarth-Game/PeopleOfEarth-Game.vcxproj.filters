@@ -11,6 +11,12 @@
     <ClCompile Include="PlayerShipMovementController.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="ShipStats.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="MissileAI.cpp">
+      <Filter>Components\AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TextLerpAlpha.h">
@@ -28,9 +34,6 @@
     <ClInclude Include="MainMenuScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="MissionSelectScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="PauseScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -46,13 +49,7 @@
     <ClInclude Include="ControlsScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyFighterShipAI.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="FireProjectile.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PassengerShipAI.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Projectile.h">
@@ -61,13 +58,7 @@
     <ClInclude Include="ShipStats.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="SteeringBehaviour.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="MainMenuManager.h">
-      <Filter>Components\Menu Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="MissionSelectManager.h">
       <Filter>Components\Menu Managers</Filter>
     </ClInclude>
     <ClInclude Include="OptionsMenuManager.h">
@@ -82,6 +73,61 @@
     <ClInclude Include="AsteroidField.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="UpdateGUi.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniMap.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyFighterShipAI.h">
+      <Filter>Components\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="PassengerShipAI.h">
+      <Filter>Components\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="SteeringBehaviour.h">
+      <Filter>Components\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="RogueAsteroid.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CrossHair.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="QuatRotator.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MissileAI.h">
+      <Filter>Components\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="MotherShipAI.h">
+      <Filter>Components\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogueBox.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="InGameMusic.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MissileGUI.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceObject.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameWonScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverManager.h">
+      <Filter>Components\Menu Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameWonManager.h">
+      <Filter>Components\Menu Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">
@@ -93,5 +139,15 @@
     <Filter Include="Components\Menu Managers">
       <UniqueIdentifier>{f28c829b-4281-4c3d-b34e-007a6cbe186e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\AI">
+      <UniqueIdentifier>{736a7f27-299c-477d-9f54-0a3f9bae157a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PeopleOfEarth-Game.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
+    <Image Include="MegaFox.ico" />
   </ItemGroup>
 </Project>

@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 04-01-2016
 // ***********************************************************************
 // <copyright file="PolygonCollider.cpp" company="">
 //     Copyright (c) . All rights reserved.
@@ -196,6 +196,146 @@ bool PolygonCollider::checkCollision(Collider* collidableObject)
 	return false;
 }
 
+/*bool PolygonCollider::checkCollision(PxVec3 rayPosition, PxVec3 rayDirection, float &timeOfCollision)
+{
+	//Used the tutorial to help code the collision
+	//http://www.opengl-tutorial.org/miscellaneous/clicking-on-objects/picking-with-custom-ray-obb-function/
+
+	PxVec3 delta = m_position - rayPosition;
+	PxVec3 xaxis = m_rotation.rotate(PxVec3(1, 0, 0));
+	PxVec3 yaxis = m_rotation.rotate(PxVec3(0, 1, 0));
+	PxVec3 zaxis = m_rotation.rotate(PxVec3(0, 0, 1));
+	float axisCollision = 0.0f;
+	timeOfCollision = 999999.0f;
+
+	if (!checkRayAxisCollision(rayDirection, xaxis, -m_halfWidth, m_halfWidth, delta, axisCollision))
+	{
+		return false;
+	}
+	else if (axisCollision != 0.0f)
+	{
+		timeOfCollision = axisCollision;
+	}
+
+	axisCollision = 0.0f;
+	if (!checkRayAxisCollision(rayDirection, yaxis, -m_halfHeight, m_halfHeight, delta, axisCollision))
+	{
+		return false;
+	}
+	else if (axisCollision < timeOfCollision && axisCollision != 0.0f)
+	{
+		timeOfCollision = axisCollision;
+	}
+
+	axisCollision = 0.0f;
+	if (!checkRayAxisCollision(rayDirection, zaxis, -m_halfDepth, m_halfDepth, delta, axisCollision))
+	{
+		return false;
+	}
+	else if (axisCollision < timeOfCollision && axisCollision != 0.0f)
+	{
+		timeOfCollision = axisCollision;
+	}
+
+	return true;
+}
+*/
+
+bool PolygonCollider::checkCollision(PxVec3 rayPosition, PxVec3 rayDirection, float &timeOfCollision)
+{
+	//Call the sphere ray collision first
+	if (!SphereCollider::checkCollision(rayPosition, rayDirection, timeOfCollision))
+	{
+		return false;
+	}
+
+	//Tutorial from:
+	//http://www.cs.utah.edu/~awilliam/box/box.pdf
+
+	float tmin, tmax, tymin, tymax, tzmin, tzmax;
+	PxVec3 minPoint, maxPoint;
+
+	//Minimum and Maximum Point
+	minPoint.x = m_position.x - m_halfWidth;
+	minPoint.y = m_position.y - m_halfHeight;
+	minPoint.z = m_position.z - m_halfDepth;
+	maxPoint.x = m_position.x + m_halfWidth;
+	maxPoint.y = m_position.y + m_halfHeight;
+	maxPoint.z = m_position.z + m_halfDepth;
+
+	//Get the reverse rotation
+	PxMat33 mat3 = PxMat33(m_rotation);
+	mat3 = mat3.getInverse();
+
+	//Rotate the ray direction
+	rayDirection = mat3 * rayDirection;
+
+	//Get the direction from the pos to rayPosition
+	PxVec3 rayDir = rayPosition - m_position;
+	PxVec3 rayDirNormalized = rayDir.getNormalized();
+	//Rotate the direction
+	rayDirNormalized = mat3 * rayDirNormalized;
+	//Get the finalized rotation of the position of the ray
+	rayPosition = m_position + rayDirNormalized * rayDir.magnitude();
+
+	//Check collision for a ray and axis aligned bounding box
+	float divider = 0.0f;
+	divider = 1 / rayDirection.x;
+	if (divider >= 0) {
+		tmin = (minPoint.x - rayPosition.x) * divider;
+		tmax = (maxPoint.x - rayPosition.x) * divider;
+	}										
+	else {									
+		tmin = (maxPoint.x - rayPosition.x) * divider;
+		tmax = (minPoint.x - rayPosition.x) * divider;
+	}
+	divider = 1 / rayDirection.y;
+	if (divider >= 0) {
+		tymin = (minPoint.y - rayPosition.y) * divider;
+		tymax = (maxPoint.y - rayPosition.y) * divider;
+	}
+	else {
+		tymin = (maxPoint.y - rayPosition.y) * divider;
+		tymax = (minPoint.y - rayPosition.y) * divider;
+	}
+	if ((tmin > tymax) || (tymin > tmax))
+		return false;
+
+	if (tymin > tmin)
+		tmin = tymin;
+	if (tymax < tmax)
+		tmax = tymax;
+	divider = 1 / rayDirection.z;
+	if (rayDirection.z >= 0) {
+		tzmin = (minPoint.z - rayPosition.z) * divider;
+		tzmax = (maxPoint.z - rayPosition.z) * divider;
+	}										 
+	else {									 
+		tzmin = (maxPoint.z - rayPosition.z) * divider;
+		tzmax = (minPoint.z - rayPosition.z) * divider;
+	}
+
+	if ((tmin > tzmax) || (tzmin > tmax))
+		return false;
+	if (tzmin > tmin)
+		tmin = tzmin;
+	if (tzmax < tmax)
+		tmax = tzmax;
+	
+	if (tmin > 0.0f)
+	{
+		timeOfCollision = tmin;
+		return true;
+	}
+	else if (tmax > 0.0f)
+	{
+		timeOfCollision = 0.0f;
+		return true;
+	}
+
+	return false;
+}
+
 bool PolygonCollider::checkSATCollision(PolygonCollider* collidableObject)
 {
 	//Check collision with Seperating Axis Theorm
@@ -371,3 +511,64 @@ bool PolygonCollider::checkAxisCollision(
 	return true;
 }
 
+bool PolygonCollider::checkRayAxisCollision(PxVec3 rayDirection, PxVec3 axis, 
+	float aabbmin, float aabbmax, PxVec3 delta, float &timeOfCollision)
+{
+	float tMin = 0.0f;
+	float tMax = 100000.0f;
+
+	float e = axis.dot(delta);
+	float f = rayDirection.dot(axis);
+
+	if (f > 0)
+	{
+
+		float t1 = (e + aabbmin) / f; // Intersection with the "near" plane
+		float t2 = (e + aabbmax) / f; // Intersection with the "far" plane
+
+		// if wrong order
+		if (t1>t2)
+		{ 
+			float w = t1; t1 = t2; t2 = w; // swap t1 and t2
+		}
+
+		// tMax is the nearest "far" intersection (amongst the X,Y and Z planes pairs)
+		if (t2 < tMax)
+		{
+			tMax = t2;
+		}
+		// tMin is the farthest "near" intersection (amongst the X,Y and Z planes pairs)
+		if (t1 > tMin)
+		{
+			tMin = t1;
+		}
+
+		/*tMax = t2;
+		tMin = t1;
+
+		if (tMin < 0.0f)
+		{
+			tMin *= -1.0f;
+		}*/
+
+		if (tMax < tMin)
+		{
+			return false;
+		}
+		
+	}
+	else{ // Rare case : the ray is almost parallel to the planes, so they don't have any "intersection"
+		if (-e + aabbmin > 0.0f || -e + aabbmax < 0.0f)
+			return false;
+	}
+
+	timeOfCollision = tMin;
+	return true;
+}
+
+bool PolygonCollider::checkDistance(PolygonCollider* collidableObject)
+{
+	PxVec3 directionToCollider = collidableObject->getPosition() - m_position;
+
+	return false;
+}

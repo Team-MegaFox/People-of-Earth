@@ -18,6 +18,15 @@
 #include "..\Core\Time.h"
 #include "..\Core\Utility.h"
 
+// Disable logging in CEGUI for Release build
+#ifndef _DEBUG
+class CeguiNonLogger : public CEGUI::Logger{
+	void logEvent(const CEGUI::String&, CEGUI::LoggingLevel){}
+	void setLogFilename(const CEGUI::String&, bool){}
+};
+CeguiNonLogger g_ceguiNonLogger;
+#endif
+
 GUIEngine::GUIEngine(const std::string& resDir, 
 	const std::string& schemeFile /*= "TaharezLook.scheme"*/,
 	const std::string& mouseImageFile /*= "TaharezLook/MouseArrow"*/)

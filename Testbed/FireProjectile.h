@@ -13,7 +13,7 @@
 // ***********************************************************************
 
 #pragma once
-#include <Components\Audio.h>
+#include <Components\AudioSource.h>
 #include <Components\MeshRenderer.h>
 #include "ShipStats.h"
 #include "Projectile.h"
@@ -42,7 +42,7 @@ public:
 	/// </summary>
 	virtual void onStart() override
 	{
-		m_audioComponent = new Audio(m_fileName, AudioType::SOUND, true);
+		m_audioComponent = new AudioSource(m_fileName, AudioType::SOUND);
 	}
 
 	/// <summary>
@@ -107,6 +107,6 @@ private:
 	/// <summary>
 	/// The audio component this game component will use for sound
 	/// </summary>
-	Audio * m_audioComponent;
+	AudioSource * m_audioComponent;
 	Material m_material;
 };

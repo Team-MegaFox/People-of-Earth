@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 03-21-2016
 // ***********************************************************************
 // <copyright file="GameObject.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -56,6 +56,17 @@ public:
 	/// Finalizes an instance of the <see cref="GameObject" /> class.
 	/// </summary>
 	~GameObject();
+
+	/// <summary>
+	/// Notifies the game components and the object's children that 
+	/// they are being covered by a pop scene.
+	/// </summary>
+	void notifyCoveredComponents();
+	/// <summary>
+	/// Notifies the game components and the object's children that 
+	/// they are no longer being covered by a pop scene.
+	/// </summary>
+	void notifyUncoveredComponents();
 
 	/// <summary>
 	/// Updates all children GameObjects, Game Components and GUI Components.
@@ -119,7 +130,7 @@ public:
 	/// </summary>
 	/// <param name="component">The Game Component to remove.</param>
 	/// <returns>If the Game Component was removed successfully.</returns>
-	bool removeGameComponent(GameComponent* component);
+	bool removeGameComponent(GameComponent* component, bool del = true);
 	/// <summary>
 	/// Removes the specified GUI Components.
 	/// </summary>
@@ -179,13 +190,17 @@ public:
 	/// <returns>All immediate children stored in a vector.</returns>
 	std::vector<GameObject*> getAllChildren();
 
+	/// <summary>
+	/// Gets all game components attached to the game object into a vector.
+	/// </summary>
+	/// <returns>All game components attached.</returns>
 	std::vector<GameComponent*> getAllGameComponents() const;
 
 	/// <summary>
 	/// Gets the core engine.
 	/// </summary>
 	/// <returns>CoreEngine *.</returns>
-	CoreEngine* getCoreEngine() { return m_coreEngine; }
+	CoreEngine* getCoreEngine() const { return m_coreEngine; }
 
 	/// <summary>
 	/// Gets the Transform object of this GameObject.
@@ -204,6 +219,13 @@ public:
 	/// </summary>
 	/// <returns>Whether the gameobject is enabled.</returns>
 	bool isEnabled() const { return m_enabled; }
+
+	/// <summary>
+	/// Checks if the gameobject was enabled before an exclusive scene was pushed.
+	/// Mostly used by the Scene Manager.
+	/// </summary>
+	/// <returns>Whether the gameobject is enabled.</returns>
+	bool wasEnabled() const { return m_wasEnabled; }
 	
 	/// <summary>
 	/// Sets the Core Engine so the GameObject can access the different systems.
@@ -221,7 +243,14 @@ public:
 	/// Sets the gameobject to be enabled or not.
 	/// </summary>
 	/// <param name="enabled">If the gameobject and its children is enabled.</param>
-	void setEnabled(const bool enabled);
+	/// <param name="childrenEnabled">If the gameobject's children should be enabled or not.</param>
+	void setEnabled(const bool enabled, const bool childrenEnabled = true);
+
+	/// <summary>
+	/// Sets the gameobject to know it was enabled before an exclusive scene was pushed.
+	/// </summary>
+	/// <param name="enabled">If the gameobject was enabled.</param>
+	void setWasEnabled(const bool enabled);
 
 private:
 	/// <summary>
@@ -263,6 +292,7 @@ private:
 	/// If the game object, it's components and children are accepting input, updating and rendering.
 	/// </summary>
 	bool m_enabled;
+	bool m_wasEnabled;
 	/// <summary>
 	/// The vector of child GameObjects.
 	/// </summary>

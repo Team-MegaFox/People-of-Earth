@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 02-17-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 03-21-2016
 // ***********************************************************************
 // <copyright file="Scene.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -23,6 +23,16 @@ m_name(name), m_root("Root")
 
 Scene::~Scene()
 {
+}
+
+void Scene::notifyCoveredObjects()
+{
+	m_root.notifyCoveredComponents();
+}
+
+void Scene::notifyUncoveredObjects()
+{
+	m_root.notifyUncoveredComponents();
 }
 
 void Scene::update(float delta)
@@ -96,4 +106,14 @@ Uint16 Scene::getNameCounter(const std::string& name)
 		return it->second;
 	}
 	return 0;
+}
+
+void Scene::instantiate(GameObject* gameObject)
+{
+	addToRoot(gameObject);
+	auto gameComponents = gameObject->getAllGameComponents();
+	for (size_t j = 0; j < gameComponents.size(); j++)
+	{
+		gameComponents[j]->onStart();
+	}
 }

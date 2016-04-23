@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
+// Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 03-01-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 03-31-2016
 // ***********************************************************************
 // <copyright file="Material.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -59,25 +59,43 @@ Material::Material(const std::string& materialName, float specularIntensity, flo
 	const Texture& dispMap, float dispMapScale, float dispMapOffset) :
 	m_materialName(materialName)
 {
-	m_materialData = new MaterialData();
-	s_resourceMap[m_materialName] = m_materialData;
+	std::map<std::string, MaterialData*>::const_iterator it = s_resourceMap.find(materialName);
+	if (it == s_resourceMap.end())
+	{
+		m_materialData = new MaterialData();
+		s_resourceMap[m_materialName] = m_materialData;
 
-	m_materialData->setTexture("diffuse", diffuse);
-	m_materialData->setFloat("specularIntensity", specularIntensity);
-	m_materialData->setFloat("specularPower", specularPower);
-	m_materialData->setTexture("normalMap", normalMap);
-	m_materialData->setTexture("dispMap", dispMap);
+		m_materialData->setTexture("diffuse", diffuse);
+		m_materialData->setFloat("specularIntensity", specularIntensity);
+		m_materialData->setFloat("specularPower", specularPower);
+		m_materialData->setTexture("normalMap", normalMap);
+		m_materialData->setTexture("dispMap", dispMap);
 
-	float baseBias = dispMapScale / 2.0f;
-	m_materialData->setFloat("dispMapScale", dispMapScale);
-	m_materialData->setFloat("dispMapBias", -baseBias + baseBias * dispMapOffset);
+		float baseBias = dispMapScale / 2.0f;
+		m_materialData->setFloat("dispMapScale", dispMapScale);
+		m_materialData->setFloat("dispMapBias", -baseBias + baseBias * dispMapOffset);
+	}
+	else
+	{
+		m_materialData = it->second;
+		m_materialData->addReference();
+	}
 }
 
 Material::Material(const std::string & materialName, const Texture & skyboxTex) :
 m_materialName(materialName)
 {
-	m_materialData = new MaterialData();
-	s_resourceMap[m_materialName] = m_materialData;
+	std::map<std::string, MaterialData*>::const_iterator it = s_resourceMap.find(materialName);
+	if (it == s_resourceMap.end())
+	{
+		m_materialData = new MaterialData();
+		s_resourceMap[m_materialName] = m_materialData;
 
-	m_materialData->setTexture("S_skybox", skyboxTex);
+		m_materialData->setTexture("S_skybox", skyboxTex);
+	}
+	else
+	{
+		m_materialData = it->second;
+		m_materialData->addReference();
+	}
 }

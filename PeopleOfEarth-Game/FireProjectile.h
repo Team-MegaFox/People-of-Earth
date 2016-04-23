@@ -3,7 +3,7 @@
 // Created          : 02-18-2015
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 02-29-2016
+// Last Modified On : 04-04-2016
 // ***********************************************************************
 // <copyright file="FireProjectile.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -13,11 +13,13 @@
 // ***********************************************************************
 
 #pragma once
-#include <Components\Audio.h>
+#include <Components\AudioSource.h>
 #include <Components\MeshRenderer.h>
 #include "ShipStats.h"
 #include "Projectile.h"
+#include "MissileAI.h"
 #include <PhysX/PxPhysicsAPI.h>
+#include "DialogueBox.h"
 using namespace physx;
 
 class FireProjectile : public GameComponent
@@ -28,21 +30,20 @@ public:
 	/// <summary>
 	/// Initializes a new instance of the <see cref="FireProjectile"/> class.
 	/// </summary>
-	FireProjectile(const std::string fileName) : 
-		m_material(
-		"laser", 10.0f, 100, Texture("laserGreen.png")),
-		m_fileName(fileName){}
+	FireProjectile() : 
+		m_laserMaterial("laser", 10.0f, 100, Texture("laserGreen.png")),
+		m_missileMaterial("missile", 10.0f, 100, Texture("missileGreen.png")){ }
 	/// <summary>
 	/// Finalizes an instance of the <see cref="FireProjectile"/> class.
 	/// </summary>
-	~FireProjectile() { delete m_audioComponent; }
+	~FireProjectile() { }
 
 	/// <summary>
 	/// Is called when this game component is created
 	/// </summary>
 	virtual void onStart() override
 	{
-		m_audioComponent = new Audio(m_fileName, AudioType::SOUND, true);
+		m_shipStats = getGameObjectByName("player")->getGameComponent<ShipStats>();
 	}
 
 	/// <summary>
@@ -52,47 +53,86 @@ public:
 	/// <param name="delta">The delta.</param>
 	virtual void processInput(const InputManager& input, float delta)
 	{
-		if (m_delay >= 0.2f)
+		if (m_shipStats->getEnergy() > 0.0f)
 		{
-			if (input.GetRightTrigger() != 0)
+			if (m_delay >= 0.2f)
 			{
-				instantiate(
-					(new GameObject("Laser", *getTransform()->getPosition()
-					, *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
-					->addGameComponent(new Projectile)
-					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("laser")))
-					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
-					Utility::getForward(*getTransform()->getRotation()) * 15.0f +
-					Utility::getRight(*getTransform()->getRotation()) * 2.5f					
-					, *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))
-					);
+				if (input.GetRightTrigger() != 0)
+				{
+					input.SetRumble(0.5f, 120);
 
-				m_audioComponent->play();
+					instantiate(
+						(new GameObject("Laser", *getTransform()->getPosition()
+						, *getTransform()->getRotation(), m_laserScale))
+						->addGameComponent(new Projectile(0.1f, AGENT::PLAYER_SIDE))
+						->addGameComponent(new MeshRenderer(Mesh("Ships/Missiles/qutank_Mesh.obj"), Material("laser")))
+						->addGameComponent(new RigidBody(*getTransform()->getPosition() +
+						Utility::getForward(*getTransform()->getRotation()) * 15.0f +
+						Utility::getRight(*getTransform()->getRotation()) * 2.5f
+						, *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f,
+						Utility::getForward(*getTransform()->getRotation()) * 200.0f))
+						);
 
-				m_delay = 0.0f;
+					instantiate((new GameObject("Laser Sound"))
+						->addGameComponent(new AudioSource("Music/sci-fi_weapon_laser_small_03.WAV", AudioType::SOUND, true, 0.1f, true)));
+
+					m_delay = 0.0f;
+					m_shipStats->updateEnergy(-0.001f);
+				}
+				if (input.GetLeftTrigger() != 0)
+				{
+					input.SetRumble(0.5f, 120);
+
+					instantiate(
+						(new GameObject("Laser", *getTransform()->getPosition()
+						, *getTransform()->getRotation(), m_laserScale))
+						->addGameComponent(new Projectile(0.1f, AGENT::PLAYER_SIDE))
+						->addGameComponent(new MeshRenderer(Mesh("Ships/Missiles/qutank_Mesh.obj"), Material("laser")))
+						->addGameComponent(new RigidBody(*getTransform()->getPosition() +
+						Utility::getForward(*getTransform()->getRotation()) * 15.0f +
+						Utility::getLeft(*getTransform()->getRotation()) * 3.5f,
+						*getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f,
+						Utility::getForward(*getTransform()->getRotation()) * 200.0f))
+						);
+
+					instantiate((new GameObject("Laser Sound"))
+						->addGameComponent(new AudioSource("Music/sci-fi_weapon_laser_small_03.WAV", AudioType::SOUND, true, 0.1f, true)));
+
+					m_delay = 0.0f;
+					m_shipStats->updateEnergy(-0.001f);
+				}
+				if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B) && m_missileCount > 0)
+				{
+					input.SetRumble(0.8f, 200);
+
+					//Shoot missile
+					instantiate(
+						(new GameObject("Missile", *getTransform()->getPosition()
+						, *getTransform()->getRotation(), m_missileScale))
+						->addGameComponent(new MissileAI())
+						->addGameComponent(new MeshRenderer(Mesh("Ships/Missiles/missile.obj"), Material("missile")))
+						->addGameComponent(new RigidBody(*getTransform()->getPosition() +
+						Utility::getForward(*getTransform()->getRotation()) * 15.0f +
+						Utility::getLeft(*getTransform()->getRotation()) * 3.5f,
+						*getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f,
+						Utility::getForward(*getTransform()->getRotation()) * 200.0f))
+						);
+					m_delay = 0.0f;
+					m_shipStats->updateEnergy(-0.001f);
+					m_missileCount--;
+				}
 			}
-			if (input.GetLeftTrigger() != 0)
+			
+			else
 			{
-				instantiate(
-					(new GameObject("Laser", *getTransform()->getPosition()
-					, *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
-					->addGameComponent(new Projectile)
-					->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("laser")))
-					->addGameComponent(new RigidBody(*getTransform()->getPosition() +
-					Utility::getForward(*getTransform()->getRotation()) * 15.0f +
-					Utility::getLeft(*getTransform()->getRotation()) * 3.5f, *getTransform()->getRotation(), 1.0f, 0.075f, 0.075f, 2.0f, Utility::getForward(*getTransform()->getRotation()) * 200.0f))
-					);
-
-				m_audioComponent->play();
-
-				m_delay = 0.0f;
+				m_delay += delta;
 			}
 		}
+	}
 
-		else
-		{
-			m_delay += delta;
-		}
+	int getMissileCount()
+	{
+		return m_missileCount;
 	}
 
 private:
@@ -100,13 +140,11 @@ private:
 	/// The delay between shots
 	/// </summary>
 	float m_delay = 0.2f;
-	/// <summary>
-	/// The file name of the sound to use
-	/// </summary>
-	std::string m_fileName;
-	/// <summary>
-	/// The audio component this game component will use for sound
-	/// </summary>
-	Audio * m_audioComponent;
-	Material m_material;
+	Material m_laserMaterial;
+	Material m_missileMaterial;
+	PxVec3 m_missileScale = PxVec3(0.0025f);
+	PxVec3 m_laserScale = PxVec3(1.0f);
+	ShipStats * m_shipStats;
+	int m_missileCount = 5;
+
 };

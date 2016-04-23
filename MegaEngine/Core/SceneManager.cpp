@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 03-11-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-29-2016
 // ***********************************************************************
 // <copyright file="SceneManager.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -15,7 +15,7 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "..\Components\GameComponents.h"
-#include"..\Components\Audio.h"
+#include "..\Components\AudioSource.h"
 #include "..\Rendering\RenderingEngine.h"
 #include "..\Rendering\Camera3D.h"
 #include "..\Physics\PhysicsEngine.h"
@@ -39,14 +39,12 @@ SceneManager::~SceneManager()
 
 Scene* SceneManager::peek()
 {
-	if (m_activeList.empty())
+	Scene* result = nullptr;
+	if (!m_activeList.empty())
 	{
-		return nullptr;
+		result = m_activeList.back().first;
 	}
-	else
-	{
-		return m_activeList.back().first;
-	}
+	return result;
 }
 
 void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*/)
@@ -56,37 +54,32 @@ void SceneManager::push(Scene* scene, Modality modality /*= Modality::Exclusive*
 		auto go = m_activeList.back().first->getAllGameObjects();
 		for (size_t i = 0; i < go.size(); i++)
 		{
-			go[i]->deactivate();
+			//go[i]->deactivate();
 			if (modality == Modality::Exclusive)
 			{
-				go[i]->setEnabled(false);
+				go[i]->setWasEnabled(go[i]->isEnabled());
+				go[i]->setEnabled(false, false);
+
+				AudioSource * audio = go[i]->getGameComponent<AudioSource>();
+				if (audio != nullptr)
+				{
+					if (audio->getType() == AudioType::STREAM)
+					{
+						audio->setWasPlaying(audio->isPlaying());
+						// pause music
+						audio->stop();
+					}
+				}
 			}
 		}
+	}
+
+	if (modality == Modality::Popup)
+	{
+		m_activeList.back().first->notifyCoveredObjects();
 	}
 
 	m_activeList.push_back(std::make_pair(scene, modality));
-
-	if (modality == Modality::Exclusive)
-	{
-		for (int i = m_activeList.size() - 2; i >= 0; i--)
-		{
-			if (m_activeList[i].second == Modality::Exclusive)
-			{
-				auto go = m_activeList[i].first->getAllGameObjects();
-
-				for (size_t j = 0; j < go.size(); j++)
-				{
-					Audio * audio = go[j]->getGameComponent<Audio>();
-					if (audio != nullptr)
-					{
-						// stop music
-						audio->pause(true);
-					}
-				}
-				break;
-			}
-		}
-	}
 
 	scene->init(*m_viewport);
 	scene->setEngine(m_coreEngine);
@@ -110,7 +103,11 @@ void SceneManager::pop()
 		throw std::runtime_error("Attempted to pop from an empty game state stack");
 	}
 
-	//auto go = m_activeList.back().first->getAllGameObjects();
+	bool poppingExclusive = false;
+	if (m_activeList.back().second == Modality::Exclusive)
+	{
+		poppingExclusive = true;
+	}
 
 	delete m_activeList.back().first;
 	m_activeList.pop_back();
@@ -119,24 +116,37 @@ void SceneManager::pop()
 	{
 		updateExclusiveScene();
 
+		if (!poppingExclusive)
+		{
+			m_activeList.back().first->notifyUncoveredObjects();
+		}
+
 		auto go = m_activeList.back().first->getAllGameObjects();
 		for (size_t i = 0; i < go.size(); i++)
 		{
-			go[i]->activate();
-			go[i]->setEnabled(true);
+			//go[i]->activate();
+			if (poppingExclusive)
+			{
+				go[i]->setEnabled(go[i]->wasEnabled(), false);
+			}
 		}
 
-		for (size_t i = 0; i < go.size(); i++)
+		if (poppingExclusive)
 		{
-			Audio * audio = go[i]->getGameComponent<Audio>();
-			if (audio != nullptr)
+			go = m_activeList[m_exclusiveScene].first->getAllGameObjects();
+			for (size_t i = 0; i < go.size(); i++)
 			{
-				audio->pause(false);
+				AudioSource * audio = go[i]->getGameComponent<AudioSource>();
+				if (audio != nullptr)
+				{
+					if (audio->getType() == AudioType::STREAM && audio->wasPlaying())
+					{
+						audio->play();
+					}
+				}
 			}
 		}
 	}
-
-	//auto go = m_activeList[m_exclusiveScene].first->getAllGameObjects();
 }
 
 void SceneManager::popTo(Uint8 popIndex)
@@ -165,10 +175,7 @@ Scene* SceneManager::switchScene(Scene* scene, Modality modality /*= Modality::E
 
 void SceneManager::update(float delta)
 {
-	for (size_t i = m_exclusiveScene; i < m_activeList.size(); i++)
-	{
-		m_activeList[i].first->update(delta);
-	}
+	m_activeList.back().first->update(delta);
 }
 
 void SceneManager::render(RenderingEngine* renderingEngine)

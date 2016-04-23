@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 03-03-2016
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 03-04-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 04-20-2016
 // ***********************************************************************
 // <copyright file="PassengerShipAI.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -16,6 +16,7 @@
 #include "SteeringBehaviour.h"
 #include "ShipStats.h"
 #include "PlayerShipMovementController.h"
+#include "GameWonScene.h"
 #include <PhysX/PxPhysicsAPI.h>
 using namespace physx;
 
@@ -50,23 +51,29 @@ public:
 	{
 		std::vector<GameObject*> collisionCheckObject;
 		std::vector<GameObject*> gameObjects;
-		//gameObjects = getGameObjectsByName("enemyFighter");
+		//gameObjects = getGameObjectsByName("enemyFighter_");
 		//for (size_t i = 0; i < gameObjects.size(); i++)
 		//{
 		//	collisionCheckObject.push_back(gameObjects[i]);
 		//}
 		//No Collider at the moment
-		//gameObjects = getGameObjectsByName("Asteroid Field");
-		//for (size_t i = 0; i < gameObjects.size(); i++)
-		//{
-		//	collisionCheckObject.push_back(gameObjects[i]);
-		//}
+		/*gameObjects = getGameObjectsByName("Asteroid Field");
+		for (size_t i = 0; i < gameObjects.size(); i++)
+		{
+			collisionCheckObject.push_back(gameObjects[i]);
+		}*/
 		return collisionCheckObject;
 	}
 
 	virtual void UpdateAI(float timestep) override
 	{
 		WayPoint(timestep);
+
+		PxReal zPos = m_rigidBody->getPosition().z;
+		if (zPos >= 25000.0f)
+		{
+			getCoreEngine()->getSceneManager()->push(new GameWonScene, Modality::Popup);
+		}
 	}
 
 private:

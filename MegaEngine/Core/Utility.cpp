@@ -165,6 +165,15 @@ PxMat44 Utility::initOrthographic(float left, float right, float bottom, float t
 	return m;
 }
 
+unsigned int Utility::classifyPoint(PxPlane plane, PxVec3 point)
+{
+	float d = plane.n.x * point.x + plane.n.y * point.y + plane.n.z * point.z + plane.d;
+
+	if (d < 0) return -1;
+	if (d > 0) return 1;
+	return 0;
+}
+
 PxQuat Utility::slerp(PxQuat q1, PxQuat q2, float t)
 {
 	PxQuat result;
@@ -202,11 +211,11 @@ PxQuat Utility::slerp(PxQuat q1, PxQuat q2, float t)
 	return result;
 }
 
-float Utility::getRandomNumber(float timestep, int min, int max)
+float Utility::getRandomNumber(float timestep, float min, float max)
 {
 	static std::mt19937 randomEngine((unsigned int)time(nullptr));
 
-	std::uniform_int_distribution<int> randDir(min, max);
+	std::uniform_real_distribution<float> randDir(min, max);
 
 	return randDir(randomEngine);
 }

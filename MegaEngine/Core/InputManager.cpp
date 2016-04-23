@@ -13,19 +13,30 @@
 #include "InputManager.h"
 #include "..\Rendering\Viewport.h"
 #include <string>
+#include <iostream>
 
 InputManager::InputManager(Viewport* window)
 	: m_window(window)
 {
 	controller = SDL_GameControllerOpen(0);
-	if (controller == nullptr)
+	if (controller != nullptr)
 	{
-
+		m_haptic = SDL_HapticOpenFromJoystick(SDL_GameControllerGetJoystick(controller));
+		if (m_haptic != nullptr)
+		{
+			SDL_HapticRumbleInit(m_haptic);
+			SDL_HapticRumblePlay(m_haptic, 0.5, 1000);
+		}
+		else
+		{
+			std::cout << "Haptic error: " << SDL_GetError() << std::endl;
+		}
 	}
 }
 
 InputManager::~InputManager()
 {
+	SDL_HapticClose(m_haptic);
 	SDL_GameControllerClose(controller);
 	controller = nullptr;
 }
@@ -108,6 +119,15 @@ bool InputManager::Update(SDL_Event& _inputEvent)
 			break;
 		case SDL_CONTROLLERDEVICEADDED:
 			controller = SDL_GameControllerOpen(0);
+			m_haptic = SDL_HapticOpenFromJoystick(SDL_GameControllerGetJoystick(controller));
+			if (m_haptic != nullptr)
+			{
+				SDL_HapticRumbleInit(m_haptic);
+			}
+			break;
+		case SDL_CONTROLLERDEVICEREMOVED:
+			SDL_HapticClose(m_haptic);
+			SDL_GameControllerClose(controller);
 			break;
 		case SDL_TEXTINPUT:
 			text = _inputEvent.text.text;
@@ -231,8 +251,8 @@ const bool InputManager::PadButtonUp(Uint8 _button) const
 	if (!currPadButtonStates.empty())
 		if (currPadButtonStates.find(_button) != currPadButtonStates.end())
 			return !currPadButtonStates.at(_button);
-		else return false;
-	else return false;
+		else return true;
+	else return true;
 }
 
 const bool InputManager::PadButtonPress(Uint8 _button) const
@@ -273,6 +293,11 @@ const float InputManager::GetLeftTrigger() const
 const float InputManager::GetRightTrigger() const
 {
 	return rightTrigger;
+}
+
+void InputManager::SetRumble(float strength, Uint32 duration) const
+{
+	SDL_HapticRumblePlay(m_haptic, strength, duration);
 }
 
 char* InputManager::getTextInput()

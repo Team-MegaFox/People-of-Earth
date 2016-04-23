@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu, Jesse Derochie and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Christopher Maeda
-// Last Modified On : 02-29-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 03-21-2016
 // ***********************************************************************
 // <copyright file="GameComponents.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -48,6 +48,18 @@ public:
 	/// when game components are added to the scene
 	/// </summary>
 	virtual void onStart() {}
+	/// <summary>
+	/// If the game object attached becomes covered by a pop up scene
+	/// then this method is called notifying the component it is being 
+	/// covered.
+	/// </summary>
+	virtual void onCovered() {}
+	/// <summary>
+	/// If the game object attached becomes uncovered by popping a pop
+	/// up scene this method is called notifying the component it is being
+	/// uncovered.
+	/// </summary>
+	virtual void onUncovered() {}
 
 	/// <summary>
 	/// Virtual function for custom input processing.
@@ -95,13 +107,18 @@ protected:
 	/// <summary>
 	/// Gets the core engine.
 	/// </summary>
-	/// <returns></returns>
-	CoreEngine * getCoreEngine() { return m_parent->getCoreEngine(); }
+	/// <returns>The Core Engine.</returns>
+	CoreEngine * getCoreEngine() const { return m_parent->getCoreEngine(); }
 	/// <summary>
 	/// Gets the parent.
 	/// </summary>
-	/// <returns></returns>
+	/// <returns>The parent GameObject.</returns>
 	GameObject * getParent() { return m_parent; }
+	/// <summary>
+	/// Gets the parent.
+	/// </summary>
+	/// <returns>The parent GameObject.</returns>
+	const GameObject& getParent() const { return *m_parent; }
 
 	/// <summary>
 	/// Gets the game object from the top most scene by name.
@@ -138,12 +155,7 @@ protected:
 	/// <param name="gameObject">The game object to create.</param>
 	void instantiate(GameObject* gameObject)
 	{
-		auto gameComponents = gameObject->getAllGameComponents();
-		for (size_t j = 0; j < gameComponents.size(); j++)
-		{
-			gameComponents[j]->onStart();
-		}
-		getCoreEngine()->getSceneManager()->peek()->addToRoot(gameObject);
+		getCoreEngine()->getSceneManager()->peek()->instantiate(gameObject);
 	}
 
 private:

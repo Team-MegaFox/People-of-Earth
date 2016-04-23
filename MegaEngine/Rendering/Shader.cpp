@@ -51,7 +51,7 @@ ShaderData::ShaderData(const std::string& fileName)
 	if (m_program == 0)
 	{
 		fprintf(stderr, "Error creating shader program\n");
-		exit(1);
+		assert(false);
 	}
 
 	if (s_supportedOpenGLLevel  == 0)
@@ -202,6 +202,10 @@ void Shader::updateUniforms(const Transform& transform, const Material& material
 		{
 			if (uniformName == "C_eyePos")
 				setUniformPxVec3(uniformName, camera.getTransform().getTransformedPos());
+			else if (uniformName == "C_right")
+				setUniformPxVec3(uniformName, Utility::getRight(camera.getTransform().getTransformedRot()));
+			else if (uniformName == "C_up")
+				setUniformPxVec3(uniformName, Utility::getUp(camera.getTransform().getTransformedRot()));
 			else
 				throw "Invalid Camera Uniform: " + uniformName;
 		}
@@ -321,7 +325,7 @@ void ShaderData::addProgram(const std::string& text, int type)
 	if (shader == 0)
 	{
 		fprintf(stderr, "Error creating shader type %d\n", type);
-		exit(1);
+		assert(false);
 	}
 
 	const GLchar* p[1];
@@ -341,7 +345,7 @@ void ShaderData::addProgram(const std::string& text, int type)
 		glGetShaderInfoLog(shader, 1024, NULL, InfoLog);
 		fprintf(stderr, "Error compiling shader type %d: '%s'\n", shader, InfoLog);
 
-		exit(1);
+		assert(false);
 	}
 
 	glAttachShader(m_program, shader);

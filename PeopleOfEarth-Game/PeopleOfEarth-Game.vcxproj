@@ -51,10 +51,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>MegaEngine.lib;assimp.lib;fmodex_vc.lib;fmodexL_vc.lib;glew32.lib;glew32s.lib;opengl32.lib;SDL2.lib;SDL2main.lib;CEGUIBase-0_d.lib;CEGUIOpenGLRenderer-0_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MegaEngine.lib;assimp.lib;fmod_vc.lib;fmodL_vc.lib;glew32.lib;glew32s.lib;opengl32.lib;SDL2.lib;SDL2main.lib;CEGUIBase-0_d.lib;CEGUIOpenGLRenderer-0_d.lib;PhysX3CommonDEBUG_x86.lib;PhysX3CookingDEBUG_x86.lib;PhysX3DEBUG_x86.lib;PhysX3ExtensionsDEBUG.lib;PhysX3GpuDEBUG_x86.lib;PhysX3VehicleDEBUG.lib;PvdRuntimeDEBUG.lib;PxTaskDEBUG.lib;SceneQueryDEBUG.lib;SimulationControllerDEBUG.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -66,34 +67,46 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>MegaEngine.lib;assimp.lib;fmodex_vc.lib;fmodexL_vc.lib;glew32.lib;glew32s.lib;opengl32.lib;SDL2.lib;SDL2main.lib;CEGUIBase-0.lib;CEGUIOpenGLRenderer-0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MegaEngine.lib;assimp.lib;fmod_vc.lib;fmodL_vc.lib;glew32.lib;glew32s.lib;opengl32.lib;SDL2.lib;SDL2main.lib;CEGUIBase-0.lib;CEGUIOpenGLRenderer-0.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="FreeLook.cpp" />
     <ClCompile Include="FreeMove.cpp" />
+    <ClCompile Include="MissileAI.cpp" />
     <ClCompile Include="PeopleOfEarth-Game.cpp" />
     <ClCompile Include="PlayerShipMovementController.cpp" />
+    <ClCompile Include="ShipStats.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AsteroidField.h" />
     <ClInclude Include="ControlsScene.h" />
+    <ClInclude Include="CrossHair.h" />
     <ClInclude Include="DetailsScene.h" />
+    <ClInclude Include="DialogueBox.h" />
     <ClInclude Include="EnemyFighterShipAI.h" />
     <ClInclude Include="FireProjectile.h" />
     <ClInclude Include="FreeLook.h" />
     <ClInclude Include="FreeMove.h" />
+    <ClInclude Include="GameOverManager.h" />
+    <ClInclude Include="GameOverScene.h" />
+    <ClInclude Include="GameWonManager.h" />
+    <ClInclude Include="GameWonScene.h" />
+    <ClInclude Include="InGameMusic.h" />
     <ClInclude Include="MainMenuManager.h" />
     <ClInclude Include="MainMenuScene.h" />
+    <ClInclude Include="MiniMap.h" />
+    <ClInclude Include="MissileAI.h" />
+    <ClInclude Include="MissileGUI.h" />
     <ClInclude Include="MissionOneScene.h" />
-    <ClInclude Include="MissionSelectManager.h" />
-    <ClInclude Include="MissionSelectScene.h" />
+    <ClInclude Include="MotherShipAI.h" />
     <ClInclude Include="OptionsMenuManager.h" />
     <ClInclude Include="OptionsScene.h" />
     <ClInclude Include="PassengerShipAI.h" />
@@ -101,10 +114,22 @@
     <ClInclude Include="PauseScene.h" />
     <ClInclude Include="PlayerShipMovementController.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="QuatRotator.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="RogueAsteroid.h" />
     <ClInclude Include="ShipStats.h" />
     <ClInclude Include="ShowPauseComp.h" />
+    <ClInclude Include="SpaceObject.h" />
     <ClInclude Include="SteeringBehaviour.h" />
     <ClInclude Include="TextLerpAlpha.h" />
+    <ClInclude Include="UpdateGUi.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PeopleOfEarth-Game.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
+    <Image Include="MegaFox.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

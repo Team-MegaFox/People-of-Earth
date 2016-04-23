@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 01-30-2016
+// Last Modified By : Pavan Jakhu
+// Last Modified On : 03-21-2016
 // ***********************************************************************
 // <copyright file="CoreEngine.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -37,6 +37,8 @@ m_sceneManager(sceneManager)
 	m_game = new Game;
 	if (m_sceneManager)
 	{
+		//m_audioEngine->setEngine(this);
+
 		m_sceneManager->setEngine(this);
 	}
 }

@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 04-03-2016
 // ***********************************************************************
 // <copyright file="Collider.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -220,7 +220,7 @@ public:
 	/// Sets the position.
 	/// </summary>
 	/// <param name="id">The position.</param>
-	void setPosition(PxVec3 position)
+	virtual void setPosition(PxVec3 position)
 	{
 		m_position = position;
 	}
@@ -229,7 +229,7 @@ public:
 	/// Sets the rotation.
 	/// </summary>
 	/// <param name="id">The rotation.</param>
-	void setRotation(PxQuat rotation)
+	virtual void setRotation(PxQuat rotation)
 	{
 		m_rotation = rotation;
 	}
@@ -265,7 +265,7 @@ public:
 	/// Sets the velocity.
 	/// </summary>
 	/// <param name="id">The velocity.</param>
-	void setVelocity(PxVec3 velocity)
+	virtual void setVelocity(PxVec3 velocity)
 	{
 		m_velocity = velocity;
 	}

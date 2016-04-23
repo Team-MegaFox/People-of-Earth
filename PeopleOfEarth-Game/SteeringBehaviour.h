@@ -3,7 +3,7 @@
 // Created          : 02-23-2016
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 03-11-2016
+// Last Modified On : 04-05-2016
 // ***********************************************************************
 // <copyright file="SteeringBehaviour.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -13,9 +13,8 @@
 // ***********************************************************************
 
 #pragma once
-#include <Components\GameComponents.h>
-#include <Core\GameObject.h>
 #include <PhysX/PxPhysicsAPI.h>
+#include <MegaEngine.h>
 using namespace physx;
 
 class SteeringBehaviour : public GameComponent {
@@ -23,7 +22,7 @@ class SteeringBehaviour : public GameComponent {
 public:
 
 	SteeringBehaviour() : m_forwardDirection(PxVec3(0.0f, 0.0f, 0.0f)), m_direction(PxVec3(0.0f, 0.0f, 0.0f)),
-		m_targetObject(nullptr), m_targetPoint(PxVec3(0.0f, 0.0f, 0.0f))
+		m_targetObject(nullptr), m_targetPoint(PxVec3(0.0f, 0.0f, 0.0f)), m_alive(true)
 	{}
 
 	~SteeringBehaviour()
@@ -31,11 +30,11 @@ public:
 
 	virtual void onStart()
 	{
-		init();
-
 		m_rigidBody = getParent()->getGameComponent<RigidBody>();
 		m_rigidBody->setPosition(*getTransform()->getPosition());
 		m_rigidBody->setRotation(*getTransform()->getRotation());
+	
+		init();
 	}
 
 	//Initialize
@@ -174,6 +173,46 @@ public:
 		}
 	}
 
+	//Check to see if anythinh is in front of the ship
+	void CheckWanderPath(float timestep)
+	{
+		std::vector<GameObject*> collidableGameObjects;
+		collidableGameObjects = getAllEnemyObject();
+		float m_collisionTime;
+		for (size_t i = 0; i < collidableGameObjects.size(); i++)
+		{
+			if (collidableGameObjects[i]->getGameComponent<RigidBody>()->getCollider()->checkCollision(
+				*getTransform()->getPosition(), (m_rigidBody->getVelocity()).getNormalized(),
+				m_collisionTime)
+				)
+			{
+				m_collisionTime /= 60.0f;
+				//Within the 10 sec
+				if (m_collisionTime < 10.0f)
+				{
+					//For Planets
+					if (collidableGameObjects[i]->getGameComponent<RigidBody>()->getVelocity() != PxVec3(0.0f))
+					{
+						m_wayPoints.push_back(collidableGameObjects[i]->getGameComponent<RigidBody>()->getPosition() +
+							(collidableGameObjects[i]->getGameComponent<RigidBody>()->getVelocity()).getNormalized() * -5.0f /*multiply by scale*/);
+						m_delayCheckInFront = 1.0f;
+						break;
+					}
+					else
+					{
+						//Change the position of the waypoint (random number between -100 to 100)
+						m_targetPoint = *getTransform()->getPosition() + PxVec3(
+							Utility::getRandomNumber(timestep, -100, 100),
+							Utility::getRandomNumber(timestep, -100, 100),
+							Utility::getRandomNumber(timestep, -100, 100));
+						CheckWanderPath(timestep);
+						break;
+					}
+				}
+			}
+		}
+	}
+
 	virtual std::vector<GameObject*> getAllEnemyObject() = 0;
 
 	//Wander the ship
@@ -190,6 +229,7 @@ public:
 				Utility::getRandomNumber(timestep, -100, 100),
 				Utility::getRandomNumber(timestep, -100, 100),
 				Utility::getRandomNumber(timestep, -100, 100));
+			CheckWanderPath(timestep);
 		}
 
 		//Seek to the waypoint
@@ -254,10 +294,17 @@ public:
 
 		UpdateAI(timestep);
 
-		//Get the forward direction
-		m_forwardDirection = Utility::getForward(*getTransform()->getRotation());
+		if (m_alive)
+		{
+			//Get the forward direction
+			m_forwardDirection = Utility::getForward(*getTransform()->getRotation());
 
-		m_rigidBody->updateVelocity(m_forwardDirection * m_velocityValue);
+			m_rigidBody->updateVelocity(m_forwardDirection * m_velocityValue);
+		}
+		else
+		{
+			destroy(getParent());
+		}
 
 		//Update the position
 		/*getTransform()->setPosition(*getTransform()->getPosition() 
@@ -285,4 +332,7 @@ protected:
 	//Physics
 	RigidBody* m_rigidBody;
 	float m_velocityValue;
+
+	//Destroy GameObject
+	bool m_alive;
 };

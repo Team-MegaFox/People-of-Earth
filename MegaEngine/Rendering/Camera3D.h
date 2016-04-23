@@ -1,9 +1,9 @@
 // ***********************************************************************
-// Author           : Pavan Jakhu and Jesse Derochie
+// Author           : Pavan Jakhu, Jesse Derochie, and Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 03-01-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 03-17-2016
 // ***********************************************************************
 // <copyright file="Camera3D.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -15,6 +15,12 @@
 using namespace physx;
 
 #include "..\Components\GameComponents.h"
+#include "..\Core\Utility.h"
+
+enum class EnclosureType
+{
+	INSIDE, OUTSIDE, OVERLAP
+};
 
 /// <summary>
 /// Cameras represent a location, orientation, and projection from
@@ -28,9 +34,23 @@ public:
 	/// That's useful for places such as the rendering engine which can use cameras
 	/// without creating placeholder game objects.
 	/// </summary>
+	Camera3D(const PxReal& fov, const PxReal& aspect, const PxReal& near, const PxReal& far, Transform* transform) :
+		m_projection(Utility::initPerspective(fov, aspect, near, far)),
+		m_fov(fov), m_aspect(aspect), m_near(near), m_far(far),
+		m_transform(transform),
+		m_frustum(6) { }
 	Camera3D(const PxMat44& projection, Transform* transform) :
 		m_projection(projection),
-		m_transform(transform) {}
+		m_transform(transform),
+		m_frustum(6) { }
+
+	/// <summary>
+	/// Checks wheather the point with a radius (a sphere) is inside the camera's frustum view.
+	/// </summary>
+	/// <param name="centre">The centre of the sphere.</param>
+	/// <param name="radius">The radius of the sphere.</param>
+	/// <returns>Wheather the sphere is inside, overlapping or outside the frustum.</returns>
+	EnclosureType isInside(const PxVec3& centre, const float radius) const;
 
 	/// <summary>
 	/// This is the primary function of the camera. Multiplying a point by the returned matrix
@@ -54,17 +74,25 @@ public:
 	/// </summary>
 	/// <returns>A const reference to the Transform object.</returns>
 	inline const Transform& getTransform() const { return *m_transform; }
+	/// <summary>
+	/// Gets frustum of the camera.
+	/// </summary>
+	/// <returns>A const reference to the Planes of the frustum.</returns>
+	inline const std::vector<PxPlane> getFrustum() const { return m_frustum; }
 
 	/// <summary>
 	/// Sets the projection matrix.
 	/// </summary>
 	/// <param name="projection">The projection matrix.</param>
-	inline void setProjection(const PxMat44& projection) { m_projection = projection; }
+	inline void setProjection(const PxMat44& projection) { m_projection = projection; setFrustum(); }
 	/// <summary>
 	/// Sets the transform.
 	/// </summary>
 	/// <param name="transform">The transform.</param>
 	inline void setTransform(Transform* transform)        { m_transform = transform; }
+
+	void updateFrustum() { setFrustum(); }
+
 protected:
 private:
 	/// <summary>
@@ -72,9 +100,22 @@ private:
 	/// </summary>
 	PxMat44 m_projection;
 	/// <summary>
+	/// The components of the camera.
+	/// </summary>
+	PxReal m_fov, m_aspect, m_near, m_far;
+	/// <summary>
 	/// The transform representing the position and orientation of the camera.
 	/// </summary>
 	Transform* m_transform;
+	/// <summary>
+	/// The 6 frustum planes.
+	/// </summary>
+	std::vector<PxPlane> m_frustum;
+	
+	/// <summary>
+	/// Calculates the frustum planes and sets it to the member variable.
+	/// </summary>
+	void setFrustum();
 };
 
 /// <summary>
@@ -89,14 +130,33 @@ public:
 	/// at construction, this isn't attached to a game object,
 	/// and therefore doesn't have access to a valid transform.
 	/// </summary>
-	CameraComponent(const PxMat44& projection) :
-		m_camera(projection, 0) {}
+	CameraComponent(const PxReal& fov, const PxReal& aspect, const PxReal& near, const PxReal& far) :
+		m_camera(fov, aspect, near, far, 0) {}
+
+
+	virtual void update(float delta) override { m_camera.updateFrustum(); }
 
 	/// <summary>
 	/// Adds to engine.
 	/// </summary>
 	/// <param name="engine">The engine.</param>
 	virtual void addToEngine(CoreEngine* engine) const;
+
+	/// <summary>
+	/// Gets the screen point of a point in 3D space.
+	/// Screen space is where the top-left is (0, 0) and bottom-right is (width, height).
+	/// The z-value is the distance from the camera to the point in 3D space.
+	/// </summary>
+	/// <param name="position">The position to transform to screen space.</param>
+	/// <returns>The screen coordinates of a point in 3D space.</returns>
+	PxVec3 worldToScreenPoint(const PxVec3& position) const;
+
+	/// <summary>
+	/// Gets the world point from the screen point.
+	/// </summary>
+	/// <param name="position">The position to transform to world space.</param>
+	/// <returns>The world coordinates of a point in 3D space.</returns>
+	PxVec3 screenToWorldPoint(const PxVec2& position) const;
 
 	/// <summary>
 	/// Gets a reference to the camera object stored in the component.
@@ -108,6 +168,11 @@ public:
 	/// </summary>
 	/// <returns>The view projection of of the camera.</returns>
 	inline PxMat44 getViewProjection() const { return m_camera.getViewProjection(); }
+	/// <summary>
+	/// Gets frustum of the camera.
+	/// </summary>
+	/// <returns>A const reference to the Planes of the frustum.</returns>
+	inline std::vector<PxPlane> getFrustum() const { return m_camera.getFrustum(); }
 
 	/// <summary>
 	/// Sets the projection.

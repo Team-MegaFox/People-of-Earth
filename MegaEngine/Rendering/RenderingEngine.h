@@ -2,8 +2,8 @@
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 03-01-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-31-2016
 // ***********************************************************************
 // <copyright file="RenderingEngine.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -17,11 +17,13 @@
 #include "Material.h"
 #include "Mesh.h"
 #include "Skybox.h"
+#include "BloomObject.h"
 #include "..\Core\MappedValues.h"
 #include <vector>
 #include <map>
 #include <algorithm>
 class GameObject;
+class ParticleSystem;
 
 /// <summary>
 /// The Rendering Engine class where it manages all the lights and cameras. 
@@ -56,6 +58,11 @@ public:
 	/// <param name="light">The light to add to the rendering engine.</param>
 	inline void addLight(const BaseLight& light) { m_lights.push_back(&light); }
 	/// <summary>
+	/// Adds a particle system to the rendering engine.
+	/// </summary>
+	/// <param name="light">The particle system to add to the rendering engine.</param>
+	inline void addParticleSystem(const ParticleSystem& particles) { m_particleSystems.push_back(&particles); }
+	/// <summary>
 	/// Sets the main camera.
 	/// </summary>
 	/// <param name="camera">The camera.</param>
@@ -66,11 +73,20 @@ public:
 	/// <param name="skybox">The skybox.</param>
 	inline void setSkybox(const Skybox& skybox) { m_skybox = &skybox; }
 
+	inline void setBloomObject(const BloomObject& bObject) { m_bloomObject = &bObject; }
+
+	inline void removeBloomObject() { m_bloomObject = nullptr; }
+
 	/// <summary>
 	/// Removes a light.
 	/// </summary>
 	/// <param name="light">The light to remove.</param>
 	void removeLight(const BaseLight* light) { m_lights.erase(std::remove(m_lights.begin(), m_lights.end(), light), m_lights.end()); }
+	/// <summary>
+	/// Removes a particle system.
+	/// </summary>
+	/// <param name="light">The particle system to remove.</param>
+	void removeParticleSystem(const ParticleSystem* particles) { m_particleSystems.erase(std::remove(m_particleSystems.begin(), m_particleSystems.end(), particles), m_particleSystems.end()); }
 	/// <summary>
 	/// Removes the skybox from the rendering engine.
 	/// </summary>
@@ -174,6 +190,10 @@ private:
 	/// </summary>
 	Shader                              m_fxaaFilter;
 	/// <summary>
+	/// The particle shader program.
+	/// </summary>
+	Shader								m_particleShader;
+	/// <summary>
 	/// The light matrix.
 	/// </summa
 	PxMat44                             m_lightMatrix;
@@ -210,6 +230,16 @@ private:
 	/// A pointer to the Skybox in the current scene.
 	/// </summary>
 	const Skybox*						m_skybox;
+
+	/// <summary>
+	/// A pointer to the bloomObject in the current scene
+	/// </summary>
+	const BloomObject *				m_bloomObject;
+
+	/// <summary>
+	/// A vector of particle systems to render.
+	/// </summary>
+	std::vector<const ParticleSystem*> m_particleSystems;
 
 	/// <summary>
 	/// Blurs the shadow map.

@@ -3,7 +3,7 @@
 // Created          : 02-23-2016
 //
 // Last Modified By : Christopher Maeda
-// Last Modified On : 03-11-2016
+// Last Modified On : 04-04-2016
 // ***********************************************************************
 // <copyright file="EnemyFighterShipAI.h" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -31,8 +31,8 @@ class EnemyFighterShipAI : public SteeringBehaviour
 {
 
 public:
-	EnemyFighterShipAI()
-	{}
+	EnemyFighterShipAI() :
+		m_laserMaterial("enemyLaser", 10.0f, 100, Texture("laserPurple.png")){}
 
 	~EnemyFighterShipAI() { }
 
@@ -41,7 +41,7 @@ public:
 		m_forwardDirection = PxVec3(0.0f, 0.0f, 0.0f);
 		m_direction = PxVec3(0.0f, 0.0f, 0.0f);
 		m_targetPoint = *getTransform()->getPosition();
-		m_velocityValue = 100.0f; 
+		m_velocityValue = 50.0f; 
 		//In game code:
 		m_shipStats = getParent()->getGameComponent<ShipStats>();
 		m_delayObjectSearch = -1.0f;
@@ -53,12 +53,12 @@ public:
 	{
 		std::vector<GameObject*> collisionCheckObject;
 		std::vector<GameObject*> gameObjects;
-		gameObjects = getGameObjectsByName("Fighter Ship");
+		gameObjects = getGameObjectsByName("player");
 		for (size_t i = 0; i < gameObjects.size(); i++)
 		{
 			collisionCheckObject.push_back(gameObjects[i]);
 		}
-		gameObjects = getGameObjectsByName("Passenger Ship");
+		gameObjects = getGameObjectsByName("passengerShip");
 		for (size_t i = 0; i < gameObjects.size(); i++)
 		{
 			collisionCheckObject.push_back(gameObjects[i]);
@@ -119,6 +119,7 @@ public:
 		}
 		else
 		{
+			Evade(*m_passengerShip, timestep);
 			Wander(timestep);
 		}
 
@@ -137,7 +138,7 @@ public:
 			int counter = 1;
 			if (shipType == SHIP_CLASS::ALL_ENEMY_SHIP || shipType == SHIP_CLASS::FIGHTER_SHIP)
 			{
-				gameObjects = getGameObjectsByName("Fighter Ship");
+				gameObjects = getGameObjectsByName("player");
 				for (size_t i = 0; i < gameObjects.size(); i++)
 				{
 					allEnemyObject.push_back(gameObjects[i]);
@@ -168,12 +169,11 @@ public:
 
 	void shootLaser()
 	{
-		Material bob("enemyLaser", 10.0f, 100, Texture("laserGreen.png"));
 		//Right side
 		instantiate(
 			(new GameObject("Laser", *getTransform()->getPosition()
 			, *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
-			->addGameComponent(new Projectile)
+			->addGameComponent(new Projectile(0.01f, AGENT::ENEMY_SIDE))
 			->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("enemyLaser")))
 			->addGameComponent(new RigidBody(*getTransform()->getPosition() +
 			Utility::getForward(*getTransform()->getRotation()) * 50.0f +//30.0f +
@@ -183,7 +183,7 @@ public:
 		//Left Side
 		instantiate(
 			(new GameObject("Laser", *getTransform()->getPosition(), *getTransform()->getRotation(), PxVec3(0.15f, 0.15f, 4.0f)))
-			->addGameComponent(new Projectile)
+			->addGameComponent(new Projectile(0.01f, AGENT::ENEMY_SIDE))
 			->addGameComponent(new MeshRenderer(Mesh("Environment/cube.obj"), Material("enemyLaser")))
 			->addGameComponent(new RigidBody(*getTransform()->getPosition() +
 			Utility::getForward(*getTransform()->getRotation()) * 50.0f + //30.0f +
@@ -212,5 +212,6 @@ private:
 	int numberOfLaserShot;
 	float m_delayObjectSearch;
 	GameObject* m_passengerShip;
+	Material m_laserMaterial;
 };
 

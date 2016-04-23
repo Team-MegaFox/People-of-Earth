@@ -2,8 +2,8 @@
 // Author           : Christopher Maeda
 // Created          : 09-15-2015
 //
-// Last Modified By : Jesse Derochie
-// Last Modified On : 03-01-2016
+// Last Modified By : Christopher Maeda
+// Last Modified On : 04-03-2016
 // ***********************************************************************
 // <copyright file="PolygonCollider.h" company="">
 //     Copyright (c) . All rights reserved.
@@ -82,6 +82,14 @@ public:
 	virtual bool checkCollision(Collider* collidableObject) override;
 
 	/// <summary>
+	/// Check the collision with this Polygon Collider with the ray
+	/// </summary>
+	/// <param name="rayPosition">Ray Position.</param>
+	/// <param name = "rayDirection">Ray Direction.</param>
+	/// <returns>Return bool flag to determine this Polygon Collider collided with the ray</returns>
+	virtual bool checkCollision(PxVec3 rayPosition, PxVec3 rayDirection, float &timeOfCollision) override;
+
+	/// <summary>
 	/// Check the collision with this Polygon Collider with the other Polygon Collider using Separating Axis Theorm.
 	/// </summary>
 	/// <param name="collidableObject">Collider this collider will be checking.</param>
@@ -112,6 +120,10 @@ public:
 		PxVec3 forwardDirection2, 
 		PolygonCollider* collidableObject);
 
+	bool checkRayAxisCollision(PxVec3 rayDirection, PxVec3 axis, float aabbmin, float aabbmax, PxVec3 delta, float &timeOfCollision);
+
+	bool checkDistance(PolygonCollider* collidableObject);
+
 	/// <summary>
 	/// Convert the quaternion to a vector format in the x axis rotation.
 	/// </summary>
@@ -119,9 +131,10 @@ public:
 	/// <returns>Vector of the x axis rotation.</returns>
 	PxVec3 GetRightVector(PxQuat quat)
     {
-		return PxVec3(1 - 2 * (quat.y * quat.y - quat.z * quat.z),
+		/*return PxVec3(1 - 2 * (quat.y * quat.y - quat.z * quat.z),
                         2 * (quat.x * quat.y - quat.w * quat.z),
-                        2 * (quat.x * quat.z + quat.w * quat.y));
+                        2 * (quat.x * quat.z + quat.w * quat.y));*/
+		return quat.rotate(PxVec3(1, 0, 0));
     }
 
 	/// <summary>
@@ -131,9 +144,10 @@ public:
 	/// <returns>Vector of the y axis rotation.</returns>
 	PxVec3 GetUpVector(PxQuat quat)
     {
-		return PxVec3(2 * (quat.x * quat.y + quat.w * quat.z),
+		/*return PxVec3(2 * (quat.x * quat.y + quat.w * quat.z),
                         1 - 2 * (quat.x * quat.x + quat.z * quat.z),
-                        2 * (quat.y * quat.z - quat.w * quat.x));
+                        2 * (quat.y * quat.z - quat.w * quat.x));*/
+		return quat.rotate(PxVec3(0, 1, 0));
     }
 
 	/// <summary>
@@ -143,9 +157,10 @@ public:
 	/// <returns>Vector of the z axis rotation.</returns>
 	PxVec3 GetForwardVector(PxQuat quat)
     {
-		return PxVec3(2 * (quat.x * quat.z - quat.w * quat.y),
+		/*return PxVec3(2 * (quat.x * quat.z - quat.w * quat.y),
                         2 * (quat.y * quat.z + quat.w * quat.x),
-                        1 - 2 * (quat.x * quat.x + quat.y * quat.y));
+                        1 - 2 * (quat.x * quat.x + quat.y * quat.y));*/
+		return quat.rotate(PxVec3(0, 0, 1));
     }
  
 

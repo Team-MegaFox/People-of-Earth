@@ -1,9 +1,9 @@
-// ***********************************************************************
+ //***********************************************************************
 // Author           : Pavan Jakhu and Jesse Derochie
 // Created          : 09-15-2015
 //
-// Last Modified By : Pavan Jakhu
-// Last Modified On : 03-01-2016
+// Last Modified By : Jesse Derochie
+// Last Modified On : 03-31-2016
 // ***********************************************************************
 // <copyright file="RenderingEngine.cpp" company="Team MegaFox">
 //     Copyright (c) Team MegaFox. All rights reserved.
@@ -13,6 +13,7 @@
 #include "RenderingEngine.h"
 #include "Shader.h"
 #include "Mesh.h"
+#include "ParticleSystem.h"
 #include "..\Core\GameObject.h"
 #include <cassert>
 #include <glew\glew.h>
@@ -42,6 +43,7 @@ m_shadowMapShader("shadowMapGenerator"),
 m_nullFilter("filter-null"),
 m_gausBlurFilter("filter-gausBlur7x1"),
 m_fxaaFilter("filter-fxaa"),
+m_particleShader("particle"),
 m_altCameraTransform(PxVec3(0, 0, 0), PxQuat(ToRadians(180.0f), PxVec3(0, 1, 0))),
 m_altCamera(PxMat44(PxIdentity), &m_altCameraTransform)
 {
@@ -49,10 +51,11 @@ m_altCamera(PxMat44(PxIdentity), &m_altCameraTransform)
 	setSamplerSlot("normalMap", 1);
 	setSamplerSlot("dispMap", 2);
 	setSamplerSlot("shadowMap", 3);
+	setSamplerSlot("blurTex", 1);
 
 	setSamplerSlot("filterTexture", 0);
 
-	setVec3("ambient", PxVec3(0.2f, 0.2f, 0.2f));
+	setVec3("ambient", PxVec3(0.5f, 0.5f, 0.5f));
 
 	setFloat("fxaaSpanMax", 8.0f);
 	setFloat("fxaaReduceMin", 1.0f / 128.0f);
@@ -191,7 +194,7 @@ void RenderingEngine::render(const GameObject& object)
 		getTexture("displayTexture").bindAsRenderTarget();
 		//m_window->bindAsRenderTarget();
 
-		glEnable(GL_BLEND);
+		//glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 		glDepthMask(GL_FALSE);
 		glDepthFunc(GL_EQUAL);
@@ -200,7 +203,7 @@ void RenderingEngine::render(const GameObject& object)
 
 		glDepthMask(GL_TRUE);
 		glDepthFunc(GL_LESS);
-		glDisable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
 	if (m_skybox != nullptr)
@@ -208,6 +211,31 @@ void RenderingEngine::render(const GameObject& object)
 		glDepthFunc(GL_LEQUAL);
 
 		m_skybox->render(*this, *m_mainCamera);
+
+		glDepthFunc(GL_LESS);
+	}
+
+	//if (m_bloomObjects.size() >= 1)
+	//{
+	//	for (size_t i = 0; i < m_bloomObjects.size(); i++)
+	//	{
+	//		m_bloomObjects[i]->render(*this, *m_mainCamera);
+	//	}
+	//}
+
+	for (size_t i = 0; i < m_particleSystems.size(); i++)
+	{
+		if (m_particleSystems[i] != nullptr)
+		{
+			m_particleSystems[i]->renderParticles(m_particleShader, *this, *m_mainCamera);
+		}
+	}
+
+	if (m_bloomObject != nullptr)
+	{
+		glDepthFunc(GL_LEQUAL);
+
+		m_bloomObject->render(*this, *m_mainCamera);
 
 		glDepthFunc(GL_LESS);
 	}

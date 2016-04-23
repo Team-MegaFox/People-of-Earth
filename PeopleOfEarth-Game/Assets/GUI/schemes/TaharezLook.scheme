@@ -2,6 +2,21 @@
 <GUIScheme version="5" name="TaharezLook">
 	<Imageset filename="TaharezLook.imageset" />
 	<Font filename="DejaVuSans-12.font" />
+	<Font filename="DejaVuSans-14.font" />
+	<Font filename="DejaVuSans-16.font" />
+	<Font filename="DejaVuSans-18.font" />
+	<Font filename="DejaVuSans-20.font" />
+	<Font filename="DejaVuSans-22.font" />
+	<Font filename="DejaVuSans-24.font" />
+	<Font filename="SaucerBB-10.font" />
+	<Font filename="SaucerBB-12.font" />
+	<Font filename="SaucerBB-14.font" />
+	<Font filename="SaucerBB-16.font" />
+	<Font filename="SaucerBB-18.font" />
+	<Font filename="SaucerBB-20.font" />
+	<Font filename="SaucerBB-22.font" />
+	<Font filename="SaucerBB-24.font" />
+	<Font filename="SaucerBB-28.font" />
 	<LookNFeel filename="TaharezLook.looknfeel" />
 	<WindowRendererSet filename="CEGUICoreWindowRendererSet" />
 

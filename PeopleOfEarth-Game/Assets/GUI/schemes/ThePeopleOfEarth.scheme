@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<GUIScheme version="5" name="ThePeopleOfEarth">
+	<Imageset filename="ThePeopleOfEarth.imageset" />
+	<Font filename="DejaVuSans-12.font" />
+	<LookNFeel filename="ThePeopleOfEarth.looknfeel" />
+	<WindowRendererSet filename="CEGUICoreWindowRendererSet" />
+
+	<FalagardMapping windowType="ThePeopleOfEarth/StaticImage" targetType="DefaultWindow" renderer="Core/StaticImage" lookNFeel="ThePeopleOfEarth/StaticImage" />
+
+</GUIScheme>
+
