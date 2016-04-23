@@ -127,6 +127,7 @@
     <ClInclude Include="GameWonManager.h">
       <Filter>Components\Menu Managers</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">
@@ -141,5 +142,12 @@
     <Filter Include="Components\AI">
       <UniqueIdentifier>{736a7f27-299c-477d-9f54-0a3f9bae157a}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PeopleOfEarth-Game.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
+    <Image Include="MegaFox.ico" />
   </ItemGroup>
 </Project>

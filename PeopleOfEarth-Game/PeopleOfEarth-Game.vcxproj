@@ -115,6 +115,7 @@
     <ClInclude Include="PlayerShipMovementController.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="QuatRotator.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="RogueAsteroid.h" />
     <ClInclude Include="ShipStats.h" />
     <ClInclude Include="ShowPauseComp.h" />
@@ -122,6 +123,13 @@
     <ClInclude Include="SteeringBehaviour.h" />
     <ClInclude Include="TextLerpAlpha.h" />
     <ClInclude Include="UpdateGUi.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PeopleOfEarth-Game.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
+    <Image Include="MegaFox.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
