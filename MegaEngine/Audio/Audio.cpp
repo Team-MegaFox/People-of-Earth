@@ -27,8 +27,8 @@ Audio::~Audio()
 	}
 	if (m_sound != nullptr)
 	{
-		ERRCHECK_OK(m_sound->release());
-		m_sound = nullptr;
+		//ERRCHECK_OK(m_sound->release());
+		//m_sound = nullptr;
 	}
 }
 

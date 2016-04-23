@@ -35,6 +35,11 @@ MultiCollider::MultiCollider(MultiCollider& collider)
 
 MultiCollider::~MultiCollider()
 {
+	for (size_t i = 0; i < m_multipleCollider.size(); i++)
+	{
+		delete m_multipleCollider[i];
+	}
+	m_multipleCollider.clear();
 }
 
 void MultiCollider::init(
