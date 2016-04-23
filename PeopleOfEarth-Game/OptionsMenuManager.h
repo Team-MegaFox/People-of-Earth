@@ -41,13 +41,6 @@ public:
 	/// <param name="delta">The frame time delta.</param>
 	virtual void processInput(const InputManager& input, float delta) override
 	{
-		if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B))
-		{
-			m_selectedSound->play();
-
-			getCoreEngine()->getSceneManager()->pop();
-		}
-
 		if (!m_usingMouse && input.MouseButtonPress(SDL_BUTTON_LEFT))
 		{
 			m_usingMouse = true;
@@ -115,6 +108,13 @@ public:
 			m_selectedSound->play();
 
 			m_buttons[m_focusButton]->click();
+		}
+
+		if (input.PadButtonPress(SDL_CONTROLLER_BUTTON_B))
+		{
+			m_selectedSound->play();
+
+			getCoreEngine()->getSceneManager()->pop();
 		}
 	}
 

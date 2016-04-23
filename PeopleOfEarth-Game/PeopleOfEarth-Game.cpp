@@ -10,9 +10,9 @@
 
 int main(int argc, char** argv)
 {
-	//Viewport window("The People of Earth", 1024, 576, 0);
+	Viewport window("The People of Earth", 1024, 576, 0);
 	//Viewport window("The People of Earth", 1366, 768, BORDERLESS);
-	Viewport window("The People of Earth", 1920, 1080, 0);
+	//Viewport window("The People of Earth", 1920, 1080, 0);
 
 	GUIEngine guiEngine("Assets/GUI"); 
 	RenderingEngine renderingEngine(window);
